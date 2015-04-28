@@ -9,31 +9,32 @@
         try { if (!window.CloudFlare) { var CloudFlare = [{ verbose: 0, p: 0, byc: 0, owlid: "cf", bag2: 1, mirage2: 0, oracle: 0, paths: { cloudflare: "/cdn-cgi/nexp/dokv=88e434a982/" }, atok: "dd9c6b9d970c21043597a4fadd80e4dd", petok: "522fd99e7c7ba64b5097694a33e1b12f448f8fe0-1408352612-1800", zone: "adbee.technology", rocket: "0", apps: { "ga_key": { "ua": "UA-49262924-2", "ga_bs": "2" } } }]; !function (a, b) { a = document.createElement("script"), b = document.getElementsByTagName("script")[0], a.async = !0, a.src = "//ajax.cloudflare.com/cdn-cgi/nexp/dokv=97fb4d042e/cloudflare.min.js", b.parentNode.insertBefore(a, b) }() } } catch (e) { };
         //]]>
     </script>
-    <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
-   
-    <link href="~/Content/themes/Centaurus/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/themes/Centaurus/css/libs/font-awesome.css" type="text/css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/nanoscroller.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/datepicker.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/layout.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/elements.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/dropzone.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/magnific-popup.css">
+    <script src="~/Scripts/jquery-2.1.0.min.js"></script>
+    <script src="~/Scripts/jquery.blockUI.js"></script>
+    <script>
+        $(window).load(function () {
+            // Animate loader off screen
+            $.blockUI({ message: "" });
+            $("div#spinner").fadeIn("fast");
+        });
+    </script>
+    
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.print.css" type="text/css" media="print" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/compiled/calendar.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/morris.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/daterangepicker.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/jquery-jvectormap-1.2.2.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/wizard.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/bootstrap-wizard.css">
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/select2.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/dropzone.css">
-    <link type="text/css" href="~/Content/themes/Centaurus/css/libs/jquery.nouislider.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="~/Content/less/MainSite.css">
+    @Styles.Render("~/Content/themes/Centaurus/css/bundleCentaurus/css")
+
+    @* If Debuggin is Enabled then pick css *@
+    @if (HttpContext.Current.IsDebuggingEnabled)
+    {
+    <link href="~/Content/less/MainSite.css" rel="stylesheet" />
+    }
+    else
+    {
+    @Styles.Render("~/Bundle/AppLess")
+    }
+
     @Styles.Render("~/Bundles/BaseCss")
     @Styles.Render("~/Content/themes/base/css")
-    <link href="~/Content/CSS/custom.css" rel="stylesheet" />
     <link type="image/x-icon" href="favicon.png" rel="shortcut icon" />
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300|Titillium+Web:200,300,400' rel='stylesheet' type='text/css'>
     <!--[if lt IE 9]>
@@ -55,94 +56,23 @@
         (function (b) { (function (a) { "__CF" in b && "DJS" in b.__CF ? b.__CF.DJS.push(a) : "addEventListener" in b ? b.addEventListener("load", a, !1) : b.attachEvent("onload", a) })(function () { "FB" in b && "Event" in FB && "subscribe" in FB.Event && (FB.Event.subscribe("edge.create", function (a) { _gaq.push(["_trackSocial", "facebook", "like", a]) }), FB.Event.subscribe("edge.remove", function (a) { _gaq.push(["_trackSocial", "facebook", "unlike", a]) }), FB.Event.subscribe("message.send", function (a) { _gaq.push(["_trackSocial", "facebook", "send", a]) })); "twttr" in b && "events" in twttr && "bind" in twttr.events && twttr.events.bind("tweet", function (a) { if (a) { var b; if (a.target && a.target.nodeName == "IFRAME") a: { if (a = a.target.src) { a = a.split("#")[0].match(/[^?=&]+=([^&]*)?/g); b = 0; for (var c; c = a[b]; ++b) if (c.indexOf("url") === 0) { b = unescape(c.split("=")[1]); break a } } b = void 0 } _gaq.push(["_trackSocial", "twitter", "tweet", b]) } }) }) })(window);
         /* ]]> */
     </script>
-    <script>
-        $(document).ready(function ()
-        {
-          
-            $("#header-logo").hide();
-            $("#make-small-nav").click(function ()
-            {
-                $("#header-logo").toggle();
-                $("#menu-logo").toggle();
-            });
-
-        });
-    </script>
-
-    <script>
-    $(document).ready(function () {
-
-        var width = $(window).width();
-        var total = width - 320;
-        var divison = total / 2;
-
-        document.getElementById("trial-description").style.left = divison + "px";
-
-    });
-    </script>
-    <script>
-        $(document).ready(function () {
-
-            $(window).resize(function () {
-
-                var width = $(window).width();
-                var total = width - 320;
-                var divison = total / 2;
-
-                document.getElementById("trial-description").style.left = divison + "px";
-            });
-
-        });
-    </script>
-
-    <style>
-        .trial-description {
-            top: 0;
-            position: fixed;
-            z-index: 10000;
-            background-color: white;
-            border-radius: 4px;
-            -webkit-box-shadow: 0px 0px 8px 2px gray;
-            -moz-box-shadow: 0px 0px 8px 2px gray;
-            box-shadow: 0px 0px 8px 2px gray;
-        }
-    </style>
-
-
-
 
 </head>
-<body class="theme-red">
-
-    <div class="trial-description" id="trial-description">
-        <table style="height:70px;width:320px;">
-            <tr>
-                <td style="padding-left:10px;width:150px;">
-                    <span style="color:red;font-weight:bold;">7 Days</span>&nbsp;<span style="color:gray;">left in trial</span>
-                </td>
-                <td style="width:120px;text-align:right;padding-right:10px;">
-                    <span style="color:gray;font-size:12px;">Questions ?</span>&nbsp;<span style="color:blue;font-size:12px;">Email Us!</span>
-                    <span style="color:green;font-size:12px;font-weight:bold;">Upgrade Now</span>
-                    <br />
-                    <span style="color:orange;font-size:12px;font-weight:bold;">Book a Go to Demo</span>
-                </td>
-            </tr>
-        </table>
-    </div>
+<body class="theme-blue-gradient">
 
     <header class="navbar" id="header-navbar">
 
-        
+
         <div class="container">
-            
+
             <a href="~/Dashboard/Index" id="header" class="my-navigator navbar-brand">
-                
-                <img src="~/Content/themes/Centaurus/img/logo.png" id="header-logo" alt="" class="normal-logo logo-white" height="25" width="170" style="margin-top:5px;" />
-                
+
+                <img src="~/Content/themes/Centaurus/img/logo.png" id="header-logo" alt="" class="normal-logo logo-white" height="25" style="margin-top:5px;" />
+                <img src="~/Content/themes/Centaurus/img/mpc_beta.jpg" id="header-logo-beta" alt="" class="normal-logo logo-white" height="18" style="margin-top:5px;margin-left:10px;" />
             </a>
-          
+
             <div class="clearfix">
-               
+
                 <button class="navbar-toggle" data-target=".navbar-ex1-collapse" data-toggle="collapse" type="button">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="fa fa-bars"></span>
@@ -156,66 +86,12 @@
                         </li>
                     </ul>
                 </div>
-                <div id="config-tool" class="closed">
-                    <a id="config-tool-cog">
-                        <i class="fa fa-cog"></i>
-                    </a>
-                    <div id="config-tool-options">
-                        <h4>Layout Options</h4>
-                        <ul>
-                            <li>
-                                <div class="checkbox-nice">
-                                    <input type="checkbox" id="config-fixed-header" />
-                                    <label for="config-fixed-header">
-                                        Fixed Header
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="checkbox-nice">
-                                    <input type="checkbox" id="config-fixed-sidebar" />
-                                    <label for="config-fixed-sidebar">
-                                        Fixed Left Menu
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="checkbox-nice">
-                                    <input type="checkbox" id="config-fixed-footer" />
-                                    <label for="config-fixed-footer">
-                                        Fixed Footer
-                                    </label>
-                                </div>
-                            </li>
-                        </ul>
-                        <br />
-                        <h4>Skin Color</h4>
-                        <ul id="skin-colors" class="clearfix">
-                            <li>
-                                <a class="skin-changer" data-skin="" data-toggle="tooltip" title="Default" style="background-color: #34495e;"></a>
-                            </li>
-                            <li>
-                                <a class="skin-changer" data-skin="theme-white" data-toggle="tooltip" title="White/Green" style="background-color: #2ecc71;"></a>
-                            </li>
-                            <li>
-                                <a class="skin-changer blue-gradient" data-skin="theme-blue-gradient" data-toggle="tooltip" title="Gradient"></a>
-                            </li>
-                            <li>
-                                <a class="skin-changer" data-skin="theme-amethyst" data-toggle="tooltip" title="Amethyst" style="background-color: #9b59b6;"></a>
-                            </li>
-                            <li>
-                                <a class="skin-changer" data-skin="theme-blue" data-toggle="tooltip" title="Blue" style="background-color: #2980b9;"></a>
-                            </li>
-                            <li>
-                                <a class="skin-changer" data-skin="theme-red" data-toggle="tooltip" title="Red" style="background-color: #e74c3c;"></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+
 
                 <div class="nav-no-collapse pull-right" id="header-nav">
                     <ul class="nav navbar-nav pull-right">
-                        @*<li class="mobile-search">
+                        @*
+                        <li class="mobile-search">
                             <a class="btn">
                                 <i class="fa fa-search"></i>
                             </a>
@@ -350,19 +226,30 @@
                                 <i class="fa fa-cog"></i>
                             </a>
                         </li>*@
+
                         <li class="dropdown profile-dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="hidden-xs">
                                     @if (User != null && User.Identity != null)
                                     {
-                                        @User.Identity.Name
+                                    @User.Identity.Name
                                     }
                                 </span> <b class="caret"></b>
+                                <div class="user-positioner" style="position:fixed;">
+
+                                </div>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#"><i class="fa fa-user"></i>Profile</a></li>
-                                <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
-                                <li><a href="#"><i class="fa fa-envelope-o"></i>Messages</a></li>
+                                <li><a id="btnTakeATour">Take a Tour </a></li>
+                                <li><a href="http://blog.myprintcloud.com/tutorials-quickstart/" target="_blank">Self Paced Tutorials</a></li>
+                                <li><a href="https://attendee.gotowebinar.com/rt/3456325062173650689" target="_blank">Attend Webinar</a></li>
+                                <li><a href="http://www.youtube.com/user/myprintcloud" target="_blank">How To Videos</a></li>
+                                <li><a href="https://myprintcloud.zendesk.com/hc/en-us" target="_blank">Technical FAQs</a></li>
+                                <li><a href="http://myprintcloud.com/FAQs" target="_blank">Billing and Licensing FAQs</a></li>
+                                <li><a href="https://myprintcloud.zendesk.com/hc/en-us/requests/new" target="_blank">Log a support Ticket</a></li>
+                                <li><a href="https://myprintcloud.com/dashboard">Change your Plan</a></li>
+                                <li><a href="https://myprintcloud.com/Dashboard/EditProfile"><i class="fa fa-user"></i>Profile</a></li>
+
                                 <li><a href="~/Home/Logout"><i class="fa fa-power-off"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -378,23 +265,37 @@
     </header>
     <div id="page-wrapper" class="container">
         <div class="row">
-        <div id="nav-col">
+            <div id="nav-col">
 
-          
-            <a id="menu-logo" href="~/Dashboard/Index">
-                <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" height="30" width="180" style="margin-left:17px;margin-top:50px;margin-bottom:50px;" />
-            </a>
+
+                @*<a id="menu-logo" href="~/Dashboard/Index">
+                    <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" height="30" width="180" style="margin-left:17px;margin-top:50px;margin-bottom:50px;" />
+                </a>*@
                 <section id="col-left" class="col-left-nano">
                     <div id="col-left-inner" class="col-left-nano-content">
-                        
+
                         @RenderSection("leftmenue", required: false)
+
                         @* Test left menue starts here*@
                         <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
                             <ul class="nav nav-pills nav-stacked" id="Navigation-bar">
                                 <li id="lidashboard">
-                                    <a href="~/Dashboard/Index" class="my-navigator">
+                                    <a href="~/Dashboard/Index" class="my-navigator" id="anchor-dashboard">
                                         <i class="fa fa-dashboard"></i>
                                         <span>Dashboard</span>
+                                    </a>
+
+                                </li>
+                                <li id="licrm">
+                                    <a href="~/CRM/Home/Calendar" class="my-navigator">
+                                        <i class="fa fa-users"></i>
+                                        <span>CRM</span>
+                                    </a>
+                                </li>
+                                <li id="licrm">
+                                    <a href="~/CRM/Home/Calendar" class="my-navigator">
+                                        <i class="fa fa-users"></i>
+                                        <span>E-Marketing</span>
                                     </a>
                                 </li>
                                 <li id="listores">
@@ -403,151 +304,35 @@
                                         <span>Stores</span>
                                     </a>
                                 </li>
-                                <li id="licrm">
-                                    <a href="#" class="dropdown-toggle">
-                                        <i class="fa fa-users"></i>
-                                        <span>CRM</span>
-                                        <i class="fa fa-chevron-circle-right drop-icon"></i>
-                                    </a>
-                                    <ul class="submenu">
-                                        <li>
-                                            <a href="~/CRM/Home/Index" class="my-navigator">
-                                                Prospects / Customers
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="~/CRM/Home/Calendar" class="my-navigator">
-                                                My Calendar
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="~/Home/PageUnAvailable">
-                                                Contacts
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="~/CRM/Home/SuppliersList" class="my-navigator">
-                                                Suppliers
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li id="liProducts">
-                                    <a href="~/Products/Home/Index" class="my-navigator">
-                                        <i class="fa fa-th-large"></i>
-                                        <span>Products</span>
-                                    </a>
-                                </li>
+
                                 <li id="liestimating">
-                                    <a href="#" class="dropdown-toggle">
-                                        <i class="fa fa-users"></i>
-                                        <span>Estimating</span>
-                                        <i class="fa fa-chevron-circle-right drop-icon"></i>
+                                    <a href="~/Orders/Home/EstimatesList" class="my-navigator">
+                                        <i class="fa  fa-fax"></i>
+                                        <span>Estimates</span>
                                     </a>
-                                    <ul class="submenu">
-                                        <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Estimates - All</span>
-                                                <span class="label label-primary label-circle pull-right">44</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Unconfirmed Orders</span>
-                                                <span class="label label-primary label-circle pull-right">30</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Progressed to Orders</span>
-                                                <span class="label label-primary label-circle pull-right">10</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>In Production</span>
-                                                <span class="label label-primary label-circle pull-right">12</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Invoiced</span>
-                                                <span class="label label-primary label-circle pull-right">14</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+
                                 </li>
                                 <li id="liorderprocessing">
-                                    <a href="#" class="dropdown-toggle">
-                                        <i class="fa fa-users"></i>
+                                    <a href="~/Orders/Home" class="my-navigator">
+                                        <i class="fa  fa-cubes"></i>
                                         <span>Orders Processing</span>
-                                        <i class="fa fa-chevron-circle-right drop-icon"></i>
                                     </a>
-                                    <ul class="submenu">
-                                        <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Orders - All</span>
-                                                <span class="label label-primary label-circle pull-right">86</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Pending (New) Orders</span>
-                                                <span class="label label-primary label-circle pull-right">50</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Confirmed Starts</span>
-                                                <span class="label label-primary label-circle pull-right">10</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>In Production</span>
-                                                <span class="label label-primary label-circle pull-right">08</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Ready for shipping</span>
-                                                <span class="label label-primary label-circle pull-right">07</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Invoiced</span>
-                                                <span class="label label-primary label-circle pull-right">05</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Cancelled Orders</span>
-                                                <span class="label label-primary label-circle pull-right">06</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+
+                                    @*@Html.Action("OrderMenuItems", "Home", new { area = "" })*@
+
                                 </li>
                                 <li id="liproduction">
-                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                        <i class="fa fa-th-large"></i>
-                                        <span>Production & Scheduling</span>
+                                    <a href="~/Production/Home/Index" class="my-navigator">
+                                        <i class="glyphicon glyphicon-list-alt" style="margin-top:14px;"></i>
+                                        <span>Production Boards</span>
                                     </a>
                                 </li>
                                 <li id="libilling">
-                                    <a href="#" class="dropdown-toggle">
+                                    <a href="~/Invoices/Home/Index" class="my-navigator">
+                                        <i class="glyphicon glyphicon-file" style="margin-top:14px;"></i>
+                                        <span>Invoicing</span>
+                                    </a>
+                                    @*<a href="#" class="dropdown-toggle">
                                         <i class="fa fa-users"></i>
                                         <span>Billing & Invoicing</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
@@ -595,11 +380,15 @@
                                                 <span class="label label-primary label-circle pull-right">01</span>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul>*@
                                 </li>
                                 <li id="lishipping">
-                                    <a href="#" class="dropdown-toggle">
-                                        <i class="fa fa-users"></i>
+                                    <a href="~/DeliveryNotes/Home/DeliveryNote" class="my-navigator">
+                                        <i class="fa  fa-send-o"></i>
+                                        <span>Shipping</span>
+                                    </a>
+                                    @*<a href="#" class="dropdown-toggle">
+                                        <i class="fa fa-joomla"></i>
                                         <span>Shipping & Delivery</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
                                     </a>
@@ -618,11 +407,15 @@
                                                 <span class="label label-primary label-circle pull-right">09</span>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul>*@
                                 </li>
                                 <li id="lipurchases">
-                                    <a href="#" class="dropdown-toggle">
-                                        <i class="fa fa-users"></i>
+                                    <a href="~/Orders/Home/PurchaseOrders" class="my-navigator">
+                                        <i class="fa  fa-inbox"></i>
+                                        <span>Purchase Orders</span>
+                                    </a>
+                                    @*<a href="#" class="dropdown-toggle">
+                                        <i class="fa  fa-paper-plane"></i>
                                         <span>Purchase Orders</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
                                     </a>
@@ -641,168 +434,135 @@
                                                 <span class="label label-primary label-circle pull-right">09</span>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul>*@
                                 </li>
-                              
-                                <li id="liemails">
-                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                        <i class="fa fa-calendar"></i>
-                                        <span>Email Campaigns</span>
-                                    </a>
-                                </li>
+
+
                                 <li id="liinventory">
                                     <a href="~/Settings/MIS/Inventory" class="my-navigator">
-                                        <i class="fa fa-calendar"></i>
+                                        <i class="fa fa-tasks"></i>
                                         <span>Inventory</span>
                                     </a>
                                 </li>
                                 <li id="lisettings">
                                     <a href="#" class="dropdown-toggle">
-                                        <i class="fa fa-users"></i>
+                                        <i class="fa fa-wrench"></i>
                                         <span>Settings</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
                                     </a>
                                     <ul class="submenu">
                                         <li id="listOrganization">
                                             <a href="~/Settings/Home/MyOrganization" class="my-navigator">
+                                                <i class="fa fa-institution"></i>
                                                 <span>My Organization</span>
                                             </a>
                                         </li>
-                                        <li id="limissettings">
-                                            <a href="#" class="dropdown-toggle">
-                                                <i class="fa fa-users"></i>
-                                                <span>MIS</span>
-                                                <i class="fa fa-chevron-circle-right drop-icon"></i>
+                                        <li id="listMachines">
+                                            <a href="~/Settings/Home/MachinesList" class="my-navigator">
+                                                <i class="fa fa-print"></i>
+                                                <span>Machines</span>
                                             </a>
-                                            <ul class="submenu">
-                                                <li>
-                                                    <a href="~/Settings/MIS/PaperSheet" class="my-navigator">
-                                                        Paper Sheet
-                                                    </a>
-                                                </li>
-                                                <li id="liCostCenters">
-                                                    <a href="~/Settings/MIS/CostCenters" class="my-navigator">
-                                                        Cost Centers
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/MIS/InventoryCategory" class="my-navigator">
-                                                        Inventory Categories
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/Home/DeliveryCostCentres" class="my-navigator">
-                                                        Delivery Cost Centers
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/Home/DeliveryCarrier" class="my-navigator">
-                                                        Delivery Carrier
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Charts
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/MIS/SalesPipeLine">
-                                                        Sales and Pipeline
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/MIS/SectionFlags">
-                                                        Section Flags
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        My Reports
-                                                    </a>
-                                                </li>
-                                                <li id="liprefixes">
-                                                    <a href="~/Settings/MIS/Prefixes" class="my-navigator">
-                                                        Start Numbers
-                                                    </a>
-                                                </li>
-                                            </ul>
                                         </li>
-                                        <li id="liplansettings">
-                                            <a href="#" class="dropdown-toggle">
-                                                <i class="fa fa-users"></i>
-                                                <span>Plant</span>
-                                                <i class="fa fa-chevron-circle-right drop-icon"></i>
+                                        <li id="listMachineLookUps">
+                                            <a href="~/Settings/Home/LookupMethods" class="my-navigator">
+                                                <i class="fa fa-bar-chart-o"></i>
+                                                <span>Machine Lookups</span>
                                             </a>
-                                            <ul class="submenu">
-                                                <li id="liMachineList">
-                                                    <a href="~/Settings/Home/MachinesList" class="my-navigator">
-                                                        Machines
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/Home/LookupMethods">
-                                                        Lookup Methods
-                                                    </a>
-                                                </li>
+                                        </li>
+                                        <li id="listCostCenters">
+                                            <a href="~/Settings/MIS/CostCenters" class="my-navigator">
+                                                <i class="fa fa-money"></i>
+                                                <span>Cost Centers</span>
+                                            </a>
+                                        </li>
+                                        <li id="listDeliveryMethods">
+                                            <a href="~/Settings/Home/DeliveryCostCentres" class="my-navigator">
+                                                <i class="fa fa-envelope-square"></i>
+                                                <span>Delivery Methods</span>
+                                            </a>
+                                        </li>
+                                        <li id="listDeliveryCarriers">
+                                            <a href="~/Settings/Home/DeliveryCarrier" class="my-navigator">
+                                                <i class="fa fa-truck"></i>
+                                                <span>Delivery Carriers</span>
+                                            </a>
+                                        </li>
 
-                                            </ul>
-                                        </li>
-                                        <li id="lisystemsettings">
-                                            <a href="#" class="dropdown-toggle">
-                                                <i class="fa fa-users"></i>
-                                                <span>System Utilities</span>
-                                                <i class="fa fa-chevron-circle-right drop-icon"></i>
+
+                                        <li>
+                                            <a href="~/Settings/MIS/PaperSheet" class="my-navigator">
+                                                <i class="fa fa-clipboard"></i>
+                                                <span>Paper Sizes</span>
                                             </a>
-                                            <ul class="submenu">
-                                                <li>
-                                                    <a href="~/Settings/Home/PhraseLibrary" class="my-navigator">
-                                                        Phrase Library
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Section Flags
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Import Export
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Archived
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Posted Invoices
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Purchase Orders
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Campaign Studio
-                                                    </a>
-                                                </li>
-                                            </ul>
                                         </li>
+                                        <li>
+                                            <a href="~/Settings/MIS/InventoryCategory" class="my-navigator">
+                                                <i class="fa fa-cubes"></i>
+                                                <span>Inventory Categories</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="~/Settings/MIS/SalesPipeLine" class="my-navigator">
+                                                <i class="fa fa-pagelines"></i>
+                                                <span>Sales & Pipeline</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="~/Settings/MIS/SectionFlags" class="my-navigator">
+                                                <i class="fa fa-flag-checkered"></i>
+                                                <span>Section Flags</span>
+                                            </a>
+                                        </li>
+                                        <li id="liprefixes">
+                                            <a href="~/Settings/MIS/Prefixes" class="my-navigator">
+                                                <i class="fa fa-sort-numeric-asc"></i>
+                                                <span>Start Numbers</span>
+                                            </a>
+                                        </li>
+                                        <li id="liPhrases">
+                                            <a href="~/Settings/Home/PhraseLibrary" class="my-navigator">
+                                                <i class="fa fa-paw"></i>
+                                                <span>Phrase Library</span>
+                                            </a>
+                                        </li>
+                                        <li id="liImportExport">
+                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                                <i class="fa fa-download"></i>
+                                                <span>Import Export</span>
+                                            </a>
+                                        </li>
+                                        <li id="liArchived">
+                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                                <i class="fa fa-archive"></i>
+                                                <span>Archived</span>
+                                            </a>
+                                        </li>
+
+                                        <li id="liMyReports">
+                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                                <i class="fa fa-file-text"></i>
+                                                <span>My Reports</span>
+                                            </a>
+                                        </li>
+
+
+
+
                                     </ul>
                                 </li>
                             </ul>
                         </div>
                         @* Test Left menue ends here*@
                     </div>
+
                 </section>
             </div>
             @*content wrapper goes here*@
             <div id="content-wrapper">
                 @RenderBody()
-                <div id="spinner">
+                <div id="spinner" style="display: none">
+                </div>
+                <div id="siteUrl">
                 </div>
                 <footer id="footer-bar" class="row">
                     <p id="footer-copyright" class="col-xs-12">
@@ -812,42 +572,31 @@
             </div>
         </div>
     </div>
-    
+
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/Bundle/BaseLibs")
-    @*@Scripts.Render("~/bundles/dropzonescripts")*@
-    <script src="~/Content/themes/Centaurus/js/demo-skin-changer.js"></script>
-    <script src="~/Content/themes/Centaurus/js/bootstrap.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.nanoscroller.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/demo.js"></script>
-    <script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.slimscroll.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/raphael-min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/morris.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/daterangepicker.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery-jvectormap-world-merc-en.js"></script>
-    <script src="~/Content/themes/Centaurus/js/gdp-data.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.pie.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.stack.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.resize.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.time.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.threshold.js"></script>
-    <script src="~/Content/themes/Centaurus/js/scripts.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.nestable.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
-    @RenderSection("scripts", required: false)
-    <script type="text/javascript">
-        var ist = window.ist;
-        @{
-        <text>
-        ist.siteUrl = '@(System.Configuration.ConfigurationManager.AppSettings["SiteURL"].ToString())';
-        </text>
-    }
+
+    <script>
+        
+        (function ($) {
+            $("#siteUrl").val("@(Request.ApplicationPath == " / " ? " / " : Request.ApplicationPath)");
+        })($);
+
     </script>
+
+    @Scripts.Render("~/Bundle/BaseLibs")
+    <script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>
+    @Scripts.Render("~/Bundle/CentaurusLibs")
+    <script>
+        $(document).ready(function () {
+            $("#make-small-nav").click(function () {
+                $("#header-logo").toggle();
+                $("#menu-logo").toggle();
+            });
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
 
 </body>
 </html>

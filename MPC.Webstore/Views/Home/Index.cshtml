@@ -5,15 +5,12 @@
     @if (ViewBag.MetaTitle != null)
     {
         <meta name="title" content="@ViewBag.MetaTitle" />
-
-
     }
     @if (ViewBag.MetaDescription != null)
     {
         <meta name="description" content="@ViewBag.MetaDescription" />
 
     }
-`
     @if (ViewBag.MetaKeywords != null)
     {
         <meta name="keywords" content="@ViewBag.MetaKeywords" />
@@ -22,8 +19,18 @@
 
 @foreach (var widget in Model)
 {
-    <div>
-        @{ string widgetname = widget.Widget.WidgetName; }
-        @{Html.RenderAction("Index", widgetname);}
-    </div>
+    if (widget.WidgetId == 14)
+    {
+        @Html.Raw(widget.CmsSkinPageWidgetParams.FirstOrDefault().ParamValue)
+       
+    }
+    else
+    {
+        <div>
+            @{ string widgetname = widget.Widget.WidgetName; }
+            @{Html.RenderAction("Index", widgetname);}
+        </div>
+    }
+
 }
+@*@{Html.RenderAction("Index", "QuickCalculator");}*@

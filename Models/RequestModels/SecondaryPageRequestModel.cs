@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.RequestModels
+﻿using System;
+
+namespace MPC.Models.RequestModels
 {
     /// <summary>
     /// Secondary Page Request Model
@@ -9,5 +11,10 @@
         /// Company Id
         /// </summary>
         public long CompanyId { get; set; }
+
+        /// <summary>
+        /// Is User Defined Pages
+        /// </summary>
+        public Boolean IsUserDefined { get; set; }
     }
 }

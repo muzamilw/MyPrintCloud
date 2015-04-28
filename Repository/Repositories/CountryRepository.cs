@@ -43,13 +43,20 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<Country> GetAll()
         {
-            return DbSet.ToList();
+            try
+            {
+                return DbSet.OrderBy(i => i.CountryName).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<Country> PopulateBillingCountryDropDown()
         {
             try
             {
-              return db.Countries.ToList();
+              return db.Countries.OrderBy(i => i.CountryName).ToList();
             }
             catch(Exception ex)
             {
@@ -60,10 +67,15 @@ namespace MPC.Repository.Repositories
 
         public Country GetCountryByID(long CountryID)
         {
-            
-            Country country = db.Countries.Where(i => i.CountryId == CountryID).FirstOrDefault();
-            return country;
-
+            try
+            {
+                Country country = db.Countries.Where(i => i.CountryId == CountryID).FirstOrDefault();
+                return country;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -73,7 +85,14 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public string GetCountryNameById(long CountryId)
         {
-            return db.Countries.Where(s => s.CountryId == CountryId).Select(n => n.CountryName).FirstOrDefault();
+            try
+            {
+                return db.Countries.Where(s => s.CountryId == CountryId).Select(n => n.CountryName).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public string GetCountryCodeById(long countryId)
         {

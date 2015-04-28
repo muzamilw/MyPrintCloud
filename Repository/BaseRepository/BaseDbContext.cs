@@ -534,9 +534,9 @@ namespace MPC.Repository.BaseRepository
         public DbSet<VariableOption> VariableOptions { get; set; }
 
         /// <summary>
-        /// Company Contact Variable DbSet
+        /// Scope Variable DbSet
         /// </summary>
-        public DbSet<CompanyContactVariable> CompanyContactVariables { get; set; }
+        public DbSet<ScopeVariable> ScopeVariables { get; set; }
 
         /// <summary>
         /// Smart Form DbSet
@@ -552,6 +552,123 @@ namespace MPC.Repository.BaseRepository
         /// Delivery Carrier DbSet
         /// </summary>
         public DbSet<DeliveryCarrier> DeliveryCarriers { get; set; }
+
+        /// <summary>
+        /// Paypal PaymentRequest DbSet
+        /// </summary>
+        public DbSet<PaypalPaymentRequest> PaypalPaymentRequests { get; set; }
+
+        /// <summary>
+        /// PayPal Response DbSet
+        /// </summary>
+        public DbSet<PayPalResponse> PayPalResponses { get; set; }
+
+        /// <summary>
+        /// NAB Transaction DbSet
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public DbSet<NABTransaction> NABTransactions { get; set; }
+// ReSharper restore InconsistentNaming
+
+        /// <summary>
+        /// vw_SaveDesign DbSet
+        /// </summary>
+        public DbSet<SaveDesignView> SaveDesignViews { get; set; }
+
+        /// <summary>
+        /// NewsLetter Subscriber DbSet
+        /// </summary>
+        public DbSet<NewsLetterSubscriber> NewsLetterSubscribers { get; set; }
+
+        /// <summary>
+        /// MachineClickChargeLookup DbSet
+        /// </summary>
+        public DbSet<MachineClickChargeLookup> MachineClickChargeLookups { get; set; }
+
+        /// <summary>
+        /// MachineClickChargeZone DbSet
+        /// </summary>
+        public DbSet<MachineClickChargeZone> MachineClickChargeZones { get; set; }
+
+        /// <summary>
+        /// MachineGuillotineCalc DbSet
+        /// </summary>
+        public DbSet<MachineGuillotineCalc> MachineGuillotineCalcs { get; set; }
+
+        /// <summary>
+        /// MachineGuilotinePtv DbSet
+        /// </summary>
+        public DbSet<MachineGuilotinePtv> MachineGuilotinePtvs { get; set; }
+
+        /// <summary>
+        /// MachineMeterPerHourLookup DbSet
+        /// </summary>
+        public DbSet<MachineMeterPerHourLookup> MachineMeterPerHourLookups { get; set; }
+
+        /// <summary>
+        /// MachinePerHourLookup DbSet
+        /// </summary>
+        public DbSet<MachinePerHourLookup> MachinePerHourLookups { get; set; }
+
+        /// <summary>
+        /// MachineSpeedWeightLookup DbSet
+        /// </summary>
+        public DbSet<MachineSpeedWeightLookup> MachineSpeedWeightLookups { get; set; }
+
+        /// <summary>
+        /// Goods Received Note DbSet
+        /// </summary>
+        public DbSet<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
+        
+        /// <summary>
+        /// Goods Received Note Detail DbSet
+        /// </summary>
+        public DbSet<GoodsReceivedNoteDetail> GoodsReceivedNoteDetails { get; set; }
+        
+        /// <summary>
+        /// Purchase DbSet
+        /// </summary>
+        public DbSet<Purchase> Purchases { get; set; }
+        
+        /// <summary>
+        /// Purchase Detail DbSet
+        /// </summary>
+        public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
+
+        /// <summary>
+        /// Job Preference DbSet
+        /// </summary>
+        public DbSet<JobPreference> JobPreferences { get; set; }
+
+        /// <summary>
+        /// Ink Plate Side DbSet
+        /// </summary>
+        public DbSet<InkPlateSide> InkPlateSides { get; set; }
+
+        /// <summary>
+        /// Section Ink Coverage DbSet
+        /// </summary>
+        public DbSet<SectionInkCoverage> SectionInkCoverages { get; set; }
+
+        /// <summary>
+        /// Job Card Report View DbSet
+        /// </summary>
+        public DbSet<JobCardReportView> JobCardReportViews { get; set; }
+
+        /// <summary>
+        /// Order Report View DbSet
+        /// </summary>
+        public DbSet<OrderReportView> OrderReportViews { get; set; }
+
+        /// <summary>
+        /// Report Category DbSet
+        /// </summary>
+        public DbSet<ReportCategory> ReportCategories { get; set; }
+
+        /// <summary>
+        /// Shipping Information DbSet
+        /// </summary>
+        public DbSet<ShippingInformation> ShippingInformations { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure
@@ -684,6 +801,99 @@ namespace MPC.Repository.BaseRepository
                 calculationTypeParameter, returnPrice, perQtyQty);
 
             return perQtyQty.Value != null ? (double)perQtyQty.Value : 0;
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteProduct(long? itemid)
+// ReSharper restore InconsistentNaming
+        {
+            var itemidParameter = itemid.HasValue ?
+                new ObjectParameter("itemid", itemid) :
+                new ObjectParameter("itemid", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteProduct", itemidParameter);
+        }
+
+
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteContactCompanyByID(int? companyId)
+// ReSharper restore InconsistentNaming
+        {
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyID", companyId) :
+                new ObjectParameter("CompanyID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactCompanyByID", companyIdParameter);
+        }
+
+        /// <summary>
+        /// Stored procedure to delete an organisation
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteOrganisation(int? organisationId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationID", organisationId) :
+                new ObjectParameter("OrganisationID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteOrganisation", organisationIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteCarts(long? companyId)
+// ReSharper restore InconsistentNaming
+        {
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyID", companyId) :
+                new ObjectParameter("CompanyID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteCarts", companyIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteOrderByID(long? orderId)
+// ReSharper restore InconsistentNaming
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteOrderByID", orderIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_JobCardReport_Result> usp_JobCardReport(long? organisationId, long? orderId, long? itemId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("organisationId", organisationId) :
+                new ObjectParameter("organisationId", typeof(long));
+
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(long));
+
+            var itemIdParameter = itemId.HasValue ?
+                new ObjectParameter("ItemID", itemId) :
+                new ObjectParameter("ItemID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_JobCardReport_Result>("usp_JobCardReport", organisationIdParameter, orderIdParameter, itemIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_OrderReport_Result> usp_OrderReport(long? organisationId, long? orderId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("organisationId", organisationId) :
+                new ObjectParameter("organisationId", typeof(long));
+
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_OrderReport_Result>("usp_OrderReport", organisationIdParameter, orderIdParameter);
         }
 
         #endregion

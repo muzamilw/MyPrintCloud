@@ -24,6 +24,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProspect })]
         public ActionResult Index()
         {
+            ViewBag.ActiveTab = ActiveModuleMenuItem.Companies;
             return View();
         }
 
@@ -33,6 +34,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
         public ActionResult Contacts()
         {
+            ViewBag.ActiveTab = ActiveModuleMenuItem.Contacts;
             return View();
         }
 
@@ -41,10 +43,14 @@ namespace MPC.MIS.Areas.CRM.Controllers
         {
             return View();
         }
-
-
         public ActionResult ContactCompanyDetail()
         {
+            return View();
+        }
+
+        public ActionResult ToDoList()
+        {
+            ViewBag.ActiveTab = ActiveModuleMenuItem.ToDoList;
             return View();
         }
 
@@ -52,6 +58,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
         public ActionResult Calendar()
         {
+            ViewBag.ActiveTab = ActiveModuleMenuItem.Calendar;
             return View();
         }
 
@@ -100,7 +107,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewSupplier })]
         public ActionResult SuppliersList()
         {
-
+            ViewBag.ActiveTab = ActiveModuleMenuItem.Supplier;
             return View();
         }
 

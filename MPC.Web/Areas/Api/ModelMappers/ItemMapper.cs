@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -16,17 +17,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Item CreateFrom(this DomainModels.Item source)
         {
-// ReSharper disable SuggestUseVarKeywordEvident
+            // ReSharper disable SuggestUseVarKeywordEvident
             Item item = new Item
-// ReSharper restore SuggestUseVarKeywordEvident
+            // ReSharper restore SuggestUseVarKeywordEvident
             {
                 ItemId = source.ItemId,
                 ItemCode = source.ItemCode,
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
-                GridImage = source.GridImage,
-                ThumbnailPath = source.ThumbnailPath,
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,
@@ -77,6 +76,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ZoomFactor = source.ZoomFactor,
                 Scalar = source.Scalar,
                 DesignerCategoryId = source.DesignerCategoryId,
+                ProductDisplayOptions = source.ProductDisplayOptions,
+                IsRealStateProduct = source.IsRealStateProduct,
+                IsUploadImage = source.IsUploadImage,
+                IsDigitalDownload = source.IsDigitalDownload,
+                PrintCropMarks = source.printCropMarks,
+                DrawWaterMarkTxt = source.drawWaterMarkTxt,
+                IsAddCropMarks = source.isAddCropMarks,
+                DrawBleedArea = source.drawBleedArea,
+                IsMultipagePdf = source.isMultipagePDF,
+                AllowPdfDownload = source.allowPdfDownload,
+                AllowImageDownload = source.allowImageDownload,
+                ItemLength = source.ItemLength,
+                ItemWeight = source.ItemWeight,
+                ItemHeight = source.ItemHeight,
+                ItemWidth = source.ItemWidth,
+                CompanyId = source.CompanyId,
+                SmartFormId = source.SmartFormId,
                 ItemProductDetail = source.ItemProductDetails != null && source.ItemProductDetails.Count > 0 ?
                 source.ItemProductDetails.FirstOrDefault().CreateFrom() : null,
                 Template = source.Template != null ? source.Template.CreateFrom() : new Template(),
@@ -88,52 +104,89 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()) : new List<ItemPriceMatrix>(),
                 ProductCategoryItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()) : new List<ProductCategoryItem>(),
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
-                new List<ItemSection>()
+                new List<ItemSection>(),
+                ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>(),
+                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
             };
 
             // Load Thumbnail Image
-            if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
-                item.ThumbnailImage = source.ThumbnailPath != null ? File.ReadAllBytes(source.ThumbnailPath) : null;
+                string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(thumbnailPath))
+                {
+
+                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = thumbnailPath;
+                }
             }
 
             // Load Grid Image
-            if (source.GridImage != null && File.Exists(source.GridImage))
+            if (!string.IsNullOrEmpty(source.GridImage))
             {
-                item.GridImageBytes = source.GridImage != null ? File.ReadAllBytes(source.GridImage) : null;
+                string gridImagePath = HttpContext.Current.Server.MapPath("~/" + source.GridImage);
+                if (File.Exists(gridImagePath))
+                {
+                    item.GridImageBytes = File.ReadAllBytes(gridImagePath);
+                    item.GridImage = gridImagePath;
+                }
             }
 
             // Load Image Path
-            if (source.ImagePath != null && File.Exists(source.ImagePath))
+            if (!string.IsNullOrEmpty(source.ImagePath))
             {
-                item.ImagePathImage = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
+                string imagePath = HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
+                if (File.Exists(imagePath))
+                {
+                    item.ImagePathImage = File.ReadAllBytes(imagePath);
+                }
             }
 
             // Load File1
-            if (source.File1 != null && File.Exists(source.File1))
+            if (!string.IsNullOrEmpty(source.File1))
             {
-                item.File1Bytes = source.File1 != null ? File.ReadAllBytes(source.File1) : null;
+                string file1Path = HttpContext.Current.Server.MapPath("~/" + source.File1);
+                if (File.Exists(file1Path))
+                {
+                    item.File1Bytes = File.ReadAllBytes(file1Path);
+                }
             }
 
             // Load File2
-            if (source.File2 != null && File.Exists(source.File2))
+            if (!string.IsNullOrEmpty(source.File2))
             {
-                item.File2Bytes = source.File2 != null ? File.ReadAllBytes(source.File2) : null;
+                string file2Path = HttpContext.Current.Server.MapPath("~/" + source.File2);
+                if (File.Exists(file2Path))
+                {
+                    item.File2Bytes = File.ReadAllBytes(file2Path);
+                }
             }
             // Load File3
-            if (source.File3 != null && File.Exists(source.File3))
+            if (!string.IsNullOrEmpty(source.File3))
             {
-                item.File3Bytes = source.File3 != null ? File.ReadAllBytes(source.File3) : null;
+                string file3Path = HttpContext.Current.Server.MapPath("~/" + source.File3);
+                if (File.Exists(file3Path))
+                {
+                    item.File3Bytes = File.ReadAllBytes(file3Path);
+                }
             }
             // Load File4
-            if (source.File4 != null && File.Exists(source.File4))
+            if (!string.IsNullOrEmpty(source.File4))
             {
-                item.File4Bytes = source.File4 != null ? File.ReadAllBytes(source.File4) : null;
+                string file4Path = HttpContext.Current.Server.MapPath("~/" + source.File4);
+                if (File.Exists(file4Path))
+                {
+                    item.File4Bytes = File.ReadAllBytes(file4Path);
+                }
             }
             // Load File5
-            if (source.File5 != null && File.Exists(source.File5))
+            if (!string.IsNullOrEmpty(source.File5))
             {
-                item.File5Bytes = source.File5 != null ? File.ReadAllBytes(source.File5) : null;
+                string file5Path = HttpContext.Current.Server.MapPath("~/" + source.File5);
+                if (File.Exists(file5Path))
+                {
+                    item.File5Bytes = File.ReadAllBytes(file5Path);
+                }
             }
 
             return item;
@@ -153,17 +206,29 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
-                ThumbnailPath = source.ThumbnailPath,
                 ProductCategoryName = source.ProductCategoryName,
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,
-                MinPrice = source.MinPrice
+                MinPrice = source.MinPrice,
+                OrganisationId = source.OrganisationId,
+                CompanyId = source.CompanyId,
+                PrintCropMarks = source.printCropMarks,
+                DrawWaterMarkTxt = source.drawWaterMarkTxt,
+                TemplateId = source.TemplateId,
+                TemplateType = source.TemplateType
             };
 
-            if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
+            // Load Thumbnail Image
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
-                item.ThumbnailImage = source.ThumbnailPath != null ? File.ReadAllBytes(source.ThumbnailPath) : null;
+                string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(thumbnailPath))
+                {
+
+                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = thumbnailPath;
+                }
             }
 
             return item;
@@ -234,6 +299,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TemplateTypeMode = source.TemplateTypeMode,
                 DesignerCategoryId = source.DesignerCategoryId,
                 CompanyId = source.CompanyId,
+                ProductDisplayOptions = source.ProductDisplayOptions,
+                IsRealStateProduct = source.IsRealStateProduct,
+                IsUploadImage = source.IsUploadImage,
+                IsDigitalDownload = source.IsDigitalDownload,
+                printCropMarks = source.PrintCropMarks,
+                drawWaterMarkTxt = source.DrawWaterMarkTxt,
+                isAddCropMarks = source.IsAddCropMarks,
+                drawBleedArea = source.DrawBleedArea,
+                isMultipagePDF = source.IsMultipagePdf,
+                allowPdfDownload = source.AllowPdfDownload,
+                allowImageDownload = source.AllowImageDownload,
+                ItemLength = source.ItemLength,
+                ItemWeight = source.ItemWeight,
+                ItemHeight = source.ItemHeight,
+                ItemWidth = source.ItemWidth,
+                SmartFormId = source.SmartFormId,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
@@ -266,7 +347,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ProductCategoryItemCustom>(),
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()).ToList() :
-                new List<DomainModels.ItemSection>()
+                new List<DomainModels.ItemSection>(),
+                ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()).ToList() :
+                new List<DomainModels.ItemImage>()
             };
         }
 
@@ -373,5 +456,173 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static OrderItem CreateFromForOrder(this DomainModels.Item source)
+        {
+            // ReSharper disable SuggestUseVarKeywordEvident
+            OrderItem item = new OrderItem
+            // ReSharper restore SuggestUseVarKeywordEvident
+            {
+                ItemId = source.ItemId,
+                ItemCode = source.ItemCode,
+                ProductCode = source.ProductCode,
+                ProductName = source.ProductName,
+                JobDescriptionTitle1 = source.JobDescriptionTitle1,
+                JobDescription1 = source.JobDescription1,
+                JobDescriptionTitle2 = source.JobDescriptionTitle2,
+                JobDescription2 = source.JobDescription2,
+                JobDescriptionTitle3 = source.JobDescriptionTitle3,
+                JobDescription3 = source.JobDescription3,
+                JobDescriptionTitle4 = source.JobDescriptionTitle4,
+                JobDescription4 = source.JobDescription4,
+                JobDescriptionTitle5 = source.JobDescriptionTitle5,
+                JobDescription5 = source.JobDescription5,
+                JobDescriptionTitle6 = source.JobDescriptionTitle6,
+                JobDescription6 = source.JobDescription6,
+                JobDescriptionTitle7 = source.JobDescriptionTitle7,
+                JobDescription7 = source.JobDescription7,
+                IsQtyRanged = source.IsQtyRanged,
+                DefaultItemTax = source.DefaultItemTax,
+                Qty1 = source.Qty1,
+                Qty1NetTotal = source.Qty1NetTotal,
+                StatusId = source.StatusId,
+                Status = source.Status != null ? source.Status.StatusName : string.Empty,
+                ItemNotes = source.ItemNotes,
+                JobCode = source.JobCode,
+                JobStatusId = source.JobStatusId,
+                JobManagerId = source.JobManagerId,
+                JobCreationDateTime = source.JobCreationDateTime,
+                JobActualStartDateTime = source.JobActualStartDateTime,
+                JobActualCompletionDateTime = source.JobActualCompletionDateTime,
+                JobEstimatedStartDateTime = source.JobEstimatedStartDateTime,
+                JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime,
+                JobProgressedBy = source.JobProgressedBy,
+                JobCardPrintedBy = source.JobCardPrintedBy,
+                InvoiceDescription = source.InvoiceDescription,
+                NominalCodeId = source.NominalCodeId,
+                ProductCategories = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.ProductCategory.CategoryName) :
+                new List<string>(),
+                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFromForOrder()) :
+                new List<ItemSection>(),
+                Qty1MarkUpId1 = source.Qty1MarkUpId1,
+                Qty2MarkUpId2 = source.Qty2MarkUpId2,
+                Qty3MarkUpId3 = source.Qty3MarkUpId3,
+                Qty2NetTotal = source.Qty2NetTotal,
+                Qty3NetTotal = source.Qty3NetTotal,
+                Qty1Tax1Value = source.Qty1Tax1Value,
+                Qty2Tax1Value = source.Qty2Tax1Value,
+                Qty3Tax1Value = source.Qty3Tax1Value,
+                Qty1GrossTotal = source.Qty1GrossTotal,
+                Qty2GrossTotal = source.Qty2GrossTotal,
+                Qty3GrossTotal = source.Qty3GrossTotal,
+                Tax1 = source.Tax1,
+                ItemType = source.ItemType,
+                EstimateId = source.EstimateId,
+                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
+            };
+            return item;
+        }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static DomainModels.Item CreateFromForOrder(this OrderItem source)
+        {
+            // ReSharper disable SuggestUseVarKeywordEvident
+            DomainModels.Item item = new DomainModels.Item
+            // ReSharper restore SuggestUseVarKeywordEvident
+            {
+                ItemId = source.ItemId,
+                ItemCode = source.ItemCode,
+                ProductCode = source.ProductCode,
+                ProductName = source.ProductName,
+                JobDescriptionTitle1 = source.JobDescriptionTitle1,
+                JobDescription1 = source.JobDescription1,
+                JobDescriptionTitle2 = source.JobDescriptionTitle2,
+                JobDescription2 = source.JobDescription2,
+                JobDescriptionTitle3 = source.JobDescriptionTitle3,
+                JobDescription3 = source.JobDescription3,
+                JobDescriptionTitle4 = source.JobDescriptionTitle4,
+                JobDescription4 = source.JobDescription4,
+                JobDescriptionTitle5 = source.JobDescriptionTitle5,
+                JobDescription5 = source.JobDescription5,
+                JobDescriptionTitle6 = source.JobDescriptionTitle6,
+                JobDescription6 = source.JobDescription6,
+                JobDescriptionTitle7 = source.JobDescriptionTitle7,
+                JobDescription7 = source.JobDescription7,
+                IsQtyRanged = source.IsQtyRanged,
+                DefaultItemTax = source.DefaultItemTax,
+                Qty1 = source.Qty1,
+                Qty1NetTotal = source.Qty1NetTotal,
+                StatusId = source.StatusId,
+                ItemNotes = source.ItemNotes,
+                JobCode = source.JobCode,
+                JobStatusId = source.JobStatusId,
+                JobManagerId = source.JobManagerId,
+                JobCreationDateTime = source.JobCreationDateTime,
+                JobActualStartDateTime = source.JobActualStartDateTime,
+                JobActualCompletionDateTime = source.JobActualCompletionDateTime,
+                JobProgressedBy = source.JobProgressedBy,
+                JobCardPrintedBy = source.JobCardPrintedBy,
+                InvoiceDescription = source.InvoiceDescription,
+                NominalCodeId = source.NominalCodeId,
+                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFromForOrder()).ToList() :
+                new List<DomainModels.ItemSection>(),
+                Qty1MarkUpId1 = source.Qty1MarkUpId1,
+                Qty2MarkUpId2 = source.Qty2MarkUpId2,
+                Qty3MarkUpId3 = source.Qty3MarkUpId3,
+                Qty2NetTotal = source.Qty2NetTotal,
+                Qty3NetTotal = source.Qty3NetTotal,
+                Qty1Tax1Value = source.Qty1Tax1Value,
+                Qty2Tax1Value = source.Qty2Tax1Value,
+                Qty3Tax1Value = source.Qty3Tax1Value,
+                Qty1GrossTotal = source.Qty1GrossTotal,
+                Qty2GrossTotal = source.Qty2GrossTotal,
+                Qty3GrossTotal = source.Qty3GrossTotal,
+                Tax1 = source.Tax1,
+                ItemType = source.ItemType,
+                EstimateId = source.EstimateId,
+                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
+            };
+            return item;
+        }
+
+
+        public static ItemListView CreateFromForOrderAddProduct(this DomainModels.Item source)
+        {
+            // ReSharper disable SuggestUseVarKeywordEvident
+            ItemListView item = new ItemListView
+            // ReSharper restore SuggestUseVarKeywordEvident
+            {
+                ItemId = source.ItemId,
+                ItemCode = source.ItemCode,
+                ProductCode = source.ProductCode,
+                ProductName = source.ProductName,
+                ProductSpecification = source.ProductSpecification,
+                // ReSharper disable once PossibleNullReferenceException
+                ProductCategoryName = source.ProductCategoryItems.Count > 0 ? source.ProductCategoryItems.FirstOrDefault().ProductCategory.CategoryName : null,
+                IsArchived = source.IsArchived,
+                IsEnabled = source.IsEnabled,
+                IsPublished = source.IsPublished,
+                MinPrice = source.MinPrice,
+                IsQtyRanged = source.IsQtyRanged
+            };
+
+            // Load Thumbnail Image
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
+            {
+                string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(thumbnailPath))
+                {
+
+                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = thumbnailPath;
+                }
+            }
+
+            return item;
+        }
     }
 }

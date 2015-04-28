@@ -12,8 +12,8 @@
             </div>
         </div>
         <div class="pull-right">
-            <button id="open-wizard" data-bind="click: createProduct" class="btn btn-primary pull-right">
-                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
+            <button id="open-wizard" data-bind="click: createProduct, enable: !pageHasErrors()" class="btn btn-primary pull-right">
+                Add Product
             </button>
         </div>
     </div>
@@ -45,28 +45,29 @@
             <div class="main-box-body main-box clearfix">
                 <div class="main-box-body clearfix">
                     <div class="table-responsive">
-                        <div class="productHeadingsCnt width12Perc">
-                            Product Code
-                        </div>
-                        <div class="productHeadingsCnt width24Perc">
-                            Main Image
-                        </div>
-                        <div class="productHeadingsCnt width13Per">
-                            Product Name
-                        </div>
-                        <div class="productHeadingsCnt width13Per">
-                            Product Price
-                        </div>
-                        <div class="productHeadingsCnt width12Perc">
-                            Categories
-                        </div>
-                        <div class="productHeadingsCnt width12Perc">
-                            Is Published
-                        </div>
-                        <div class="productHeadingsCnt width7Perc">
-                            Is Archived
-                        </div>
                         <table id="ProductListtbl" class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" id="productCodeHeader">
+                                        Code
+                                    </th>
+                                    <th class="text-center" id="productImageHeader">
+                                        Image
+                                    </th>
+                                    <th class="text-center" id="productNameHeader">
+                                        Name
+                                    </th>
+                                    <th class="text-center" id="productPriceHeader">
+                                        Price
+                                    </th>
+                                    <th class="text-center" id="productCategoriesHeader">
+                                        Categories
+                                    </th>
+                                    <th class="text-center" id="productPublishedHeader">
+                                        Published
+                                    </th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 <!-- ko template: { name: 'listViewTemplate', foreach: products } -->
                                 <!-- /ko -->
@@ -81,19 +82,14 @@
     @* Filter Template *@
     <script id="productFilterTemplate" type="text/html">
         <div class="filter-body">
-            <div class="filter-block pull-left">
-                <div class="pull-left spanfilterlbl">
-                    Search: &nbsp;
+            <form data-bind="submit: filterProducts">
+                <div class="filter-block pull-left">
+                    <div class="form-group pull-left">
+                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
+                        <i class="fa fa-search search-icon" data-bind="click: filterProducts"></i>
+                    </div>
                 </div>
-                <div class="form-group pull-left">
-                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
-                    <i class="fa fa-search search-icon"></i>
-                </div>
-                <div class="pull-left">
-                    <button type="submit" class="btn btn-primary" data-bind="click: filterProducts">Search</button>
-                    <button type="reset" class="btn btn-default" data-bind="click: resetFilter">Reset</button>
-                </div>
-            </div>
+            </form>
             <div class="pull-right">
                 <div class="pull-right spanfilterlbl" data-bind="">
                     <a class=" pagerLeftIcon " data-bind="click: pager().previousPage">
@@ -104,9 +100,11 @@
                     </a>
                 </div>
                 <span class="pull-right spanfilterlbl">of <span data-bind="text: pager().totalPages"></span></span>
-                <div class="pull-right col-xs-3">
-                    <input type="text" class="form-control" data-bind="value: currentPageCustom" />
-                </div>
+                <form data-bind="submit: function(){ }">
+                    <div class="pull-right col-xs-3">
+                        <input type="text" class="form-control" data-bind="value: currentPageCustom, valueUpdate: 'keyup'" />
+                    </div>
+                </form>
                 <span class="pull-right spanfilterlbl">Page</span>
 
             </div>
@@ -119,72 +117,53 @@
     <script id="gridViewTemplate" type="text/html">
         <div class="Top_Cat_Body">
             <div class="LCLB">
-                <div class="PDTC_TL FI_TL">
+                <div class="PDTC_TL FI_TL" data-bind="click: $root.editProduct">
                     <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
                 </div>
-                <div class="productListIcons">
+                <div class="productIcons">
                     <!-- ko template: { name: 'productActionTemplate' } -->
                     <!-- /ko -->
                 </div>
             </div>
-            <div>
-                <span data-bind="text: productNameForGrid"></span>
+            <div class="productText">
+                <span data-bind="text: productNameForGrid, attr:{ title: productName }"></span>
             </div>
             <div class="">
-                <span data-bind="text: '$' + miniPrice()"></span>
+                <span data-bind="text: 'Starting From $' + miniPrice()"></span>
             </div>
         </div>
     </script>
 
     @* Action Template *@
     <script id="productActionTemplate" type="text/html">
-        <a href="#" class="table-link" title="Edit" data-bind="click: $root.editProduct">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-            </span>
+        <a href="#" class="table-link" title="Copy" data-bind="click: $root.onCloneProduct">
+            Copy
         </a>
-        <a href="#" class="table-link copy" title="Copy" data-bind="click: $root.onCloneProduct">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a href="#" class="table-link danger" title="Archive" data-bind="click: $root.onArchiveProduct.bind($data), visible: !isArchived()">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-            </span>
+        <a href="#" class="table-link" title="Design" data-bind="click: $root.editTemplate, visible: ((isFinishedGoodsUi() === '1') && templateId() && (templateTypeUi() !== '3'))">
+            Design
         </a>
     </script>
 
     @* List View Template *@
     <script id="listViewTemplate" type="text/html">
         <tr>
-            <td class="width12Perc text-center">
+            <td class="text-center">
                 <a data-bind="click: $root.editProduct"><span data-bind="text: productCode"></span></a>
             </td>
-            <td class="width24Perc text-center">
-                <div class="LCLB Product-Body-List">
-                    <div class="PDTC_TL Product-Body-List-TL">
-                        <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
-                    </div>
-                </div>
+            <td class="text-center">
+                <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
             </td>
-            <td class="text-center width13Per">
+            <td class="text-center">
                 <span class="NoneditableName" data-bind="text: productName"></span>
             </td>
-            <td class="text-center width13Per">
+            <td class="text-center">
                 <span class="NoneditablePrice" data-bind="text: '$' + miniPrice()"></span>
             </td>
-            <td class="text-center width12Perc">
+            <td class="text-center">
                 <span class="NoneditableCat" data-bind="text: productCategoryName"></span>
             </td>
-            <td class="text-center width12Perc">
-                <span class="label label-success" data-bind="text: isPublishedUi"></span>
-            </td>
-            <td class="text-center width7Perc">
-                <span data-bind="text: isArchivedUi"></span>
+            <td class="text-center">
+                <span class="label" data-bind="text: isPublishedUi, css: { 'label-success': isPublished, 'label-danger': !isPublished() }"></span>
             </td>
         </tr>
     </script>

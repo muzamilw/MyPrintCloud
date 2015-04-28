@@ -16,7 +16,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPrefixRepository _prefixRepository;
         #endregion
 
-         #region Constructor
+        #region Constructor
         public PrefixService(IPrefixRepository prefixRepository)
         {
             this._prefixRepository = prefixRepository;
@@ -48,8 +48,7 @@ namespace MPC.Implementation.MISServices
 
         public Prefix GetPrefixByOrganisationId()
         {
-
-            return _prefixRepository.Find(_prefixRepository.OrganisationId);
+            return _prefixRepository.GetPrefixByOrganisationId(_prefixRepository.OrganisationId);
         }
         
         #endregion

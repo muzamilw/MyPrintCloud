@@ -4,8 +4,12 @@
     var root = this;
     var ist = window.ist;
 
+    if (!ist.siteUrl) {
+        ist.siteUrl = $("#siteUrl").val();
+    }
+
     requirejs.config({
-        baseUrl: "/Scripts/App",
+        baseUrl: ist.siteUrl + "/Scripts/App",
         waitSeconds: 20,
         paths: {
             "sammy": ist.siteUrl + "/Scripts/sammy-0.7.5.min",
@@ -23,7 +27,13 @@
             "machine": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "crm": ist.siteUrl + "/Areas/CRM/Scripts",
             "calendar": ist.siteUrl + "/Areas/CRM/Scripts",
+            "toDoList": ist.siteUrl + "/Areas/CRM/Scripts",
             "order": ist.siteUrl + "/Areas/Orders/Scripts",
+            "itemJobStatus": ist.siteUrl + "/Areas/Production/Scripts",
+            "lookupMethods": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "sectionflags": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "deliverycarrier": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "invoice": ist.siteUrl + "/Areas/Invoices/Scripts"
         }
     });
 

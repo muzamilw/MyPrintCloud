@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Http;
@@ -9,6 +10,10 @@ using System.Management.Automation.Runspaces;
 using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Net;
+using System.IO;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace MPC.Provisioning.Controllers
 {
@@ -91,67 +96,173 @@ namespace MPC.Provisioning.Controllers
 
         //}
 
-        public string Get(string subdomain, string sitePhysicalPath, string siteOrganisationId, string ContactFullName, string userId, string username, string Email, string hash, string mpcContentFolder)
+        public string Get(string subdomain, string sitePhysicalPath, string siteOrganisationId, string ContactFullName, string userId, string username, string Email, string hash, string mpcContentFolder,string isCorp)
         {
+            try
+            {
 
-            string misFolder = sitePhysicalPath + "\\mis";
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = @"powershell.exe";
-            startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId + " " + mpcContentFolder  +  " " + misFolder;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.UseShellExecute = false;
-            startInfo.CreateNoWindow = true;
-            Process process = new Process();
-            process.StartInfo = startInfo;
-            process.Start();
 
-            string output = process.StandardOutput.ReadToEnd();
+                string misFolder = sitePhysicalPath + "\\mis";
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = @"powershell.exe";
+                startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId + " " + mpcContentFolder + " " + misFolder;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.UseShellExecute = false;
+                startInfo.CreateNoWindow = true;
+                Process process = new Process();
+                process.StartInfo = startInfo;
+                process.Start();
+
+                string output = process.StandardOutput.ReadToEnd();
+               //string output = "App Created";
             //Assert.IsTrue(output.Contains("StringToBeVerifiedInAUnitTest"));
 
             //string errors = process.StandardError.ReadToEnd();
             //Assert.IsTrue(string.IsNullOrEmpty(errors));
 
-            if (output == "App Created")
+            if (output.Contains( "App Created"))
             {
                 string connectionString = ConfigurationManager.AppSettings["connectionString"];
                         
 
                 //inserting the default Organisation
                 string queryString =
-                   "INSERT INTO Organisation VALUES(" + siteOrganisationId + ",'" + ContactFullName + "',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL)";
+                   "INSERT INTO Organisation (OrganisationId,OrganisationName) VALUES(" + siteOrganisationId + ",'" + ContactFullName + "')";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     // Create the Command and Parameter objects.
                     SqlCommand command = new SqlCommand(queryString, connection);
-
+                   
+                      
                     try
                     {
                         connection.Open();
 
                         var result = command.ExecuteNonQuery();
 
+
+                       Guid ID = Guid.Parse(userId);
+                       
                         //creating default user
                         //must save the user ID as userid coming from core
-                        command.CommandText = "INSERT INTO [SystemUser] ([UserName],[OrganizationId],[FullName],[Email],[RoleId],[CostPerHour],[ReplyEmail],[IsSystemUser],[CreatedBy],[CreatedDate]";
-                        command.CommandText += "values ('" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','" + Email + "','1',0,'" + Email + "',0,'Auto Provisioned','" + DateTime.Now + "')";
+                        command.CommandText = "INSERT INTO [SystemUser] ([SystemUserId],[UserName],[OrganizationId],[FullName],[RoleId],[CostPerHour],[IsSystemUser],[Email])";
+                        command.CommandText += " values ('" + ID + "','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0,'" + Email + "')";
+
 
                         result = command.ExecuteNonQuery();
 
+
                         connection.Close();
+                         
+
+                        // import organisation
+                  
+                        string sCurrentServer = ConfigurationManager.AppSettings["instanceUrl"];
+                       
+                       // Uri uri = new Uri(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + isCorp);
+                        //WebClient oClient = new WebClient();
+                        //oClient.OpenRead(uri);
+
+                        isCorp = "true";
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + subdomain + "/" + isCorp);
+                        //request.Method = "GET";
+                        ////request.Credentials = new NetworkCredential("xxx", "xxx");
+                        //var iTask = request.GetRequestStreamAsync();
+                        //Task.WaitAll(iTask);
+                        request.Method = "GET";
+                        request.Timeout = 500000;
+                        using (WebResponse response = request.GetResponse())
+                        {
+                            using (Stream stream = response.GetResponseStream())
+                            {
+                                StreamReader reader = new StreamReader(stream);
+                                string text = reader.ReadToEnd();
+                                if (text != "true")
+                                    throw new Exception("Failed to import store");
+
+                               
+                            }
+                        }
+
 
                     }
                     catch (Exception ex)
                     {
-                        throw ex;
+                        return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + ex.ToString();
                     }
 
                 }
-            
+                return "true";
+            }
+            else
+            {
+                return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + output;
             }
 
-            
-            return output;
+            }
+            catch (Exception ex)
+            {
+
+                return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + ex.ToString();
+            }
+           
         }
+
+          // get requested domain name
+        public string CurrentServerPath()
+        {
+            return HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
+        }
+
+        /// <summary>
+        /// //POST: Api/CreateNewDomain
+        ///   Method is used to add New Binding for a site in IIS
+        /// </summary>
+        /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
+        /// <param name="domainName">Domain Name Represents new binding in IIS to be created</param>
+        /// <param name="isRemoving"></param>
+        /// <returns>return 'true' if successfully adds binding else return 'false'</returns>
+        [System.Web.Http.HttpGet]
+        public string AddDomain(string siteName, string domainName, bool isRemoving)
+        {
+            try
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = @"powershell.exe";
+                if (!isRemoving)
+                {
+                    startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/AddDomain.ps1") + " " + siteName + " " + domainName;
+                }
+                else
+                {
+                    startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/RemoveDomain.ps1") + " " + siteName + " " + domainName;
+                }
+                
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.UseShellExecute = false;
+                startInfo.CreateNoWindow = true;
+                Process process = new Process();
+                process.StartInfo = startInfo;
+                process.Start();
+
+                string output = process.StandardOutput.ReadToEnd();
+                if (!isRemoving && output.Contains("Domain Created"))
+                {
+                    return "true";
+                }
+                if (isRemoving && output.Contains("Domain Removed"))
+                {
+                    return "true";
+                }
+                return "Please contact support@myprintcloud.com . There were errors in setting up domain bindings" + output;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Please contact support@myprintcloud.com . There were errors in setting up domain bindings: " + ex);
+            }
+        }
+
     }
 }

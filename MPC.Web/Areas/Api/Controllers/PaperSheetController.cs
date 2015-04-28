@@ -3,12 +3,14 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -38,6 +40,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get All Paper Sheets
         /// </summary>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPaperSheet })]
+        [CompressFilterAttribute]
         public PaperSheetResponseModel Get([FromUri] PaperSheetRequestModel request)
         {
             PaperSheetResponse result = paperSheetService.GetAll(request);
@@ -50,28 +54,22 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         /// <summary>
-        /// Update Paper Sheet
-        /// </summary>
-        /// <param name="paperSheet"></param>
-        /// <returns></returns>
-        public PaperSheet Put(PaperSheet paperSheet)
-        {
-            if (ModelState.IsValid)
-            {
-                return paperSheetService.Add(paperSheet.CreateFrom()).CreateFrom();
-            }
-            throw new HttpException((int) HttpStatusCode.BadRequest, "Invalid Request");
-        }
-
-        /// <summary>
         /// Create New Paper Sheet 
         /// </summary>
         /// <param name="paperSheet"></param>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPaperSheet })]
+        [CompressFilterAttribute]
         public PaperSheet Post(PaperSheet paperSheet)
         {
             if (ModelState.IsValid)
             {
+                // Adds new one
+                if (paperSheet.PaperSizeId == 0)
+                {
+                    return paperSheetService.Add(paperSheet.CreateFrom()).CreateFrom();
+                }
+                // Updates 
                 return paperSheetService.Update(paperSheet.CreateFrom()).CreateFrom();
             }
             throw new HttpException((int) HttpStatusCode.BadRequest, "Invalid Request");
@@ -82,6 +80,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPaperSheet })]
+        [CompressFilterAttribute]
         public bool Delete(PaperSheetRequestModel model)
         {
             if (ModelState.IsValid)

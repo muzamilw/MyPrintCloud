@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using InventoryBaseResponse = MPC.MIS.Areas.Api.Models.InventoryBaseResponse;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -20,6 +22,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new InventoryBaseResponse
             {
+                Region= source.Region,
                 StockCategories = source.StockCategories != null ? source.StockCategories.Select(s => s.CreateFromDropDown()).ToList() : null,
                 StockSubCategories = source.StockSubCategories != null ? source.StockSubCategories.Select(su => su.CreateFromDropDown()).ToList() : null,
                 PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(su => su.CreateFromDropDown()).ToList() : null,
@@ -28,7 +31,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 LengthUnits = source.LengthUnits != null ? source.LengthUnits.Select(ul => ul.CreateFromDropDown()).ToList() : null,
                 PaperBasisAreas = source.PaperBasisAreas != null ? source.PaperBasisAreas.Select(p => p.CreateFromDropDown()).ToList() : null,
                 RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(q => q.CreateFromDropDown()) : new List<ApiModels.RegistrationQuestionDropDown>(),
-                CurrencySymbol = (source.Organisation != null && source.LengthUnits != null) ? source.Organisation.Currency.CurrencyCode : string.Empty
+                CurrencySymbol = (source.Organisation != null && source.LengthUnits != null) ? source.Organisation.Currency.CurrencySymbol : string.Empty
             };
         }
 
@@ -65,6 +68,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static ApiModels.StockItemForListView CreateFrom(this DomainModels.StockItem source)
         {
+            StockCostAndPrice obj = null;
+            if(source.StockCostAndPrices != null )
+            {
+                obj= source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier==-1);
+            }
+               
             return new ApiModels.StockItemForListView
             {
                 StockItemId = source.StockItemId,
@@ -78,7 +87,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PerQtyQty = source.PerQtyQty,
                 PerQtyType = source.PerQtyType,
                 FlagColor = source.FlagColor,
-                SupplierCompanyName = source.SupplierCompanyName,
+                SupplierCompanyName = source.Company!=null ? source.Company.Name : string.Empty,
+                Region = source.Region,
+                PackageQty = source.PackageQty,
+                PackCostPrice = obj != null ? obj.PackCostPrice :(double?) null
             };
 
         }
@@ -93,6 +105,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockItemId = source.StockItemId,
                 ItemName = source.ItemName,
                 ItemCode = source.ItemCode,
+                Region = source.Region,
                 SupplierId = source.SupplierId,
                 CategoryId = source.CategoryId,
                 SubCategoryId = source.SubCategoryId,
@@ -146,6 +159,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemDescription = source.ItemDescription,
                 StockCreated = source.StockCreated,
                 FlagID = source.FlagID,
+                Region = source.Region,
                 Status = source.Status,
                 isDisabled = source.isDisabled,
                 PaperType = source.PaperType,

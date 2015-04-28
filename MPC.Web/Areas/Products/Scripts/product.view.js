@@ -34,7 +34,7 @@ define("product/product.view",
                 // Show Video the dialog
                 showVideoDialog = function () {
                     $("#productVideoDialog").modal("show");
-                    initializeLabelPopovers();
+                    setTimeout(initializeLabelPopovers, 1000);
                 },
                 // Hide Video the dialog
                 hideVideoDialog = function () {
@@ -319,7 +319,13 @@ define("product/product.view",
 
                 },
                 // Show Basic Details Tab when Product Detail Opens up
-                showBasicDetailsTab = function() {
+                showBasicDetailsTab = function () {
+                    var active = $("#itemProductTabListItemDetails").find('> .active');
+                    if (active) {
+                        active.removeClass('active');
+                        active.removeClass('in');
+                    }
+                    
                     var liElement = $('a[href=#tab-ProdNameAndImages]');
                     var productNameAndImagesTab = $('#tab-ProdNameAndImages');
                     if (!liElement) {
@@ -340,7 +346,7 @@ define("product/product.view",
                     if (!productNameAndImagesTab.hasClass('active')) {
                         productNameAndImagesTab.addClass('active');
                     }
-
+                    
                 },
                 // WIre Up tab Shown Event
                 wireUpTabShownEvent = function() {
@@ -358,11 +364,76 @@ define("product/product.view",
                     $('.bs-example-tooltips a').popover();
 // ReSharper restore UnknownCssClass
                 },
+                // Is Slider Initialized
+                isSliderInitialized = false,
+                // Initialize Product Min-Max Slider
+                initializeProductMinMaxSlider = function () {
+                    $(document).ready(function () {
+                        setTimeout(function() {
+                            if (!viewModel.selectedCompany() || isSliderInitialized) {
+                                return;
+                            }
+                            $('.slider-minmax').noUiSlider({
+                                range: [0, 100],
+                                start: [100],
+                                handles: 1,
+                                connect: 'upper',
+                                slide: function () {
+
+
+                                },
+                                set: function () {
+                                    var val = $(this).val();
+                                    if (val >= 60) {
+
+                                        $('.Top_Cat_Body').css("width", "22%");
+                                        $('.FI_TL').css("height", "210px");
+                                        $('.productIcons').css("width", "22%");
+                                    } else if (val >= 40) {
+
+                                        $('.Top_Cat_Body').css("width", "18%");
+                                        $('.FI_TL').css("height", "210px");
+                                        $('.productIcons').css("width", "18%");
+                                    } else if (val <= 20) {
+
+                                        $('.Top_Cat_Body').css("width", "13%");
+                                        $('.FI_TL').css("height", "140px");
+                                        $('.productIcons').css("width", "13%");
+                                    }
+                                }
+
+                            });
+                            $('.slider-minmax').val(100, true);
+
+                            isSliderInitialized = true;
+                        }, 1000);
+                    });
+                },
+                // Edit Template
+                editTemplate = function (product) {
+                    var host = window.location.host;
+                    var templateId = product.template() && product.template().id() ? product.template().id() : product.templateId();
+                    var uri = encodeURI("http://" + host + "/Designer/" + product.productName() + "/0/" + templateId + "/" + product.id() +
+                        "/" + product.companyId() + "/" + 0 + "/2/" + product.organisationId() + "/" + product.printCropMarks() + "/" + product.drawWatermarkText()
+                        + "/false");
+                    openUrlInNewWindow(uri);
+                },
+                // Open url in new window
+                openUrlInNewWindow = function(url) {
+                    window.open(url, "_blank");
+                },
+                // Product Category Selected
+                productCategorySelectedEventHandler = function (event) {
+                    viewModel.categorySelectedEventHandler(event.category);
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
                         return;
                     }
+
+                    // subscribe to events
+                    $(document).on("ProductCategorySelected", productCategorySelectedEventHandler);
 
                 };
             initialize();
@@ -391,13 +462,17 @@ define("product/product.view",
                 hideSignatureDialog: hideSignatureDialog,
                 showPressDialog: showPressDialog,
                 hidePressDialog: hidePressDialog,
-                initializeLabelPopovers: initializeLabelPopovers
+                initializeLabelPopovers: initializeLabelPopovers,
+                initializeProductMinMaxSlider: initializeProductMinMaxSlider,
+                editTemplate: editTemplate
             };
         })(productViewModel);
 
         // Initialize the view model
         if (ist.product.view.bindingRoot) {
-            productViewModel.initialize(ist.product.view);
+            var isStoreScreen = $("#isStoreScreen");
+            isStoreScreen = isStoreScreen ? isStoreScreen.val() : false;
+            productViewModel.initialize(ist.product.view, isStoreScreen);
         }
         return ist.product.view;
     });

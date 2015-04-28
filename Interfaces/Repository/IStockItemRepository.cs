@@ -1,4 +1,6 @@
-﻿using MPC.Models.DomainModels;
+﻿using System;
+using System.Linq.Expressions;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System.Collections.Generic;
@@ -11,9 +13,19 @@ namespace MPC.Interfaces.Repository
     public interface IStockItemRepository : IBaseRepository<StockItem, long>
     {
         /// <summary>
+        /// Load Property
+        /// </summary>
+        void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
+
+        /// <summary>
         /// Get Stock Items
         /// </summary>
         InventorySearchResponse GetStockItems(InventorySearchRequestModel request);
+
+        /// <summary>
+        /// Get Stock Items In orders 
+        /// </summary>
+        InventorySearchResponse GetStockItemsInOrders(InventorySearchRequestModel request);
 
         /// <summary>
         /// Get Stock Items For Product
@@ -21,7 +33,9 @@ namespace MPC.Interfaces.Repository
         InventorySearchResponse GetStockItemsForProduct(StockItemRequestModel request);
 
         List<StockItem> GetStockItemsByOrganisationID(long OrganisationID);
-       
-        
+
+        List<StockItem> GetStockItemOfCategoryInk();
+
+        string GetStockName(long StockID);
     }
 }

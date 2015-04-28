@@ -1,4 +1,5 @@
-﻿using System.IO;
+using System.Linq;
+﻿using System.Linq;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
 using DomainModels = MPC.Models.DomainModels;
@@ -8,11 +9,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     {
         public static ApiModels.CompanyListViewModel ListViewModelCreateFrom(this DomainModels.Company source)
         {
-            byte[] bytes = null;
-            if (source.Image != null && File.Exists(source.Image))
-            {
-                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
-            }
+
             return new ApiModels.CompanyListViewModel
             {
                 AccountNumber = source.AccountNumber,
@@ -21,7 +18,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 Status = source.Status,
                 URL = source.URL,
-                Image = bytes
+                ImageBytes = source.Image,
+                DefaultDomain = source.CompanyDomains != null ? source.CompanyDomains.FirstOrDefault().Domain: string.Empty
             };
         }
     }

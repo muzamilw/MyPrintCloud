@@ -1,7 +1,9 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
     using DomainModels = MPC.Models.DomainModels;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Estimate Mapper
@@ -13,11 +15,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Estimate CreateFrom(this DomainModels.Estimate source)
         {
-// ReSharper disable SuggestUseVarKeywordEvident
+            // ReSharper disable SuggestUseVarKeywordEvident
             Estimate estimate = new Estimate
-// ReSharper restore SuggestUseVarKeywordEvident
+            // ReSharper restore SuggestUseVarKeywordEvident
             {
                 EstimateId = source.EstimateId,
+                CompanyId = source.CompanyId,
+                CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                StatusId = source.StatusId,
                 EstimateCode = source.Estimate_Code,
                 EstimateName = source.Estimate_Name,
                 EnquiryId = source.EnquiryId,
@@ -25,8 +30,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ContactId = source.ContactId,
                 AddressId = source.AddressId,
                 IsDirectSale = source.isDirectSale,
-                IsCreditApproved = source.IsCreditApproved,
-                IsOfficialOrder = source.IsOfficialOrder,
+                IsCreditApproved = source.IsCreditApproved == 1,
+                IsOfficialOrder = source.IsOfficialOrder == 1,
                 OrderDate = source.Order_Date,
                 StartDeliveryDate = source.StartDeliveryDate,
                 FinishDeliveryDate = source.FinishDeliveryDate,
@@ -45,14 +50,24 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreditLimitForJob = source.CreditLimitForJob,
                 CreditLimitSetBy = source.CreditLimitSetBy,
                 CreditLimitSetOnDateTime = source.CreditLimitSetOnDateTime,
-                IsJobAllowedWOCreditCheck = source.IsJobAllowedWOCreditCheck,
+                IsJobAllowedWOCreditCheck = source.IsJobAllowedWOCreditCheck == 1,
                 AllowJobWOCreditCheckSetOnDateTime = source.AllowJobWOCreditCheckSetOnDateTime,
                 AllowJobWOCreditCheckSetBy = source.AllowJobWOCreditCheckSetBy,
                 CustomerPo = source.CustomerPO,
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
-                OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime
+                OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
+                OrderCode = source.Order_Code,
+                OrderReportSignedBy = source.OrderReportSignedBy,
+                IsEstimate = source.isEstimate,
+                EstimateTotal = source.Estimate_Total,
+                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
+                new List<OrderItem>(),
+                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
+                new List<PrePayment>(),
+                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()) :
+                new List<ShippingInformation>()
             };
-            
+
             return estimate;
         }
 
@@ -67,6 +82,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 EstimateId = source.EstimateId,
                 EstimateCode = source.Estimate_Code,
+                StatusId = source.StatusId,
                 EstimateName = source.Estimate_Name,
                 EnquiryId = source.EnquiryId,
                 CompanyId = source.CompanyId,
@@ -77,7 +93,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionFlagId = source.SectionFlagId,
                 OrderCode = source.Order_Code,
                 IsEstimate = source.isEstimate,
-                ItemsCount = source.Items!=null ? source.Items.Count :0
+                ItemsCount = source.Items != null ? source.Items.Count : 0,
+                Status = source.Status.StatusName,
+                EstimateTotal = source.Estimate_Total,
+                IsDirectSale = source.isDirectSale,
+                SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null
+
             };
 
             return estimate;
@@ -92,14 +113,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 EstimateId = source.EstimateId,
                 Estimate_Code = source.EstimateCode,
+                StatusId = source.StatusId,
                 Estimate_Name = source.EstimateName,
                 EnquiryId = source.EnquiryId,
                 SectionFlagId = source.SectionFlagId,
+                CompanyId = source.CompanyId,
                 ContactId = source.ContactId,
                 AddressId = source.AddressId,
                 isDirectSale = source.IsDirectSale,
-                IsCreditApproved = source.IsCreditApproved,
-                IsOfficialOrder = source.IsOfficialOrder,
+                IsCreditApproved = source.IsCreditApproved == true ? 1 : 0,
+                IsOfficialOrder = source.IsOfficialOrder == true ? 1 : 0,
                 Order_Date = source.OrderDate,
                 StartDeliveryDate = source.StartDeliveryDate,
                 FinishDeliveryDate = source.FinishDeliveryDate,
@@ -118,12 +141,32 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreditLimitForJob = source.CreditLimitForJob,
                 CreditLimitSetBy = source.CreditLimitSetBy,
                 CreditLimitSetOnDateTime = source.CreditLimitSetOnDateTime,
-                IsJobAllowedWOCreditCheck = source.IsJobAllowedWOCreditCheck,
+                IsJobAllowedWOCreditCheck = source.IsJobAllowedWOCreditCheck == true ? 1 : 0,
                 AllowJobWOCreditCheckSetOnDateTime = source.AllowJobWOCreditCheckSetOnDateTime,
                 AllowJobWOCreditCheckSetBy = source.AllowJobWOCreditCheckSetBy,
                 CustomerPO = source.CustomerPo,
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
-                OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime
+                OrderReportSignedBy = source.OrderReportSignedBy,
+                OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
+                isEstimate = source.IsEstimate,
+                Estimate_Total = source.EstimateTotal,
+                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : new List<DomainModels.PrePayment>(),
+                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).ToList() :
+                new List<DomainModels.Item>(),
+                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()).ToList() :
+                new List<DomainModels.ShippingInformation>(),
+            };
+        }
+
+        /// <summary>
+        /// Orders for Company edit
+        /// </summary>
+        public static OrdersForCrmResponse CreateFrom(this MPC.Models.ResponseModels.OrdersForCrmResponse source)
+        {
+            return new OrdersForCrmResponse
+            {
+                RowCount = source.RowCount,
+                OrdersList = source.Orders.Select(order => order.CreateFromForListView())
             };
         }
 

@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section leftmenue {
+    @RenderSection("leftmenue", false)
+}
+
+@section scripts {
+    @RenderSection("scripts", false)
+}
+
+@RenderBody()

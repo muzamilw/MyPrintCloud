@@ -8,96 +8,112 @@
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li class="active"><span>Contacts</span></li>
+                    <li><a href="#">&nbsp;</a></li>
+                   
                 </ol>
-                <div class="clearfix">
-                    <h1 class="pull-left">Contacts</h1>
-                </div>
-
-                <div id="addStore">
-                    &nbsp;
-                </div> <br />
-                <!-- ko template: { name: 'filterTemplate' } -->
-                <!-- /ko -->
+                <h1>Contacts</h1>
+              
             </div>
         </div>
         <div class="row">
+          
             <div class="col-lg-12">
-                <div class="main-box no-header clearfix">
-                    <div class="main-box-body clearfix">
-                        <div class="table-responsive">
-                            <table class="table user-list span12">
-                                <thead>
-                                    <tr class="span12">
-                                        <th class="col-lg-1"></th>
-                                        <th class="col-lg-3"><span>Name</span></th>
-                                        <th class="col-lg-3"><span>Email</span></th>
-                                        <th >&nbsp;</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- ko  foreach: $root.companyContactsForListView  -->
-                                    <tr>
-                                        <td>
-                                            <img data-bind="attr: { src: image }" alt="" />
-                                            <a class="user-link" data-bind="text: firstName "></a> 
-                                            <span data-bind="text:companyName"></span> 
-                                        </td>
-                                        <td>
-                                            <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a class="table-link">
-                                                <span class="fa-stack" data-bind="click:$root.editContactbuttonHandler">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a class="table-link danger">
-                                                <span class="fa-stack" data-bind="click:$root.deleteContactbuttonHandler">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
+                <div class="main-box-body main-box clearfix">
+                    <div class="tabs-wrapper profile-tabs">
+                        <ul class="nav nav-tabs">
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
+                                @Html.ActionLink("Calendar", "Calendar", "Home")
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
+                               @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
+                                @*@Html.ActionLink("Contacts", "Contacts", "Home")*@
+                                <a href="#tab-Contacts" data-toggle="tab">Contacts</a>
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
+                                @Html.ActionLink("Companies", "Index", "Home")
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
+                                @Html.ActionLink("Supplier", "SuppliersList", "Home")
+                            </li>
+                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.MySharedDocs) { <text>active</text> }">
+                                @Html.ActionLink("Shared Docs", "Contacts", "Home")
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="tab-Contacts">
+                                <div class="row">
+                                    <!-- ko template: { name: 'filterTemplate' } -->
                                     <!-- /ko -->
-                                </tbody>
-                            </table>
+                                    <div class="col-lg-12" style="margin-top:15px">
+                                        <div class="main-box no-header clearfix">
+                                            <div class="main-box-body clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table user-list span12">
+                                                        <thead>
+                                                            <tr class="span12">
+                                                                <th class="col-lg-1"></th>
+                                                                <th class="col-lg-3"><span>Name</span></th>
+                                                                <th class="col-lg-3"><span>Email</span></th>
+                                                                <th class="col-lg-3"><span>Company</span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko  foreach: $root.companyContactsForListView  -->
+                                                            <tr>
+                                                                <td>
+                                                                    <img data-bind="attr: { src: image()==='' ? 'abc/def':image() }" alt="" />
+                                                                </td>
+                                                                <td>
+                                                                    <a class="user-link" href="#" data-bind="text: firstName, click: $root.editContactbuttonHandler "></a>
+                                                                    @*<span data-bind="text: email"></span>*@
+                                                                </td>
+                                                                <td>
+                                                                    <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
+                                                                </td>
+                                                                <td>
+                                                                    <span data-bind="text:companyName"></span>
+                                                                </td>
+                                                            </tr>
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="pagerDiv" class="pull-right">
+                                            <!-- ko with: pager -->
+                                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                            <!-- /ko -->
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="pagerDiv">
-                    <!-- ko with: pager -->
-                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                    <!-- /ko -->
-                </div>
-                <div id="pagerDiv">
-                </div>
             </div>
         </div>
-        <script id="filterTemplate" type="text/html">
-            <div class="filter-body" id="filter">
-                <div class="filter-block pull-left">
-                    <div class="pull-left spanfilterlbl">
-                        Search &nbsp;
-                    </div>
-                    <div class="form-group pull-left">
-                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter,">
-                        <i class="fa fa-search search-icon"></i>
-                    </div>
-                    <div class="pull-right">
-                        <button type="submit" class="btn btn-primary" data-bind="click:$root.getStores,event:{click:$root.searchButtonHandler}">Search</button>
-                        <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection,event:{click:$root.resetButtonHandler}">Reset</button>
-                    </div>
-                </div>
-                <div class="clearfix">
-                </div>
-            </div>
-        </script>
+
     </div>
 </div>
+
+<script id="filterTemplate" type="text/html">
+    <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
+        <form data-bind="submit: $root.searchButtonHandler">
+            <div class="filter-block pull-right">
+                <div class="form-group pull-left" style="margin-right: 2px;">
+                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                    <i class="fa fa-search search-icon" data-bind="click: searchButtonHandler"></i>
+                </div>
+            </div>
+        </form>
+        <div class="clearfix">
+        </div>
+    </div>
+</script>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->

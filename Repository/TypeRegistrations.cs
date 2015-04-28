@@ -100,6 +100,33 @@ namespace MPC.Repository
             unityContainer.RegisterType<IReportRepository, ReportRepository>();
             unityContainer.RegisterType<IActivityTypeRepository, ActivityTypeRepository>();
             unityContainer.RegisterType<IActivityRepository, ActivityRepository>();
+            unityContainer.RegisterType<IVariableOptionRepository, VariableOptionRepository>();
+            unityContainer.RegisterType<IFieldVariableRepository, FieldVariableRepository>();
+            unityContainer.RegisterType<IScopeVariableRepository, ScopeVariableRepository>();
+            unityContainer.RegisterType<IDeliveryCarrierRepository, DeliveryCarrierRepository>();
+            unityContainer.RegisterType<IPrePaymentRepository, PrePaymentRepository>();
+            unityContainer.RegisterType<IInvoiceRepository, InvoiceRepository>();
+            unityContainer.RegisterType<IPaypalPaymentRequestRepository, PaypalPaymentRequestRepository>();
+            unityContainer.RegisterType<ISmartFormRepository, SmartFormRepository>();
+            unityContainer.RegisterType<ISmartFormDetailRepository, SmartFormDetailRepository>();
+            unityContainer.RegisterType<IPayPalResponseRepository, PayPalResponseRepository>();
+            unityContainer.RegisterType<INABTransactionRepository, NABTransactionRepository>();
+            unityContainer.RegisterType<IItemImageRepository, ItemImageRepository>();
+            unityContainer.RegisterType<IMediaLibraryRepository, MediaLibraryRepository>();
+            unityContainer.RegisterType<ICompanyCostCenterRepository, CompanyCostCenterRepository>();
+            unityContainer.RegisterType<INewsLetterSubscriberRepository, NewsLetterSubscriberRepository>();
+            unityContainer.RegisterType<ICmsTagReporistory, CmsTagReporistory>();
+            unityContainer.RegisterType<ICompanyBannerSetRepository, CompanyBannerSetRepository>();
+            unityContainer.RegisterType<ILookupMethodRepository, LookupMethodRepository>();
+            unityContainer.RegisterType<ICategoryTerritoryRepository, CategoryTerritoryRepository>();
+            unityContainer.RegisterType<IGoodRecieveNoteRepository, GoodRecieveNoteRepository>();
+            unityContainer.RegisterType<IPurchaseRepository, PurchaseRepository>();
+            unityContainer.RegisterType<ICostCentreAnswerRepository, CostCentreAnswerRepository>();
+            unityContainer.RegisterType<IInkPlateSideRepository, InkPlateSideRepository>();
+            unityContainer.RegisterType<IInkCoverageGroupRepository, InkCoverageGroupRepository>();
+            unityContainer.RegisterType<ISectionCostCentreRepository, SectionCostCentreRepository>();
+            unityContainer.RegisterType<ISectionInkCoverageRepository, SectionInkCoverageRepository>();
+            unityContainer.RegisterType<IShippingInformationRepository, ShippingInformationRepository>();
         }
     }
 }

@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Windows.Forms;
+using MPC.Common;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -12,34 +18,76 @@ namespace MPC.Implementation.MISServices
 {
     public class CompanyContactService : ICompanyContactService
     {
-         private readonly ICompanyContactRepository companyContactRepository;
+        private readonly ICompanyContactRepository companyContactRepository;
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         private readonly ICompanyContactRoleRepository companyContactRoleRepository;
         private readonly IRegistrationQuestionRepository registrationQuestionRepository;
         private readonly IAddressRepository addressRepository;
         private readonly IStateRepository stateRepository;
-         private CompanyContact Create(CompanyContact companyContact)
-         {
-             UpdateDefaultBehaviourOfContactCompany(companyContact);
-             companyContactRepository.Add(companyContact);
-             companyContactRepository.SaveChanges();
-             companyContact.image = SaveCompanyContactProfileImage(companyContact);
-             companyContactRepository.Update(companyContact);
-             companyContactRepository.SaveChanges();
-             return companyContact;
-         }
-         private CompanyContact Update(CompanyContact companyContact)
-         {
-             UpdateDefaultBehaviourOfContactCompany(companyContact);
-             companyContact.image = SaveCompanyContactProfileImage(companyContact);
-             companyContactRepository.Update(companyContact);
-             companyContactRepository.SaveChanges();
-             return companyContact;
-         }
+        private readonly IScopeVariableRepository scopeVariableRepository;
+        private CompanyContact Create(CompanyContact companyContact)
+        {
+            UpdateDefaultBehaviourOfContactCompany(companyContact);
+            companyContact.OrganisationId = companyContactRepository.OrganisationId;
+            companyContactRepository.Add(companyContact);
+            companyContactRepository.SaveChanges();
+            companyContact.image = SaveCompanyContactProfileImage(companyContact);
+            companyContactRepository.Update(companyContact);
+            companyContactRepository.SaveChanges();
+
+            if (companyContact.ScopeVariables != null)
+            {
+                foreach (ScopeVariable scopeVariable in companyContact.ScopeVariables)
+                {
+                    scopeVariable.Id = companyContact.ContactId;
+                    scopeVariableRepository.Add(scopeVariable);
+                }
+                scopeVariableRepository.SaveChanges();
+            }
+
+            return companyContact;
+        }
+        private CompanyContact Update(CompanyContact companyContact)
+        {
+            CompanyContact companyContactDbVersion = companyContactRepository.Find(companyContact.ContactId);
+            if (companyContactDbVersion != null && companyContactDbVersion.Password != companyContact.Password)
+            {
+                 companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
+            }
+            UpdateDefaultBehaviourOfContactCompany(companyContact);
+            companyContact.image = SaveCompanyContactProfileImage(companyContact);
+            companyContact.OrganisationId = companyContactRepository.OrganisationId;
+            companyContactRepository.Update(companyContact);
+            if (companyContact.ScopeVariables != null)
+            {
+                UpdateScopVariables(companyContact);
+            }
+            companyContactRepository.SaveChanges();
+
+
+            return companyContact;
+        }
+
+        /// <summary>
+        /// Update Scop Variables
+        /// </summary>
+        private void UpdateScopVariables(CompanyContact companyContact)
+        {
+            IEnumerable<ScopeVariable> scopeVariables = scopeVariableRepository.GetContactVariableByContactId(companyContact.ContactId, (int)FieldVariableScopeType.Contact);
+            foreach (ScopeVariable scopeVariable in companyContact.ScopeVariables)
+            {
+                ScopeVariable scopeVariableDbItem = scopeVariables.FirstOrDefault(
+                    scv => scv.ScopeVariableId == scopeVariable.ScopeVariableId);
+                if (scopeVariableDbItem != null)
+                {
+                    scopeVariableDbItem.Value = scopeVariable.Value;
+                }
+            }
+        }
 
         private void UpdateDefaultBehaviourOfContactCompany(CompanyContact companyContact)
         {
-            if (companyContact.IsDefaultContact == 1 )
+            if (companyContact.IsDefaultContact == 1)
             {
                 var allCompanyContactsOfCompany =
                     companyContactRepository.GetCompanyContactsByCompanyId(companyContact.CompanyId);
@@ -48,22 +96,37 @@ namespace MPC.Implementation.MISServices
                     if (contact.IsDefaultContact == 1)
                     {
                         contact.IsDefaultContact = 0;
+                        contact.OrganisationId = companyContactRepository.OrganisationId;
                         companyContactRepository.Update(contact);
                     }
                 }
             }
         }
+        /// <summary>
+        /// Method to check user's email Duplicates within store 
+        /// </summary>
+        /// <param name="companyContact"></param>
+        /// <returns></returns>
+        private bool CheckDuplicatesOfContactEmailInStore(CompanyContact companyContact)
+        {
+            var flag = companyContactRepository.CheckDuplicatesOfContactEmailInStore(companyContact.Email,
+                companyContact.CompanyId, companyContact.ContactId);
+            return flag;
+        }
         #region Constructor
 
-         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository, IAddressRepository addressRepository, IStateRepository stateRepository)
-         {
-             this.companyContactRepository = companyContactRepository;
-             this.companyTerritoryRepository = companyTerritoryRepository;
-             this.companyContactRoleRepository = companyContactRoleRepository;
-             this.registrationQuestionRepository = registrationQuestionRepository;
-             this.addressRepository = addressRepository;
-             this.stateRepository = stateRepository;
-         }
+        public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository,
+            ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository,
+            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository)
+        {
+            this.companyContactRepository = companyContactRepository;
+            this.companyTerritoryRepository = companyTerritoryRepository;
+            this.companyContactRoleRepository = companyContactRoleRepository;
+            this.registrationQuestionRepository = registrationQuestionRepository;
+            this.addressRepository = addressRepository;
+            this.stateRepository = stateRepository;
+            this.scopeVariableRepository = scopeVariableRepository;
+        }
 
         #endregion
 
@@ -74,10 +137,21 @@ namespace MPC.Implementation.MISServices
         {
             return companyContactRepository.GetCompanyContactsForCrm(request);
         }
+        /// <summary>
+        /// Get Addresses and Territories Of "Company Contact's company"
+        /// </summary>
+        public CrmContactResponse SearchAddressesAndTerritories(CompanyContactRequestModel request)
+        {
+            return new CrmContactResponse
+            {
+                Addresses = addressRepository.GetAddressByCompanyID(request.CompanyId),
+                CompanyTerritories = companyTerritoryRepository.GetCompanyTerritory(new CompanyTerritoryRequestModel{CompanyId = request.CompanyId}).CompanyTerritories
+            };
+        }
         public bool Delete(long companyContactId)
         {
             var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);
-            if (dbCompanyContact != null )
+            if (dbCompanyContact != null)
             {
                 companyContactRepository.Delete(dbCompanyContact);
                 companyContactRepository.SaveChanges();
@@ -103,11 +177,17 @@ namespace MPC.Implementation.MISServices
 
         public CompanyContact Save(CompanyContact companyContact)
         {
-            if (companyContact.ContactId == 0)
+            if (!CheckDuplicatesOfContactEmailInStore(companyContact))
             {
-                return Create(companyContact);
+
+                if (companyContact.ContactId <= 0)
+                {
+                    companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
+                    return Create(companyContact);
+                }
+                return Update(companyContact);
             }
-            return Update(companyContact);
+            throw new MPCException("Duplicate Email/Username are not allowed", companyContactRepository.OrganisationId);
         }
 
         /// <summary>
@@ -120,7 +200,7 @@ namespace MPC.Implementation.MISServices
                 CompanyContactRoles = companyContactRoleRepository.GetAll(),
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
                 States = stateRepository.GetAll()
-            };   
+            };
         }
 
         /// <summary>
@@ -132,7 +212,7 @@ namespace MPC.Implementation.MISServices
             {
                 CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(companyId),
                 Addresses = addressRepository.GetAllAddressByStoreId(companyId),
-            }; 
+            };
         }
 
         /// <summary>
@@ -152,8 +232,12 @@ namespace MPC.Implementation.MISServices
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + companyContact.ContactId + "_profile" + ".png";
+                string savePath =
+                    directoryPath + "\\" +
+                    companyContact.ContactId + "_" + StringHelper.SimplifyString(companyContact.FirstName) + "_profile.png";
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;

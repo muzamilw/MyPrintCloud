@@ -1213,18 +1213,20 @@ input[type="radio"] {
     right: 0px;
 }
 
-.infographic-box {
+.infographic-box 
+{
     padding: 20px;
 }
 
-    .infographic-box i {
-        font-size: 2.4em;
+    .infographic-box i 
+    {
+        font-size: 1em;
         display: block;
         float: left;
         margin-right: 15px;
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
         text-align: center;
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
@@ -2890,7 +2892,7 @@ input[type="radio"] {
     .social-box .social-action {
         float: left;
         display: block;
-        font-size: 1.2em;
+        font-size: 1.0em;
         margin-left: 5px;
         margin-top: 9px;
     }
@@ -4881,8 +4883,25 @@ input[type="radio"] {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
-
+.PaddingleftZero {
+    padding-left: 0px !important;
+    
+}
 .PaddingStatuses {
     padding-top: 8px;
     padding-bottom: 10px;
+}
+.CurrencySymbol{
+ float: left;
+  margin-right: 3px;
+  margin-top: 5px;
+  font-size: 16px;
+
+}
+.lblProductName {
+    height: 40px;
+  
+}
+.bkg-color{
+    background-color: rgb(249, 249, 191);
 }

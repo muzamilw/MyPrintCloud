@@ -1,9 +1,11 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using MPC.Interfaces.Data;
+using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
 using System.Linq;
 using System.Web.Http;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -34,6 +36,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Customers List 
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
+        [CompressFilterAttribute]
         public CustomerResponse Get([FromUri] CompanyRequestModel request)
         {
             var customers = customerService.GetCustomers(request);
@@ -43,10 +47,12 @@ namespace MPC.MIS.Areas.Api.Controllers
                 RowCount = customers.RowCount
             };
         }
-        
+
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
+        [CompressFilterAttribute]
         public CompanyResponse Get([FromUri]int companyId)
         {
-            return companyService.GetCompanyById(companyId).CreateFromForCrm();
+            return companyService.GetCompanyByIdForCrm(companyId).CreateFromForCrm();
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿// Global Variable
+﻿
+// Global Variable
 var ist = {
     datePattern: "DD/MM/YY",
     shortDatePattern: "dd-M-yy",
@@ -12,7 +13,7 @@ var ist = {
     utcFormat: "YYYY-MM-DDTHH:mm:ss",
     //server exceptions enumeration 
     exceptionType: {
-        CaresGeneralException: 'CaresGeneralException',
+        MPCGeneralException: 'MPCGeneralException',
         UnspecifiedException: 'UnspecifiedException'
     },
 
@@ -33,7 +34,13 @@ var ist = {
     // Resource Text
     resourceText: { showing: "Showing ", of: "of", defaultHeaderText: "Confirmation" },
     // SiteUrl
-    siteUrl: ""
+    siteUrl: "",
+    // Toaster Error Options
+    toastrOptions: {
+        tapToDismiss: true,
+        extendedTimeOut: 0,
+        timeOut: 0 // Set timeOut to 0 to make it sticky
+    }
 };
 
 // Busy Indicator
@@ -42,7 +49,7 @@ var spinnerVisibleCounter = 0;
 // Show Busy Indicator
 function showProgress() {
     ++spinnerVisibleCounter;
-    if (spinnerVisibleCounter > 0) {
+    if (spinnerVisibleCounter > 0 && $("div#spinner")[0].style.display === "none") {
         $.blockUI({ message: "" });
         $("div#spinner").fadeIn("fast");
     }
@@ -57,6 +64,7 @@ function hideProgress() {
         spinner.stop();
         spinner.fadeOut("fast");
         $.unblockUI(spinner);
+
     }
 };
 
@@ -72,8 +80,8 @@ amplify.request.decoders = {
                 errorObject.errorType = ist.exceptionType.UnspecifiedException;
                 if (ist.verifyValidJSON(xhr.responseText)) {
                     errorObject.errorDetail = JSON.parse(xhr.responseText);;
-                    if (errorObject.errorDetail.ExceptionType === ist.exceptionType.CaresGeneralException) {
-                        error(errorObject.errorDetail.Message, ist.exceptionType.CaresGeneralException);
+                    if (errorObject.errorDetail.ExceptionType === ist.exceptionType.MPCGeneralException) {
+                        error(errorObject.errorDetail.Message, ist.exceptionType.MPCGeneralException);
                     } else {
                         error("Unspecified exception", ist.exceptionType.UnspecifiedException);
                     }
@@ -206,6 +214,7 @@ require(["ko", "knockout-validation"], function (ko) {
             }
         }
     };
+
     ko.bindingHandlers.fullCalendar = {
         // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
         update: function (element, viewModelAccessor, allBindingsAccessor) {
@@ -218,11 +227,12 @@ require(["ko", "knockout-validation"], function (ko) {
                 editable: viewModel.editable,
                 selectable: true,
                 cache: true,
-                default: false,
+                default: true,
                 defaultView: ko.utils.unwrapObservable(viewModel.defaultView),
                 eventClick: this.eventClick,
-                eventDrop: this.eventDropOrResize,
-                eventResize: this.eventDropOrResize,
+                // eventDrop: this.eventDropOrResize,
+                eventDrop: viewModel.eventDropOrResize,
+                eventResize: viewModel.eventDropOrResize,
                 select: this.newEventAdd,
                 viewDisplay: this.viewEventClick,
                 //monthClick:this.dayEventClick
@@ -265,13 +275,24 @@ require(["ko", "knockout-validation"], function (ko) {
             var allBindings = allBindingsAccessor();
             var $element = $(element);
             var droppable = allBindingsAccessor().drop;
+            CKEDITOR.basePath = ist.siteUrl + "/RichTextEditor/";
             var myinstance = CKEDITOR.instances['content'];
             //check if my instance already exist
             if (myinstance !== undefined) {
                 CKEDITOR.remove(myinstance);
             }
+            if (allBindingsAccessor().openFrom() === "Campaign" || allBindingsAccessor().openFrom() === "SecondaryPage") {
+                CKEDITOR.config.toolbar = [
+                    ['Source', 'Bold', 'Italic', 'Underline', 'SpellChecker', 'TextColor', 'BGColor', 'Undo', 'Redo', 'Link', 'Unlink', '-', 'Format'],
+                    '/', ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'Font', 'FontSize']
+                ];
+            } else {
+                CKEDITOR.config.toolbar = 'Full';
+            }
+
             CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
 
+            //CKEDITOR.instances
             //CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
             if (ko.isObservable(value)) {
                 var isSubscriberChange = false;
@@ -339,6 +360,12 @@ require(["ko", "knockout-validation"], function (ko) {
                         h.data('ko.draggable.data', value(context, evt));
                         return h;
                     },
+                    scroll: false,
+                    cursorAt: { left: 5, top: 5 },
+                    start: function (event, ui) {
+                        ui.position.top += $('body').scrollTop();
+                    },
+
                     appendTo: 'body'
                 });
             } else {
@@ -377,6 +404,8 @@ require(["ko", "knockout-validation"], function (ko) {
             // ReSharper restore DuplicatingLocalDeclaration
             $(element).datepicker(options);
             $(element).datepicker("option", "dateFormat", options.dateFormat || ist.customShortDatePattern);
+            $(element).datepicker("option", "changeMonth", true);
+            $(element).datepicker("option", "changeYear", true);
             //handle the field changing
             ko.utils.registerEventHandler(element, "change", function () {
                 var observable = valueAccessor();

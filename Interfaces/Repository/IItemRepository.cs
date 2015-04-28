@@ -1,4 +1,5 @@
-﻿using MPC.Models.Common;
+﻿using System.Linq.Expressions;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -13,19 +14,39 @@ namespace MPC.Interfaces.Repository
     public interface IItemRepository : IBaseRepository<Item, long>
     {
         /// <summary>
+        /// Get Items With Details
+        /// </summary>
+        List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
+        List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
+        Item GetItemWithDetails(long itemId);
+
+        /// <summary>
+        /// Eager load property
+        /// </summary>
+        void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
+
+        /// <summary>
+        /// Check if Product Code is Duplicate
+        /// </summary>
+        bool IsDuplicateProductCode(string productCode, long? itemId);
+
+        /// <summary>
         /// Get Items
         /// </summary>
+        /// 
         ItemSearchResponse GetItems(ItemSearchRequestModel request);
-
+        double GrossTotalCalculation(double netTotal, double stateTaxValue);
+        double CalculatePercentage(double itemValue, double percentageValue);
         List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
 
-        ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
+        ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
         Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
 
         Item GetItemById(long RefitemId);
-
+        Item GetItemByIdDesigner(long ItemId);
+        Item GetItemByTemplateIdDesigner(long templateId);
         ProductItem GetItemAndDetailsByItemID(long itemId);
 
         List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID);
@@ -36,7 +57,7 @@ namespace MPC.Interfaces.Repository
 
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
-        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
+        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode,  bool isInculdeTax,int CountOfUploads = 0, string QuestionQueuItem = "");
 
         List<ProductItem> GetRelatedItemsList();
 
@@ -54,7 +75,7 @@ namespace MPC.Interfaces.Repository
 
         double GetMinimumProductValue(long itemId);
 
-        long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
+        long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID,long OrganisationId ,out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
 
         /// <summary>
         /// Get Items For Widgets 
@@ -98,5 +119,55 @@ namespace MPC.Interfaces.Repository
         /// <param name="Quantity"></param>
         /// <returns></returns>
         ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
+        Item CloneReOrderItem(long orderID, long ExistingItemId, long loggedInContactID, string order_code, long OrganisationId);
+
+
+        /// <summary>
+        /// Get Items By Company Id
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        IEnumerable<Item> GetItemsByCompanyId(long companyId);
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        long GetCartItemsCount(long ContactId, long TemporaryCustomerId, long CompanyId);
+
+        List<CmsSkinPageWidget> GetStoreWidgets();
+
+        List<SaveDesignView> GetSavedDesigns(long ContactID);
+
+        void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList);
+
+        /// <summary>
+        /// get all published products against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        List<Item> GetProductsList(long CompanyId, long OrganisationId);
+
+       
+        /// <summary>
+        /// get all parent categories and corresponding products of a category against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId);
+
+        Item GetItemByItemID(long itemId);
+
+        void DeleteItemBySP(long ItemID);
+
+        long getParentTemplateID(long itemId);
+
+        bool UpdateItem(long itemID, long? templateID);
+
+        List<Item> GetItemsWithAttachmentsByOrderID(long OrderID);
+
+        Item GetItemWithSections(long itemID);
     }
+
 }

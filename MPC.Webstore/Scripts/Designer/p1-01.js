@@ -1,10 +1,17 @@
-﻿$("#uploadImagesMB ,#IdUploadBackgrounds,#uploadBackgroundMn").click(function () {
-     $("#imageUploader").click();
+﻿$(" #IdUploadBackgrounds").click(function () {
+    $("#imageUploader").click();
+    isBKpnl = false;
    // $("#fontUploader").click();
     //animatedcollapse.toggle('textPropertPanel');
 });
-$("#uploadImages, #uploadLogos").click(function (event) {
-        isBKpnl = false;
+$("#uploadBackgroundMn").click(function () {
+    $("#imageUploader").click();
+    isBKpnl = true;
+    // $("#fontUploader").click();
+    //animatedcollapse.toggle('textPropertPanel');
+});
+$("#uploadImages, #uploadLogos,#uploadImagesMB").click(function (event) {
+    isBKpnl = false; isBkPnlUploads = false;
         $("#imageUploader").click();
     });
 $(".btnAUploadFont").click(function () {
@@ -17,7 +24,7 @@ $('#imageUploader').change(function () {
     var uploadPath = "Organisation" + organisationId + "/Templates/";
     if (IsCalledFrom == "1" || IsCalledFrom == "2")
     {
-        uploadPath = "Organisation" + organisationId + "/Templates/" + "UserImgs/" + ContactID;
+        uploadPath = "Organisation" + organisationId + "/Templates/" + "UserImgs/" + CustomerID;
     }
     else if (IsCalledFrom == "3" || IsCalledFrom == "4")
     {
@@ -41,7 +48,7 @@ $('#imageUploader').change(function () {
       //  data.append("ItemID", "21");
         $.ajax({
             type: "POST",
-            url: "/api/Upload/" + url,
+            url: "/designerapi/Upload/PostAsync/" + url,
             contentType: false,
             processData: false,
             data: data,
@@ -52,7 +59,10 @@ $('#imageUploader').change(function () {
                     if (isBkPnlUploads) {
                         panelType = 3;
                     }
-                    $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + ContactID + "/"+organisationId + "/" + panelType  + "/" + CustomerID ,
+                    var contactIDlocal = ContactID;
+                    if (IsCalledFrom == 2)
+                        contactIDlocal = CustomerID;
+                    $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + contactIDlocal + "/" + organisationId + "/" + panelType + "/" + CustomerID,
                         function (result) {
                             if (result != "uploadedPDFBK") {
                                 $("#progressbar").css("display", "none");
@@ -64,17 +74,17 @@ $('#imageUploader').change(function () {
                                 }
                                 k27();
                                 isImgUpl = true;
-                                if (IsCalledFrom == 1 || IsCalledFrom == 2) {
-                                    $("#ImgCarouselDiv").tabs("option", "active", 0);
-                                    $("#BkImgContainer").tabs("option", "active", 0);
-                                    $('#divGlobalImages').scrollTop();
-                                    $('#divGlobalBackg').scrollTop();
-                                } else {
-                                    $("#ImgCarouselDiv").tabs("option", "active", 2);
-                                    $("#BkImgContainer").tabs("option", "active", 2);
-                                    $('#divPersonalImages').scrollTop();
-                                    $('#divPersonalBkg').scrollTop();
-                                }
+                                //if (IsCalledFrom == 1 || IsCalledFrom == 2) {
+                                //    $("#ImgCarouselDiv").tabs("option", "active", 0);
+                                //    $("#BkImgContainer").tabs("option", "active", 0);
+                                //    $('#divGlobalImages').scrollTop();
+                                //    $('#divGlobalBackg').scrollTop();
+                                //} else {
+                                //    $("#ImgCarouselDiv").tabs("option", "active", 2);
+                                //    $("#BkImgContainer").tabs("option", "active", 2);
+                                //    $('#divPersonalImages').scrollTop();
+                                //    $('#divPersonalBkg').scrollTop();
+                                //}
                                 StopLoader();
                             } else {
                                 Arc_1();
@@ -113,7 +123,7 @@ $('#fontUploader').change(function () {
             //  data.append("ItemID", "21");
             $.ajax({
                 type: "POST",
-                url: "/api/Upload/" + url,
+                url: "/designerapi/Upload/PostAsync/" + url,
                 contentType: false,
                 processData: false,
                 data: data,
@@ -126,7 +136,7 @@ $('#fontUploader').change(function () {
                           var ext1 = messages[0].substr(messages[0].lastIndexOf('.') + 1);
                           var fontName = messages[0];
                           fontName = fontName.replace('.' + ext1, '')
-                          UpdateFontToUI($("input[name=FontName]").val(), fontName);
+                          UpdateFontToUI(fontDisplayName, fontName);
                           StopLoader();
                       });
                 },
@@ -137,11 +147,11 @@ $('#fontUploader').change(function () {
             });
         } else 
         {
-            alert("Please enter valid font files.");
+            alert("Please enter valid font files."); StopLoader();
         }
     } else 
     {
-        alert("Only 3 font files allowed per font at a time.");
+        alert("Only 3 font files allowed per font at a time."); StopLoader();
     }
 });
 
@@ -203,15 +213,52 @@ function VarifyFontNames(font1, font2, font3) {
 function UpdateFontToUI(fontName, fontFileName) {
     var Tc1 = CustomerID;
     var Cty;
-    var path = "/MPC_Content/Designer/Organisation" + organisationId + "/WebFonts/" + CustomerID
+    var path = "/MPC_Content/Designer/Organisation" + organisationId + "/WebFonts/" + CustomerID + "/"
     if (IsCalledFrom == 1) {
         Tc1 = -1;
     }
-
+   // T0FN = [];
+   // T0FU = [];
+   // h8(fontName, path + fontFileName, "");
+ 
+  //  h9_newFont();
     var html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".eot" + '); src: url(' + path + fontFileName + ".eot?#iefix" + ') format(" embedded-opentype"), url(' + path + fontFileName + ".woff" + ') format("woff"),  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
     $('head').append(html);
+
+    if ($.browser.msie) {
+        $("head").append('<link rel="stylesheet" href="' + (path +fontFileName + ".woff") + '">');
+    } else if ($.browser.Chrome) {
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".woff") + '">');
+    } else if ($.browser.Safari || $.browser.opera || $.browser.mozilla) {
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".ttf") + '">');
+    } else {
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".eot") + '">');
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".woff") + '">');
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".ttf") + '">');
+    }
+   
     var html1 = '<option  id = ' + fontFileName + ' value="' + fontName + '" >' + fontName + '</option>';
+    console.log(fontName + " " + fontFileName);
+    var fname = "'"+ fontName + "'";
     $('#' + "BtnSelectFonts").append(html1);
+    var html2 = '<li style="font-family: ' + fname + '">' + fontName + '</li>';
+    $(".fonts").append(html2);
+    var fname = 'BtnSelectFontsRetail';
+    if (panelMode == 1) {
+        fname = 'BtnSelectFonts';
+    }
+    var selName = "#" + fname;
+    $(selName).fontSelector({
+
+        fontChange: function (e, ui) {
+            // Update page title according to the font that's set in the widget options:
+            //pcL04(1);
+        },
+        styleChange: function (e, ui) {
+            // Update page title according to what's set in the widget options:
+            // pcL04(1);
+        }
+    });
 }
 function Arc_1() {
     StartLoader("Updating template please wait...");
@@ -223,7 +270,15 @@ function Arc_1() {
           IT.ProductID = IT.ProductId;
           IT.ProductPageID = IT.ProductPageId;
       });
+      Template = DT;
+      TP = [];
+      $.each(Template.TemplatePages, function (i, IT) {
+          TP.push(IT);
+      });
+      Template.TemplatePages = [];
+      CzRnd = fabric.util.getRandomInt(1, 100);
+      d5(SP, true);
       StopLoader();
   });
-
+    //fu04
 }

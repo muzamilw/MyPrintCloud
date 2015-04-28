@@ -12,9 +12,16 @@
                         type: 'GET'
                     });
                     amplify.request.define('getContactsDetail', 'ajax', {
-                        url: ist.siteUrl + '/Api/CompanyContactForCrm',
+                        //url: ist.siteUrl + '/Api/CompanyContactForCrm',
+                        url: ist.siteUrl + '/Api/CrmContact',
                         dataType: 'json',
                         type: 'GET'
+                    });
+                    // Define request to Delete Company Contact
+                    amplify.request.define('deleteCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        type: 'DELETE'
                     });
                     amplify.request.define('getContacts', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyContactForCrm',
@@ -55,6 +62,16 @@
                     data: params
                 });
             },
+            // Delete Company Contact
+            deleteCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // get base Data
             getbaseData = function(params, callbacks) {
                 initialize();
@@ -90,7 +107,8 @@
             getContactsForListView: getContactsForListView,
             deleteContact: deleteContact,
             getContactsDetail: getContactsDetail,
-            saveCompanyContact: saveCompanyContact
+            saveCompanyContact: saveCompanyContact,
+            deleteCompanyContact: deleteCompanyContact
         };
     })();
 

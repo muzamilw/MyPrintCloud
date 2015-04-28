@@ -1,15 +1,21 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using Microsoft.VisualBasic;
+using MPC.Interfaces.Common;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using CalculationMethods = MPC.Models.Common.CostCentrCalculationMethods;
+using System.Linq;
 
 namespace MPC.Implementation.MISServices
 {
@@ -23,12 +29,15 @@ namespace MPC.Implementation.MISServices
         private readonly ICostCenterTypeRepository _costcentreTypeRepository;
         private readonly IMarkupRepository _markupRepository;
         private readonly ICostCentreVariableRepository _costCentreVariableRepository;
+        private readonly IDeliveryCarrierRepository _deliveryCarrierRepository;
+        private readonly IOrganisationRepository _organisationRepository;
+        private readonly IItemRepository _itemRepository;
         #endregion
 
         #region Constructor
 
         public CostCenterService(ICostCentreRepository costCenterRepository, IChartOfAccountRepository chartOfAccountRepository, ISystemUserRepository systemUserRepository, ICostCenterTypeRepository costCenterTypeRepository,
-            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository)
+            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository, IDeliveryCarrierRepository deliveryCarrierRepository, IOrganisationRepository organisationRepository, IItemRepository itemRepository)
         {
             if (costCenterRepository == null)
             {
@@ -54,12 +63,27 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("costCentreVariableRepository");
             }
+            if (deliveryCarrierRepository == null)
+            {
+                throw new ArgumentNullException("deliveryCarrierRepository");
+            }
+            if (organisationRepository == null)
+            {
+                throw new ArgumentNullException("organisationRepository");
+            }
+            if (itemRepository == null)
+            {
+                throw new ArgumentNullException("itemRepository");
+            }
             this._costCenterRepository = costCenterRepository;
             this._chartOfAccountRepository = chartOfAccountRepository;
             this._systemUserRepository = systemUserRepository;
             this._costcentreTypeRepository = costCenterTypeRepository;
             this._markupRepository = markupRepository;
             this._costCentreVariableRepository = costCentreVariableRepository;
+            this._deliveryCarrierRepository = deliveryCarrierRepository;
+            this._organisationRepository = organisationRepository;
+            this._itemRepository = itemRepository;
         }
 
         #endregion
@@ -70,19 +94,27 @@ namespace MPC.Implementation.MISServices
         {
             return _costCenterRepository.GetAllNonSystemCostCentres();
         }
+        public CostCentreResponse GetAllForOrderProduct(GetCostCentresRequest requestModel)
+        {
+            return _costCenterRepository.GetAllNonSystemCostCentresForProduct(requestModel);
+        }
 
         public CostCentre Add(CostCentre costcenter)
         {
-           // _costCenterRepository.Add(costcenter);
-          //  _costCenterRepository.SaveChanges();
+            Organisation org = _organisationRepository.GetOrganizatiobByID();
+            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+            // _costCenterRepository.Add(costcenter);
+            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, true);
             return costcenter;
         }
 
         public CostCentre Update(CostCentre costcenter)
         {
+            Organisation org = _organisationRepository.GetOrganizatiobByID();
+            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+            costcenter.ThumbnailImageURL = SaveCostCenterImage(costcenter);
             _costCenterRepository.Update(costcenter);
-            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards");
-            
+            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);            
             return costcenter;
         }
         public bool Delete(long costcenterId)
@@ -103,21 +135,16 @@ namespace MPC.Implementation.MISServices
 
         public CostCenterBaseResponse GetBaseData()
         {
-            return new CostCenterBaseResponse
-            {
-                CostCenterCategories = _costcentreTypeRepository.GetAll(),
-                CostCenterResources = _systemUserRepository.GetAll(),
-                NominalCodes = _chartOfAccountRepository.GetAll(),
-                Markups = _markupRepository.GetAll(),
-                CostCentreVariables = _costCentreVariableRepository.returnLoadVariableList()
-            };
+            return _costCenterRepository.GetBaseData();
+            
+           
         }
 
-        public void SaveCostCentre(CostCentre costcenter, long OrganisationId, string OrganisationName)
+        public void SaveCostCentre(CostCentre costcenter, long OrganisationId, string OrganisationName, bool isNew)
         {
             long _CostCentreID = costcenter.CostCentreId;
             //creating a costcentre code file and updating it and compile it.
-            bool IsNewCostCentre = false;
+            bool IsNewCostCentre = isNew;
             CostCentreTemplate oTemplate = _costCenterRepository.LoadCostCentreTemplate(2);
             string Header, Footer, Middle;
             double SetupCost = costcenter.SetupCost ?? 0;
@@ -135,7 +162,11 @@ namespace MPC.Implementation.MISServices
             string sActualStockCost = "";
             string sActualLabourCost = "";
             StringBuilder sCode = new StringBuilder();
-
+            if (costcenter.Type > 0)
+            {
+                CostCentreType otype = _costcentreTypeRepository.GetCostCenterTypeById(costcenter.Type);
+                costcenter.TypeName = otype.TypeName;
+            }
             if (costcenter.CalculationMethodType == (int)CalculationMethods.Fixed)
             {
                 sCostPlant = " {cinput,id=\"1\",question=\"" + costcenter.CostQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + costcenter.CostDefaultValue + "\"} ";
@@ -151,11 +182,11 @@ namespace MPC.Implementation.MISServices
                 if (costcenter.QuantitySourceType == 1)
                 {
                     var varName = _costCentreVariableRepository.LoadVariable(costcenter.QuantityVariableId??0);
-                    sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + varName != null? varName.Name : "" + "\"}" + Environment.NewLine; 
+                    sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + (varName != null? varName.Name : "") + "\"}" + Environment.NewLine; 
                     sCodeString += "EstimatedPlantCost =  {cinput,id=\"1\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"2\",question=\"Cost Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.CostPerUnitQuantity) + "\"} * vQuantity )";
                     sCostPlant += sCodeString;
 
-                    sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + varName != null ? varName.Name : "" + "\"}" + Environment.NewLine; 
+                    sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine; 
                     sCodeString += "QuotedPlantPrice =  " + "{cinput,id=\"1\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"4\",question=\"Price Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PricePerUnitQuantity) + "\"} * vQuantity )";
                     sPricePlant += sCodeString;
 
@@ -181,12 +212,13 @@ namespace MPC.Implementation.MISServices
                 string sCodeString = string.Empty;
                 if (costcenter.TimeSourceType == 1)
                 {
+
                     var varName = _costCentreVariableRepository.LoadVariable(costcenter.TimeVariableId??0);
-                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + varName != null ? varName.Name : "" + "\"}" + Environment.NewLine; 
+                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine; 
                     sCodeString += "EstimatedPlantCost = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"3\",question=\"Cost Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses)+ "\"} ) ";
                     sCostPlant += sCodeString;
 
-                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + varName != null ? varName.Name : "" + "\"}" + Environment.NewLine; 
+                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "" ) + "\"}" + Environment.NewLine; 
                     sCodeString += "QuotedPlantPrice = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"5\",question=\"Price Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
                     sPricePlant += sCodeString;
 
@@ -230,20 +262,23 @@ namespace MPC.Implementation.MISServices
 
                 // Set Price Strings
                 if (string.IsNullOrEmpty(costcenter.strPricePlantUnParsed))
-                    sPricePlant = "EstimatedPlantCost = 0";
+                    sPricePlant = "QuotedPlantPrice = 0";
                 else
                     sPricePlant = costcenter.strPricePlantUnParsed;
                 if (string.IsNullOrEmpty(costcenter.strPriceLabourUnParsed))
-                    sPriceLabour = "EstimatedLabourCost = 0";
+                    sPriceLabour = "QuotedLabourPrice = 0";
                 else
                     sPriceLabour = costcenter.strPriceLabourUnParsed;
                 if (string.IsNullOrEmpty(costcenter.strPriceMaterialUnParsed))
-                    sPriceStock = "EstimatedMaterialCost = 0";
+                    sPriceStock = "QuotedMaterialPrice = 0";
                 else
                     sPriceStock = costcenter.strPriceMaterialUnParsed;
                                 
                 //sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} * {question, ID=\"13\",caption=\"How many boxes\"} * {matrix, ID=\"19\",Name=\"Super Formula Matrix\"} * {question, ID=\"34\",caption=\"How many sections to fold?\"} * {question, ID=\"51\",caption=\"Multiple Options\"} ");
                 
+                
+            }
+            
                 sCostPlant = TokenParse(sCostPlant);
                 sCostLabour = TokenParse(sCostLabour);
                 sCostStock = TokenParse(sCostStock);
@@ -252,7 +287,7 @@ namespace MPC.Implementation.MISServices
                 sPricePlant = TokenParse(sPricePlant);
                 sPriceLabour = TokenParse(sPriceLabour);
                 sPriceStock = TokenParse(sPriceStock);
-            }
+                costcenter.IsParsed = true;
             
             {
                 char spacechar = '\0';
@@ -267,7 +302,7 @@ namespace MPC.Implementation.MISServices
 
                 if (_CostCentreID == 0)
                 {
-                    _CostCentreID = this.GetMaxCostCentreID();
+                    _CostCentreID = this.GetMaxCostCentreID(); 
                     IsNewCostCentre = true;
                 }
 
@@ -334,9 +369,11 @@ namespace MPC.Implementation.MISServices
                 Footer.Insert(iStart, sActualCostString);
 
                 sCode.Append(Footer);
-
-
-                CostCentre oCostCentre = GetCostCentreById(_CostCentreID);
+                CostCentre oCostCentre = null;
+                if (!IsNewCostCentre)
+                    oCostCentre = GetCostCentreById(_CostCentreID);
+                else
+                    oCostCentre = costcenter;
 
 
                 oCostCentre.CodeFileName = "CLS_" + _CostCentreID.ToString();
@@ -352,13 +389,14 @@ namespace MPC.Implementation.MISServices
                 oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
                 //oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
                 oSource += "Imports MPC.Implementation.MISServices" + Environment.NewLine;
+                oSource += "Imports MPC.Implementation.WebStoreServices" + Environment.NewLine;
                 oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
                 oSource += "imports MPC.Models.Common" + Environment.NewLine;
                 oSource += "Imports System.Reflection" + Environment.NewLine;
                 oSource += "Imports Microsoft.Practices.Unity" + Environment.NewLine;
-                oSource += "Imports ICostCentreService = MPC.Interfaces.MISServices.ICostCentersService" + Environment.NewLine;
+                oSource += "Imports ICostCentreService = MPC.Interfaces.WebStoreServices.ICostCentreService" + Environment.NewLine;
                 oSource += "Namespace UserCostCentres" + Environment.NewLine;
-
+                
 
                 if (IsNewCostCentre == true)
                 {
@@ -419,20 +457,24 @@ namespace MPC.Implementation.MISServices
                     CompileBinaries(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\", oSource, OrganisationName);
 
                     //Get CostCentre File Open it in Read Mode
-                    oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganisationName + "UserCostCentres.dll");
+                    //oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganisationName + "UserCostCentres.dll");
 
                     //Get Byte Array of the file and write it in the db
-                    byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
+                    //byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
 
-                    oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
+                    //oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
 
-                    CostCentreByte = null;
+                    //CostCentreByte = null;
                 }
                 catch (Exception ex)
                 {
                     //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
                     IsCompiled = false;
-                    throw new Exception("Error Compiling Costcentre", ex);
+                    if (!costcenter.IsParsed)
+                    {
+                        throw new Exception("Error Compiling Costcentre", ex);
+                    }
+                    
 
                 }
                 finally
@@ -443,8 +485,18 @@ namespace MPC.Implementation.MISServices
                 }
 
                 oCostCentre.CompleteCode = sCode.ToString();
+
+                if (IsNewCostCentre)
+                {
+                    _costCenterRepository.InsertCostCentre(oCostCentre);
+                }
+                else
+                {
+                    _costCenterRepository.UpdateCostCentre(costcenter);
+                }
             }
-            _costCenterRepository.UpdateCostCentre(costcenter);
+            
+            
         }
 
         public string TokenParse(string sText)
@@ -646,7 +698,7 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        ///     Compile the code with the source frovided (Source provided will be in the form of text string)and generate dll.
+        ///     Compile the code with the source provided (Source provided will be in the form of text string)and generate dll.
         /// </summary>
         ///         ''' 
         public object CompileBinaries(string sOutputPath, string Source, string CompanyName)
@@ -904,6 +956,212 @@ namespace MPC.Implementation.MISServices
             {
                 throw new Exception("GetCompleteCodeofAllCostCentres", ex);
             }
+        }
+
+        private string SaveCostCenterImage(CostCentre costcenter)
+        {
+            if (costcenter.ImageBytes != null)
+            {
+                string base64 = costcenter.ImageBytes.Substring(costcenter.ImageBytes.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/CostCentres/" + _costCenterRepository.OrganisationId + "/" + costcenter.CostCentreId);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\thumbnail.png";
+                File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                return savePath;
+            }
+            return null;
+        }
+        public IEnumerable<CostCentreVariable> GetVariableList()
+        {
+            return _costCentreVariableRepository.GetVariableList();
+        }
+        public CostCenterVariablesResponseModel GetCostCenterVariablesTree(int id)
+        {
+            return _costCenterRepository.GetCostCenterVariablesTree(id);
+        }
+
+        public double GetCostCenterExecutionResult(CostCenterExecutionRequest request)
+        {
+            double dblResult = 0;
+
+            return dblResult;
+        }
+
+        public CostCenterExecutionResponse GetCostCenterPrompts(CostCenterExecutionRequest request)
+        {
+            object[] _CostCentreParamsArray = new object[12];
+            double actualPrice = 0;
+            if ((request.Action == "Update" && request.QuestionQueueItems != null) || request.Action != "Update")
+            {
+                AppDomain _AppDomain = null;
+
+                try
+                {
+
+                    Organisation org = _organisationRepository.GetOrganizatiobByID();
+                    string OrganizationName = org.OrganisationName.Replace(" ", "").Trim();
+                    AppDomainSetup _AppDomainSetup = new AppDomainSetup();
+
+
+                    object _oLocalObject;
+                    ICostCentreLoader _oRemoteObject;                    
+
+                    _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+                    _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+
+
+                    _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
+
+                    List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+                    
+                    CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
+                    _CostCentreLaoderFactory.InitializeLifetimeService();
+
+                    if (request.Action == "New")
+                    {
+                        if (request.QuestionQueueItems != null)
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                            _CostCentreParamsArray[2] = request.QuestionQueueItems;
+                        }
+                        else
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                            _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                        }
+                    }
+
+                    if (request.Action == "addAnother")
+                    {
+
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                        _CostCentreParamsArray[2] = request.QuestionQueueItems;
+
+                    }
+
+                    if (request.Action == "Update")
+                    {
+                        if (request.QuestionQueueItems != null)
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                            _CostCentreParamsArray[2] = request.QuestionQueueItems;
+                        }
+                    }
+
+                    //_CostCentreParamsArray(0) = Common.g_GlobalData;
+                    //GlobalData
+
+                    //this mode will load the questionqueue
+
+                    //QuestionQueue / Execution Queue
+                    _CostCentreParamsArray[3] = CostCentreQueue;
+                    // check if cc has wk ins
+
+
+                    //CostCentreQueue
+                    _CostCentreParamsArray[4] = 1;
+
+                    _CostCentreParamsArray[5] = 1;
+                    //MultipleQuantities
+
+                    //CurrentQuantity
+                    _CostCentreParamsArray[6] = new List<StockQueueItem>();
+                    //StockQueue
+                    _CostCentreParamsArray[7] = new List<InputQueueItem>();
+                    //InputQueue
+
+                    if (request.Quantity <= 0)
+                    {
+                        // get first item section
+                        _CostCentreParamsArray[8] = _itemRepository.GetItemFirstSectionByItemId(request.ItemId);
+                    }
+                    else
+                    {
+                        // update quantity in item section and return
+                        _CostCentreParamsArray[8] = _itemRepository.UpdateItemFirstSectionByItemId(request.ItemId, request.Quantity);
+                        //first update item section quatity
+                        //persist queue
+                        // run multiple cost centre
+                        // after calculating cost centre 
+
+                    }
+
+
+                    _CostCentreParamsArray[9] = 1;
+
+
+                    CostCentre oCostCentre = _costCenterRepository.GetCostCentreByID(request.CostCenterId);
+
+
+
+                    CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+
+
+
+                    _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
+                    _oRemoteObject = (ICostCentreLoader)_oLocalObject;
+
+                    CostCentreCostResult oResult = null;
+
+                    if (request.Action == "Modify")
+                    {
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                        _CostCentreParamsArray[2] = request.QuestionQueueItems.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                    }
+                    else
+                    {
+                        if (request.Action == "Update") // dummy condition
+                        {
+                           // return Request.CreateResponse(HttpStatusCode.OK, 131);
+                        }
+                        oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+
+                    }
+
+                    if ((request.QuestionQueueItems != null && request.Action != "Modify" && request.Action != "addAnother" && oResult != null) || (request.QuestionQueueItems != null && request.Action == "Update"))
+                    {
+
+                        actualPrice = oResult.TotalCost;
+
+                        if (actualPrice < oCostCentre.MinimumCost && oCostCentre.MinimumCost != 0)
+                        {
+                            actualPrice = oCostCentre.MinimumCost ?? 0;
+                        }
+                    }
+                    else
+                    {
+
+                       // return Request.CreateResponse(HttpStatusCode.OK, _CostCentreParamsArray);
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    AppDomain.Unload(_AppDomain);
+                }
+
+            }
+            
+            return new CostCenterExecutionResponse 
+            { 
+                CostCentreParamsArray = _CostCentreParamsArray ,
+                dblReturnCost = actualPrice
+            };
         }
 
         #endregion

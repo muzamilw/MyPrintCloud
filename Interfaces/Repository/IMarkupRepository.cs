@@ -1,4 +1,5 @@
 ﻿using MPC.Models.DomainModels;
+using System.Collections.Generic;
 
 namespace MPC.Interfaces.Repository
 {
@@ -8,5 +9,9 @@ namespace MPC.Interfaces.Repository
     public interface IMarkupRepository : IBaseRepository<Markup, long>
     {
         Markup GetZeroMarkup();
+
+        List<Markup> GetMarkupsByOrganisationId(long OID);
+
+        string GetMarkupNamebyID(long ID);
     }
 }

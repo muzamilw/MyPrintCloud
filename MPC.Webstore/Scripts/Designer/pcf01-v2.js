@@ -2,9 +2,9 @@
     loaderLoading = true;
     var3 = 1;
     if (msg == null || msg == "") {
-        msg = "You can add different layouts to your design, you can also add images, text content,  background colour and image to your design.";
+        msg = "Loading design on canvas";
     }
-    $("#paraLoaderMsg").text(msg);
+    $("#loaderTitleMsg").text(msg);
     $("#MainLoader").css("display", "block");
     $(".progressValue").css("width", "1%");
     $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
@@ -130,7 +130,7 @@ function b4(imgSrc) {
 function b8(imageID, productID) {
 
     if (confirm("Delete this image from all instances on canvas on all pages! Do you still wish to delete this image now?")) {
-        StartLoader("Deleting the image from your design, please wait....");
+        StartLoader("Deleting image from all pages and image library....");
         b8_svc(imageID, productID);
     }
 }
@@ -139,6 +139,7 @@ function b8_svc_callBack(DT) {
         $("#" + imageID).parent().parent().remove();
         i2(DT);
         StopLoader();
+        $("#btnAdd").click();
     }
 }
 function c0(cCanvas, TOC) {
@@ -209,7 +210,8 @@ function c0(cCanvas, TOC) {
         scaleY: dfZ1l,    // to add an object on current zoom level
         maxWidth: TOC.MaxWidth,
         maxHeight: TOC.MaxHeight,
-        textAlign: hAlign
+        textAlign: hAlign,
+        selectable: objectsSelectable
     });
     TOL.ObjectID = TOC.ObjectID;
     if (textStyles != []) {
@@ -231,6 +233,7 @@ function c0(cCanvas, TOC) {
     TOL.AutoShrinkText = TOC.AutoShrinkText;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
+    TOL.IsUnderlinedText = TOC.IsUnderlinedText;
     if (TOC.IsPositionLocked) {
         TOL.lockMovementX = true;
         TOL.lockMovementY = true;
@@ -394,7 +397,7 @@ function c7(PageID) {
                 c0(canvas, IT);
             }
             else if (IT.ObjectType == 3) {
-                $("#loadingMsg").html("Loading Design Images, please wait..");
+                $("#loadingMsg").html("Loading Design Images");
                 d1(canvas, IT);
             }
             else if (IT.ObjectType == 6) {
@@ -437,6 +440,7 @@ function c8(cCanvas, CO) {
     COL.AutoShrinkText = CO.AutoShrinkText;
     COL.IsHidden = CO.IsHidden;
     COL.IsEditable = CO.IsEditable;
+    COL.selectable = objectsSelectable;
     if (CO.IsPositionLocked == true) {
         COL.lockMovementX = true;
         COL.lockMovementY = true;
@@ -480,6 +484,7 @@ function c9(cCanvas, RO) {
     ROL.IsHidden = RO.IsHidden;
     ROL.IsEditable = RO.IsEditable;
     ROL.setOpacity(RO.Opacity);
+    ROL.selectable = objectsSelectable;
     if (RO.IsPositionLocked == true) {
         ROL.lockMovementX = true;
         ROL.lockMovementY = true;
@@ -524,6 +529,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.IsTextEditable = IO.IsTextEditable;
         loadedObject.AutoShrinkText = IO.AutoShrinkText;
         loadedObject.setOpacity(IO.Opacity);
+        loadedObject.selectable = objectsSelectable;
         if (IO.IsPositionLocked == true) {
             loadedObject.lockMovementX = true;
             loadedObject.lockMovementY = true;
@@ -615,6 +621,10 @@ function d1(cCanvas, IO, isCenter) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
+    var Curl = IO.ContentString;
+    if (IO.ContentString.indexOf("MPC_Content"))
+        IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
+
     fabric.Image.fromURL("/MPC_Content/" + IO.ContentString, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
@@ -634,6 +644,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;
         IOL.ImageClippedInfo = IO.ClippedInfo;
+        IOL.selectable = objectsSelectable;
         IOL.setOpacity(IO.Opacity);
         if (IO.IsPositionLocked == true) {
             IOL.lockMovementX = true;
@@ -670,12 +681,19 @@ function d2() {
         m0();
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
-                if (ite.Orientation == 1) {
-                    d6(Template.PDFTemplateWidth * dfZ1l, Template.PDFTemplateHeight * dfZ1l, ISG1);
-                }
-                else {
-                    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
-                }
+                var height = Template.PDFTemplateHeight * dfZ1l;
+                var width = Template.PDFTemplateWidth * dfZ1l;
+                if (ite.Height != null && ite.Height != 0) {
+                    height = (ite.Height * dfZ1l);
+                } 
+                if (ite.Width != null && ite.Width != 0) {
+                    width = (ite.Width * dfZ1l);
+                } 
+                d6(width, height, ISG1);
+                //}
+                //else {
+                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
+                //}
             }
         });
     } else {
@@ -686,17 +704,26 @@ function d2() {
         }
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
-                if (ite.Orientation == 1) {
-                    d6(Template.PDFTemplateWidth * dfZ1l, Template.PDFTemplateHeight * dfZ1l, ISG1);
+              //  if (ite.Orientation == 1) {
+                var height = Template.PDFTemplateHeight * dfZ1l;
+                var width = Template.PDFTemplateWidth * dfZ1l;
+                if (ite.Height != null && ite.Height != 0) {
+                    height = (ite.Height * dfZ1l);
                 }
-                else {
-                    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
+                if (ite.Width != null && ite.Width != 0) {
+                    width = (ite.Width * dfZ1l);
                 }
+                d6(width, height, ISG1);
+                //}
+                //else {
+                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
+                //}
             }
         });
     }
 }
-function d5(pageID, isloading) {
+function d5Start(pageID, isloading)
+{
     undoArry = [];
     redoArry = [];
     firstLoad = false;
@@ -710,8 +737,14 @@ function d5(pageID, isloading) {
     }
     //e0("d5");
     canvas.renderAll();
+}
+function d5(pageID, isloading) {
+    d5Start(pageID, isloading);
     c2_v2();
     c2_v2();
+    d5_sub(pageID, isloading);
+}
+function d5_sub(pageID, isloading) {
     SP = pageID;
     $(".menuItemContainer").removeClass("selectedItem");
     $("." + pageID).addClass("selectedItem");
@@ -722,8 +755,8 @@ function d5(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-            console.log(IT.Height + " " + IT.Width);
-            if (IT.Orientation == 1) {
+            pcl41_ApplyDimensions(IT);
+          //  if (IT.Orientation == 1) {
                 if (IT.Height != null && IT.Height != 0) {
                     canvas.setHeight(IT.Height * dfZ1l);
                 } else {
@@ -734,22 +767,22 @@ function d5(pageID, isloading) {
                 } else {
                     canvas.setWidth(Template.PDFTemplateWidth * dfZ1l);
                 }
-                
-            }
-            else {
-                if (IT.Width != null && IT.Width != 0) {
-                    canvas.setHeight(IT.Width * dfZ1l);
-                } else {
-                    canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
-                }
-                if (IT.Height != null && IT.Height != 0) {
-                    canvas.setWidth(IT.Height * dfZ1l);
-                } else {
-                    canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
-                }
-                
-                
-            }
+
+            //}
+            //else {
+            //    if (IT.Width != null && IT.Width != 0) {
+            //        canvas.setHeight(IT.Width * dfZ1l);
+            //    } else {
+            //        canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
+            //    }
+            //    if (IT.Height != null && IT.Height != 0) {
+            //        canvas.setWidth(IT.Height * dfZ1l);
+            //    } else {
+            //        canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
+            //    }
+
+
+            //}
             $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
             $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
             var val = $("#canvasDocument").width() - $(".page").width();
@@ -774,7 +807,7 @@ function d5(pageID, isloading) {
                 var bk = IT.BackgroundFileName + "?r=" + CzRnd;
                 if (IT.BackgroundFileName != "") {
                     if (!isloading) {
-                        StartLoader("Loading background files for your design, please wait....");
+                        StartLoader("Loading background files for your design");
                     }
                     canvas.setBackgroundImage(bk, canvas.renderAll.bind(canvas), {
                         left: 0,
@@ -806,6 +839,28 @@ function d5(pageID, isloading) {
                 canvas.renderAll();
             }
             c7(pageID);
+            if (!objectsSelectable)
+            {
+                var height = 0,width = 0;
+                if (IT.Height != null && IT.Height != 0) {
+                    height = (IT.Height * dfZ1l);
+                } else {
+                    height= (Template.PDFTemplateHeight * dfZ1l);
+                }
+                if (IT.Width != null && IT.Width != 0) {
+                    width = (IT.Width * dfZ1l);
+                } else {
+                    width = (Template.PDFTemplateWidth * dfZ1l);
+                }
+                if (height > width) {
+                    var leftline = i4_opacque([0, 0, 0, height  ], -980, '#EBECED', height * 2);
+                } else {
+                    var leftline = i4_opacque([0, 0, 0, height  ], -980, '#EBECED', width * 2);
+                }
+                canvas.add(leftline);
+                $(".layoutsPanel ,.layersPanel,.uploads,.backgrounds,.btnAdd,.layout,.search").css("visibility", "hidden");
+                $(".QuickTxt").click();
+            }
             canvas.calcOffset();
         }
     });
@@ -959,7 +1014,7 @@ function fu02UI() {
             width: newWidth
         });
     });
-    var height = $(window).height();
+    var height = $(window).height() - 70;
     $('.scrollPane').slimscroll({
         height: height
     });
@@ -971,7 +1026,7 @@ function fu02UI() {
         }
     });
     $('.scrollPaneImgDam').slimscroll({
-        height: height + 320
+        height: height + 400
     }).bind('slimscrolling', function (e, pos) {
         var he = $(".scrollPaneImgDam").parent().find(".slimScrollBar").height();
         // var val = pos + he;
@@ -1211,7 +1266,7 @@ function fu02UI() {
                     }
                 }
             }
-            else if (ui.draggable.attr('class') == "ui-state-default ui-sortable-helper" || ui.draggable.attr('id') == "sortableLayers" || ui.draggable.attr('id') == "DivLayersPanel" || ui.draggable.attr('id') == "divLayersPanelRetail" || ui.draggable.attr('id') == "ImagePropertyPanel" || ui.draggable.attr('id') == "DivColorPickerDraggable" || ui.draggable.attr('id') == "quickTextFormPanel" || ui.draggable.attr('id') == "AddTextDragable" || ui.draggable.attr('id') == "addImage" || ui.draggable.attr('id') == "divImageDAM" || ui.draggable.attr('id') == "divImageEditScreen" || ui.draggable.attr('id') == "DivControlPanelDraggable" || ui.draggable.attr('id') == "DivAlignObjs" || ui.draggable.attr('id') == "divPositioningPanel" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "LayerObjectsContainerRetail") {
+            else if (ui.draggable.attr('class') == "ui-state-default ui-sortable-helper" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "sortableLayers" || ui.draggable.attr('id') == "DivLayersPanel" || ui.draggable.attr('id') == "divLayersPanelRetail" || ui.draggable.attr('id') == "ImagePropertyPanel" || ui.draggable.attr('id') == "DivColorPickerDraggable" || ui.draggable.attr('id') == "quickTextFormPanel" || ui.draggable.attr('id') == "AddTextDragable" || ui.draggable.attr('id') == "addImage" || ui.draggable.attr('id') == "divImageDAM" || ui.draggable.attr('id') == "divImageEditScreen" || ui.draggable.attr('id') == "DivControlPanelDraggable" || ui.draggable.attr('id') == "DivAlignObjs" || ui.draggable.attr('id') == "divPositioningPanel" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "LayerObjectsContainerRetail") {
                 //l4
             } else {
                 var pos = canvas.getPointer(event);
@@ -1226,6 +1281,24 @@ function fu02UI() {
                     g0(pos.x, pos.y, false, "", "", "", "Add subtitle text", 21.33, false);
                 } else if (draggable == "addTxtBody") {
                     g0(pos.x, pos.y, false, "", "", "", "Add a little bit of body text", 13.33, false);
+                }else 
+                {
+                    if (ui.draggable.attr('class') == "divVar ui-draggable") {
+                        var txt = " " + $(ui.draggable).html() + " ";
+                        var DIAO = canvas.getActiveObject();
+                        if (!DIAO) return;
+                        if (DIAO.isEditing) {
+                            if (IsCalledFrom == 2) {
+                                var id = $(ui.draggable).attr("id");
+                                var objToAdd = { "VariableTag": txt, "VariableID": id, "TemplateID": tID };
+                                varList.push(objToAdd);
+                            }
+                            for (var i = 0; i < txt.length; i++) {
+                                DIAO.insertChars(txt[i]);
+                            }
+                        }
+                        //insertAtCaret("txtAreaUpdateTxt", txt);
+                    }
                 }
 
             }
@@ -1328,6 +1401,11 @@ function fu02UI() {
         $(".previewBtnContainer").css("display", "none");
         $(".PreviewerDownloadPDF").css("display", "none");
     }
+    if(IsCalledFrom == 2)
+    {
+        $(".maskingControls ").css("display", "block");
+    
+    }
 }
 function fu02() {
     //cID = parseInt(fu01('c'));
@@ -1388,7 +1466,8 @@ function fu02() {
     canvas.on('object:out', function (e) {
         if (e.TG.IsQuickText == true && e.TG.type == 'image') {
             $("#placeHolderTxt").css("visibility", "hidden");
-        } 
+        }
+
     });
 
     //    canvas.observe('mouse:down', onMouseDown);
@@ -1409,10 +1488,12 @@ function fu02() {
     // fabric.util.removeListener(canvas.upperCanvasEl, 'dblclick', j4);
     canvas.observe('object:moving', g6);
     canvas.observe('selection:cleared', function (e) {
-        pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable ');
+        pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable, #divVariableContainer  ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
-
-
+        if ($('#selectedTab').css('top') == "280px")
+        {
+            $("#btnAdd").click();
+        }
     });
 }
 
@@ -1433,7 +1514,14 @@ function fu04_callBack(DT) {
     fu04_01();
     fu14();
     b3_1();
-    b3_lDimensions();
+    if (!productDimensionUpdated)
+    {
+        b3_lDimensions();
+    }
+    
+}
+function p36_22() {
+    $("#DivColorPickerDraggable").css("display", "none");
 }
 function b3_lDimensions() {
     var w = Template.PDFTemplateWidth;
@@ -1446,19 +1534,55 @@ function b3_lDimensions() {
     h = h.toFixed(3);
     h = h - 10;
     w = w - 10;
- //   w = w * Template.ScaleFactor;
-  //  h = h * Template.ScaleFactor;
+    //console.log(Template);
+    //w = w * Template.ScaleFactor;
+    //h = h * Template.ScaleFactor;
     //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
     $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
   //  $(".dimentionsBC").append("<br /><span class='spanZoomContainer'> Zoom - " + D1CS * 100 + " % </span>");
  //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
 }
 function fu05_svcCall(DT) {
-    $.each(DT, function (i, IT) {
-        fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteID);
-    });
-    var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
-    $('.ColorOptionContainer').append(html);
+    if (IsCalledFrom == 2 || IsCalledFrom == 4)
+    {
+        var html = "<div class='closePanelButton closeBtnMenus' onclick='p36_22();'><br></div><div id='tabs' style='margin-top:22px;'><ul class='tabsList'><li><a href='#tabsActiveColors'>Available<br /> Colors</a></li><li class='inactiveTabs'><a href='#tabsInActiveColors'>Disabled <br />Colors</a></li></ul><div id='tabsActiveColors' class='ColorTabsContainer'></div><div id='tabsInActiveColors' class='ColorTabsContainer'></div></div>";
+        html += '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a title="Add new Color to pallet">Add a color</a></li>';
+        $('.ColorOptionContainer').append(html);
+        $.each(DT, function (i, IT) {
+            fu05_svca7(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
+        });
+        $("#tabs").tabs();
+        if(IsCalledFrom ==4)
+        {
+            $(".tabsList").css("display", "none");
+            $(".btnDeactiveColor").css("display", "none");
+            $("#BtnAdvanceColorPicker").css("display", "none");
+        }
+    } else
+    {
+        var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        $('.ColorOptionContainer').append(html);
+        $.each(DT, function (i, IT) {
+            fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
+        });
+      
+    }
+
+}
+function fu05_svca7(c, m, y, k, Sname, IsACT, PID) {
+    var Color = getColorHex(c, m, y, k);
+    if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+        if (IsACT == true) {
+            var html = "<div id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + PID + ",&quot;DeActive&quot;);'></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+            html += "";
+            $('#tabsActiveColors').append(html);
+
+        } else {
+            var html = "<div  id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnActiveColor' title='Activate this color'  onclick='j7(" + PID + ",&quot;Active&quot;);' ></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+            html += "";
+            $('#tabsInActiveColors').append(html);
+        }
+    } 
 }
 function fu05_ClHtml(c, m, y, k, Sname, IsACT, PID) {
     var Color = getColorHex(c, m, y, k);
@@ -1467,132 +1591,132 @@ function fu05_ClHtml(c, m, y, k, Sname, IsACT, PID) {
     $('.ColorOptionContainer').append(html);
 
 }
-function fu05_SvcCallback(xdata) {
-    QTD = xdata;
+//function fu05_SvcCallback(xdata) {
+//    QTD = xdata;
 
-    if (QTD.Name == "" || QTD.Name == null) {
-        QTD.Name = "Your Name"
-    }
-    if (QTD.Title == "" || QTD.Title == null) {
-        QTD.Title = "Your Title"
-    }
-    if (QTD.Company == "" || QTD.Company == null) {
-        QTD.Company = "Your Company Name"
-    }
-    if (QTD.CompanyMessage == "" || QTD.CompanyMessage == null) {
-        QTD.CompanyMessage = "Your Company Message"
-    }
-    if (QTD.Address1 == "" || QTD.Address1 == null) {
-        QTD.Address1 = "Address Line 1"
-    }
-    if (QTD.Telephone == "" || QTD.Telephone == null) {
-        QTD.Telephone = "Telephone / Other"
-    }
-    if (QTD.Fax == "" || QTD.Fax == null) {
-        QTD.Fax = "Fax / Other"
-    }
-    if (QTD.Email == "" || QTD.Email == null) {
-        QTD.Email = "Email address / Other"
-    }
-    if (QTD.Website == "" || QTD.Website == null) {
-        QTD.Website = "Website address"
-    }
+//    if (QTD.Name == "" || QTD.Name == null) {
+//        QTD.Name = "Your Name"
+//    }
+//    if (QTD.Title == "" || QTD.Title == null) {
+//        QTD.Title = "Your Title"
+//    }
+//    if (QTD.Company == "" || QTD.Company == null) {
+//        QTD.Company = "Your Company Name"
+//    }
+//    if (QTD.CompanyMessage == "" || QTD.CompanyMessage == null) {
+//        QTD.CompanyMessage = "Your Company Message"
+//    }
+//    if (QTD.Address1 == "" || QTD.Address1 == null) {
+//        QTD.Address1 = "Address Line 1"
+//    }
+//    if (QTD.Telephone == "" || QTD.Telephone == null) {
+//        QTD.Telephone = "Telephone / Other"
+//    }
+//    if (QTD.Fax == "" || QTD.Fax == null) {
+//        QTD.Fax = "Fax / Other"
+//    }
+//    if (QTD.Email == "" || QTD.Email == null) {
+//        QTD.Email = "Email address / Other"
+//    }
+//    if (QTD.Website == "" || QTD.Website == null) {
+//        QTD.Website = "Website address"
+//    }
 
-    if (QTD.MobileNumber == "" || QTD.MobileNumber == null) {
-        QTD.MobileNumber = "Mobile number"
-    }
-    if (QTD.FacebookID == "" || QTD.FacebookID == null) {
-        QTD.FacebookID = "Facebook ID"
-    }
-    if (QTD.TwitterID == "" || QTD.TwitterID == null) {
-        QTD.TwitterID = "Twitter ID"
-    }
-    if (QTD.LinkedInID == "" || QTD.LinkedInID == null) {
-        QTD.LinkedInID = "LinkedIn ID"
-    }
-    if (QTD.OtherId == "" || QTD.OtherId == null) {
-        QTD.OtherId = "Other ID"
-    }
+//    if (QTD.MobileNumber == "" || QTD.MobileNumber == null) {
+//        QTD.MobileNumber = "Mobile number"
+//    }
+//    if (QTD.FacebookID == "" || QTD.FacebookID == null) {
+//        QTD.FacebookID = "Facebook ID"
+//    }
+//    if (QTD.TwitterID == "" || QTD.TwitterID == null) {
+//        QTD.TwitterID = "Twitter ID"
+//    }
+//    if (QTD.LinkedInID == "" || QTD.LinkedInID == null) {
+//        QTD.LinkedInID = "LinkedIn ID"
+//    }
+//    if (QTD.OtherId == "" || QTD.OtherId == null) {
+//        QTD.OtherId = "Other ID"
+//    }
 
-    var AQTD = [];
-    var NameArr = [];
-    var HM = "";
-    var hQText = false;
-    $.each(TO, function (i, IT) {
-        if (IT.IsQuickText == true && IT.ObjectType != 3 && IT.ObjectType != 8 && IT.ObjectType != 12) {
-            if (IT.watermarkText == null || IT.watermarkText == "null" || IT.watermarkText == "") {
-                IT.watermarkText = IT.ContentString;
-            }
-            var obj = {
-                Order: IT.QuickTextOrder,
-                Name: IT.Name,
-                ContentString: IT.ContentString,
-                watermarkText: IT.watermarkText
-            }
-            if ($.inArray(IT.Name, NameArr) == -1) {
-                if (IT.IsEditable != false) {   // show only editable text
-                    NameArr.push(IT.Name);
-                    AQTD.push(obj);
-                }
-            }
-        }
-    });
-    AQTD.sort(function (obj1, obj2) {
-        return obj1.Order - obj2.Order;
-    });
-    if (AQTD.length >= 1) {
-        TOFZ = AQTD[AQTD.length - 1].Order + 1;
-        //alert(TOFZ);
-    }
-    $.each(AQTD, function (i, ITOD) {
-        var id = ITOD.Name.split(' ').join('');
-        id = id.replace(/\W/g, '');
-        HM += '<div class="QtextData"><label class="lblQData" id ="lblQ' + id + '" >' + ITOD.Name + '</label><br/><input id="txtQ' + id + '" maxlength="500" class="qTextInput" style=""></div>';
+//    var AQTD = [];
+//    var NameArr = [];
+//    var HM = "";
+//    var hQText = false;
+//    $.each(TO, function (i, IT) {
+//        if (IT.IsQuickText == true && IT.ObjectType != 3 && IT.ObjectType != 8 && IT.ObjectType != 12) {
+//            if (IT.watermarkText == null || IT.watermarkText == "null" || IT.watermarkText == "") {
+//                IT.watermarkText = IT.ContentString;
+//            }
+//            var obj = {
+//                Order: IT.QuickTextOrder,
+//                Name: IT.Name,
+//                ContentString: IT.ContentString,
+//                watermarkText: IT.watermarkText
+//            }
+//            if ($.inArray(IT.Name, NameArr) == -1) {
+//                if (IT.IsEditable != false) {   // show only editable text
+//                    NameArr.push(IT.Name);
+//                    AQTD.push(obj);
+//                }
+//            }
+//        }
+//    });
+//    AQTD.sort(function (obj1, obj2) {
+//        return obj1.Order - obj2.Order;
+//    });
+//    if (AQTD.length >= 1) {
+//        TOFZ = AQTD[AQTD.length - 1].Order + 1;
+//        //alert(TOFZ);
+//    }
+//    $.each(AQTD, function (i, ITOD) {
+//        var id = ITOD.Name.split(' ').join('');
+//        id = id.replace(/\W/g, '');
+//        HM += '<div class="QtextData"><label class="lblQData" id ="lblQ' + id + '" >' + ITOD.Name + '</label><br/><input id="txtQ' + id + '" maxlength="500" class="qTextInput" style=""></div>';
 
-    });
-    HM += '<div class="clear"></div><div><a id="BtnQuickTextSave" title="Save" style=" width: 299px;margin-top:20px;padding-top:8px" class="buttonDesigner"><span class="onText">Save</span> </a> </div>'
-    $(".QuickTextFields").append(HM);
-    $.each(AQTD, function (i, ITOD) {
-        var id = ITOD.Name.split(' ').join('');
-        id = id.replace(/\W/g, '');
-        $("#txtQ" + id).attr("placeholder", ITOD.watermarkText);
-        $("#txtQ" + id).val(ITOD.ContentString);
-        //  $("#lblQ" + id).val(ITOD.Name);
-        var tn = "txtQ" + id;
-        var addEvent = function (elem, type, fn) {
-            if (elem.addEventListener) elem.addEventListener(type, fn, false);
-            else if (elem.attachEvent) elem.attachEvent('on' + type, fn);
-        },
-        textField = document.getElementById(tn),
-        text = ITOD.ContentString,
-        placeholder = ITOD.watermarkText;
-        addEvent(textField, 'focus', function () {
-            if (this.value === placeholder) this.value = '';
-        });
-        addEvent(textField, 'blur', function () {
-            if (this.value === '') this.value = placeholder;
-        });
+//    });
+//    HM += '<div class="clear"></div><div><a id="BtnQuickTextSave" title="Save" style=" width: 299px;margin-top:20px;padding-top:8px" class="buttonDesigner"><span class="onText">Save</span> </a> </div>'
+//    $(".QuickTextFields").append(HM);
+//    $.each(AQTD, function (i, ITOD) {
+//        var id = ITOD.Name.split(' ').join('');
+//        id = id.replace(/\W/g, '');
+//        $("#txtQ" + id).attr("placeholder", ITOD.watermarkText);
+//        $("#txtQ" + id).val(ITOD.ContentString);
+//        //  $("#lblQ" + id).val(ITOD.Name);
+//        var tn = "txtQ" + id;
+//        var addEvent = function (elem, type, fn) {
+//            if (elem.addEventListener) elem.addEventListener(type, fn, false);
+//            else if (elem.attachEvent) elem.attachEvent('on' + type, fn);
+//        },
+//        textField = document.getElementById(tn),
+//        text = ITOD.ContentString,
+//        placeholder = ITOD.watermarkText;
+//        addEvent(textField, 'focus', function () {
+//            if (this.value === placeholder) this.value = '';
+//        });
+//        addEvent(textField, 'blur', function () {
+//            if (this.value === '') this.value = placeholder;
+//        });
 
-    });
-    $("#txtQName").val(QTD.Name);
-    $("#txtQTitle").val(QTD.Title);
-    $("#txtQCompanyName").val(QTD.Company);
-    $("#txtQCompanyMessage").val(QTD.CompanyMessage);
-    $("#txtQAddressLine1").val(QTD.Address1);
-    $("#txtQPhone").val(QTD.Telephone);
-    $("#txtQFax").val(QTD.Fax);
-    $("#txtQEmail").val(QTD.Email);
-    $("#txtQWebsite").val(QTD.Website);
-    $("#txtQOtherID").val(QTD.OtherId);
-    $("#txtQLinkedIn").val(QTD.LinkedInID);
-    $("#txtQFacebook").val(QTD.FacebookID);
-    $("#txtQTwitter").val(QTD.TwitterID);
-    $("#txtQMobile").val(QTD.MobileNumber);
+//    });
+//    $("#txtQName").val(QTD.Name);
+//    $("#txtQTitle").val(QTD.Title);
+//    $("#txtQCompanyName").val(QTD.Company);
+//    $("#txtQCompanyMessage").val(QTD.CompanyMessage);
+//    $("#txtQAddressLine1").val(QTD.Address1);
+//    $("#txtQPhone").val(QTD.Telephone);
+//    $("#txtQFax").val(QTD.Fax);
+//    $("#txtQEmail").val(QTD.Email);
+//    $("#txtQWebsite").val(QTD.Website);
+//    $("#txtQOtherID").val(QTD.OtherId);
+//    $("#txtQLinkedIn").val(QTD.LinkedInID);
+//    $("#txtQFacebook").val(QTD.FacebookID);
+//    $("#txtQTwitter").val(QTD.TwitterID);
+//    $("#txtQMobile").val(QTD.MobileNumber);
 
-    $("#BtnQuickTextSave").click(function (event) {
-        fu11();
-    });
-}
+//    $("#BtnQuickTextSave").click(function (event) {
+//        fu11();
+//    });
+//}
 function fu06_SvcCallback(DT, fname) {
     $.each(DT, function (i, IT) {
         b1(fname, IT.FontName, IT.FontName);
@@ -1699,7 +1823,7 @@ function fu09_1(DT) {
 function fu10(ca, gtID) {
     $(".templateListUL .on").removeClass("on");
     $(ca).parent().addClass("on");
-    StartLoader("Downloading images and text objects for your design., please wait....");
+    StartLoader("Loading design on canvas");
     TP = [];
     TO = [];
     isloadingNew = true;
@@ -1717,11 +1841,22 @@ function fu14() {
             k16(4, UsImC, "Loader");
             k16(5, UsImCBk, "Loader");
         }
+        if(IsCalledFrom == 2)
+        {
+            $(".userImgControls").css("display", "none");
+            $(".divImageTypes").css("display", "none");
+            $(".bkPanelUserControls").css("display", "none");
+            $("#btnTempBkCorp").css("display", "block !important");
+            $("#btnFreeCorpBkImages").css("display", "block !important");
+            $("#btntemplateBkImagesCorp").css("display", "block !important");
+            $("#btnFreeImgsCorp").css("display", "block !important");
+            $("#clearBackground").css("margin-top", "20px"); $("#uploadBackgroundMn").css("margin-top", "20px");
+        }
 
     }
 
     if (IsCalledFrom == 1 || IsCalledFrom == 3) {
-
+      
         if (IsCalledFrom == 3) {
             k16(8, UsImC, "Loader");
             k16(6, GlImC, "Loader");
@@ -1735,20 +1870,20 @@ function fu14() {
             //   k16(19, GlLogCn, "Loader");
             //   k16(20, GlShpCn, "Loader");
         }
-        if (IsCalledFrom == 1) {
-            if (CustomerID != -999) {
-                k16(10, GlImC, "Loader");
-                k16(11, GlImCBk, "Loader");
-            } else {
-                k16(6, GlImC, "Loader");
-                k16(7, GlImCBk, "Loader");
-                //  k16(14, GlLogCn, "Loader");
-                //   k16(13, GlShpCn, "Loader");
-                //    k16(18, GlLogCnP, "Loader");
-                //    k16(19, GlLogCn, "Loader");
-                //    k16(20, GlShpCn, "Loader");
-            }
-        }
+        //if (IsCalledFrom == 1) {
+        //    if (CustomerID != -999) {
+        //        k16(10, GlImC, "Loader");
+        //        k16(11, GlImCBk, "Loader");
+        //    } else {
+        //        k16(6, GlImC, "Loader");
+        //        k16(7, GlImCBk, "Loader");
+        //        //  k16(14, GlLogCn, "Loader");
+        //        //   k16(13, GlShpCn, "Loader");
+        //        //    k16(18, GlLogCnP, "Loader");
+        //        //    k16(19, GlLogCn, "Loader");
+        //        //    k16(20, GlShpCn, "Loader");
+        //    }
+        //}
     }
 }
 function fu15() {
@@ -1910,12 +2045,38 @@ function h8(FN, FF, FP) {
 
 }
 function h9() {
+  
     WebFontConfig = {
         custom: {
             families: T0FN,
             urls: T0FU
         },
         active: function () {
+            // stop loading and  load page
+        },
+        inactive: function () {
+            alert("error while loading fonts");
+        }
+    };
+    var wf = document.createElement('script');
+    // wf.src = "js/webfont.js"
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+        '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+} 
+function h9_newFont() {
+    console.log(T0FN);
+    console.log(T0FU);
+    WebFontConfig = {
+        custom: {
+            families: T0FN,
+            urls: T0FU
+        },
+        active: function () {
+            StopLoader();
             // stop loading and  load page
         },
         inactive: function () {
@@ -1961,7 +2122,16 @@ function i2(cs) {
 function i4(coords, ObjectID, color, cutMargin) {
     var line = new fabric.Line(coords,
         {
-            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.5, border: 'none'
+            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.85, border: 'none'
+        });
+
+    line.ObjectID = ObjectID;
+    return line;
+}
+function i4_opacque(coords, ObjectID, color, cutMargin) {
+    var line = new fabric.Line(coords,
+        {
+            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.0, border: 'none'
         });
 
     line.ObjectID = ObjectID;
@@ -2065,7 +2235,7 @@ function j9(e, url1, id) {
                         n = n.replace("%20", " ");
                     while (n.indexOf('./') != -1)
                         n = n.replace("./", "");
-                    StartLoader("Downloading image to your design, please wait....");
+                    StartLoader("Placing image on canvas");
                     var imgtype = 2;
                     if (isBKpnl) {
                         imgtype = 4;
@@ -2257,7 +2427,7 @@ function k4() {
     var D1AG = canvas.getActiveGroup();
 
     if (D1AG) {
-    } else if (D1AO && D1AO.IsPositionLocked == false) {
+    } else if (D1AO) {
         var l = D1AO.left - D1AO.getWidth() / 2;
         var t = D1AO.top - D1AO.getHeight() / 2;
         l = Math.round(l);
@@ -2668,10 +2838,11 @@ function k16(TempImgType, ImC, Caller) {
         strName = "divGlobBkImgContainer";
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
             ImIsEditable = false;
+            if ($('#inputSearchTBkg').val() != "") {
+                searchTerm = $('#inputSearchTBkg').val();
+            }
         }
-        if ($('#inputSearchTBkg').val() != "") {
-            searchTerm = $('#inputSearchTBkg').val();
-        }
+       
         isBackground = true;
     }
     else if (TempImgType == 4) {
@@ -2817,6 +2988,10 @@ function k16(TempImgType, ImC, Caller) {
             ImIsEditable = false;
         }
     }
+    if (searchTerm == undefined)
+    {
+        searchTerm = "___notFound";
+    }
     jsonPath += "Services/imageSvcDam/" + IsCalledFrom + "," + TempImgType + "," + tID + "," + CustomerID + "," + ContactID + "," + Territory + "," + ImC + "," + searchTerm
     // int isCalledFrom, int imageSetType, long productId, long contactCompanyID, long contactID, long territoryId, int pageNumner, string SearchKeyword, long OrganisationID
     if (!isV2Servce) {
@@ -2832,7 +3007,7 @@ function k16(TempImgType, ImC, Caller) {
                 }
                 if (DT.objsBackground == "") {
                     if (oldHtml.indexOf("allImgsLoadedMessage") == -1) {
-                        $("." + strName).append("<p class='allImgsLoadedMessage'>No more images matches your search criteria. </p>");
+                        $("." + strName).append("<p class='allImgsLoadedMessage' style='margin-top:50px;  text-align: center; margin-bottom:50px;'>No images found. </p>");
                         $(".btn" + strName).css("display", "none");
                     } else {
                         if (TempImgType == 1) {
@@ -2936,18 +3111,19 @@ function k16(TempImgType, ImC, Caller) {
                             var p = url.split('.');
                             for (var z = 0; z <= p.length - 2; z++) {
                                     if (p[z] != "") {
-                                        if (IsCalledFrom == 3) {
+                                        //if (IsCalledFrom == 3) {
                                             if (z == 0) {
                                                 urlThumbnail += p[z];
                                             } else {
                                                 urlThumbnail += "." + p[z];
                                             }
-                                        } else {
-                                            urlThumbnail += p[z];
-                                        }
+                                        //} else {
+                                        //    urlThumbnail += p[z];
+                                        //}
                                 }
                             }
                             urlThumbnail += "_thumb." + p[p.length - 1];
+                           
                         } else {
                             urlThumbnail = url;
                         } 
@@ -2956,11 +3132,11 @@ function k16(TempImgType, ImC, Caller) {
                             var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
                               '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">'// + '<span class="info btnRemoveImg"><span class=" moreInfo ">✖</span></span>'
                               + bkContainer + '<span class="info">' + '<span class="moreInfo" title="Show more info" onclick=k26(' + title + "," + index + "," + loaderType + ')>i</span>' +
-		                       '</span></a></li>';
+		                       '</span></a><p class="bkFileName">' + IT.ImageTitle + '</p></li>';
                             $("." + strName).append(ahtml);
                         } else {
                             var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
-                              '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">' + bkContainer + '</a></li>';
+                              '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">' + bkContainer + '</a><p class="bkFileName">' + IT.ImageTitle + '</p></li>';
 
                             $("." + strName).append(ahtml);
 
@@ -3234,7 +3410,7 @@ function k25Banners() {
     k16(20, GlBanC, "fun");
 }
 function k26(id, n, m) {
-    //StartLoader("Loading image please wait..");
+    StartLoader("Loading image please wait..");
     imgSelected = id;
     imgLoaderSection = m;
     var imToLoad = parseInt(id);
@@ -3257,13 +3433,16 @@ function k26_Dt(DT) {
     // image set type 13 = global shapes/icons
     $("#radioImagePicture").prop('checked', true);
     if (DT.ImageType == 14) {
-        $("#radioImageLogo").prop('checked', true); $(".divImageTypes").css("display", "block");
+        $("#radioImageLogo").prop('checked', true);
+        $(".divImageTypes").css("display", "block");
     } else if (DT.ImageType == 15) {
-        $("#radioImageLogo").prop('checked', true); $(".divImageTypes").css("display", "block");
+        $("#radioImageLogo").prop('checked', true);
+        $(".divImageTypes").css("display", "block");
     } else if (DT.ImageType == 13) {
         $("#radioImageShape").prop('checked', true);
     } else if (DT.ImageType == 17) {
-        $("#radioImageLogo").prop('checked', true); $(".divImageTypes").css("display", "block");
+        $("#radioImageLogo").prop('checked', true);
+        $(".divImageTypes").css("display", "block");
     } else if (DT.ImageType == 16) {
         $("#radioImageShape").prop('checked', true);
     } else if (DT.ImageType == 18) {
@@ -3278,7 +3457,28 @@ function k26_Dt(DT) {
         $("#radioImagePicture").prop('checked', true);
         // $(".divImageTypes").css("display", "none");
     }
+    if (IsCalledFrom == 2)
+    {
+        $(".divImageTypes").css("display", "none");
+    }
     $(".ImageContainer").css("display", "block");
+    
+    $('#territroyContainer').css("display", "none");
+    if (IsCalledFrom == 2 && (DT.ImageType == 1 || DT.ImageType == 3)) {
+        $('#territroyContainer').css("display", "block");
+        $.getJSON("/designerapi/TemplateBackgroundImage/getImgTerritories/" + DT.Id,
+        function (DTo) {
+            $('#dropDownTerritories  div :input').each(function (i) {
+                $(this).prop('checked', false);
+            });
+            $.each(DTo, function (i, IT) {
+                $(".ter_" + IT.TerritoryID).prop('checked', true);
+            });
+            StopLoader();
+        });
+    } else {
+        StopLoader();
+    }
 }
 function k27() {
     k25();
@@ -3320,6 +3520,7 @@ function k31(cCanvas, IO) {
         IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
         IOL.setAngle(IO.RotationAngle);
         IOL.setOpacity(IO.Opacity);
+        IOL.selectable = objectsSelectable;
         if (IsCalledFrom == 1 || IsCalledFrom == 2) {
             IOL.lockMovementX = false;
             IOL.lockMovementY = false;
@@ -3384,7 +3585,7 @@ function k32(imID, Tid, eleID) {
         if (isBKpnl) {
             imgtype = 4;
         }
-        StartLoader("Downloading image to your design, please wait....");
+        StartLoader("Placing image on canvas");
         svcCall4(n, tID, imgtype);
     } else {
         var bkImgURL = eleID.split("./Designer/Products/");;
@@ -3582,18 +3783,18 @@ function m0_i9(oId, oName, OType, iURL, index1) {
     if (sObj) {
         cid = sObj.ObjectID;
     }
-    var btnHtml = ' <button class="btnMoveLayerUp" ></button><button class="btnMoveLayerDown" ></button>';
+    var btnHtml = ' <button class="btnMoveLayerUp" title="Move layer up"></button><button class="btnMoveLayerDown" title="Move layer down"></button>';
     if (index1 == 0) {
-        btnHtml = '<button class="btnMoveLayerDown" ></button>';
+        btnHtml = '<button class="btnMoveLayerDown" title="Move layer down"></button>';
     } else if (index1 == -1) {
-        btnHtml = ' <button class="btnMoveLayerUp" ></button>';
+        btnHtml = ' <button class="btnMoveLayerUp" title="Move layer up" ></button>';
     }
     btnHtml += ' <button class="buttonDesigner editTxtBtn" >Edit</button>'
     if (cid == oId) {
         var innerHtml = "";
-        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
+        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" title="Select Object" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
     } else {
-        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + '</li>';
+        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" title="Select Object" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + '</li>';
 
     }
     return html;
@@ -3672,4 +3873,215 @@ function pcL36(mode, arrayControls) {  // panels logic do here
         }
     }
 
+}
+function pcl40(xdata) {
+   // alert(xdata);
+    $("#divVarList").html("");
+    var sc = "";
+    var html = "";
+    $.each(xdata, function (j, Obj) {
+        if (Obj.VariableType != 3) {
+            if (Obj.SectionName != sc) {
+                html += '<div class="titletxt">' + Obj.SectionName + '</div>';
+                sc = Obj.SectionName;
+            }
+            html += '<div id="' + Obj.VariableID + '" class="divVar" title="' + Obj.VariableName + '">' + Obj.VariableTag + '</div>';
+        } else {
+            if (IsCalledFrom == 2) {
+                var btnHtml = "<button class='" + Obj.VariableName + " listingImg' onClick='AddImgVar(&#39;" + Obj.VariableTag + "&#39;," + Obj.VariableID + ")'></button>";
+                $(".propertyVarContainer").css("display", "block");
+                $(".propertyVarContainer").append(btnHtml);
+            }
+        }
+    });
+    $("#divVarList").html(html);
+    $(".divVar").draggable({
+        snap: '#dropzone',
+        snapMode: 'inner',
+        revert: 'invalid',
+        helper: 'clone',
+        appendTo: "body",
+        cursor: 'move'
+    });
+}
+function pcl41(xdata) {
+    var tabIndex = 1;
+    smartFormData = xdata;
+    
+    if (smartFormData.usersList != null)
+    {
+        $(".smartFormProfileContainer").css("display", "block");
+        pcl40_showUserList(smartFormData.usersList);
+    }
+    var html = "";
+    $(".smartFormFormHeading").html(smartFormData.smartForm.Heading);
+    $.each(smartFormData.smartFormObjs, function (i, IT) {
+        if(IT.ObjectType == 1)
+        {
+            if (IT.CaptionValue != null) {
+                html += pcl40_addCaption(IT.CaptionValue);
+            }
+        }
+        else if (IT.ObjectType == 2)
+        {
+            html += pcl40_addLineSeperator();
+        }
+        else if (IT.ObjectType == 3)
+        {
+            if(IT.FieldVariable.IsSystem == true)
+            {
+                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex,IT.FieldVariable.VariableTag);
+            } else {
+                if(IT.FieldVariable.VariableType == 1 )
+                {
+                    //dropDown 
+                    html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.VariableOptions, IT.FieldVariable.DefaultValue, tabIndex);
+
+                } else if (IT.FieldVariable.VariableType == 2) {
+                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex, IT.FieldVariable.VariableTag);
+                }
+            }
+            tabIndex++;
+        }
+    });
+
+    $("#SmartFormContainer").html(html);
+  //  pcl40_InsertDefaultValues(smartFormData.smartFormObjs);
+    pcl40_InsertUserData(smartFormData.scopeVariables);
+    pcl40_updateDropdownDefaultValues();
+    pcl40_applyInputMask(smartFormData.smartFormObjs);
+    $('textarea.qTextInput').focus(function () {
+        $this = $(this);
+
+        $this.select();
+
+        window.setTimeout(function () {
+            $this.select();
+        }, 1);
+
+        // Work around WebKit's little problem
+        $this.mouseup(function () {
+            // Prevent further mouseup intervention
+            $this.unbind("mouseup");
+            return false;
+        });
+    });
+
+}
+function pcl40_updateDropdownDefaultValues() {
+    $.each(smartFormData.smartFormObjs, function (i, IT) {
+      
+        if (IT.ObjectType == 3) {
+            if (IT.FieldVariable.IsSystem == true) {
+            } else {
+                if (IT.FieldVariable.VariableType == 1) {
+                    $("#txtSmart" + IT.FieldVariable.VariableId).val(IT.FieldVariable.DefaultValue);
+                   // alert($("#txtSmart" + IT.FieldVariable.VariableId).val());
+
+                } 
+            }
+        }
+    });
+}
+function pcl40_showUserList(userList)
+{
+    var html = "";
+    $.each(userList, function (i, IT) {
+        html += '<option  id = "option' + IT.ContactId + '" value="' + IT.ContactId + '" >' + IT.ContactName + '</option>';;
+    });
+    $("#smartFormSelectUserProfile").html(html);
+}
+function pcl40_addDropDown(title, varId,options,def,tabindex) {
+    var html = "";
+
+    html += '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>'
+    + '<select id="txtSmart' + varId + '"  class="qTextInput" style=""  tabindex= "' + tabindex + '" >';
+    $.each(options, function (i, IT) {
+        var selected = "";
+        html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" '+selected+' >' + IT.Value + '</option>';;
+    });
+
+    html+=    '</select></div>';
+    return html;
+}
+function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex,variableTag) {
+    var required = "";
+    if (variableTag != null) {
+        if (variableTag.toLowerCase() == "{{webaccesscode}}" || variableTag.toLowerCase() == "{{email}}") {
+            required += 'disabled=disabled';
+        }
+    }
+    if (IsRequired == true)
+    {
+        required += "required";
+    }
+   
+    if (Value == "undefined" || Value == undefined) {
+        Value = ""; 
+    }
+    var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
+        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" ' + required + ' tabindex= "' + tabindex + '" onClick="this.select();" >' + Value + '</textarea></div>';
+    return html;
+}
+function pcl40_addCaption(caption) {
+    var html = '<div class="clear"></div><div class="smartFormHeading"><p class="ThemeColor">' + caption + '</p></div>';
+    return html;
+}
+function pcl40_addLineSeperator() {
+    return ' <div class="clear"></div><div class="smartFormLineSeperator"></div>';
+}
+function pcl40_InsertDefaultValues(scope) {
+    $.each(scope, function (i, IT) {
+        if (IT.FieldVariable.DefaultValue != null || IT.FieldVariable.DefaultValue != "" || IT.FieldVariable.DefaultValue != "undefined" || IT.FieldVariable.DefaultValue != undefined)
+            $("#txtSmart" + IT.VariableId).val(IT.FieldVariable.DefaultValue);
+            else
+            $("#txtSmart" + IT.VariableId).val("");
+    });
+}
+function pcl40_InsertUserData(scope) {
+    $.each(scope, function (i, IT) {
+        if (IT.Value != null && IT.Value != "" && IT.Value != undefined) {
+            $("#txtSmart" + IT.VariableId).val(IT.Value);
+        } else {
+            //if (IT.DefaultValue != null || IT.DefaultValue != "" || IT.DefaultValue != "undefined" || IT.DefaultValue != undefined)
+            //    $("#txtSmart" + IT.VariableId).val("");
+            //else
+            //    $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
+        }
+    });
+}
+function pcl40_applyInputMask(sObjs) {
+    $.each(sObjs, function (i, IT) {
+        if (IT.ObjectType == 3) {
+            if (IT.FieldVariable.InputMask != "" && IT.FieldVariable.InputMask != null) {
+                $("#txtSmart" + IT.FieldVariable.VariableId).mask(IT.FieldVariable.InputMask);
+            }
+        }
+    });
+}
+
+function pcl41_ApplyDimensions(Tpage) {
+    var w = Template.PDFTemplateWidth;
+    var h = Template.PDFTemplateHeight;
+    if (Tpage.Height != null && Tpage.Height != 0) {
+         h = Tpage.Height ;
+    } 
+    if (Tpage.Width != null && Tpage.Width != 0) {
+        w= Tpage.Width ;
+    }
+    
+    h = h / 96 * 72;
+    w = w / 96 * 72;
+    h = h / 2.834645669;
+    w = w / 2.834645669;
+    w = w.toFixed(3);
+    h = h.toFixed(3); 
+    h = h - 10;
+    w = w - 10; 
+    if (item != null && item.ScaleFactor != null && item.ScaleFactor != 0) {
+        w = w * item.ScaleFactor;
+        h = h * item.ScaleFactor;
+    } 
+    //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
+    $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
 }

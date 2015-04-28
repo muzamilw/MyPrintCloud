@@ -2,9 +2,11 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -40,14 +42,16 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Company Base Data
         /// </summary>
-        public OrderBaseResponseForCompany Get(int id)
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
+        public OrderBaseResponseForCompany Get([FromUri]int id,long storeId)
         {
             if (id <= 0)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
 
-            return orderService.GetBaseDataForCompany(id).CreateFrom();
+            return orderService.GetBaseDataForCompany(id, storeId).CreateFrom();
         }
 
         #endregion

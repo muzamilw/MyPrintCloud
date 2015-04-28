@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Microsoft.Practices.Unity;
@@ -31,6 +32,35 @@ namespace MPC.Repository.Repositories
         public override IEnumerable<RaveReview> GetAll()
         {
             return DbSet.ToList();
+        }
+
+        public RaveReview GetRaveReview()
+        {
+            try
+            {
+                List<RaveReview> EnabledReviewRecordList = new List<RaveReview>();
+                EnabledReviewRecordList = (from review in db.RaveReviews
+                                           where review.isDisplay == true
+                                           select review).ToList();
+                if (EnabledReviewRecordList.Count > 0)
+                {
+                    int randomRecordFromList = new Random().Next() % EnabledReviewRecordList.Count(); //To make sure its valid index in list
+                    var Record = EnabledReviewRecordList.Skip(randomRecordFromList).Take(1);
+                    var finalRecord = Record.ToList().First();
+
+                    return finalRecord;
+                }
+                else
+                {
+                    return EnabledReviewRecordList.FirstOrDefault();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
         }
     }
 }

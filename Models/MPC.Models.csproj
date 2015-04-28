@@ -51,8 +51,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -68,28 +69,27 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -102,6 +102,8 @@
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
     <Compile Include="Common\AddOnCostsCenter.cs" />
+    <Compile Include="Common\BestPress.cs" />
+    <Compile Include="Common\BreadCrumbModel.cs" />
     <Compile Include="Common\CategoryType.cs" />
     <Compile Include="Common\CategoryRegion.cs" />
     <Compile Include="Common\CmsPageModel.cs" />
@@ -109,19 +111,32 @@
     <Compile Include="Common\ContactByColumn.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\CostCentreMatrix.cs" />
+    <Compile Include="Common\CostCentreOrderByColumn.cs" />
     <Compile Include="Common\CostCentreQuestion.cs" />
     <Compile Include="Common\CostCentreResults.cs" />
+    <Compile Include="Common\ActiveModuleMenuItem.cs" />
     <Compile Include="Common\CustomerByColumn.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
     <Compile Include="Common\DesignerPostSettings.cs" />
+    <Compile Include="Common\DividerLine.cs" />
     <Compile Include="Common\ExecutionQueue.cs" />
     <Compile Include="Common\ExportOrganisation.cs" />
+    <Compile Include="Common\GlobalData.cs" />
+    <Compile Include="Common\GoodsReceivedNoteByColumn.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\InvoiceByColumn.cs" />
+    <Compile Include="Common\ItemCloneResult.cs" />
     <Compile Include="Common\Order.cs" />
     <Compile Include="Common\IsTrialClaimValue.cs" />
+    <Compile Include="Common\OrderMenuCount.cs" />
     <Compile Include="Common\OrderStatusEnum.cs" />
+    <Compile Include="Common\PaypalOrderParameter.cs" />
+    <Compile Include="Common\ProductModel.cs" />
+    <Compile Include="Common\PtvDTO.cs" />
+    <Compile Include="Common\PurchaseByColumn.cs" />
+    <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
     <Compile Include="Common\MachineListColumns.cs" />
@@ -164,7 +179,25 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
-    <Compile Include="DomainModels\CompanyContactVariable.cs" />
+    <Compile Include="DomainModels\GoodsReceivedNote.cs" />
+    <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
+    <Compile Include="DomainModels\InkPlateSide.cs" />
+    <Compile Include="DomainModels\JobCardReportView.cs" />
+    <Compile Include="DomainModels\JobPreference.cs" />
+    <Compile Include="DomainModels\MachineClickChargeLookup.cs" />
+    <Compile Include="DomainModels\MachineClickChargeZone.cs" />
+    <Compile Include="DomainModels\MachineGuillotineCalc.cs" />
+    <Compile Include="DomainModels\MachineGuilotinePtv.cs" />
+    <Compile Include="DomainModels\MachineMeterPerHourLookup.cs" />
+    <Compile Include="DomainModels\MachinePerHourLookup.cs" />
+    <Compile Include="DomainModels\MachineSpeedWeightLookup.cs" />
+    <Compile Include="DomainModels\NewsLetterSubscriber.cs" />
+    <Compile Include="DomainModels\OrderReportView.cs" />
+    <Compile Include="DomainModels\Purchase.cs" />
+    <Compile Include="DomainModels\PurchaseDetail.cs" />
+    <Compile Include="DomainModels\ReportCategory.cs" />
+    <Compile Include="DomainModels\SaveDesignView.cs" />
+    <Compile Include="DomainModels\ScopeVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
     <Compile Include="DomainModels\CostCentreAnswer.cs" />
     <Compile Include="DomainModels\CostCenterChoice.cs" />
@@ -181,8 +214,15 @@
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\DeliveryCarrier.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\NABTransaction.cs" />
+    <Compile Include="DomainModels\PaypalPaymentRequest.cs" />
+    <Compile Include="DomainModels\PayPalResponse.cs" />
+    <Compile Include="DomainModels\SectionInkCoverage.cs" />
+    <Compile Include="DomainModels\ShippingInformation.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
+    <Compile Include="DomainModels\usp_JobCardReport_Result.cs" />
+    <Compile Include="DomainModels\usp_OrderReport_Result.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
@@ -316,10 +356,18 @@
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
+    <Compile Include="ModelMappers\ShippingInformationMapper.cs" />
+    <Compile Include="ModelMappers\SectionInkCoverageMapper.cs" />
+    <Compile Include="ModelMappers\SectionCostCentreMapper.cs" />
+    <Compile Include="ModelMappers\PrePaymentMapper.cs" />
+    <Compile Include="ModelMappers\OrderMapperActions.cs" />
+    <Compile Include="ModelMappers\OrderMapper.cs" />
     <Compile Include="ModelMappers\ItemPriceMatrixMapper.cs" />
     <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
+    <Compile Include="ModelMappers\ItemImageMapper.cs" />
     <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemProductDetailMapper.cs" />
     <Compile Include="ModelMappers\ItemSectionMapper.cs" />
@@ -338,14 +386,23 @@
     </Compile>
     <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />
+    <Compile Include="RequestModels\CompanyContactForCalendarRequestModel.cs" />
     <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
+    <Compile Include="RequestModels\CostCenterExecutionRequest.cs" />
+    <Compile Include="RequestModels\DashboardRequestModel.cs" />
+    <Compile Include="RequestModels\DeleteCompanyRequest.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
     <Compile Include="RequestModels\CompanyRequestModelForCalendar.cs" />
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
+    <Compile Include="RequestModels\FieldVariableRequestModel.cs" />
+    <Compile Include="RequestModels\GetCostCentresRequest.cs" />
+    <Compile Include="RequestModels\GetInvoicesRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
+    <Compile Include="RequestModels\GoodsReceivedNoteRequestModel.cs" />
+    <Compile Include="RequestModels\InvoicesRequestModel.cs" />
     <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
@@ -355,11 +412,16 @@
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
+    <Compile Include="RequestModels\PTVRequestModel.cs" />
+    <Compile Include="RequestModels\PurchaseRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
+    <Compile Include="RequestModels\SmartFormRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
+    <Compile Include="RequestModels\UpdateSectionCostCentersRequest.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
+    <Compile Include="ResponseModels\BestPressResponse.cs" />
     <Compile Include="ResponseModels\CalendarBaseResponse.cs" />
     <Compile Include="ResponseModels\CampaignBaseResponse.cs" />
     <Compile Include="ResponseModels\CmsPageWithWidgetList.cs" />
@@ -369,7 +431,19 @@
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
     <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
+    <Compile Include="ResponseModels\CostCenterExecutionResponse.cs" />
+    <Compile Include="ResponseModels\CostCenterVariablesResponseModel.cs" />
+    <Compile Include="ResponseModels\CostCentreResponse.cs" />
+    <Compile Include="ResponseModels\CrmBaseResponse.cs" />
+    <Compile Include="ResponseModels\CrmContactResponse.cs" />
+    <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
+    <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />
+    <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
+    <Compile Include="ResponseModels\ItemForItemJobStatus.cs" />
+    <Compile Include="ResponseModels\LookupMethodListResponse.cs" />
+    <Compile Include="ResponseModels\LookupMethodResponse.cs" />
     <Compile Include="ResponseModels\MachineResponseModel.cs" />
     <Compile Include="ResponseModels\MachineSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemDesignerTemplateBaseResponse.cs" />
@@ -385,19 +459,22 @@
     <Compile Include="ResponseModels\CostCentersResponse.cs" />
     <Compile Include="ResponseModels\OrderBaseResponse.cs" />
     <Compile Include="ResponseModels\OrderBaseResponseForCompany.cs" />
+    <Compile Include="ResponseModels\OrdersForCrmResponse.cs" />
     <Compile Include="ResponseModels\OrderStatusesResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetBaseResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
+    <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
+    <Compile Include="ResponseModels\SmartFormResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
     <Compile Include="ResponseModels\SupplierBaseResponse.cs" />
     <Compile Include="ResponseModels\SupplierSearchResponseForInventory.cs" />
+    <Compile Include="ResponseModels\WidgetForTheme.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

@@ -23,5 +23,10 @@ namespace MPC.Models.ResponseModels
         /// Category Types
         /// </summary>
         public IEnumerable<CategoryType> CategoryTypes { get; set; }
+
+        /// <summary>
+        /// Smart Forms
+        /// </summary>
+        public IEnumerable<SmartForm> SmartForms { get; set; }
     }
 }

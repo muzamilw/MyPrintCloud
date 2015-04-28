@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -39,6 +40,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Companies By Is Customer Type
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public CompanySearchResponseForCalendar Get([FromUri]CompanyRequestModelForCalendar request)
         {
             var response = calendarService.GetCompaniesByCustomerType(request);

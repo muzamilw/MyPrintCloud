@@ -5,19 +5,20 @@ using System.Web.SessionState;
 using MPC.Webstore.SessionModels;
 
 
+
 namespace MPC.Webstore.Common
 {
     public sealed class UserCookieManager
     {
         public static bool isWritePresistentCookie = false;
 
-        public static long StoreId
+        public static long WBStoreId
         {
             get
             {
-                if (HttpContext.Current.Request.Cookies["StorId"] != null)
+                if (HttpContext.Current.Request.Cookies["WBStoreId"] != null)
                 {
-                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["StorId"].Value));
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["WBStoreId"].Value));
                 }
                 else
                 {
@@ -27,25 +28,25 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Response.Cookies["StorId"] != null)
+                if (HttpContext.Current.Response.Cookies["WBStoreId"] != null)
                 {
-                    HttpContext.Current.Response.Cookies.Remove("StorId");
+                    HttpContext.Current.Response.Cookies.Remove("WBStoreId");
 
                 }
 
                 HttpCookie storeIdCookie = null;
-                storeIdCookie = new HttpCookie("StorId", value.ToString());
+                storeIdCookie = new HttpCookie("WBStoreId", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(storeIdCookie);
             }
         }
 
-        public static string ContactFirstName
+        public static string WEBContactFirstName
         {
             get
             {
-                if (HttpContext.Current.Request.Cookies["FirstName"] != null)
+                if (HttpContext.Current.Request.Cookies["WEBFirstName"] != null)
                 {
-                    return (HttpContext.Current.Request.Cookies["FirstName"].Value);
+                    return (HttpContext.Current.Request.Cookies["WEBFirstName"].Value);
                 }
                 else
                 {
@@ -55,25 +56,25 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Response.Cookies["FirstName"] != null)
+                if (HttpContext.Current.Response.Cookies["WEBFirstName"] != null)
                 {
-                    HttpContext.Current.Response.Cookies.Remove("FirstName");
+                    HttpContext.Current.Response.Cookies.Remove("WEBFirstName");
 
                 }
                 HttpCookie contactFirstNameCookie = null;
-                contactFirstNameCookie = new HttpCookie("FirstName", value.ToString());
+                contactFirstNameCookie = new HttpCookie("WEBFirstName", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(contactFirstNameCookie);
-
+                HttpContext.Current.Request.Cookies["WEBFirstName"].Value = value;
             }
         }
 
-        public static string Email
+        public static string WEBEmail
         {
             get
             {
-                if (HttpContext.Current.Request.Cookies["Email"] != null)
+                if (HttpContext.Current.Request.Cookies["WEBEmail"] != null)
                 {
-                    return (HttpContext.Current.Request.Cookies["Email"].Value);
+                    return (HttpContext.Current.Request.Cookies["WEBEmail"].Value);
                 }
                 else
                 {
@@ -83,25 +84,25 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Response.Cookies["Email"] != null)
+                if (HttpContext.Current.Response.Cookies["WEBEmail"] != null)
                 {
-                    HttpContext.Current.Response.Cookies.Remove("Email");
+                    HttpContext.Current.Response.Cookies.Remove("WEBEmail");
 
                 }
                 HttpCookie contactEmailCookie = null;
-                contactEmailCookie = new HttpCookie("Email", value.ToString());
+                contactEmailCookie = new HttpCookie("WEBEmail", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(contactEmailCookie);
 
             }
         }
 
-        public static string ContactLastName
+        public static string WEBContactLastName
         {
             get
             {
-                if (HttpContext.Current.Request.Cookies["LastName"] != null)
+                if (HttpContext.Current.Request.Cookies["WEBLastName"] != null)
                 {
-                    return (HttpContext.Current.Request.Cookies["LastName"].Value);
+                    return (HttpContext.Current.Request.Cookies["WEBLastName"].Value);
                 }
                 else
                 {
@@ -111,19 +112,19 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Request.Cookies["LastName"] != null)
+                if (HttpContext.Current.Request.Cookies["WEBLastName"] != null)
                 {
-                    HttpContext.Current.Request.Cookies["LastName"].Value = value.ToString();
+                    HttpContext.Current.Request.Cookies["WEBLastName"].Value = value.ToString();
                 }
                 else
                 {
-                    if (HttpContext.Current.Response.Cookies["LastName"] != null)
+                    if (HttpContext.Current.Response.Cookies["WEBLastName"] != null)
                     {
-                        HttpContext.Current.Response.Cookies.Remove("LastName");
+                        HttpContext.Current.Response.Cookies.Remove("WEBLastName");
 
                     }
                     HttpCookie contactLastNameCookie = null;
-                    contactLastNameCookie = new HttpCookie("LastName", value.ToString());
+                    contactLastNameCookie = new HttpCookie("WEBLastName", value.ToString());
                     HttpContext.Current.Response.Cookies.Add(contactLastNameCookie);
                 }
             }
@@ -186,13 +187,13 @@ namespace MPC.Webstore.Common
             }
         }
 
-        public static int StoreMode
+        public static int WEBStoreMode
         {
             get
             {
-                if (HttpContext.Current.Request.Cookies["StoreMode"] != null)
+                if (HttpContext.Current.Request.Cookies["WEBStoreMode"] != null)
                 {
-                    return Convert.ToInt32((HttpContext.Current.Request.Cookies["StoreMode"].Value));
+                    return Convert.ToInt32((HttpContext.Current.Request.Cookies["WEBStoreMode"].Value));
                 }
                 else
                 {
@@ -202,25 +203,25 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Response.Cookies["StoreMode"] != null)
+                if (HttpContext.Current.Response.Cookies["WEBStoreMode"] != null)
                 {
-                    HttpContext.Current.Response.Cookies.Remove("StoreMode");
+                    HttpContext.Current.Response.Cookies.Remove("WEBStoreMode");
 
                 }
 
                 HttpCookie storeIdCookie = null;
-                storeIdCookie = new HttpCookie("StoreMode", value.ToString());
+                storeIdCookie = new HttpCookie("WEBStoreMode", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(storeIdCookie);
             }
         }
 
-        public static long OrganisationID    
+        public static long WEBOrganisationID    
         {
             get
             {
-                if (HttpContext.Current.Request.Cookies["OrganisationID"] != null)
+                if (HttpContext.Current.Request.Cookies["WEBOrganisationID"] != null)
                 {
-                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["OrganisationID"].Value));
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["WEBOrganisationID"].Value));
                 }
                 else
                 {
@@ -230,13 +231,13 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Response.Cookies["OrganisationID"] != null)
+                if (HttpContext.Current.Response.Cookies["WEBOrganisationID"] != null)
                 {
-                    HttpContext.Current.Response.Cookies.Remove("OrganisationID");
+                    HttpContext.Current.Response.Cookies.Remove("WEBOrganisationID");
 
                 }
                 HttpCookie organisationIdCookie = null;
-                organisationIdCookie = new HttpCookie("OrganisationID", value.ToString());
+                organisationIdCookie = new HttpCookie("WEBOrganisationID", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(organisationIdCookie);
             }
         }
@@ -327,13 +328,13 @@ namespace MPC.Webstore.Common
             }
         }
 
-        public static long OrderId
+        public static long WEBOrderId
         {
             get
             {
-                if (HttpContext.Current.Request.Cookies["OrderId"] != null)
+                if (HttpContext.Current.Request.Cookies["WEBOrderId"] != null)
                 {
-                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["OrderId"].Value));
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["WEBOrderId"].Value));
                 }
                 else
                 {
@@ -343,14 +344,14 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Response.Cookies["OrderId"] != null)
+                if (HttpContext.Current.Response.Cookies["WEBOrderId"] != null)
                 {
-                    HttpContext.Current.Response.Cookies.Remove("OrderId");
+                    HttpContext.Current.Response.Cookies.Remove("WEBOrderId");
 
                 }
 
                 HttpCookie OrderIdCookie = null;
-                OrderIdCookie = new HttpCookie("OrderId", value.ToString());
+                OrderIdCookie = new HttpCookie("WEBOrderId", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(OrderIdCookie);
             }
         }
@@ -379,6 +380,33 @@ namespace MPC.Webstore.Common
                 HttpCookie  RegisterClaimCookie = null;
                 RegisterClaimCookie = new HttpCookie("isRegisterClaims", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(RegisterClaimCookie);
+            }
+        }
+
+        public static bool PerformAutoLogin
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["isPerformAutoLogin"] != null)
+                {
+                    return Convert.ToBoolean(HttpContext.Current.Request.Cookies["isPerformAutoLogin"].Value);
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["isPerformAutoLogin"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("isPerformAutoLogin");
+
+                }
+                HttpCookie AutoLoginClaimCookie = null;
+                AutoLoginClaimCookie = new HttpCookie("isPerformAutoLogin", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(AutoLoginClaimCookie);
             }
         }
 

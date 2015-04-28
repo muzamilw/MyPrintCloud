@@ -35,6 +35,10 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IPaymentGatewayRepository _paymentRepository;
         private readonly IInquiryRepository _inquiryRepository;
         private readonly IInquiryAttachmentRepository _inquiryAttachmentRepository;
+        private readonly IOrderService _orderService;
+        private readonly ICompanyService _myCompanyService;
+        private readonly ISmartFormService _smartFormService;
+        private readonly IProductCategoryItemRepository _ProductCategoryItemRepository;
         #region Constructor
 
         /// <summary>
@@ -43,7 +47,8 @@ namespace MPC.Implementation.WebStoreServices
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
             , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService
-            , IPaymentGatewayRepository paymentRepository, IInquiryRepository inquiryRepository, IInquiryAttachmentRepository inquiryAttachmentRepository)
+            , IPaymentGatewayRepository paymentRepository, IInquiryRepository inquiryRepository, IInquiryAttachmentRepository inquiryAttachmentRepository,
+            IOrderService orderService, ICompanyService companyService, ISmartFormService smartformService, IProductCategoryItemRepository ProductCategoryItemRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -58,6 +63,10 @@ namespace MPC.Implementation.WebStoreServices
             this._paymentRepository = paymentRepository;
             this._inquiryRepository = inquiryRepository;
             this._inquiryAttachmentRepository = inquiryAttachmentRepository;
+            this._orderService = orderService;
+            this._myCompanyService = companyService;
+            this._smartFormService = smartformService;
+            this._ProductCategoryItemRepository = ProductCategoryItemRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -69,21 +78,25 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemById(ItemId);
         }
+        public Item GetItemByIdDesigner(long ItemId)
+        {
+            return _ItemRepository.GetItemByIdDesigner(ItemId);
+        }
         public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID)
         {
             return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID,OrganisationID);
         }
 
-        public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId)
+        public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId, long OrganisationId)
         {
             int flagId = 0;
             if (IsUserLoggedIn)
             {
-                flagId = GetFlagId(CompanyId);
+                flagId = GetFlagId(CompanyId, OrganisationId);
                 if (flagId == 0)
                 {
                     // pass 0  to get the default flag id for price matrix
-                    flagId = GetFlagId(0);
+                    flagId = GetFlagId(0, OrganisationId);
                     if (IsRanged == true)
                     {
                         tblRefItemsPriceMatrix = tblRefItemsPriceMatrix.Where(c => c.QtyRangeFrom > 0 && c.QtyRangeTo > 0 && c.FlagId == flagId && c.SupplierId == null).ToList();
@@ -119,7 +132,7 @@ namespace MPC.Implementation.WebStoreServices
             else
             {
                 // pass 0  to get the default flag id for price matrix
-                flagId = GetFlagId(0);
+                flagId = GetFlagId(0, OrganisationId);
                 if (IsRanged == true)
                 {
                     tblRefItemsPriceMatrix = tblRefItemsPriceMatrix.Where(c => c.QtyRangeFrom > 0 && c.QtyRangeTo > 0 && c.FlagId == flagId && c.SupplierId == null).ToList();
@@ -135,7 +148,7 @@ namespace MPC.Implementation.WebStoreServices
 
         #endregion
 
-        private int GetFlagId(long companyId)
+        private int GetFlagId(long companyId, long OrganisationId)
         {
             if (companyId > 0)
             {
@@ -143,7 +156,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             else
             {
-                return _SectionFlagRepository.GetDefaultSectionFlagId();
+                return _SectionFlagRepository.GetDefaultSectionFlagId(OrganisationId);
             }
         }
 
@@ -213,9 +226,9 @@ namespace MPC.Implementation.WebStoreServices
             }
          
         }
-        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0) 
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "") 
         {
-            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, CountOfUploads);
+            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, CountOfUploads, QuestionQueue);
         }
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
@@ -377,7 +390,7 @@ namespace MPC.Implementation.WebStoreServices
                 bool isUpdateOrder = _ItemRepository.isTemporaryOrder(OrderId, CompanyId, ContactId);
                 if (isUpdateOrder)
                 {
-                    long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
+                    long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, OrganisationId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
                     if (orderId > 0)
                     {
                         RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
@@ -410,7 +423,7 @@ namespace MPC.Implementation.WebStoreServices
         /// Remove Item Attachments
         /// </summary>
         /// <param name="attatchmentList"></param>
-        private void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
+        public void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
         {
             string completePath = string.Empty;
             try
@@ -505,7 +518,7 @@ namespace MPC.Implementation.WebStoreServices
                 theDoc.Clear();
                 theDoc.Dispose();
 
-                CreatAndSaveThumnail(oImgstream, url);
+                CreatAndSaveThumnail(oImgstream, url,"");
 
             }
         }
@@ -513,15 +526,16 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.SaveDesignAttachments(templateID, itemID, customerID, DesignName, caller, organisationId);
         }
-        public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath)
+        public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath,string itemId)
         {
             try
             {
                 string orgPath = sideThumbnailPath;
                 string baseAddress = sideThumbnailPath.Substring(0, sideThumbnailPath.LastIndexOf('\\'));
                 sideThumbnailPath = Path.GetFileNameWithoutExtension(sideThumbnailPath) + "Thumb.png";
+               
 
-                sideThumbnailPath = baseAddress + "\\" + sideThumbnailPath;
+                sideThumbnailPath = baseAddress + "\\" + itemId  +sideThumbnailPath;
 
                 Image origImage = null;
                 if (oImgstream != null)
@@ -730,5 +744,463 @@ namespace MPC.Implementation.WebStoreServices
            }
            
        }
+
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId, long CompanyId)
+        {
+            try
+            {
+                return _ItemRepository.GetCartItemsCount(ContactId, TemporaryCustomerId, CompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CmsSkinPageWidget> GetStoreWidgets()
+        {
+            try
+            {
+                return _ItemRepository.GetStoreWidgets();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SaveDesignView> GetSavedDesigns(long ContactID)
+        {
+            try
+            {
+                return _ItemRepository.GetSavedDesigns(ContactID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //public void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
+        //{
+        //    try
+        //    {
+        //        _ItemRepository.RemoveItemAttacmentPhysically(attatchmentList);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+        public List<Item> GetProductsWithDisplaySettings(ProductWidget productWidgetId, long CompanyId, long OrganisationId)
+        {
+           
+            List<Item> productsAllList = null; 
+            List<Item> filteredList = null;
+
+            switch (productWidgetId)
+            {
+
+                case ProductWidget.FeaturedProducts:
+                    productsAllList = GetDisplayProductsWithDisplaySettings(null, null, CompanyId, OrganisationId);
+                    filteredList = productsAllList;//ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
+                    
+                    break;
+                case ProductWidget.PopularProducts:
+
+                    productsAllList = GetDisplayProductsWithDisplaySettings(true, null, CompanyId, OrganisationId); //popular
+                   
+                    if (productsAllList != null & productsAllList.Count > 0)
+                        filteredList = productsAllList.ToList();
+
+                    break;
+                case ProductWidget.SpecialProducts:
+
+                    productsAllList = GetDisplayProductsWithDisplaySettings(null, true, CompanyId, OrganisationId); //promotional or special
+                    if (productsAllList != null & productsAllList.Count > 0)
+                    {
+                       // filteredList = ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
+
+                        if (filteredList != null)
+                            filteredList = filteredList.ToList();
+
+                        break;
+                    }
+                    else
+                    {
+                        filteredList = null;
+                        break;
+                    }
+            }
+
+            if (filteredList != null)
+                return filteredList.OrderBy(i => i.SortOrder).ToList();
+            return null;
+
+        }
+
+        private List<Item> GetDisplayProductsWithDisplaySettings(bool? isPopularProd, bool? isPromotionProduct, long CompanyId, long OrganisationId)
+        {
+            //Note:All promotional or spceial will also be a featured product
+            if (isPopularProd == null && isPromotionProduct == null)
+            {
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId).Where(i => i.IsFeatured == true).OrderBy(i => i.SortOrder).ToList();
+            }
+            else if (isPopularProd == true && isPromotionProduct == null)
+            {
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId).Where(i => i.IsPopular == true).OrderBy(i => i.SortOrder).ToList();
+            }
+            else
+            {
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId).Where(i => i.IsSpecialItem == true).OrderBy(i => i.SortOrder).ToList();
+            }
+        }
+
+        //private List<Item> GetSearchedProducts(int offerTypeId, List<Item> productsAllList)
+        //{
+        //    Random rand = new Random();
+        //    List<Int32> result = new List<Int32>();
+        //    List<Item> filteredProdcuts = null;
+        //    int ii = 0;
+        //    if (productsAllList.Count > 0)
+        //    {
+        //        //Choose from the offers
+
+        //        filteredProdcuts = productsAllList.FindAll(item => item.OfferType.HasValue && item.OfferType.Value == offerTypeId).ToList();
+        //        if (filteredProdcuts.Count == 0)
+
+        //            filteredProdcuts = productsAllList.FindAll(item => (item.OfferType.HasValue == false || item.OfferType.Value != offerTypeId)).OrderByDescending(item => item.ItemID).ToList();
+
+        //        int seed = 1, increment = 3;
+        //        int n = filteredProdcuts.Count;
+
+        //        int x = seed;
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            x = (x + increment) % n;
+        //            result.Add(x);
+        //        }
+        //        //for (Int32 i = 0; i < productsAllList.Count; i++)
+        //        //{
+        //        //    int MAx = productsAllList.Count + 1;
+        //        //    Int32 curValue = rand.Next(1, MAx);
+        //        //    while (result.Contains(curValue))//result.Exists(value => value == curValue))
+        //        //    {
+        //        //        curValue = rand.Next(1, 11);
+        //        //    }
+
+        //        //    result.Add(curValue);
+        //        //}
+        //        foreach (var i in filteredProdcuts)
+        //        {
+        //            i.SortOrder = result[ii];
+        //            ii++;
+        //        }
+
+        //    }
+
+        //    return filteredProdcuts.OrderBy(item => item.SortOrder).ToList();
+
+        //}
+      
+
+        /// <summary>
+        /// get all parent categories and corresponding products of a category against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        public List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId)
+        {
+            try
+            {
+                return _ItemRepository.GetStoreParentCategories(CompanyId, OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public long getParentTemplateID(long itemId)
+        {
+           return _ItemRepository.getParentTemplateID(itemId);
+        }
+        // called from category page to generate template and order if skip designer mode is selected
+        public string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID)
+        {
+            long ItemID = 0;
+            long TemplateID = 0;
+            long OrderID = 0;
+            bool printCropMarks = true;
+            bool printWaterMark = true;
+            bool isMultiplageProduct = false;
+            if (WEBOrderId == 0)
+            {
+                
+                long TemporaryRetailCompanyId = 0;
+                if (WEBStoreMode == (int)StoreMode.Retail)
+                {
+                    TemporaryRetailCompanyId = TemporaryCompanyId;
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, StoreMode.Retail, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        WEBOrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+
+                }
+                else
+                {
+
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, (StoreMode)WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        WEBOrderId = OrderID;
+                    }
+                }
+
+                // create new order
+
+
+                Item item = CloneItem(itemID, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
+
+                if (item != null)
+                {
+                    ItemID = item.ItemId;
+                    TemplateID = item.TemplateId ?? 0;
+                    if(item.printCropMarks.HasValue)
+                        printCropMarks = item.printCropMarks.Value;
+                    if (item.drawWaterMarkTxt.HasValue)
+                        printWaterMark = item.drawWaterMarkTxt.Value;
+                    if (item.isMultipagePDF.HasValue)
+                        isMultiplageProduct = item.isMultipagePDF.Value;
+                }
+
+            }
+            else
+            {
+                if (TemporaryCompanyId == 0 && WEBStoreMode == (int)StoreMode.Retail && ContactID == 0)
+                {
+                    long TemporaryRetailCompanyId = TemporaryCompanyId;
+
+                    // create new order
+
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, (StoreMode)WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        WEBOrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+                }
+                else if (TemporaryCompanyId > 0 && WEBStoreMode == (int)StoreMode.Retail)
+                {
+                    CompanyID = TemporaryCompanyId;
+                    ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
+                }
+                Item item = CloneItem(itemID, 0, WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
+
+                if (item != null)
+                {
+                    ItemID = item.ItemId;
+                    TemplateID = item.TemplateId ?? 0;
+                    if (item.printCropMarks.HasValue)
+                        printCropMarks = item.printCropMarks.Value;
+                    if (item.drawWaterMarkTxt.HasValue)
+                        printWaterMark = item.drawWaterMarkTxt.Value;
+                    if (item.isMultipagePDF.HasValue)
+                        isMultiplageProduct = item.isMultipagePDF.Value;
+                  
+                }
+            }
+            //resolve template variables 
+            _smartFormService.AutoResolveTemplateVariables(ItemID, ContactID);
+            _templateService.processTemplatePDF(TemplateID,OrganisationId, printCropMarks,printWaterMark,false,isMultiplageProduct);
+            return ItemID + "_" + TemplateID + "_" + WEBOrderId + "_" + TemporaryCompanyId;
+            //update temporary customer id (for case of retail) and order id 
+        }
+        /// <summary>
+        /// get category name
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        public string GetCategoryNameById(long CategoryId, long ItemId)
+        {
+            if (CategoryId > 0)
+            {
+                return _ProductCategoryRepository.GetCategoryById(CategoryId).CategoryName;
+            }
+            else 
+            {
+                CategoryId = _ProductCategoryItemRepository.GetCategoryId(ItemId) ?? 0;
+                if (CategoryId > 0)
+                {
+                    return _ProductCategoryRepository.GetCategoryById(CategoryId).CategoryName;
+                }
+                else 
+                {
+                    return "";
+                }
+            }
+           
+        }
+        /// <summary>
+        /// get category id
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        public long GetCategoryIdByItemId(long ItemId)
+        {
+            return _ProductCategoryItemRepository.GetCategoryId(ItemId) ?? 0;
+          
+        }
+
+
+        //private void CloneItem(long id, StoreMode mode, long OrderId, long ContactId, long CompanyId,)
+        //{
+        //    string CacheKeyName = "CompanyBaseResponse";
+        //    ObjectCache cache = MemoryCache.Default;
+        //    long ItemID = 0;
+        //    long TemplateID = 0;
+        //    bool isCorp = true;
+        //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+        //        isCorp = true;
+        //    else
+        //        isCorp = false;
+        //    int TempDesignerID = 0;
+        //    string ProductName = string.Empty;
+
+        //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+
+        //    long ContactID = _myClaimHelper.loginContactID();
+        //    long CompanyID = _myClaimHelper.loginContactCompanyID();
+        //    if (UserCookieManager.WEBOrderId == 0)
+        //    {
+        //        long OrderID = 0;
+        //        long TemporaryRetailCompanyId = 0;
+        //        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+        //        {
+        //            TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+        //            OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+        //            if (OrderID > 0)
+        //            {
+        //                UserCookieManager.WEBOrderId = OrderID;
+        //            }
+        //            if (TemporaryRetailCompanyId != 0)
+        //            {
+        //                UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+        //                ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+        //            }
+        //            CompanyID = TemporaryRetailCompanyId;
+
+        //        }
+        //        else
+        //        {
+        //            OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+        //            if (OrderID > 0)
+        //            {
+        //                UserCookieManager.WEBOrderId = OrderID;
+        //            }
+        //        }
+
+        //        // create new order
+
+
+        //        Item item = _IItemService.CloneItem(id, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+
+        //        if (item != null)
+        //        {
+        //            ItemID = item.ItemId;
+        //            TemplateID = item.TemplateId ?? 0;
+        //            TempDesignerID = item.DesignerCategoryId ?? 0;
+        //            ProductName = item.ProductName;
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail && ContactID == 0)
+        //        {
+        //            long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
+        //            // create new order
+
+        //            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+        //            if (OrderID > 0)
+        //            {
+        //                UserCookieManager.WEBOrderId = OrderID;
+        //            }
+        //            if (TemporaryRetailCompanyId != 0)
+        //            {
+        //                UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+        //                ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+        //            }
+        //            CompanyID = TemporaryRetailCompanyId;
+        //        }
+        //        else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+        //        {
+        //            CompanyID = UserCookieManager.TemporaryCompanyId;
+        //            ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
+        //        }
+        //        Item item = _IItemService.CloneItem(id, 0, UserCookieManager.WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+
+        //        if (item != null)
+        //        {
+        //            ItemID = item.ItemId;
+        //            TemplateID = item.TemplateId ?? 0;
+        //            TempDesignerID = item.DesignerCategoryId ?? 0;
+        //            ProductName = Utils.specialCharactersEncoder(item.ProductName);
+        //        }
+        //    }
+
+        //    int isCalledFrom = 0;
+        //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+        //        isCalledFrom = 4;
+        //    else
+        //        isCalledFrom = 3;
+
+        //    bool isEmbedded;
+        //    bool printWaterMark = true;
+        //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+        //    {
+        //        isEmbedded = true;
+        //    }
+        //    else
+        //    {
+        //        printWaterMark = false;
+        //        isEmbedded = false;
+        //    }
+
+        //    ProductName = _IItemService.specialCharactersEncoder(ProductName);
+        //    //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
+        //    bool printCropMarks = true;
+        //    string URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+
+        //    // ItemID ok
+        //    // TemplateID ok
+        //    // iscalledfrom ok
+        //    // cv scripts require
+        //    // productName ok
+        //    // contactid // ask from iqra about retail and corporate
+        //    // companyID // ask from iqra
+        //    // isembaded ook
+        //    Response.Redirect(URL);
+        //    return null;
+        //}
+
+        
     }
 }

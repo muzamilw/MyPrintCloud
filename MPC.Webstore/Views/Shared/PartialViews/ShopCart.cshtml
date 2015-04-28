@@ -5,7 +5,7 @@
 @using MPC.Webstore.ViewModels;
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";;
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
     string EstimateDispatchTime = string.Empty;
     double _priceTotal = 0;
     double _vatTotal = 0;
@@ -23,17 +23,19 @@
 <div class="container content_area">
     <div class="row left_right_padding">
         <div class="signin_heading_div textAlignLeft" style="padding-bottom: 0px !important;">
-            <table width="1000px">
+            <table style="  width: 100%;">
                 <tr>
-                    <td width="500px">
-                        <label id="lbl_ShoppingCart" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.StoreId))</label>
+                    <td>
+                        <div class="contact_us_heading">
+                            <label id="lbl_ShoppingCart" class="">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</label>
+                        </div>
+                        
                     </td>
-                    <td width="220px"></td>
-                    <td width="180px"></td>
+                   
                 </tr>
                 <tr style="height: 5px;"></tr>
-                <tr id="ErrorDisplyMes" style="display: none; width: 1000px;">
-                    <td colspan="3" width="1000px">
+                <tr id="ErrorDisplyMes" style="display: none; width: 100%;">
+                    <td  width="1000px">
                         <div style="background-color: red; border: 1px solid red; padding: 10px;" class="rounded_corners">
                             <label id="ErrorMEsSummry" style="color: White; font-size: 16px; font-weight: bold;"></label>
                         </div>
@@ -48,8 +50,8 @@
             {
                 <div class="get_in_touch_box rounded_corners">
                     <div class="textAlignCenter">
-                        
-                        <label class="lbl_Cart">@Html.Raw(Html.GetKeyValueFromResourceFile("lblMsg", UserCookieManager.StoreId))</label>
+
+                        <label class="lbl_Cart">@Html.Raw(Html.GetKeyValueFromResourceFile("lblMsg", UserCookieManager.WBStoreId))</label>
 
                     </div>
 
@@ -68,19 +70,19 @@
                             <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                 <tbody>
                                     <tr class="gridViewHeaderStyle">
-                                        <th align="center" scope="col">&nbsp;</th>
-                                        <th id="lblProductTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductTxt", UserCookieManager.StoreId))</th>
-                                        <th id="lblQuantityHeaderTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantityHeaderTxt", UserCookieManager.StoreId))</th>
+                                        <th align="center" scope="col" class="hidden-xs">&nbsp;</th>
+                                        <th id="lblProductTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductTxt", UserCookieManager.WBStoreId))</th>
+                                        <th id="lblQuantityHeaderTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantityHeaderTxt", UserCookieManager.WBStoreId))</th>
                                         @if (ViewBag.IsShowPrices)
                                         {
-                                            <th id="lbl_Price" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.StoreId))</th>
+                                            <th id="lbl_Price" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId))</th>
                                         }
-                                        <th align="left" scope="col" style="color: white !important; border: none; background-color: white !important;">&nbsp;</th>
+                                        @*<th align="left" scope="col" style="color: white !important; border: none; background-color: white">&nbsp;</th>*@
                                     </tr>
                                     @{ foreach (var prod in ViewData["ProductItemList"] as List<MPC.Models.Common.ProductItem>)
                                      {
                                         <tr class="gridViewRowStyle" align="top">
-                                            <td class="PadTop5 shopCartFirstCol">
+                                            <td class="PadTop5 shopCartFirstCol hidden-xs">
                                                 <div class="cart_grid_image_container gallery">
                                                     @{
                                          string pdfLinkBtn = string.Empty;
@@ -105,15 +107,30 @@
                                                  //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
 
                                                  pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
-                                                 imgToShowURL = Html.GetAppBasePath() + FolderPathOfAttachment + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                 if (FolderPathOfAttachment[0] == '/')
+                                                 {
+                                                     imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                 }
+                                                 else 
+                                                 {
+                                                     imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                 }
                                              }
                                          }
                                          else
                                          {
-                                             if (prod.ProductType == (int)ProductType.FinishedGoodWithBanner || prod.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
+                                             if (prod.ProductType == (int)ProductType.NonPrintProduct)
                                              {
-                                                 string completeImgPath = Html.GetAppBasePath() + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
-                                                 pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
+                                                 string completeImgPath = "";
+                                                 if (!string.IsNullOrEmpty(prod.Attatchment.FolderPath) && !string.IsNullOrEmpty(prod.Attatchment.FileName))
+                                                 {
+                                                     completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString;
+                                                 }
+                                                 else
+                                                 {
+                                                     completeImgPath = "/" + prod.ThumbnailPath;
+                                                 }
+                                                 pdfLinkBtn = completeImgPath;
                                                  imgToShowURL = completeImgPath;
                                              }
                                          }
@@ -121,7 +138,7 @@
                                                     <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL" /></a>
                                                 </div>
                                                 <div class="BtnTemplateModifyContainer">
-                                                    @if (prod.ProductType == (int)ProductType.TemplateProductWithBanner || prod.ProductType == (int)ProductType.TemplateProductWithImage)
+                                                    @if (prod.ProductType == (int)ProductType.PrintProduct)
                                                     {
                                                         <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
                                                     }
@@ -131,7 +148,7 @@
                                                     }
                                                 </div>
                                             </td>
-                                            <td style="width:29%;">
+                                            <td style="width:29%;" valign="top">
                                                 <span id="lblItemProductName" class="heading_16">@prod.ProductName</span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
                                                 <br>
                                                 <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
@@ -166,11 +183,13 @@
                                                 }
 
                                                 <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
-                                                <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery"  >
+                                                <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
                                                 <br>
-                                                <br>
+                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove product from cart">
+                                                <br />
+                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Make a copy of this product in cart">
                                             </td>
-                                            <td class="PadTop5" align="left" style="width:5%;">
+                                            <td class="PadTop5" align="left" style="width:5%;" valign="top">
                                                 <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
                                             </td>
                                             @if (ViewBag.IsShowPrices)
@@ -187,51 +206,66 @@
                                                 itemPrice = Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency);
                                                 _grandTotal += prod.Qty1GrossTotal ?? 0;
 
-                                                <td class="PadTop5 priceth" align="right" style="width:20%;">
+                                                <td class="PadTop5 priceth" valign="top" align="right" style="width:20%;padding-right:0px;">
                                                     <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
                                                 </td>
                                             }
 
-                                            <td align="left" style="width:20%;">
-                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove">
+                                            @*<td align="left" style="width:20%; padding-top:3px;" valign="top">*@
+                                                @*<input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove">
                                                 @*<a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">Remove</a>*@
-                                                <br>
-                                               @* @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })*@
-                                                <input type="submit" ID="btnCopyProduct"  class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Copy in cart">
-                                            </td>
+                                                @*<br>*@
+                                                @* @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.WEBOrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })*@
+                                                @*<input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Copy in cart">*@
+                                            @*</td>*@
                                         </tr>
 
-                                            subtotal = Utils.FormatDecimalValueToTwoDecimal(_priceTotal.ToString(), ViewBag.Currency);
-                                            VatTotal = Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency);
-                                            GrossTotal = _priceTotal + _vatTotal;
+                                            subtotal = _priceTotal.ToString();
+
 
                                      }
 
                                     }
+                                    @{
+
+                                     _vatTotal = Convert.ToDouble(_vatTotal) + Convert.ToDouble(Model.DeliveryTaxValue);
+                                     GrossTotal = Convert.ToDouble(subtotal) + Convert.ToDouble(_vatTotal) + Model.DeliveryCost;
+                                     subtotal = Utils.FormatDecimalValueToTwoDecimal(subtotal.ToString(), ViewBag.Currency);
+                                     VatTotal = Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency);
+                                    }
+
                                 </tbody>
                             </table>
 
                             <br />
                             <div class="cnttotalPayables">
-
+@if (ViewBag.IsShowPrices)
+{
                                 <div class="cntsubHeadings">
-                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.StoreId))</label>
+                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
+                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Delivery:</label>
+                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
+                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Total:</label>
 
-                                   
+
                                 </div>
-                                <div class="cnttotals" id="cntRightPricing1">
+                               
+                                    <div class="cnttotals" id="cntRightPricing1">
 
-                                    <label id="lblSubTotal" class="Fsize14 colorBlack displayClear">@subtotal</label>
+                                        <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@subtotal</label>
 
-                                  
-                                </div>
+                                        <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                        <label class="Fsize13 colorBlack displayClear">@VatTotal</label>
+                                        <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
+                                    </div>
+                                }
                                 <div class="clearBoth">
                                 </div>
                             </div>
                             <div class="cntdispatchDelivery">
                                 <div class="tdDispatchDate">
                                     <div class="estimated_dispactch_sec MLeft17 LightGrayLabels">
-                                        <label id="lbl_EstimatedDispatch">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.StoreId))</label>
+                                        <label id="lbl_EstimatedDispatch">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.WBStoreId))</label>
                                     </div>
                                     <div class="estimated_dispatch_time MLeft17">
                                         <label id="lblDeliveryCostCenterDateText" class="heading_h5 colorBlack fontSyleBold">@EstimateDispatchTime</label>  &nbsp;
@@ -243,9 +277,9 @@
                             </div>
                             <div class="clearBoth">
                             </div>
-                          
-                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" /><br />
-                            <button id="btn_ContinueShopping" type="button" onclick="ContinueShopping();"class="btn_brown  rounded_corners5" style="float: right;" >@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.StoreId))</button>
+
+                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="ShowLoader();" /><br />
+                            <button id="btn_ContinueShopping" type="button" onclick="ContinueShopping(); ShowLoader();" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
@@ -270,7 +304,7 @@
         {
             <div class="get_in_touch_box rounded_corners">
                 <div class="textAlignCenter">
-                    <label class="lbl_Empty_Cart">@Html.Raw(Html.GetKeyValueFromResourceFile("lblMsg", UserCookieManager.StoreId))</label>
+                    <label class="lbl_Empty_Cart">@Html.Raw(Html.GetKeyValueFromResourceFile("lblMsg", UserCookieManager.WBStoreId))</label>
 
                 </div>
 
@@ -279,56 +313,41 @@
 
     </div>
     <div class="clearBoth">
-        &nbsp;
-    </div>
-    <div style="padding-top: 5px; text-align: left; font-size: 18px; line-height: 4;">
-        <label id="lblYoumightLke" visible="false"></label>
-    </div>
 
-
-
-    <div class="clearBoth">
-        &nbsp;
     </div>
     @*matching set*@
-    
+
     @{
-        if(UserCookieManager.StoreMode != (int)StoreMode.Corp)
+        if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
         {
-           
+
             // call matching set partial view to show matching sets
             MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
-            
+
             MSViewModel = ViewData["MSViewModel"] as MatchingSetViewModel;
-            if(MSViewModel != null)
+            if (MSViewModel != null)
             {
                 @Html.Partial("PartialViews/MatchingSet", MSViewModel);
             }
-          
-            
+
+
             // call related items to show lists of related items
             RelatedItemViewModel RIViewModel = new RelatedItemViewModel();
             RIViewModel = ViewData["RIViewModel"] as RelatedItemViewModel;
-            if(RIViewModel != null)
+            if (RIViewModel != null)
             {
                 @Html.Partial("PartialViews/RelatedItems", RIViewModel);
             }
             else
             {
-                <label id="lbl_NorelatedItemsFound" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNorelatedItemsFound", UserCookieManager.StoreId))</label>
+                <label id="lbl_NorelatedItemsFound" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNorelatedItemsFound", UserCookieManager.WBStoreId))</label>
             }
         }
 
-}
-   
-    
-    <br />
-  
-
+    }
     <div class="clearBoth">
-        &nbsp;
+
     </div>
-    <br />
 </div>
 </div>
 <div class="opaqueLayer">
@@ -337,14 +356,14 @@
     <div id="MainContent_Div1" onclick="return closePopUpClick()" class="exit_popup exitPopupProofs" style="display: none;">
     </div>
     <label id="lbl_EmailSendProofs" class="boldTxt">
-       @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EmailSendProofs", UserCookieManager.StoreId))
+        @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EmailSendProofs", UserCookieManager.WBStoreId))
     </label>
     <br />
     <br />
     <table class="normalTextStyle" width="400px" cellpadding="2">
         <tr>
-            <td align="right" >
-                <label id="lbl_Email1AddressSendProofs">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email1AddressSendProofs", UserCookieManager.StoreId))</label>
+            <td align="right">
+                <label id="lbl_Email1AddressSendProofs">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email1AddressSendProofs", UserCookieManager.WBStoreId))</label>
             </td>
             <td class="tdtextbox">
                 <input type="email" name="userEmail1" id="userEmail1" class="text_box200 rounded_corners5">
@@ -352,8 +371,8 @@
             </td>
         </tr>
         <tr>
-            <td align="right" class="H4B" >
-                <label id="lbl_Email2AddressSendProofs">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email2AddressSendProofs", UserCookieManager.StoreId))</label>
+            <td align="right" class="H4B">
+                <label id="lbl_Email2AddressSendProofs">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email2AddressSendProofs", UserCookieManager.WBStoreId))</label>
             </td>
             <td class="tdtextbox">
                 <input type="email" name="userEmail2" id="userEmail2" class="text_box200 rounded_corners5">
@@ -363,23 +382,23 @@
             <td colspan="2">
                 <div class="reset_password_button_div2">
                     <button id="btn_SendEmail" class="start_creating_btn rounded_corners5 btnSendProofs" onclick="return EmailItems()">
-                        @Html.Raw(Html.GetKeyValueFromResourceFile("btn_SendEmail", UserCookieManager.StoreId))
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("btn_SendEmail", UserCookieManager.WBStoreId))
                     </button>
                     &nbsp;
                     <button id="btn_Cancel" class="start_creating_btn rounded_corners5" onclick="return closePopUpClick()">
-                        @Html.Raw(Html.GetKeyValueFromResourceFile("btn_Cancel", UserCookieManager.StoreId))
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("btn_Cancel", UserCookieManager.WBStoreId))
                     </button>
                 </div>
             </td>
         </tr>
     </table>
-    <p  class="proofSuccess" style="display: none;" id="lbl_EmailSentProofMessage" runat="server">
-        @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EmailSentProofMessage", UserCookieManager.StoreId))
+    <p class="proofSuccess" style="display: none;" id="lbl_EmailSentProofMessage" runat="server">
+        @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EmailSentProofMessage", UserCookieManager.WBStoreId))
     </p>
 </div>
 <div id="RemoveProductDiv1" class="RemoveProductDiv" style="display:none;">
     <div class="md-modal md-effect-7" id="modal-7">
-        <div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp();>&times;</button><h4 id="popup_Mesaage_Title" class="modal-title">@Html.Raw(Html.GetKeyValueFromResourceFile("popup_Mesaage_Title", UserCookieManager.StoreId))</h4></div><div id="popup_Mesaage" class="modal-body">@Html.Raw(Html.GetKeyValueFromResourceFile("popup_Mesaage", UserCookieManager.StoreId))<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" value="Yes" /><input type="button" onclick=HideMessagePopUp(); class="btn btn-primary" value="No"></div></div></div>
+        <div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp();>&times;</button><h4 id="popup_Mesaage_Title" class="modal-title">@Html.Raw(Html.GetKeyValueFromResourceFile("popup_Mesaage_Title", UserCookieManager.WBStoreId))</h4></div><div id="popup_Mesaage" class="modal-body">@Html.Raw(Html.GetKeyValueFromResourceFile("popup_Mesaage", UserCookieManager.WBStoreId))<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" value="Yes" /><input type="button" onclick=HideMessagePopUp(); class="btn btn-primary" value="No"></div></div></div>
     </div>
 </div>
 <label id="lblDesgnHeaderTxt" visible="false"></label>
@@ -411,9 +430,9 @@
         }
         function CanCheckOut(sender) {
             if (Page_ClientValidate()) {
-               
+
                 var numOfRec = @ViewBag.NumberOfRecords;
-              
+
                 if (parseInt(numOfRec) > 0) {
                     $("hfIsCallFrom").val("CheckOut");
                     return true;
@@ -473,22 +492,20 @@
         }
         function RedirectToConfirmSelect(TempID,CategoryID,ItemID)
         {
-            
             if(TempID == 0)
             {
-                alert("/ProductOptions/" + CategoryID + "/" + ItemID + "/Modify");
                 window.location.href = "/ProductOptions/" + CategoryID + "/" + ItemID + "/Modify";
             }
             else
             {
-              
+
                 window.location.href = "/ProductOptions" + "/" + CategoryID + "/" + ItemID + "/Modify/" + TempID;
             }
             return false;
         }
         function ContinueShopping()
         {
-    
+
             window.location.href = "/";
         }
         function ApplyVoucherCode(OrderID,DiscountVoucher)
@@ -506,7 +523,7 @@
             //$("hfIsCallFrom").val("Delete");
             //var html = $("div.RemoveProductDiv").html();
             //alert(html);
-          
+
             $("#hfItemID").val(ItemID);
             $("#hfIsCallFrom").val("RemoveProduct");
             ConfirmDeleteItemPopUP(ItemID,OrderID);
@@ -514,14 +531,14 @@
         }
         function CopyProduct(ItemID)
         {
-           
+
             $("#hfItemID").val(ItemID);
             $("#hfIsCallFrom").val("CopyProduct");
-            
+
             //"/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
             ShowLoader();
 
-            
+
         }
     </script>
 }

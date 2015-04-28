@@ -32,7 +32,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedFile2, specifiedFile3, specifiedFile4, specifiedFile5, specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight,
         specifiedDefaultItemTax, specifiedSupplierId, specifiedSupplierId2, specifiedEstimateProductionTime, specifiedItemProductDetail,
         specifiedIsTemplateDesignMode, specifiedDesignerCategoryId, specifiedScalar, specifiedZoomFactor, specifiedIsCMYK, specifiedTemplateType,
-        callbacks, constructorParams) {
+        specifiedProductDisplayOptions, specifiedIsRealStateProduct, specifiedIsUploadImage, specifiedIsDigitalDownload, specifiedPrintCropMarks,
+        specifiedDrawWatermarkText, specifiedOrganisationId, specifiedCompanyId, specifiedIsAddCropMarks, specifiedDrawBleedArea, specifiedAllowPdfDownload,
+        specifiedIsMultiPagePdf, specifiedAllowImageDownload, specifiedItemLength, specifiedItemWidth, specifiedItemHeight, specifiedItemWeight,
+        specifiedTemplateId, specifiedSmartFormId, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -313,9 +316,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             }),
             // Scalar
-            scalar = ko.observable(specifiedScalar || undefined),
+            scalar = ko.observable(specifiedScalar || undefined).extend({ number: true }),
             // Zoom Factor
-            zoomFactor = ko.observable(specifiedZoomFactor || undefined),
+            zoomFactor = ko.observable(specifiedZoomFactor || undefined).extend({ number: true }),
             // Designer Category Id
             designerCategoryId = ko.observable(specifiedDesignerCategoryId || undefined),
             // Template Type
@@ -353,13 +356,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     templateType(tempType);
                     if (template()) {
                         if (tempType === 1) {
-                            template().isCreatedManual(true);
+                            template().isCreatedManualUi(true);
                         }
                         else if (tempType === 2) {
-                            template().isCreatedManual(false);
+                            template().isCreatedManualUi(false);
+                            template().fileSource(undefined);
                         }
                         else {
-                            template().isCreatedManual(undefined);
+                            template().isCreatedManualUi(undefined);
                         }
                     }
                 }
@@ -368,6 +372,62 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canStartDesignerEmpty = ko.computed(function () {
                 return templateType() === 3;
             }),
+            // Product Display Options
+            productDisplayOptions = ko.observable(specifiedProductDisplayOptions || 1),
+            // Product DisplayOptions for ui
+            productDisplayOptionsUi = ko.computed({
+                read: function () {
+                    return '' + productDisplayOptions();
+                },
+                write: function (value) {
+                    if (!value) {
+                        return;
+                    }
+
+                    var productDisplayOptionValue = parseInt(value);
+                    if (productDisplayOptionValue === productDisplayOptions()) {
+                        return;
+                    }
+                    
+                    productDisplayOptions(productDisplayOptionValue);
+                }
+            }),
+            // Is Real State Product
+            isRealStateProduct = ko.observable(specifiedIsRealStateProduct || false),
+            // Is Upload Image
+            isUploadImage = ko.observable(specifiedIsUploadImage || false),
+            // Is Digital Download
+            isDigitalDownload = ko.observable(specifiedIsDigitalDownload || false),
+            // Print Crop Marks
+            printCropMarks = ko.observable(specifiedPrintCropMarks || false),
+            // Draw Water Mark
+            drawWatermarkText = ko.observable(specifiedDrawWatermarkText || false),
+            // Is Add Crop Marks
+            isAddCropMarks = ko.observable(specifiedIsAddCropMarks || false),
+            // Draw bleed area
+            drawBleedArea = ko.observable(specifiedDrawBleedArea || false),
+            // Is Multipage Pdf
+            isMultiPagePdf = ko.observable(specifiedPrintCropMarks || false),
+            // Allow Pdf Download
+            allowPdfDownload = ko.observable(specifiedAllowPdfDownload || false),
+            // Allow Image Download
+            allowImageDownload = ko.observable(specifiedAllowImageDownload || false),
+            // Item Length
+            itemLength = ko.observable(specifiedItemLength || undefined).extend({ number: true }),
+            // Item Height
+            itemHeight = ko.observable(specifiedItemHeight || undefined).extend({ number: true }),
+            // Item Width
+            itemWidth = ko.observable(specifiedItemWidth || undefined).extend({ number: true }),
+            // Item Weight
+            itemWeight = ko.observable(specifiedItemWeight || undefined).extend({ number: true }),
+            // Organisation Id
+            organisationId = ko.observable(specifiedOrganisationId || undefined),
+            // Company Id
+            companyId = ko.observable(specifiedCompanyId || undefined),
+            // Template Id
+            templateId = ko.observable(specifiedTemplateId || undefined),
+            // Smart Form Id
+            smartFormId = ko.observable(specifiedSmartFormId || undefined),
             // Item Product Detail
             itemProductDetail = ko.observable(ItemProductDetail.Create(specifiedItemProductDetail || { ItemId: id() })),
             // Item Vdp Prices
@@ -384,6 +444,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemPriceMatrices = ko.observableArray([]),
             // Product Category Items
             productCategoryItems = ko.observableArray([]),
+            // Item Images
+            itemImages = ko.observableArray([]),
             // Available Product Category items
             availableProductCategoryItems = ko.computed(function () {
                 if (productCategoryItems().length === 0) {
@@ -391,12 +453,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
 
                 var categories = "";
-                productCategoryItems.each(function(pci, index) {
-                    var pcname = pci.categoryName();
-                    if (index < productCategoryItems().length - 1) {
-                        pcname = pcname + " || ";
+                productCategoryItems.each(function (pci, index) {
+                    if (pci.isSelected()) {
+                        var pcname = pci.categoryName();
+                        if (index < productCategoryItems().length - 1) {
+                            pcname = pcname + " || ";
+                        }
+                        categories += pcname;
                     }
-                    categories += pcname;
                 });
 
                 return categories;
@@ -934,7 +998,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (unselectedCategories.length > 0) {
                         _.each(unselectedCategories, function (productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id;
                             });
 
                             // Exists Already
@@ -1011,6 +1075,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
 
             },
+            // Add Item Image
+            onSelectItemImage = function(file, data) {
+                var itemImage = ItemImage.Create({ ItemId: id() });
+                itemImage.onSelectImage(file, data);
+                itemImages.push(itemImage);
+            },
             // Reset Files
             resetFiles = function () {
                 file1(undefined);
@@ -1035,6 +1105,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 productName: productName,
                 internalFlagId: internalFlagId
             }),
+            // Has Valid Template
+            hasTemplatePagesForManual = function () {
+                if ((isFinishedGoodsUi() !== '1') || (templateTypeUi() !== '1')) {
+                    return true;
+                }
+
+                return (isFinishedGoodsUi() === '1') && (templateTypeUi() === '1') && (template() && template().templatePages().length > 0);
+            },
             // Is Valid
             isValid = ko.computed(function () {
                 return errors().length === 0 && itemVdpPrices.filter(function (itemVdpPrice) {
@@ -1046,7 +1124,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemSections.filter(function (itemSection) {
                     return !itemSection.isValid();
                 }).length === 0 &&
-                template().isValid();
+                template().isValid() &&
+                hasTemplatePagesForManual();
             }),
             // Show All Error Messages
             showAllErrors = function () {
@@ -1103,6 +1182,21 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         var templateFileElement = template().fileSource.domElement;
                         validationSummaryList.push({ name: "Pre-Built Template", element: templateFileElement });
                     }
+                    if (template().pdfTemplateWidth.error) {
+                        var templatePdfWidthElement = template().pdfTemplateWidth.domElement;
+                        validationSummaryList.push({ name: "Width is required in case of Blank Template", element: templatePdfWidthElement });
+                    }
+                    if (template().pdfTemplateHeight.error) {
+                        var templatePdfHeightElement = template().pdfTemplateHeight.domElement;
+                        validationSummaryList.push({ name: "Height is required in case of Blank Template", element: templatePdfHeightElement });
+                    }
+                }
+                // If Print Item and don't has Template Pages for Blank Template
+                if (!hasTemplatePagesForManual()) {
+                    validationSummaryList.push({
+                        name: "Atleast one Template Page is required in case of Blank Template",
+                        element: template().isCreatedManual.domElement
+                    });
                 }
                 // Show Item Section Errors
                 var itemSectionInvalid = itemSections.find(function (itemSection) {
@@ -1188,6 +1282,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 zoomFactor: zoomFactor,
                 designerCategoryId: designerCategoryId,
                 templateType: templateType,
+                productDisplayOptions: productDisplayOptions,
+                isRealStateProduct: isRealStateProduct,
+                isUploadImage: isUploadImage,
+                isDigitalDownload: isDigitalDownload,
+                isAddCropMarks: isAddCropMarks,
+                printCropMarks: printCropMarks,
+                drawWatermarkText: drawWatermarkText,
+                drawBleedArea: drawBleedArea,
+                isMultiPagePdf: isMultiPagePdf,
+                allowPdfDownload: allowPdfDownload,
+                allowImageDownload: allowImageDownload,
+                itemLength: itemLength,
+                itemWeight: itemWeight,
+                itemHeight: itemHeight,
+                itemWidth: itemWidth,
+                smartFormId: smartFormId,
                 itemProductDetail: itemProductDetail,
                 itemVdpPrices: itemVdpPrices,
                 itemVideos: itemVideos,
@@ -1197,7 +1307,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemPriceMatrices: itemPriceMatrices,
                 itemStateTaxes: itemStateTaxes,
                 productCategoryItems: productCategoryItems,
-                itemSections: itemSections
+                itemSections: itemSections,
+                itemImages: itemImages
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {
@@ -1235,10 +1346,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return itemSection.hasChanges();
                 }) != null;
             }),
+            // Item Image Changes
+            itemImageHasChanges = ko.computed(function () {
+                return itemImages.find(function (itemImage) {
+                    return itemImage.hasChanges();
+                }) != null;
+            }),
             // Has Changes
             hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty() || itemVdpPriceListHasChanges() || itemVideosHasChanges() || template().hasChanges() || itemStockOptionHasChanges() ||
-                    itemPriceMatrixHasChanges() || itemStateTaxesHasChanges() || itemProductDetail().hasChanges() || itemSectionHasChanges();
+                    itemPriceMatrixHasChanges() || itemStateTaxesHasChanges() || itemProductDetail().hasChanges() || itemSectionHasChanges() || itemImageHasChanges();
             }),
             // Reset
             reset = function () {
@@ -1260,6 +1377,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemSections.each(function(itemSection) {
                     return itemSection.reset();
                 });
+                itemImages.each(function (itemImage) {
+                    return itemImage.reset();
+                });
                 template().reset();
                 itemProductDetail().reset();
                 dirtyFlag.reset();
@@ -1278,7 +1398,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsVdpProduct: isVdpProduct(),
                     IsStockControl: isStockControl(),
                     SortOrder: sortOrder(),
-                    ProductType: isFinishedGoodsUi() === '3' ? 0 : parseInt(isFinishedGoodsUi()),
+                    ProductType: parseInt(isFinishedGoodsUi()),
                     XeroAccessCode: xeroAccessCode(),
                     WebDescription: webDescription(),
                     ProductSpecification: productSpecification(),
@@ -1320,6 +1440,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     DesignerCategoryId: designerCategoryId(),
                     TemplateType: templateType(),
                     TemplateTypeMode: templateTypeMode(),
+                    ProductDisplayOptions: productDisplayOptions(),
+                    IsRealStateProduct: isRealStateProduct(),
+                    IsUploadImage: isUploadImage(),
+                    IsDigitalDownload: isDigitalDownload(),
+                    IsAddCropMarks: isAddCropMarks(),
+                    PrintCropMarks: printCropMarks(),
+                    DrawWaterMarkTxt: drawWatermarkText(),
+                    DrawBleedArea: drawBleedArea(),
+                    IsMultiPagePdf: isMultiPagePdf(),
+                    AllowPdfDownload: allowPdfDownload(),
+                    AllowImageDownload: allowImageDownload(),
+                    ItemLength: itemLength(),
+                    ItemWeight: itemWeight(),
+                    ItemHeight: itemHeight(),
+                    ItemWidth: itemWidth(),
+                    SmartFormId: smartFormId(),
                     ThumbnailImageName: thumbnailFileName(),
                     ThumbnailImageByte: thumbnailFileSource(),
                     GridImageSourceName: gridImageFileName(),
@@ -1366,6 +1502,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         section.SectionNo = index + 1;
                         return section;
                     }),
+                    ItemImages: itemImages.map(function (itemImage) {
+                        return itemImage.convertToServerData();
+                    })
                 };
             };
 
@@ -1441,7 +1580,28 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             zoomFactor: zoomFactor,
             designerCategoryId: designerCategoryId,
             templateTypeUi: templateTypeUi,
+            templateType: templateType,
             templateTypeMode: templateTypeMode,
+            productDisplayOptionsUi: productDisplayOptionsUi,
+            productDisplayOptions: productDisplayOptions,
+            isRealStateProduct: isRealStateProduct,
+            isUploadImage: isUploadImage,
+            isDigitalDownload: isDigitalDownload,
+            printCropMarks: printCropMarks,
+            drawWatermarkText: drawWatermarkText,
+            isAddCropMarks: isAddCropMarks,
+            drawBleedArea: drawBleedArea,
+            isMultiPagePdf: isMultiPagePdf,
+            allowPdfDownload: allowPdfDownload,
+            allowImageDownload: allowImageDownload,
+            itemLength: itemLength,
+            itemWeight: itemWeight,
+            itemHeight: itemHeight,
+            itemWidth: itemWidth,
+            organisationId: organisationId,
+            companyId: companyId,
+            templateId: templateId,
+            smartFormId: smartFormId,
             canStartDesignerEmpty: canStartDesignerEmpty,
             itemProductDetail: itemProductDetail,
             itemVideos: itemVideos,
@@ -1510,6 +1670,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             selectItemSection: selectItemSection,
             onSelectPressItem: onSelectPressItem,
             onSelectImage: onSelectImage,
+            itemImages: itemImages,
+            onSelectItemImage: onSelectItemImage,
             resetFiles: resetFiles,
             errors: errors,
             isValid: isValid,
@@ -1687,25 +1849,53 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Entity
     // ReSharper disable InconsistentNaming
-    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate) {
+    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
-            // Pdf Template Width
-            pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined),
-            // Pdf Template Height
-            pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
             // Is Created Manual
             isCreatedManual = ko.observable(specifiedIsCreatedManual !== null && specifiedIsCreatedManual !== undefined ? specifiedIsCreatedManual :
                 (!specifiedId ? true : undefined)),
+            // Is Created Manual Changed
+            isCreatedManualUi = ko.computed({
+                read: function() {
+                    return isCreatedManual();
+                },
+                write: function(value) {
+                    if (value === isCreatedManual()) {
+                        return;
+                    }
+
+                    isCreatedManual(value);
+                    if (specifiedIsCreatedManual === false) {
+                        specifiedIsCreatedManual = value;
+                    }
+                }
+            }),
+            // Pdf Template Width
+            pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return isCreatedManual() === true;
+                    }
+                }
+            }),
+            // Pdf Template Height
+            pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return isCreatedManual() === true;
+                    }
+                }
+            }),
             // Is Spot Template
             isSpotTemplate = ko.observable(specifiedIsSpotTemplate !== null && specifiedIsSpotTemplate !== undefined ? specifiedIsSpotTemplate :
                 (!specifiedId ? true : undefined)),
             // File Source
-            fileSource = ko.observable().extend({
+            fileSource = ko.observable(specifiedFileSource).extend({
                 required: {
                     onlyIf: function () {
-                        return isCreatedManual() === false;
+                        return specifiedIsCreatedManual !== false && isCreatedManual() === false;
                     }
                 }
             }),
@@ -1715,11 +1905,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             templatePages = ko.observableArray([]),
             // Can add Template Pages
             canAddTemplatePages = ko.computed(function () {
-                return isCreatedManual() || (isCreatedManual() === false && !fileSource());
+                return isCreatedManual() || (specifiedIsCreatedManual !== false && isCreatedManual() === false && !fileSource());
             }),
             // Add Template Page
             addTemplatePage = function () {
-                templatePages.push(TemplatePage.Create({ ProductId: id() }));
+                templatePages.push(TemplatePage.Create({ ProductId: id(), Width: pdfTemplateWidth(), Height: pdfTemplateHeight() }));
             },
             // Remove Template Page
             removeTemplatePage = function (templatePage) {
@@ -1748,7 +1938,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Errors
             errors = ko.validation.group({
-                fileSource: fileSource
+                fileSource: fileSource,
+                pdfTemplateWidth: pdfTemplateWidth,
+                pdfTemplateHeight: pdfTemplateHeight
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -1802,6 +1994,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateWidth: pdfTemplateWidth,
             pdfTemplateHeight: pdfTemplateHeight,
             isCreatedManual: isCreatedManual,
+            isCreatedManualUi: isCreatedManualUi,
             isSpotTemplate: isSpotTemplate,
             canAddTemplatePages: canAddTemplatePages,
             fileSource: fileSource,
@@ -1942,8 +2135,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemAddonCostCentres.splice(0, 0, itemAddonCostCentre);
             },
             // Remove ItemAddon Cost Centre
-            removeItemAddonCostCentre = function (itemAddonCostCentre) {
-                itemAddonCostCentres.remove(itemAddonCostCentre);
+            removeItemAddonCostCentre = function () {
+                itemAddonCostCentres.remove(activeItemAddonCostCentre());
             },
             // Select Stock Item
             selectStock = function (stockItem) {
@@ -1954,6 +2147,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 stockItemId(stockItem.id);
                 stockItemName(stockItem.name);
                 stockItemDescription(stockItem.description);
+                label(stockItem.name);
             },
             // On Select File
             onSelectImage = function (file, data) {
@@ -2543,8 +2737,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     PriceMatrixId: id(),
                     ItemId: itemId(),
                     Quantity: quantity(),
-                    QtyRangedFrom: qtyRangedFrom(),
-                    QtyRangedTo: qtyRangedTo(),
+                    QtyRangeFrom: qtyRangedFrom(),
+                    QtyRangeTo: qtyRangedTo(),
                     FlagId: flagId(),
                     SupplierId: supplierId(),
                     SupplierSequence: supplierSequence(),
@@ -2891,6 +3085,72 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemId: itemId,
             convertToServerData: convertToServerData
         };
+    },
+    
+    // Item Image Entity
+    ItemImage = function (specifiedId, specifiedImage, specifiedItemId) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // image
+            image = ko.observable(specifiedImage || undefined),
+            // file source
+            fileSource = ko.observable(),
+            // file name
+            fileName = ko.observable(),
+            // Item Id
+            itemId = ko.observable(specifiedItemId || undefined),
+            // On Select File
+            onSelectImage = function (file, data) {
+                image(data);
+                fileSource(data);
+                fileName(file.name);
+            },
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                image: image
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                // Reset State to Un-Modified
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ProductImageId: id(),
+                    ItemId: itemId(),
+                    FileSource: fileSource(),
+                    FileName: fileName()
+                };
+            };
+
+        return {
+            id: id,
+            itemId: itemId,
+            image: image,
+            fileSource: fileSource,
+            fileName: fileName,
+            onSelectImage: onSelectImage,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
     };
 
     // Item Vdp Price Factory
@@ -2915,7 +3175,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Factory
     Template.Create = function (source) {
-        var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate);
+        var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate,
+        source.FileOriginalSource);
 
         // Map Template Pages if any
         if (source.TemplatePages != null) {
@@ -2944,7 +3205,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Addon Cost Centre Factory
     ItemAddonCostCentre.Create = function (source, callbacks) {
         return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-            source.CostCentreType, callbacks);
+            source.CostCentreTypeName, callbacks);
     };
 
     // Item Stock Option Factory
@@ -2986,7 +3247,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Price Matrix Factory
     ItemPriceMatrix.Create = function (source) {
-        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangedFrom, source.QtyRangedTo, source.PricePaperType1, source.PricePaperType2,
+        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangeFrom, source.QtyRangeTo, source.PricePaperType1, source.PricePaperType2,
             source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
             source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId);
     };
@@ -3014,6 +3275,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return itemSection;
     };
+    
+    // Item Image Factory
+    ItemImage.Create = function (source) {
+        return new ItemImage(source.ProductImageId, source.ImageUrlSource, source.ItemId);
+    };
 
     // Item Factory
     Item.Create = function (source, callbacks, constructorParams) {
@@ -3027,7 +3293,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.File2BytesSource,
             source.File3BytesSource, source.File4BytesSource, source.File5BytesSource, source.FlagId, source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax,
             source.SupplierId, source.SupplierId2, source.EstimateProductionTime, source.ItemProductDetail, source.IsTemplateDesignMode, source.DesignerCategoryId,
-            source.Scalar, source.ZoomFactor, source.IsCmyk, source.TemplateType, callbacks, constructorParams);
+            source.Scalar, source.ZoomFactor, source.IsCmyk, source.TemplateType, source.ProductDisplayOptions, source.IsRealStateProduct, source.IsUploadImage,
+            source.IsDigitalDownload, source.PrintCropMarks, source.DrawWaterMarkTxt, source.OrganisationId, source.CompanyId, source.IsAddCropMarks,
+            source.DrawBleedArea, source.AllowPdfDownload, source.IsMultiPagePdf, source.AllowImageDownload, source.ItemLength, source.ItemWidth, source.ItemHeight,
+            source.ItemWeight, source.TemplateId, source.SmartFormId, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {
@@ -3071,6 +3340,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Map Template
         if (source.Template != null) {
             item.template(Template.Create(source.Template));
+            // If Designer Product then set its Created Manual to undefined
+            if (item.templateTypeUi() === "3") {
+                item.template().isCreatedManualUi(undefined);
+            }
         }
 
         // Map Item Stock Options if any
@@ -3143,6 +3416,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Push to Original Item
             ko.utils.arrayPushAll(item.itemSections(), itemSections);
             item.itemSections.valueHasMutated();
+        }
+        
+        // Map Item Images if any
+        if (source.ItemImages && source.ItemImages.length > 0) {
+            var itemImages = [];
+
+            _.each(source.ItemImages, function (itemImage) {
+                itemImages.push(ItemImage.Create(itemImage));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(item.itemImages(), itemImages);
+            item.itemImages.valueHasMutated();
         }
 
         // Return item with dirty state if New

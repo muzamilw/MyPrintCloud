@@ -6,6 +6,14 @@ namespace MPC.Interfaces.Repository
 {
     public interface IAddressRepository : IBaseRepository<Address, long>
     {
+        List<State> GetAllStates();
+        Country GetCountryByCountryID(long CountryID);
+        List<Country> GetAllCountries();
+        State GetStateByStateID(long StateID);
+        List<State> GetCountryStates(long CountryId);
+        bool AddressNameExist(Address address);
+        List<Address> GetAdressesByContactID(long contactID);
+        List<Address> GetAddressesListByContactCompanyID(long contactCompanyId);
         List<Address> GetAddressesByTerritoryID(Int64 TerritoryID);
         Models.ResponseModels.AddressResponse GetAddress(Models.RequestModels.AddressRequestModel request);
 
@@ -17,8 +25,8 @@ namespace MPC.Interfaces.Repository
         Address GetAddressByID(long AddressID);
 
         List<Address> GetAddressByCompanyID(long companyID);
-
-        List<Address> GetAdressesByContactID(long contactID);
+        Address GetAddressByAddressID(long AddressID);
+        
 
         List<Address> GetBillingAndShippingAddresses(long TerritoryID);
 
@@ -32,6 +40,12 @@ namespace MPC.Interfaces.Repository
         /// <param name="customerID"></param>
         /// <returns></returns>
         List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
-        
+        List<Address> GetsearchedAddress(long CompanyId, String searchtxt);
+        bool UpdateBillingShippingAdd(Address Model);
+        bool AddAddBillingShippingAdd(Address Address);
+        void ResetDefaultShippingAddress(Address address);
+        Address GetAddressById(long addressId);
+
+        Address GetAddressByIdforXML(int addressId);
     }
 }

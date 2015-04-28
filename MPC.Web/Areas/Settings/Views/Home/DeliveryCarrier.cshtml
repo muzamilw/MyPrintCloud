@@ -1,20 +1,25 @@
 ﻿@{
     ViewBag.Title = "Delivery Carrier";
 }
-<div class="row">
+<div class="row" id="carrierdeliveryBinding">
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li class="active">Delivery Cost Centers</li>
-                    
+                    <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
                 <h1>Delivery Carriers</h1>
             </div>
         </div>
+        <div class="col-lg-12">
+            <div class="pull-right">
+                <button id="open-wizard" class="btn btn-primary pull-right" data-bind="click:$root.createNewDeliveryDialog">
+                    Add Delivery Carrier
+                </button>
+            </div>
+        </div>
+        
         <div class="row" id="user-profile">
-
             <div class="col-lg-12 form-horizontal ">
                 <div class="main-box no-header clearfix">
                     <div class="main-box-body clearfix">
@@ -23,56 +28,14 @@
                                 <thead>
                                     <tr>
                                         <th><a href="#"><span>Name</span></a></th>
-                                        <th><a href="#"><span>Billing Detail</span></a></th>
-                                        <th><a href="#"><span>Tracking Detail</span></a></th>
-                                        <th>&nbsp;</th>
+                                        <th><a href="#"><span>URL</span></a></th>
+                                        <th><a href="#"><span>API Key</span></a></th>
+                                        <th>STATUS</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>FedEx
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>9775321875422456788
-                                        </td>
-                                        <td class="text-right">
-                                            <a data-toggle="modal" href="#myAddEditDelvCarrierModal" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>UPS
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>9087654432134678
-                                        </td>
-                                        <td class="text-right">
-                                            <a  data-toggle="modal" href="#myAddEditDelvCarrierModal" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <!-- ko template: { name: 'listDeliveryCarrierTemplate' , foreach: $root.deliverycarrierlist } -->
+                                    <!-- /ko -->
                                 </tbody>
                             </table>
                         </div>
@@ -81,13 +44,49 @@
             </div>
         </div>
     </div>
+
+    @Html.Partial("~/Areas/Settings/Views/Home/_AddEditDeliveryCarriers.cshtml")
+    <!-- ko stopBinding: true -->
+    @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+    <!-- /ko -->
 </div>
-@Html.Partial("Widgets/_AddEditDeliveryCarriers")
+
+<script id="listDeliveryCarrierTemplate" type="text/html">
+    <tr>
+        <td>
+            <a style="cursor:pointer;" data-bind="text:carrierName,click:$root.openEditDialog"></a>
+        </td>
+        <td data-bind="text:url"></td>
+        <td data-bind="text:apiKey"></td>
+        <td>
+            <!-- ko if: isenable() == true -->
+            <span class="label label-success">Active</span>
+            <!-- /ko -->
+            <!-- ko if: isenable() == false -->
+            <span class="label label-danger">In Active</span>
+            <!-- /ko -->
+        </td>
+    </tr>
+</script>
+
+
+
 @section Scripts {
+     
     <script type="text/javascript">
-        $(document).ready(function () {
+        require(["deliverycarrier/deliverycarrier.view", "common/confirmation.view"]);
+        $(document).ready(function ()
+        {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');
-            });
-     </script>
+
+        });
+    </script>
+    <style>
+        .error
+        {
+            border:1px solid red;
+            background-color:#fdd;
+        }
+    </style>
 }

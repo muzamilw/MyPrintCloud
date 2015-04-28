@@ -13,5 +13,7 @@ namespace MPC.Interfaces.Repository
         PaperSheetResponse SearchPaperSheet(PaperSheetRequestModel request);
 
         List<PaperSize> GetPaperByOrganisation(long OrganisationID);
+
+        List<PaperSize> GetPaperSizesByID(int PSSID);
     }
 }

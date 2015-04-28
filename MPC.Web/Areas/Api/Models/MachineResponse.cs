@@ -8,6 +8,9 @@ namespace MPC.MIS.Areas.Api.Models
     public class MachineResponse
     {
         public Machine machine { get; set; }
+        public string CurrencySymbol { get; set; }
+        public string WeightUnit { get; set; }
+        public string LengthUnit { get; set; }
         public string deFaultPaperSizeName { get; set; }
         public string deFaultPlatesName { get; set; }
         public IEnumerable<LookupMethod> lookupMethods { get; set; }
@@ -16,8 +19,7 @@ namespace MPC.MIS.Areas.Api.Models
         
         public IEnumerable<InkCoverageGroup> InkCoveragItems { get; set; }
         public IEnumerable<MachineSpoilage> MachineSpoilageItems { get; set; }
-        //public IEnumerable<MachineSpoilage>
-       // public virtual IEnumerable<MachineResource> MachineResources { get; set; }
+        
 
     }
 }

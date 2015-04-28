@@ -25,7 +25,7 @@ namespace MPC.Interfaces.WebStoreServices
         bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long OrganisationID);
         void processTemplatePDF(long TemplateID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners, bool isMultipageProduct);
         long CloneTemplateByTemplateID(long TempID);
-        void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct);
+        void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
         long MergeRetailTemplate(int RemoteTemplateID, long LocalTempalteID, long organisationId, bool ChangeQuickText, long CompanyID, long ContactID, long ItemID);
         string SaveTemplate(List<TemplateObject> lstTemplatesObjects, List<TemplatePage> lstTemplatePages, long organisationID, bool printCropMarks, bool printWaterMarks, bool isRoundCorners, double bleedAreaSize, bool isMultipageProduct);
         long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, string RemoteUrlBasePath, string BasePath,  long organisationID,int mode, long localTemplateID);

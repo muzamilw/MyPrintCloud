@@ -5,6 +5,8 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using System.Web;
+using System.Net;
 
 //using System;
 //using System.Net;
@@ -38,7 +40,12 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return MR;
         }
+        public MachineResponse Get([FromUri] bool IsGuillotine)
+        {
+            MachineResponse MR = _machineService.CreateMachineByType(IsGuillotine).CreateFrom();
 
+            return MR;
+        }
         public MachineListResponse Get([FromUri] MachineRequestModel request)
         {
             var result = _machineService.GetAll(request);
@@ -49,6 +56,14 @@ namespace MPC.MIS.Areas.Api.Controllers
             };
         }
 
+        public long Put(MachineUpdateRequestModel request)
+        {
+            if (ModelState.IsValid)
+            {
+                return _machineService.AddMachine(request.machine.CreateFrom(), request.MachineSpoilages.Select(g => g.CreateFrom()));
+            }
+            throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+        }
         public bool Delete(MachineDeleteRequest request)
         {
             return _machineService.archiveMachine(request.machineId);

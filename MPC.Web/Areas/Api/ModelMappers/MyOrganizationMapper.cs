@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
@@ -19,14 +21,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new MyOrganizationBaseResponse
             {
 
-                ChartOfAccounts = source.ChartOfAccounts.Select(coa => coa.CreateFrom()).ToList(),
-                Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
-                Countries = source.Countries != null ? source.Countries.Select(c => c.CreateFromDropDown()).ToList() : null,
-                States = source.States != null ? source.States.Select(s => s.CreateFromDropDown()).ToList() : null,
-                Currencies = source.Currencies != null ? source.Currencies.Select(s => s.CreateFromDropDown()).ToList() : null,
-                LengthUnits = source.LengthUnits != null ? source.LengthUnits.Select(s => s.CreateFromDropDown()).ToList() : null,
-                WeightUnits = source.WeightUnits != null ? source.WeightUnits.Select(s => s.CreateFromDropDown()).ToList() : null,
-                GlobalLanguages = source.GlobalLanguages != null ? source.GlobalLanguages.Select(s => s.CreateFromDropDown()).ToList() : null,
+                //ChartOfAccounts = source.ChartOfAccounts.Select(coa => coa.CreateFrom()).ToList(),
+                Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : new List<Markup>(),
+                Countries = source.Countries != null ? source.Countries.Select(c => c.CreateFromDropDown()).ToList() : new List<CountryDropDown>(),
+                States = source.States != null ? source.States.Select(s => s.CreateFromDropDown()).ToList() : new List<StateDropDown>(),
+                Currencies = source.Currencies != null ? source.Currencies.Select(s => s.CreateFromDropDown()).ToList() : new List<CurrencyDropDown>(),
+                LengthUnits = source.LengthUnits != null ? source.LengthUnits.Select(s => s.CreateFromDropDown()).ToList() : new List<LengthUnitDropDown>(),
+                WeightUnits = source.WeightUnits != null ? source.WeightUnits.Select(s => s.CreateFromDropDown()).ToList() : new List<WeightUnitDropDown>(),
+                GlobalLanguages = source.GlobalLanguages != null ? source.GlobalLanguages.Select(s => s.CreateFromDropDown()).ToList() : new List<GlobalLanguageDropDown>(),
             };
         }
 
@@ -39,9 +41,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static Organisation CreateFrom(this DomainModels.Organisation source)
         {
             byte[] bytes = null;
-            if (source.MISLogo != null && File.Exists(source.MISLogo))
+            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.MISLogo);
+            if (imagePath != null && File.Exists(imagePath))
             {
-                bytes = source.MISLogo != null ? File.ReadAllBytes(source.MISLogo) : null;
+                bytes = File.ReadAllBytes(imagePath);
             }
 
             return new Organisation
@@ -68,7 +71,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                MisLogo = source.MISLogo,
                TaxRegistrationNo = source.TaxRegistrationNo,
                Image = bytes,
-               LanguageEditor = source.LanguageEditor != null ? source.LanguageEditor.CreateFrom() : null,
+               LanguageEditors = source.LanguageEditors != null ? source.LanguageEditors.Select(le => le.CreateFrom()).ToList() : new List<LanguageEditor>(),
            };
         }
 
@@ -102,7 +105,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SystemWeightUnit = source.SystemWeightUnit,
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList() : null,
-                LanguageEditor = source.LanguageEditor != null ? source.LanguageEditor.CreateFrom() : null,
+                LanguageEditors = source.LanguageEditors != null ? source.LanguageEditors.Select(le => le.CreateFrom()).ToList() : null,
             };
         }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -11,6 +13,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 {
     public static class CompanyMapper
     {
+        
         #region Public
 
         /// <summary>
@@ -18,16 +21,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Company CreateFrom(this DomainModels.Company source)
         {
-            byte[] bytes = null;
-            if (source.Image != null && File.Exists(source.Image))
-            {
-                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
-            }
-            byte[] storeBackgroundImageBytes = null;
-            if (source.StoreBackgroundImage != null && File.Exists(source.StoreBackgroundImage))
-            {
-                storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
-            }
+
+            //byte[] imageMapBytes = null;
+            //string imageMapPath = HttpContext.Current.Server.MapPath("~/" + source.MapImageUrl); 
+            //if (File.Exists(imageMapPath))
+            //{
+            //    imageMapBytes = File.ReadAllBytes(imageMapPath);
+            //}
+
             byte[] spriteBytes = null;
             string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
             if (File.Exists(spritePath))
@@ -50,7 +51,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanyId = source.CompanyId,
                 Name = source.Name,
-                Image = bytes,
+                StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
                 AccountNumber = source.AccountNumber,
                 URL = source.URL,
                 CreditReference = source.CreditReference,
@@ -63,6 +64,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AccountManagerId = source.AccountManagerId,
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
+                CurrentThemeId = source.CurrentThemeId,
                 CustomCSS = defaultCss,
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
@@ -70,6 +72,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDate = source.CreationDate,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
+                ActiveBannerSetId = source.ActiveBannerSetId,
                 FlagId = source.FlagId,
                 PhoneNo = source.PhoneNo,
                 IsGeneral = source.IsGeneral,
@@ -80,9 +83,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ShowPrices = source.ShowPrices,
                 isDisplayBanners = source.isDisplayBanners,
                 isDisplayMenuBar = source.isDisplayMenuBar,
-                isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
+                isDisplaySecondaryPages = source.isDisplaySecondaryPages,
                 isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
-                isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
                 isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
                 isDisplayPromotionalProducts = source.isDisplayPromotionalProducts,
                 isDisplaySiteFooter = source.isDisplaySiteFooter,
@@ -90,11 +92,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
                 isTextWatermark = source.isTextWatermark == true ? "true" : "false",
+                StoreWorkflowImage= source.StoreWorkflowImage,
                 WatermarkText = source.WatermarkText,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
                 twitterAppId = source.twitterAppId,
                 twitterAppKey = source.twitterAppKey,
+                TwitterURL = source.TwitterURL,
                 isStoreModePrivate = source.isStoreModePrivate == true ? "true" : "false",
                 TaxPercentageId = source.TaxPercentageId,
                 canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
@@ -107,40 +111,50 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble ?? false,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                isBrokerPaymentRequired = source.isBrokerPaymentRequired == true ? "true" : "false",
+                isPaymentRequired = source.isPaymentRequired == true ? "true" : "false",
                 isIncludeVAT = source.isIncludeVAT == true ? "true" : "false",
-                includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
-                includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML,
-                includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
-                StoreBackgroundImage = source.StoreBackgroundImage,
-                makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
+                includeEmailArtworkOrderReport = source.includeEmailArtworkOrderReport,
+                includeEmailArtworkOrderXML = source.includeEmailArtworkOrderXML,
+                includeEmailArtworkOrderJobCard = source.includeEmailArtworkOrderJobCard,
+                makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
+                WebAnalyticCode = source.WebAnalyticCode,
+                WebMasterTag = source.WebMasterTag,
+                FacebookURL = source.FacebookURL,
+                LinkedinURL = source.LinkedinURL,
+                isCalculateTaxByService = source.isCalculateTaxByService,
+                TaxLabel=source.TaxLabel,
+                TaxRate= source.TaxRate,
+                MapImageUrl= source.MapImageUrl,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+               isWhiteLabel = source.isWhiteLabel,
+               PriceFlagId = source.PriceFlagId,
+                StoreId = source.StoreId,
                 RaveReviews =
-                    source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
-                CompanyCmykColors =
-                    source.CompanyCMYKColors != null
-                        ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
+                    source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
+                TemplateColorStyles =
+                    source.TemplateColorStyles != null
+                        ? source.TemplateColorStyles.Select(x => x.CreateFrom()).ToList()
                         : null,
                 CompanyTerritories =
                     source.CompanyTerritories != null
-                        ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
+                       ? source.CompanyTerritories.Take(1).Select(x => x.CreateFrom()).ToList()
                         : null,
-                Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                Addresses = source.Addresses != null ? source.Addresses.Take(1).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyContacts =
-                    source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
-                Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
-                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Take(10).Select(x => x.CreateFrom()).ToList() : null,
-                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
-                CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
-                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
-                StoreBackgroudImage = storeBackgroundImageBytes,
+                    source.CompanyContacts != null ? source.CompanyContacts.Take(1).Select(x => x.CreateFrom()).ToList() : null,
+                Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFromForListView()).ToList() : null,
+                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
+                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList().OrderBy(x=>x.DisplayOrder).ToList() : null,
+                StoreBackgroundImage = source.StoreBackgroundImage, 
                 DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyCostCentres = source.CompanyCostCentres != null ? (source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre).Select(x => x.CostCentreDropDownCreateFrom()).ToList() : null : null) : null
+                CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
+                CompanyCostCentres = source.CompanyCostCentres != null ? (source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre.CostCentreDropDownCreateFrom()).ToList() : null : null) : null
             };
         }
         /// <summary>
@@ -149,14 +163,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static Company CreateFromForCrm(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            if (source.Image != null && File.Exists(source.Image))
+            string imagePath;
+            if (!string.IsNullOrEmpty(source.Image))
             {
-                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
+                imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+                if (File.Exists(imagePath))
+                {
+                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                }
             }
             byte[] storeBackgroundImageBytes = null;
-            if (source.StoreBackgroundImage != null && File.Exists(source.StoreBackgroundImage))
+            if (!string.IsNullOrEmpty(source.StoreBackgroundImage))
             {
-                storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
+                imagePath = HttpContext.Current.Server.MapPath("~/" + source.StoreBackgroundImage);
+                if (File.Exists(imagePath))
+                {
+                    storeBackgroundImageBytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                }
             }
             byte[] spriteBytes = null;
             string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
@@ -200,6 +223,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDate = source.CreationDate,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
+                ActiveBannerSetId = source.ActiveBannerSetId,
                 FlagId = source.FlagId,
                 PhoneNo = source.PhoneNo,
                 IsGeneral = source.IsGeneral,
@@ -210,9 +234,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ShowPrices = source.ShowPrices,
                 isDisplayBanners = source.isDisplayBanners,
                 isDisplayMenuBar = source.isDisplayMenuBar,
-                isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
                 isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
-                isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
                 isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
                 isDisplayPromotionalProducts = source.isDisplayPromotionalProducts,
                 isDisplaySiteFooter = source.isDisplaySiteFooter,
@@ -227,6 +249,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 twitterAppKey = source.twitterAppKey,
                 isStoreModePrivate = source.isStoreModePrivate == true ? "true" : "false",
                 TaxPercentageId = source.TaxPercentageId,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+                isWhiteLabel = source.isWhiteLabel,
                 canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                 CanUserEditProfile = source.CanUserEditProfile,
                 SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
@@ -237,13 +261,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble ?? false,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                isBrokerPaymentRequired = source.isBrokerPaymentRequired == true ? "true" : "false",
+                isPaymentRequired = source.isPaymentRequired == true ? "true" : "false",
                 isIncludeVAT = source.isIncludeVAT == true ? "true" : "false",
-                includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
-                includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML,
-                includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
-                StoreBackgroundImage = source.StoreBackgroundImage,
-                makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
+                includeEmailArtworkOrderReport = source.includeEmailArtworkOrderReport,
+                includeEmailArtworkOrderXML = source.includeEmailArtworkOrderXML,
+                includeEmailArtworkOrderJobCard = source.includeEmailArtworkOrderJobCard,
+                makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
+                MapImageUrl=source.MapImageUrl,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
                 Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
@@ -254,12 +280,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyContactCount = source.CompanyContacts != null ? source.CompanyContacts.Count : 0,
-                CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0
+                CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0,
+                isCalculateTaxByService = source.isCalculateTaxByService,
+                PriceFlagId = source.PriceFlagId,
+                StoreId = source.StoreId
                 };
+
         }
 
         /// <summary>
-        /// Crete From Web Model
+        /// Crete From Web Model 
         /// </summary>
         public static DomainModels.Company CreateFrom(this Company source)
         {
@@ -267,12 +297,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanyId = source.CompanyId,
                 StoreBackgroundFile = source.StoreBackgroundFile,
+                ActiveBannerSetId = source.ActiveBannerSetId,
                 Name = source.Name,
                 ImageBytes = source.ImageBytes,
                 AccountNumber = source.AccountNumber,
                 URL = source.URL,
                 CreditReference = source.CreditReference,
                 CreditLimit = source.CreditLimit,
+                CreationDate = source.CreationDate ?? DateTime.Now,
+                CurrentThemeId = source.CurrentThemeId,
                 Terms = source.Terms,
                 CustomCSS = source.CustomCSS,
                 TypeId = 52,
@@ -280,12 +313,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DefaultMarkUpId = source.DefaultMarkUpId,
                 AccountOpenDate = source.AccountOpenDate,
                 AccountManagerId = source.AccountManagerId,
+                StoreBackgroundImage = source.StoreBackgroundImage, 
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
                 AccountBalance = source.AccountBalance,
-                CreationDate = source.CreationDate,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,
@@ -298,9 +331,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ShowPrices = source.ShowPrices,
                 isDisplayBanners = source.isDisplayBanners,
                 isDisplayMenuBar = source.isDisplayMenuBar,
-                isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
+                isDisplaySecondaryPages = source.isDisplaySecondaryPages,
                 isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
-                isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
                 isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
                 isDisplayPromotionalProducts = source.isDisplayPromotionalProducts,
                 isDisplaySiteFooter = source.isDisplaySiteFooter,
@@ -308,7 +340,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
                 isTextWatermark = source.isTextWatermark == "true" ? true : false,
-                WatermarkText = source.WatermarkText,
+                WatermarkText = source.isTextWatermark == "true" ? source.WatermarkText : source.StoreWorkflowImage,
+                MapImageUrl= source.MapImageUrl,
+                StoreWorkflowImage = source.StoreWorkflowImage,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
                 twitterAppId = source.twitterAppId,
@@ -325,41 +359,47 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                isBrokerPaymentRequired = source.isBrokerPaymentRequired == "true" ? true : false,
+                isPaymentRequired = source.isPaymentRequired == "true" ? true : false,
                 isIncludeVAT = source.isIncludeVAT == "true" ? true : false,
-                includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
-                includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML,
-                includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
-                makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
+                includeEmailArtworkOrderReport = source.includeEmailArtworkOrderReport,
+                includeEmailArtworkOrderXML = source.includeEmailArtworkOrderXML,
+                includeEmailArtworkOrderJobCard = source.includeEmailArtworkOrderJobCard,
+                makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                WebMasterTag = source.WebMasterTag ?? string.Empty,
+                WebAnalyticCode = source.WebAnalyticCode ?? string.Empty,
                 PickupAddressId = source.PickupAddressId,
                 ImageName = source.ImageName,
+                FacebookURL = source.FacebookURL,
+                TwitterURL = source.TwitterURL,
+                LinkedinURL = source.LinkedinURL,
+                isCalculateTaxByService = source.isCalculateTaxByService ,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+                isWhiteLabel = source.isWhiteLabel,
+                PriceFlagId = source.PriceFlagId,
+                StoreId = source.StoreId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyCMYKColors =
-                    source.CompanyCmykColors != null
-                        ? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList()
+                TemplateColorStyles =
+                    source.TemplateColorStyles != null
+                        ? source.TemplateColorStyles.Select(x => x.CreateFrom()).ToList()
                         : null,
-                //Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
-                //CompanyTerritories =
-                //    source.CompanyTerritories != null
-                //        ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList()
-                //        : null,
                 CompanyBannerSets =
                     source.CompanyBannerSets != null
                         ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList()
                         : null,
-                //CompanyContacts =
-                //    source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.Createfrom()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
-                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
-                StoreBackgroundImage = source.StoreBackgroundImage,
                 CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
                 UserDefinedSpriteSource = source.UserDefinedSpriteSource,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null
+                CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null,
+                FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(x => x.CreateFrom()).ToList() : null,
+                SmartForms = source.SmartForms != null ? source.SmartForms.Select(x => x.CreateFrom()).ToList() : null,
+                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
             };
 
             return company;
@@ -385,13 +425,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new SupplierBaseResponse
             {
-                CompanyTypes = source.CompanyTypes.Select(ct => ct.CreateFrom()),
-                Markups = source.Markups.Select(m => m.CreateFrom()),
-                NominalCodes = source.NominalCodes.Select(m => m.CreateFrom()),
-                SystemUsers = source.SystemUsers.Select(m => m.CreateFrom()),
-                Flags = source.Flags.Select(f => f.CreateFromDropDown()),
-                PriceFlags = source.Flags.Select(pf => pf.CreateFromDropDown()),
-                RegistrationQuestions = source.RegistrationQuestions.Select(pf => pf.CreateFromDropDown())
+                CompanyTypes =source.CompanyTypes!=null ? source.CompanyTypes.Select(ct => ct.CreateFrom()):new List<CompanyType>(),
+                Markups = source.Markups != null ? source.Markups.Select(m => m.CreateFrom()) : new List<Markup>(),
+                NominalCodes =source.NominalCodes!=null ?  source.NominalCodes.Select(m => m.CreateFrom()) : new List<ChartOfAccount>(),
+                SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(m => m.CreateFrom()) : new List<SystemUserDropDown>(),
+                Flags = source.Flags != null ? source.Flags.Select(f => f.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
+                PriceFlags = source.Flags != null ? source.Flags.Select(pf => pf.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
+                RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(pf => pf.CreateFromDropDown()) : new List<RegistrationQuestionDropDown>()
             };
         }
 
@@ -418,11 +458,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsCustomer = source.IsCustomer,
                 Notes = source.Notes,
                 AccountBalance = source.AccountBalance,
-                CreationDate = source.CreationDate,
+                CreationDate = source.CreationDate ?? DateTime.Now,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,
                 PhoneNo = source.PhoneNo,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
+                CompanyLogoSource = source.CompanyLogoSource,
+                CompanyLogoName = source.CompanyLogoName,
+                MapImageUrl= source.MapImageUrl,
                 Addresses =
                     source.Addresses != null ? source.Addresses.Select(add => add.CreateFromSupplier()).ToList() : null,
                 CompanyContacts =
@@ -437,14 +482,21 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyResponse
             {
                 Company = source.Company.CreateFrom(),
-
+                NewUsersCount = source.NewUsersCount,
+                NewOrdersCount = source.NewOrdersCount,
                 SecondaryPageResponse = new SecondaryPageResponse
                 {
                     CmsPages =
                         source.SecondaryPageResponse.CmsPages != null
                             ? source.SecondaryPageResponse.CmsPages.Select(x => x.CreateFromForListView()).ToList()
                             : null,
-                    RowCount = source.SecondaryPageResponse.RowCount
+                    RowCount = source.SecondaryPageResponse.RowCount,
+
+                    SystemPages = 
+                        source.SecondaryPageResponse.SystemPages != null
+                            ? source.SecondaryPageResponse.SystemPages.Select(x => x.CreateFromForListView()).ToList()
+                            : null,
+                    SystemPagesRowCount = source.SecondaryPageResponse.SystemPagesRowCount
 
                 }
             };
@@ -460,13 +512,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.CrmSupplierListViewModel CrmSupplierListViewCreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            if (source.Image != null && File.Exists(source.Image))
+            string defaultContact = null;
+              string defaultContactEmail = null;
+            DomainModels.CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
+            if ( companyContact!= null)
             {
-                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
+                defaultContact = companyContact.FirstName +" "+ companyContact.LastName;
+                defaultContactEmail = companyContact.Email;
             }
-            return new ApiModels.CrmSupplierListViewModel
+            return new CrmSupplierListViewModel
             {
                 AccountNumber = source.AccountNumber,
+                DefaultContactName = defaultContact,
+                DefaultContactEmail= defaultContactEmail,
                 CompanyId = source.CompanyId,
                 IsCustomer = source.IsCustomer,
                 Name = source.Name,
@@ -474,7 +532,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 URL = source.URL,
                 CreatedDate = source.CreationDate,
                 // Email = source.c todo
-                Image = bytes
+                Image = bytes,
+                StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
             };
         }
 
@@ -483,9 +542,20 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyForCalender
             {
                 CompanyId = source.CompanyId,
+                StoreId = source.StoreId,
                 Name = source.Name,
                 CreationDate = source.CreationDate,
                 URL = source.URL,
+                IsCustomer = source.IsCustomer,
+            };
+        }
+
+        public static StoresListDropDown CreateFromForDropDown(this DomainModels.Company source)
+        {
+            return new StoresListDropDown
+            {
+                CompanyId = source.CompanyId,
+                Name = source.Name
             };
         }
         #endregion

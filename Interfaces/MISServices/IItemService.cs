@@ -12,6 +12,11 @@ namespace MPC.Interfaces.MISServices
     public interface IItemService
     {
         /// <summary>
+        /// Deletes Product Permanently
+        /// </summary>
+        void DeleteProduct(long itemId);
+
+        /// <summary>
         /// Load Items, based on search filters
         /// </summary>
         ItemListViewSearchResponse GetItems(ItemSearchRequestModel request);
@@ -19,7 +24,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get by Id
         /// </summary>
-        Item GetById(long id);
+        Item GetById(long id, bool changeTemplateSizeUnits = true);
 
         /// <summary>
         /// Save Product Image
@@ -60,7 +65,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get Base Data For Designer Template
         /// </summary>
-        ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate();
+        ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate(long? companyId);
 
         /// <summary>
         /// Get Machines for Press Selection Dialog
@@ -72,5 +77,21 @@ namespace MPC.Interfaces.MISServices
         /// Clone Product
         /// </summary>
         Item CloneProduct(long itemId);
+
+        /// <summary>
+        /// Get Items By Company Id
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        IEnumerable<Item> GetItemsByCompanyId(long companyId);
+
+        /// <summary>
+        /// Get Parent Product Categories for Company
+        /// </summary>
+        IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId);
+
+        bool DeleteItem(long ItemID, long OrganisationID);
+
+       
     }
 }

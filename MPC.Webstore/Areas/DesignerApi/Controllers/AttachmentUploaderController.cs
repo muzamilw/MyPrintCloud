@@ -32,35 +32,30 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         }
 
         #endregion
-        public async Task<List<string>> PostAsync(string id, string name, string ItemId, string ContactId, string CompanyId)
+        public async Task<List<string>> PostAsync(string parameter1, string parameter2, string parameter3, string parameter4, string parameter5)
         {
             try
             {
                 List<ItemAttachment> ListOfAttachments = ListOfAttachments = new List<ItemAttachment>(); //itemService.GetArtwork(ItemId);
-                
-                id = id.Replace("__", "/");
-                name = name.Replace("__", "/");
+
+                parameter1 = parameter1.Replace("__", "/");
+                parameter2 = parameter2.Replace("__", "/");
                 if (Request.Content.IsMimeMultipartContent())
                 {
-                    string uploadPath = HttpContext.Current.Server.MapPath("~/" + id);
+                    string uploadPath = HttpContext.Current.Server.MapPath("~/" + parameter1);
                     if (!Directory.Exists(uploadPath))
-                        Directory.CreateDirectory(uploadPath);
+                    Directory.CreateDirectory(uploadPath);
                     MyStreamProvider streamProvider = new MyStreamProvider(uploadPath);
-                    //  string _idOfObject1 = HttpRequest.Content.Headers["IDofObject1"].ToString();
-                    //string _idOfObject2 = Request.Content.Headers.GetValues("IDofObject2").ToString(); ;// Headers["IDofObject2"].ToString();
-                    await Request.Content.ReadAsMultipartAsync(streamProvider);
-                    // string _param1 = streamProvider.FormData["pid"];
-                    //  string _param2 = streamProvider.FormData["ItemID"];
+                     await Request.Content.ReadAsMultipartAsync(streamProvider);
                     List<string> messages = new List<string>();
                     ItemAttachment attachment = null;
                     foreach (var file in streamProvider.FileData)
                     {
-                        
                         FileInfo fi = new FileInfo(file.LocalFileName);
                         messages.Add(fi.Name);
                         string srcPath = uploadPath + "/" + fi.Name;
                         string fileExt = Path.GetExtension(fi.Name);
-                        string desPath = uploadPath + "/" + name  + fileExt;
+                        string desPath = uploadPath + "/" + parameter2 + fileExt;
                         File.Copy(srcPath, desPath, true);
                         File.Delete(srcPath);
                         if (fileExt == ".pdf" || fileExt == ".TIF" || fileExt == ".TIFF")
@@ -70,16 +65,16 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                         }
                         else 
                         {
-                            itemService.CreatAndSaveThumnail(null,desPath);
+                            itemService.CreatAndSaveThumnail(null, desPath, parameter3 + "/");
                         }
                         attachment = new ItemAttachment();
-                        attachment.ContactId = Convert.ToInt64(ContactId);
+                        attachment.ContactId = Convert.ToInt64(parameter4);
                         attachment.Type = UploadFileTypes.Artwork.ToString();
-                        attachment.ItemId = Convert.ToInt64(ItemId);
-                        attachment.CompanyId = Convert.ToInt64(CompanyId);
-                        attachment.FileName = name;
+                        attachment.ItemId = Convert.ToInt64(parameter3);
+                        attachment.CompanyId = Convert.ToInt64(parameter4);
+                        attachment.FileName = parameter2;
                         attachment.FileType = fileExt;
-                        attachment.FolderPath = id;
+                        attachment.FolderPath = parameter1;
                         attachment.FileTitle = "User Uploaded ArtWork";
                         attachment.IsApproved = 1;
                         attachment.isFromCustomer = 1;

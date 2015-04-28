@@ -38,6 +38,11 @@ namespace MPC.MIS.Areas.Api.Models
         public double? PerQtyQty { get; set; }
 
         /// <summary>
+        /// Package Quantity
+        /// </summary>
+        public double? PackageQty { get; set; }
+
+        /// <summary>
         /// Item Colour(Code)
         /// </summary>
         public string FlagColor { get; set; }
@@ -66,6 +71,16 @@ namespace MPC.MIS.Areas.Api.Models
         /// Per Qty Type
         /// </summary>
         public int? PerQtyType { get; set; }
+
+        /// <summary>
+        /// Organisation region
+        /// </summary>
+        public string Region { get; set; }
+
+        /// <summary>
+        /// Pack Cost Price
+        /// </summary>
+        public double? PackCostPrice { get; set; }
 
         /// <summary>
         /// 

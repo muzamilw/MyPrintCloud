@@ -5,9 +5,9 @@
     int counter = 0;
     
 }
-<div class="container content_area">
+<div class="product-container container content_area">
     <h1 class="allprodHead">
-        <label id="lbl_AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.StoreId))
+        <label id="lbl_AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))
             
         </label>
     </h1>
@@ -15,7 +15,7 @@
     {
         <div class="white-container-lightgrey-border rounded_corners">
             <h2 class="width_allPro">
-                <a class="Parent_Cat_allPro" href="/Category/@topCat.CategoryName/@topCat.ProductCategoryId">@topCat.CategoryName</a>
+                <a class="Parent_Cat_allPro" href="/Category/@Utils.specialCharactersEncoder(topCat.CategoryName)/@topCat.ProductCategoryId">@topCat.CategoryName</a>
             </h2>
             <div class="colContainer">
                 @foreach (var subCats in ViewData["SubCats"] as List<MPC.Models.DomainModels.ProductCategory>)
@@ -36,20 +36,20 @@
                             {
                                 if (child.ParentCategoryId == subCats.ProductCategoryId)
                                 {
-                                    <ul>
+                                    <ul class="allproducts_col_cat_ul ">
                                         <li>
-                                            <a href="/Category?CategoryId=@child.ProductCategoryId">@child.CategoryName</a>
+                                            <a href="/Category/@Html.ResolveString(child.CategoryName)/@child.ProductCategoryId">@child.CategoryName</a>
                                         </li>
                                     </ul>
                                 }
                             }
                         </div>
                     }
-                    if (counter == 4)
-                    {
-                        counter = 0;
-                        break;
-                    }
+                    //if (counter == 4)
+                    //{
+                    //    counter = 0;
+                    //    break;
+                    //}
                 }
                 <div class="clearBoth">
                 </div>

@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="95fe9cc5e7ca432eba3ff3a1847f5567" Name="Diagram1" ZoomLevel="48">
+        <EntityTypeShape EntityType="pinkcardsModel.dtproperty" Width="1.5" PointX="10.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.ImagePermission" Width="1.5" PointX="17" PointY="108" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.margin" Width="1.5" PointX="5.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.sysdiagram" Width="1.5" PointX="10.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_accountdefault" Width="1.5" PointX="12.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_accounttype" Width="1.5" PointX="12.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_activity" Width="1.5" PointX="17.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_activitytype" Width="1.5" PointX="10.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_addresses" Width="1.5" PointX="5.75" PointY="83.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_AppVersions" Width="1.5" PointX="12.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_audit" Width="1.5" PointX="17.75" PointY="28.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_businesstypes" Width="1.5" PointX="17.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_campaign_clickthroughs" Width="1.5" PointX="0.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_Campaign_email_variables" Width="1.5" PointX="2.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_campaign_groups" Width="1.5" PointX="17.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_CampaignEmailQueue" Width="1.5" PointX="31.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_CampaignImages" Width="1.5" PointX="37" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_CampaignReports" Width="1.5" PointX="0.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_campaigns" Width="1.5" PointX="34.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_CategoryTerritories" Width="1.5" PointX="4.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_chartofaccount" Width="1.5" PointX="2.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsColorPalletes" Width="1.5" PointX="27" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsDefaultSettings" Width="1.5" PointX="27" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsOffers" Width="1.5" PointX="24.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsPageBanners" Width="1.5" PointX="26.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsPageCategory" Width="1.5" PointX="24.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsPages" Width="1.5" PointX="27" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsPageTags" Width="1.5" PointX="29.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsSkinPageWidgetParams" Width="1.5" PointX="31.75" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsSkinPageWidgets" Width="1.5" PointX="29.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsSkins" Width="1.5" PointX="24.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsTags" Width="1.5" PointX="27" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_cmsWidgets" Width="1.5" PointX="27" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_company" Width="1.5" PointX="0.75" PointY="51.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_company_site_departments" Width="1.5" PointX="5.25" PointY="49.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_company_sites" Width="1.5" PointX="3" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_contactcompanies" Width="1.5" PointX="8" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ContactCompanyCostCenters" Width="1.5" PointX="17.75" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ContactCompanyItems" Width="1.5" PointX="4.75" PointY="35.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ContactCompanyTerritories" Width="1.5" PointX="3.5" PointY="85.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_contactcompanytypes" Width="1.5" PointX="5.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ContactDepartments" Width="1.5" PointX="5.75" PointY="91.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ContactRoles" Width="1.5" PointX="5.75" PointY="94.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_contacts" Width="1.5" PointX="8" PointY="81.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_Correspondence" Width="1.5" PointX="17.75" PointY="37.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_Correspondence_Details" Width="1.5" PointX="31.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_CostCenterChoices" Width="1.5" PointX="36.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentre_groupdetails" Width="1.5" PointX="10.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentre_groups" Width="1.5" PointX="0.75" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentre_instructions" Width="1.5" PointX="17.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentre_resources" Width="1.5" PointX="17.75" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentre_systemtypes" Width="1.5" PointX="12.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentre_workinstructions_choices" Width="1.5" PointX="20" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentreanswers" Width="1.5" PointX="36.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentrematrices" Width="1.5" PointX="36.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentrematrixdetails" Width="1.5" PointX="36.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentrequestions" Width="1.5" PointX="36.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentres" Width="1.5" PointX="15.5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentretemplates" Width="1.5" PointX="36.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentretypes" Width="1.5" PointX="13.25" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentrevariables" Width="1.5" PointX="36.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_costcentrevariabletypes" Width="1.5" PointX="24.75" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_country" Width="1.5" PointX="26.75" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_creditcardinformation" Width="1.5" PointX="36.75" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_customizedfields" Width="1.5" PointX="36.75" PointY="36.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_customizedfieldsdata" Width="1.5" PointX="31.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_customizedfieldsvalues" Width="1.5" PointX="33.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_deliverynote_details" Width="1.5" PointX="17.75" PointY="53.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_deliverynotes" Width="1.5" PointX="15.5" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_DiscountVouchers" Width="1.5" PointX="35.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_EmailCampaignTracking" Width="1.5" PointX="37.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_EmailEvents" Width="1.5" PointX="38.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_enquiries" Width="1.5" PointX="8" PointY="65.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_enquiry_options" Width="1.5" PointX="2.75" PointY="40.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_estimate_projection" Width="1.5" PointX="38.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_estimates" Width="1.5" PointX="10.25" PointY="44.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_FavoriteDesign" Width="1.5" PointX="14.75" PointY="49.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_FAXCampaigns" Width="1.5" PointX="4.75" PointY="40.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_FAXCampaignsTracking" Width="1.5" PointX="38.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_financialyear" Width="1.5" PointX="38.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_financialyeardetail" Width="1.5" PointX="38.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_general_settings" Width="1.5" PointX="32" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_goodsreceivednote" Width="1.5" PointX="29.75" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_goodsreceivednotedetail" Width="1.5" PointX="32" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_group_detail" Width="1.5" PointX="32" PointY="26.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_groups" Width="1.5" PointX="29.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ink_coverage_groups" Width="1.5" PointX="38.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_InkPlateSides" Width="1.5" PointX="38.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_Inquiry" Width="1.5" PointX="10.25" PointY="87" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_Inquiry_Attachments" Width="1.5" PointX="12.5" PointY="86.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_Inquiry_Items" Width="1.5" PointX="12.5" PointY="89.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_invoicedetails" Width="1.5" PointX="17.75" PointY="47.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_invoices" Width="1.5" PointX="10.25" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_item_attachments" Width="1.5" PointX="14.75" PointY="38.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_item_sections" Width="1.5" PointX="14.75" PointY="65.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_item_titles" Width="1.5" PointX="28.75" PointY="40.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_item_Type" Width="1.5" PointX="38.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_itemImages" Width="1.5" PointX="14.75" PointY="44.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_items" Width="1.5" PointX="12.5" PointY="33.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_Items_AddonCostCentres" Width="1.5" PointX="17.75" PointY="57.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_items_PriceMatrix" Width="1.5" PointX="14.75" PointY="56.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_items_ProductDetails" Width="1.5" PointX="38.75" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_items_RelatedItems" Width="1.5" PointX="14.75" PointY="63.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_items_StockControl" Width="1.5" PointX="24.75" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_itemsection_costcentre_groups" Width="1.5" PointX="17" PointY="81.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ItemStockOptions" Width="1.5" PointX="14.75" PointY="99.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_itemStockUpdateHistory" Width="1.5" PointX="39.75" PointY="36.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_job_preferences" Width="1.5" PointX="39.75" PointY="40.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_job_statuses" Width="1.5" PointX="39.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_language" Width="1.5" PointX="29.75" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_lengthconversion" Width="1.5" PointX="40.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_lookup_methods" Width="1.5" PointX="19.75" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_categories" Width="1.5" PointX="40.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_clickchargelookup" Width="1.5" PointX="22" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_clickchargezone" Width="1.5" PointX="22" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_costcentre_groups" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_cylinders" Width="1.5" PointX="40.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_guillotinecalc" Width="1.5" PointX="22" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_guilotine_ptv" Width="1.5" PointX="40.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_ink_coverage" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_lookup_methods" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_meterperhourlookup" Width="1.5" PointX="22" PointY="28.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_pagination_profile" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_perhourlookup" Width="1.5" PointX="22" PointY="36.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_resource" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_speedweightlookup" Width="1.5" PointX="22" PointY="39" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machine_spoilage" Width="1.5" PointX="40.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_machines" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_markup" Width="1.5" PointX="5.25" PointY="46.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_NewsLetterSubscribers" Width="1.5" PointX="10.25" PointY="92.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_pagination_combinations" Width="1.5" PointX="16.75" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_pagination_finishstyle" Width="1.5" PointX="18.75" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_pagination_profile" Width="1.5" PointX="40.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_pagination_profile_costcentre_groups" Width="1.5" PointX="40.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_paperbasisarea" Width="1.5" PointX="40.75" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_papersize" Width="1.5" PointX="30.75" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_PaymentGateways" Width="1.5" PointX="15.5" PointY="103.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_PaymentMethods" Width="1.5" PointX="13.25" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_PaypalPaymentRequest" Width="1.5" PointX="40.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_PayPalResponses" Width="1.5" PointX="13.25" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_PC_Partners" Width="1.5" PointX="32.75" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_PC_PostCodes" Width="1.5" PointX="8" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_PC_PostCodesBrokers" Width="1.5" PointX="10.25" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_phrase" Width="1.5" PointX="41.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_phrase_fields" Width="1.5" PointX="8" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_pipeline_deduction" Width="1.5" PointX="26.75" PointY="43.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_pipeline_products" Width="1.5" PointX="41.75" PointY="36.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_pipeline_source" Width="1.5" PointX="34.75" PointY="43.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_prefixes" Width="1.5" PointX="7.5" PointY="45" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_PrePayments" Width="1.5" PointX="15.5" PointY="52.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ProductCategoryFoldLines" Width="1.5" PointX="12.5" PointY="76.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ProductMarketBriefAnswers" Width="1.5" PointX="32" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ProductMarketBriefQuestions" Width="1.5" PointX="29.75" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ProductPaperType" Width="1.5" PointX="41.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_profile" Width="1.5" PointX="41.75" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_profile_description_labels" Width="1.5" PointX="42.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_profile_description_labels_values" Width="1.5" PointX="0.75" PointY="44.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_profile_type" Width="1.5" PointX="42.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_prospectaddresses" Width="1.5" PointX="42.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_prospectcontacts" Width="1.5" PointX="42.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_prospects" Width="1.5" PointX="42.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_purchase" Width="1.5" PointX="29.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_purchasedetail" Width="1.5" PointX="32" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_RaveReviews" Width="1.5" PointX="42.75" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_regionalsettings" Width="1.5" PointX="36.75" PointY="44.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_Registration_Questions" Width="1.5" PointX="5.75" PointY="97" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_report_notes" Width="1.5" PointX="3" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_reportcategory" Width="1.5" PointX="0.75" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_reportparms" Width="1.5" PointX="43.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_reports" Width="1.5" PointX="3" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_rights" Width="1.5" PointX="8.75" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_role_sites" Width="1.5" PointX="43.75" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_rolerights" Width="1.5" PointX="11" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_roles" Width="1.5" PointX="5.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_rolesections" Width="1.5" PointX="8" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_sales_commission_rangebased" Width="1.5" PointX="43.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_sales_commission_types" Width="1.5" PointX="44.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_sales_target_types" Width="1.5" PointX="44.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_salestypes" Width="1.5" PointX="44.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_scheduled_activitysplite_details" Width="1.5" PointX="44.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_scheduled_costcenters" Width="1.5" PointX="44.75" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_scheduled_printjobs" Width="1.5" PointX="26.75" PointY="46.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_scheduled_time_activities" Width="1.5" PointX="44.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_section_costcentre_detail" Width="1.5" PointX="22.25" PointY="80.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_section_costcentre_resources" Width="1.5" PointX="22.25" PointY="85.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_section_costcentres" Width="1.5" PointX="20" PointY="72.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_section_flags" Width="1.5" PointX="8" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_section_inkcoverage" Width="1.5" PointX="44.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_sections" Width="1.5" PointX="5.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_shippinginformation" Width="1.5" PointX="28.75" PointY="46.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_SoftwareUpdates" Width="1.5" PointX="45.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_state" Width="1.5" PointX="19.75" PointY="47.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_Statuses" Width="1.5" PointX="8" PointY="62.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_stock_cost_and_price" Width="1.5" PointX="22.25" PointY="98" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_stockcategories" Width="1.5" PointX="17.75" PointY="97.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_stockitem_history" Width="1.5" PointX="21.75" PointY="47.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_stockitems" Width="1.5" PointX="20" PointY="94.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_stockitems_colors" Width="1.5" PointX="22.25" PointY="101.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_stocksubcategories" Width="1.5" PointX="17.75" PointY="103.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_subaccountype" Width="1.5" PointX="45.75" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_success_chance" Width="1.5" PointX="45.75" PointY="35.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_system_email_emailsID_and_sectionsID" Width="1.5" PointX="45.75" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_system_emails" Width="1.5" PointX="45.75" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_system_log" Width="1.5" PointX="45.75" PointY="45.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_systemuser_checkins" Width="1.5" PointX="46.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_systemuser_preferences" Width="1.5" PointX="46.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_systemusers" Width="1.5" PointX="5.25" PointY="73" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_targettype" Width="1.5" PointX="46.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_tasks" Width="1.5" PointX="46.75" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_taxrate" Width="1.5" PointX="47.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_TerritoryItems" Width="1.5" PointX="20.75" PointY="53.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_user_sales_commission" Width="1.5" PointX="47.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_user_sales_targets" Width="1.5" PointX="47.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_userachievedtarget" Width="1.5" PointX="47.75" PointY="37.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_userpipeline" Width="1.5" PointX="38.75" PointY="49.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_userreports" Width="1.5" PointX="47.75" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_UserStickyNotes" Width="1.5" PointX="47.75" PointY="44.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_usertarget" Width="1.5" PointX="43.75" PointY="49.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_weightconversion" Width="1.5" PointX="47.75" PointY="47.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_workflowpreferences" Width="1.5" PointX="48.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.TemplateBackgroundImage" Width="1.5" PointX="14.75" PointY="106.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.TemplateColorStyle" Width="1.5" PointX="14.75" PointY="111.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.TemplateFont" Width="1.5" PointX="14.75" PointY="116.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.TemplateObject" Width="1.5" PointX="14.75" PointY="125.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.pcTemplatePage" Width="1.5" PointX="14.75" PointY="120.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.Template" Width="1.5" PointX="12.5" PointY="116" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_audittrail" Width="1.5" PointX="48.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_audittraildetail" Width="1.5" PointX="48.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_customer_users_rolespages" Width="1.5" PointX="48.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_section_costcentres_feedback" Width="1.5" PointX="48.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_stockitems_issue_log" Width="1.5" PointX="28.75" PointY="50.125" IsExpanded="true" />
+        <AssociationConnector Association="pinkcardsModel.FK_ImagePermissions_TemplateBackgroundImages" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_addresses_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_addresses_tbl_CustomerTerritory" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_contacts_tbl_addresses" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_CampaignImages_tbl_campaigns" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_cmsSkins_tbl_cmsColorPalletes" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_cmsDefaultSettings_tbl_cmsSkins" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_webcmsPages_tbl_cmsPageCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_cmsPageWidgets_tbl_cmsPages" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_webcmsPageTags_webcmsPages" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_webcmsPageTags_webcmsTags" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_cmsPageWidgets_tbl_cmsWidgets" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_company_sites_tbl_company" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_estimates_tbl_company" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_company_site_departments_tbl_company_sites" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_prefixes_tbl_company_site_departments" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_estimates_tbl_company_sites" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_systemusers_tbl_company_sites" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_contactcompanies_tbl_contactcompanytypes" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_contacts_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_CustomerTerritory_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_estimates_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_PC_PostCodesBrokers_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_contacts_tbl_ContactCompanyTerritories" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_CustomerDepartments_tbl_CustomerTerritory" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_TerritoryItems_tbl_ContactCompanyTerritories" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_contacts_tbl_ContactDepartments" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_contacts_tbl_contactcompanyuserroles" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_contacts_tbl_Registration_Questions" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_estimates_tbl_contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_FavoriteDesign_tbl_contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_Inquiry_tbl_contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_NewsLetterSubscribers_tbl_Contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.tbl_costcentres_tbl_costcentre_instructions" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_costcentre_resources_tbl_costcentres" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_costcentres_tbl_costcentretypes" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_Items_AddonCostCentres_tbl_costcentres" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_section_costcentres_tbl_costcentres" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_deliverynote_details_tbl_deliverynotes" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_deliverynote_details_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_estimates_tbl_enquiries" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_estimates_tbl_Statuses" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_items_tbl_estimates" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_PrePayments_tbl_estimates" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_FavoriteDesign_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK__tbl_gener__Langu__683FF2E4" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_GoodsreceivedID" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_GroupId" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_Inquiry_Attachments_tbl_Inquiry" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_Inquiry_Items_tbl_Inquiry" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_invoicedetails_tbl_invoices" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_invoicedetails_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_items_tbl_invoices" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_item_attachments_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_item_sections_tbl_costcentre_groups" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_item_sections_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_section_costcentres_tbl_item_sections" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.itemIDfk" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_Items_AddonCostCentres_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_items_PriceMatrix_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_items_RelatedItems_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_items_RelatedItems_tbl_items1" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_items_tbl_Statuses" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_TerritoryItems_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.itemmidfk" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_lookup_methods_tbl_machine_clickchargelookup" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_lookup_methods_tbl_machine_clickchargezone" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_lookup_methods_tbl_machine_guillotinecalc" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_lookup_methods_tbl_machine_meterperhourlookup" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_lookup_methods_tbl_machine_perhourlookup" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_machines_tbl_machine_costcentre_groups" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_machines_tbl_machine_ink_coverage" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_machines_tbl_machine_lookup_methods" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_machines_tbl_machine_pagination_profile" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_machines_tbl_machine_resource" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_prefixes_tbl_markup" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_PaymentGateways_tbl_PaymentMethods" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_PrePayments_tbl_PaymentMethods" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_PrePayments_tbl_PayPalResponses" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_PC_PostCodesBrokers_tbl_PC_PostCodes" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.fk_sectionId" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_PurchaseID" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_report_notes_tbl_reportcategory" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_reports_tbl_reportcategory" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_rolerights_tbl_rights" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_rolerights_tbl_roles" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_rolesections_tbl_roles" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_rolesections_tbl_sections" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_section_costcentre_detail_tbl_section_costcentres" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_section_costcentre_detail_tbl_stockitems" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_section_costcentre_resources_tbl_section_costcentres" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_section_flags_tbl_sections" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_stock_cost_and_price_tbl_stockitems" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_stockitems_tbl_stockcategories" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_stockitems_colors_tbl_stockitems" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_stockitems_tbl_stocksubcategories" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_ProductBackgroundImages_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_ColorStyles_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_ProductFonts_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_Objects_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_Templates_TemplatePages" ManuallyRouted="false" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_stocksubcategories_tbl_stockcategories" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_machine_guilotine_ptv_tbl_machines" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_machine_spoilage_tbl_machines" />
+        <EntityTypeShape EntityType="pinkcardsModel.tbl_ProductCategory" Width="1.5" PointX="10.25" PointY="65.875" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_ProductCategory_tbl_contactcompanies" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_items_tbl_ProductCategory" />
+        <AssociationConnector Association="pinkcardsModel.FK_Products_tbl_ProductCategory" />
+        <AssociationConnector Association="pinkcardsModel.FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

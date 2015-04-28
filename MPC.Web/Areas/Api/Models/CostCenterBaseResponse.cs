@@ -11,6 +11,10 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<CostCenterCalculationTypes> CalculationTypes { get; set; }
         public IEnumerable<CostCentreType> CostCenterCategories { get; set; }
         public IEnumerable<CostCentreVariable> CostCentreVariables { get; set; }
+        public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
+        public string CurrencySymbol { get; set; }
+
+        
 
     }
 }

@@ -294,6 +294,11 @@ namespace MPC.Models.ModelMappers
             List<TemplatePage> linesToBeRemoved = target.Template.TemplatePages.Where(
                 vdp => !IsNewTemplatePage(vdp) && source.Template.TemplatePages.All(sourceVdp => sourceVdp.ProductPageId != vdp.ProductPageId))
                   .ToList();
+            
+            // Remove Template Object related to Template Pages going to be deleted
+            actions.DeleteTemplateObject(linesToBeRemoved);
+            
+            // Remove Template Pages
             linesToBeRemoved.ForEach(line =>
             {
                 target.Template.TemplatePages.Remove(line);
@@ -330,7 +335,19 @@ namespace MPC.Models.ModelMappers
             }
 
             // Update Template
-            target.Template.UpdateTo(source.Template);
+            source.Template.UpdateTo(target.Template);
+            switch (source.IsTemplateDesignMode)
+            {
+                case 1:
+                    target.Template.IsCorporateEditable = true;
+                    break;
+                case 2:
+                    target.Template.IsCorporateEditable = false;
+                    break;
+                default:
+                    target.Template.IsCorporateEditable = null;
+                    break;
+            }
 
             // Update Template Pages
             UpdateTemplatePages(source, target, actions);
@@ -448,6 +465,12 @@ namespace MPC.Models.ModelMappers
             }
 
             source.UpdateTo(targetLine);
+
+            // Set Company Id
+            if (targetLine != null)
+            {
+                targetLine.CompanyId = target.CompanyId;
+            }
 
             // Update Item Addon Cost Centres
             // Initialize addon cost centres
@@ -681,7 +704,8 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         private static bool IsRemovedProductCategoryItem(ProductCategoryItemCustom sourceProductCategoryItem)
         {
-            return sourceProductCategoryItem.ProductCategoryItemId > 0 && !sourceProductCategoryItem.IsSelected.HasValue;
+            return sourceProductCategoryItem.ProductCategoryItemId > 0 &&
+                (!sourceProductCategoryItem.IsSelected.HasValue || !sourceProductCategoryItem.IsSelected.Value);
         }
 
         /// <summary>
@@ -844,6 +868,8 @@ namespace MPC.Models.ModelMappers
                 {
                     ItemSection targetItemSection = actions.CreateItemSection();
                     targetItemSection.ItemId = target.ItemId;
+                    targetItemSection.SectionName = "Section 1";
+                    targetItemSection.SectionNo = 1;
                     target.ItemSections.Add(targetItemSection);
                     actions.SetDefaultsForItemSection(targetItemSection);
                     isPrintItem = false;
@@ -858,6 +884,81 @@ namespace MPC.Models.ModelMappers
             
             // Delete
             DeleteItemSections(source, target, actions);
+        }
+
+        /// <summary>
+        /// True if the ItemImage is new
+        /// </summary>
+        private static bool IsNewItemImage(ItemImage sourceItemImage)
+        {
+            return sourceItemImage.ProductImageId == 0;
+        }
+
+        /// <summary>
+        /// Initialize target ItemImages
+        /// </summary>
+        private static void InitializeItemImages(Item item)
+        {
+            if (item.ItemImages == null)
+            {
+                item.ItemImages = new List<ItemImage>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Vdp Prices
+        /// </summary>
+        private static void UpdateOrAddItemImages(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemImage sourceLine in source.ItemImages.ToList())
+            {
+                UpdateOrAddItemImage(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Images 
+        /// </summary>
+        private static void UpdateOrAddItemImage(ItemImage sourceItemImage, Item target, ItemMapperActions actions)
+        {
+            ItemImage targetLine;
+            if (IsNewItemImage(sourceItemImage))
+            {
+                targetLine = actions.CreateItemImage();
+                target.ItemImages.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemImages.FirstOrDefault(image => image.ProductImageId == sourceItemImage.ProductImageId);
+            }
+            sourceItemImage.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete Images no longer needed
+        /// </summary>
+        private static void DeleteItemImages(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ItemImage> linesToBeRemoved = target.ItemImages.Where(
+                ii => !IsNewItemImage(ii) && source.ItemImages.All(image => image.ProductImageId != ii.ProductImageId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemImages.Remove(line);
+                actions.DeleteItemImage(line);
+            });
+        }
+
+        /// <summary>
+        /// Update Images
+        /// </summary>
+        private static void UpdateItemImages(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemImages(source);
+            InitializeItemImages(target);
+
+            UpdateOrAddItemImages(source, target, actions);
+            DeleteItemImages(source, target, actions);
         }
 
         /// <summary>
@@ -900,6 +1001,22 @@ namespace MPC.Models.ModelMappers
             target.SortOrder = source.SortOrder;
             target.ItemLastUpdateDateTime = DateTime.Now;
             target.CompanyId = source.CompanyId;
+            target.ProductDisplayOptions = source.ProductDisplayOptions;
+            target.IsRealStateProduct = source.IsRealStateProduct;
+            target.IsUploadImage = source.IsUploadImage;
+            target.IsDigitalDownload = source.IsDigitalDownload;
+            target.printCropMarks = source.printCropMarks;
+            target.drawWaterMarkTxt = source.drawWaterMarkTxt;
+            target.isAddCropMarks = source.isAddCropMarks;
+            target.drawBleedArea = source.drawBleedArea;
+            target.isMultipagePDF = source.isMultipagePDF;
+            target.allowPdfDownload = source.allowPdfDownload;
+            target.allowImageDownload = source.allowImageDownload;
+            target.ItemLength = source.ItemLength;
+            target.ItemWeight = source.ItemWeight;
+            target.ItemHeight = source.ItemHeight;
+            target.ItemWidth = source.ItemWidth;
+            target.SmartFormId = source.SmartFormId;
            
             // Update Images
             UpdateImages(source, target);
@@ -1037,6 +1154,7 @@ namespace MPC.Models.ModelMappers
             UpdateItemProductDetail(source, target, actions);
             UpdateProductCategoryItems(source, target, actions);
             UpdateItemSections(source, target, actions);
+            UpdateItemImages(source, target, actions);
         }
 
         #endregion

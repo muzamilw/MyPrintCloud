@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "To Do List";
+}
+@section leftmenue {
+}
+<div class="row" id="toDoListBinding">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="#">&nbsp;</a></li>
+                   
+                </ol>
+                <h1>To Do Lists</h1>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-box-body main-box clearfix">
+                    <div class="tabs-wrapper profile-tabs">
+                        <ul class="nav nav-tabs">
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
+                                @Html.ActionLink("Calendar", "Calendar", "Home")
+
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
+                                <a href="#tab-ToDoList" data-toggle="tab">To Do Lists</a>
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
+                                @Html.ActionLink("Contacts", "Contacts", "Home")
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
+                                @Html.ActionLink("Companies", "Index", "Home")
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
+                                @Html.ActionLink("Supplier", "SuppliersList", "Home")
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.MySharedDocs) { <text>active</text> }">
+                                @Html.ActionLink("My Shared Docs", "Contacts", "Home")
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="tab-ToDoList">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="main-box">
+                                            <div class="main-box-body clearfix">
+                                                <div class="col-md-12 form-horizontal">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-lg-2 text-right">
+                                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Owner" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
+                                                                </div>
+                                                                <label for="owner" class="control-label text-right tooltip-float">Show</label>
+                                                            </div>
+                                                            <div class="col-lg-10">
+                                                                <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-12 form-horizontal">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-2 text-right">
+                                                            <span class="fc-button fc-button-prev fc-state-default fc-corner-left" data-bind="click:$root.previousMonth"><span class="fc-text-arrow">‹</span></span>
+                                                            <span class="fc-button fc-button-next fc-state-default fc-corner-right" data-bind="click:$root.nextMonth"><span class="fc-text-arrow">›</span></span>
+                                                        </div>
+
+                                                        <div class="col-lg-4">
+                                                            <span class="fc-button fc-button-today fc-state-default fc-corner-left fc-corner-right" data-bind="click:$root.todayActivities">today</span>
+                                                        </div>
+
+                                                        <div class="col-lg-4">
+                                                            <span class="fc-header-center"><span class="fc-header-title"><h2 data-bind="text:$root.dateDisplay"></h2></span></span>
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <div class="btn-group pull-right" data-bind="click:$root.addActivity">
+                                                                <button class="btn btn-primary">
+                                                                    <i class="fa  fa-lg"></i>&nbsp;Add Activity
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 35%"><span>Description</span></th>
+                                                                <th style="width: 35%"><span>Start Date</span></th>
+                                                                <th style="width: 23%"><span>End Date</span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'todoListItemTemplate' , foreach: $root.items } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.Partial("~/Areas/CRM/Views/Home/_AddEditCalendarActivity.cshtml")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+  
+</div>
+<!-- ko stopBinding: true -->
+@Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
+
+<!-- /ko -->
+@section Scripts{
+
+
+    <script>
+        require(["toDoList/toDoList.view", "common/companySelector.view", "crm/contacts.view"]);
+    </script>
+}
+
+<script id="todoListItemTemplate" type="text/html">
+    <tr>
+        <td><a href="#" class="store-user-link" data-bind="text: activityNotes,click : $root.onEditActivity"></a></td>
+        <td data-bind="text:startDateTime"></td>
+        <td data-bind="text:endDateTime"></td>
+    </tr>
+</script>

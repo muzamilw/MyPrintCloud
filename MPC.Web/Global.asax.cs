@@ -12,9 +12,12 @@ using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Microsoft.Practices.Unity;
+using MPC.MIS.App_Start;
 using MPC.Models.LoggerModels;
 using MPC.WebBase.UnityConfiguration;
 using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyResolver;
+using System.Web;
+using MPC.WebBase.WebApi;
 
 
 namespace MPC.MIS
@@ -67,12 +70,25 @@ namespace MPC.MIS
                 container = CreateUnityContainer();
             }
         }
+
+        /// <summary>
+        /// Change MVC Configuration
+        /// </summary>
+        private static void ChangeMvcConfiguration()
+        {
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new CustomRazorViewEngine());
+        }
+
         #endregion
         protected void Application_Start()
         {
             RegisterIoC();
             ConfigureLogger();
+            ChangeMvcConfiguration();
             AreaRegistration.RegisterAllAreas();
+
+            BundleTable.EnableOptimizations = !HttpContext.Current.IsDebuggingEnabled;
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

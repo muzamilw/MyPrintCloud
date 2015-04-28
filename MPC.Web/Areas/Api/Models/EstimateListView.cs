@@ -10,6 +10,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long EstimateId { get; set; }
         public string EstimateCode { get; set; }
         public string EstimateName { get; set; }
+        public short? StatusId { get; set; }
         public int? EnquiryId { get; set; }
         public long CompanyId { get; set; }
         public string CompanyName { get; set; }
@@ -20,5 +21,9 @@ namespace MPC.MIS.Areas.Api.Models
         public string OrderCode { get; set; }
         public bool? IsEstimate { get; set; }
         public int? ItemsCount { get; set; }
+        public string Status { get; set; }
+        public string SectionFlagColor { get; set; }
+        public double? EstimateTotal { get; set; }
+        public Boolean? IsDirectSale { get; set; }
     }
 }

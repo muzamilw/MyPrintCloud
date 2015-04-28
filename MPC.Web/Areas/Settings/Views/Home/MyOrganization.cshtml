@@ -11,13 +11,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="#">Settings</a></li>
-                            <li><a href="#">General Settings</a></li>
-                            <li class="active"><span>My Organization</span></li>
+                            <li><a href="#">&nbsp;</a></li>
                         </ol>
                         <h1>Organization Detail</h1>
                         <div class="pull-left validationSummaryContainer">
-                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Invalid data: Click here to see details.</a>
                             <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
                                 <div id="validationSummaryPopoverBody">
                                     <ul data-bind="foreach: $root.errorList">
@@ -38,8 +36,7 @@
                                 <ul class="nav nav-tabs" id="myTab">
                                     <li class="active"><a href="#tab-ORGDetail" data-toggle="tab">Organization Details</a></li>
                                     <li><a href="#tab-RegionalSettings" data-toggle="tab">Regional Settings</a></li>
-                                    <li><a href="#tab-NominalCodes" data-toggle="tab">Nominal Codes</a></li>
-                                    @*<li><a href="#tab-Managers" data-toggle="tab">Managers and Departements</a></li>*@
+                                    @*<li><a href="#tab-NominalCodes" data-toggle="tab">Nominal Codes</a></li>*@
                                     <li><a href="#tab-languageeditor" data-toggle="tab">Language Editor</a></li>
                                 </ul>
                                 <div class="tab-content">
@@ -52,7 +49,7 @@
                                                         <div class="col-lg-4 text-right">
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                                <a class="input-group-addon" data-bind="tooltip: {title: 'Default tooltip'}" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your company name (Acme Printing)" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your company name (Acme Printing)" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -73,7 +70,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Street address" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Street address" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -93,7 +90,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Continue Street address if needed" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Continue Street address if needed" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -114,7 +111,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter City" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter City" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -130,32 +127,13 @@
 
                                                     </div>
 
+
                                                     <div class="form-group">
                                                         <div class="col-lg-4 text-right">
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter State, Providence, or county" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                </a>
-
-                                                            </div>
-                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">State</label>
-
-                                                        </div>
-
-                                                        <div class="col-lg-6">
-                                                            <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"></select>
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-lg-4 text-right">
-
-                                                            <div class="bs-example-tooltips tooltip-float-width">
-
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Country of your location" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Country of your location" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -175,7 +153,27 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Post or Zip code" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter State, Providence, or county" data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">State</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"></select>
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Post or Zip code" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -195,7 +193,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Your main telephone number" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Your main telephone number" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -215,7 +213,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Your fax number" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Your fax number" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -235,7 +233,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -255,7 +253,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Mobile number to call if needed" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Mobile number to call if needed" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -275,7 +273,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Your current web site URL" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Your current web site URL" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -295,7 +293,7 @@
                                                         <div class="col-lg-4 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload your company Logo, It will appear on Documents as well as web site, etc., Use a PNG file to maintain transparency across the websore." data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload your company Logo, It will appear on Documents as well as web site, etc., Use a PNG file to maintain transparency across the websore." data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -305,20 +303,23 @@
 
                                                         </div>
 
-                                                        <div class="col-lg-6">
-                                                            <div class="fileUpload btn btn-primary col-md-2">
-                                                                <span>....</span>
-                                                                <input type="file" class="upload" id="orgLogo" name="file" onchange="readURL(this);" />
+                                                        <div class="col-lg-8">
+                                                            <div class="col-lg-6" style="padding-left:0px;">
+                                                                <div>
+                                                                    <img id="orgImage" src="#" alt="" style="width:225px;" data-bind="attr:{ src: orgnizationImage }," />
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary"> Upload</button>
+                                                            <div class="col-lg-5 text-right">
+                                                                <div class="fileUpload btn btn-primary">
+                                                                    <span>....</span>
+                                                                    <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
+                                                                </div>
                                                             </div>
 
-                                                            <div class="col-md-12" style="margin-top: 10px;">
-                                                                <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: $root.orgnizationImage }" />
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <span class="help-block text-right">Company logo on MIS Dashboard</span>
+
+
+                                                            <div class="col-md-10">
+                                                                <span class="help-block text-center">Company logo on MIS Dashboard</span>
                                                             </div>
                                                             <input type="hidden" id="organizationId" name="organizationId" data-bind="value:id" />
                                                         </div>
@@ -340,7 +341,7 @@
 
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
 
@@ -362,7 +363,7 @@
 
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
 
@@ -382,7 +383,7 @@
 
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
 
@@ -402,7 +403,7 @@
 
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
 
@@ -431,7 +432,7 @@
                                                                 <i class="fa fa-search search-icon" data-bind="click:$root.searchMarkup"></i>
                                                             </div>
                                                             <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewMarkup">
-                                                                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer"></i>&nbsp;Add Markup
+                                                                Add Markup
                                                             </a>
                                                         </div>
                                                     </header>
@@ -455,7 +456,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Enter in the default MARKUP to apply on all new estimates</label>
-                                                    <select id="language" class="form-control" data-bind="options: $root.markupsForDropDown, optionsText: 'MarkUpName', optionsValue: 'MarkUpId' ,value:markupId,validationtooltip:markupId"></select>
+                                                    <select id="language" class="form-control" data-bind="options: $root.markupsForDropDown,optionsCaption:'Select Markup', optionsText: 'MarkUpName', optionsValue: 'MarkUpId' ,value:markupId,validationtooltip:markupId, validationOnElement:markupId"></select>
                                                 </div>
 
                                             </div>
@@ -475,7 +476,7 @@
                                                                     <i class="fa fa-search search-icon" data-bind="click:$root.searchNominalCode"></i>
                                                                 </div>
                                                                 <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateChartOfAccounts">
-                                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Nominal Code
+                                                                    Add Nominal Code
                                                                 </a>
                                                             </div>
                                                         </header>
@@ -504,15 +505,12 @@
 
                                         </div>
                                     </div>
-                                    <div class="tab-pane clearfix fade" id="tab-languageeditor" data-bind="with:languageEditor">
+                                    <div class="tab-pane clearfix fade" id="tab-languageeditor">
                                         <h3 class="group-header">Edit Regional Languages</h3>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <label for="txtCompanyName" style="color:green;" class="control-label text-right">Modifying Language File for : en-US</label>
-
                                             </div>
-
-
                                         </div>
                                         <div class="main-box-body clearfix">
                                             <div class="table-responsive">
@@ -520,86 +518,12 @@
                                                     <thead>
                                                         <tr>
                                                             <th><a href="#"><span>Caption</span></a></th>
-
                                                             <th><span>Details</span></th>
-
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption" placeholder="Default Address" data-bind="value:defaultAddress" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Default Address
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption4" placeholder="Default Shipping Address" data-bind="value:defaultShippingAddress" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Default Shipping Address
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption5" placeholder="PO Number" data-bind="value:pONumber" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                PO Number is required when ordering
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption6" placeholder="Prices" data-bind="value:prices" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Show Prices to Users
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption7" placeholder="User Shipping Addresses" data-bind="value:userShippingAddress" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Users can create Shipping Addresses
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption8" placeholder="Detail" data-bind="value:details" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Detail
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption9" data-bind="value:newsLetter" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                // NewsLetter subscriber page
-
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption10" placeholder="Confirm Design" data-bind="value:confirmDesign" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                1. Confirm Design //ProductconfirmSelection
-                                                            </td>
-
-                                                        </tr>
-
+                                                        <!-- ko template: { name: 'languageEditorItemTemplate' , foreach: languageEditors } -->
+                                                        <!-- /ko -->
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -653,8 +577,8 @@
     </script>
     <script id="itemMarkupTemplate" type="text/html">
         <tr>
-            <td style="width: 50%"  data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
-            <td style="width: 30%"   data-bind="text: rate"></td>
+            <td style="width: 50%" data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
+            <td style="width: 30%" data-bind="text: rate"></td>
             <td style="width: 20%">
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->
                 <!-- /ko -->
@@ -726,25 +650,26 @@
             <!-- /ko -->
         </tr>
     </script>
+
+    <script id="languageEditorItemTemplate" type="text/html">
+        <tr>
+            <td>
+                <input type="text" class="form-control" id="txtCaption" data-bind="value:value" />
+            </td>
+            <td style="width: 442px;" data-bind="text:key"></td>
+        </tr>
+    </script>
 </div>
 @section Scripts{
 
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
-        $(document).ready(function ()
-        {
-
-            $('.bs-example-tooltips a').popover();
-
-        });
-
         require(["myOrganization/myOrganization.view", "common/confirmation.view"]);
-        $(function ()
-        {
+        $(function () {
             $('#lisettings').addClass('active');
             $('#ligeneralsettings').addClass('active');
             $('#limyorganization').addClass('active');
-            
+
             $('.bs-example-tooltips a').popover();
         });
     </script>

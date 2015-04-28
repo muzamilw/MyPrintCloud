@@ -17,6 +17,19 @@ namespace MPC.MIS.Areas.Api.Models
         public string Email { get; set; }
         public byte[] Image { get; set; }
         public string ImageBytes { get; set; }
+        public string StoreImagePath { get; set; }
+
+
+        /// <summary>
+        /// Default Contact Name
+        /// </summary>
+        public string DefaultContactName { get; set; }
+
+
+        /// <summary>
+        /// Default Contact Email
+        /// </summary>
+        public string DefaultContactEmail { get; set; }
         /// <summary>
         /// Image Source
         /// </summary>

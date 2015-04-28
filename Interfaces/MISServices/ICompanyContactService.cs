@@ -15,6 +15,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         bool Delete(long companyContactId);
 
+        CrmContactResponse SearchAddressesAndTerritories(CompanyContactRequestModel request);
+        CompanyBaseResponse GetContactDetail(short companyId);
         /// <summary>
         /// Get Company Contacts
         /// </summary>
@@ -30,10 +32,7 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         CompanyBaseResponse GetBaseData();
 
-        /// <summary>
-        /// Get Contact Detail
-        /// </summary>
-        CompanyBaseResponse GetContactDetail(short companyId);
+      
 
     }
 }

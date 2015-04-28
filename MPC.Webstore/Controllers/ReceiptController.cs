@@ -9,6 +9,9 @@ using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
+using MPC.Webstore.Models;
+using System.Net;
+using System.IO;
 
 namespace MPC.Webstore.Controllers
 {
@@ -29,17 +32,15 @@ namespace MPC.Webstore.Controllers
             }
             this._myCompanyService = myCompanyService;
             this._OrderService = OrderService;
-         }
+        }
         // GET: Receipt
         public ActionResult Index(string OrderId)
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-            //MyCompanyDomainBaseResponse baseResponseOrganisation = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            //MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            //MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
 
 
@@ -62,13 +63,43 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Currency = "";
             }
 
-           OrderDetail order =  _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+            ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
+            OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
 
-           ViewBag.Organisation = StoreBaseResopnse.Organisation;
+            ViewBag.Company = StoreBaseResopnse.Company;
+           
+            AddressViewModel oStoreDefaultAddress = null;
 
-           return View("PartialViews/Receipt", order);
+            if (StoreBaseResopnse.Company.isWhiteLabel == false || StoreBaseResopnse.Company.isWhiteLabel == null)
+            {
+                oStoreDefaultAddress = null;
+            }
+            else 
+            {
+                oStoreDefaultAddress = new AddressViewModel();
+                if (StoreBaseResopnse.StoreDetaultAddress != null)
+                {
+                    
+                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
+                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+
+                    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
+                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                    {
+                        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                    }
+                }
+            }
+            ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
+      
+           
+            ViewBag.OrderId = OrderId;
+            ViewBag.StoreId = StoreBaseResopnse.Company.CompanyId;
+            return View("PartialViews/Receipt", order);
         }
-
-        
     }
 }

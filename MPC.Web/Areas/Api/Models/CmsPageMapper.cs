@@ -19,22 +19,18 @@ namespace MPC.MIS.Areas.Api.Models
         public static CmsPage CreateFrom(this DomainModels.CmsPage source)
         {
             byte[] bytes = null;
-            string fileName = string.Empty;
-            if (source.PageBanner != null && File.Exists(source.PageBanner))
+
+            if (!string.IsNullOrEmpty(source.PageBanner))
             {
-                bytes = source.PageBanner != null ? File.ReadAllBytes(source.PageBanner) : null;
-            }
-            string defaultPageKeyWords = null;
-            if (source.CmsPageTags != null)
-            {
-                foreach (var item in source.CmsPageTags)
+                string filePath = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
+                if (File.Exists(filePath))
                 {
-                    if (item.CmsTag != null)
-                    {
-                        defaultPageKeyWords = defaultPageKeyWords != null ? (defaultPageKeyWords + " , " + item.CmsTag.TagName) : item.CmsTag.TagName;
-                    }
+                    bytes = File.ReadAllBytes(filePath);
                 }
+
             }
+
+
             return new CmsPage
             {
                 PageId = source.PageId,
@@ -47,11 +43,11 @@ namespace MPC.MIS.Areas.Api.Models
                 Meta_RobotsContent = source.Meta_RobotsContent,
                 Meta_Title = source.Meta_Title,
                 PageHTML = source.PageHTML,
+                IsUserDefined = source.isUserDefined,
+                isEnabled = source.isEnabled,
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
-                DefaultPageKeyWords = defaultPageKeyWords,
                 Image = bytes,
-                FileName = fileName,
                 PageBanner = source.PageBanner
             };
         }
@@ -64,6 +60,7 @@ namespace MPC.MIS.Areas.Api.Models
             return new DomainModels.CmsPage
             {
                 PageId = source.PageId,
+                isUserDefined = source.IsUserDefined,
                 CategoryId = source.CategoryId,
                 Meta_AuthorContent = source.Meta_AuthorContent,
                 Meta_CategoryContent = source.Meta_CategoryContent,
@@ -78,6 +75,7 @@ namespace MPC.MIS.Areas.Api.Models
                 FileName = source.FileName,
                 Bytes = source.Bytes,
                 PageBanner = source.PageBanner,
+                isEnabled = source.isEnabled
             };
         }
 
@@ -86,6 +84,16 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public static CmsPageForListView CreateFromForListView(this DomainModels.CmsPage source)
         {
+            byte[] bytes = null;
+            //if (!string.IsNullOrEmpty(source.PageBanner))
+            //{
+            //    string filePath = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
+            //    if (File.Exists(filePath))
+            //    {
+            //        bytes = File.ReadAllBytes(filePath);
+            //    }
+
+            //}
             return new CmsPageForListView
             {
                 PageId = source.PageId,
@@ -93,6 +101,8 @@ namespace MPC.MIS.Areas.Api.Models
                 IsDisplay = source.isDisplay,
                 IsEnabled = source.isEnabled,
                 Meta_Title = source.Meta_Title,
+                IsUserDefined = source.isUserDefined,
+                Image = bytes,
                 CategoryName = source.PageCategory != null ? source.PageCategory.CategoryName : string.Empty,
             };
         }

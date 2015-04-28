@@ -9,10 +9,13 @@ namespace MPC.Interfaces.Repository
     public interface ICompanyRepository : IBaseRepository<Company, long>
     {
         CompanyResponse GetCompanyById(long companyId);
-
+        /// <summary>
+        /// USer count in last few days
+        /// </summary>
+        int UserCount(long? storeId, int numberOfDays);
         long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
-
+        Company GetCustomer(int CompanyId);
         /// <summary>
         /// Get Suppliers For Inventories
         /// </summary>
@@ -27,7 +30,7 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         Company GetStoreById(long companyId);
 
-        long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, CompanyContact contact = null);
+        long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId,long StoreId, CompanyContact contact = null);
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore
         /// </summary>
@@ -44,16 +47,47 @@ namespace MPC.Interfaces.Repository
         bool UpdateCompanyName(Company Instance);
         Company GetStoreByStoreId(long companyId);
 
-        ExportOrganisation ExportCompany(ExportOrganisation ObjExportOrg, long CompanyId);
+        ExportSets ExportRetailCompany(long CompanyId);
+        ExportSets ExportCorporateCompany(long CompanyId);
+
+        long GetCompanyByName(long OID, string Name);
         /// <summary>
         /// Get Company By Is Customer Type
         /// </summary>
         CompanySearchResponseForCalendar GetByIsCustomerType(CompanyRequestModelForCalendar request);
-
         /// <summary>
         /// Count of live stores
         /// </summary>
         int LiveStoresCountForDashboard();
-        
+
+        CompanyResponse SearchCompaniesForSupplier(CompanyRequestModel request);
+
+        CompanyResponse SearchCompaniesForCustomer(CompanyRequestModel request);
+
+        Company GetCompanyByCompanyID(long CompanyID);
+
+        bool InsertStore(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets,string SubDomain,string status);
+        ExportSets ExportCorporateCompanyWithoutProducts(long CompanyId);
+
+        ExportSets ExportRetailCompanyWithoutProducts(long CompanyId);
+
+        void DeleteStoryBySP(long StoreID);
+        IEnumerable<Company> GetAllRetailAndCorporateStores();
+        CompanyResponse GetCompanyByIdForCrm(long companyId);
+        double? GetTaxRateByStoreId(long storeId);
+
+        List<Company> GetSupplierByOrganisationid(long OID);
+
+       // Company GetCompanyByCompanyIDforArtwork(long CompanyID);
+
+        string GetSupplierNameByID(int CID);
+
+        /// <summary>
+        /// Check web access code exists
+        /// </summary>
+        /// <param name="subscriptionCode"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
     }
 }

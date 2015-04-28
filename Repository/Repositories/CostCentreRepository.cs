@@ -13,6 +13,7 @@ using MPC.Models.Common;
 using System.Data.SqlClient;
 using System.Data.Entity.Core.Objects;
 using System.Linq.Expressions;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -62,8 +63,43 @@ namespace MPC.Repository.Repositories
 		/// Get All Cost Centres that are not system defined
 		/// </summary>
 		public IEnumerable<CostCentre> GetAllNonSystemCostCentres()
+		{			
+            return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != (int)CostCenterTypes.SystemCostCentres && costcentre.IsDisabled != 1 && costcentre.Type != (int)CostCenterTypes.Delivery && costcentre.Type != (int)CostCenterTypes.WebOrder)
+                .OrderBy(costcentre => costcentre.Name).ToList();
+		}
+		/// <summary>
+		/// Get All Cost Centres that are not system defined
+		/// </summary>
+        public CostCentreResponse GetAllNonSystemCostCentresForProduct(GetCostCentresRequest request)
 		{
-			return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != 1);
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchString);
+            Expression<Func<CostCentre, bool>> query =
+                s =>
+                    (isSearchFilterSpecified && (s.Name.Contains(request.SearchString)) ||
+                     (s.HeaderCode.Contains(request.SearchString)) ||
+                     !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29)) &&
+                     s.OrganisationId == OrganisationId;
+
+            int rowCount = DbSet.Count(query);
+            // ReSharper disable once ConditionalTernaryEqualBranch
+            IEnumerable<CostCentre> costCentres = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderByDescending(x => x.Name)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(x => x.Name)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            return new CostCentreResponse
+            {
+                RowCount = rowCount,
+                CostCentresForproducts = costCentres
+            };
 		}
 
 		public bool Delete(long CostCentreID)
@@ -148,7 +184,7 @@ namespace MPC.Repository.Repositories
 
 				try
 				{
-					return db.CostCentres.Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
+                    return db.CostCentres.Include("CostcentreInstructions").Include("CostcentreInstructions.CostcentreWorkInstructionsChoices").Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
 
 				}
 				catch (Exception ex)
@@ -468,7 +504,7 @@ namespace MPC.Repository.Repositories
 		{
 			try
 			{
-
+                oCostCentre.OrganisationId = this.OrganisationId;
 				db.CostCentres.Add(oCostCentre);
 				if (db.SaveChanges() > 0)
 				{
@@ -491,8 +527,102 @@ namespace MPC.Repository.Repositories
 			{
 
 				CostCentre result = db.CostCentres.Where(c => c.CostCentreId == oCostCentre.CostCentreId).FirstOrDefault();
+                result = oCostCentre;
+                if (oCostCentre.ImageBytes != null)
+                {
+                    result.ThumbnailImageURL = oCostCentre.ThumbnailImageURL;
+                    result.ImageBytes = null;
+                }
+                List<CostcentreInstruction> oCostcentreInstructions = db.CostcentreInstructions.Where(g => g.CostCentreId == oCostCentre.CostCentreId).ToList();
+                
+                if(oCostCentre.CostcentreInstructions != null)
+                {
+                    foreach (var item in oCostcentreInstructions)
+                    {
+                        CostcentreInstruction oCCInstruction = oCostCentre.CostcentreInstructions.Where(g=>g.InstructionId==item.InstructionId).FirstOrDefault();
+                        if (oCCInstruction == null)
+                        {
+                            List<CostcentreWorkInstructionsChoice> choicesList = db.CostcentreWorkInstructionsChoices.Where(g => g.InstructionId == item.InstructionId).ToList();
+                            db.CostcentreWorkInstructionsChoices.RemoveRange(choicesList);
+                            db.CostcentreInstructions.Remove(item);
+                        }
+                        
+                    }
 
-				result = oCostCentre;
+                    foreach (var inst in oCostCentre.CostcentreInstructions)
+                    {
+                        if (inst.InstructionId > 0)
+                        {
+                            List<CostcentreWorkInstructionsChoice> choList = db.CostcentreWorkInstructionsChoices.Where(g => g.InstructionId == inst.InstructionId).ToList();
+                            if (inst.CostcentreWorkInstructionsChoices == null)
+                            {
+                                db.CostcentreWorkInstructionsChoices.RemoveRange(choList);
+                            }
+                            else
+                            {
+                                foreach(var ch in choList){
+                                    CostcentreWorkInstructionsChoice chi = inst.CostcentreWorkInstructionsChoices.Where(g => g.Id == ch.Id).FirstOrDefault();
+                                    if (chi == null)
+                                    {
+                                        db.CostcentreWorkInstructionsChoices.Remove(ch);
+                                    }
+                                }
+                                
+                            }
+
+                            CostcentreInstruction obj = db.CostcentreInstructions.Where(i => i.InstructionId == inst.InstructionId).SingleOrDefault();
+                            obj.Instruction = inst.Instruction;
+
+                            if (inst.CostcentreWorkInstructionsChoices != null)
+                            {
+                                foreach (var ch in inst.CostcentreWorkInstructionsChoices)
+                                {
+                                    if (ch.Id > 0)
+                                    {
+                                        CostcentreWorkInstructionsChoice objChoice = db.CostcentreWorkInstructionsChoices.Where(i => i.Id == ch.Id).SingleOrDefault();
+                                        objChoice.Choice = ch.Choice;
+                                    }
+                                    else
+                                    {
+                                        CostcentreWorkInstructionsChoice objChoice = new CostcentreWorkInstructionsChoice();
+                                        objChoice.Choice = ch.Choice;
+                                        objChoice.InstructionId = obj.InstructionId;
+                                        db.CostcentreWorkInstructionsChoices.Add(objChoice);
+                                    }
+                                   
+                                }
+                            }
+                        }
+                        else
+                        {
+                            CostcentreInstruction obj = new CostcentreInstruction();
+                            obj.Instruction = inst.Instruction;
+                            obj.CostCentreId = oCostCentre.CostCentreId;
+                            db.CostcentreInstructions.Add(obj);
+                            db.SaveChanges();
+                            if (inst.CostcentreWorkInstructionsChoices != null)
+                            {
+                                foreach (var ch in inst.CostcentreWorkInstructionsChoices)
+                                {
+                                    CostcentreWorkInstructionsChoice objChoice = new CostcentreWorkInstructionsChoice();
+                                    objChoice.Choice = ch.Choice;
+                                    objChoice.InstructionId = obj.InstructionId;
+                                    db.CostcentreWorkInstructionsChoices.Add(objChoice);
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                else if (oCostcentreInstructions.Count > 0)
+                {
+                    foreach (var item in oCostcentreInstructions)
+                    {
+                        List<CostcentreWorkInstructionsChoice> choicesList = db.CostcentreWorkInstructionsChoices.Where(g => g.InstructionId == item.InstructionId).ToList();
+                        db.CostcentreWorkInstructionsChoices.RemoveRange(choicesList);
+                        db.CostcentreInstructions.Remove(item);
+                    }
+                }
 
 				if (db.SaveChanges() > 0)
 				{
@@ -534,13 +664,14 @@ namespace MPC.Repository.Repositories
 		{
 			try
 			{
-			  //var query =  (from ccType in db.CostCentreTypes
-			  //             join cc in db.CostCentres on ccType.TypeId equals cc.Type  
-			  //             join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
-			  //             where ((ccType.IsExternal ==  1 && ccType.IsSystem == 0 && cc.CompleteCode != null) 
-			  //             && Org.OrganisationId == OrganisationId )select cc);
-						  
-			  //return query.ToList<CostCentre>();
+                var query = (from ccType in db.CostCentreTypes
+                             join cc in db.CostCentres on ccType.TypeId equals cc.Type
+                             join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
+                             where ((ccType.IsExternal == 1 && ccType.IsSystem == 0 && cc.CompleteCode != null)
+                             && Org.OrganisationId == OrganisationId)
+                             select cc);
+
+                return query.ToList<CostCentre>();
 
 				return null;
 			}
@@ -594,7 +725,7 @@ namespace MPC.Repository.Repositories
 		{
 			try
 			{
-				return db.CostCentreTypes.Where(t => t.CompanyId == OrganisationId && t.IsSystem == 0).ToList();
+                return db.CostCentreTypes.Where(t => t.OrganisationId == OrganisationId && t.IsSystem == 0).ToList();
 
 			}
 			catch (Exception ex)
@@ -628,9 +759,15 @@ namespace MPC.Repository.Repositories
 		{
 			int fromRow = (request.PageNo - 1) * request.PageSize;
 			int toRow = request.PageSize;
-			Expression<Func<CostCentre, bool>> query =
-				oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
-
+            Expression<Func<CostCentre, bool>> query;
+            if (request.CostCenterType != 0)
+            {
+                query = oCostCenter => oCostCenter.Type == request.CostCenterType && oCostCenter.IsDisabled != 1 && oCostCenter.OrganisationId == OrganisationId;
+            }
+            else
+            {
+                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled != 1 && oCostCenter.OrganisationId == OrganisationId;
+            }
 			var rowCount = DbSet.Count(query);
 			var costCenters = request.IsAsc
 				? DbSet.Where(query)
@@ -647,6 +784,7 @@ namespace MPC.Repository.Repositories
 			{
 				RowCount = rowCount,
 				CostCenters = costCenters
+                
 			};
 		}
 		public CostCentre GetCostCentersByID(long costCenterID)
@@ -665,6 +803,83 @@ namespace MPC.Repository.Repositories
 		{
 			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true).ToList();
 		}
+		public IEnumerable<CostCentre> GetAllCompanyCentersForOrderItem()
+		{
+			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true && (x.Type == 29 || x.Type == 139)).ToList();
+		}
+
+        public IEnumerable<CostCentre> GetAllDeliveryCostCentersForStore()
+        {
+            return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true && x.Type == (int)CostCenterTypes.Delivery)
+                .OrderBy(x => x.Name).ToList();
+        }
+        public CostCenterVariablesResponseModel GetCostCenterVariablesTree(int id)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            CostCenterVariablesResponseModel oResponse = new CostCenterVariablesResponseModel();
+            if(id == 1) //Cost Centers
+            {
+                List<CostCentreType> ccTypes = db.CostCentreTypes.Where(c => c.IsSystem != (short)1 && c.OrganisationId == this.OrganisationId).ToList();
+                if (ccTypes != null)
+                {
+                    foreach (var cc in ccTypes)
+                    {
+                        cc.CostCentres = db.CostCentres.Where(cv => cv.Type == cc.TypeId && cv.OrganisationId == this.OrganisationId && cv.IsDisabled != (short)1).ToList();
+                    }
+                    oResponse.CostCenterVariables = ccTypes;
+                }
+            }
+            else if(id == 2)//Variables
+            {
+                List<CostCentreVariableType> vTypes = db.CostCentreVariableTypes.ToList();
+                if (vTypes != null)
+                {
+                    foreach (var v in vTypes)
+                    {
+                        v.VariablesList = db.CostCentreVariables.Where(cv => cv.CategoryId == v.CategoryId).ToList();
+                    }
+                    oResponse.VariableVariables = vTypes;
+                }
+            }
+            else if(id == 3)//Resources
+            {
+                oResponse.ResourceVariables = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
+            }
+            else if (id == 4)//Questions
+            {
+                oResponse.QuestionVariables = db.CostCentreQuestions.ToList();
+            }
+            else if (id == 5)//Matrices
+            {
+                oResponse.MatricesVariables = db.CostCentreMatrices.Where(c => c.OrganisationId == this.OrganisationId).ToList();
+            }
+            else if (id == 6)//Lookups
+            {
+                oResponse.LookupVariables = db.LookupMethods.Where(c => c.OrganisationId == this.OrganisationId && (c.Type != 0 || c.Type != null)).ToList();
+            }
+
+            return oResponse;
+        }
+
+        public CostCenterBaseResponse GetBaseData()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var types = db.CostCentreTypes.Where(c => c.OrganisationId == this.OrganisationId).ToList();
+            var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
+            var nominalCodes = db.ChartOfAccounts.Where(u => u.SystemSiteId == this.OrganisationId).ToList();
+            var ccVariables = db.CostCentreVariables.Where(c => c.SystemSiteId == this.OrganisationId).ToList();
+            var carriers = db.DeliveryCarriers.ToList();
+            var markups = db.Markups.Where(m => m.OrganisationId == this.OrganisationId).ToList();
+            return new CostCenterBaseResponse
+            {
+                CostCenterCategories = types,
+                CostCenterResources = resources,
+                NominalCodes = nominalCodes,
+                Markups = markups,
+                CostCentreVariables = ccVariables,
+                DeliveryCarriers = carriers
+            };
+        }
 		#endregion
 
 		#region "CostCentre Template"
@@ -764,22 +979,23 @@ namespace MPC.Repository.Repositories
 		public List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID)
 		{
 
-				var query = from tblCostCenter in db.CostCentres
-							join CorpCostCenter in db.CompanyCostCentres on tblCostCenter.CostCentreId equals (long)CorpCostCenter.CostCentreId
-							where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true
-							&& CorpCostCenter.CompanyId == CompanyID
-							orderby tblCostCenter.MinimumCost
-							select new CostCentre()
-							{
+            var query = (from tblCostCenter in db.CostCentres
+                         join CorpCostCenter in db.CompanyCostCentres on tblCostCenter.CostCentreId equals (long)CorpCostCenter.CostCentreId
+                         where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true
+                         && CorpCostCenter.CompanyId == CompanyID
+                         orderby tblCostCenter.MinimumCost
+                         select tblCostCenter).ToList();
+                            //select new CostCentre()
+                            //{
 
-								CostCentreId = tblCostCenter.CostCentreId,
-								CompletionTime = tblCostCenter.CompletionTime,
-								MinimumCost = tblCostCenter.MinimumCost,
-								Description = tblCostCenter.Description,
-								Name = tblCostCenter.Name,
-								SetupCost = tblCostCenter.DeliveryCharges ?? 0,
-								EstimateProductionTime = tblCostCenter.EstimateProductionTime
-							};
+                            //    CostCentreId = tblCostCenter.CostCentreId,
+                            //    CompletionTime = tblCostCenter.CompletionTime,
+                            //    MinimumCost = tblCostCenter.MinimumCost,
+                            //    Description = tblCostCenter.Description,
+                            //    Name = tblCostCenter.Name,
+                            //    SetupCost = tblCostCenter.DeliveryCharges ?? 0,
+                            //    EstimateProductionTime = tblCostCenter.EstimateProductionTime
+                            //};
 
 
 				return query.ToList();
@@ -814,35 +1030,56 @@ namespace MPC.Repository.Repositories
 				db.Configuration.ProxyCreationEnabled = false;
 				List<CostCenterChoice> choices = new  List<CostCenterChoice>();
 				List<CostCenterChoice> Lstchoices = new List<CostCenterChoice>();
+
+                Mapper.CreateMap<CostCentre, CostCentre>()
+                .ForMember(x => x.CompanyCostCentres, opt => opt.Ignore())
+                .ForMember(x => x.CostCentreType, opt => opt.Ignore());
+
+                Mapper.CreateMap<CostcentreInstruction, CostcentreInstruction>()
+               .ForMember(x => x.CostCentre, opt => opt.Ignore());
+
+                Mapper.CreateMap<CostcentreResource, CostcentreResource>()
+                .ForMember(x => x.CostCentre, opt => opt.Ignore());
+
+                Mapper.CreateMap<CostcentreWorkInstructionsChoice, CostcentreWorkInstructionsChoice>()
+                .ForMember(x => x.CostcentreInstruction, opt => opt.Ignore());
+
+              
+
+
 				CostCentres = db.CostCentres.Include("CostcentreInstructions").Include("CostcentreResources").Include("CostcentreInstructions.CostcentreWorkInstructionsChoices").Where(c => c.OrganisationId == OrganisationID).ToList();
 
-				CostCentre ff = new CostCentre();
-				
-				if(CostCentres != null && CostCentres.Count > 0)
-				{
-					foreach(var cost in CostCentres)
-					{
-						if(cost.CostCentreId != null)
-						{
-							choices = db.CostCenterChoices.Where(c => c.CostCenterId == cost.CostCentreId).ToList();
-							if(choices != null && choices.Count > 0)
-							{
-								foreach(var ch in choices)
-								{
-									Lstchoices.Add(ch);
-								}
+                List<CostCentre> oOutputCostCentre = new List<CostCentre>();
 
-							}
-						}
+                if (CostCentres != null && CostCentres.Count > 0)
+                {
+                    foreach (var cost in CostCentres)
+                    {
+                        var omappedCost = Mapper.Map<CostCentre, CostCentre>(cost);
+                        oOutputCostCentre.Add(omappedCost);
 
+                        if (cost.CostCentreId != null)
+                        {
+                            choices = db.CostCenterChoices.Where(c => c.CostCenterId == cost.CostCentreId).ToList();
+                            if (choices != null && choices.Count > 0)
+                            {
+                                foreach (var ch in choices)
+                                {
+                                    Lstchoices.Add(ch);
+                                }
 
-					   
-					  
-					}
+                            }
+                    }
+                }
+
 				}
 
-				CostCentreChoices = Lstchoices;
-				return CostCentres;
+
+                CostCentreChoices = Lstchoices;
+                return oOutputCostCentre;
+
+				
+				
 			}
 			catch(Exception ex)
 			{
@@ -851,7 +1088,33 @@ namespace MPC.Repository.Repositories
 		}
 
 
+        public List<CostCentreType> GetCostCentreTypeByOrganisationID(long OID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.CostCentreTypes.Where(c => c.OrganisationId == OID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+
+        public List<CostCentre> GetCostCentresforxml(List<long> CostCenterIDs)
+        {
+           
+
+            //List<CostCentre> ProductData = from CC in db.CostCentres
+            //                  where CostCenterIDs.Contains(CC.CostCentreId) select CC;
+
+            return db.CostCentres.Where(c => CostCenterIDs.Contains(c.CostCentreId)).ToList();
+
+
+           
+        }
 		
 		#endregion
 	}

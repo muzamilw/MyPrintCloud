@@ -83,7 +83,7 @@ namespace MPC.Models.DomainModels
         public double? VoucherDiscountRate { get; set; }
         public Guid? ReportSignedBy { get; set; }
         public int? InvoiceId { get; set; }
-        public int? OrderReportSignedBy { get; set; }
+        public Guid? OrderReportSignedBy { get; set; }
         public DateTime? OrderReportLastPrinted { get; set; }
         public DateTime? EstimateReportLastPrinted { get; set; }
         public bool? isEmailSent { get; set; }
@@ -99,5 +99,7 @@ namespace MPC.Models.DomainModels
         public virtual Status Status { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<PrePayment> PrePayments { get; set; }
+        public virtual SectionFlag SectionFlag { get; set; }
+        public virtual ICollection<ShippingInformation> ShippingInformations { get; set; }
     }
 }

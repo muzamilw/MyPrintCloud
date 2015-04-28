@@ -28,8 +28,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public CompanyResponse GetCustomers(CompanyRequestModel requestModel)
         {
-            return companyRepository.SearchCompanies(requestModel);
+            return companyRepository.SearchCompaniesForCustomer(requestModel);
         }
+
         #endregion
     }
 }

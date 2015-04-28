@@ -46,9 +46,12 @@ namespace MPC.Webstore
                       "~/Scripts/respond.js",
                       "~/Scripts/bootstrap-datepicker.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/fancyBox").Include(
+                   "~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.pack.js", "~/LightBox/Js/jquery.fancybox.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/modalEffects").Include(
                      "~/Scripts/modalEffects.js"));
-
+            bundles.Add(new ScriptBundle("~/pageSpecific"));
 
             bundles.Add(new StyleBundle("~/Content/CSS").Include(
                       "~/Content/bootstrap.min.css"
@@ -96,7 +99,15 @@ namespace MPC.Webstore
                   "~/Scripts/Designer/p35-v2.js",
                   "~/Scripts/Designer/pcf01-35.js"
                   ));
+            
+            bundles.Add(new StyleBundle("~/Content/LightBoxcss").Include(
+                    "~/LightBox/Css/jquery.fancybox.css"
+                    ));
+              //bundles.Add(new ScriptBundle("~/bundles/LightBox").Include("~/LightBox1/Js/jquery.js", "~/LightBox1/Js/jquery.lightbox-0.5.js", "~/LightBox1/Js/jquery.lightbox-0.5.min.js", "~/LightBox1/Js/jquery.lightbox-0.5.pack.js", "~/LightBox1/Js/viewport.js"));
+
+            //bundles.Add(new ScriptBundle("~/bundles/LightBox").Include("~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.js", "~/LightBox/Js/jquery.fancybox-thumbs.js", "~/LightBox1/Js/jquery.fancybox-media.js", "~/LightBox1/Js/jquery.fancybox-buttons.js"));
             // Set EnableOptimizations to false for debugging. For more information,
+
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;
         }

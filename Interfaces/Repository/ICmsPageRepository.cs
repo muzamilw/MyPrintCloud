@@ -26,5 +26,16 @@ namespace MPC.Interfaces.Repository
         List<CmsPageModel> GetSystemPagesAndSecondaryPages(long CompanyId);
 
         CmsPage getPageByID(long PageID);
+
+        /// <summary>
+        /// Get Cms pages for orders
+        /// </summary>
+        IEnumerable<CmsPage> GetCmsPagesForOrders(long companyId);
+
+        /// <summary>
+        /// Get Cms Pages By Company Id
+        /// </summary>
+        List<CmsPage> GetCmsPagesByCompanyId(long companyId);
+       // CmsPage GetCmsPageByName(string )
     }
 }

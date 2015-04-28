@@ -280,11 +280,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string JobDescription { get; set; }
         public string InvoiceDescription { get; set; }
         public string JobCode { get; set; }
-        public int? JobManagerId { get; set; }
+        public Guid? JobManagerId { get; set; }
         public DateTime? JobEstimatedStartDateTime { get; set; }
         public DateTime? JobEstimatedCompletionDateTime { get; set; }
         public DateTime? JobCreationDateTime { get; set; }
-        public int? JobProgressedBy { get; set; }
+        public Guid? JobProgressedBy { get; set; }
         public int? JobSelectedQty { get; set; }
         public int? JobStatusId { get; set; }
         public bool? IsJobCardPrinted { get; set; }
@@ -336,7 +336,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string WebDescription { get; set; }
         public int? ItemTypeId { get; set; }
         public bool? IsOrderedItem { get; set; }
-        public int? JobCardPrintedBy { get; set; }
+        public Guid? JobCardPrintedBy { get; set; }
         public DateTime? JobCardLastPrintedDate { get; set; }
         public int? EstimateProductionTime { get; set; }
         public int? SortOrder { get; set; }
@@ -383,6 +383,20 @@ namespace MPC.MIS.Areas.Api.Models
         public double? Scalar { get; set; }
         public double? ZoomFactor { get; set; }
         public bool? IsAddCropMarks { get; set; }
+        public double? ItemLength { get; set; }
+        public double? ItemWidth { get; set; }
+        public double? ItemHeight { get; set; }
+        public double? ItemWeight { get; set; }
+        public bool? PrintCropMarks { get; set; }
+        public bool? DrawBleedArea { get; set; }
+        public bool? IsMultipagePdf { get; set; }
+        public bool? DrawWaterMarkTxt { get; set; }
+        public bool? AllowPdfDownload { get; set; }
+        public bool? AllowImageDownload { get; set; }
+        public bool? IsDigitalDownload { get; set; }
+        public bool? IsRealStateProduct { get; set; }
+        public int? ProductDisplayOptions { get; set; }
+        public long? SmartFormId { get; set; }
 
         /// <summary>
         /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves
@@ -875,6 +889,11 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<ProductCategoryItem> ProductCategoryItems { get; set; }
 
         public IEnumerable<ItemSection> ItemSections { get; set; }
+
+        public IEnumerable<ItemImage> ItemImages { get; set; }
+
+        public  ICollection<ItemAttachment> ItemAttachments { get; set; }
+
 
         #endregion
     }

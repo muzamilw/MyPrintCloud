@@ -10,8 +10,7 @@
         <div class="row">
             <div class="col-lg-12" id="topArea">
                 <ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li class="active"><span>Inventory Categories</span></li>
+                    <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
                 <div class="clearfix">
                     <h1 class="pull-left">Inventory Categories</h1>
@@ -21,7 +20,7 @@
                 </div>
                 <div class="pull-right top-page-ui">
                     <a data-toggle="modal" data-bind="click: $root.createNewStockCategory" class=" btn btn-primary">
-                        <i class="fa fa-plus-circle fa-lg"></i> Add Inventory Category
+                         Add Inventory Category
                     </a>
                 </div>
                 <div id="addInventory">
@@ -57,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="pagerDiv">
+                <div id="pagerDiv" class="pull-right">
                     <!-- ko with: pager -->
                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                     <!-- /ko -->
@@ -66,7 +65,7 @@
         </div>
     </div>
 
-    <div class="col-lg-12" data-bind="visible: $root.isStockCategoryEditorVisible()">
+    <div class="col-lg-12" data-bind="visible: $root.isStockCategoryEditorVisible()" style="display: none">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
@@ -78,6 +77,7 @@
                         <h1 class="pull-left">Inventory Category Detail</h1>
                     </div>
                     <div class="pull-right top-page-ui">
+                        <button type="button" class="btn btn-danger" data-bind="click: $root.onDeleteStockCategory">Delete</button>
                         <button type="button" class="btn btn-primary" data-bind="click: $root.saveStockCategory, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                         <button type="button" class="btn btn-default removeLeftMargin" data-bind="click: $root.closeEditDialog">Close</button>
                     </div>
@@ -96,7 +96,7 @@
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Code" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Code" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -104,13 +104,13 @@
                                     </div>
 
                                     <div class="col-lg-7">
-                                        <input type="text" class="form-control" data-bind="value: code, validationTooltip: code" />
+                                        <input type="text" class="form-control" data-bind="value: code, validationTooltip: code, enable: fixed() !== 1" />
                                     </div>
                                 </div>
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Name" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Name" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -118,13 +118,13 @@
                                     </div>
 
                                     <div class="col-lg-7">
-                                        <input type="text" class="form-control" data-bind="value: name, validationTooltip: name" />
+                                        <input type="text" class="form-control" data-bind="value: name, validationTooltip: name, enable: fixed() !== 1" />
                                     </div>
                                 </div>
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Description" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Description" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -138,7 +138,7 @@
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Weight" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Weight" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -155,7 +155,7 @@
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Item Custom Size" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Item Custom Size" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -172,7 +172,7 @@
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Color" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Color" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -189,7 +189,7 @@
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Item Paper Size" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Item Paper Size" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -245,7 +245,7 @@
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Coating Type" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Coating Type" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -262,7 +262,7 @@
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Coated" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Coated" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -279,7 +279,7 @@
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Exposure" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Exposure" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -296,7 +296,7 @@
                                 <div class="form-group ">
                                     <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Processing Charge" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Processing Charge" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </a>
                                         </div>
@@ -322,7 +322,7 @@
                                     <i class="fa fa-search search-icon"></i>
                                 </div>*@
                                     <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewStockSubCategory">
-                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Sub Category
+                                        Add Sub Category
                                     </a>
                                 </div>
                             </header>
@@ -351,30 +351,10 @@
             </div>
         </div>
     </div>
-
-
-    <script id="actionsTemplate" type="text/html">
-        <a href="#" class="table-link danger" data-bind="click : $root.deleteStockCategory" style="float: right">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a class="table-link" data-bind="click : $root.onEditItem" style="float: right">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-    </script>
     <script id="itemStockCategory" type="text/html">
         <tr data-bind="click: $root.selectStockCategory, css: { selectedRow: $data === $root.selectedStockCategory}">
-            <td class="col-lg-6" data-bind="text: name"></td>
-            <td class="col-lg-4" data-bind="text: description"></td>
-            <td class="col-lg-2" id="actionColumn">
-                <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->
-            </td>
+            <td class="col-lg-6" data-bind="click : $root.onEditItem"><a data-bind="text: name" style="cursor:pointer"></a></td>
+            <td class="col-lg-6" data-bind="text: description"></td>
         </tr>
     </script>
 
@@ -434,23 +414,18 @@
     @* Filter Template *@
     <script id="filterTemplate" type="text/html">
         <div class="filter-body" id="filter">
-            <div class=" filter-block pull-left">
-                <div class="pull-left spanfilterlbl">
-                    Search &nbsp;
-                </div>
-                <div class="form-group pull-left">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <i class="fa fa-search search-icon"></i>
-                </div>
+            @*<form data-bind="">*@
+                <div class=" filter-block pull-right" style="padding-bottom: 22px;">
 
-                <div class="pull-right">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                    <button type="reset" class="btn btn-default">Reset</button>
+                    <div class="form-group pull-right">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <i class="fa fa-search search-icon"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="clearfix">
-            </div>
-        </div>
+            @*</form>*@
+                <div class="clearfix">
+                </div>
+</div>
     </script>
 </div>
 

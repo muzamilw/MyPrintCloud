@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using MPC.ExceptionHandling;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
@@ -53,6 +54,27 @@ namespace MPC.Implementation.MISServices
         private readonly IMachineRepository machineRepository;
         private readonly IPaperSizeRepository paperSizeRepository;
         private readonly IItemSectionRepository itemSectionRepository;
+        private readonly IItemImageRepository itemImageRepository;
+        private readonly IOrganisationRepository organizationRepository;
+        private readonly ISmartFormRepository smartFormRepository;
+        private readonly ILengthConversionService lengthConversionService;
+        private readonly ITemplateObjectRepository templateObjectRepository;
+
+        /// <summary>
+        /// Delete Template Object
+        /// </summary>
+        private void DeleteTemplateObject(List<TemplatePage> templatePages)
+        {
+            // Return if no template pages
+            if (templatePages.Count == 0)
+            {
+                return;
+            }
+
+            List<TemplateObject> templateObjects = 
+                templateObjectRepository.GetByTemplatePages(templatePages.Select(tp => (long?)tp.ProductPageId).ToList()).ToList();
+            templateObjects.ForEach(tempObj => templateObjectRepository.Delete(tempObj));
+        }
 
         /// <summary>
         /// Create Item Vdp Price
@@ -286,7 +308,7 @@ namespace MPC.Implementation.MISServices
             // Set Paper Sizes
             SetPaperSizesForNonPrintItemSection(line);
         }
-        
+
         /// <summary>
         /// Create Item Section
         /// </summary>
@@ -307,13 +329,145 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Create Item Image
+        /// </summary>
+        private ItemImage CreateItemImage()
+        {
+            ItemImage line = itemImageRepository.Create();
+            itemImageRepository.Add(line);
+
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Image
+        /// </summary>
+        private void DeleteItemImage(ItemImage line)
+        {
+            itemImageRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Template Pages BackgroundFileName updation
+        /// </summary>
+        private void UpdateTemplatePagesBackgroundFileNames(Item itemTarget)
+        {
+            if (itemTarget.Template != null && itemTarget.Template.ProductId > 0)
+            {
+                if (itemTarget.Template.TemplatePages != null)
+                {
+                    foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+                    {
+                        templatePage.BackgroundFileName = itemTarget.Template.ProductId + "/Side" + templatePage.PageNo + ".pdf";
+                    }
+                }
+
+                // Convert Template Length to Points
+                ConvertTemplateLengthToPoints(itemTarget);
+            }
+        }
+
+        /// <summary>
+        /// Converts Template Length to Points
+        /// </summary>
+        private void ConvertTemplateLengthToPoints(Item itemTarget)
+        {
+            Organisation organisation = organizationRepository.GetOrganizatiobByID();
+
+            if (organisation == null || organisation.LengthUnit == null)
+            {
+                return;
+            }
+            
+            if (itemTarget.Template.PDFTemplateHeight.HasValue && itemTarget.Template.PDFTemplateHeight.Value > 0)
+            {
+                itemTarget.Template.PDFTemplateHeight = 
+                    lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.PDFTemplateHeight.Value, organisation.LengthUnit);
+            }
+
+            if (itemTarget.Template.PDFTemplateWidth.HasValue && itemTarget.Template.PDFTemplateWidth.Value > 0)
+            {
+                itemTarget.Template.PDFTemplateWidth = 
+                    lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.PDFTemplateWidth.Value, organisation.LengthUnit);
+            }
+
+            // Convert Template Pages length to Points
+            if (itemTarget.Template.TemplatePages == null)
+            {
+                return;
+            }
+
+            foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+            {
+                if (templatePage.Height.HasValue && templatePage.Height.Value > 0)
+                {
+                    templatePage.Height = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Height.Value, organisation.LengthUnit);
+                }
+
+                if (templatePage.Width.HasValue && templatePage.Width.Value > 0)
+                {
+                    templatePage.Width = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Width.Value, organisation.LengthUnit);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Converts Template Length to System Unit
+        /// </summary>
+        private void ConvertTemplateLengthToSystemUnit(Item itemTarget)
+        {
+            if (itemTarget.Template == null || itemTarget.Template.ProductId <= 0)
+            {
+                return;
+            }
+
+            Organisation organisation = organizationRepository.GetOrganizatiobByID();
+
+            if (organisation == null || organisation.LengthUnit == null)
+            {
+                return;
+            }
+
+            if (itemTarget.Template.PDFTemplateHeight.HasValue && itemTarget.Template.PDFTemplateHeight.Value > 0)
+            {
+                itemTarget.Template.PDFTemplateHeight = 
+                    lengthConversionService.ConvertLengthFromPointsToSystemUnit(itemTarget.Template.PDFTemplateHeight.Value, organisation.LengthUnit);
+            }
+
+            if (itemTarget.Template.PDFTemplateWidth.HasValue && itemTarget.Template.PDFTemplateWidth.Value > 0)
+            {
+                itemTarget.Template.PDFTemplateWidth = 
+                    lengthConversionService.ConvertLengthFromPointsToSystemUnit(itemTarget.Template.PDFTemplateWidth.Value, organisation.LengthUnit);
+            }
+
+            // Convert Template Pages length to Points
+            if (itemTarget.Template.TemplatePages == null)
+            {
+                return;
+            }
+
+            foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+            {
+                if (templatePage.Height.HasValue && templatePage.Height.Value > 0)
+                {
+                    templatePage.Height = lengthConversionService.ConvertLengthFromPointsToSystemUnit(templatePage.Height.Value, organisation.LengthUnit);
+                }
+
+                if (templatePage.Width.HasValue && templatePage.Width.Value > 0)
+                {
+                    templatePage.Width = lengthConversionService.ConvertLengthFromPointsToSystemUnit(templatePage.Width.Value, organisation.LengthUnit);
+                }
+            }
+        }
+
+        /// <summary>
         /// Save Product Images
         /// </summary>
         private void SaveProductImages(Item target)
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
-            string mapPath = server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId + "/Product" + target.ItemId);
+            string mapPath = server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId + "/" + target.ItemId);
 
             // Create directory if not there
             if (!Directory.Exists(mapPath))
@@ -336,8 +490,8 @@ namespace MPC.Implementation.MISServices
             // Files 1,2,3,4,5
             SaveItemFiles(target, mapPath);
 
-            // Save Changes
-            itemRepository.SaveChanges();
+            // Item Images
+            SaveItemImages(target, mapPath);
         }
 
         /// <summary>
@@ -348,17 +502,17 @@ namespace MPC.Implementation.MISServices
             foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
             {
                 // Write Image
-                SaveItemStockOptionImage(target, mapPath, itemStockOption);
+                SaveItemStockOptionImage(mapPath, itemStockOption);
             }
         }
 
         /// <summary>
         /// Save Item Stock Option Image
         /// </summary>
-        private void SaveItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
+        private void SaveItemStockOptionImage(string mapPath, ItemStockOption itemStockOption)
         {
             string imageUrl = SaveImage(mapPath, itemStockOption.ImageURL,
-                target.ItemId + itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence + "_StockOption_",
+                itemStockOption.ItemStockOptionId + "_" + StringHelper.SimplifyString(itemStockOption.StockLabel) + "_StockOption_",
                 itemStockOption.FileName,
                 itemStockOption.FileSource,
                 itemStockOption.FileSourceBytes);
@@ -370,12 +524,41 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Saves Item Images
+        /// </summary>
+        private void SaveItemImages(Item target, string mapPath)
+        {
+            foreach (ItemImage itemImage in target.ItemImages)
+            {
+                // Write Image
+                SaveItemImage(mapPath, itemImage);
+            }
+        }
+
+        /// <summary>
+        /// Save Item Image
+        /// </summary>
+        private void SaveItemImage(string mapPath, ItemImage itemImage)
+        {
+            string imageUrl = SaveImage(mapPath, itemImage.ImageURL,
+                itemImage.ProductImageId + "_ItemImage_",
+                itemImage.FileName,
+                itemImage.FileSource,
+                itemImage.FileSourceBytes);
+
+            if (imageUrl != null)
+            {
+                itemImage.ImageURL = imageUrl;
+            }
+        }
+
+        /// <summary>
         /// Save Image Path
         /// </summary>
         private void SaveImagePath(Item target, string mapPath)
         {
             string imagePathUrl = SaveImage(mapPath, target.ImagePath,
-                target.ItemId + target.ProductCode + target.ProductName + "_ImagePath_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ImagePath_",
                 target.ImagePathImageName,
                 target.ImagePathImage,
                 target.ImagePathSourceBytes);
@@ -393,7 +576,7 @@ namespace MPC.Implementation.MISServices
         private void SaveGridImage(Item target, string mapPath)
         {
             string gridImageUrl = SaveImage(mapPath, target.GridImage,
-                target.ItemId + target.ProductCode + target.ProductName + "_GridImage_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_GridImage_",
                 target.GridImageSourceName,
                 target.GridImageBytes,
                 target.GridImageSourceBytes);
@@ -411,7 +594,7 @@ namespace MPC.Implementation.MISServices
         private void SaveThumbnailPath(Item target, string mapPath)
         {
             string thumbnailImageUrl = SaveImage(mapPath, target.ThumbnailPath,
-                target.ItemId + target.ProductCode + target.ProductName + "_ThumbnailPath_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ThumbnailPath_",
                 target.ThumbnailImageName,
                 target.ThumbnailImage,
                 target.ThumbnailSourceBytes);
@@ -429,7 +612,7 @@ namespace MPC.Implementation.MISServices
         private void SaveItemFiles(Item target, string mapPath)
         {
             string path = SaveImage(mapPath, target.File1,
-                target.ItemId + target.ProductCode + target.ProductName + "_File1_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File1_",
                 target.File1Name,
                 target.File1Byte,
                 target.File1SourceBytes);
@@ -441,7 +624,7 @@ namespace MPC.Implementation.MISServices
             }
 
             path = SaveImage(mapPath, target.File2,
-                target.ItemId + target.ProductCode + target.ProductName + "_File2_",
+              target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File2_",
                 target.File2Name,
                 target.File2Byte,
                 target.File2SourceBytes);
@@ -453,7 +636,7 @@ namespace MPC.Implementation.MISServices
             }
 
             path = SaveImage(mapPath, target.File3,
-                target.ItemId + target.ProductCode + target.ProductName + "_File3_",
+               target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File3_",
                 target.File3Name,
                 target.File3Byte,
                 target.File3SourceBytes);
@@ -465,7 +648,7 @@ namespace MPC.Implementation.MISServices
             }
 
             path = SaveImage(mapPath, target.File4,
-                target.ItemId + target.ProductCode + target.ProductName + "_File4_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File4_",
                 target.File4Name,
                 target.File4Byte,
                 target.File4SourceBytes);
@@ -477,7 +660,7 @@ namespace MPC.Implementation.MISServices
             }
 
             path = SaveImage(mapPath, target.File5,
-                target.ItemId + target.ProductCode + target.ProductName + "_File5_",
+              target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File5_",
                 target.File5Name,
                 target.File5Byte,
                 target.File5SourceBytes);
@@ -505,17 +688,34 @@ namespace MPC.Implementation.MISServices
             if (!string.IsNullOrEmpty(fileSource))
             {
                 // Look if file already exists then replace it
-                if (!string.IsNullOrEmpty(existingImage) && File.Exists(existingImage))
+                if (!string.IsNullOrEmpty(existingImage))
                 {
-                    // Remove Existing File
-                    File.Delete(existingImage);
+                    if (Path.IsPathRooted(existingImage))
+                    {
+                        if (File.Exists(existingImage))
+                        {
+                            // Remove Existing File
+                            File.Delete(existingImage);
+                        }
+                    }
+                    else
+                    {
+                        string filePath = HttpContext.Current.Server.MapPath("~/" + existingImage);
+                        if (File.Exists(filePath))
+                        {
+                            // Remove Existing File
+                            File.Delete(filePath);
+                        }
+                    }
+
                 }
 
                 // First Time Upload
                 string imageurl = mapPath + "\\" + caption + fileName;
                 File.WriteAllBytes(imageurl, fileSourceBytes);
 
-                // Return path
+                int indexOf = imageurl.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                imageurl = imageurl.Substring(indexOf, imageurl.Length - indexOf);
                 return imageurl;
             }
 
@@ -557,6 +757,12 @@ namespace MPC.Implementation.MISServices
                         // Save Template Pdf
                         var mapPath = SavePdfForPreBuiltTemplate(itemTarget);
 
+                        // Return if edit case and no changes made to template type
+                        if (string.IsNullOrEmpty(itemTarget.Template.FileSource))
+                        {
+                            return;
+                        }
+
                         // Genereates Template Pages from Pdf supplied
                         GenerateTemplatePagesFromPdf(itemTarget, mapPath, organisationId, templateTypeMode);
                     }
@@ -576,7 +782,7 @@ namespace MPC.Implementation.MISServices
                     return;
                 }
 
-                templateService.generateTemplateFromPDF(mapPath,
+                templateService.generateTemplateFromPDF(HttpContext.Current.Server.MapPath("~/" + mapPath),
                     templateTypeMode.HasValue ? templateTypeMode.Value : 2,
                     itemTarget.TemplateId.Value, organisationId);
             }
@@ -602,10 +808,10 @@ namespace MPC.Implementation.MISServices
                     1, template.TemplatePages.ToList(),
                     organisationId);
             }
-            catch (Exception)
+            catch (Exception exp)
             {
                 throw new MPCException(
-                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePdfFromPages,
+                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePdfFromPages + ". " + exp.Message,
                     organisationId);
             }
         }
@@ -618,8 +824,8 @@ namespace MPC.Implementation.MISServices
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
             string mapPath =
-                server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId +
-                               "/Product" + itemTarget.ItemId);
+                server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId +
+                               "/" + itemTarget.ItemId);
             mapPath = mapPath + "//Templates";
 
             if (!Directory.Exists(mapPath))
@@ -638,7 +844,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Item CreateNewItem()
         {
-            string itemCode = prefixRepository.GetNextItemCodePrefix();
+            string itemCode = prefixRepository.GetNextItemCodePrefix(false);
             Item itemTarget = itemRepository.Create();
             itemRepository.Add(itemTarget);
             itemTarget.ItemCreationDateTime = DateTime.Now;
@@ -716,7 +922,7 @@ namespace MPC.Implementation.MISServices
                 targetItemAddonCostCentre.ItemStockOptionId = targetItemStockOption.ItemStockOptionId;
                 targetItemStockOption.ItemAddonCostCentres.Add(targetItemAddonCostCentre);
                 itemAddonCostCentre.Clone(targetItemAddonCostCentre);
-            }     
+            }
         }
 
         /// <summary>
@@ -740,6 +946,7 @@ namespace MPC.Implementation.MISServices
                 ItemStockOption targetItemStockOption = itemStockOptionRepository.Create();
                 itemStockOptionRepository.Add(targetItemStockOption);
                 targetItemStockOption.ItemId = target.ItemId;
+                targetItemStockOption.CompanyId = target.CompanyId;
                 target.ItemStockOptions.Add(targetItemStockOption);
                 itemStockOption.Clone(targetItemStockOption);
 
@@ -751,6 +958,32 @@ namespace MPC.Implementation.MISServices
 
                 // Clone ItemAddonCostCentres
                 CloneItemAddonCostCentres(itemStockOption, targetItemStockOption);
+            }
+        }
+
+        /// <summary>
+        /// Copy Item Image Items
+        /// </summary>
+        private void CloneItemImageItems(Item source, Item target)
+        {
+            if (source.ItemImages == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemImages == null)
+            {
+                target.ItemImages = new List<ItemImage>();
+            }
+
+            foreach (ItemImage itemImage in source.ItemImages)
+            {
+                ItemImage targetItemImage = itemImageRepository.Create();
+                itemImageRepository.Add(targetItemImage);
+                targetItemImage.ItemId = target.ItemId;
+                target.ItemImages.Add(targetItemImage);
+                itemImage.Clone(targetItemImage);
             }
         }
 
@@ -892,23 +1125,43 @@ namespace MPC.Implementation.MISServices
             foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
             {
                 // Write Image
-                CloneItemStockOptionImage(target, mapPath, itemStockOption);
+                CloneItemStockOptionImage(mapPath, itemStockOption);
             }
         }
 
         /// <summary>
         /// Clone Item Stock Option Image
         /// </summary>
-        private void CloneItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
+        private void CloneItemStockOptionImage(string mapPath, ItemStockOption itemStockOption)
         {
-            if (string.IsNullOrEmpty((itemStockOption.ImageURL)) || !File.Exists(itemStockOption.ImageURL))
+            if (string.IsNullOrEmpty((itemStockOption.ImageURL)))
             {
                 return;
             }
 
-            byte[] fileBytes = File.ReadAllBytes(itemStockOption.ImageURL);
+            byte[] fileBytes;
+            if (Path.IsPathRooted(itemStockOption.ImageURL))
+            {
+                if (!File.Exists(itemStockOption.ImageURL))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(itemStockOption.ImageURL);
+            }
+            else
+            {
+                string path = HttpContext.Current.Server.MapPath("~/" + itemStockOption.ImageURL);
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(path);
+            }
+
             string imageUrl = SaveImage(mapPath, string.Empty,
-                target.ItemId + itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence + "_StockOption_",
+                itemStockOption.ItemStockOptionId + StringHelper.SimplifyString(itemStockOption.StockLabel) + "_StockOption_",
                 "image.png",
                 "stockOption",
                 fileBytes);
@@ -920,18 +1173,92 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Clone Image Path
+        /// Clone Item Images
         /// </summary>
-        private void CloneImagePath(Item target, string mapPath)
+        private void CloneItemImages(Item target, string mapPath)
         {
-            if (string.IsNullOrEmpty((target.ImagePath)) || !File.Exists(target.ImagePath))
+            foreach (ItemImage itemImage in target.ItemImages)
+            {
+                // Write Image
+                CloneItemImage(mapPath, itemImage);
+            }
+        }
+
+        /// <summary>
+        /// Clone Item Image
+        /// </summary>
+        private void CloneItemImage(string mapPath, ItemImage itemImage)
+        {
+            if (string.IsNullOrEmpty(itemImage.ImageURL))
             {
                 return;
             }
 
-            byte[] fileBytes = File.ReadAllBytes(target.ImagePath);
+            byte[] fileBytes;
+            if (Path.IsPathRooted(itemImage.ImageURL))
+            {
+                if (!File.Exists(itemImage.ImageURL))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(itemImage.ImageURL);
+            }
+            else
+            {
+                if (!File.Exists("~/" + itemImage.ImageURL))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes("~/" + itemImage.ImageURL);
+            }
+
+            string imageUrl = SaveImage(mapPath, string.Empty,
+                itemImage.ProductImageId + "_ItemImage_",
+                "image.png",
+                "Image",
+                fileBytes);
+
+            if (imageUrl != null)
+            {
+                itemImage.ImageURL = imageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Clone Image Path
+        /// </summary>
+        private void CloneImagePath(Item target, string mapPath)
+        {
+            if (string.IsNullOrEmpty(target.ImagePath))
+            {
+                return;
+            }
+
+            byte[] fileBytes;
+            if (Path.IsPathRooted(target.ImagePath))
+            {
+                if (!File.Exists(target.ImagePath))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(target.ImagePath);
+            }
+            else
+            {
+                string path = HttpContext.Current.Server.MapPath("~/" + target.ImagePath);
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(path);
+            }
+
             string imagePathUrl = SaveImage(mapPath, string.Empty,
-                target.ItemId + target.ProductCode + target.ProductName + "_ImagePath_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ImagePath_",
                 "imagePath.png",
                 "imagePath",
                 fileBytes);
@@ -948,14 +1275,34 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void CloneGridImage(Item target, string mapPath)
         {
-            if (string.IsNullOrEmpty((target.GridImage)) || !File.Exists(target.GridImage))
+            if (string.IsNullOrEmpty(target.GridImage))
             {
                 return;
             }
 
-            byte[] fileBytes = File.ReadAllBytes(target.GridImage);
-            string gridImageUrl = SaveImage(mapPath, target.GridImage,
-                target.ItemId + target.ProductCode + target.ProductName + "_GridImage_",
+            byte[] fileBytes;
+            if (Path.IsPathRooted(target.GridImage))
+            {
+                if (!File.Exists(target.GridImage))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(target.GridImage);
+            }
+            else
+            {
+                string path = HttpContext.Current.Server.MapPath("~/" + target.GridImage);
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(path);
+            }
+
+            string gridImageUrl = SaveImage(mapPath, string.Empty,
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_GridImage_",
                 "gridImage.png",
                 "gridImage",
                 fileBytes);
@@ -972,14 +1319,34 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void CloneThumbnailPath(Item target, string mapPath)
         {
-            if (string.IsNullOrEmpty((target.ThumbnailPath)) || !File.Exists(target.ThumbnailPath))
+            if (string.IsNullOrEmpty(target.ThumbnailPath))
             {
                 return;
             }
 
-            byte[] fileBytes = File.ReadAllBytes(target.ThumbnailPath);
-            string thumbnailImageUrl = SaveImage(mapPath, target.ThumbnailPath,
-                target.ItemId + target.ProductCode + target.ProductName + "_ThumbnailPath_",
+            byte[] fileBytes;
+            if (Path.IsPathRooted(target.ThumbnailPath))
+            {
+                if (!File.Exists(target.ThumbnailPath))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(target.ThumbnailPath);
+            }
+            else
+            {
+                string path = HttpContext.Current.Server.MapPath("~/" + target.ThumbnailPath);
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(path);
+            }
+
+            string thumbnailImageUrl = SaveImage(mapPath, string.Empty,
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ThumbnailPath_",
                 "thumbnailPath.png",
                 "thumbnail",
                 fileBytes);
@@ -996,94 +1363,198 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void CloneItemFiles(Item target, string mapPath)
         {
-            byte[] fileBytes;
-            string extension;
+            byte[] fileBytes = null;
+            string extension = string.Empty;
             string path;
-            if (!string.IsNullOrEmpty((target.File1)) && File.Exists(target.File1))
+            if (!string.IsNullOrEmpty(target.File1))
             {
-                fileBytes = File.ReadAllBytes(target.File1);
-                extension = Path.GetExtension(target.File1);
-                path = SaveImage(mapPath, string.Empty,
-                target.ItemId + target.ProductCode + target.ProductName + "_File1_",
-                "file1" + extension,
-                "file1",
-                fileBytes);
-
-                if (path != null)
+                if (Path.IsPathRooted(target.File1))
                 {
-                    // Update File1
-                    target.File1 = path;
+                    if (File.Exists(target.File1))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File1);
+                        extension = Path.GetExtension(target.File1);
+                    }
                 }
-            }
-            
-            
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File1);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
 
-            if (!string.IsNullOrEmpty((target.File2)) && File.Exists(target.File2))
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
+                    target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File1_",
+                    "file1" + extension,
+                    "file1",
+                    fileBytes);
+
+                    if (path != null)
+                    {
+                        // Update File1
+                        target.File1 = path;
+                    }
+                }
+
+            }
+
+            fileBytes = null;
+            extension = string.Empty;
+            if (!string.IsNullOrEmpty(target.File2))
             {
-                fileBytes = File.ReadAllBytes(target.File2);
-                extension = Path.GetExtension(target.File2);
-                path = SaveImage(mapPath, string.Empty,
-                    target.ItemId + target.ProductCode + target.ProductName + "_File2_",
+                if (Path.IsPathRooted(target.File2))
+                {
+                    if (File.Exists(target.File2))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File2);
+                        extension = Path.GetExtension(target.File2);
+                    }
+                }
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File2);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
+
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
+                    target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File2_",
                     "file2" + extension,
                     "file2",
                     fileBytes);
 
-                if (path != null)
-                {
-                    // Update File2
-                    target.File2 = path;
+                    if (path != null)
+                    {
+                        // Update File2
+                        target.File2 = path;
+                    }
                 }
+
             }
-            
-            if (!string.IsNullOrEmpty((target.File3)) && File.Exists(target.File3))
+
+            fileBytes = null;
+            extension = string.Empty;
+            if (!string.IsNullOrEmpty(target.File3))
             {
-                fileBytes = File.ReadAllBytes(target.File3);
-                extension = Path.GetExtension(target.File3);
-                path = SaveImage(mapPath, string.Empty,
-                    target.ItemId + target.ProductCode + target.ProductName + "_File3_",
+                if (Path.IsPathRooted(target.File3))
+                {
+                    if (File.Exists(target.File3))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File3);
+                        extension = Path.GetExtension(target.File3);
+                    }
+                }
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File3);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
+
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
+                    target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File3_",
                     "file3" + extension,
                     "file3",
                     fileBytes);
 
-                if (path != null)
-                {
-                    // Update File3
-                    target.File3 = path;
+                    if (path != null)
+                    {
+                        // Update File3
+                        target.File3 = path;
+                    }
                 }
+
             }
 
-            if (!string.IsNullOrEmpty((target.File4)) && File.Exists(target.File4))
+            fileBytes = null;
+            extension = string.Empty;
+            if (!string.IsNullOrEmpty(target.File4))
             {
-                fileBytes = File.ReadAllBytes(target.File4);
-                extension = Path.GetExtension(target.File4);
-                path = SaveImage(mapPath, string.Empty,
-                    target.ItemId + target.ProductCode + target.ProductName + "_File4_",
+                if (Path.IsPathRooted(target.File4))
+                {
+                    if (File.Exists(target.File4))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File4);
+                        extension = Path.GetExtension(target.File4);
+                    }
+                }
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File4);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
+
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
+                    target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File4_",
                     "file4" + extension,
                     "file4",
                     fileBytes);
 
-                if (path != null)
-                {
-                    // Update File4
-                    target.File4 = path;
+                    if (path != null)
+                    {
+                        // Update File4
+                        target.File4 = path;
+                    }
                 }
 
             }
 
-            if (!string.IsNullOrEmpty((target.File5)) && File.Exists(target.File5))
+            fileBytes = null;
+            extension = string.Empty;
+            if (!string.IsNullOrEmpty(target.File5))
             {
-                fileBytes = File.ReadAllBytes(target.File5);
-                extension = Path.GetExtension(target.File5);
-                path = SaveImage(mapPath, string.Empty,
-                    target.ItemId + target.ProductCode + target.ProductName + "_File5_",
+                if (Path.IsPathRooted(target.File5))
+                {
+                    if (File.Exists(target.File5))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File5);
+                        extension = Path.GetExtension(target.File5);
+                    }
+                }
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File5);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
+
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
+                     target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File5_",
                     "file5" + extension,
                     "file5",
                     fileBytes);
 
-                if (path != null)
-                {
-                    // Update File5
-                    target.File5 = path;
+                    if (path != null)
+                    {
+                        // Update File5
+                        target.File5 = path;
+                    }
                 }
             }
         }
@@ -1095,7 +1566,7 @@ namespace MPC.Implementation.MISServices
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
-            string mapPath = server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId + "/Product" + target.ItemId);
+            string mapPath = server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId + "/" + target.ItemId);
 
             // Create directory if not there
             if (!Directory.Exists(mapPath))
@@ -1117,6 +1588,9 @@ namespace MPC.Implementation.MISServices
 
             // Files 1,2,3,4,5
             CloneItemFiles(target, mapPath);
+
+            // Item Images
+            CloneItemImages(target, mapPath);
         }
 
         /// <summary>
@@ -1126,13 +1600,16 @@ namespace MPC.Implementation.MISServices
         {
             // Clone Item
             source.Clone(target);
-            
+
+            // Append Item Code to Product Name and Code
+            AppendItemCodeToClonedProduct(target);
+
             // Clone Item Product Detail
             CloneItemProductDetail(source, target);
 
-            // Clone Item Vdp Prices
+            // Clone Item Vdp Prices 
             CloneItemVdpPrices(source, target);
-            
+
             // Clone Item Sections
             CloneItemSections(source, target);
 
@@ -1151,9 +1628,12 @@ namespace MPC.Implementation.MISServices
             // Clone Item Related Items
             CloneItemRelatedItems(source, target);
 
+            // Clone Item Image Items
+            CloneItemImageItems(source, target);
+
             // Save Changes
             itemRepository.SaveChanges();
-            
+
             // Copy Files and place them under new Product folder
             CloneProductImages(target);
 
@@ -1161,7 +1641,7 @@ namespace MPC.Implementation.MISServices
             // That will clone Template deeply
             if (source.TemplateId.HasValue)
             {
-                long templateId = templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ? 
+                long templateId = templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ?
                     target.OrganisationId.Value : itemRepository.OrganisationId);
 
                 target.TemplateId = templateId;
@@ -1169,6 +1649,30 @@ namespace MPC.Implementation.MISServices
 
             // Save Changes
             itemRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Appends Item Code to Product Name and Code
+        /// Validates the Product Name and Code Length
+        /// If Exceeds them takes the part of it
+        /// </summary>
+        private static void AppendItemCodeToClonedProduct(Item target)
+        {
+            // Append Item Code in Product Name and Code to distinguish it from copied one
+            target.ProductName += ' ' + target.ItemCode;
+            target.ProductCode += ' ' + target.ItemCode;
+
+            // Validate if Code exceeds the length
+            if (target.ProductCode.Length > 50)
+            {
+                target.ProductCode = target.ProductCode.Substring(0, 49);
+            }
+
+            // Validate if Name exceeds the length
+            if (target.ProductName.Length > 500)
+            {
+                target.ProductName = target.ProductName.Substring(0, 499);
+            }
         }
 
         #endregion
@@ -1186,7 +1690,9 @@ namespace MPC.Implementation.MISServices
             IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository,
             IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository,
             IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
-            IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository)
+            IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository,
+            IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository,
+            ILengthConversionService lengthConversionService, ITemplateObjectRepository templateObjectRepository)
         {
             if (itemRepository == null)
             {
@@ -1292,7 +1798,31 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemSectionRepository");
             }
+            if (itemImageRepository == null)
+            {
+                throw new ArgumentNullException("itemImageRepository");
+            }
+            if (organizationRepository == null)
+            {
+                throw new ArgumentNullException("organizationRepository");
+            }
+            if (smartFormRepository == null)
+            {
+                throw new ArgumentNullException("smartFormRepository");
+            }
+            if (lengthConversionService == null)
+            {
+                throw new ArgumentNullException("lengthConversionService");
+            }
+            if (templateObjectRepository == null)
+            {
+                throw new ArgumentNullException("templateObjectRepository");
+            }
 
+            this.organizationRepository = organizationRepository;
+            this.smartFormRepository = smartFormRepository;
+            this.lengthConversionService = lengthConversionService;
+            this.templateObjectRepository = templateObjectRepository;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
@@ -1319,6 +1849,7 @@ namespace MPC.Implementation.MISServices
             this.machineRepository = machineRepository;
             this.paperSizeRepository = paperSizeRepository;
             this.itemSectionRepository = itemSectionRepository;
+            this.itemImageRepository = itemImageRepository;
         }
 
         #endregion
@@ -1336,7 +1867,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get By Id
         /// </summary>
-        public Item GetById(long id)
+        public Item GetById(long id, bool changeTemplateSizeUnits = true)
         {
             if (id <= 0)
             {
@@ -1350,7 +1881,37 @@ namespace MPC.Implementation.MISServices
                 throw new MPCException(string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_ItemNotFound, id), itemRepository.OrganisationId);
             }
 
+            // If Fetching item for Cloning then don't change Size values
+            if (!changeTemplateSizeUnits)
+            {
+                return item;
+            }
+            
+            // If template Exists then Convert the Height & Width to System Unit
+            ConvertTemplateLengthToSystemUnit(item);
+
             return item;
+        }
+
+        /// <summary>
+        /// Returns Pdf File  for Template
+        /// </summary>
+// ReSharper disable UnusedMember.Local
+        private void GetTemplatePdfFile(Item item)
+// ReSharper restore UnusedMember.Local
+        {
+            if (item.TemplateType == 2 && item.Template != null)
+            {
+                string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+                HttpServerUtility server = HttpContext.Current.Server;
+                string mapPath =
+                    server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId + "/" + item.ItemId +
+                                   "/Templates/random_CorporateTemplateUpload.pdf");
+                if (File.Exists(mapPath))
+                {
+                    item.Template.FileOriginalBytes = File.ReadAllBytes(mapPath);
+                }
+            }
         }
 
         /// <summary>
@@ -1416,7 +1977,14 @@ namespace MPC.Implementation.MISServices
         {
             // Get Db Version
             Item itemTarget = GetById(item.ItemId) ?? CreateNewItem();
-            
+
+            // Check for Code Duplication
+            bool isDuplicateCode = itemRepository.IsDuplicateProductCode(item.ProductCode, item.ItemId);
+            if (isDuplicateCode)
+            {
+                throw new MPCException(LanguageResources.ItemService_ProductCodeDuplicated, itemRepository.OrganisationId);
+            }
+
             // Update
             item.UpdateTo(itemTarget, new ItemMapperActions
             {
@@ -1441,7 +2009,10 @@ namespace MPC.Implementation.MISServices
                 DeleteProductCategoryItem = DeleteProductCategoryItem,
                 CreateItemSection = CreateItemSection,
                 SetDefaultsForItemSection = SetNonPrintItemSection,
-                DeleteItemSection = DeleteItemSection
+                DeleteItemSection = DeleteItemSection,
+                CreateItemImage = CreateItemImage,
+                DeleteItemImage = DeleteItemImage,
+                DeleteTemplateObject = DeleteTemplateObject
             });
 
             // Save Changes
@@ -1449,6 +2020,12 @@ namespace MPC.Implementation.MISServices
 
             // Save Images and Update Item
             SaveProductImages(itemTarget);
+
+            // Update Template Pages Background Image
+            UpdateTemplatePagesBackgroundFileNames(itemTarget);
+
+            // Save Changes
+            itemRepository.SaveChanges();
 
             // Load Properties if Any
             itemTarget = itemRepository.Find(itemTarget.ItemId);
@@ -1483,6 +2060,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public ItemBaseResponse GetBaseData()
         {
+            Organisation organisation = organizationRepository.GetOrganizatiobByID();
             return new ItemBaseResponse
             {
                 CostCentres = costCentreRepository.GetAllNonSystemCostCentres(),
@@ -1490,15 +2068,16 @@ namespace MPC.Implementation.MISServices
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
-                ProductCategories = productCategoryRepository.GetParentCategories(),
-                PaperSizes = paperSizeRepository.GetAll()
+                PaperSizes = paperSizeRepository.GetAll(),
+                LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
+                CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencyCode : string.Empty
             };
         }
 
         /// <summary>
         /// Get Base Data For Designer Template
         /// </summary>
-        public ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate()
+        public ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate(long? companyId)
         {
             List<ProductCategory> templateCategories;
             List<CategoryRegion> categoryRegions;
@@ -1530,11 +2109,22 @@ namespace MPC.Implementation.MISServices
 
             }
 
+            // ReSharper disable SuggestUseVarKeywordEvident
+            List<SmartForm> smartForms = new List<SmartForm>();
+            // ReSharper restore SuggestUseVarKeywordEvident
+            if (companyId.HasValue)
+            {
+                // Get Smart Forms for company
+                smartForms = smartFormRepository.GetAllForCompany(companyId.Value).ToList();
+            }
+
+
             return new ItemDesignerTemplateBaseResponse
             {
                 TemplateCategories = templateCategories,
                 CategoryRegions = categoryRegions,
-                CategoryTypes = categoryTypes
+                CategoryTypes = categoryTypes,
+                SmartForms = smartForms
             };
         }
 
@@ -1546,14 +2136,14 @@ namespace MPC.Implementation.MISServices
         {
             return machineRepository.GetMachinesForProduct(request);
         }
-        
+
         /// <summary>
         /// Clone Product
         /// </summary>
         public Item CloneProduct(long itemId)
         {
             // Find Item - Throws Exception if not exist
-            Item source = GetById(itemId);
+            Item source = GetById(itemId, false);
 
             // Create New Instance
             // And Generate ItemCode for it
@@ -1561,6 +2151,12 @@ namespace MPC.Implementation.MISServices
 
             // Clone
             CloneItem(source, target);
+
+            // Load Item Full
+            target = itemRepository.GetItemWithDetails(target.ItemId);
+
+            // Get Updated Minimum Price
+            target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);
 
             // Return Product
             return target;
@@ -1576,7 +2172,7 @@ namespace MPC.Implementation.MISServices
             return stockItemRepository.GetStockItemsForProduct(request);
         }
 
-        
+
 
         /// <summary>
         /// Get Item Price Matrices for Item by Section Flag
@@ -1585,7 +2181,120 @@ namespace MPC.Implementation.MISServices
         {
             return itemPriceMatrixRepository.GetForItemBySectionFlag(sectionFlagId, itemId);
         }
+        /// <summary>
+        /// Method for Order Add Product
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public IEnumerable<Item> GetItemsByCompanyId(long companyId)
+        {
+            return itemRepository.GetItemsByCompanyId(companyId);
+        }
+
+        /// <summary>
+        /// Get Product Categories for Company
+        /// </summary>
+        public IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId)
+        {
+            return productCategoryRepository.GetParentCategories(companyId);
+        }
+
+        /// <summary>
+        /// Deletes Product Permanently
+        /// </summary>
+        public void DeleteProduct(long itemId)
+        {
+            DeleteItem(itemId, itemRepository.OrganisationId);
+        }
 
         #endregion
+
+        #region DeleteProducts
+
+        public bool DeleteItem(long ItemID, long OrganisationID)
+        {
+            try
+            {
+
+
+                List<string> ImagesPath = new List<string>();
+                Item DelItem = itemRepository.GetItemByItemID(ItemID);
+                itemRepository.DeleteItemBySP(ItemID);
+                if (DelItem != null)
+                {
+
+                    if (DelItem.ItemAttachments != null && DelItem.ItemAttachments.Count > 0)
+                    {
+                        foreach (var itemAttach in DelItem.ItemAttachments)
+                        {
+                            string path = itemAttach.FolderPath + itemAttach.FileName;
+
+                            ImagesPath.Add(path);
+                        }
+                    }
+                    if (DelItem.ItemStockOptions != null && DelItem.ItemStockOptions.Count > 0)
+                    {
+                        foreach (var itemStock in DelItem.ItemStockOptions)
+                        {
+                            string path = itemStock.ImageURL;
+
+                            ImagesPath.Add(path);
+                        }
+                    }
+
+                    // delete files
+
+
+                    if (ImagesPath != null && ImagesPath.Count > 0)
+                    {
+                        foreach (var img in ImagesPath)
+                        {
+                            if (!string.IsNullOrEmpty(img))
+                            {
+                                string filePath = HttpContext.Current.Server.MapPath("~/" + img);
+                                if (File.Exists(filePath))
+                                {
+                                    File.Delete(filePath);
+                                }
+                            }
+                        }
+                    }
+
+
+                    if (DelItem.TemplateId != null && DelItem.TemplateId > 0)
+                    {
+                        templateService.DeleteTemplateFiles(DelItem.ItemId, OrganisationID);
+                        // delete template folder
+                    }
+
+                    // delete item files
+                    string SourceDelFiles = HttpContext.Current.Server.MapPath("/MPC_Content/products/" + OrganisationID + "/" + ItemID);
+
+                    if (Directory.Exists(SourceDelFiles))
+                    {
+                        Directory.Delete(SourceDelFiles, true);
+                    }
+
+                    // delete itemattachments
+
+                    string SourceDelAttachments = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/Organisation" + OrganisationID + "/" + OrganisationID + "/" + ItemID);
+
+                    if (Directory.Exists(SourceDelAttachments))
+                    {
+                        Directory.Delete(SourceDelAttachments, true);
+                    }
+
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+        #endregion
+
     }
 }

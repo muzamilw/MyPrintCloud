@@ -1,5 +1,39 @@
-﻿define(["ko", "underscore", "underscore-ko"], function(ko) {
-    var CostCenter = function() {
+﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
+    ko.bindingHandlers.autoNumeric = {
+        init: function (el, valueAccessor, bindingsAccessor, viewModel) {
+            var $el = $(el),
+              bindings = bindingsAccessor(),
+              settings = bindings.settings,
+              value = valueAccessor();
+
+            $el.autoNumeric(settings);
+            $el.autoNumeric('set', parseFloat(ko.utils.unwrapObservable(value()), 10));
+            $el.change(function () {
+                value(parseFloat($el.autoNumeric('get'), 10));
+            });
+        },
+        update: function (el, valueAccessor, bindingsAccessor, viewModel) {
+            var $el = $(el),
+              newValue = ko.utils.unwrapObservable(valueAccessor()),
+              elementValue = $el.autoNumeric('get'),
+              valueHasChanged = (newValue != elementValue);
+
+            if ((newValue === 0) && (elementValue !== 0) && (elementValue !== "0")) {
+                valueHasChanged = true;
+            }
+
+            if (valueHasChanged) {
+                if (newValue != undefined) {
+                    $el.autoNumeric('set', newValue);
+                }
+
+
+            }
+        }
+    };
+
+
+    var CostCenter = function () {
 
         var
             self,
@@ -11,7 +45,7 @@
             createdBy = ko.observable(),
             lockedBy = ko.observable(),
             lastModifiedBy = ko.observable(),
-            minimumCost = ko.observable(),
+            minimumCost = ko.observable().extend({ required: true }),
             setupCost = ko.observable().extend({ required: true }),
             setupTime = ko.observable(),
             defaultVa = ko.observable(),
@@ -63,10 +97,10 @@
             quantityQuestionDefaultValue = ko.observable(),
             quantityCalculationString = ko.observable(),
             costPerUnitQuantity = ko.observable(),
-            pricePerUnitQuantity = ko.observable(),
+            pricePerUnitQuantity = ko.observable().extend({ required: true }),
             timePerUnitQuantity = ko.observable(),
             timeRunSpeed = ko.observable(),
-            timeNoOfPasses = ko.observable(),
+            timeNoOfPasses = ko.observable(1),
             timeSourceType = ko.observable(),
             timeVariableId = ko.observable(),
             timeQuestionString = ko.observable(),
@@ -97,64 +131,103 @@
             organisationId = ko.observable(),
             costCenterResource = ko.observableArray([]),
             costCenterInstructions = ko.observableArray([]),
-            errors = ko.validation.group({
-                name: name,
-                type: type,
-                setupCost: setupCost
-            }),
-            isValid = ko.computed(function() {
-                return errors().length === 0 ? true : false;;
-            }),
-            dirtyFlag = new ko.dirtyFlag({
-                name: name,
-                description: description,
-                webStoreDesc: webStoreDesc,
-                calculationMethodType: calculationMethodType,
-                priority:priority,
-                type: type,
-                costQuestionString: costQuestionString,
-                costDefaultValue: costDefaultValue,
-                priceQuestionString: priceQuestionString,
-                priceDefaultValue: priceDefaultValue,
-                estimatedTimeQuestionString: estimatedTimeQuestionString,
-                estimatedTimeDefaultValue: estimatedTimeDefaultValue,
-                minimumCost: minimumCost,
-                setupCost: setupCost,
-                costPerThousand: costPerThousand,
-                hourlyCharge: hourlyCharge,
-                overHeadRate: overHeadRate,
-                completionTime: completionTime,
-                setupTime: setupTime,
-                setupSpoilage: setupSpoilage,
-                runningSpoilage: runningSpoilage,
-                isDirectCost: isDirectCost,
-                isScheduleable: isScheduleable,
-                isPrintOnJobCard: isPrintOnJobCard,
-                costPerUnitQuantity: costPerUnitQuantity,
-                pricePerUnitQuantity: pricePerUnitQuantity,
-                timePerUnitQuantity: timePerUnitQuantity,
-                quantityVariableId: quantityVariableId,
-                quantityQuestionString: quantityQuestionString,
-                quantityQuestionDefaultValue: quantityQuestionDefaultValue,
-                strCostPlantUnParsed: strCostPlantUnParsed,
-                strPricePlantUnParsed: strPricePlantUnParsed,
-                strActualCostPlantUnParsed: strActualCostPlantUnParsed,
-                strCostMaterialUnParsed: strCostMaterialUnParsed,
-                strPriceMaterialUnParsed: strPriceMaterialUnParsed,
-                strActualCostMaterialUnParsed: strActualCostMaterialUnParsed,
-                strCostLabourUnParsed: strCostLabourUnParsed,
-                strPriceLabourUnParsed: strPriceLabourUnParsed,
-                strActualCostLabourUnParsed: strActualCostLabourUnParsed,
-                strTimeUnParsed: strTimeUnParsed
+            serviceTypesList = ko.observableArray([]),
+            deliveryServiceType = ko.observable(),
+            costcentreImageFileBinary = ko.observable(),
+            costcentreImageName = ko.observable(),
+            carrierId = ko.observable(),
+             isEditPlantCost = ko.observable(false),
+             isEditPlantQuote = ko.observable(false),
+             isEditPlantActualCost = ko.observable(false),
+             isEditStockCost = ko.observable(false),
+             isEditStockQuote = ko.observable(false),
+             isEditStockActualCost = ko.observable(false),
+             isEditLabourCost = ko.observable(false),
+             isEditLabourQuote = ko.observable(false),
+             isEditLabourActualCost = ko.observable(false),
+             isEditTime = ko.observable(false),
+             isTimeVariable = ko.observable(),
+             //isTimePrompt = ko.observable(false)
+             isQtyVariable = ko.observable()
+        //isQtyPrompt = ko.observable(false),
+        errors = ko.validation.group({
+            name: name,
+            type: type,
+            setupCost: setupCost,
+            pricePerUnitQuantity: pricePerUnitQuantity,
+            minimumCost: minimumCost,
+            perHourPrice: perHourPrice,
+            timeQuestionString: timeQuestionString,
+            quantityQuestionString: quantityQuestionString
+        }),
+        isValid = ko.computed(function () {
+            return errors().length === 0 ? true : false;;
+        }),
+         showAllErrors = function () {
+             // Show Item Errors
+             errors.showAllMessages();
+         },
+        dirtyFlag = new ko.dirtyFlag({
+            name: name,
+            description: description,
+            webStoreDesc: webStoreDesc,
+            calculationMethodType: calculationMethodType,
+            priority: priority,
+            type: type,
+            costQuestionString: costQuestionString,
+            costDefaultValue: costDefaultValue,
+            priceQuestionString: priceQuestionString,
+            priceDefaultValue: priceDefaultValue,
+            timeQuestionString:timeQuestionString,
+            estimatedTimeQuestionString: estimatedTimeQuestionString,
+            estimatedTimeDefaultValue: estimatedTimeDefaultValue,
+            minimumCost: minimumCost,
+            setupCost: setupCost,
+            costPerThousand: costPerThousand,
+            hourlyCharge: hourlyCharge,
+            overHeadRate: overHeadRate,
+            completionTime: completionTime,
+            setupTime: setupTime,
+            setupSpoilage: setupSpoilage,
+            runningSpoilage: runningSpoilage,
+            isDirectCost: isDirectCost,
+            isScheduleable: isScheduleable,
+            isPrintOnJobCard: isPrintOnJobCard,
+            costPerUnitQuantity: costPerUnitQuantity,
+            pricePerUnitQuantity: pricePerUnitQuantity,
+            timePerUnitQuantity: timePerUnitQuantity,
+            quantityVariableId: quantityVariableId,
+            quantityQuestionString: quantityQuestionString,
+            quantityQuestionDefaultValue: quantityQuestionDefaultValue,
+            strCostPlantUnParsed: strCostPlantUnParsed,
+            strPricePlantUnParsed: strPricePlantUnParsed,
+            strActualCostPlantUnParsed: strActualCostPlantUnParsed,
+            strCostMaterialUnParsed: strCostMaterialUnParsed,
+            strPriceMaterialUnParsed: strPriceMaterialUnParsed,
+            strActualCostMaterialUnParsed: strActualCostMaterialUnParsed,
+            strCostLabourUnParsed: strCostLabourUnParsed,
+            strPriceLabourUnParsed: strPriceLabourUnParsed,
+            strActualCostLabourUnParsed: strActualCostLabourUnParsed,
+            strTimeUnParsed: strTimeUnParsed,
+            carrierId: carrierId,
+            costCenterInstructions: costCenterInstructions,
+            deliveryCharges: deliveryCharges,
+            isPublished: isPublished,
+            deliveryServiceType: deliveryServiceType,
+            estimateProductionTime: estimateProductionTime,
+            costcentreImageName: costcentreImageName,
+            isTimeVariable: isTimeVariable,
+            //isTimePrompt: isTimePrompt
+            isQtyVariable: isQtyVariable
+            //isQtyPrompt: isQtyPrompt
+        }),
+        hasChanges = ko.computed(function () {
+            return dirtyFlag.isDirty();
+        }),
 
-            }),
-            hasChanges = ko.computed(function() {
-                return dirtyFlag.isDirty();
-            }),
-
-            reset = function() {
-                dirtyFlag.reset();
-            };
+        reset = function () {
+            dirtyFlag.reset();
+        };
         self = {
             costCentreId: costCentreId,
             name: name,
@@ -250,11 +323,31 @@
             organisationId: organisationId,
             costCenterResource: costCenterResource,
             costCenterInstructions: costCenterInstructions,
+            isEditPlantCost: isEditPlantCost,
+            isEditPlantQuote: isEditPlantQuote,
+            isEditPlantActualCost: isEditPlantActualCost,
+            isEditStockCost: isEditStockCost,
+            isEditStockQuote: isEditStockQuote,
+            isEditStockActualCost: isEditStockActualCost,
+            isEditLabourCost: isEditLabourCost,
+            isEditLabourQuote: isEditLabourQuote,
+            isEditLabourActualCost: isEditLabourActualCost,
+            isEditTime: isEditTime,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
             hasChanges: hasChanges,
-            reset: reset
+            reset: reset,
+            serviceTypesList: serviceTypesList,
+            deliveryServiceType: deliveryServiceType,
+            carrierId: carrierId,
+            costcentreImageFileBinary: costcentreImageFileBinary,
+            costcentreImageName: costcentreImageName,
+            isTimeVariable: isTimeVariable,
+            //isTimePrompt: isTimePrompt,
+            isQtyVariable: isQtyVariable,
+            showAllErrors: showAllErrors
+            //isQtyPrompt: isQtyPrompt
         };
         return self;
     };
@@ -283,52 +376,66 @@
             name: name,
             description: description,
             type: type,
-            calculationMethodType:calculationMethodType,
+            calculationMethodType: calculationMethodType,
             convertToServerData: convertToServerData,
         };
         return self;
     };
-  
+
     costCenterListView.Create = function (source) {
         return new costCenterListView(source.CostCentreId, source.Name, source.Description, source.Type, source.CalculationMethodType);
     };
     //Cost Center Instructions for Client
     costCenterInstruction = function (specifiedInstructionId, specifiedInstruction, specifiedcostCenterOption, specifiedCostCentreId) {
-       var
-            self,
-            instructionId = ko.observable(specifiedInstructionId),
-            instruction = ko.observable(specifiedInstruction),
-            costCenterOption = ko.observable(specifiedcostCenterOption),
-            costCenterId = ko.observable(specifiedCostCentreId),
-             dirtyFlag = new ko.dirtyFlag({
-                 instruction: instruction
+        var
+             self,
+             instructionId = ko.observable(specifiedInstructionId),
+             instruction = ko.observable(specifiedInstruction),
+             costCenterOption = ko.observable(specifiedcostCenterOption),
+             costCenterId = ko.observable(specifiedCostCentreId),
+             workInstructionChoices = ko.observableArray([]),
+              dirtyFlag = new ko.dirtyFlag({
+                  instruction: instruction,
+                  workInstructionChoices: workInstructionChoices,
+              }),
+             // Has Changes
+             hasChanges = ko.computed(function () {
+                 return dirtyFlag.isDirty();
              }),
-            // Has Changes
-            hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty();
-            }),
-            convertToServerData = function () {
-                return {
-                    Instruction: instruction(),
-                    InstructionId : instructionId(),
-                    CostCenterOption: costCenterOption()
-                }
-            };
+             convertToServerData = function () {
+                 return {
+                     Instruction: instruction(),
+                     InstructionId: instructionId(),
+                     CostCenterOption: costCenterOption()
+                 }
+             };
         self = {
             instructionId: instructionId,
             instruction: instruction,
             costCenterOption: costCenterOption,
-            costCenterId:costCenterId,
-            convertToServerData: convertToServerData
+            costCenterId: costCenterId,
+            workInstructionChoices: workInstructionChoices,
+            convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges
         };
         return self;
 
     };
 
     costCenterInstruction.CreateFromClientModel = function (source) {
-        return new costCenterInstruction(
-            source.InstructionId, source.Instruction, source.CostCenterOption
-        );
+        var result = {};
+        result.InstructionId = source.instructionId();
+        result.Instruction = source.instruction();
+        result.CostCenterOption = source.costCenterOption();
+        result.CostcentreWorkInstructionsChoices = [];
+        _.each(source.workInstructionChoices(), function (item) {
+            result.CostcentreWorkInstructionsChoices.push(item.convertToServerData());
+        });
+        return result;
+        //return new costCenterInstruction(
+        //    source.InstructionId, source.Instruction, source.CostCenterOption
+        //);
     };
     costCenterInstruction.Create = function (source) {
         var ccInstruction = new costCenterInstruction(
@@ -337,8 +444,64 @@
             source.costCenterOption,
             source.CostCentreId
             );
+        _.each(source.CostcentreWorkInstructionsChoices, function (item) {
+            ccInstruction.workInstructionChoices.push(costCenterInstructionChoice.Create(item))
+        });
         return ccInstruction;
     };
+    NewCostCenterInstruction = function () {
+        var cci = new costCenterInstruction(0, 'New Instruction', '1', 0);
+        return cci;
+    };
+    NewInstructionChoice = function () {
+        var cic = new costCenterInstructionChoice(0, 'New Choice', 0);
+        return cic;
+    };
+    costCenterInstructionChoice = function (specifiedChoiceId, specifiedChoice, specifiedInstructionId) {
+        var
+             self,
+             choiceId = ko.observable(specifiedChoiceId),
+             choice = ko.observable(specifiedChoice),
+             instructionId = ko.observable(specifiedInstructionId),
+              dirtyFlag = new ko.dirtyFlag({
+                  choice: choice
+              }),
+             // Has Changes
+             hasChanges = ko.computed(function () {
+                 return dirtyFlag.isDirty();
+             }),
+             convertToServerData = function () {
+                 return {
+                     Id: choiceId(),
+                     Choice: choice(),
+                     InstructionId: instructionId()
+                 }
+             };
+        self = {
+            choiceId: choiceId,
+            choice: choice,
+            instructionId: instructionId,
+            convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges
+        };
+        return self;
+
+    };
+    costCenterInstructionChoice.Create = function (source) {
+        var wiChoice = new costCenterInstructionChoice(
+            source.Id,
+            source.Choice,
+            source.InstructionId
+            );
+        return wiChoice;
+    };
+    costCenterInstructionChoice.CreateFromClientModel = function (source) {
+        return new costCenterInstructionChoice(
+            source.Id, source.Choice, source.InstructionId
+        );
+    };
+
     costCenterResource = function (specifiedCostCenterResourceId, specifiedCostCentreId, specifiedResourceId) {
         var
              self,
@@ -364,14 +527,14 @@
             costCentreId: costCentreId,
             resourceId: resourceId,
             hasChanges: hasChanges,
-            dirtyFlag:dirtyFlag,
+            dirtyFlag: dirtyFlag,
             convertToServerData: convertToServerData
         };
         return self;
 
     };
 
-    var costCenterClientMapper = function(source) {
+    var costCenterClientMapper = function (source) {
         var oCostCenter = new CostCenter();
         oCostCenter.costCentreId(source.CostCentreId);
         oCostCenter.name(source.Name);
@@ -399,25 +562,25 @@
         oCostCenter.middleCode(source.MiddleCode);
         oCostCenter.footerCode(source.FooterCode);
         oCostCenter.strCostPlantParsed(source.strCostPlantParsed);
-        oCostCenter.strCostPlantUnParsed(source.strCostPlantUnParsed);
+        oCostCenter.strCostPlantUnParsed(source.strCostPlantUnParsed === undefined || source.strCostPlantUnParsed === null ? 'EstimatedPlantCost = 0' : source.strCostPlantUnParsed);
         oCostCenter.strCostLabourParsed(source.strCostLabourParsed);
-        oCostCenter.strCostLabourUnParsed(source.strCostLabourUnParsed);
+        oCostCenter.strCostLabourUnParsed(source.strCostLabourUnParsed === undefined || source.strCostLabourUnParsed === null ? 'EstimatedLabourCost = 0' : source.strCostLabourUnParsed);
         oCostCenter.strCostMaterialParsed(source.strCostMaterialParsed);
-        oCostCenter.strCostMaterialUnParsed(source.strCostMaterialUnParsed);
+        oCostCenter.strCostMaterialUnParsed(source.strCostMaterialUnParsed === undefined || source.strCostMaterialUnParsed === null ? 'EstimatedMaterialCost = 0' : source.strCostMaterialUnParsed);
         oCostCenter.strPricePlantParsed(source.strPricePlantParsed);
-        oCostCenter.strPricePlantUnParsed(source.strPricePlantUnParsed);
+        oCostCenter.strPricePlantUnParsed(source.strPricePlantUnParsed === undefined || source.strPricePlantUnParsed === null ? 'QuotedPlantPrice = 0' : source.strPricePlantUnParsed);
         oCostCenter.strPriceLabourParsed(source.strPriceLabourParsed);
-        oCostCenter.strPriceLabourUnParsed(source.strPriceLabourUnParsed);
+        oCostCenter.strPriceLabourUnParsed(source.strPriceLabourUnParsed === undefined || source.strPriceLabourUnParsed === null ? 'QuotedLabourPrice = 0' : source.strPriceLabourUnParsed);
         oCostCenter.strPriceMaterialParsed(source.strPriceMaterialParsed);
-        oCostCenter.strPriceMaterialUnParsed(source.strPriceMaterialUnParsed);
+        oCostCenter.strPriceMaterialUnParsed(source.strPriceMaterialUnParsed === undefined || source.strPriceMaterialUnParsed === null ? 'QuotedMaterialPrice = 0' : source.strPriceMaterialUnParsed);
         oCostCenter.strActualCostPlantParsed(source.strActualCostPlantParsed);
-        oCostCenter.strActualCostPlantUnParsed(source.strActualCostPlantUnParsed);
+        oCostCenter.strActualCostPlantUnParsed(source.strActualCostPlantUnParsed === undefined || source.strActualCostPlantUnParsed === null ? 'ActualPlantCost = 0' : source.strActualCostPlantUnParsed);
         oCostCenter.strActualCostLabourParsed(source.strActualCostLabourParsed);
-        oCostCenter.strActualCostLabourUnParsed(source.strActualCostLabourUnParsed);
+        oCostCenter.strActualCostLabourUnParsed(source.strActualCostLabourUnParsed === undefined || source.strActualCostLabourUnParsed === null ? 'ActualLabourCost = 0' : source.strActualCostLabourUnParsed);
         oCostCenter.strActualCostMaterialParsed(source.strActualCostMaterialParsed);
-        oCostCenter.strActualCostMaterialUnParsed(source.strActualCostMaterialUnParsed);
+        oCostCenter.strActualCostMaterialUnParsed(source.strActualCostMaterialUnParsed === undefined || source.strActualCostMaterialUnParsed === null ? '' : source.strActualCostMaterialUnParsed);
         oCostCenter.strTimeParsed(source.strTimeParsed);
-        oCostCenter.strTimeUnParsed(source.strTimeUnParsed);
+        oCostCenter.strTimeUnParsed(source.strTimeUnParsed === undefined || source.strTimeUnParsed === null ? 'EstimatedTime = 0' : source.strTimeUnParsed);
         oCostCenter.isDisabled(source.IsDisabled);
         oCostCenter.isDirectCost(source.IsDirectCost);
         oCostCenter.setupSpoilage(source.SetupSpoilage);
@@ -464,13 +627,67 @@
         oCostCenter.thumbnailImageUrl(source.ThumbnailImageURL);
         oCostCenter.deliveryCharges(source.DeliveryCharges);
         oCostCenter.xeroAccessCode(source.XeroAccessCode);
-        oCostCenter.organisationId(source.OrganisationId);       
+        oCostCenter.organisationId(source.OrganisationId);
+        oCostCenter.deliveryServiceType(source.DeliveryServiceType);
+        oCostCenter.carrierId(source.CarrierId);
+        //if (source.TimeSourceType === 1) {
+        //    oCostCenter.isTimeVariable(true);
+        //};
+        //if (source.TimeSourceType === 2) {
+        //    oCostCenter.isTimePrompt(true);
+        //};
+        oCostCenter.isTimeVariable(source.TimeSourceType === 1 ? '1' : '2');
+        //oCostCenter.isTimePrompt(source.TimeSourceType === 2 ? true : false);
+        oCostCenter.isQtyVariable(source.QuantitySourceType === 1 ? '1' : '2');
+        // oCostCenter.isQtyPrompt(source.QuantitySourceType === 2 ? true : false);
+
+        // oCostCenter.serviceTypesList(ServiceTypesList());
         _.each(source.CostcentreInstructions, function (item) {
             oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
         });
         return oCostCenter;
 
     };
+    var ServiceTypeModel = function (data) {
+        var self = this;
+        self.name = ko.observable(data.name);
+    };
+
+
+    var ServiceTypesList = function () {
+        ServiceTypesList = [];
+        ServiceTypesList.push(new ServiceTypeModel({ name: "EUROPE_FIRST_INTERNATIONAL_PRIORITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_1_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_2_DAY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_2_DAY_AM" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_2_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_3_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_DISTANCE_DEFERRED" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_EXPRESS_SAVER" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_FIRST_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_FREIGHT_ECONOMY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_FREIGHT_PRIORITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_GROUND" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_AFTERNOON" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_EARLY_MORNING" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_END_OF_DAY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_MID_MORNING" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "GROUND_HOME_DELIVERY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FIRST_OVERNIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_ECONOMY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_ECONOMY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_FIRST" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_PRIORITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_PRIORITY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "PRIORITY_OVERNIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "SAME_DAY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "SAME_DAY_CITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "SMART_POST" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "STANDARD_OVERNIGHT" }));
+        return ServiceTypesList;
+    };
+
     var costCenterServerMapper = function (source) {
         var result = {};
         result.CostCentreId = source.costCentreId();
@@ -534,7 +751,7 @@
         result.PricePerUnitQuantity = source.pricePerUnitQuantity();
         result.TimePerUnitQuantity = source.timePerUnitQuantity();
         result.TimeRunSpeed = source.timeRunSpeed();
-        result.TimeNoOfPasses = source.timeNoOfPasses();
+        result.TimeNoOfPasses = 1;// source.timeNoOfPasses();
         result.TimeVariableId = source.timeVariableId();
         result.TimeQuestionString = source.timeQuestionString();
         result.TimeQuestionDefaultValue = source.timeQuestionDefaultValue();
@@ -562,13 +779,551 @@
         result.DeliveryCharges = source.deliveryCharges();
         result.XeroAccessCode = source.xeroAccessCode();
         result.OrganisationId = source.organisationId();
+        result.CarrierId = source.carrierId();
+        result.DeliveryServiceType = source.deliveryServiceType();
+        result.ImageBytes = source.costcentreImageFileBinary() === undefined ? null : source.costcentreImageFileBinary();
+
+        result.TimeSourceType = source.isTimeVariable() === '1' ? 1 : 2;
+        result.QuantitySourceType = source.isQtyVariable() === '1' ? 1 : 2;
+
+        result.CostcentreInstructions = [];
+        _.each(source.costCenterInstructions(), function (item) {
+            result.CostcentreInstructions.push(costCenterInstruction.CreateFromClientModel(item));
+        });
         return result;
     };
-    
+
+    var MCQsAnswer = function (source) {
+        var self
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            QuestionId = ko.observable(source.QuestionId),
+            AnswerString = ko.observable(source.AnswerString)
+
+
+        } else {
+            Id = ko.observable(),
+            QuestionId = ko.observable(),
+            AnswerString = ko.observable()
+        }
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+           Id: Id,
+           QuestionId: QuestionId,
+           AnswerString: AnswerString
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id: Id,
+            QuestionId: QuestionId,
+            AnswerString: AnswerString,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+        };
+        return self;
+
+    }
+    var QuestionVariable = function (source, sourceMCQsAnswer) {
+        var self
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            QuestionString = ko.observable(source.QuestionString),
+            Type = ko.observable(source.Type),
+            DefaultAnswer = ko.observable(source.DefaultAnswer),
+            CompanyId = ko.observable(source.CompanyId),
+            SystemSiteId = ko.observable(source.SystemSiteId),
+            VariableString = ko.computed(function () {
+                return "{question, ID=&quot;" + Id() + "&quot;,caption=&quot;" + QuestionString() + "&quot;}";
+                
+            }, this),
+            QuestionVariableMCQsAnswer = ko.observableArray([])
+            if (sourceMCQsAnswer != null) {
+                _.each(sourceMCQsAnswer, function (item) {
+                    QuestionVariableMCQsAnswer.push(MCQsAnswer(item));
+                });
+
+            }
+
+
+        } else {
+            Id = ko.observable(),
+            QuestionString = ko.observable(),
+            Type = ko.observable(),
+            DefaultAnswer = ko.observable(),
+            CompanyId = ko.observable(),
+            SystemSiteId = ko.observable(),
+            VariableString = ko.computed(function () {
+                   return "{question, ID=&quot;" + Id() + "&quot;,caption=&quot;" + QuestionString() + "&quot;}";
+
+               }, this),
+            QuestionVariableMCQsAnswer = ko.observableArray([])
+        }
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+            Id :Id,
+            QuestionString :QuestionString,
+            Type :Type,
+            DefaultAnswer :DefaultAnswer,
+            CompanyId :CompanyId,
+            SystemSiteId :SystemSiteId,
+            VariableString :VariableString,
+            QuestionVariableMCQsAnswer:QuestionVariableMCQsAnswer
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id :Id,
+            QuestionString :QuestionString,
+            Type :Type,
+            DefaultAnswer :DefaultAnswer,
+            CompanyId :CompanyId,
+            SystemSiteId :SystemSiteId,
+            VariableString :VariableString,
+            QuestionVariableMCQsAnswer:QuestionVariableMCQsAnswer,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+           
+
+        };
+        return self;
+
+    }
+    var MCQsAnswerServerMapper = function (source) {
+        var MCQsAnswer= {}
+        MCQsAnswer.Id = source.Id();
+        MCQsAnswer.QuestionId = source.QuestionId();
+        MCQsAnswer.AnswerString = source.AnswerString();
+       
+        return MCQsAnswer;
+
+    }
+    var MCQsAnswerClientMapper = function (source) {
+        var oMCQsAnswer = new MCQsAnswer()
+        oMCQsAnswer.Id(source.Id);
+        oMCQsAnswer.QuestionId(source.QuestionId);
+        oMCQsAnswer.AnswerString(source.AnswerString);
+
+        return oMCQsAnswer;
+
+    }
+    var QuestionVariableServerMapper = function (source) {
+        var QuestionVariable = {};
+        if (source != undefined) {
+            QuestionVariable.Id = source.Id();
+            QuestionVariable.QuestionString = source.QuestionString();
+            QuestionVariable.Type = source.Type();
+            QuestionVariable.DefaultAnswer = source.DefaultAnswer();
+            QuestionVariable.CompanyId = source.CompanyId();
+            QuestionVariable.SystemSiteId = source.SystemSiteId();
+            QuestionVariable.VariableString = source.VariableString();
+         }
+        var QuestionVariableMCQs = [];
+        if (source.QuestionVariableMCQsAnswer() != undefined) {
+            _.each(source.QuestionVariableMCQsAnswer(), function (item) {
+                var MCQsAnswer = MCQsAnswerServerMapper(item);
+                QuestionVariableMCQs.push(MCQsAnswer);
+            });
+
+
+        }
+        return {
+            Question: QuestionVariable,
+            Answer: QuestionVariableMCQs
+        }
+      
+
+    }
+    var QuestionVariableClientMapper = function (source, oQuestionVariableMCQsAnswer) {
+        var oQuestionVariable = new QuestionVariable();
+        if (source != undefined) {
+            oQuestionVariable.Id(source.Id());
+            oQuestionVariable.QuestionString(source.QuestionString());
+            oQuestionVariable.Type(source.Type());
+            oQuestionVariable.DefaultAnswer(source.DefaultAnswer());
+            oQuestionVariable.CompanyId(source.CompanyId());
+            oQuestionVariable.SystemSiteId(source.SystemSiteId());
+        
+        }
+       
+        oQuestionVariable.QuestionVariableMCQsAnswer.removeAll();
+        if (oQuestionVariableMCQsAnswer != undefined) {
+            _.each(oQuestionVariableMCQsAnswer, function (item) {
+                var MCQsAnswer = MCQsAnswerClientMapper(item);
+                oQuestionVariable.QuestionVariableMCQsAnswer.push(MCQsAnswer);
+            });
+
+
+        }
+        return oQuestionVariable;
+
+
+    }
+    var matrixVariable = function (source, sourceMatrixDetail) {
+        var self
+        if (source != undefined) {
+            MatrixId = ko.observable(source.MatrixId),
+            Name = ko.observable(source.Name),
+            Description = ko.observable(source.Description),
+            RowsCount = ko.observable(source.RowsCount),
+            ColumnsCount = ko.observable(source.ColumnsCount),
+            OrganisationId = ko.observable(source.OrganisationId),
+            SystemSiteId = ko.observable(source.SystemSiteId),
+            VariableString = ko.computed(function () {
+                return "{matrix, ID=&quot;" + MatrixId() + "&quot;,Name=&quot;" + Name() + "&quot;}";
+            }, this),
+            row = ko.observableArray([]),
+            MatrixDetailVariableList = ko.observableArray([])
+            if (sourceMatrixDetail != null) {
+                _.each(sourceMatrixDetail, function (item) {
+                    MatrixDetailVariableList.push(MatrixDetail(item)); // write MatrixDetail
+                });
+
+            }
+
+
+        } else {
+            MatrixId = ko.observable(),
+            Name = ko.observable(),
+            Description = ko.observable(),
+            RowsCount = ko.observable(),
+            ColumnsCount = ko.observable(),
+            OrganisationId = ko.observable(),
+            SystemSiteId = ko.observable(),
+            
+            VariableString = ko.computed(function () {
+                return "{matrix, ID=&quot;" + MatrixId() + "&quot;,Name=&quot;" + Name() + "&quot;}";
+            }, this),
+            row = ko.observableArray([]),
+            MatrixDetailVariableList = ko.observableArray([])
+        }
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+           MatrixId : MatrixId,
+           Name : Name,
+           Description : Description,
+           RowsCount : RowsCount,
+           ColumnsCount : ColumnsCount,
+           OrganisationId : OrganisationId,
+           SystemSiteId : SystemSiteId,
+           VariableString: VariableString,
+           MatrixDetailVariableList: MatrixDetailVariableList
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            MatrixId : MatrixId,
+            Name : Name,
+            Description : Description,
+            RowsCount : RowsCount,
+            ColumnsCount : ColumnsCount,
+            OrganisationId : OrganisationId,
+            SystemSiteId : SystemSiteId,
+            VariableString: VariableString,
+            row:row,
+            MatrixDetailVariableList:MatrixDetailVariableList,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+
+        };
+        return self;
+
+    }
+    var MatrixDetail = function (source) {
+        var self
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            MatrixId = ko.observable(source.MatrixId),
+            Value = ko.observable(source.Value)
+        } else {
+            Id = ko.observable(),
+            MatrixId = ko.observable(),
+            Value = ko.observable()
+        }
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+            Id : Id,
+            MatrixId: MatrixId,
+            Value: Value
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id : Id,
+            MatrixId: MatrixId,
+            Value: Value,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+        };
+        return self;
+
+    }
+    var MatrixDetailClientMapper = function (source) {
+        var oMatrixDetail = new MatrixDetail()
+        if (source != null) {
+            oMatrixDetail.Id(source.Id);
+            oMatrixDetail.MatrixId(source.MatrixId);
+            oMatrixDetail.Value(source.Value);
+        }
+        
+        return oMatrixDetail;
+    }
+    var MatrixVariableClientMapper = function (source, sourceMatrixDetail) {
+        var omatrixVariable = new matrixVariable();
+        if (source != undefined) {
+            omatrixVariable.MatrixId(source.MatrixId());
+            omatrixVariable.Name(source.Name());
+            omatrixVariable.Description(source.Description());
+            omatrixVariable.RowsCount(source.RowsCount());
+            omatrixVariable.ColumnsCount(source.ColumnsCount());
+            omatrixVariable.OrganisationId(source.OrganisationId());
+            omatrixVariable.SystemSiteId(source.SystemSiteId());
+        }
+
+        omatrixVariable.MatrixDetailVariableList.removeAll();
+        var MatrixDetailList = [];
+        if (sourceMatrixDetail != undefined) {
+            _.each(sourceMatrixDetail, function (item) {
+                MatrixDetailList.push(MatrixDetailClientMapper(item));
+            });
+            var k = 0 ;
+            omatrixVariable.row.removeAll();
+            for (var i = 0; i < source.RowsCount() ; i++) {
+                var rowsTem = ko.observableArray([]);
+                for (var j = 0; j < source.ColumnsCount() ; j++) {
+                    if (i == 0 && j == 0) {
+                        var row = MatrixDetailClientMapper();
+                        row.Id(-1);
+                        rowsTem.push(row);
+                    } else {
+                        rowsTem.push(MatrixDetailList[k]);
+                        k++;
+                    }
+                   
+                }
+                omatrixVariable.MatrixDetailVariableList.push(rowsTem);
+                
+            }
+
+        }
+        return omatrixVariable;
+
+
+    }
+    var MatrixDetailServerMapper = function (source) {
+        var oMatrixDetail = {}
+        if (source != undefined) {
+            oMatrixDetail.Id = source.Id();
+            oMatrixDetail.MatrixId = source.MatrixId();
+            oMatrixDetail.Value = source.Value();
+        }
+       
+
+        return oMatrixDetail;
+
+    }
+    var MatrixVariableServerMapper = function (source) {
+        var CostCentreMatrix = {};
+        if (source != undefined) {
+            MatrixDetailVariableList: MatrixDetailVariableList
+
+
+            CostCentreMatrix.MatrixId = source.MatrixId();
+            CostCentreMatrix.Name = source.Name();
+            CostCentreMatrix.Description = source.Description();
+            CostCentreMatrix.RowsCount = source.RowsCount();
+            CostCentreMatrix.ColumnsCount = source.ColumnsCount();
+            CostCentreMatrix.SystemSiteId = source.SystemSiteId();
+            CostCentreMatrix.VariableString = source.VariableString();
+        }
+        var MatrixDetailList = [];
+        if (source.MatrixDetailVariableList() != undefined) {
+            _.each(source.MatrixDetailVariableList(), function (item) {
+                _.each(item(), function (itemDetails) {
+                    if (itemDetails.Id() != -1) {
+                        var oItemDetails = MatrixDetailServerMapper(itemDetails);
+                        MatrixDetailList.push(oItemDetails);
+                    }
+                    
+                });
+                
+                
+            });
+
+
+        }
+        return {
+            CostCentreMatrix: CostCentreMatrix,
+            CostCentreMatrixDetail: MatrixDetailList
+        }
+
+
+    }
+
+    var StockItemVariable = function (item) {
+        var self
+            if (item != null && item != undefined) {
+                Id = ko.observable(item.id()),
+                StockName = ko.observable(item.name())
+            } else {
+                Id = ko.observable(),
+                StockName = ko.observable()
+            }
+           
+            CostType = ko.observable(),
+            quantityValue = ko.observable(),
+            QuantityType = ko.observable(),
+            variableValue = ko.observable(),
+            questionValue = ko.observable(),
+            // SystemVariable = ko.observable(),
+           // QuantityQuestion = ko.observable(),
+          Value = ko.computed(function () {
+              if (QuantityType() == "qty") {
+                  return quantityValue();
+              }else if (QuantityType() == "variable") {
+                  return variableValue();
+              }else if (QuantityType() == "question") {
+                  return questionValue();
+              } else {
+                  return 0;
+              }
+               
+          }, this),
+            VariableString = ko.computed(function () {
+                return "{stock, ID=&quot;" + Id() + "&quot;,name=&quot;" + StockName() + "&quot;,type=&quot;" + CostType() + "&quot;,qtytype=&quot;" + QuantityType() + "&quot;,value=&quot;" + Value() + "&quot;}";
+            }, this),
+           
+   
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+         
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id: Id,
+            StockName: StockName,
+            CostType: CostType,
+            quantityValue: quantityValue,
+            QuantityType: QuantityType,
+            variableValue: variableValue,
+            questionValue: questionValue,
+            Value: Value,
+            VariableString:VariableString,
+           // SystemVariable: SystemVariable,
+            //QuantityQuestion:QuantityQuestion,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+
+        };
+        return self;
+
+    }
+
     return {
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
         costCenterServerMapper: costCenterServerMapper,
-        costCenterListView: costCenterListView
+        costCenterListView: costCenterListView,
+        NewCostCenterInstruction: NewCostCenterInstruction,
+        NewInstructionChoice: NewInstructionChoice,
+        MCQsAnswer: MCQsAnswer,
+        QuestionVariable: QuestionVariable,
+        QuestionVariableServerMapper: QuestionVariableServerMapper,
+        QuestionVariableClientMapper: QuestionVariableClientMapper,
+        matrixVariable: matrixVariable,
+        MatrixDetail: MatrixDetail,
+        MatrixVariableClientMapper: MatrixVariableClientMapper,
+        MatrixDetailClientMapper: MatrixDetailClientMapper,
+        MatrixVariableServerMapper: MatrixVariableServerMapper,
+        StockItemVariable: StockItemVariable
     };
 });

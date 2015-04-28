@@ -1,0 +1,258 @@
+﻿
+@using MPC.Webstore.WebGridExtension;
+@using MPC.Models.Common;
+@{
+    
+    
+}
+<div class="content_area container left_right_padding PDM7-CS  QCMainContainer">
+    <div id="QuickCalcFrame" class=" QuickCalcFrame">
+        <div id="QuickCalcFrameLoader" class="QuickCalcFrameLoader">
+            <br />
+           
+            <img src="/Content/images/asdf.gif" alt="" /><br />
+            Loading...
+        </div>
+        <h1 id="lblQuickCalcHead" class="QuickCalcHead">
+            Quick Calculator
+        </h1>
+        <div class="QuickCalcBar">
+            @*<asp:DropDownList ID="ddlProducts" Class="QuickCalcProducts">
+            </asp:DropDownList>*@
+            <select id="DDProduct" class="QuickCalcProducts"></select>
+            <span id="lblQuickCalcQty" class="lblQuickCalcQty">
+                Qty
+            </span>
+            <select id="ddlQuantity" class="QuickCalcQty"></select>
+            <div class="clear">
+            </div>
+        </div>
+        <div id="QuickQtyRanged">
+            <span>Enter Quantity</span>
+            @*<asp:TextBox ID="txtRangedQty" runat="server"></asp:TextBox>*@
+            <input type="text" id="txtRangedQty" />
+        </div>
+        <div id="QuickPriceBox" class="QuickCalcPriceBox">
+            <div id="QuickCalcOnlinePrice" class="QuickCalcPriceLbl">
+                Online price
+            </div>
+            <div id="QuickCalcFrom" class="QuickCalcPriceLbl" style="display:none;">
+                &nbsp;from&nbsp;
+            </div>
+            <div id="QuickPrice" class="QuickCalcPrice">
+            </div>
+            <div class="QuickCalcVat">
+                @*<asp:Label ID="lblVat" runat="server"></asp:Label>*@
+                <label id="lblVat">@ViewBag.VAT</label>
+            </div>
+        </div>
+        <input type="button" id="AddtoBastkBtn" class="QuickPriceBtn" onclick="return GotoDetails()" value="Add to Basket"/>
+            
+        @*<asp:HiddenField ID="hlProductData" runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hlPriceData" runat="server" ClientIDMode="Static" />*@
+        <input type="hidden" id="hlProductData" />
+        <input type="hidden" id="hlPriceData" />
+    </div>
+    <div class="float_right Need_aPrice_CS">
+        <a href="../RequestQuote.aspx" id="hfReqQ" >Need a price? </a>
+    </div>
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+
+</div>
+<div class="clearBoth">
+    &nbsp;
+</div>
+<script type="text/javascript">
+    var temp;
+    var PriceData = null;
+    var ProductData = null;
+    //var currencySymbol = '$';
+    var SelectedProductID = 0;
+    var SelectedProduct = null;
+    var cID = 0;
+    var smode=@ViewBag.StoreMode;
+    var currencySymbol='@ViewBag.CurrencySymbol';
+    var BCID=@ViewBag.BCID;
+    var TaxRate=@ViewBag.TaxRate;
+    var SelectedMatrixID;
+    var SelectedPriceMatrix;
+    $(document).ready(function () {
+        $.getJSON("/QuickCalculator/GetAllProducts?cID=" + cID + "&mode=" + smode,
+		        function (xdata) {
+		            ProductData = xdata;
+		            
+		            $.getJSON("/QuickCalculator/GetQuantityPrises?cID=" + cID + "&mode=" + smode,
+		                function (xdata) {
+		                    PriceData = xdata;
+		                    ShowProductDatafor();
+		                    makeInitSelection();
+		                    ShowProductDatafor();
+		                    $('#QuickCalcFrameLoader').hide();
+		                });
+		        });
+    });
+
+
+    function makeInitSelection() {
+        var tm=0;
+        var ProductID=$("#DDProduct").val();
+        $.each(ProductData, function (i, p) {
+            if(tm==0)
+            {
+               SelectedProduct=p;
+            }
+                $("#DDProduct").append($('<option></option>').val(p.ItemID).html(p.ProductName));
+           
+                //if (p.ItemID == ProductID) {
+
+                  
+                //    SelectedProduct=p;
+                //    return;
+                //}
+
+            tm++;
+        });
+        
+        ShowPrice(SelectedPriceMatrix.PricePaperType1, SelectedProduct.BrokerMarkup, SelectedProduct.ContactMarkup, SelectedProduct.IsQtyRanged, SelectedPriceMatrix.QtyRangeFrom);
+        Hide();
+    }
+
+    function ShowProductDatafor() {
+        SelectedProductID = $('#DDProduct').val();
+        var counter = 0;
+        $.each(PriceData, function (i, p) {
+
+            if(counter==0)
+            {
+                SelectedPriceMatrix=p;
+            }
+           $("#ddlQuantity").append($('<option></option>').val(p.PriceMatrixId).html(p.Quantity));
+           counter++;
+        });
+
+        }
+    function ShowSelectedQtyPrice() {
+       
+        var SelectedMatrixID = $("#ddlQuantity").val();
+        var val=$('#ddlQuantity').find(":selected").val(); 
+      
+           
+        $.each(PriceData, function (i, p) {
+           
+            if (p.PriceMatrixId == SelectedMatrixID) {
+                ShowPrice(p.PricePaperType1, SelectedProduct.BrokerMarkup, SelectedProduct.ContactMarkup, SelectedProduct.IsQtyRanged, p.QtyRangeFrom);
+                return;
+            }
+        });
+    }
+
+    //function GotoDetails() {
+
+    //    window.location.href = SelectedProduct.NavPath.substring(1, SelectedProduct.NavPath.length);
+    //    //alert(SelectedProduct.NavPath.substring(1, SelectedProduct.NavPath.length));
+
+
+    //    return false;
+    //}
+
+    //$('#ddlProducts').change(function (sender) {
+    //    $('select[id$=ddlQuantity] > option').remove();
+
+    //    ShowProductData();
+
+    //});
+
+    $("#ddlQuantity").change(function (sender) {
+        
+      ShowSelectedQtyPrice();
+   
+   });
+
+    $("#DDProduct").change(function (sender) {
+   
+        $('select[id$=ddlQuantity] > option').remove();
+        ShowProductData();
+
+    });
+    function Hide()
+    {
+        
+        if (SelectedProduct.IsQtyRanged== false) { 
+            $("#ddlQuantity").show();
+            $("#lblQuickCalcQty").show();
+            $("#QuickQtyRanged").hide();
+        }
+        else {
+            $("#ddlQuantity").hide();
+            $("#QuickQtyRanged").hide();
+            $("#lblQuickCalcQty").hide();
+        }
+    }
+    function ShowPrice(BasePrice, M1, M2, IsQtyRanged, PriceFrom) 
+    {
+        var Tax =TaxRate;
+        var FromClause ='';
+        if (IsQtyRanged == true) {
+            BasePrice = BasePrice / PriceFrom;
+            $('#QuickCalcOnlinePrice').html("Online Unit price");
+            $("#QuickCalcFrom").css("display", "block");
+        }
+        else {
+            $("#QuickCalcFrom").css("display", "none");
+            $('#QuickCalcOnlinePrice').html("Online price");
+        }
+
+        if (Tax > 0) {
+
+            BasePrice = BasePrice + (BasePrice * Tax / 100);
+        }
+
+        $("#QuickPrice").html(currencySymbol + '' + BasePrice.toFixed(2));
+    }
+
+    function ShowProductData() {
+
+        SelectedProductID = $('#DDProduct').val();
+        SelectedProduct = null;
+
+        //getting the selected product
+
+        $.each(ProductData, function (i, p) {
+            if(p.ItemID==SelectedProductID)
+            {
+                SelectedProduct=p;
+            }
+        });
+        if (SelectedProduct.IsQtyRanged== false) { //matrix drop down to be displayyed
+
+            $('#ddlQuantity').show();
+            $('#lblQuickCalcQty').show();
+            $('#QuickQtyRanged').hide();
+        }
+        else {
+            $('#ddlQuantity').hide();
+            $('#QuickQtyRanged').hide();
+            $('#lblQuickCalcQty').hide();
+        }
+        var counter = 0;
+        var bIsOverridedPriceFound = false;
+        $.each(PriceData, function (i, p) {
+            
+            if (p.ItemId== SelectedProductID) {
+               
+                $("#ddlQuantity").append("<option value='" + p.PriceMatrixId+"'>" + p.Quantity + "</option>");
+                    
+              
+                if (counter == 0) {
+
+                    ShowPrice(p.PricePaperType1, SelectedProduct.BrokerMarkup, SelectedProduct.ContactMarkup, SelectedProduct.IsQtyRanged, p.QtyRangeFrom);
+                }
+                counter++;
+            }
+
+        });
+    }
+
+</script>

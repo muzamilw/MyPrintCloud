@@ -4,33 +4,35 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">S Business Cards</h4>
+               
+                <h4 class="modal-title" data-bind="text: $root.productCategoryTitle()"></h4>
+                
             </div>
             <div class="row" id="tabsheadersecondarypage">
 
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="main-box clearfix">
+                    <div class="clearfix">
                         <div class="tabs-wrapper profile-tabs">
-                            <ul class="nav nav-tabs">
+                            <ul class="nav nav-tabs" id="categoryTabItems">
                                 @*<li class="active"><a href="#tab-newsfeed" data-toggle="tab">General Info</a></li>*@
                                 <li class="active"><a href="#tab-CatNameAndImages" data-toggle="tab">Basic Details</a></li>
-
-                                <li><a href="#tab-productCatDisplay" data-toggle="tab">Category Display</a></li>
+                                <li id="productCatFirstTab"><a href="#tab-productCatDisplay" data-toggle="tab">Category Display</a></li>
                                 <li><a href="#tab-productCategorySEO" data-toggle="tab">Search Engine Optimization</a></li>
                                 <li><a href="#tab-productCategoryDesc" data-toggle="tab">Category Descriptions</a></li>
                                 <li><a href="#tab-productCategoryDisplay" data-toggle="tab">Product Display</a></li>
                                 <li><a href="#tab-productCategoryImages" data-toggle="tab">Category Images</a></li>
+                                <li><a href="#tab-productCategoryTerritories" data-toggle="tab">Corporate Address Territories</a></li>
                             </ul>
                             <div class="tab-content" data-bind="with: $root.selectedProductCategoryForEditting">
 
                                 <div class="tab-pane fade in active" id="tab-CatNameAndImages">
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Details</h3>
+                                        <h3 class="group-header">Basic Details</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Category Name contains name of specifice category." data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Category Name contains name of specifice category." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -44,7 +46,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Parent categories" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Parent categories" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -60,7 +62,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories in which there is all shelf products" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories in which there is all shelf products" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -82,11 +84,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable category" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable category" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right" for="switchSecondaryPages">Enable Category</label>
+                                                    <label class="control-label text-right" for="switchSecondaryPages">Enabled ?</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div>
@@ -104,11 +106,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Publish Category on webstore" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Publish Category on webstore" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right" for="switchSecondaryPages">Publish Category on Webstore</label>
+                                                    <label class="control-label text-right" for="switchSecondaryPages">Published on Store ?</label>
                                                 </div>
 
                                                 <div class="col-lg-6">
@@ -130,32 +132,32 @@
                                         <div class="col-lg-3 col-md-4 col-sm-4">
                                             <div class=" clearfix">
                                                 <header class="main-box-header clearfix">
-                                                    <h2>Business Cards</h2>
+                                                    <h2 data-bind="text: $root.selectedProductCategoryForEditting().categoryName()"></h2>
                                                 </header>
                                                 <div class="main-box-body clearfix">
                                                     <div class="profile-status">
 
                                                     </div>
-                                                    <img src="~/Content/themes/Centaurus/img/samples/CategoryImg1.png" alt="" class="profile-img img-responsive center-block" />
-                                                    <div class="profile-label">
+                                                    <img alt="" data-bind="attr: { src: productCategoryThumbnailFileBinary }" class="categoryImage profile-img img-responsive " /> @*center-block*@
+                                                    @*<div class="profile-label">
                                                         <span class="label label-danger">Active</span>
-                                                    </div>
-                                                    <div class="profile-stars">
+                                                    </div>*@
+                                                    @*<div class="profile-stars">
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star-o"></i>
                                                         <span></span>
-                                                    </div>
+                                                    </div>*@
                                                     <div class="profile-since">
 
                                                     </div>
                                                     <div class="profile-details">
-                                                        <ul class="fa-ul">
-                                                            <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa  fa-check"></i>  </li>
-                                                            <li><i class="fa-li fa fa-archive"></i>Enables: <i class="fa  fa-check"></i></li>
+                                                        <ul class="fa-ul">   
+                                                            <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa" data-bind="css: {'fa-check': isPublished() == true, 'fa-times': isPublished() != true}"></i></li>
 
+                                                            <li><i class="fa-li fa fa-archive"></i>Enabled: <i class="fa" data-bind="css: {'fa-check': isEnabled() == true, 'fa-times': isEnabled() != true}"></i></li>
                                                         </ul>
                                                     </div>
                                                     @* <div class="profile-message-btn center-block text-center">
@@ -171,7 +173,6 @@
 
 
                                 </div>
-
                                 <div class="tab-pane fade" id="tab-productCatDisplay">
                                     <div class="col-md-12 form-horizontal">
                                         <h3 class="group-header">Category Display</h3>
@@ -183,7 +184,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the order of your categories here. If you leave this field blank, categories will show in alphabetical order. " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the order of your categories here. If you leave this field blank, categories will show in alphabetical order. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -198,7 +199,7 @@
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose whether you would like to display subcategory names in this main category. If you prefer to display the subcategories as images rather than text, use Subcategory Display Mode 2. " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose whether you would like to display subcategory names in this main category. If you prefer to display the subcategories as images rather than text, use Subcategory Display Mode 2. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -223,7 +224,7 @@
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose how a secondary, image-based subcategory listing will be displayed within this main category. See Subcategory Display Mode 2 for details on the display choices." data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose how a secondary, image-based subcategory listing will be displayed within this main category. See Subcategory Display Mode 2 for details on the display choices." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -246,7 +247,7 @@
                                                 <div class="col-lg-3 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Type the number of columns you would like to use for displaying subcategory information on this category page. " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Type the number of columns you would like to use for displaying subcategory information on this category page. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -261,40 +262,31 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="tab-pane fade" id="tab-productCategorySEO">
                                     <div class="col-md-12 form-horizontal">
                                         <h3 class="group-header">Search Engine Optimization</h3>
                                         <div class="col-md-9">
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This value is used to generate an SEO-friendly URL (when SEO Friendly URIs is enabled at Marketing > SEO) for this category.It should be a short, text-only version of this category's name." data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This value is used to generate an SEO-friendly URL (when SEO Friendly URIs is enabled at Marketing > SEO) for this category.It should be a short, text-only version of this category's name." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
-
-
                                                     <label for="txtSortOrder" class="control-label text-right tooltip-float">Category URL Text</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Category URL Text" data-bind="value: categoryURLText">
                                                     <span class="help-block text-right"></span>
                                                 </div>
-
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the title of the page according to Search Engines, and will display in the browser tab when this category is viewed. If left blank, the Category Name field will be used.  " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the title of the page according to Search Engines, and will display in the browser tab when this category is viewed. If left blank, the Category Name field will be used.  " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -313,11 +305,11 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="A list of keywords for this category, separated by commas.Keywords are not displayed to customers, but are used by search engines when indexing your store.  " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="A list of keywords for this category, separated by commas.Keywords are not displayed to customers, but are used by search engines when indexing your store.  " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -336,11 +328,11 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The description of this category as it will display in Search Engine results. " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The description of this category as it will display in Search Engine results. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -358,11 +350,11 @@
 
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This field is for advanced users only. Any code entered here will override all other SEO and meta settings for this category.  " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This field is for advanced users only. Any code entered here will override all other SEO and meta settings for this category.  " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -380,19 +372,16 @@
 
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
-
                                 <div class="tab-pane fade" id="tab-productCategoryDesc">
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Category Descriptions</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The description of this category as it will display in Search Engine results. " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The description of this category as it will display in Search Engine results. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -405,9 +394,9 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a description that will be displayed above the products listed on this category page.  " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a description that will be displayed above the products listed on this category page.  " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -420,9 +409,9 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right" style="width:25.5%;">
+                                                <div class="col-lg-4 text-right" >
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a short category description. This shortened description will display for subcategories when SubCategory Display Mode 2 is set to Thumbnails. " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a short category description. This shortened description will display for subcategories when SubCategory Display Mode 2 is set to Thumbnails. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -434,11 +423,10 @@
                                                 </div>
                                             </div>
 
-
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a secondary category description that will display below the products section of this category page.  " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a secondary category description that will display below the products section of this category page.  " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -453,19 +441,17 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
                                 <div class="tab-pane fade" id="tab-productCategoryDisplay">
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Product Display</h3>
                                         <div class="col-lg-9">
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select a default sort mode for products in this category. See Default Sort By for details on the Sort By choices. " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select a default sort mode for products in this category. See Default Sort By for details on the Sort By choices. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -474,40 +460,20 @@
                                                     <label class="control-label text-right tooltip-float">Default Sort By</label>
 
                                                 </div>
-                                                <div class="col-lg-6" data-bind="value: defaultSortBy">
-                                                    <select class="form-control">
-                                                        <option>Select</option>
-                                                        <option>Price Low to High</option>
-                                                        <option>Price Hight to Low</option>
-                                                        <option>Most Popular</option>
-                                                        <option>Title</option>
-                                                        <option>Manufacturer</option>
-                                                        <option>Availabilty</option>
-                                                        <option>Newest</option>
-                                                        <option>Oldest</option>
-                                                    </select>
-
-                                                    <span class="help-block text-right"></span>
+                                                <div class="col-lg-6">
+                                                    <select class="form-control" data-bind="options: $root.defaultSortBy, optionsText: 'name', optionsValue: 'id',value:defaultSortBy"></select>
                                                 </div>
-
                                             </div>
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Type the number of columns you would like to use for product display on this category.  " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Type the number of columns you would like to use for product display on this category.  " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
-
-
                                                     <label for="txtSortOrder" class="control-label text-right tooltip-float">Display Columns, Responsive</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Columns" data-bind="value: productsDisplayColumns">
                                                     <span class="help-block text-right"></span>
@@ -517,11 +483,11 @@
 
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the number of product display rows for this category" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the number of product display rows for this category" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -540,9 +506,9 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Y to disable the Next and Previous buttons for this category and display only Featured Products in this category. This will allow the customer to click into subcategories to view more products. " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Y to disable the Next and Previous buttons for this category and display only Featured Products in this category. This will allow the customer to click into subcategories to view more products. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -562,26 +528,18 @@
 
                                             </div>
 
-
-
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-
-
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Availability for products on this category page" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Availability for products on this category page" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right" for="switchSecondaryPages">Show Availability</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showAvail" @*data-bind="checked: isShowAvailablity"*@>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showAvail" data-bind="checked: isShowAvailablity">
                                                         <label class="onoffswitch-label" for="showAvail">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -592,22 +550,15 @@
 
                                             </div>
 
-
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-
-
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Availability for products on this category page." data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Availability for products on this category page." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right" for="switchSecondaryPages">Show Reward Points</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showRPoints" data-bind="checked: isShowRewardPoints">
@@ -622,20 +573,14 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-
-
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the List Price for products on this category page" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the List Price for products on this category page" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right" for="switchSecondaryPages">Show List Price</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showLPrice" data-bind="checked: isShowListPrice">
@@ -649,20 +594,14 @@
 
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-
-
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Sale Price for products on this category page." data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Sale Price for products on this category page." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right" for="switchSecondaryPages">Show Sale Price</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showSPrice" data-bind="checked: isShowSalePrice">
@@ -676,14 +615,11 @@
 
                                             </div>
 
-
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-
-
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Stock Status for products on this category page." data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Stock Status for products on this category page." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -705,14 +641,13 @@
 
                                             </div>
 
-
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
 
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Product Description for products on this category page.  " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Product Description for products on this category page.  " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -734,11 +669,10 @@
 
                                             </div>
 
-
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Product Description Short field for products on this category page. This display will override a Y in the Show Description field.  " data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Product Description Short field for products on this category page. This display will override a Y in the Show Description field.  " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -762,7 +696,6 @@
                                     </div>
 
                                 </div>
-
                                 <div class="tab-pane fade" id="tab-productCategoryImages">
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Category Images</h3>
@@ -770,34 +703,27 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thumbnail" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thumbnail" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
-
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Thumbnail</label>
-
                                                 </div>
-
                                                 <div class="col-lg-5">
                                                     <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: productCategoryThumbnailFileBinary }" />
-                                                    <div class="col-lg-1 pull-right" data-bind="visible :!$root.selectedStore().hasChanges()">
-                                                        <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromProductCategoryThumbnail">
+                                                    <div class="col-lg-1 pull-right" >   @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
+                                                        <div class="fileUpload btn btn-primary" >   @*data-bind="click:$root.openMediaLibraryDialogFromProductCategoryThumbnail"*@
                                                             <span>....</span>
-                                                            @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryThumbnailFilesLoadedCallback, fileFilter: 'image.*'}" />*@
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryThumbnailFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
                                                     <span class="help-block text-right"></span>
                                                 </div>
-
-
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -805,10 +731,10 @@
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: productCategoryImageFileBinary }" />
-                                                    <div class="col-lg-1 pull-right" data-bind="visible :!$root.selectedStore().hasChanges()">
-                                                        <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromProductCategoryBanner">
+                                                    <div class="col-lg-1 pull-right" >   @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
+                                                        <div class="fileUpload btn btn-primary" >  @*data-bind="click:$root.openMediaLibraryDialogFromProductCategoryBanner"*@
                                                             <span>....</span>
-                                                            @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
                                                     <span class="help-block text-right"></span>
@@ -817,22 +743,59 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
+                                <div class="tab-pane fade" id="tab-productCategoryTerritories">
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Corporate store territories</h3>
+                                        <p class="group-header-description">In a corporate store this category is visible only in selected territories's users. Please select all territories for which the category and its product should be visible.</p>
+                                        <div class="col-lg-12 form-horizontal">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><a href="#"><span>Territory Name</span></a></th>
+                                                            <th>&nbsp;</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- ko template: { name: 'itemTerritoryTemplate', foreach: $root.addressTerritoryList }-->
+                                                        <!-- /ko -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer col-xs-12">
+        <div class="modal-footer">
+            <button class="btn btn-danger pull-left" data-bind="click: $root.onArchiveCategory, visible: $root.selectedProductCategoryForEditting()!=undefined && $root.selectedProductCategoryForEditting().productCategoryId() > 0">Archive</button>
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductCategory" style="margin-left:0px;">Close</button>
             </div>
         </div>
 
     </div>
+    <script id="itemTerritoryTemplate" type="text/html">
+        <tr>
+            <td data-bind="text: territoryName"></td>
+            <td>
+                <div class="form-group pull-right">
+                    <div class="col-md-3 ">
+                        <div class="checkbox-nice">
+                            <input type="checkbox" data-bind="checked: isSelected, attr: { id: territoryId}">
+                            <label data-bind="attr: { for: territoryId}">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </td>
 
+        </tr>
+    </script>
 </div>
 
 

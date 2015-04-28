@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Cost Centre Question";
+}
+
+
+<div class="modal fade my-modal" id="CostCentreQuestionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 538px;" class="modal-dialog" data-bind="with: $root.SelectedQuestionVariable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Cost Centre Question</h4>
+            </div>
+            <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" tabindex="-1" href="#" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Question" data-container="body" data-toggle="popover" data-placement="right"  data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="Question" class="control-label text-right tooltip-float">Question</label>
+                    </div>
+                    <div class="col-lg-6">
+
+                        <input type="text" class="form-control" data-bind="value:QuestionString">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" tabindex="-1" href="#" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Type" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="Type" class="control-label text-right tooltip-float">Type</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <select class="form-control" data-bind="options: $root.QuestionVariableType, optionsText: 'Text', optionsValue: 'Id', value: Type"></select>
+                       
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" tabindex="-1" href="#" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Default Answer" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="Answer" class="control-label text-right tooltip-float">Default Answer</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" data-bind="value:DefaultAnswer">
+                    </div>
+                </div>
+
+                <div class="form-group" data-bind="visible: Type() == 2">
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Dropdown Options" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                            </div>
+                            <label for="vTag" class="control-label text-right tooltip-float">MCQs Answer</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <a class="btn btn-primary pull-left" data-bind="click:$root.AddAnswerofQuestionVariable">
+                                Add Option
+                            </a>
+                        </div>
+                    </div>
+
+                    @*<a href=" #" class="btn btn-primary pull-right" data-bind="click:$root.AddAnswerofQuestionVariable" style="margin-right:23px;">
+                            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer"></i>&nbsp;Add
+                        </a>*@
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+
+                            </div>
+                            <label for="vTag" class="control-label text-right tooltip-float"></label>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="inlineGrid" style="border: 1px solid silver">
+                                <div class="table-responsive">
+                                    <table id="variableOptionTablle" class="table table-striped table-hover">
+                                        <thead>
+
+                                        </thead>
+                                        <tbody>
+                                            <!-- ko template: { name: 'itemAnswerListTemplate' , foreach: QuestionVariableMCQsAnswer } -->
+                                            <!-- /ko -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+     
+                </div>
+            </div>
+            <div class="modal-footer">
+                <hr />
+                <button type="button" class="btn btn-primary" data-bind="click:$root.saveQuestionVariable">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+            </div>
+        </div>
+    </div>
+    </div>
+   
+    <script id="itemAnswerListTemplate" type="text/html">
+        <tr>
+            <td style="width:80%">
+                <input class="form-control" data-bind="value: AnswerString" />
+            </td>
+            <td>
+                <a class="table-link danger" title="delete" data-bind="click:$root.OnDeleteAnswerStringofQuestionVariable">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>
+        </tr>
+    </script>

@@ -257,13 +257,23 @@ define("myOrganization/myOrganization.viewModel",
                     },
                     // Delete a Markup
                     onDeleteMarkup = function (markup) {
-                        filteredMarkups.remove(markup);
-                        _.each(markups(), function (item) {
-                            if ((item.id() === markup.id())) {
-                                markups.remove(item);
+                        if (selectedMyOrganization().markupId() === markup.id()) {
+                            toastr.error("Default Markup cannot be deleted.");
+                        } else {
+                            filteredMarkups.remove(markup);
+                            _.each(markups(), function (item) {
+                                if ((item.id() === markup.id())) {
+                                    markups.remove(item);
+                                }
+                            });
+                            selectedMyOrganization().flagForChanges("Changes occur");
+                            var markupForDelete = _.find(markupsForDropDown(), function (item) {
+                                return item.MarkUpId === markup.id();
+                            });
+                            if (markupForDelete) {
+                                markupsForDropDown.remove(markupForDelete);
                             }
-                        });
-                        selectedMyOrganization().flagForChanges("Changes occur");
+                        }
                     },
                     //Get Organization By Id
                     getMyOrganizationById = function () {
@@ -272,6 +282,10 @@ define("myOrganization/myOrganization.viewModel",
                             success: function (data) {
                                 filteredStates.removeAll();
                                 var org = model.CompanySitesClientMapper(data);
+                                _.each(data.LanguageEditors, function (item) {
+                                    org.languageEditors.push(model.LanguageEditor.Create(item));
+                                });
+
                                 selectedMyOrganization(org);
                                 selectedMyOrganization().reset();
 
@@ -332,14 +346,17 @@ define("myOrganization/myOrganization.viewModel",
                             if (selectedMyOrganization().email.error != null) {
                                 errorList.push({ name: selectedMyOrganization().email.domElement.name, element: selectedMyOrganization().email.domElement });
                             }
+                            if (selectedMyOrganization().markupId.error != null) {
+                                errorList.push({ name: "Markup", element: selectedMyOrganization().markupId.domElement });
+                            }
                             flag = false;
                         }
                         return flag;
                     },
                      // Go To Element
-                  gotoElement = function (validation) {
-                      view.gotoElement(validation.element);
-                  },
+                    gotoElement = function (validation) {
+                        view.gotoElement(validation.element);
+                    },
                     // Do Before Logic
                     doBeforeSaveMarkups = function () {
                         var flag = true;
@@ -438,6 +455,16 @@ define("myOrganization/myOrganization.viewModel",
                                         });
                                     });
 
+                                    _.each(data.Markups, function (item) {
+                                        var markupItem = _.find(markupsForDropDown(), function (markupDropDownItem) {
+                                            return markupDropDownItem.MarkUpId === item.MarkUpId;
+                                        });
+                                        if (markupItem === undefined) {
+                                            markupsForDropDown.push(item);
+                                        }
+                                    });
+
+
                                 } else {
                                     selectedMyOrganization(), id(orgId);
                                 }
@@ -449,7 +476,7 @@ define("myOrganization/myOrganization.viewModel",
                             },
                             error: function (exceptionMessage, exceptionType) {
 
-                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
                                     toastr.error(exceptionMessage);
 
@@ -530,7 +557,11 @@ define("myOrganization/myOrganization.viewModel",
                             }, {
                                 success: function (data) {
                                     if (data != null) {
-                                        selectedMyOrganization().languageEditor(model.LanguageEditor.Create(data));
+                                        selectedMyOrganization().languageEditors.removeAll();
+                                        _.each(data, function (item) {
+                                            selectedMyOrganization().languageEditors.push(model.LanguageEditor.Create(item));
+                                        });
+                                        //selectedMyOrganization().languageEditor(model.LanguageEditor.Create(data));
                                     }
                                 },
                                 error: function (response) {
@@ -538,7 +569,11 @@ define("myOrganization/myOrganization.viewModel",
                                 }
                             });
                         }
-                    }
+                    },
+                    //Store Image Files Loaded Callback
+                orgImageLoadedCallback = function (file, data) {
+                    selectedMyOrganization().orgnizationImage(data);
+                },
                 //Search Nominal Code
                 searchNominalCode = function () {
                     var nominalCode = filteredNominalCodes()[0];
@@ -608,6 +643,7 @@ define("myOrganization/myOrganization.viewModel",
                     searchMarkup: searchMarkup,
                     getLanguageEditorDataByLanguageId: getLanguageEditorDataByLanguageId,
                     gotoElement: gotoElement,
+                    orgImageLoadedCallback: orgImageLoadedCallback
 
                 };
             })()

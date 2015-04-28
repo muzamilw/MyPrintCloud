@@ -47,7 +47,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ITemplateService, TemplateService>();
             unityContainer.RegisterType<ITemplateColorStylesService, TemplateColorStylesService>();
             unityContainer.RegisterType<ITemplatePageService, TemplatePageService>();
-            unityContainer.RegisterType<IPrefixService, PrefixService>();
+            unityContainer.RegisterType<webstoreInterfaces.IPrefixService, webstoreImplementation.PrefixService>();
+            unityContainer.RegisterType<MISInterfaces.IPrefixService, MISImplementation.PrefixService>();
             unityContainer.RegisterType<ITemplateObjectService, TemplateObjectService>();
             unityContainer.RegisterType<ITemplateFontsService, TemplateFontsService>();
             unityContainer.RegisterType<ITemplateBackgroundImagesService, TemplateBackgroundImagesService>();
@@ -64,8 +65,29 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICalendarService, CalendarService>();
             unityContainer.RegisterType<ICustomerService, CustomerService>();
             unityContainer.RegisterType<IDashboardService, DashboardService>();
+            unityContainer.RegisterType<IOrderForCrmService, OrderForCrmService>();
+            unityContainer.RegisterType<IInvoiceService, MISImplementation.InvoicesService>();
             unityContainer.RegisterType<MISInterfaces.IOrderService, MISImplementation.OrderService>();
             unityContainer.RegisterType<IStatusService, StatusService>();
+            unityContainer.RegisterType<ISmartFormService, SmartFormService>();
+            unityContainer.RegisterType<IPaypalPaymentRequestService, PaypalPaymentRequestService>();
+            unityContainer.RegisterType<IPayPalResponseService, PayPalResponseService>();
+            unityContainer.RegisterType<IPrePaymentService, PrePaymentService>();
+            unityContainer.RegisterType<IPaymentGatewayService, PaymentGatewayService>();
+            unityContainer.RegisterType<INABTransactionService, NABTransactionService>();
+            unityContainer.RegisterType<ICompanyCostCentreService, CompanyCostCentreService>();
+            unityContainer.RegisterType<ILookupMethodService, LookupMethodService>();
+            unityContainer.RegisterType<IPurchaseService, PurchaseService>();
+            unityContainer.RegisterType<IGoodsReceivedNoteService, GoodsReceivedNoteService>();
+            unityContainer.RegisterType<IDeliveryCarriersService, DeliveryCarrierService>();
+            unityContainer.RegisterType<ILengthConversionService, LengthConversionService>();
+            unityContainer.RegisterType<IItemJobStatusService, ItemJobStatusService>();
+            unityContainer.RegisterType<ICostCentreMatrixServices, CostCentreMatrixServices>();
+             unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
+             unityContainer.RegisterType<ISystemUserService, SystemUserService>();
+             unityContainer.RegisterType<IReportService, ReportService>();
+             unityContainer.RegisterType<IItemSectionService, ItemSectionService>();
+            
         }
     }
 }

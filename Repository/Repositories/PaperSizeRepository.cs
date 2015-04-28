@@ -10,6 +10,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -64,7 +65,9 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<PaperSize> GetAll()
         {
-            return DbSet.ToList();
+            Organisation org = db.Organisations.Where(o => o.OrganisationId == this.OrganisationId).FirstOrDefault();
+            string sCulture = org.GlobalLanguage != null ? org.GlobalLanguage.culture : string.Empty;
+            return DbSet.Where(s => s.OrganisationId == OrganisationId && s.Region == sCulture).OrderBy(s => s.Name).ToList();
         }
 
         /// <summary>
@@ -77,7 +80,8 @@ namespace MPC.Repository.Repositories
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<PaperSize, bool>> query =
                 paperSize =>
-                    (isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified);
+                    (isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified
+                    && paperSize.OrganisationId==OrganisationId && paperSize.Region==request.Region);
 
             var rowCount = DbSet.Count(query);
             var paperSheets = request.IsAsc
@@ -103,7 +107,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.PaperSizes.Where(o => o.OrganisationId == OrganisationId).ToList();
+                
+
+                return db.PaperSizes.Where(o => o.OrganisationId == OrganisationID).ToList();
             }
             catch(Exception ex)
             {
@@ -122,6 +128,18 @@ namespace MPC.Repository.Repositories
               
             }
             catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<PaperSize> GetPaperSizesByID(int PSSID)
+        {
+            try
+            {
+                return db.PaperSizes.Where(c => c.PaperSizeId == PSSID).ToList();
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }

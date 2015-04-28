@@ -39,7 +39,7 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             SetDefaultAddress(StoreBaseResopnse);
             return PartialView("PartialViews/ContactUs");
@@ -57,7 +57,7 @@ namespace MPC.Webstore.Controllers
                 string smtpPassword = null;
                 string fromName = null;
                 string fromEmail = null;
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
                 ViewBag.Organisation = StoreBaseResopnse.StoreDetaultAddress;
                 string MesgBody = "";
                 if (StoreBaseResopnse.Organisation != null)
@@ -113,16 +113,63 @@ namespace MPC.Webstore.Controllers
 
         private void SetDefaultAddress(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse) 
         {
-            ViewBag.DefaultAddress = StoreBaseResopnse.StoreDetaultAddress;
-            string country = StoreBaseResopnse.StoreDetaultAddress.Country != null
-                                                                ? StoreBaseResopnse.StoreDetaultAddress.Country.CountryName
-                                                                : string.Empty;
+            AddressViewModel oAddress = null;
 
-            string state = StoreBaseResopnse.StoreDetaultAddress.State != null
-                ? StoreBaseResopnse.StoreDetaultAddress.State.StateName
-                : string.Empty;
-            string MapInfoWindow = StoreBaseResopnse.StoreDetaultAddress.AddressName + "<br>" + StoreBaseResopnse.StoreDetaultAddress.Address1 + StoreBaseResopnse.StoreDetaultAddress.Address2 + "<br>" + StoreBaseResopnse.StoreDetaultAddress.City + "," + state + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode;
-            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + StoreBaseResopnse.StoreDetaultAddress.Address1 + "," + StoreBaseResopnse.StoreDetaultAddress.Address2 + "," + StoreBaseResopnse.StoreDetaultAddress.City + "," + country + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode + "';var info='" + MapInfoWindow + "';</script>";
+            if (StoreBaseResopnse.StoreDetaultAddress != null)
+            {
+                oAddress = new AddressViewModel();
+                oAddress.AddressName = StoreBaseResopnse.StoreDetaultAddress.AddressName;
+                oAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
+                oAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+
+                oAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
+                oAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                oAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                oAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                {
+                    oAddress.Tel = "Tel: " + StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                }
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Fax))
+                {
+                    oAddress.Fax = "Fax: " + StoreBaseResopnse.StoreDetaultAddress.Fax;
+                }
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Email))
+                {
+                    oAddress.Email = StoreBaseResopnse.StoreDetaultAddress.Email;
+                }
+            }
+            if (StoreBaseResopnse.StoreDetaultAddress != null)
+            {
+              
+                string MapInfoWindow = oAddress.AddressName + "<br>" + oAddress.Address1 + oAddress.Address2 + "<br>" + oAddress.City + "," + oAddress.State + "," + oAddress.ZipCode;
+                if (StoreBaseResopnse.Company.isShowGoogleMap == 2) // geo code aka zip code lookup 
+                {
+                    ViewBag.MapImage = null;
+                    ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + oAddress.ZipCode + "," + oAddress.City + "," + oAddress.Country + "';var info='" + MapInfoWindow + "';</script>";
+                    //ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + oAddress.Address1 + "," + oAddress.Address2 + "," + oAddress.City + "," + oAddress.Country + "," + oAddress.ZipCode + "';var info='" + MapInfoWindow + "';</script>";
+                }
+                else if (StoreBaseResopnse.Company.isShowGoogleMap == 1) // geo code aka zip code lookup 
+                { // locate by lat long
+
+
+                    ViewBag.googleMapScript = @"<script> isGeoCode = false; var lat = '" + StoreBaseResopnse.StoreDetaultAddress.GeoLatitude + "'; var long='" + StoreBaseResopnse.StoreDetaultAddress.GeoLongitude + "';var info='" + MapInfoWindow + "';</script>";
+                    ViewBag.MapImage = null;
+                }
+                else 
+                {
+                    ViewBag.MapImage = StoreBaseResopnse.Company.MapImageUrl;
+                }
+                ViewBag.DefaultAddress = oAddress;
+               
+            }
+            else 
+            {
+                ViewBag.DefaultAddress = null;
+                throw new Exception("Default address not found");
+            }
+          
         }
 
     }

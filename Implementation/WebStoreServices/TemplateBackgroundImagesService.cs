@@ -397,6 +397,11 @@ namespace MPC.Implementation.WebStoreServices
         // update an image record  //added by saqib
         public TemplateBackgroundImage UpdateImage(long imageID, int imType, string imgTitle, string imgDescription, string imgKeywords)
         {
+            imgTitle = imgTitle.Replace("____", " ");
+            imgDescription = imgDescription.Replace("____", " ");
+            imgKeywords = imgKeywords.Replace("____", " ");
+
+
             imgTitle = imgTitle.Replace("___", "/");
             imgDescription = imgDescription.Replace("___", "/");
             imgKeywords = imgKeywords.Replace("___", "/");
@@ -405,7 +410,10 @@ namespace MPC.Implementation.WebStoreServices
             imgDescription = imgDescription.Replace("__", ",");
             return _templateImagesRepository.UpdateImage(imageID, imgTitle, imgDescription, imgKeywords, imType);
         }
-
+        public List<CompanyTerritory> getCompanyTerritories(long companyId)
+        {
+            return _templateImagesRepository.getCompanyTerritories(companyId);
+        }
         public string InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID)
         {
             var result = "false";
@@ -478,6 +486,10 @@ namespace MPC.Implementation.WebStoreServices
                         Imname = "UserImgs/Retail/" + contactId.ToString() + "/" + imageName;
                         UploadPathForPDF = "UserImgs/Retail/" + contactId.ToString() + "/";
                     }
+                    if(uploadedFrom == 2)
+                    {
+                        contactId = 0;
+                    }
                     List<TemplateBackgroundImage> listImages = new List<TemplateBackgroundImage>();
                     if (isUploadedPDF)
                     {
@@ -509,6 +521,7 @@ namespace MPC.Implementation.WebStoreServices
                             GenerateThumbNail(sourcePath, destPath, 98);
 
                         }
+                        _templateImagesRepository.insertImageRecord(listImages).ToString();
                     }
                     else
                     {
@@ -590,7 +603,6 @@ namespace MPC.Implementation.WebStoreServices
                 try
                 {
                     theDoc.Read(physicalPath);
-                    _templateRepository.updateTemplate(TemplateID, theDoc.MediaBox.Width, theDoc.MediaBox.Height);
                     int srcPagesID = theDoc.GetInfoInt(theDoc.Root, "Pages");
                     int srcDocRot = theDoc.GetInfoInt(srcPagesID, "/Rotate");
                     for (int i = 1; i <= theDoc.PageCount; i++)
@@ -651,6 +663,8 @@ namespace MPC.Implementation.WebStoreServices
                                 singlePagePdf.Dispose();
                         }
                     }
+
+                    _templateRepository.updateTemplate(TemplateID, theDoc.MediaBox.Width, theDoc.MediaBox.Height,count);
                 }
                 catch (Exception ex)
                 {
@@ -750,6 +764,14 @@ namespace MPC.Implementation.WebStoreServices
                     File.Delete(PDFDoc);
                 }
             }
+        }
+        public List<ImagePermission> getImgTerritories(long imgID)
+        {
+            return _templateImagesRepository.getImgTerritories(imgID);
+        }
+        public bool UpdateImgTerritories(long imgID, string territory)
+        {
+            return _templateImagesRepository.UpdateImgTerritories(imgID, territory);
         }
         #endregion
     }

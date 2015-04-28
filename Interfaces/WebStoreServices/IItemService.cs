@@ -14,9 +14,11 @@ namespace MPC.Interfaces.WebStoreServices
     {
         List<ItemStockOption> GetStockList(long ItemId, long CompanyId);
         Item GetItemById(long ItemId);
+        Item GetItemByIdDesigner(long ItemId);
 
+        
         Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
-        List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId);
+        List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId, long OrganisationId);
 
         string specialCharactersEncoder(string value);
 
@@ -87,7 +89,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ItemAttachment> GetArtwork(long ItemId);
 
         Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId);
-        bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
+        bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "");
 
         FavoriteDesign GetFavContactDesign(long templateID, long contactID);
         /// <summary>
@@ -111,7 +113,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<Item> GetListOfDeliveryItemByOrderID(long OID);
         string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
         List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList);
-        bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath);
+        bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath, string itemID);
         Item GetClonedItemById(long ItemId);
         PaymentGateway GetPaymentGatewayRecord(long CompanyId);
         long GetFirstItemIdByOrderId(long orderId);
@@ -146,5 +148,51 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="CompanyID"></param>
         /// <returns></returns>
         List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId);
+
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        long GetCartItemsCount(long ContactId, long TemporaryCustomerId, long CompanyId);
+
+        List<CmsSkinPageWidget> GetStoreWidgets();
+
+        List<SaveDesignView> GetSavedDesigns(long ContactID);
+
+        void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList);
+        /// <summary>
+        /// get published featured, special and popular products
+        /// </summary>
+        /// <param name="productWidgetId"></param>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        List<Item> GetProductsWithDisplaySettings(ProductWidget productWidgetId, long CompanyId, long OrganisationId);
+
+    
+
+        /// <summary>
+        /// get all parent categories and corresponding products of a category against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId);
+
+        long getParentTemplateID(long itemId);
+
+        string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID);
+        /// <summary>
+        /// get category name
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        string GetCategoryNameById(long CategoryId, long ItemId);
+        /// <summary>
+        /// get category ID
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        long GetCategoryIdByItemId(long ItemId);
     }
 }

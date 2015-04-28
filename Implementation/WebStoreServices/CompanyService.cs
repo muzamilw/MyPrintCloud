@@ -8,9 +8,9 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
-using System;
 using MPC.Models.Common;
 using System.Globalization;
+using MPC.Common;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -41,8 +41,9 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IStateRepository _StateRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IFavoriteDesignRepository _favoriteRepository;
-
-
+        private readonly INewsLetterSubscriberRepository _newsLetterSubscriberRepository;
+        private readonly IRaveReviewRepository _raveReviewRepository;
+        private readonly IOrderRepository _orderrepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -58,7 +59,8 @@ namespace MPC.Implementation.WebStoreServices
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
             , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
-            , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository)
+            , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository
+            , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -78,8 +80,11 @@ namespace MPC.Implementation.WebStoreServices
             this._StateRepository = StateRepository;
             this._countryRepository = countryRepository;
             this._favoriteRepository = favoriteRepository;
+            this._newsLetterSubscriberRepository = newsLetterSubscriberRepository;
+            this._raveReviewRepository = raveReviewRepository;
+            this._orderrepository = _orderrepository;
         }
-        
+
         #endregion
 
         #region Public
@@ -91,374 +96,697 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
-            
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            CacheItemPolicy policy = null;
-
-            MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
-
-            policy = new CacheItemPolicy();
-            policy.Priority = CacheItemPriority.NotRemovable;
-            //policy.SlidingExpiration =
-            //    TimeSpan.FromMinutes(5);
-            policy.RemovedCallback = null;
-
-            Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
-
-            if (stores == null)
+            try
             {
-                stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
+                string CacheKeyName = "CompanyBaseResponse";
+                ObjectCache cache = MemoryCache.Default;
+                CacheItemPolicy policy = null;
 
+                MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
 
-                List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
+                policy = new CacheItemPolicy();
+                policy.Priority = CacheItemPriority.NotRemovable;
+                //policy.SlidingExpiration =
+                //    TimeSpan.FromMinutes(5);
+                policy.RemovedCallback = null;
 
-                Company oCompany = GetCompanyByCompanyID(companyId);
+                Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
 
-                CacheEntryRemovedCallback callback = null;
-
-                MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
-                oStore.Company = oCompany;
-                oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
-                oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
-                oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
-                oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
-                oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
-                oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
-                oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
-                oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
-                stores.Add(oCompany.CompanyId, oStore);
-                
-
-
-                cache.Set(CacheKeyName, stores, policy);
-                return stores[oCompany.CompanyId];
-            }
-            else // there are some stores already in cache.
-            {
-
-                if (!stores.ContainsKey(companyId))
+                if (stores == null)
                 {
+                    stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
+
+
+                    List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
+
                     Company oCompany = GetCompanyByCompanyID(companyId);
 
-                    List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(oCompany.CompanyId);
+                    CacheEntryRemovedCallback callback = null;
 
                     MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
-
-
                     oStore.Company = oCompany;
                     oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                     oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
-                    oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
-                    oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
-                    oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
+                    oStore.Banners = _companyBannerRepository.GetCompanyBannersById(Convert.ToInt64(oCompany.ActiveBannerSetId));
+                    oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
+                    oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
                     oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                    oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                    oStore.Currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                     oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
                     oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                     stores.Add(oCompany.CompanyId, oStore);
+
+
+
                     cache.Set(CacheKeyName, stores, policy);
                     return stores[oCompany.CompanyId];
                 }
-                else
+                else // there are some stores already in cache.
                 {
-                    return stores[companyId];
+
+                    if (!stores.ContainsKey(companyId))
+                    {
+                        Company oCompany = GetCompanyByCompanyID(companyId);
+
+                        List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(oCompany.CompanyId);
+
+                        MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+
+
+                        oStore.Company = oCompany;
+                        oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
+                        oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
+                        oStore.Banners = _companyBannerRepository.GetCompanyBannersById(Convert.ToInt64(oCompany.ActiveBannerSetId));
+                        oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
+                        oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
+                        oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+                        oStore.Currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oCompany.OrganisationId));
+                        oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                        oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
+                        stores.Add(oCompany.CompanyId, oStore);
+                        cache.Set(CacheKeyName, stores, policy);
+                        return stores[oCompany.CompanyId];
+                    }
+                    else
+                    {
+                        return stores[companyId];
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public void GetStoreFromCache(long companyId, bool clearcache)
         {
 
-
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            CacheItemPolicy policy = null;
-
-            MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
-
-            policy = new CacheItemPolicy();
-            policy.Priority = CacheItemPriority.NotRemovable;
-            //policy.SlidingExpiration =
-            //    TimeSpan.FromMinutes(5);
-            policy.RemovedCallback = null;
-
-            Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
-            responseObject = null;
-            stores = null;
-            if (stores == null)
+            try
             {
-                stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
+                string CacheKeyName = "CompanyBaseResponse";
+                ObjectCache cache = MemoryCache.Default;
+                CacheItemPolicy policy = null;
+
+                // MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
+
+                policy = new CacheItemPolicy();
+                policy.Priority = CacheItemPriority.NotRemovable;
+                //policy.SlidingExpiration =
+                //    TimeSpan.FromMinutes(5);
+                policy.RemovedCallback = null;
+
+                Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
+                if (stores.ContainsKey(companyId))
+                {
+                    stores.Remove(companyId);
+                    stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
 
-                List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
+                    List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
 
-                Company oCompany = GetCompanyByCompanyID(companyId);
+                    Company oCompany = GetCompanyByCompanyID(companyId);
 
-                CacheEntryRemovedCallback callback = null;
+                    CacheEntryRemovedCallback callback = null;
 
-                MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
-                oStore.Company = oCompany;
-                oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
-                oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
-                oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
-                oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
-                oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
-                oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
-                oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
-                oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
-                stores.Add(oCompany.CompanyId, oStore);
-                cache.Set(CacheKeyName, stores, policy);
+                    MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+                    oStore.Company = oCompany;
+                    oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
+                    oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
+                    oStore.Banners = _companyBannerRepository.GetCompanyBannersById(Convert.ToInt64(oCompany.ActiveBannerSetId));
+                    oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
+                    oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
+                    oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+                    oStore.Currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oStore.Organisation.CurrencyId));
+                    oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                    oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
+                    stores.Add(oCompany.CompanyId, oStore);
+                    cache.Set(CacheKeyName, stores, policy);
+                }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public long GetStoreIdFromDomain(string domain)
         {
-            return _CompanyRepository.GetStoreIdFromDomain(domain);
+            try
+            {
+                return _CompanyRepository.GetStoreIdFromDomain(domain);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<ProductCategory> GetCompanyParentCategoriesById(long companyId, long OrganisationId)
         {
-            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
+            try
+            {
+                return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
         {
-            return _CompanyRepository.SearchCompanies(request);
+            try
+            {
+                return _CompanyRepository.SearchCompanies(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public CompanyContact GetUserByEmailAndPassword(string email, string password)
         {
-            return _CompanyContactRepository.GetContactUser(email, password);
+            try
+            {
+                return _CompanyContactRepository.GetContactUser(email, password);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public CompanyContact GetContactByFirstName(string FName)
         {
-            return _CompanyContactRepository.GetContactByFirstName(FName);
+            try
+            {
+                return _CompanyContactRepository.GetContactByFirstName(FName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
-        public CompanyContact GetContactByEmail(string Email,long OrganisationID)
+
+        public CompanyContact GetContactByEmail(string Email, long OrganisationID)
         {
-            return _CompanyContactRepository.GetContactByEmail(Email,OrganisationID);
+            try
+            {
+                return _CompanyContactRepository.GetContactByEmail(Email, OrganisationID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
         }
 
         public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID)
         {
-            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName, SaleAndOrderManagerID, StoreID);
+            try
+            {
+                return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName, SaleAndOrderManagerID, StoreID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
 
 
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
-            return _CompanyRepository.GetStoreById(CompanyID);
+            try
+            {
+                return _CompanyRepository.GetStoreById(CompanyID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public CompanyContact GetContactByID(Int64 ContactID)
         {
-            return _CompanyContactRepository.GetContactByID(ContactID);
+            try
+            {
+                return _CompanyContactRepository.GetContactByID(ContactID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
         {
-            return _addressRepository.GetAddressesByTerritoryID(TerritoryID);
-        }
-        public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
-        {
+            try
+            {
+                return _addressRepository.GetAddressesByTerritoryID(TerritoryID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-            return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact, TwitterScreenName);
+        }
+        public CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId)
+        {
+            try
+            {
+                return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact, TwitterScreenName, OrganisationId, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public string GetUiCulture(long organisationId)
         {
-            return _globalLanguageRepository.GetLanguageCodeById(organisationId);
+            try
+            {
+                return _globalLanguageRepository.GetLanguageCodeById(organisationId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
 
         }
 
         public CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID)
         {
-            return _CompanyContactRepository.GetContactByEmailAndMode(Email, Type, customerID);
+            try
+            {
+                return _CompanyContactRepository.GetContactByEmailAndMode(Email, Type, customerID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
 
         public string GeneratePasswordHash(string plainText)
         {
-            return _CompanyContactRepository.GeneratePasswordHash(plainText);
+            try
+            {
+                return _CompanyContactRepository.GeneratePasswordHash(plainText);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public void UpdateUserPassword(int userId, string pass)
         {
-            _CompanyContactRepository.UpdateUserPassword(userId, pass);
+            try
+            {
+                _CompanyContactRepository.UpdateUserPassword(userId, pass);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public SystemUser GetSystemUserById(long SystemUserId)
         {
-            return _systemUserRepository.GetSalesManagerById(SystemUserId);
+            try
+            {
+                return _systemUserRepository.GetSalesManagerById(SystemUserId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
         public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID)
         {
-            return _campaignRepository.AddMsgToTblQueue(Toemail, CC, ToName, msgbody, fromName, fromEmail, smtpUserName, ServerPass, ServerName, subject, AttachmentList, CampaignReportID);
+            try
+            {
+                return _campaignRepository.AddMsgToTblQueue(Toemail, CC, ToName, msgbody, fromName, fromEmail, smtpUserName, ServerPass, ServerName, subject, AttachmentList, CampaignReportID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
 
         }
 
 
         public List<ProductCategory> GetAllParentCorporateCatalog(int customerId)
         {
-            return _productCategoryRepository.GetAllParentCorporateCatalog(customerId);
+            try
+            {
+                return _productCategoryRepository.GetAllParentCorporateCatalog(customerId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId)
         {
-            return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
+            try
+            {
+                return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId)
         {
-            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
+            try
+            {
+                return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public List<ProductCategory> GetAllCategories(long companyId)
         {
-            return _productCategoryRepository.GetAllCategoriesByStoreId(companyId);
+            try
+            {
+                return _productCategoryRepository.GetAllCategoriesByStoreId(companyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
-        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId)
+        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId,long OrganisationId)
         {
-            return _CompanyContactRepository.GetCorporateUser(email, password, companyId);
+            try
+            {
+                return _CompanyContactRepository.GetCorporateUser(email, password, companyId,OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public ProductCategory GetCategoryById(long categoryId)
         {
-            return _productCategoryRepository.GetCategoryById(categoryId);
+            try
+            {
+                return _productCategoryRepository.GetCategoryById(categoryId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
-        public List<ProductCategory> GetChildCategories(long categoryId)
+        public List<ProductCategory> GetChildCategories(long categoryId, long CompanyId)
         {
-            return _productCategoryRepository.GetChildCategories(categoryId);
+            try
+            {
+                return _productCategoryRepository.GetChildCategories(categoryId, CompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId)
         {
-            return _productCategoryRepository.GetAllChildCorporateCatalogByTerritory(customerId, ContactId, ParentCatId);
+            try
+            {
+                return _productCategoryRepository.GetAllChildCorporateCatalogByTerritory(customerId, ContactId, ParentCatId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
 
         }
 
 
         public string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode, string StoreName, Address address = null)
         {
-
-            this.pageTitle = "";
-            this.MetaKeywords = "";
-            this.MetaDEsc = "";
-            if (address != null)
+            try
             {
-                this.pageTitle = MetaTitle + " - " + StoreName + ", " + address.City + ", " + address.State;
-                this.MetaKeywords = metaKeyword + ", " + address.City + ", " + address.State + ", " + address.Country + "," + address.PostCode;
-
-                if (!string.IsNullOrEmpty(metaDesc))
+                this.pageTitle = "";
+                this.MetaKeywords = "";
+                this.MetaDEsc = "";
+                if (address != null)
                 {
-                    if (metaDesc.Length > 156)
+                    this.pageTitle = MetaTitle + " - " + StoreName + ", " + address.City + ", " + address.State;
+                    this.MetaKeywords = metaKeyword + ", " + address.City + ", " + address.State + ", " + address.Country + "," + address.PostCode;
+
+                    if (!string.IsNullOrEmpty(metaDesc))
                     {
-                        this.MetaDEsc = metaDesc.Substring(0, 156) + " - " + StoreName + ", " + address.City + ", " + address.State;
-                    }
-                    else
-                    {
-                        this.MetaDEsc = metaDesc + " - " + StoreName + ", " + address.City + ", " + address.State;
+                        if (metaDesc.Length > 156)
+                        {
+                            this.MetaDEsc = metaDesc.Substring(0, 156) + " - " + StoreName + ", " + address.City + ", " + address.State;
+                        }
+                        else
+                        {
+                            this.MetaDEsc = metaDesc + " - " + StoreName + ", " + address.City + ", " + address.State;
+                        }
                     }
                 }
-            }
-            else 
-            {
-                this.pageTitle = MetaTitle;
-                this.MetaKeywords = metaKeyword;
-                if (!string.IsNullOrEmpty(metaDesc))
+                else
                 {
-                    if (metaDesc.Length > 156)
+                    this.pageTitle = MetaTitle;
+                    this.MetaKeywords = metaKeyword;
+                    if (!string.IsNullOrEmpty(metaDesc))
                     {
-                        this.MetaDEsc = metaDesc.Substring(0, 156);
-                    }
-                    else
-                    {
-                        this.MetaDEsc = metaDesc + " - " + StoreName;
+                        if (metaDesc.Length > 156)
+                        {
+                            this.MetaDEsc = metaDesc.Substring(0, 156);
+                        }
+                        else
+                        {
+                            this.MetaDEsc = metaDesc + " - " + StoreName;
+                        }
                     }
                 }
+
+                return new[] { pageTitle, MetaKeywords, MetaDEsc };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
-            return new[] { pageTitle, MetaKeywords, MetaDEsc };
         }
 
         public Address GetDefaultAddressByStoreID(Int64 StoreID)
         {
-            return _addressRepository.GetDefaultAddressByStoreID(StoreID);
+            try
+            {
+                return _addressRepository.GetDefaultAddressByStoreID(StoreID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID)
         {
-            return _itemRepository.GetRetailOrCorpPublishedProducts(ProductCategoryID);
+            try
+            {
+                return _itemRepository.GetRetailOrCorpPublishedProducts(ProductCategoryID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
-        public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
+        public ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId)
         {
-            return _itemRepository.GetFirstStockOptByItemID(ItemId, CompanyId);
+            try
+            {
+                return _itemRepository.GetFirstStockOptByItemID(ItemId, CompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId)
         {
-            return _itemRepository.GetPriceMatrixByItemID(ItemId);
+            try
+            {
+                return _itemRepository.GetPriceMatrixByItemID(ItemId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public string FormatDecimalValueToTwoDecimal(string valueToFormat)
         {
-            if (!string.IsNullOrEmpty(valueToFormat))
+            try
             {
-                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+                if (!string.IsNullOrEmpty(valueToFormat))
+                {
+                    return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+                }
+                else
+                {
+                    return "";
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                return "";
+                throw ex;
             }
 
         }
         public double CalculateVATOnPrice(double ActualPrice, double TaxValue)
         {
-            double Price = ActualPrice + ((ActualPrice * TaxValue) / 100);
-            return Price;
+            try
+            {
+                double Price = ActualPrice + ((ActualPrice * TaxValue) / 100);
+                return Price;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public double CalculateDiscount(double price, double discountPrecentage)
         {
-            return (price - (price * (discountPrecentage / 100)));
+            try
+            {
+                return (price - (price * (discountPrecentage / 100)));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
-        public long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId, CompanyContact regContact = null)
+        public long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId, long StoreId, CompanyContact regContact = null)
         {
-            return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, OrganisationId, regContact);
+            try
+            {
+                return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, OrganisationId, StoreId, regContact);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public Organisation getOrganisatonByID(int OID)
         {
-            return _organisationRepository.GetOrganizatiobByID(OID);
+            try
+            {
+                return _organisationRepository.GetOrganizatiobByID(OID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
 
         }
         public string GetContactMobile(long CID)
         {
-            return _CompanyContactRepository.GetContactMobile(CID);
+            try
+            {
+                return _CompanyContactRepository.GetContactMobile(CID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public CmsPage getPageByID(long PageID)
         {
-            return _cmsPageRepositary.getPageByID(PageID);
+            try
+            {
+                return _cmsPageRepositary.getPageByID(PageID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public bool canContactPlaceOrder(long contactID, out bool hasWebAccess)
         {
-            return _CompanyContactRepository.canContactPlaceOrder(contactID, out hasWebAccess);
+            try
+            {
+                return _CompanyContactRepository.canContactPlaceOrder(contactID, out hasWebAccess);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
         }
 
         public string GetCountryNameById(long CountryId)
         {
-            return _countryRepository.GetCountryNameById(CountryId);
+            try
+            {
+                return _countryRepository.GetCountryNameById(CountryId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
 
@@ -600,9 +928,9 @@ namespace MPC.Implementation.WebStoreServices
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public CompanyContact GetRetailUser(string email, string password)
+        public CompanyContact GetRetailUser(string email, string password, long OrganisationId)
         {
-            return _CompanyContactRepository.GetRetailUser(email, password);
+            return _CompanyContactRepository.GetRetailUser(email, password, OrganisationId);
         }
         public Address GetAddressByID(long AddressID)
         {
@@ -627,6 +955,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+
 
         public List<Address> GetAddressByCompanyID(long companyID)
         {
@@ -719,7 +1048,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-  	 public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
+        public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
         {
             try
             {
@@ -729,7 +1058,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
-        }        
+        }
         public long GetContactAddressID(long cID)
         {
             try
@@ -753,7 +1082,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-         /// <summary>
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="CompanyId"></param>
@@ -761,7 +1090,15 @@ namespace MPC.Implementation.WebStoreServices
 
         public long GetContactIdByCompanyId(long CompanyId)
         {
-            return _CompanyContactRepository.GetContactIdByCustomrID(CompanyId);
+            try
+            {
+                return _CompanyContactRepository.GetContactIdByCustomrID(CompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public string GetCountryCodeById(long countryId)
         {
@@ -782,9 +1119,17 @@ namespace MPC.Implementation.WebStoreServices
         /// <returns></returns>
         public long GetContactIdByRole(long CompanyID, int Role)
         {
-            return _CompanyContactRepository.GetContactIdByRole(CompanyID, Role);
+            try
+            {
+                return _CompanyContactRepository.GetContactIdByRole(CompanyID, Role);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
-        
+
 
         public string SystemWeight(long OrganisationID)
         {
@@ -815,7 +1160,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _CompanyContactRepository.GetCcompanyByTerritoryID(ContactId);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -827,7 +1172,7 @@ namespace MPC.Implementation.WebStoreServices
             _CompanyRepository.Update(Instance);
             _CompanyRepository.SaveChanges();
         }
-     
+
         public void UpdateContactCompany(CompanyContact Instance)
         {
             _CompanyContactRepository.Update(Instance);
@@ -836,26 +1181,256 @@ namespace MPC.Implementation.WebStoreServices
 
         public bool UpdateCompanyContactForRetail(CompanyContact Instance)
         {
+            try
+            {
+                return _CompanyContactRepository.UpdateCompanyContactForRetail(Instance);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-           return _CompanyContactRepository.UpdateCompanyContactForRetail(Instance);
+
 
 
         }
-        public bool  UpdateCompanyContactForCorporate(CompanyContact Instance)
+        public bool UpdateCompanyContactForCorporate(CompanyContact Instance)
         {
+            try
+            {
+                return _CompanyContactRepository.UpdateCompanyContactForCorporate(Instance);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-           return  _CompanyContactRepository.UpdateCompanyContactForCorporate(Instance);
 
         }
-        
+
         #endregion
 
         public bool UpdateCompanyName(Company Instance)
         {
-           return  _CompanyRepository.UpdateCompanyName(Instance);
-        
+            try
+            {
+                return _CompanyRepository.UpdateCompanyName(Instance);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+
+        }
+        public CompanyContact GetContactById(int contactId)
+        {
+            return _CompanyContactRepository.GetContactById(contactId);
+        }
+
+
+
+        public Company GetCustomer(int CompanyId)
+        {
+            return _CompanyRepository.GetCustomer(CompanyId);
+        }
+
+        public bool VerifyHashSha1(string plainText, string compareWithSalt)
+        {
+            try
+            {
+                return HashingManager.VerifyHashSha1(plainText, compareWithSalt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public string GetPasswordByContactID(long ContactID)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetPasswordByContactID(ContactID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public bool SaveResetPassword(long ContactID, string Password)
+        {
+            try
+            {
+                return _CompanyContactRepository.SaveResetPassword(ContactID, Password);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CmsSkinPageWidget> GetStoreWidgets(long CompanyId)
+        {
+            try
+            {
+                return _widgetRepository.GetDomainWidgetsById2(CompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Address> GetAddressesListByContactCompanyID(long contactCompanyId)
+        {
+            return _addressRepository.GetAddressesListByContactCompanyID(contactCompanyId);
+        }
+        public List<Address> GetsearchedAddress(long CompanyId, String searchtxt)
+        {
+            return _addressRepository.GetsearchedAddress(CompanyId, searchtxt);
+        }
+
+        public bool UpdateBillingShippingAdd(Address Model)
+        {
+            return _addressRepository.UpdateBillingShippingAdd(Model);
+
+        }
+        public bool AddressNameExist(Address address)
+        {
+            return _addressRepository.AddressNameExist(address);
+        }
+        public bool AddAddBillingShippingAdd(Address Address)
+        {
+            return _addressRepository.AddAddBillingShippingAdd(Address);
+        }
+        public void ResetDefaultShippingAddress(Address address)
+        {
+            _addressRepository.ResetDefaultShippingAddress(address);
+
+        }
+        public List<State> GetCountryStates(long CountryId)
+        {
+            return _addressRepository.GetCountryStates(CountryId);
+
+        }
+        public Country GetCountryByCountryID(long CountryID)
+        {
+            return _addressRepository.GetCountryByCountryID(CountryID);
+        }
+        public State GetStateByStateID(long StateID)
+        {
+            return _addressRepository.GetStateByStateID(StateID);
+        }
+        public List<Country> GetAllCountries()
+        {
+            return _addressRepository.GetAllCountries();
+        }
+        public List<State> GetAllStates()
+        {
+            return _addressRepository.GetAllStates();
+        }
+        public CompanyContact GetContactByEmailID(string Email)
+        {
+            return _CompanyContactRepository.GetContactByEmailID(Email);
+        }
+
+        public NewsLetterSubscriber GetSubscriber(string email, long CompanyId)
+        {
+            try
+            {
+                return _newsLetterSubscriberRepository.GetSubscriber(email, CompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public int AddSubscriber(NewsLetterSubscriber subsriber)
+        {
+            try
+            {
+                return _newsLetterSubscriberRepository.AddSubscriber(subsriber);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public bool UpdateSubscriber(string subscriptionCode, SubscriberStatus status)
+        {
+            try
+            {
+                return _newsLetterSubscriberRepository.UpdateSubscriber(subscriptionCode, status);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public RaveReview GetRaveReview()
+        {
+            try
+            {
+                return _raveReviewRepository.GetRaveReview();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover)
+        {
+            return _orderrepository.GetPendingApprovelOrdersList(contactUserID, isApprover);
+        }
+        public CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode)
+        {
+            bool isValid = false;
+
+            CompanyContact ContactRecord = null;
+
+            ContactRecord = _CompanyContactRepository.GetCorporateContactForAutoLogin(ContactEmail, Convert.ToInt64(company.OrganisationId), company.CompanyId);
+
+            if (ContactRecord == null && company.isAllowRegistrationFromWeb == true) // contact already exists...
+            {
+                ContactRecord = new CompanyContact();
+                ContactRecord.FirstName = ContactFirstName;
+                ContactRecord.LastName = ContactLastName;
+                ContactRecord.Email = ContactEmail;
+                ContactRecord.OrganisationId = company.OrganisationId;
+                ContactRecord.Notes = "Temporary Password = guest";
+                ContactRecord.Password = "guest";
+                ContactRecord = _CompanyContactRepository.CreateCorporateContact(company.CompanyId, ContactRecord, "", Convert.ToInt64(company.OrganisationId), true);
+                 
+            }
+            return ContactRecord;
+        }
+        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "")
+        {
+            return _orderrepository.ApproveOrRejectOrder(orderID, loggedInContactID, orderStatus, OrdermangerID);
+        }
+
+        /// <summary>
+        /// Check web access code exists
+        /// </summary>
+        /// <param name="subscriptionCode"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public Company isValidWebAccessCode(string WebAccessCode, long OrganisationId)
+        {
+            return _CompanyRepository.isValidWebAccessCode(WebAccessCode, OrganisationId);
+        }
+
+        public CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId)
+        {
+            return _CompanyContactRepository.GetCorporateContactForAutoLogin(emailAddress, organistionId, companyId);
         }
     }
-
-
 }

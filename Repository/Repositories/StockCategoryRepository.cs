@@ -10,6 +10,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -51,7 +52,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<StockCategory> GetAll()
         {
-            return DbSet.ToList(); ;
+            return DbSet.Where(stockCategory => stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId==0).ToList();
         }
         public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
         {
@@ -61,9 +62,9 @@ namespace MPC.Repository.Repositories
             bool isCategoryIdSpecified = request.StockCategoryId != 0;
             Expression<Func<StockCategory, bool>> query =
                 s =>
-                    (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                                                                     !isStringSpecified) &&
-                                                                     ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified);
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) || !isStringSpecified) &&
+                    ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified) &&
+                    s.OrganisationId == OrganisationId;
 
             int rowCount = DbSet.Count(query);
             IEnumerable<StockCategory> stockCategories = request.IsAsc
@@ -77,6 +78,7 @@ namespace MPC.Repository.Repositories
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
+
             return new StockCategoryResponse
                    {
                        RowCount = rowCount,
@@ -90,8 +92,41 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
                // List<StockCategory> stockcategories = new List<StockCategory>();
-                return db.StockCategories.Include("StockSubCategories").Where(s => s.OrganisationId == OrganisationID).ToList();
-                
+
+                Mapper.CreateMap<StockCategory, StockCategory>()
+                .ForMember(x => x.StockItems, opt => opt.Ignore());
+
+                Mapper.CreateMap<StockSubCategory, StockSubCategory>()
+               .ForMember(x => x.StockItems, opt => opt.Ignore())
+              .ForMember(x => x.StockCategory, opt => opt.Ignore());
+
+                Mapper.CreateMap<StockItem, StockItem>()
+                    .ForMember(x => x.Company, opt => opt.Ignore())
+               .ForMember(x => x.ItemSections, opt => opt.Ignore())
+               .ForMember(x => x.SectionCostCentreDetails, opt => opt.Ignore())
+               .ForMember(x => x.StockCategory, opt => opt.Ignore())
+                .ForMember(x => x.StockSubCategory, opt => opt.Ignore());
+
+
+                Mapper.CreateMap<StockCostAndPrice, StockCostAndPrice>()
+           .ForMember(x => x.StockItem, opt => opt.Ignore());
+
+
+                List<StockCategory> StockCat = db.StockCategories.Include("StockSubCategories").Where(s => s.OrganisationId == OrganisationID).ToList();
+
+
+                List<StockCategory> oOutputStockItems = new List<StockCategory>();
+
+                if (StockCat != null && StockCat.Count > 0)
+                {
+                    foreach (var item in StockCat)
+                    {
+                        var omappedItem = Mapper.Map<StockCategory, StockCategory>(item);
+                        oOutputStockItems.Add(omappedItem);
+                    }
+                }
+                return oOutputStockItems;
+            
             }
             catch(Exception ex)
             {

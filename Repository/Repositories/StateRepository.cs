@@ -43,14 +43,14 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<State> GetAll()
         {
-            return DbSet.ToList();
+            return DbSet.OrderBy(s => s.StateName).ToList();
         }
 
         public List<State> GetStates()
         {
             try
             {
-                return db.States.ToList();
+                return db.States.OrderBy(s => s.StateName).ToList();
 
             }
             catch(Exception ex)

@@ -10,7 +10,20 @@
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#divMachineListBinding")[0],
-               
+                initializeLabelPopovers = function () {
+                   // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    $('.bs-example-tooltips a').click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide'); //all but this
+                    });
+                    $("a").click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide');
+                    });
+                    $("button").click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide');
+                    });
+                   
+               },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -21,7 +34,8 @@
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
-                initialize:initialize
+                initialize: initialize,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(machineViewModel);
 

@@ -61,18 +61,20 @@ namespace MPC.MIS.Areas.Settings.Controllers
                 return;
             }
 
-            string path = Server.MapPath("~/MPC_Content/Organisations/Organisation" + organizationId);
+            string path = Server.MapPath("~/MPC_Content/Organisations/" + organizationId);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
-            path = path + "\\Organisation" + organizationId + "_" + file.FileName + ".jpeg";
+            path = path + "\\" + file.FileName;
             if (System.IO.File.Exists(path))
             {
                 System.IO.File.Delete(path);
             }
             file.SaveAs(path);
+            int indexOf = path.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+            path = path.Substring(indexOf, path.Length - indexOf);
             myOrganizationService.SaveFilePath(path);
         }
 
@@ -113,6 +115,8 @@ namespace MPC.MIS.Areas.Settings.Controllers
             return View();
 
         }
+         
+
 
     }
 }

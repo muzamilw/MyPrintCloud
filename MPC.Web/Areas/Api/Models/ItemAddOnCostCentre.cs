@@ -14,5 +14,7 @@
         public bool? IsMandatory { get; set; }
         public string CostCentreName { get; set; }
         public int? CostCentreType { get; set; }
+        public string CostCentreTypeName { get; set; }
+        public double? TotalPrice { get; set; }
     }
 }

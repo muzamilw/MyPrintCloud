@@ -6,6 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MPC.Models.DomainModels;
+using MPC.Webstore.Common;
+using System.Runtime.Caching;
+using MPC.Models.Common;
 namespace MPC.Webstore.Controllers
 {
     public class PersonalDetailAndOrderPolicyController : Controller
@@ -25,17 +28,33 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Index()
         {
-
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+          
             CompanyContact Contact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());      
 
             Estimate LastOrder = _OrderService.GetLastOrderByContactId(_webstoreAuthorizationChecker.loginContactID());
             Company CorpCompany = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
 
             CompanyTerritory CompTerritory = _myCompanyService.GetCcompanyByTerritoryID(_webstoreAuthorizationChecker.loginContactCompanyID());
-
+            ViewBag.CurrencySymbol = StoreBaseResopnse.Currency;
             ViewBag.CorpCompany = CorpCompany;
             ViewBag.CompTerritory = CompTerritory;
             ViewBag.Order = LastOrder;
+            if (StoreBaseResopnse.Company != null)
+            {
+                ViewData["Company"] = StoreBaseResopnse.Company;
+            }
+
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0)
+            {
+                ViewBag.DefaultUrl = "/Login";
+            }
+            else
+            {
+                ViewBag.DefaultUrl = "/";
+            }
 
             if (Contact != null)
             {

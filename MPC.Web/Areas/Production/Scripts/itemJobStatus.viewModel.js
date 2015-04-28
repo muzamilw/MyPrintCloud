@@ -1,0 +1,216 @@
+﻿/*
+    Module with the view model for the item Job Status.
+*/
+define("itemJobStatus/itemJobStatus.viewModel",
+    ["jquery", "amplify", "ko", "itemJobStatus/itemJobStatus.dataservice", "itemJobStatus/itemJobStatus.model", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, shared) {
+        var ist = window.ist || {};
+        ist.itemJobStatus = {
+            viewModel: (function () {
+                var // the view 
+                    view,
+                    //Currency Symbol
+                    currencySymbol = ko.observable(),
+                    // #region Arrays
+                    //Items
+                    items = ko.observableArray([]),
+                    // Item Status
+                    jobStatuses = ko.observableArray([
+                        {
+                            StatusId: 11,
+                            StatusName: "Need Assigning"
+                        },
+                        {
+                            StatusId: 12,
+                            StatusName: "In Studio"
+                        },
+                        {
+                            StatusId: 13,
+                            StatusName: "In Print/Press"
+                        },
+                        {
+                            StatusId: 14,
+                            StatusName: "In Post Press/Bindery"
+                        },
+                        {
+                            StatusId: 15,
+                            StatusName: "Ready for Shipping"
+                        },
+                        {
+                            StatusId: 16,
+                            StatusName: "Shipped & Invoiced"
+                        }
+                    ]),
+                    // #endregion
+                    // #region Observables
+                    selectedItem = ko.observable(),
+                    // #endregion
+                    dragged = function (source) {
+                        return {
+                            row: source.$parent,
+                            item: source.$data
+                        };
+                    },
+                    droppedNeedAssigning = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 11) {
+                            source.item.statusId(11);
+                            saveIitem(source.item);
+                        }
+                    },
+
+                    droppedInStudio = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 12) {
+                            source.item.statusId(12);
+                            saveIitem(source.item);
+                        }
+                    },
+
+                    droppedInPrint = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 13) {
+                            source.item.statusId(13);
+                            saveIitem(source.item);
+                        }
+                    },
+
+                    droppedInPostPress = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 14) {
+                            source.item.statusId(14);
+                            saveIitem(source.item);
+                        }
+                    },
+
+                    droppedInReadyForShipping = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 15) {
+                            source.item.statusId(15);
+                            saveIitem(source.item);
+                        }
+                    },
+                    droppedInInvoiceAndShipped = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 16) {
+                            source.item.statusId(16);
+                            saveIitem(source.item);
+                        }
+                    },
+
+                    saveIitem = function (item) {
+                        dataservice.saveItem(item.convertToServerData(), {
+                            success: function (data) {
+
+                                toastr.success("Job status successfully updated.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
+
+                                    toastr.error(exceptionMessage);
+
+                                } else {
+
+                                    toastr.error("Failed to save.");
+
+                                }
+
+                            }
+                        });
+                    },
+                    //#region Utility funntions
+                    needAssigningTotal = ko.observable(0),
+                    inStudioTotal = ko.observable(0),
+                    inPrintTotal = ko.observable(0),
+                    inPostPressTotal = ko.observable(0),
+                    inReadyForShippingTotal = ko.observable(0),
+                    inInvoiceAndShippedTotal = ko.observable(0),
+
+                    calculateTotal = ko.computed(function () {
+                        needAssigningTotal(0);
+                        inStudioTotal(0);
+                        inPrintTotal(0);
+                        inPostPressTotal(0);
+                        inReadyForShippingTotal(0);
+                        inInvoiceAndShippedTotal(0);
+                        _.each(items(), function (item) {
+                            if (item.statusId() === 11) {
+                                var total = (parseFloat(needAssigningTotal()) + parseFloat(item.qty1NetTotal()));
+                                total.toFixed(2);
+                                needAssigningTotal(total);
+                            }
+                            else if (item.statusId() === 12) {
+                                var total1 = (parseFloat(inStudioTotal()) + parseFloat(item.qty1NetTotal()));
+                                total1.toFixed(2);
+                                inStudioTotal(total1);
+                            }
+                            else if (item.statusId() === 13) {
+                                var total2 = (parseFloat(inPrintTotal()) + parseFloat(item.qty1NetTotal()));
+                                total2.toFixed(2);
+                                inPrintTotal(total2);
+                            }
+                            else if (item.statusId() === 14) {
+                                var total3 = (parseFloat(inPostPressTotal()) + parseFloat(item.qty1NetTotal()));
+                                total3.toFixed(2);
+                                inPostPressTotal(total3);
+                            }
+                            else if (item.statusId() === 15) {
+                                var total4 = (parseFloat(inReadyForShippingTotal()) + parseFloat(item.qty1NetTotal()));
+                                total4.toFixed(2);
+                                inReadyForShippingTotal(total4);
+                            }
+                            else if (item.statusId() === 16) {
+                                var total5 = (parseFloat(inInvoiceAndShippedTotal()) + parseFloat(item.qty1NetTotal()));
+                                total5.toFixed(2);
+                                inInvoiceAndShippedTotal(total5);
+                            }
+                        });
+                    });
+                // Get Base
+                getItems = function () {
+                    dataservice.getItems({
+                        success: function (data) {
+                            if (data !== null && data !== undefined) {
+                                currencySymbol(data.CurrencySymbol);
+                                var itemList = [];
+                                _.each(data.Items, function (item) {
+                                    itemList.push(model.Item.Create(item));
+                                });
+                                ko.utils.arrayPushAll(items(), itemList);
+                                items.valueHasMutated();
+                            }
+
+                        },
+                        error: function () {
+                            toastr.error("Failed to Items.");
+                        }
+                    });
+                },
+                //Initialize
+               initialize = function (specifiedView) {
+                   view = specifiedView;
+                   ko.applyBindings(view.viewModel, view.bindingRoot);
+                   getItems();
+
+               };
+                //#endregion 
+
+
+                return {
+                    initialize: initialize,
+                    items: items,
+                    dragged: dragged,
+                    droppedInStudio: droppedInStudio,
+                    droppedNeedAssigning: droppedNeedAssigning,
+                    droppedInPrint: droppedInPrint,
+                    droppedInPostPress: droppedInPostPress,
+                    droppedInReadyForShipping: droppedInReadyForShipping,
+                    droppedInInvoiceAndShipped: droppedInInvoiceAndShipped,
+                    currencySymbol: currencySymbol,
+                    needAssigningTotal: needAssigningTotal,
+                    inStudioTotal: inStudioTotal,
+                    inPrintTotal: inPrintTotal,
+                    inPostPressTotal: inPostPressTotal,
+                    inReadyForShippingTotal: inReadyForShippingTotal,
+                    inInvoiceAndShippedTotal: inInvoiceAndShippedTotal,
+
+                };
+            })()
+        };
+        return ist.itemJobStatus.viewModel;
+    });

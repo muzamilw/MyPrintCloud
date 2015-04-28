@@ -10,16 +10,21 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IOrderService
     {
+        List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber);
         int GetFirstItemIDByOrderId(int orderId);
 
-        long ProcessPublicUserOrder(string orderTitle, long OrganisationId, int storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId);
+        long ProcessPublicUserOrder(string orderTitle, long OrganisationId, StoreMode storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId);
 
         long GetUserShopCartOrderID(int status);
 
-        ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus);
+        ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus Orderstatus);
 
         DiscountVoucher GetVoucherRecord(int VId);
         Estimate GetOrderByID(long orderId);
+        bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode);
+        
+
+        bool SetOrderCreationDateAndCode(long orderId);
         bool IsVoucherValid(string voucherCode);
 
         Estimate CheckDiscountApplied(int orderId);
@@ -35,7 +40,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        long GetOrderIdByContactId(long contactId, long CompanyId);
+        long GetOrderIdByContactId(long contactId, long companyId);
 
         bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow);
 
@@ -66,12 +71,33 @@ namespace MPC.Interfaces.WebStoreServices
 
         bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
 
-       
-        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode);
+
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds);
         Estimate GetLastOrderByContactId(long ContactId);
 
 
         List<Order> GetOrdersListByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber);
         List<Order> GetOrdersListExceptPendingOrdersByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber);
+        Order GetOrderAndDetails(long orderID);
+        Address GetBillingAddress(long BillingAddressId);
+        Address GetdeliveryAddress(long ShippingAddressId);
+        long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId);
+
+        long GetOrderID(long CompanyID, long ContactID, string orderTitle, long OrganisationId);
+
+        long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null);
+
+        /// <summary>
+        /// gets cart order by company id
+        /// </summary>
+        /// <param name="ContactId"></param>
+        /// <param name="TemporaryCustomerId"></param>
+        /// <returns></returns>
+        long GetOrderIdByCompanyId(long CompanyId, OrderStatus orderStatus);
+         /// <summary>
+       /// check cookie order is the real login customer order
+       /// </summary>
+        bool IsRealCustomerOrder(long orderId, long contactId, long companyId);
+
     }
 }

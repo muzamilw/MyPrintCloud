@@ -65,42 +65,22 @@ namespace MPC.Models.DomainModels
         
         public virtual Company Company { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
+        public virtual ICollection<CategoryTerritory> CategoryTerritories { get; set; }
 
         #region Additional Properties
         /// <summary>
         /// Product Category ThumbNail File Bytes
         /// </summary>
-        //[NotMapped]
-       // public string ThumbNailBytes { get; set; }
+        [NotMapped]
+       public string ThumbNailBytes { get; set; }
 
-        /// <summary>
-        /// Product Category Thumb Nail Name
-        /// </summary>
-        //[NotMapped]
-        //public string ThumbNailFileName { get; set; }
-
-        /// <summary>
-        /// Product Category Thumb Nail Name
-        /// </summary>
-        //[NotMapped]
-        //public byte[] ThumbNailFileBytes { get; set; }
+        
         /// <summary>
         /// Product Category Image File Bytes
         /// </summary>
-        //[NotMapped]
-       // public string ImageBytes { get; set; }
+        [NotMapped]
+        public string ImageBytes { get; set; }
 
-        /// <summary>
-        /// Product Category Image Name
-        /// </summary>
-        //[NotMapped]
-        //public string ImageFileName { get; set; }
-
-        /// <summary>
-        /// Product Category Image Name
-        /// </summary>
-        //[NotMapped]
-       // public byte[] ImageFileBytes { get; set; }
         #endregion
     }
 }

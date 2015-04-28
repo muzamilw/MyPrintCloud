@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -38,6 +39,20 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get base data for Specified Company
         /// </summary>
-        OrderBaseResponseForCompany GetBaseDataForCompany(long companyId);
+        OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId);
+        /// <summary>
+        /// Get Order Statuses Count For Menu Items
+        /// </summary>
+        /// <returns></returns>
+        OrderMenuCount GetOrderScreenMenuItemCount();       
+
+        string DownloadOrderArtwork(int OrderID, string sZipName);
+        GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
+
+        string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
+
+        string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat);
+
+        string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
     }
 }

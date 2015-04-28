@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -43,6 +44,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Item By Id
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public Item Get(int id)
         {
             if (id <= 0)
@@ -56,6 +59,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Items
         /// </summary>
+        [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public ItemSearchResponse Get([FromUri] ItemSearchRequestModel request)
         {
             if (request == null || !ModelState.IsValid)
@@ -70,6 +76,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Post
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public Item Post(Item request)
         {
             if (request == null || !ModelState.IsValid)
@@ -84,6 +92,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Delete
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public void Delete(ItemDeleteRequest request)
         {
             if (request == null || !ModelState.IsValid || request.ItemId <= 0)

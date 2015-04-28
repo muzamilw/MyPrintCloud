@@ -59,6 +59,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsCustomerType = source.Company != null ? source.Company.IsCustomer : 1
             };
         }
+        
         /// <summary>
         /// Create From Domain Model
         /// </summary>
@@ -67,13 +68,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new ActivityListView
             {
                 ActivityId = source.ActivityId,
-                ActivityRef = source.ActivityRef,
+                ActivityRef = source.ActivityNotes,
                 ActivityEndTime = source.ActivityEndTime,
                 ActivityStartTime = source.ActivityStartTime,
                 FlagId = source.FlagId,
+
             };
         }
-
 
         #endregion
     }

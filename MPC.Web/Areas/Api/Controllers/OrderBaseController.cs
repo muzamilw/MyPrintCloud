@@ -1,9 +1,11 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using MPC.Interfaces.Data;
+using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -30,6 +32,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Base Data for Orders
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public OrderBaseResponse Get()
         {
             return orderService.GetBaseData().CreateFrom();

@@ -18,6 +18,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double? CreditLimit { get; set; }
         public string Terms { get; set; }
         public long TypeId { get; set; }
+        public long? CurrentThemeId { get; set; }
         public int DefaultNominalCode { get; set; }
         public int DefaultMarkUpId { get; set; }
         public DateTime? AccountOpenDate { get; set; }
@@ -39,7 +40,7 @@ namespace MPC.MIS.Areas.Api.Models
         public short? IsGeneral { get; set; }
         public int? SalesPerson { get; set; }
         public string StoreImagePath { get; set; }
-        
+        public bool? isCalculateTaxByService { get; set; }
         public string ImageName { get; set; }
         public string WebAccessCode { get; set; }
         public bool? isArchived { get; set; }
@@ -59,13 +60,12 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isDisplaySiteFooter { get; set; }
         public string RedirectWebstoreURL { get; set; }
         public int? defaultPalleteId { get; set; }
-        public bool? isDisplaylBrokerBanners { get; set; }
-        public bool? isBrokerCanLaminate { get; set; }
-        public bool? isBrokerCanRoundCorner { get; set; }
+        public bool? isCanLaminate { get; set; }
+        public bool? isCanRoundCorner { get; set; }
         public bool? isBrokerCanDeliverSameDay { get; set; }
-        public bool? isBrokerCanAcceptPaymentOnline { get; set; }
-        public bool? isBrokerOrderApprovalRequired { get; set; }
-        public string isBrokerPaymentRequired { get; set; }
+        public bool? isCanAcceptPaymentOnline { get; set; }
+        public bool? isOrderApprovalRequired { get; set; }
+        public string isPaymentRequired { get; set; }
         public bool? isWhiteLabel { get; set; }
         public string TwitterURL { get; set; }
         public string FacebookURL { get; set; }
@@ -77,7 +77,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string WatermarkText { get; set; }
         public int? CoreCustomerId { get; set; }
         public string StoreBackgroundImage { get; set; }
-        public bool? isDisplayBrokerSecondaryPages { get; set; }
         public int? PriceFlagId { get; set; }
         public string isIncludeVAT { get; set; }
         public bool? isAllowRegistrationFromWeb { get; set; }
@@ -95,10 +94,10 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? canUserPlaceOrderWithoutApproval { get; set; }
         public bool? CanUserEditProfile { get; set; }
         public long? OrganisationId { get; set; }
-        public bool? includeEmailBrokerArtworkOrderReport { get; set; }
-        public bool? includeEmailBrokerArtworkOrderXML { get; set; }
-        public bool? includeEmailBrokerArtworkOrderJobCard { get; set; }
-        public bool? makeEmailBrokerArtworkOrderProductionReady { get; set; }
+        public bool? includeEmailArtworkOrderReport { get; set; }
+        public bool? includeEmailArtworkOrderXML { get; set; }
+        public bool? includeEmailArtworkOrderJobCard { get; set; }
+        public bool? makeEmailArtworkOrderProductionReady { get; set; }
         public Guid? SalesAndOrderManagerId1 { get; set; }
         public Guid? SalesAndOrderManagerId2 { get; set; }
         public Guid? ProductionManagerId1 { get; set; }
@@ -107,18 +106,50 @@ namespace MPC.MIS.Areas.Api.Models
         public Guid? StockNotificationManagerId2 { get; set; }
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
+        public bool? IsDisplayDiscountVoucherCode { get; set; }
+
         public long? PickupAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
         public int CompanyContactCount { get; set; }
         public int CompanyAddressesCount { get; set; }
+        public long? ActiveBannerSetId { get; set; }
+        public long? StoreId { get; set; }
+        /// <summary>
+        /// Map Image Url
+        /// </summary>
+        public string MapImageUrl { get; set; }
 
+        public byte[] MapImageS2CBytes { get; set; }
+        /// <summary>
+        /// Default Sprite Image Source
+        /// </summary>
+        public string MapImageSource
+        {
+            get
+            {
+                if (MapImageS2CBytes == null)
+                {
+                    return string.Empty;
+                }
 
+                string base64 = Convert.ToBase64String(MapImageS2CBytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
+        /// <summary>
+        /// Tax Label
+        /// </summary>
+        public string TaxLabel { get; set; }
+        public double? TaxRate { get; set; }
+
+        public List<ScopeVariable> ScopeVariables { get; set; }
         #endregion
 
         #region Public List Properties
 
         public List<RaveReview> RaveReviews { get; set; }
-        public List<CompanyCMYKColor> CompanyCmykColors { get; set; }
+        public List<TemplateColorStyle> TemplateColorStyles { get; set; }
         public ICollection<PaymentGateway> PaymentGateways { get; set; }
         public virtual CompanyType CompanyType { get; set; }
         public List<CompanyContact> CompanyContacts { get; set; }
@@ -150,7 +181,14 @@ namespace MPC.MIS.Areas.Api.Models
 
         public List<MediaLibrary> MediaLibraries { get; set; }
         public List<CostCentreDropDown> CompanyCostCentres { get; set; }
-       
+        public List<FieldVariable> FieldVariables { get; set; }
+        public List<SmartForm> SmartForms { get; set; }
+
+        #region Campaigns
+        public List<Campaign> NewAddedCampaigns { get; set; }
+        public List<Campaign> EdittedCampaigns { get; set; }
+        public List<Campaign> DeletedCampaigns { get; set; }
+        #endregion
 
         #region CMS Pages
 
@@ -212,6 +250,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string ImageBytes { get; set; }
 
         public byte[] Image { get; set; }
+
         /// <summary>
         /// Image Source
         /// </summary>
@@ -231,6 +270,8 @@ namespace MPC.MIS.Areas.Api.Models
 
 
         #endregion
+
+
 
         #region Backgroud Image
         public string StoreBackgroundFile { get; set; }
@@ -318,6 +359,48 @@ namespace MPC.MIS.Areas.Api.Models
             }
         }
         #endregion
+
+        #region Supplier Image
+        /// <summary>
+        /// Company Logo Source
+        /// </summary>
+        public string CompanyLogoSource { get; set; }
+        /// <summary>
+        /// Company Logo Name
+        /// </summary>
+        public string CompanyLogoName { get; set; }
+        #endregion
+
+        #region Store Overflow Image
+
+        // client to server
+        public string StoreWorkflowImageBytes { get; set; }
+
+        // client to server
+        public string StoreWorkflowImage { get; set; }
+
+        public byte[] WorkflowS2CBytes { get; set; }
+
+        /// <summary>
+        /// Store Backgroud Image Source
+        /// </summary>
+        public string WorkflowS2CBytesConverter
+        {
+            get
+            {
+                if (WorkflowS2CBytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(WorkflowS2CBytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
+        #endregion
+
+
         #endregion
     }
 }

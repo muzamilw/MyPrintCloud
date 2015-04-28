@@ -1,63 +1,89 @@
 ﻿@model MPC.Models.DomainModels.Company
 @using MPC.Webstore.Common;
-@{ Layout = null;}
-
-<div class="container content_area">
-    <div class="row left_right_padding">
-        <div class="padding_top_bottom_topheader">
-            <div class="company_logo col-md-3 col-lg-3 col-xs-12 col-sm-4">
-                <a href='@ViewBag.DefaultUrl'>
-                    <img src="@Html.GetAppBasePath()@Model.Image" class="pink_company_top_logo LOgo_ImgeP" />
-                </a>
-                <a id="lbl_PoweredBy" class="MLF top_header" target="_blank" href="http://www.myprintcloud.com/">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPoweredBy", UserCookieManager.StoreId))</a>
-
-            </div>
-            <div style="float: right; padding-right: 0px; padding-left: 0px;" class="col-md-9 col-lg-9 col-xs-12 col-sm-8 cntrightMenu">
-
-                <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple">
-                                    @if (Model.IsCustomer != 3)
-                                    {
-
-                                        <a id="lnkAllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.StoreId))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
-                        <a id="lnkRequestQuote" style="cursor: pointer;" class="iconHover" >@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.StoreId))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
-                        <a id="lnkContactUs" href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.StoreId))</a>
-                }
-
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="top_header">
+    <div class="container content_area">
+        <div class="left_right_padding">
+            <div class="padding_top_bottom_topheader">
+                <div class="company_logo col-md-3 col-lg-3 col-xs-3 col-sm-4 col-xs-12">
+                    <a href='@ViewBag.DefaultUrl'>
+                        <img src="/@Model.Image" class="pink_company_top_logo LOgo_ImgeP" />
+                    </a>
+                    <a id="lbl_PoweredBy" class="MLF" target="_blank" href="http://www.myprintcloud.com/">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPoweredBy", UserCookieManager.WBStoreId))</a>
 
                 </div>
-                <div class="phone_number_sec ">
-                    <div class="TeleImg" id="telephoneIcon">
-                    </div>
-                    <div id="lblPoneNumber" class="lblPhoneNo">
-                        @Model.PhoneNo
-                    </div>
-                </div>
-                <div id="cntresponsiveMenu">
-                    <div id="CollapseBtn" class="float_right">
-                        <a class="icon-align-justify">
+                <div style="float: right; padding-left: 0px;" class="col-md-9 col-lg-9 col-xs-3 col-sm-8 col-xs-12 cntrightMenu">
 
-                        </a>
-                    </div>
-                    <div class="clearBoth">
-                    </div>
-                </div>
-            </div>
-            <div class="clearBoth">
-            </div>
-            <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                <ul id="ulCollapseMenu" style="">
-                    <li>
-                        <asp:hyperlink id="lnk_AllProducts" navigateurl="~/Allproducts.aspx">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.StoreId))</asp:hyperlink>
-                    </li>
-                    <li>
-                        <a id="lnk_RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.StoreId))</a>
-                    </li>
-                    <li>
-                        <asp:hyperlink id="lnk_ContactUs" navigateurl="~/ContactUs.aspx">>@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.StoreId))</asp:hyperlink>
+                    <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple">
+                        @if (Model.IsCustomer != 3)
+                        {
 
-                    </li>
-                </ul>
+                            <a id="lnkAllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
+                            <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                            <a id="lnkContactUs" href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</a>
+                        }
+
+
+                    </div>
+                    <div class="phone_number_sec ">
+                        <div class="TeleImg" id="telephoneIcon">
+                        </div>
+                        <div id="lblPoneNumber" class="lblPhoneNo">
+                            @Model.PhoneNo
+                        </div>
+                    </div>
+                    @if (Model.IsCustomer != 3)
+                    {  <div id="cntresponsiveMenu">
+                        <div id="CollapseBtn" class="float_right" onclick="ToggleMenu();">
+                            <a class="icon-align-justify">
+
+                            </a>
+                        </div>
+                        <div class="clearBoth">
+                        </div>
+                    </div>
+
+                    }
+
+                </div>
+                <div class="clearBoth">
+                </div>
+@if (Model.IsCustomer != 3)
+{
+    <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <ul id="ulCollapseMenu" style="">
+            <li>
+                <a id="lnk_AllProducts" href="/AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</a>
+            </li>
+            <li>
+                <a id="lnk_RequestQuote" href="/RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</a>
+            </li>
+            <li>
+                <a id="lnk_ContactUs" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</a>
+
+            </li>
+        </ul>
+    </div>
+}
+               
             </div>
         </div>
     </div>
 </div>
+@section scripts {
+    <script>
+
+        function ToggleMenu() {
+            $("#collapsedMenu").slideToggle();
+
+        }
+
+        function ToggleProfile() {
+            $("#profileMenu").slideToggle();
+
+        }
+
+    </script>
+}

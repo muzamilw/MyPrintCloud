@@ -9,8 +9,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new SystemUserDropDown
                    {
                        SystemUserId = source.SystemUserId,
-                       UserName = source.UserName
+                       UserName = source.UserName,
+                       FullName = source.FullName,
+                       VariableString = GetVariableString(source)
                    };
+        }
+
+        private static string GetVariableString(MPC.Models.DomainModels.SystemUser source)
+        {
+            string sv = "{resource, ID=&quot;" + source.Email + "&quot;,Name=&quot;" + source.FullName + "&quot;,returnvalue=costperhour}";
+            return sv;
         }
     }
 }

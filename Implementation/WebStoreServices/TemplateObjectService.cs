@@ -113,7 +113,8 @@ namespace MPC.Implementation.WebStoreServices
             oTempItem.QuickTextOrder = 0;
             oTempItem.CharSpacing = 0;
             oTempItem.ColorHex = oColorConv.getColorHex(0, 100, 100, 20);
-
+            oTempItem.originalContentString = oTempItem.ContentString;
+           
             list.Insert(0, oTempItem);
             return list;
         }

@@ -2,7 +2,7 @@
     var
     InventoryListView = function (specifiedStockItemId, specifiedName, specifiedWeight, specifiedPerQtyQty, specifiedSizecolour, specifiedCategoryName,
                             specifiedSubCategoryName, specifiedWeightUnitName, specifiedFullCategoryName, specifiedSupplierCompanyName
-                            ) {
+                            , specifiedRegion) {
         var
             self,
             //Unique ID
@@ -13,6 +13,8 @@
             weight = ko.observable(specifiedWeight),
             //Per quantity
             perQtyQty = ko.observable(specifiedPerQtyQty),
+             //Region
+            region = ko.observable(specifiedRegion),
             //Flag Color
             colour = ko.observable(specifiedSizecolour),
             //Stock Category Name
@@ -23,12 +25,14 @@
             weightUnitName = ko.observable(specifiedWeightUnitName),
             //category + Sub Category Name
             fullCategoryName = ko.observable(specifiedFullCategoryName),
+            // Per pack Cost within current date
+            packCostPrice = ko.observable(specifiedFullCategoryName),
             ///Supplier Company Name
             supplierCompanyName = ko.observable(specifiedSupplierCompanyName),
             convertToServerData = function () {
                 return {
                     StockItemId: itemId(),
-                }
+                };
             };
         self = {
             itemId: itemId,
@@ -39,6 +43,7 @@
             categoryName: categoryName,
             subCategoryName: subCategoryName,
             weightUnitName: weightUnitName,
+            packCostPrice:packCostPrice,
             fullCategoryName: fullCategoryName,
             supplierCompanyName: supplierCompanyName,
             convertToServerData: convertToServerData,
@@ -85,7 +90,7 @@
             //Is Disabled
             isDisabled = ko.observable(specifiedIsDisabled),
             //Paper Type ID
-            paperTypeId = ko.observable(specifiedPaperTypeId),
+            paperTypeId = ko.observable((specifiedPaperTypeId == undefined || specifiedPaperTypeId === null) ? 1 : specifiedPaperTypeId),
             //Item Size Selected Unit Id
             itemSizeSelectedUnitId = ko.observable(specifiedItemSizeSelectedUnitId),
             //perQtyQty
@@ -210,11 +215,12 @@
         hasChanges = ko.computed(function () {
             return dirtyFlag.isDirty();
         }),
-        convertToServerData = function () {
+        convertToServerData = function (region) {
             return {
                 StockItemId: itemId(),
                 ItemName: itemName(),
                 ItemCode: itemCode(),
+                Region: region,
                 SupplierId: supplierId(),
                 CategoryId: categoryId(),
                 SubCategoryId: subCategoryId(),
@@ -315,9 +321,9 @@
             //Pack Cost Price
             packCostPrice = ko.observable(specifiedPackCostPrice),
              //To Date 
-            toDate = ko.observable(specifiedToDate === null ? moment().toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
+            toDate = ko.observable((specifiedToDate === null || specifiedToDate === undefined) ? moment().add('days', 1).toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
             //From Date
-            fromDate = ko.observable(specifiedFromDate === null ? moment().toDate() : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
+            fromDate = ko.observable((specifiedFromDate === null || specifiedFromDate == undefined) ? moment().toDate() : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
                 //Cost Or Price Identifier
             costOrPriceIdentifier = ko.observable(specifiedCostOrPriceIdentifier),
             // Formatted From Date
@@ -412,8 +418,10 @@
     };
     //Create Factory 
     InventoryListView.Create = function (source) {
-        return new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
-                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName);
+        var obj= new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
+                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region);
+        obj.packCostPrice(source.PackCostPrice || '');
+        return obj;
     };
 
     return {

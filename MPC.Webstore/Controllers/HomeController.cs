@@ -25,6 +25,8 @@ using MPC.Models.DomainModels;
 using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
 using System.Web.Security;
+using WebSupergoo.ABCpdf8;
+using System.Globalization;
 
 
 
@@ -39,6 +41,8 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
         private ICostCentreService _CostCentreService;
+
+        private readonly IOrderService _OrderService;
 
         #endregion
         [Dependency]
@@ -56,7 +60,8 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService)
+        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
+            , IOrderService OrderService)
         {
             if (myCompanyService == null)
             {
@@ -70,9 +75,14 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("CostCentreService");
             }
+            if (OrderService == null)
+            {
+                throw new ArgumentNullException("OrderService");
+            }
             this._CostCentreService = CostCentreService;
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
+            this._OrderService = OrderService;
 
         }
 
@@ -82,24 +92,68 @@ namespace MPC.Webstore.Controllers
         
         public ActionResult Index()
         {
-            SetUserClaim(UserCookieManager.OrganisationID);
+              
+         
+            SetUserClaim(UserCookieManager.WEBOrganisationID);
 
-
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Site.css";  
-
+            // dirty trick to set cookies after auto login
+            if (UserCookieManager.PerformAutoLogin == true) 
+            {
+                UserCookieManager.WEBContactFirstName = UserCookieManager.WEBContactFirstName;
+                UserCookieManager.WEBContactLastName = UserCookieManager.WEBContactLastName;
+                UserCookieManager.ContactCanEditProfile =  UserCookieManager.ContactCanEditProfile;
+                UserCookieManager.ShowPriceOnWebstore = UserCookieManager.ShowPriceOnWebstore;
+                UserCookieManager.WEBEmail = UserCookieManager.WEBEmail;
+                UserCookieManager.PerformAutoLogin = false;
+            }
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
-
-            string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
 
          
 
+             string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
-            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
+            //iqra to fix the route of error page, consult khurram if required to get it propper.
+            if (UserCookieManager.WBStoreId != 0)
+            {
+                Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
+                
+                  
+                if (domainResponse.ContainsKey(UserCookieManager.WBStoreId))
+                {
+                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
+                    string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+                    if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+                    {
+                        if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                        {
+                            Response.Redirect("/Login");
+                        }
+                    }
+                    else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                    {
+                        Response.Redirect("/");
 
-            StoreBaseResopnse = null;
+                    }
+
+                    model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
+                    StoreBaseResopnse = null;
+                 
+                }
+                else
+                {
+                    //domain not found;
+                    return RedirectToAction("Index", "Error", new { code="DomainNotFound"});
+                }
+            }
+            else
+            {
+                //domain not found;
+                return RedirectToAction("Index", "Error", new { code = "DomainNotFound" });
+            }
+
+           
+            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Site.css";  
             return View(model);
         }
 
@@ -113,9 +167,13 @@ namespace MPC.Webstore.Controllers
                 
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
-            else
+            else        //this is default page being fired.
             {
-                return allPageWidgets.Where(widget => widget.PageId == 1).OrderBy(s => s.Sequence).ToList();
+                MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName.ToLower() == "home").FirstOrDefault();
+
+                SetPageMEtaTitle(Page, DefaultAddress, CompanyName);
+
+                return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
         }
                 /// <summary>
@@ -138,101 +196,139 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult Compile()
         {
-            _CostCentreService.SaveCostCentre(335, 1, "Test");
-
+           // _CostCentreService.SaveCostCentre(335, 1, "Test");
+           
             return Content("Cost Centre compiled");
         }
 
         public ActionResult About(string mode)
         {
-            if (mode == "compile")
+            try
             {
-                _CostCentreService.SaveCostCentre(335, 1, "Test");
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=46783";
+
+                string FileName = "_OrderReceipt.pdf";
+                string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Downloads/" + FileName);
+                string AttachmentPath = "/mpc_content/Downloads/" + FileName;
+                using (Doc theDoc = new Doc())
+                {
+                      //theDoc.HtmlOptions.Engine = EngineType.Gecko;
+                    theDoc.FontSize = 22;
+                    int objid = theDoc.AddImageUrl(URl);
+
+
+                    while (true)
+                    {
+                        theDoc.FrameRect();
+                        if (!theDoc.Chainable(objid))
+                            break;
+                        theDoc.Page = theDoc.AddPage();
+                        objid = theDoc.AddImageToChain(objid);
+                    }
+                    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Downloads/");
+                    if (!Directory.Exists(physicalFolderPath))
+                        Directory.CreateDirectory(physicalFolderPath);
+                    theDoc.Save(FilePath);
+                    theDoc.Clear();
+                }
+                // if (System.IO.File.Exists(FilePath))
+                //return AttachmentPath;
+                //   else
+                // return null;
+            }
+            catch (Exception e)
+            {
+                //   LoggingManager.LogBLLException(e);
+                // return null;
+            }
+            //if (mode == "compile")
+            //{
+         //   _CostCentreService.SaveCostCentre(Convert.ToInt32(mode), 1, "Test");
 
                 return Content("Cost Centre compiled");
-            }
-            else
-            {
-                AppDomain _AppDomain = null;
+            //}
+            //else
+            //{
+            //    AppDomain _AppDomain = null;
 
-                try
-                {
+            //    try
+            //    {
 
-                    string OrganizationName = "Test";
-                    AppDomainSetup _AppDomainSetup = new AppDomainSetup();
-
-
-                    object _oLocalObject;
-                    ICostCentreLoader _oRemoteObject;
-
-                    object[] _CostCentreParamsArray = new object[12];
-
-                    _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-                    _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+            //        string OrganizationName = "Test";
+            //        AppDomainSetup _AppDomainSetup = new AppDomainSetup();
 
 
-                    _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
-                    //Me._AppDomain.InitializeLifetimeService()
+            //        object _oLocalObject;
+            //        ICostCentreLoader _oRemoteObject;
 
-                    List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+            //        object[] _CostCentreParamsArray = new object[12];
 
-
-                    //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
-                    CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
-                    _CostCentreLaoderFactory.InitializeLifetimeService();
+            //        _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+            //        _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
 
 
-                    //_CostCentreParamsArray(0) = Common.g_GlobalData;
-                    //GlobalData
-                    _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
-                    //this mode will load the questionqueue
-                    _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
-                    //QuestionQueue / Execution Queue
-                    _CostCentreParamsArray[3] = CostCentreQueue;
-                    //CostCentreQueue
-                    _CostCentreParamsArray[4] = 1;
-                    //MultipleQuantities
-                    _CostCentreParamsArray[5] = 1;
-                    //CurrentQuantity
-                    _CostCentreParamsArray[6] = new List<StockQueueItem>();
-                    //StockQueue
-                    _CostCentreParamsArray[7] = new List<InputQueueItem>();
-                    //InputQueue
-                    _CostCentreParamsArray[8] = new ItemSection(); //this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
-                    _CostCentreParamsArray[9] = 1;
+            //        _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
+            //        //Me._AppDomain.InitializeLifetimeService()
+
+            //        List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
 
 
-                    CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(335);
-
-                    CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
-
-
-
-                    _oLocalObject = _CostCentreLaoderFactory.Create(ControllerContext.HttpContext.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
-                    _oRemoteObject = (ICostCentreLoader)_oLocalObject;
-
-                    CostCentreCostResult oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+            //        //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
+            //        CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
+            //        _CostCentreLaoderFactory.InitializeLifetimeService();
 
 
-                    ViewBag.result = oResult.TotalCost.ToString();
+            //        //_CostCentreParamsArray(0) = Common.g_GlobalData;
+            //        //GlobalData
+            //        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+            //        //this mode will load the questionqueue
+            //        _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+            //        //QuestionQueue / Execution Queue
+            //        _CostCentreParamsArray[3] = CostCentreQueue;
+            //        //CostCentreQueue
+            //        _CostCentreParamsArray[4] = 1;
+            //        //MultipleQuantities
+            //        _CostCentreParamsArray[5] = 1;
+            //        //CurrentQuantity
+            //        _CostCentreParamsArray[6] = new List<StockQueueItem>();
+            //        //StockQueue
+            //        _CostCentreParamsArray[7] = new List<InputQueueItem>();
+            //        //InputQueue
+            //        _CostCentreParamsArray[8] = new ItemSection(); //this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
+            //        _CostCentreParamsArray[9] = 1;
 
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    AppDomain.Unload(_AppDomain);
-                }
 
-                return View();
-            }
+            //        CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(335);
+
+            //        CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+
+
+
+            //        _oLocalObject = _CostCentreLaoderFactory.Create(ControllerContext.HttpContext.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
+            //        _oRemoteObject = (ICostCentreLoader)_oLocalObject;
+
+            //        CostCentreCostResult oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+
+
+            //        ViewBag.result = oResult.TotalCost.ToString();
+
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            //    finally
+            //    {
+            //        AppDomain.Unload(_AppDomain);
+            //    }
+
+            //    return View();
+            //}
         }
 
-        public ActionResult Error()
+        public ActionResult Error(string Message)
         {
-
+            ViewBag.ErrorMessage = Message;
             return View();
         }
 
@@ -341,20 +437,39 @@ namespace MPC.Webstore.Controllers
             if (UserCookieManager.isRegisterClaims == 1)
             {
                 // login 
+                MPC.Models.DomainModels.CompanyContact loginUser = null;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    loginUser = _myCompanyService.GetCorporateContactForAutoLogin(UserCookieManager.WEBEmail, OrganisationID, UserCookieManager.WBStoreId);
+                }
+                else 
+                {
+                    loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.WEBEmail, OrganisationID);
+                }
+                
 
-                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email,OrganisationID);
+                if (loginUser != null)
+                {
 
-                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+                    //UserCookieManager.WEBContactFirstName = loginUser.FirstName;
+                    //UserCookieManager.WEBContactLastName = loginUser.LastName == null ? "" : loginUser.LastName;
+                    //UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
+                    //UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
+                    //UserCookieManager.WEBEmail = loginUser.Email;
 
-                ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
+                    ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                var claimsPriciple = new ClaimsPrincipal(identity);
-                // Make sure the Principal's are in sync
-                HttpContext.User = claimsPriciple;
+                    ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
 
-                Thread.CurrentPrincipal = HttpContext.User;
+                    var claimsPriciple = new ClaimsPrincipal(identity);
+                    // Make sure the Principal's are in sync
+                    HttpContext.User = claimsPriciple;
 
-                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                    Thread.CurrentPrincipal = HttpContext.User;
+
+                    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                }
+             
 
                 UserCookieManager.isRegisterClaims = 0;
             }
@@ -407,6 +522,182 @@ namespace MPC.Webstore.Controllers
             }
         }
 
+        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
+        {
+            
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[Convert.ToInt32(StoreId)];
+
+
+
+            if (StoreBaseResopnse.Company.ShowPrices ?? true)
+            {
+                ViewBag.IsShowPrices = true;
+                //do nothing because pricing are already visible.
+            }
+            else
+            {
+                ViewBag.IsShowPrices = false;
+                //  cntRightPricing1.Visible = false;
+            }
+            if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
+            {
+                ViewBag.Currency = StoreBaseResopnse.Currency;
+            }
+            else
+            {
+                ViewBag.Currency = "";
+            }
+
+            ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
+            OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+
+            ViewBag.Company = StoreBaseResopnse.Company;
+
+            AddressViewModel oStoreDefaultAddress = null;
+
+            if (StoreBaseResopnse.Company.isWhiteLabel == false)
+            {
+                oStoreDefaultAddress = null;
+            }
+            else
+            {
+                if (StoreBaseResopnse.StoreDetaultAddress != null)
+                {
+                    oStoreDefaultAddress = new AddressViewModel();
+                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
+                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+
+                    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
+                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                    {
+                        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                    }
+                }
+            }
+            ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
+            ViewBag.StoreId = StoreId;
+            if (IsPrintReceipt == "1")
+            {
+                ViewBag.Print = "<script type='text/javascript'>function MyPrint() {window.print();}</script>";
+            }
+            else 
+            {
+                ViewBag.Print = "";
+            }
+            return View(order);
+        }
+
+        public ActionResult AutoLoginOrRegister(string C, string F, string L, string E, string CC)
+        {
+
+            try
+            {
+                if (System.Text.RegularExpressions.Regex.IsMatch(E, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
+                {
+                    if (!string.IsNullOrEmpty(C))
+                    {
+
+                        MPC.Models.DomainModels.Company oCompany = _myCompanyService.isValidWebAccessCode(C, UserCookieManager.WEBOrganisationID);
+
+                        if (oCompany != null)
+                        {
+                            CompanyContact oContact = _myCompanyService.GetOrCreateContact(oCompany, E, F, L, C);
+                            if (oContact == null && oCompany.isAllowRegistrationFromWeb == true)
+                            {
+                                return RedirectToAction("Error", "Home", new { Message = "You are not allowed to register." });
+                            }
+                            else
+                            {
+                                string CacheKeyName = "CompanyBaseResponse";
+                                ObjectCache cache = MemoryCache.Default;
+                                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
+                                if ((cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>).ContainsKey(oCompany.CompanyId))
+                                {
+                                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[oCompany.CompanyId];
+                                }
+                                else
+                                {
+                                    StoreBaseResopnse = _myCompanyService.GetStoreFromCache(oCompany.CompanyId);
+                                }
+
+                                if (StoreBaseResopnse.Company != null)
+                                {
+                                    // set company cookie
+                                    UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
+                                    UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
+                                    UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
+                                    UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
+
+                                    // set user cookies
+                                    UserCookieManager.isRegisterClaims = 1;
+                                    UserCookieManager.WEBContactFirstName = oContact.FirstName;
+                                    UserCookieManager.WEBContactLastName = oContact.LastName == null ? "" : oContact.LastName;
+                                    UserCookieManager.ContactCanEditProfile = oContact.CanUserEditProfile ?? false;
+                                    UserCookieManager.ShowPriceOnWebstore = oContact.IsPricingshown ?? true;
+                                    UserCookieManager.WEBEmail = oContact.Email;
+                                    //Response.Cookies["WEBFirstName"].Value = oContact.FirstName;
+                                    string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
+
+                                    CultureInfo ci = null;
+
+                                    if (string.IsNullOrEmpty(languageName))
+                                    {
+                                        languageName = "en-US";
+                                    }
+
+                                    ci = new CultureInfo(languageName);
+
+                                    Thread.CurrentThread.CurrentUICulture = ci;
+                                    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+                                    // ViewBag.ResponseRedirectUrl = "/";
+                                    // var action = new HomeController().Index();
+                                    //return null;// View();
+                                    UserCookieManager.PerformAutoLogin = true;
+                                    ControllerContext.HttpContext.Response.Redirect("/");
+                                    return null;
+                                   //SetUserClaim(UserCookieManager.WEBOrganisationID);
+                                   //List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
+                                   //ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.WEBOrganisationID + "/" + oCompany.CompanyId + "/Site.css";
+                                   //model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, "", StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
+                                   // return View("Index", model);
+                                }
+                                else
+                                {
+                                    return RedirectToAction("Error", "Home", new { Message = "Please try again." });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return RedirectToAction("Error", "Home", new { Message = "Your Web Access Code is invalid." });
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("Error", "Home", new { Message = "Please enter Web Access Code to proceed." });
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Error", "Home", new { Message = "Please enter valid email address to proceed." });
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
 
     }
 

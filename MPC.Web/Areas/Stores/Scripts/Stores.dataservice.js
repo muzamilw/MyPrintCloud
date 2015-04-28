@@ -10,6 +10,13 @@
                     amplify.request.define('getStores', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
                         dataType: 'json',
+                        type: 'GET',
+                        decoder: amplify.request.decoders.istStatusDecoder
+                    });
+                    // Define request to get CMS Tags For Default Load of CMS Page
+                    amplify.request.define('getCmsTags', 'ajax', {
+                        url: ist.siteUrl + '/Api/CmsTag',
+                        dataType: 'json',
                         type: 'GET'
                     });
                     // Define request to get Campaign Base Data
@@ -25,6 +32,7 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                   
                     // Define request to get product category childs
                     amplify.request.define('getProductCategoryChilds', 'ajax', {
                         url: ist.siteUrl + '/Api/ProductCategory',
@@ -37,12 +45,71 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to delete Product Category By Id 
+                    amplify.request.define('deleteProductCategoryById', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
+                    // Define request to delete Media Library By Id 
+                    amplify.request.define('deleteMediaLibraryItemById', 'ajax', {
+                        url: ist.siteUrl + '/Api/MediaLibrary',
+                        dataType: 'json',
+                        type: 'DELETE',
+                        decoder: amplify.request.decoders.istStatusDecoder
+                    });
+                    
                     // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Field Variable Detail By Id
+                    amplify.request.define('getFieldVariableDetailById', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariableDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Get Campaign Detail By Id
+                    amplify.request.define('getCampaignDetailById', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetCampaignDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Get Smart Form Details By Smart Form Id
+                    amplify.request.define('getSmartFormDetailBySmartFormId', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetSmartFormDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
+                    // Define request to Get Scope Varibable By Contact  Id
+                    amplify.request.define('getScopeVaribableByContactId', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetCompanyContactVariable',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Get Cmpany Contact Varibable By Company Id
+                    amplify.request.define('getCmpanyContactVaribableByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetCompanyContactVariableByCompanyId',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
+                    // Define request to get Field Variables By CompanyId
+                    amplify.request.define('getFieldVariablesByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariable',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Smart Forms By Company Id
+                    amplify.request.define('getSmartFormsByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/SmartForm',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to get Address
                     amplify.request.define('searchAddress', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
@@ -65,6 +132,13 @@
                     amplify.request.define('getStoreById', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'GET'
+                    });
+                    // Define request to Get Theme Detail By Full Zip Path
+                    amplify.request.define('getThemeDetail', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetThemeDetail',
+                        dataType: 'json',
                         type: 'GET'
                     });
                     // Define request to get Page Layout widgets
@@ -84,17 +158,26 @@
                     amplify.request.define('getBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/StoreBase',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
                     // Define request to get Store
                     amplify.request.define('getBaseDataForNewCompany', 'ajax', {
                         url: ist.siteUrl + '/Api/StoreBase',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
                     // Define request to delete Store
                     amplify.request.define('deleteStore', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'Delete'
+                    });
+                    // Define request to delete Banner
+                    amplify.request.define('deleteCompanyBanner', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyBanner',
                         dataType: 'json',
                         type: 'Delete'
                     });
@@ -105,6 +188,30 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to save Field Variable
+                    amplify.request.define('saveFieldVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariable',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to Create Store
+                    amplify.request.define('createStore', 'ajax', {
+                        url: ist.siteUrl + '/Api/ImportExportOrganisation/ImportStore?parameter1={parameter1}&parameter2={parameter2}&parameter3={parameter3}',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST',
+                        data: { parameter3: location.host }
+                    });
+                    // Define request to save Smart Form
+                    amplify.request.define('saveSmartForm', 'ajax', {
+                        url: ist.siteUrl + '/Api/SmartForm',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+
+
                     // Define request to Get Secondry Page By Id
                     amplify.request.define('getSecondryPageById', 'ajax', {
                         url: ist.siteUrl + '/Api/SecondaryPage',
@@ -170,6 +277,13 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Delete Company Permanently
+                    amplify.request.define('deleteCompanyPermanent', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeleteCompany',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
+                    });
                     isInitialized = true;
                 }
             },
@@ -193,6 +307,27 @@
                     data: params
                 });
             },
+             // get Product Category By Id
+            deleteProductCategoryById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteProductCategoryById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+              // delete Media Library Item By Id
+            deleteMediaLibraryItemById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteMediaLibraryItemById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
             // get Items For Widgets
             getItemsForWidgets = function (callbacks) {
                 initialize();
@@ -202,6 +337,16 @@
                     error: callbacks.error,
                 });
             },
+            // get CMS Tags For Load default for CMS Page
+            getCmsTags = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCmsTags',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            
              // get Store
             getStores = function (params, callbacks) {
                 initialize();
@@ -212,6 +357,59 @@
                     data: params
                 });
             },
+            //Get Scope Varibable By Contact Id
+            getScopeVaribableByContactId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getScopeVaribableByContactId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            //Get Cmpany Contact Varibable By Company Id
+            getCmpanyContactVaribableByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCmpanyContactVaribableByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
+            //Get Field Variable Detail By Id
+            getFieldVariableDetailById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getFieldVariableDetailById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            //Get Campaign Detail By Id
+            getCampaignDetailById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCampaignDetailById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
+             //Get Smart Form Detail By Smart Form Id
+                getSmartFormDetailBySmartFormId = function (params, callbacks) {
+                    initialize();
+                    return amplify.request({
+                        resourceId: 'getSmartFormDetailBySmartFormId',
+                        success: callbacks.success,
+                        error: callbacks.error,
+                        data: params
+                    });
+                },
+
              // get Campaign Base Data
             getCampaignBaseData = function (callbacks) {
                 initialize();
@@ -232,6 +430,27 @@
                     data: params
                 });
             },
+            // Get Field Variables By CompanyId
+            getFieldVariablesByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getFieldVariablesByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // Get Smart Forms By Company Id
+            getSmartFormsByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getSmartFormsByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
             // search Address
             searchAddress = function (params, callbacks) {
                 initialize();
@@ -267,6 +486,16 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'getStoreById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+             //Get Theme Detail By full path
+            getThemeDetail = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getThemeDetail',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -323,6 +552,17 @@
                     data: params
                 });
             },
+             // delete Banner
+            deleteCompanyBanner = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyBanner',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
               // Get Secondry Page By Id
             getSecondryPageById = function (params, callbacks) {
                 initialize();
@@ -413,6 +653,7 @@
                     data: param
                 });
             },
+            
             // Delete Company Contact
             deleteCompanyContact = function (param, callbacks) {
                 initialize();
@@ -423,6 +664,47 @@
                     data: param
                 });
             },
+            deleteCompanyPermanent = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyPermanent',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+
+        // save Field Variable
+        saveFieldVariable = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveFieldVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+         // Create Store
+        createStore = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'createStore',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+         // save Smart Form
+        saveSmartForm = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveSmartForm',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -443,6 +725,7 @@
             deleteStore: deleteStore,
             saveStore: saveStore,
             searchCompanyTerritory: searchCompanyTerritory,
+            getFieldVariablesByCompanyId: getFieldVariablesByCompanyId,
             searchAddress: searchAddress,
             searchCompanyContact: searchCompanyContact,
             getSecondaryPages: getSecondaryPages,
@@ -460,7 +743,22 @@
             saveCompanyContact: saveCompanyContact,
             deleteCompanyTerritory: deleteCompanyTerritory,
             deleteCompanyAddress: deleteCompanyAddress,
-            deleteCompanyContact: deleteCompanyContact
+            deleteCompanyContact: deleteCompanyContact,
+            saveFieldVariable: saveFieldVariable,
+            getFieldVariableDetailById: getFieldVariableDetailById,
+            getSmartFormDetailBySmartFormId: getSmartFormDetailBySmartFormId,
+            getScopeVaribableByContactId: getScopeVaribableByContactId,
+            getCmpanyContactVaribableByCompanyId: getCmpanyContactVaribableByCompanyId,
+            saveSmartForm: saveSmartForm,
+            getSmartFormsByCompanyId: getSmartFormsByCompanyId,
+            deleteCompanyBanner: deleteCompanyBanner,
+            getThemeDetail: getThemeDetail,
+            getCmsTags: getCmsTags,
+            getCampaignDetailById: getCampaignDetailById,
+            deleteProductCategoryById: deleteProductCategoryById,
+            createStore: createStore,
+            deleteCompanyPermanent: deleteCompanyPermanent,
+            deleteMediaLibraryItemById:deleteMediaLibraryItemById
         };
     })();
 

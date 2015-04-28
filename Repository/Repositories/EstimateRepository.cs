@@ -1,6 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
-using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -24,7 +23,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Item Orderby clause
         /// </summary>
-        private readonly Dictionary<OrderByColumn, Func<Estimate, object>> orderOrderByClause =
+        private readonly Dictionary<OrderByColumn, Func<Estimate, object>> orderByClause =
             new Dictionary<OrderByColumn, Func<Estimate, object>>
                     {
                          { OrderByColumn.CompanyName, c => c.Company != null ? c.Company.Name : string.Empty },
@@ -75,27 +74,80 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
-
+            bool isStatusSpecified = request.Status == 0;//if true get all then get by status
+            bool filterFlagSpecified = request.FilterFlag == 0;
+            //Order Type Filter , 2-> all, 0 -> Direct  Order, 1 -> Online Order
+            bool orderTypeFilterSpecified = request.OrderTypeFilter == 2;
             Expression<Func<Estimate, bool>> query =
                 item =>
-                    ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
-                    (item.isEstimate.HasValue && !item.isEstimate.Value) &&
-                    item.OrganisationId == OrganisationId);
+                    ((
+                    string.IsNullOrEmpty(request.SearchString) || 
+                    ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.Order_Code.Contains(request.SearchString)) ||
+                    (item.Estimate_Name.Contains(request.SearchString)) || (item.Items.Any(product => product.ProductName.Contains(request.SearchString)))
+                    )) &&
+                    (item.isEstimate.HasValue && !item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
+                    ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
+                    ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
+                    item.OrganisationId == OrganisationId && item.StatusId != (int)OrderStatus.ShoppingCart);
 
             IEnumerable<Estimate> items = request.IsAsc
                ? DbSet.Where(query)
-                   .OrderBy(orderOrderByClause[request.ItemOrderBy])
+                   .OrderBy(orderByClause[request.ItemOrderBy])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList()
                : DbSet.Where(query)
-                   .OrderByDescending(orderOrderByClause[request.ItemOrderBy])
+                   .OrderByDescending(orderByClause[request.ItemOrderBy])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();
 
             return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };
         }
+
+        /// <summary>
+        /// Get Orders For Estimates List View
+        /// </summary>
+        public GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStatusSpecified = request.Status == 0;//if true get all then get by status
+            bool filterFlagSpecified = request.FilterFlag == 0;
+            //Order Type Filter , 2-> all, 0 -> Direct  Order, 1 -> Online Order
+            bool orderTypeFilterSpecified = request.OrderTypeFilter == 2;
+            Expression<Func<Estimate, bool>> query =
+                item =>
+                    ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
+                    (item.isEstimate.HasValue && item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
+                    ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
+                    ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
+                    item.OrganisationId == OrganisationId);
+
+            IEnumerable<Estimate> items = request.IsAsc
+               ? DbSet.Where(query)
+                   .OrderBy(orderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList()
+               : DbSet.Where(query)
+                   .OrderByDescending(orderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList();
+
+            return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };
+        }
+
+        /// <summary>
+        /// Gives count of new orders by given number of last dats
+        /// </summary>
+        public int GetNewOrdersCount(int noOfLastDays, long companyId)
+        {
+           DateTime currenteDate  = DateTime.UtcNow.Date.AddDays(-noOfLastDays);
+          return  DbSet.Count(estimate => estimate.isEstimate == false && companyId==estimate.CompanyId  && estimate.CreationDate >= currenteDate);
+        }
+
 
         /// <summary>
         /// Get Order Statuses Response
@@ -112,6 +164,86 @@ namespace MPC.Repository.Repositories
                 CurrentMonthOdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.Order_Date.HasValue && 
                     order.isEstimate == false && DateTime.Now.Month == order.Order_Date.Value.Month)
             };
+        }
+
+        /// <summary>
+        ///Get Order Statuses Count For Menu Items
+        /// </summary>
+        public OrderMenuCount GetOrderStatusesCountForMenuItems()
+        {
+            return new OrderMenuCount
+            {
+                AllOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.isEstimate== false),
+                PendingOrders = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.PendingOrder && order.isEstimate == false),
+                ConfirmedStarts = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.ConfirmedOrder && order.isEstimate == false),
+                InProduction = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.InProduction && order.isEstimate == false),
+                ReadyForShipping = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.Completed_NotShipped && order.isEstimate == false),
+                Invoiced = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.CompletedAndShipped_Invoiced && order.isEstimate == false),
+                CancelledOrders = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.CancelledOrder && order.isEstimate == false),
+            };
+        }
+
+
+        /// <summary>
+        /// Gets list of Orders for company edit tab
+        /// </summary>
+        public OrdersForCrmResponse GetOrdersForCrm(GetOrdersRequest request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+
+            Expression<Func<Estimate, bool>> query =
+                item =>
+                    (item.isEstimate.HasValue && !item.isEstimate.Value) &&
+                    item.CompanyId == request.CompanyId && item.StatusId != (int)OrderStatus.ShoppingCart;
+        
+
+            IEnumerable<Estimate> items = request.IsAsc
+               ? DbSet.Where(query)
+                   .OrderBy(orderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList()
+               : DbSet.Where(query)
+                   .OrderByDescending(orderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList();
+            return new OrdersForCrmResponse
+            {
+                RowCount = DbSet.Count(query),
+                Orders = items
+            };
+        }
+
+        public IEnumerable<Estimate> GetEstimatesForDashboard(DashboardRequestModel request)
+        {
+            Expression<Func<Estimate, bool>> query =
+                item =>
+                    (string.IsNullOrEmpty(request.SearchString) || 
+                    (item.Company != null && item.Company.Name.Contains(request.SearchString)) ||
+                    (item.Order_Code.Contains(request.SearchString)))
+                    &&
+                    (item.isEstimate.HasValue && !item.isEstimate.Value)  &&
+                    item.StatusId != (int)OrderStatus.ShoppingCart &&
+                    item.OrganisationId == OrganisationId;
+
+            IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateId).Take(5).ToList()
+                .ToList();
+
+            return items;
+        }
+
+        public Estimate GetEstimateWithCompanyByOrderID(long OrderID)
+        {
+            try
+            {
+               return db.Estimates.Include("Company").Where(g => g.EstimateId == OrderID).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion

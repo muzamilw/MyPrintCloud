@@ -2,8 +2,10 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -39,14 +41,16 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Item Designer Template Base Data
         /// </summary>
-        public Models.ItemDesignerTemplateBaseResponse Get()
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct,  })]
+        [CompressFilterAttribute]
+        public Models.ItemDesignerTemplateBaseResponse Get(int? id)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
 
-            return itemService.GetBaseDataForDesignerTemplate().CreateFrom();
+            return itemService.GetBaseDataForDesignerTemplate(id).CreateFrom();
         }
 
         #endregion

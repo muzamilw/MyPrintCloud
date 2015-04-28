@@ -16,7 +16,7 @@
     <AssemblyName>MPC.MIS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
@@ -54,6 +54,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.4.0, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ICSharpCode.SharpZipLib.Patched.0.86.4\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -66,7 +70,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.IdentityModel.6.1.7600.16394\lib\net35\Microsoft.IdentityModel.dll</HintPath>
@@ -151,6 +157,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -160,31 +170,55 @@
     <Reference Include="PagedList.Mvc">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    <Reference Include="System">
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Entity">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -195,40 +229,56 @@
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Abstractions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
       <Private>True</Private>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -245,25 +295,60 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\CustomRazorViewEngine.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCentreMatrixController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCenterExecutionController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CmsTagController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyBannerController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactBaseForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCenterTreeController.cs" />
+    <Compile Include="Areas\Api\Controllers\CrmBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CrmContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeliverycarrierController.cs" />
+    <Compile Include="Areas\Api\Controllers\DownloadArtworkController.cs" />
+    <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
+    <Compile Include="Areas\Api\Controllers\EstimateController.cs" />
+    <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
+    <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetCampaignDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCompaniesForCalendarController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetCompanyContactVariableByCompanyIdController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetCompanyContactVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetOrderStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetSmartFormDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetThemeDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\GoodsReceivedNoteController.cs" />
+    <Compile Include="Areas\Api\Controllers\ImportExportOrganisationController.cs" />
+    <Compile Include="Areas\Api\Controllers\InvoiceBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\InvoiceListController.cs" />
+    <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteItemController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemJobStatusController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemSectionController.cs" />
+    <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
+    <Compile Include="Areas\Api\Controllers\MediaLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
@@ -273,17 +358,57 @@
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderRetailStoreDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
+    <Compile Include="Areas\Api\Controllers\ProductCostCenterController.cs" />
+    <Compile Include="Areas\Api\Controllers\PTVCalculationController.cs" />
+    <Compile Include="Areas\Api\Controllers\PurchaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportManagerController.cs" />
+    <Compile Include="Areas\Api\Controllers\SectionController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
+    <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
+    <Compile Include="Areas\Api\Controllers\StockCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\SystemUserController.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityTypeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\BestPressMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\BestPressResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CalendarMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignEmailVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignImageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CategoryTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyCostCentreMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCenterVariableTreeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreAnswerMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreMatrixMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InvoiceBaseResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InvoiceDetailMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemAttachmentMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineClickChargeZoneMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineGuillotineCalcMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineGuilotinePtvMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineMeterPerHourLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PurchaseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ReportMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ScopeVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCenterMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostcentreInstructionMapper.cs" />
@@ -295,8 +420,15 @@
     <Compile Include="Areas\Api\ModelMappers\CostCenterTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CustomerMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DeliveryCarrierMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\FieldVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkCoverageGroupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InvoiceMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyProductCategoryMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionCostCentreResourceMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionCostCentreDetailMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionCostcentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\OrderBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\OrderBaseResponseForCompanyMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
@@ -315,11 +447,19 @@
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionInkCoverageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SmartFormDetailMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SmartFormMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\StockItemForDropDownMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\TemplateColorStyleMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\VariableOptionMapper.cs" />
     <Compile Include="Areas\Api\Models\Activity.cs" />
     <Compile Include="Areas\Api\Models\ActivityListView.cs" />
     <Compile Include="Areas\Api\Models\ActivityTypeDropDown.cs" />
     <Compile Include="Areas\Api\Models\AddressDropDown.cs" />
+    <Compile Include="Areas\Api\Models\BestPress.cs" />
+    <Compile Include="Areas\Api\Models\BestPressResponse.cs" />
     <Compile Include="Areas\Api\Models\CalendarBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignEmailVariable.cs" />
@@ -332,6 +472,54 @@
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactForCalendar.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactResponseForCalendar.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrixDeleteRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrixDetail.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrixRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestionDeleteRequest.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestionRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
+    <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
+    <Compile Include="Areas\Api\Models\CrmContactResponse.cs" />
+    <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
+    <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
+    <Compile Include="Areas\Api\Models\InvoiceDetail.cs" />
+    <Compile Include="Areas\Api\Models\InvoiceListResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\InvoicesListModel.cs" />
+    <Compile Include="Areas\Api\Models\ItemAttachment.cs" />
+    <Compile Include="Areas\Api\Models\ItemImage.cs" />
+    <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
+    <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
+    <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
+    <Compile Include="Areas\Api\Models\MachineClickChargeLookup.cs" />
+    <Compile Include="Areas\Api\Models\MachineClickChargeZone.cs" />
+    <Compile Include="Areas\Api\Models\MachineGuillotineCalc.cs" />
+    <Compile Include="Areas\Api\Models\MachineGuilotinePtv.cs" />
+    <Compile Include="Areas\Api\Models\MachineMeterPerHourLookup.cs" />
+    <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
+    <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
+    <Compile Include="Areas\Api\Models\InvoiceBaseResponse.cs" />
+    <Compile Include="Areas\Api\Models\OrderRetailItemDetail.cs" />
+    <Compile Include="Areas\Api\Models\OrderStatusesResponse.cs" />
+    <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
+    <Compile Include="Areas\Api\Models\PtvDTO.cs" />
+    <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
+    <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\Report.cs" />
+    <Compile Include="Areas\Api\Models\ReportCategory.cs" />
+    <Compile Include="Areas\Api\Models\ReportManagerResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\ReportNote.cs" />
+    <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
     <Compile Include="Areas\Api\Models\CompanyForCalender.cs" />
@@ -348,14 +536,21 @@
     <Compile Include="Areas\Api\Models\CostCentreVariable.cs" />
     <Compile Include="Areas\Api\Models\CrmSupplierListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CrmSupplierResponse.cs" />
+    <Compile Include="Areas\Api\Models\DeliveryCarrier.cs" />
     <Compile Include="Areas\Api\Models\Estimate.cs" />
     <Compile Include="Areas\Api\Models\EstimateListView.cs" />
     <Compile Include="Areas\Api\Models\CustomerListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CustomerResponse.cs" />
+    <Compile Include="Areas\Api\Models\FieldVariable.cs" />
+    <Compile Include="Areas\Api\Models\FieldVariableForSmartForm.cs" />
+    <Compile Include="Areas\Api\Models\FieldVariableResponse.cs" />
     <Compile Include="Areas\Api\Models\GetOrdersResponse.cs" />
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="Areas\Api\Models\InkCoverageGroup.cs" />
+    <Compile Include="Areas\Api\Models\Invoice.cs" />
+    <Compile Include="Areas\Api\Models\InvoiceRequestResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\OrderItem.cs" />
     <Compile Include="Areas\Api\Models\OrderBaseResponse.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -486,6 +681,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Api\Models\MediaLibrary.cs" />
+    <Compile Include="Areas\Api\Models\OrdersForCrmResponse.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />
     <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
@@ -506,10 +702,23 @@
     <Compile Include="Areas\Api\Models\ProductCategoryResultModel.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\Section.cs" />
+    <Compile Include="Areas\Api\Models\SectionCostcentre.cs" />
+    <Compile Include="Areas\Api\Models\SectionCostCentreDetail.cs" />
+    <Compile Include="Areas\Api\Models\SectionCostCentreResource.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
+    <Compile Include="Areas\Api\Models\SectionInkCoverage.cs" />
+    <Compile Include="Areas\Api\Models\ShippingInformation.cs" />
+    <Compile Include="Areas\Api\Models\SkinForTheme.cs" />
+    <Compile Include="Areas\Api\Models\SmartForm.cs" />
+    <Compile Include="Areas\Api\Models\SmartFormDetail.cs" />
+    <Compile Include="Areas\Api\Models\SmartFormForListView.cs" />
+    <Compile Include="Areas\Api\Models\SmartFormResponse.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
+    <Compile Include="Areas\Api\Models\StockItemForDropDown.cs" />
+    <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
+    <Compile Include="Areas\Api\Models\StoresListDropDown.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
     <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />
@@ -521,14 +730,20 @@
     <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
     <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
     <Compile Include="Areas\Api\Models\Template.cs" />
+    <Compile Include="Areas\Api\Models\TemplateColorStyle.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
+    <Compile Include="Areas\Api\Models\VariableOption.cs" />
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\DeliveryNotes\Controllers\HomeController.cs" />
     <Compile Include="Areas\DeliveryNotes\DeliveryNoteAreaRegistration.cs" />
+    <Compile Include="Areas\Invoices\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Invoices\InvoicesAreaRegistration.cs" />
     <Compile Include="Areas\Orders\Controllers\HomeController.cs" />
     <Compile Include="Areas\Orders\OrdersAreaRegistration.cs" />
+    <Compile Include="Areas\Production\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Production\ProductionAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
@@ -598,7 +813,15 @@
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Common\Scripts\addCostCenter.dataservice.js" />
     <Content Include="Areas\Common\Scripts\companySelector.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\addCostCenter.model.js" />
+    <Content Include="Areas\Common\Scripts\addCostCenter.view.js" />
+    <Content Include="Areas\Common\Scripts\addCostCenter.viewModel.js" />
+    <Content Include="Areas\Common\Scripts\reportManager.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\reportManager.model.js" />
+    <Content Include="Areas\Common\Scripts\reportManager.view.js" />
+    <Content Include="Areas\Common\Scripts\reportManager.viewModel.js" />
     <Content Include="Areas\Common\Scripts\stockItem.dataservice.js" />
     <Content Include="Areas\Common\Scripts\phraseLibrary.dataservice.js" />
     <Content Include="Areas\Common\Scripts\companySelector.model.js" />
@@ -619,29 +842,51 @@
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\supplier.model.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
+    <Content Include="Areas\CRM\Scripts\calendar.dataservice.js" />
+    <Content Include="Areas\CRM\Scripts\calendar.model.js" />
+    <Content Include="Areas\CRM\Scripts\calendar.view.js" />
+    <Content Include="Areas\CRM\Scripts\calendar.viewModel.js" />
     <Content Include="Areas\CRM\Scripts\contacts.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\contacts.model.js" />
     <Content Include="Areas\CRM\Scripts\contacts.view.js" />
     <Content Include="Areas\CRM\Scripts\contacts.viewModel.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.view.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.viewModel.js" />
     <Content Include="Areas\CRM\Views\Home\AddBanner.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\CRM\Views\Home\AddEditSecondaryPage.cshtml" />
     <Content Include="Areas\CRM\Views\Home\AddStore.cshtml" />
     <Content Include="Areas\CRM\Views\Home\AddStoreWizard.cshtml" />
+    <Content Include="Areas\Invoices\Scripts\invoice.dataservice.js" />
+    <Content Include="Areas\Invoices\Scripts\invoice.model.js" />
+    <Content Include="Areas\Invoices\Scripts\invoice.view.js" />
+    <Content Include="Areas\Invoices\Scripts\invoice.viewModel.js" />
     <Content Include="Areas\Orders\Scripts\order.dataservice.js" />
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
     <Content Include="Areas\Orders\Scripts\order.viewModel.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.dataservice.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.model.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.view.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.viewModel.js" />
     <Content Include="Areas\Products\Scripts\product.dataservice.js" />
     <Content Include="Areas\Products\Scripts\product.model.js" />
     <Content Include="Areas\Products\Scripts\product.view.js" />
     <Content Include="Areas\Products\Scripts\product.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.view.js" />
@@ -660,6 +905,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\prefix.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\costcenter.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\sectionflags.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\sectionflags.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\sectionflags.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\sectionflags.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
@@ -691,6 +940,7 @@
     <Content Include="Content\CSS\fonts\typicons.svg" />
     <Content Include="Content\CSS\fonts\wpzoom.svg" />
     <Content Include="Content\CSS\icons.css" />
+    <Content Include="Content\CSS\jquery-Slider.css" />
     <Content Include="Content\CSS\main.css" />
     <Content Include="Content\CSS\spectrum.css" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_diagonals-small_100_f4f4f4_40x40.png" />
@@ -806,6 +1056,18 @@
     <Content Include="Content\Images\loaders\horizontal\058.gif" />
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
+    <Content Include="Content\Images\Ptv\back-down.gif" />
+    <Content Include="Content\Images\Ptv\back-downP.gif" />
+    <Content Include="Content\Images\Ptv\back-up.gif" />
+    <Content Include="Content\Images\Ptv\back-upP.gif" />
+    <Content Include="Content\Images\Ptv\back-upW.gif" />
+    <Content Include="Content\Images\Ptv\dotTexture.gif" />
+    <Content Include="Content\Images\Ptv\front-down.gif" />
+    <Content Include="Content\Images\Ptv\front-downP.gif" />
+    <Content Include="Content\Images\Ptv\front-up.gif" />
+    <Content Include="Content\Images\Ptv\front-upP.gif" />
+    <Content Include="Content\Images\Ptv\imgLongSide.gif" />
+    <Content Include="Content\Images\Ptv\imgShortSide.gif" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\Inventory.css">
       <DependentUpon>Inventory.less</DependentUpon>
@@ -813,11 +1075,17 @@
     <Content Include="Content\less\InventoryCategory.css">
       <DependentUpon>InventoryCategory.less</DependentUpon>
     </Content>
+    <Content Include="Content\less\ItemJobStatus.css">
+      <DependentUpon>ItemJobStatus.less</DependentUpon>
+    </Content>
     <Content Include="Content\less\MainSite.css">
       <DependentUpon>MainSite.less</DependentUpon>
     </Content>
     <Content Include="Content\less\CompanySelector.css">
       <DependentUpon>CompanySelector.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\MainSite.min.css">
+      <DependentUpon>MainSite.css</DependentUpon>
     </Content>
     <Content Include="Content\less\Organisation.css">
       <DependentUpon>Organisation.less</DependentUpon>
@@ -837,7 +1105,23 @@
     <Content Include="Content\less\Store.css">
       <DependentUpon>Store.less</DependentUpon>
     </Content>
+    <Content Include="Content\less\Store.min.css">
+      <DependentUpon>Store.css</DependentUpon>
+    </Content>
     <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\base\jquery-ui.css" />
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
     <Content Include="Content\themes\base\jquery.ui.all.css" />
@@ -866,6 +1150,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\Centaurus\js\CSJSRequestObject.js" />
     <Content Include="Content\themes\Centaurus\css\bootstrap\bootstrap.css" />
     <Content Include="Content\themes\Centaurus\css\bootstrap\bootstrap.min.css" />
     <Content Include="Content\themes\Centaurus\css\compiled\calendar.css" />
@@ -909,6 +1194,7 @@
     <Content Include="Content\themes\Centaurus\img\Machine_Guillotine.png" />
     <Content Include="Content\themes\Centaurus\img\Machine_Lookups.png" />
     <Content Include="Content\themes\Centaurus\img\Machine_SheetPress.png" />
+    <Content Include="Content\themes\Centaurus\img\mpc_beta.jpg" />
     <Content Include="Content\themes\Centaurus\img\pricing-star.png" />
     <Content Include="Content\themes\Centaurus\img\Print_Inoice.png" />
     <Content Include="Content\themes\Centaurus\img\Print_Job.png" />
@@ -1036,6 +1322,7 @@
     <Content Include="Content\themes\Centaurus\js\hogan.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-jvectormap-1.2.2.min.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-jvectormap-world-merc-en.js" />
+    <Content Include="Content\themes\Centaurus\js\jquerySlider.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-ui.custom.min.js" />
     <Content Include="Content\themes\Centaurus\js\jquery.hotkeys.js" />
     <Content Include="Content\themes\Centaurus\js\jquery.js" />
@@ -1073,8 +1360,6 @@
     <Content Include="Images\orderedList7.png" />
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
-    <Content Include="MPC_Content\DefaultCss\Default_CompanyStyles.css" />
-    <Content Include="MPC_Content\DefaultSprite\sprite.bakup.png" />
     <Content Include="RichTextEditor\adapters\jquery.js" />
     <Content Include="RichTextEditor\build-config.js" />
     <Content Include="RichTextEditor\ckeditor.js" />
@@ -1410,6 +1695,9 @@
     <Content Include="Scripts\App\dashboard.model.js" />
     <Content Include="Scripts\App\dashboard.view.js" />
     <Content Include="Scripts\App\dashboard.viewModel.js" />
+    <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.js" />
+    <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.min.js" />
+    <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <Content Include="Scripts\knockout-ace.js" />
     <Content Include="Scripts\Ace\ace.js" />
     <Content Include="Scripts\Ace\colorpicker.js" />
@@ -1710,6 +1998,56 @@
     <Content Include="Areas\Common\Views\Shared\_CompanySelector.cshtml" />
     <Content Include="Content\less\CompanySelector.less" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditVariableDefination.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForCrm.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_AddEditTerritoryForCrm.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_ProductFromRetailStore.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_AddEditSmartFormDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_Default.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_CostCenterQuantity.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreQuestion.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_SheetPlanImage.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_EstimationRunWizard.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_ReportManager.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreMatrix.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Orders\Views\Home\EstimatesList.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\EstimateDetail.cshtml" />
+    <Content Include="Areas\Invoices\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Invoices\Views\Home\InvoiceDetail.cshtml" />
+    <Content Include="Areas\Invoices\Views\web.config" />
+    <Content Include="Areas\Invoices\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Invoices\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Production\Views\web.config" />
+    <Content Include="Areas\Settings\Views\MIS\_CostCentreStockVariable.cshtml" />
+    <Content Include="Areas\Orders\Scripts\estimate.view.js" />
+    <Content Include="Areas\Production\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Production\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Production\Views\Home\ItemJobStatus.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_InventoryCategoryDialog.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_OrderStatusProgressToJob.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantityForStockItem.cshtml" />
+    <None Include="config\Web.connectionstrings.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="config\Web.connectionstrings.default.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Content\less\Store.css.map">
+      <DependentUpon>Store.css</DependentUpon>
+    </Content>
+    <Content Include="Content\less\MainSite.css.map">
+      <DependentUpon>MainSite.css</DependentUpon>
+    </Content>
+    <Content Include="Content\less\ItemJobStatus.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -1723,6 +2061,7 @@
     <Content Include="RichTextEditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="RichTextEditor\skins\moono\readme.md" />
     <None Include="Properties\PublishProfiles\mvcMISpublish.pubxml" />
+    <None Include="Properties\PublishProfiles\MZ MIS Publish.pubxml" />
     <None Include="Scripts\amplify-vsdoc.js" />
     <Content Include="Scripts\amplify.js" />
     <Content Include="Scripts\amplify.min.js" />
@@ -1763,7 +2102,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
-    <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\knockout-sortable.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
@@ -2845,7 +3183,7 @@
     <Content Include="Views\Shared\Product\_SelectStock.cshtml" />
     <Content Include="Views\Shared\Product\_SignatureEdit.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditCMYKColors.cshtml" />
-    <Content Include="Views\Shared\Widgets\_AddEditDeliveryCarriers.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_AddEditDeliveryCarriers.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditTerritory.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddSet.cshtml" />
     <Content Include="Views\Shared\Widgets\_EditBanner.cshtml" />
@@ -2870,6 +3208,7 @@
     <Content Include="Views\CRM\SupplierDetail.cshtml" />
     <Content Include="Views\CRM\SuppliersList.cshtml" />
     <Content Include="Views\Shared\PageUnAvailable.cshtml" />
+    <Content Include="Views\Home\OrderMenuItems.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2885,16 +3224,35 @@
     <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
+    <Folder Include="Areas\Api\Views\CostCentreMatrix\" />
+    <Folder Include="Areas\Api\Views\CrmBase\" />
+    <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
+    <Folder Include="Areas\Api\Views\Deliverycarrier\" />
+    <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
+    <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
+    <Folder Include="Areas\Api\Views\Invoice\" />
+    <Folder Include="Areas\Api\Views\LookupMethod\" />
     <Folder Include="Areas\Api\Views\Machine\" />
+    <Folder Include="Areas\Api\Views\OrderRetailStoreDetail\" />
+    <Folder Include="Areas\Api\Views\OrderRetailStore\" />
+    <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
+    <Folder Include="Areas\Api\Views\ProductCostCenter\" />
+    <Folder Include="Areas\Api\Views\PTVCalculation\" />
+    <Folder Include="Areas\Api\Views\ReportManager\" />
+    <Folder Include="Areas\Api\Views\SectionFlags\" />
+    <Folder Include="Areas\Api\Views\Section\" />
+    <Folder Include="Areas\Api\Views\StockCategory\" />
+    <Folder Include="Areas\Api\Views\SystemUser\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\DeliveryNotes\Models\" />
     <Folder Include="Areas\DeliveryNotes\Scripts\" />
     <Folder Include="Areas\Orders\Models\" />
+    <Folder Include="Areas\Production\Models\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Stores\Models\" />
@@ -2903,13 +3261,14 @@
     <Folder Include="Content\Images\patterns\body\" />
     <Folder Include="Content\Images\patterns\header\" />
     <Folder Include="Content\Images\patterns\sidebar\" />
-    <Folder Include="Content\themes\base\images\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Models\" />
     <Folder Include="MPC_Content\Artworks\" />
     <Folder Include="MPC_Content\Assets\" />
     <Folder Include="MPC_Content\Attachments\" />
     <Folder Include="MPC_Content\CostCentres\" />
+    <Folder Include="MPC_Content\DefaultCss\" />
+    <Folder Include="MPC_Content\DefaultSprite\" />
     <Folder Include="MPC_Content\Designer\" />
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
@@ -2974,11 +3333,13 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>43063</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:43064/</IISUrl>
+          <IISUrl>http://mpc/mis</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://mpc/mis</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

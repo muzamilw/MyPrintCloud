@@ -10,12 +10,14 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ICampaignService
     {
-        Campaign GetCampaignRecordByEmailEvent(int iEmailEvent);
+        Campaign GetCampaignRecordByEmailEvent(int iEmailEvent, long OrganisationId, long CompanyId);
 
         bool emailBodyGenerator(Campaign oCampaign, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, int OrganisationId, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0);
 
-        void SendEmailToSalesManager(int Event, int ContactId, int CompanyId, int brokerid, int OrderId, int BrokerAdminContactID, int CorporateManagerID, StoreMode Mode, Company company, SystemUser SaleManager, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0);
-
+        void SendEmailToSalesManager(int Event, long ContactId, long CompanyId, long OrderId, long OrganisationId,
+            int CorporateManagerID, StoreMode Mode, long StoreId, SystemUser SaleManager, string NameOfBrokerComp = "",
+            string MarketingBreifMesgSummry = "", int RFQId = 0);
+        string GetPinkCardsShopReceiptPage(int OrderId, long CorpID);
         void SendPendingCorporateUserRegistrationEmailToAdmins(int contactID, int Companyid,int OrganisationId);
 
         void SendEmailFromQueue(System.Web.HttpContext hcontext);
@@ -23,6 +25,7 @@ namespace MPC.Interfaces.WebStoreServices
         void MonitorScheduledEmails();
 
         bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID);
-
+        void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId);
+   
     }
 }

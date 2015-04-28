@@ -68,7 +68,6 @@ define("common/supplier.viewModel",
                             IsAsc: sortIsAsc()
                         }, {
                             success: function (data) {
-                                supplierPager().totalCount(data.TotalCount);
                                 suppliers.removeAll();
                                 var supplierList = [];
                                 _.each(data.Suppliers, function (item) {
@@ -77,6 +76,7 @@ define("common/supplier.viewModel",
                                 });
                                 ko.utils.arrayPushAll(suppliers(), supplierList);
                                 suppliers.valueHasMutated();
+                                supplierPager().totalCount(data.TotalCount);
                                 isLoading(false);
                             },
                             error: function () {
@@ -178,13 +178,12 @@ define("common/supplier.viewModel",
                                 var supplierResult = new model.SupplierListView.Create(data);
                                 addSupplier().id(data.SupplierId);
                                 suppliers.splice(0, 0, supplierResult);
-                                view.saveImage();
                                 closeSupplierEditor();
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {
 
-                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
                                     toastr.error(exceptionMessage);
 
@@ -237,8 +236,12 @@ define("common/supplier.viewModel",
 
                 format = function (item) {
                     return $ + item.FlagName;
-                }
-
+                },
+                //Media Library File Loaded Call back
+                supplierLogoLoadedCallback = function (file, data) {
+                    addSupplier().logoSource(data);
+                    addSupplier().logoName(file.name);
+                },
                 // Initialize the view model
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -280,6 +283,7 @@ define("common/supplier.viewModel",
                     onSaveSupplier: onSaveSupplier,
                     format: format,
                     gotoElement: gotoElement,
+                    supplierLogoLoadedCallback: supplierLogoLoadedCallback,
                 };
             })()
         };
@@ -287,3 +291,4 @@ define("common/supplier.viewModel",
         return ist.supplier.viewModel;
     });
 
+//http://mpc/mis/../../Api/Controllers/ReportManagerController.cs

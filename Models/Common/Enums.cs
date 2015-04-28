@@ -5,12 +5,35 @@ using System.Web;
 
 namespace MPC.Models.Common
 {
+    public enum FieldVariableScopeType : int
+    {
+        Store = 1,
+        Contact = 2,
+        Address = 3,
+        Territory = 4,
+        RealEstate = 5,
+        RealEstateImages = 6,
+    }
+
     public enum StoreMode : int
     {
-        Retail = 1,
+        Retail = 4,
         Corp = 3,
         NotSet = 99
 
+    }
+    public enum SmartFormDetailFieldType : int
+    {
+        GroupCaption = 1,
+        LineSeperator = 2,
+        VariableField = 3,
+    }
+    public enum CreditCardTypeType
+    {
+        Visa = 1,
+        MasterCard = 2,
+        DinersClub = 3,
+        Amex = 4
     }
     public enum CompanyTypes
     {
@@ -20,7 +43,8 @@ namespace MPC.Models.Common
     public enum CostCenterTypes
     {
         SystemCostCentres = 1,
-        Delivery = 11
+        Delivery = 11,
+        WebOrder = 29
     }
     public enum HashAlgos
     {
@@ -107,20 +131,41 @@ namespace MPC.Models.Common
     }
     public enum ProductType
     {
-        FinishedGoodWithImageRotator = 1,
-        TemplateProductWithImage = 2,
-        TemplateProductWithBanner = 3,
-        FinishedGoodWithBanner = 4,
-        InventoryItem = 5,
-        RealEstate = 6
+        PrintProduct = 1,
+        MarketingBrief = 2,
+        NonPrintProduct = 3
+
     }
 
+
+    public enum ProductDisplayOption
+    {
+        ThumbAndBanner = 1,
+        ThumbWithMultipleBanners = 2
+        
+
+    }
+
+
+    public enum PaymentMethods
+    {
+        PayPal = 1,
+        Cash = 99,
+        authorizeNET = 2,
+        ANZ = 3,
+        StGeorge = 5,
+        NAB = 6
+    }
     public enum ItemStatuses
     {
         ShoppingCart = 3,
         NotProgressedToJob = 17
     }
-
+    public enum PaymentRequestStatus
+    {
+        Pending = 1,
+        Successfull = 2
+    }
     public enum OrderStatus
     {
 
@@ -157,7 +202,7 @@ namespace MPC.Models.Common
 
     };
 
-  
+
     public enum UploadFileTypes : int
     {
         Artwork,
@@ -251,6 +296,11 @@ namespace MPC.Models.Common
         Landscape = 1,
         Portrait = 0
     }
+    public enum GripSide :int
+    {
+        LongSide = 1,
+        ShortSide = 2
+    }
     public enum SecondryPagesInfo : int
     {
         AboutUs = 2,
@@ -292,5 +342,120 @@ namespace MPC.Models.Common
         PerHour = 2,
         QuantityBase = 3,
         FormulaBase = 4
+    }
+    public enum SubscriberStatus
+    {
+        Pending = 1,
+        Confirmed = 2
+    }
+    public enum ProductWidget
+    {
+        FeaturedProducts = 1,
+        PopularProducts = 2,
+        SpecialProducts = 3
+    }
+
+    public enum ClickChargeReturnType
+    {
+        Cost = 1,
+        Price = 2
+    }
+    public enum BreadCrumbMode : int
+    {
+        CategoryBrowsing = 1,
+        MyAccount = 2
+    }
+    public enum TemplateMode : int
+    {
+        UnrestrictedDesignerMode = 1,
+        RestrictedDesignerMode = 2,
+        SmartFormMode = 3,
+        DoNotLoadDesigner = 4
+    }
+
+    /// <summary>
+    /// Length Unit Enum
+    /// </summary>
+    public enum LengthUnit
+    {
+        Mm = 1,
+        Cm = 2,
+        Inch = 3
+    }
+    public enum SystemCostCenterTypes
+    {
+        Ink = 1,
+        Paper = 2,
+        Film = 3,
+        Plate = 4,
+        Makeready = 5,
+        Press = 6,
+        Washup = 7,
+        Guillotine = 8,
+        UserDefinedCostcentres = 9,
+        Stock = 10,
+        Outwork = 11,
+        ReelMakeready = 12,
+        FinishedGood = 13
+    }
+
+    public enum MachineCategories
+    {
+        Guillotin = 4,
+        Presses = 1,
+        DigitalPresses = 2,
+        copier = 3
+    }
+    public enum PressReRunModes
+    {
+        NotReRun = 1,
+        CalculateValuesToShow = 2,
+        ReRunPress = 3
+    }
+    public enum MethodTypes
+    {
+        ClickCharge = 1,
+        SpeedWeight = 3,
+        PerHour = 4,
+        ClickChargeZone = 5,
+        Guilotine = 6,
+        MeterPerHour = 8
+    }
+    public enum WeightUnits
+    {
+        lbs = 1,
+        GSM = 2,
+        KG = 3
+    }
+    public enum WebSpoilageTypes
+    {
+        inSheets = 1,
+        inMetters = 2
+    }
+    public enum PrintingTypeEnum
+    {
+        SheetFed = 1,
+        WebFed = 2,
+        Flexo = 3,
+        Continuous = 4
+    }
+
+    public enum OrderSectionFlag : int
+    {
+        UrgentOrder = 54
+    }
+
+    public enum ReportType : int
+    {
+        Internal = 0,
+        JobCard = 1,
+        Order = 2,
+        Estimate = 3,
+        Invoice = 4,
+        DeliveryNotes = 5,
+        PurchaseOrders = 6,
+        Customer = 7,
+        CriteriaFields = 8
+
     }
 }

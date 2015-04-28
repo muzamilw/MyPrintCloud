@@ -5,6 +5,7 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System;
 
 namespace MPC.Repository.Repositories
 {
@@ -47,6 +48,25 @@ namespace MPC.Repository.Repositories
         public Markup GetZeroMarkup()
         {
             return db.Markups.FirstOrDefault(c => c.MarkUpRate.Value == 0);
+        }
+
+        public List<Markup> GetMarkupsByOrganisationId(long OID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.Markups.Where(c => c.OrganisationId == OID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string GetMarkupNamebyID(long ID)
+        {
+            return db.Markups.Where(m => m.MarkUpId == ID).Select(e => e.MarkUpName).FirstOrDefault();
         }
 
         #endregion

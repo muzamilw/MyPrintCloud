@@ -27,7 +27,7 @@ function d1ToCanvas(src, x, y, IW, IH) {
         var imgtype = 2;
         if (isBKpnl) {
             imgtype = 4;
-        } StartLoader("Downloading image to your design, please wait....");
+        } StartLoader("Placing image on canvas");
         svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
@@ -83,7 +83,7 @@ function d1SvgToCCC(src, IW, IH) {
         var imgtype = 2;
         if (isBKpnl) {
             imgtype = 4;
-        } StartLoader("Downloading image to your design, please wait....");
+        } StartLoader("Placing image on canvas");
         svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
@@ -136,7 +136,7 @@ function d1ToCanvasCC(src, IW, IH) {
         if (isBKpnl) {
             imgtype = 4;
         }
-        StartLoader("Downloading image to your design, please wait....");
+        StartLoader("Placing image on canvas");
         svcCall4_img(n, tID, imgtype);
   
     } else {
@@ -174,6 +174,75 @@ function d1ToCanvasCC(src, IW, IH) {
         canvas.renderAll();
         TO.push(D1NIO);
     }
+
+}
+function d1CompanyLogoToCanvas(x, y) {
+    var center = canvas.getCenter();
+
+    var canvasHeight = Math.floor(canvas.height);
+    var canvasWidth = Math.floor(canvas.width);
+    var D1NIO = {};
+    D1NIO = fabric.util.object.clone(TO[0]);
+    D1NIO.ObjectId = --NCI;
+    D1NIO.ColorHex = "#000000";
+    D1NIO.IsBold = false;
+    D1NIO.IsItalic = false;
+    D1NIO.ProductPageId = SP;
+    D1NIO.MaxWidth = 100;
+    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+    D1NIO.PositionX = center.left;
+    D1NIO.PositionY = center.top;
+    D1NIO.ObjectType = 8;
+
+    D1NIO.MaxHeight = 300;
+    D1NIO.Height = 300;
+    D1NIO.MaxWidth = 300;
+    D1NIO.Width = 300;
+
+    D1NIO.IsQuickText = true;
+    D1NIO.ContentString = "/Content/Designer/assets-v2/Imageplaceholder_sim.png";
+    D1NIO.DisplayOrder = TO.length + 1;
+    D1NIO.left = center.left;
+   
+    k31(canvas, D1NIO);
+    var OBS = canvas.getObjects();
+
+    D1NIO.DisplayOrderPdf = OBS.length;
+    canvas.renderAll();
+    TO.push(D1NIO);
+
+}
+function d1ContactLogoToCanvas(x, y) {
+    var center = canvas.getCenter();
+    var canvasHeight = Math.floor(canvas.height);
+    var canvasWidth = Math.floor(canvas.width);
+    var D1NIO = {};
+    D1NIO = fabric.util.object.clone(TO[0]);
+    D1NIO.ObjectId = --NCI;
+    D1NIO.ColorHex = "#000000";
+    D1NIO.IsBold = false;
+    D1NIO.IsItalic = false;
+    D1NIO.ProductPageId = SP;
+    D1NIO.MaxWidth = 100;
+    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+    D1NIO.PositionX = center.left;
+    D1NIO.PositionY = center.top;
+    D1NIO.ObjectType = 12;
+
+    D1NIO.MaxHeight = 300;
+    D1NIO.Height = 300;
+    D1NIO.MaxWidth = 300;
+    D1NIO.Width = 300;
+
+    D1NIO.IsQuickText = true;
+    D1NIO.ContentString = "/Content/Designer/assets-v2/Imageplaceholder_sim.png";
+    D1NIO.DisplayOrder = TO.length + 1;
+    k31(canvas, D1NIO);
+    var OBS = canvas.getObjects();
+
+    D1NIO.DisplayOrderPdf = OBS.length;
+    canvas.renderAll();
+    TO.push(D1NIO);
 
 }
 function k35_load(DT) {
@@ -277,7 +346,7 @@ function d8(mode, dheight, title) {
 
         StopLoader();
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-            $(".previewerTitle").html('  <span class="lightGray">Proof :</span> " ' + title + ' "');
+            $(".previewerTitle").html('  <span class="lightGray">Approval for :</span>  ' + title + ' ');
         } else {
             $(".previewerTitle").html('  <span class="lightGray">Preview :</span> " ' + Template.ProductName + ' "');
         }
@@ -286,7 +355,7 @@ function d8(mode, dheight, title) {
         pcL36('show', "#PreviewerContainerDesigner");
 
 
-        $("#loadingMsg").html("Saving Content, Please wait..");
+        $("#loadingMsg").html("Saving Content");
     }
     else if (mode == "continue") {
         parent.SaveAttachments();
@@ -294,7 +363,7 @@ function d8(mode, dheight, title) {
     else if (returnText != '"true"') {
         alert("error z : " + returnText);
         StopLoader();
-        $("#loadingMsg").html("Saving Content, Please wait..");
+        $("#loadingMsg").html("Saving Content");
     }
 }
 function d8_chk(Pid) {
@@ -351,7 +420,7 @@ function e3() {
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
-
+   // console.log(dfZ1l + " " + D1CS);
 }
 
 function e5() {
@@ -421,6 +490,16 @@ function f2(c, m, y, k, ColorHex, Sname) {
             canvas.renderAll();
 
         });
+        if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+            $.each(TO, function (i, IT) {
+                if (IT.ObjectID == Obj.ObjectID) {
+                    IT.IsSpotColor = true;
+                    IT.SpotColorName = Sname;
+                    return;
+                }
+            });
+        }
+
     } else if (D1AO) {
         if (D1AO.type == 'text') {
             D1AO.setColor(ColorHex);
@@ -445,7 +524,16 @@ function f2(c, m, y, k, ColorHex, Sname) {
         }
 
         canvas.renderAll();
-
+        if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+            $.each(TO, function (i, IT) {
+                if (IT.ObjectID == D1AO.ObjectID) {
+                    IT.IsSpotColor = true;
+                    IT.SpotColorName = Sname;
+                    return;
+                }
+            });
+        }
+        $(".BtnChngeClr").css("background-color", ColorHex);
 
     } else {
         canvas.backgroundColor = ColorHex;
@@ -474,15 +562,33 @@ function f4() {
 }
 function f5(c, m, y, k) {
     var Color = getColorHex(c, m, y, k);
-    var html = "<label for='ColorPalle' id ='LblCollarPalet'> Click on button to apply </label><div class ='ColorPallet btnClrPallet' style='background-color:" + Color + "' onclick='f6(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;);'" + "></div>";
+    var html = "<label for='ColorPalle' id ='LblCollarPalet'> Click on button to apply </label><div class ='ColorPalletr btnClrPallet' style='background-color:" + Color + "' onclick='f6(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;);'" + "></div>";
     $('#LblDivColorC').html(c + "%");
     $('#LblDivColorM').html(m + "%");
     $('#LblDivColorY').html(y + "%");
     $('#LblDivColorK').html(k + "%");
     $('#ColorPickerPalletContainer').html(html);
+    $("#LblCollarPalet").click(function () {
+
+        $(".btnClrPallet").click();
+    });
 }
 function f6(c, m, y, k, Color) {
     var Sname = "";
+    if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+        Sname = window.prompt("Enter Spot Color Name Here! (Once a color is created, you cannot change its name or color)", "Spot Color 1");
+        if (Sname == null || Sname == "") {
+            return false;
+        } else {
+            $.getJSON("/designerapi/TemplateColorStyles/SaveCorpColor/" + Sname + "/" + c + "/" + m + "/" + y + "/" + k + "/" + CustomerID,
+				function (DT) {
+				    var PID = DT;
+				    var html = "<div id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + PID + ",&quot;DeActive&quot;);'></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+				    $('#tabsActiveColors').append(html);
+
+				});
+        }
+    }
     f2(c, m, y, k, Color, Sname);
 }
 function f6_1() {
@@ -497,7 +603,9 @@ function f9() {
         ISG1 = true;
         //  $("#BtnGuidesBC").find('span').text(" Hide Bleed and Trim lines");
     }
-    d5(SP);
+   // $("#loaderTitleMsg").text('Refreshing Canvas');
+    StartLoader('Refreshing Canvas');
+    d5(SP,true);
 }
 function fu11() {
     QuickTxtName = $("#txtQName").val();
@@ -674,6 +782,11 @@ function fu12(mode, title) {
             item.EntityKey.$id = it5;
             it5++;
         }
+        if(IsCalledFrom == 2)
+        {
+            item.originalTextStyles = item.textStyles;
+            item.originalContentString = item.ContentString;
+        }
     });
     $.each(TPOs, function (i, IT) {
         IT.$id = it2;
@@ -689,6 +802,10 @@ function fu12(mode, title) {
             }
         }
     });
+    // saving variables 
+    if (IsCalledFrom == 2) {
+        save_rs();
+    }
     //saving the objects first
     var obSt = {
         printCropMarks: printCropMarks,
@@ -873,6 +990,13 @@ function g2(e) {
         pcL13();
         pcL36('hide', '#textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText, #addImage , #addText , #DivToolTip');
         pcL36('show', '#DivAlignObjs');
+        $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage0");
+        if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+            $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+            //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
+            $("#FrontBackOptionPanal").css("display", "none");
+        }
+        $(".collapseDesignerMenu").css("display", "none");
     }
 
     if (D1AO && D1AO.type === 'text' || D1AO && D1AO.type === 'i-text') {
@@ -985,7 +1109,9 @@ function g2(e) {
             $("#BtnDeleteTxtObj").attr("disabled", "disabled");
             $("#BtnRotateTxtLft").attr("disabled", "disabled");
             $("#BtnRotateTxtRight").attr("disabled", "disabled");
-            $("#BtnLockTxtPosition").attr("disabled", "disabled");
+            if (IsCalledFrom != 2) {
+                $("#BtnLockTxtPosition").attr("disabled", "disabled");
+            }
             $("#BtnPrintObj").attr("disabled", "disabled");
 
             $("#BtnTxtCanvasAlignLeft").attr("disabled", "disabled");
@@ -1139,7 +1265,8 @@ function g2_1(e) {
             $(".CaseModeSlider").slider("option", "value", '1');
             //val=100
         }
-
+        var clr =  D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
         $("#textPropertyPanel").css("display", "block");
         $("#objPropertyPanel").css("display", "none");
         $("#BtnSelectFonts").fontSelector('option', 'font', D1AO.get('fontFamily'));
@@ -1207,7 +1334,7 @@ function g2_1(e) {
             if (IsEmbedded && !D1AO.IsEditable) {
                 $("#BtnLockEditing").attr("disabled", "disabled");
             }
-            if (IsEmbedded && D1AO.IsPositionLocked) {
+            if (IsEmbedded && D1AO.IsPositionLocked && IsCalledFrom != 2) {
                 $("#BtnLockTxtPosition").attr("disabled", "disabled");
             }
             $(".fontSelector").removeAttr("disabled");
@@ -1224,6 +1351,11 @@ function g2_1(e) {
             $("#inputObjectHeightTxt").spinner("option", "disabled", false);
             $("#inputPositionXTxt").spinner("option", "disabled", false);
             $("#inputPositionYTxt").spinner("option", "disabled", false);
+            if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+                $(".positioningControls").css("display", "none");
+            } else {
+                $(".positioningControls").css("display", "block");
+            }
         }
         else {
             $("#inputcharSpacing").spinner("option", "disabled", true);
@@ -1269,18 +1401,22 @@ function g2_1(e) {
             $("#inputPositionXTxt").spinner("option", "disabled", true);
             $("#inputPositionYTxt").spinner("option", "disabled", true);
             $(".fontSelector").attr("disabled", "disabled");
+            $(".positioningControls").css("display", "block");
         }
 
     }
     else if (D1AO && D1AO.type === 'image') {
         g2_22(1);
     } else if (D1AO && D1AO.type === 'rect') {
-        g2_22(2);
+        g2_22(2); var clr = D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
     } else if (D1AO && D1AO.type === 'ellipse') {
-        g2_22(2);
+        g2_22(2); var clr = D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
 
     } else if (D1AO && (D1AO.type === 'path-group' || D1AO.type === 'path')) {
-        g2_22(2);
+        g2_22(2); var clr = D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
     }
 
     k4();
@@ -1296,12 +1432,11 @@ function g2_22(mode) {
     $("#textPropertyPanel").css("display", "none");
     $("#objPropertyPanel").css("display", "block");
     $(".inputObjectAlphaSlider").slider("option", "value", (D1AO.getOpacity() * 100));
-    if (!D1AO.IsEditable) {
+    if (D1AO.IsEditable) {
         $("#LockImgProperties").prop('checked', true);
     } else {
         $("#LockImgProperties").prop('checked', false);
     }
-
     if (D1AO.IsHidden) {
         $("#BtnPrintImage").prop('checked', true);
     } else {
@@ -1318,8 +1453,8 @@ function g2_22(mode) {
         $("#LockPositionImg").prop('checked', false);
     }
     if (mode == 1) {
-        if ((IsEmbedded && D1AO.IsTextEditable && (IsCalledFrom == 4))) {
-        } else {
+      //  if ((IsEmbedded && D1AO.IsTextEditable && (IsCalledFrom == 4))) {
+      //  } else {
             $("#imgThumbPreview").attr("src", D1AO.getSrc());
             $(".imgthumbPreviewSlider").css("display", "block");
             $("#BtnCropImg2").css("display", "inline-block");
@@ -1336,7 +1471,7 @@ function g2_22(mode) {
                 //pcL36('show', '#ImagePropertyPanel');
                 //DisplayDiv('1');
             }
-        }
+       // }
     } else {
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
@@ -1360,6 +1495,7 @@ function g2_22(mode) {
             }
         }
     }
+    g1_(D1AO);
 }
 function g5(e) {
     IsDesignModified = true;
@@ -1372,9 +1508,9 @@ function g5(e) {
     }
 
     if (D1AO && showEBtn) {
-        g5_2(e);
+        g5_2(e); $(".collapseDesignerMenu").css("display", "list-item");
     } else {
-        g5_Sel(e);
+        g5_Sel(e); $(".collapseDesignerMenu").css("display", "list-item");
     }
 
 }
@@ -1401,17 +1537,18 @@ function g5_new(e) {
         pcL36('show', '#DivAlignObjs');
 
     }
-    else if (D1AO && (D1AO.IsPositionLocked != true || IsEmbedded == false)) {
+    else if (D1AO) { // && (D1AO.IsPositionLocked != true || IsCalledFrom == 2)
         $("#textPropertyPanel, #objPropertyPanel").css("display", "none");
         g2_1(e);
-
-    } else {
-        if (D1AO) {
-            pcL13();
-            pcL36('hide', '#DivAlignObjs , #textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText , #DivToolTip , #DivAlignObjs , #quickTextFormPanel , #DivPersonalizeTemplate ');
-            $(".layersPanel").click();
-        }
     }
+    //} else {
+    //    if (D1AO) {
+           
+    //        pcL13();
+    //        pcL36('hide', '#DivAlignObjs , #textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText , #DivToolTip , #DivAlignObjs , #quickTextFormPanel , #DivPersonalizeTemplate ');
+    //        $(".layersPanel").click();
+    //    }
+    //}
 
 }
 function g5_1(e) {
@@ -1558,6 +1695,7 @@ function h1(left, top) {
     ROL.K = "100";
     canvas.renderAll();
     TO.push(D1NTO);
+    canvas.setActiveObject(ROL);
 }
 function h2(left, top) {
     var NewCircleObejct = {};
@@ -1624,6 +1762,7 @@ function h2(left, top) {
     COL.K = "100";
     canvas.renderAll();
     TO.push(NewCircleObejct);
+    canvas.setActiveObject(COL);
 }
 function i7() {
     var OBS = canvas.getObjects();
@@ -1699,6 +1838,39 @@ function j4(e) {
         }
         //alert();
     }
+}
+function j7(i, n) {
+
+    $.getJSON("/designerapi/TemplateColorStyles/UpdateCorpColor/" + i + "/" + n,
+		function (DT) {
+		    //alert(DT);
+		    // var html = "<div class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "></div><div class='ColorPalletCorpName'>" + Sname + "</div>";
+		    //$('#DivColorContainer').append(html);
+		    if (n == "DeActive") {
+		        // var somvar = $("#somediv").html();
+		        $("#pallet" + i).clone(true).appendTo('#tabsInActiveColors');
+		        $("#textColor" + i).clone(true).appendTo('#tabsInActiveColors');
+		        $('#tabsActiveColors #pallet' + i).remove();
+		        $('#tabsActiveColors #textColor' + i).remove();
+		        $('#btnClr' + i).remove();
+		        var html = "<button  id ='btnClr" + i + "' class='btnActiveColor' title='Activate this color' onclick='j7(" + i + ",&quot;Active&quot;);'></button>";
+		        $("#pallet" + i).append(html);
+		    } else {
+		        $("#pallet" + i).clone(true).appendTo('#tabsActiveColors');
+		        $("#textColor" + i).clone(true).appendTo('#tabsActiveColors');
+		        $('#tabsInActiveColors #pallet' + i).remove();
+		        $('#tabsInActiveColors #textColor' + i).remove();
+		        $('#btnClr' + i).remove();
+		        var html = "<button  id ='btnClr" + i + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + i + ",&quot;DeActive&quot;);'></button>";
+		        $("#pallet" + i).append(html);
+		    }
+		});
+
+
+    // alert(n);  // DeActive
+    //pallet
+    //textColor
+
 }
 function l2(event) {
     if (event.keyCode == ctrlKey) D1CD = false;
@@ -1815,6 +1987,12 @@ function l2_temp() {
     });
 
 }
+
+$('input, textarea, select').focus(function () {
+    IsInputSelected = true;
+}).blur(function () {
+    IsInputSelected = false;
+});
 function l3(e) {
     if (e.keyCode == ctrlKey) D1CD = true;
     if (e.keyCode == D1SK) D1SD = true;
@@ -2142,6 +2320,16 @@ function pcL06() {
         canvas.renderAll();
     }
 }
+function pcL06ULine() {
+    var D1AO = canvas.getActiveObject();
+    if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
+        alert();
+        setActiveStyle('textDecoration', 'underline');
+        pcL22_Sub(D1AO);
+        // c2(D1AO);
+        canvas.renderAll();
+    }
+}
 function pcL07() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
@@ -2311,6 +2499,13 @@ function pcL20_new() {
                     var h = $("#canvas").offset().top + D1AO.top - D1AO.getHeight() / 2;
                     // l = l - 430 + 128;
                     // h -= 30;
+                    if (h < 0)
+                    {
+                        $(".CroptoolBar").css("transform", "translate3d(-3px, "+(h*-1) +"px, 0px)");
+                    } else
+                    {
+                        $(".CroptoolBar").css("transform", "translate3d(-3px, -47px, 0px)");
+                    }
                     $(".CropControls").css("left", (l) + "px");
                     $(".CropControls").css("top", (h) + "px");
                     image.cropbox({ width: D1AO.getWidth(), height: D1AO.getHeight(), showControls: 'auto', xml: D1AO.ImageClippedInfo })
@@ -2493,6 +2688,7 @@ function pcL29(fontSize, isBold, ContentString) {
     D1NTO.IsQuickText = false;
     D1NTO.FontSize = fontSize;
     D1NTO.textCase = 0;
+    D1NTO.IsUnderlinedText = false;
     var uiTextObject = c0(canvas, D1NTO);
     var center = canvas.getCenter();
     uiTextObject.left = center.left;
@@ -2504,6 +2700,47 @@ function pcL29(fontSize, isBold, ContentString) {
     uiTextObject.setCoords();
     TO.push(D1NTO);
     lAObj = D1NTO.ObjectID;
+    canvas.setActiveObject(uiTextObject);
+}
+var listToPass = [];
+function save_rrs_se_se(obj) {
+    $.each(TO, function (j, item) {
+        if (item.ContentString.indexOf(obj.VariableTag) != -1) {
+            listToPass.push(obj);
+            return true;
+        }
+    });
+    return false;
+}
+function save_rs_se(varlist) {
+    listToPass = [];
+    $.each(varlist, function (j, obj) {
+        save_rrs_se_se(obj);
+    });
+    return listToPass;
+}
+function save_rs() {
+    var to = "/designerApi/SmartForm/SaveTemplateVariables";
+    var dList = save_rs_se(varList);
+    var jsonObjects = JSON.stringify(dList, null, 2);
+    var options = {
+        type: "POST",
+        url: to,
+        data: jsonObjects,
+        contentType: "application/json",
+        async: true,
+        complete: function (httpresp, returnstatus) {
+            if (returnstatus == "success") {
+                if (httpresp.responseText == 'true') {
+                       //do nothing
+                }
+                else {
+                    alert(httpresp.responseText);
+                }
+            }
+        }
+    };
+    var returnText = $.ajax(options).responseText;
 }
 function setActiveStyle(styleName, value, c, m, y, k) {
     object = canvas.getActiveObject();
@@ -2542,6 +2779,15 @@ function setActiveStyle(styleName, value, c, m, y, k) {
             }
             else {
                 value = 'italic';
+            }
+            object[styleName] = value;
+        } else if (styleName == "textDecoration") {
+            styleName = "textDecoration";
+            if (object.textDecoration == 'underline') {
+                value = 'initial';
+            }
+            else {
+                value = 'underline';
             }
             object[styleName] = value;
         }
@@ -2655,4 +2901,264 @@ function pcL29_pcRestore(type) {
 
     }
 
+}
+function pcl42() {
+    StartLoader("Applying smart form variables to canvas.");
+    if (pcl42_Validate()) {
+        c2_v2(); c2_v2();// update template objects 
+        if ($("#optionRadioOtherProfile").is(':checked')) {
+            pcl42_updateVariables(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()]);
+            pcl42_svc(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], $("#smartFormSelectUserProfile").val());// save variables
+        }
+        else {
+            pcl42_updateVariables(smartFormData.scopeVariables);
+            pcl42_svc(smartFormData.scopeVariables,ContactID);// save variables
+        }
+        pcl42_UpdateTO();
+        bleedPrinted = false;
+        d5_sub(SP,true);
+       
+    } else
+    {
+        alert("Variable validation failed");
+    }
+    StopLoader();
+}
+function pcl42_updateVariables(data) {
+    
+    $.each(data, function (i, IT) {
+        if ($("#txtSmart" + IT.VariableId).val() != null && $("#txtSmart" + IT.VariableId).val() != "") {
+            IT.Value = $("#txtSmart" + IT.VariableId).val();
+        }
+    });
+}
+function pcl42_UpdateTO() {
+    //alert();
+    $.each(TO, function (i, IT) {
+        $.each(smartFormData.scopeVariables, function (i, obj) {
+            //if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
+            //{
+                var variableTag = obj.FieldVariable.VariableTag;
+                var variableTagUpperCase = "_&*)_*!!£$";  // because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null)
+                    variableTagUpperCase= obj.FieldVariable.VariableTag.toUpperCase();
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null)
+                    variableTagLowerCase =obj.FieldVariable.VariableTag.toLowerCase();
+                if (IT.originalContentString != null) {
+                    if (IT.originalContentString.indexOf(variableTag) != -1 || IT.originalContentString.indexOf(variableTagUpperCase) != -1 || IT.originalContentString.indexOf(variableTagLowerCase) != -1) {
+                        IT.ContentString = IT.originalContentString;
+                        IT.textStyles = IT.originalTextStyles;
+                        if (IT.originalTextStyles != null) {
+                            IT.textStyles = IT.originalTextStyles;
+                        }
+                    }
+                }
+            //}
+        });
+    });
+    if ($("#optionRadioOtherProfile").is(':checked')) {
+        $.each(TO, function (i, IT) {
+            $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
+              //  if (obj.ObjectType == 3)  // replacing variables
+                //    {
+                if (obj.Value == null) {
+                    obj.Value = "";
+                }
+                if (obj.Value != null ) {
+                    var variableTag = obj.FieldVariable.VariableTag;
+                    var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (obj.FieldVariable.VariableTag != null) {
+                        variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                        variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                    }
+                   
+                    
+                    while (IT.ContentString.indexOf(variableTag) != -1)
+                        updateTOWithStyles(IT, variableTag, obj.Value);
+                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
+                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value);
+                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
+                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value);
+                        // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                }
+              //  }
+            });
+        });
+    }
+    else {
+        $.each(TO, function (i, IT) {
+            $.each(smartFormData.scopeVariables, function (i, obj) {
+                var variableTag = obj.FieldVariable.VariableTag;
+                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null) {
+                    variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                    variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                }
+                if (obj.Value == null) {
+                    obj.Value = "";
+                }
+                if (obj.Value != null) {
+                    while (IT.ContentString.indexOf(variableTag) != -1) {
+                        updateTOWithStyles(IT, variableTag,obj.Value);
+                    }
+                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1) {
+                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value);
+                    }
+                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
+                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value);
+                    }
+//                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                }
+            });
+        }); 
+    }
+  
+
+}
+function pcl42_updateTemplate(DT) {
+   // alert();
+    if (userVariableData != null) {
+        $.each(userVariableData, function (i, vari) {
+            if (vari.Value != null) {
+                var variableTag = vari.FieldVariable.VariableTag;
+                $.each(DT, function (i, objDT) {
+                    while (objDT.ContentString.indexOf(variableTag) != -1)
+                        updateTOWithStyles(objDT, variableTag, vari.Value);
+                    while (objDT.ContentString.indexOf(variableTag.toLowerCase()) != -1)
+                        updateTOWithStyles(objDT, variableTag.toLowerCase(), vari.Value);
+                    while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
+                        updateTOWithStyles(objDT, variableTag.toUpperCase(), vari.Value);
+                });
+            } else {
+                var variableTag = vari.FieldVariable.VariableTag;
+                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (vari.FieldVariable.VariableTag != null)
+                {
+                    variableTagUpperCase = vari.FieldVariable.VariableTag.toUpperCase();
+                    variableTagLowerCase = vari.FieldVariable.VariableTag.toLowerCase();
+                }
+                $.each(DT, function (i, objDT) {
+                    while (objDT.ContentString.indexOf(variableTag) != -1)
+                        updateTOWithStyles(objDT, variableTag, "");
+                    while (objDT.ContentString.indexOf(variableTagUpperCase) != -1)
+                        updateTOWithStyles(objDT, variableTagUpperCase, "");
+                    while (objDT.ContentString.indexOf(variableTagLowerCase) != -1)
+                        updateTOWithStyles(objDT, variableTagLowerCase, "");
+                });
+            }
+        });
+    }
+}
+function getObjectToRemove(stylesCopy,objStyle){
+    var result = null;
+    $.each(stylesCopy, function (i, objDT) {
+        if(objDT.characterIndex == objStyle.characterIndex)
+        {
+            result =objDT;
+        }
+    });
+    return result;
+}
+function isEmptyStyles(customStyles) {
+    if (!customStyles) return true;
+    var obj = customStyles;
+
+    for (var p1 in obj) {
+        for (var p2 in obj[p1]) {
+            return false;
+        }
+    }
+    return true;
+}
+function updateTOWithStyles(obTO, vTag, vVal) {
+    // obTO.ContentString = obTO.ContentString.replace(vTag, vVal);
+    var objs = obTO.ContentString.split(vTag);
+    var variableLength = vTag.length;
+    var lengthCount = 0;
+    var content = "";
+    var styles = JSON.parse( obTO.textStyles);
+    var stylesCopy =JSON.parse( obTO.textStyles);
+    for (var i = 0; i < objs.length; i++) {
+        content += objs[i];
+        if ((i + 1) != objs.length) {
+            content += vVal;
+        }
+        lengthCount += objs[i].length;
+        var toMove = (i + 1) * variableLength;
+        var toCopy = lengthCount;
+        var styleExist = false;
+        var stylesRemoved = 0;
+        var StyleToCopy = null;
+        if (styles != null && styles != "") {
+
+            $.each(styles, function (i, objStyle) {
+
+                if (parseInt(objStyle.characterIndex) == toCopy) {
+                    styleExist = true;
+                    StyleToCopy = objStyle;
+                }
+                if (parseInt(objStyle.characterIndex) <= (lengthCount + variableLength) && parseInt(objStyle.characterIndex) >= lengthCount) {
+                    var objToRemove = getObjectToRemove(stylesCopy, objStyle);
+                    if (objToRemove != null) {
+                        stylesCopy = $.grep(stylesCopy, function (n, i) {
+                            return (n.characterIndex != objToRemove.characterIndex);
+                        });
+                        stylesRemoved++;
+                    }
+                }
+            });
+
+            var diff = vVal.length - (variableLength);
+            $.each(stylesCopy, function (i, objStyle) {
+                if (parseInt(objStyle.characterIndex) > (lengthCount + vTag.length)) {
+                    objStyle.characterIndex = ((parseInt(objStyle.characterIndex) + diff)).toString();
+                }
+            });
+            if (styleExist) {
+                for (var z = 0; z < vVal.length; z++) {
+                    var objToAdd = {
+                        fontName: StyleToCopy.fontName,
+                        fontSize: StyleToCopy.fontSize,
+                        fontStyle: StyleToCopy.fontStyle,
+                        fontWeight: StyleToCopy.fontWeight,
+                        textColor: StyleToCopy.textColor,
+                        textCMYK: StyleToCopy.textCMYK,
+                        characterIndex: (lengthCount + z).toString()
+
+                    }
+                    stylesCopy.push(objToAdd);
+                }
+            }
+        }
+      //  styles = new List < InlineTextStyles > (stylesCopy);
+        lengthCount += vVal.length;
+    }
+
+    obTO.ContentString = content;
+    if (styles != null && styles != "")
+        obTO.textStyles = JSON.stringify(stylesCopy, null, 2);;
+}
+function pcl42_Validate() {
+    var result = true;
+    $(".requiredSFObj").removeClass("requiredSFObj");
+    $.each(smartFormData.smartFormObjs, function (i, obj) {
+        if (obj.ObjectType == 3)  // replacing variables
+        {
+            if(obj.IsRequired == true)
+            {
+                var txt = $("#txtSmart" + obj.VariableId).val();
+                if(txt == "" || txt == "null")
+                {
+                    $("#txtSmart" + obj.VariableId).addClass("requiredSFObj");
+                    $("#txtSmart" + obj.VariableId).focus();
+                    result =  false;
+                }
+            }
+        }
+    });
+    return result;
 }

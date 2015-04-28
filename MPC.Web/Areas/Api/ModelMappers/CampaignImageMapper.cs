@@ -13,9 +13,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static CampaignImage CreateFrom(this DomainModels.CampaignImage source)
         {
             byte[] bytes = null;
-            if (File.Exists(source.ImagePath))
+            if (!string.IsNullOrEmpty(source.ImagePath))
             {
-                bytes = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
+                string imagePath = HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
+                if (File.Exists(imagePath))
+                {
+                    bytes = File.ReadAllBytes(imagePath);
+                }
             }
             return new CampaignImage()
              {
@@ -37,8 +41,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CampaignImageId = source.CampaignImageId,
                 CampaignId = source.CampaignId,
                 ImageByteSource = source.ImageByteSource,
-                ImageName = source.ImageName,
-                ImagePath = source.ImagePath
+                ImageName = source.ImageName
             };
         }
 

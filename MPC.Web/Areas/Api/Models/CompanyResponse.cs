@@ -10,6 +10,16 @@ namespace MPC.MIS.Areas.Api.Models
         public int RowCount { get; set; }
 
         /// <summary>
+        /// Count of new Orders
+        /// </summary>
+        public int NewOrdersCount { get; set; }
+
+        /// <summary>
+        /// Count of new Users
+        /// </summary>
+        public int NewUsersCount { get; set; }
+
+        /// <summary>
         /// List of Companies
         /// </summary>
         public IEnumerable<CompanyListViewModel> Companies { get; set; }
@@ -39,5 +49,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Items/ Products
         /// </summary>
         public ItemSearchResponse Items { get; set; }
+
+        public IEnumerable<SkinForTheme> Themes { get; set; }
     }
 }

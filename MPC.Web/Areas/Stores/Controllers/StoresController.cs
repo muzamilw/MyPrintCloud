@@ -32,7 +32,7 @@ namespace MPC.MIS.Areas.Stores.Controllers
         }
         #endregion
         // GET: Stores/Stores
-        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+       [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public ActionResult Index()
         {
             return View();
@@ -68,5 +68,7 @@ namespace MPC.MIS.Areas.Stores.Controllers
             file.SaveAs(savePath);
             companyService.SaveFile(savePath, companyId);
         }
+
+     
     }
 }

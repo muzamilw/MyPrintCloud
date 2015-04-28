@@ -37,29 +37,63 @@ namespace MPC.Repository.Repositories
 
         public List<CmsPage> GetSecondaryPages(long CompanyId)
         {
+            try
+            {
+                return db.CmsPages.Where(p => (p.CompanyId == CompanyId || p.CompanyId == null) && p.isEnabled == true).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-            return db.CmsPages.Where(p => (p.CompanyId == CompanyId || p.CompanyId == null) && p.isEnabled == true).ToList();
 
         }
 
+        /// <summary>
+        /// Get Cms pages for orders
+        /// </summary>
+        public IEnumerable<CmsPage> GetCmsPagesForOrders(long companyId)
+        {
+            try
+            {
+                return DbSet.Where(
+              cmspage =>
+              cmspage.isUserDefined == false && cmspage.OrganisationId == OrganisationId &&
+              cmspage.CompanyId == companyId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         /// <summary>
         /// Get CMS Pages
         /// </summary>
         public SecondaryPageResponse GetCMSPages(SecondaryPageRequestModel request)
         {
-            int fromRow = (request.PageNo - 1) * request.PageSize;
-            int toRow = request.PageSize;
-            IEnumerable<CmsPage> CmsPages =
-            DbSet.Where(x => x.CompanyId == request.CompanyId).OrderBy(x => x.PageId)
-                    .Skip(fromRow)
-                .Take(toRow)
-                .ToList();
-
-            return new SecondaryPageResponse
+            try
             {
-                RowCount = CmsPages.Count(),
-                CmsPages = CmsPages
-            };
+                int fromRow = (request.PageNo - 1) * request.PageSize;
+                int toRow = request.PageSize;
+                IEnumerable<CmsPage> CmsPages =
+                DbSet.Where(x => x.CompanyId == request.CompanyId && x.isUserDefined == request.IsUserDefined).OrderBy(x => x.PageId)
+                        .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+                int rowCount =
+                    DbSet.Count(x => x.CompanyId == request.CompanyId && x.isUserDefined == request.IsUserDefined);
+                return new SecondaryPageResponse
+                {
+                    RowCount = rowCount,
+                    CmsPages = CmsPages
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         /// <summary>
         /// Get System pages and User defined secondary pages by company id
@@ -69,30 +103,39 @@ namespace MPC.Repository.Repositories
 
         public List<CmsPageModel> GetSystemPagesAndSecondaryPages(long CompanyId)
         {
-            var query = from page in db.CmsPages
-                         where (page.CompanyId == CompanyId || page.CompanyId == null) && page.isEnabled == true
-                         select new CmsPageModel
-                         {
-                             PageId = page.PageId,
-                             PageName = page.PageName,
-                             isEnabled = page.isEnabled,
-                             CategoryId = page.CategoryId,
-                             isUserDefined = page.isUserDefined,
-                             CompanyId = page.CompanyId,
-                             Meta_AuthorContent = page.Meta_AuthorContent,
-                             Meta_CategoryContent = page.Meta_CategoryContent,
-                             Meta_DateContent = page.Meta_DateContent,
-                             Meta_DescriptionContent = page.Meta_DescriptionContent,
-                             Meta_HiddenDescriptionContent = page.Meta_HiddenDescriptionContent,
-                             Meta_KeywordContent = page.Meta_KeywordContent,
-                             Meta_LanguageContent = page.Meta_LanguageContent,
-                             Meta_RevisitAfterContent = page.Meta_RevisitAfterContent,
-                             Meta_RobotsContent = page.Meta_RobotsContent,
-                             Meta_Title = page.Meta_Title,
-                             PageTitle = page.PageTitle
-                             
-                         };
-            return query.ToList<CmsPageModel>();
+            try
+            {
+                var query = from page in db.CmsPages
+                            where (page.CompanyId == CompanyId) && page.isEnabled == true
+                            select new CmsPageModel
+                            {
+                                PageId = page.PageId,
+                                PageName = page.PageName,
+                                isEnabled = page.isEnabled,
+                                CategoryId = page.CategoryId,
+                                isUserDefined = page.isUserDefined,
+                                CompanyId = page.CompanyId,
+                                Meta_AuthorContent = page.Meta_AuthorContent,
+                                Meta_CategoryContent = page.Meta_CategoryContent,
+                                Meta_DateContent = page.Meta_DateContent,
+                                Meta_DescriptionContent = page.Meta_DescriptionContent,
+                                Meta_HiddenDescriptionContent = page.Meta_HiddenDescriptionContent,
+                                Meta_KeywordContent = page.Meta_KeywordContent,
+                                Meta_LanguageContent = page.Meta_LanguageContent,
+                                Meta_RevisitAfterContent = page.Meta_RevisitAfterContent,
+                                Meta_RobotsContent = page.Meta_RobotsContent,
+                                Meta_Title = page.Meta_Title,
+                                PageTitle = page.PageTitle
+
+                            };
+                return query.ToList<CmsPageModel>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
         }
 
         public CmsPage getPageByID(long PageID)
@@ -101,12 +144,20 @@ namespace MPC.Repository.Repositories
             {
                 return db.CmsPages.Where(p => p.PageId == PageID).FirstOrDefault();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-          
-           
+
+
+        }
+
+        /// <summary>
+        /// Get Cms Pages By Company Id
+        /// </summary>
+        public List<CmsPage> GetCmsPagesByCompanyId(long companyId)
+        {
+            return DbSet.Where(cp => cp.CompanyId == companyId).ToList();
         }
     }
 }

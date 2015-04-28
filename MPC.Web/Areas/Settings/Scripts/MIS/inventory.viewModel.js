@@ -33,6 +33,8 @@ define("inventory/inventory.viewModel",
                     pager = ko.observable(),
                     //Search Filter
                     searchFilter = ko.observable(),
+                     //Organisation culture region
+                    orgRegion = ko.observable(),
                     //Supplier Filter
                     supplierFilter = ko.observable(),
                     //Category Filter
@@ -83,7 +85,15 @@ define("inventory/inventory.viewModel",
                     // #endregion Arrays
 
                     // #region Utility Functions
+                     // Inventory Has Changes
+            inventoryHasChanges = new ko.dirtyFlag({
+                costPriceList: costPriceList,
 
+            }),
+                 // Has Changes
+            hasChangesOnInventory = ko.computed(function () {
+                return ((selectedInventory() && selectedInventory().hasChanges()) || inventoryHasChanges.isDirty());
+            }),
                       // Delete a Inventory
                     onDeleteInventory = function (inventory) {
                         if (!inventory.itemId()) {
@@ -109,7 +119,7 @@ define("inventory/inventory.viewModel",
                         dataservice.deleteInventory(inventory.convertToServerData(), {
                             success: function () {
                                 inventories.remove(inventory);
-                                toastr.success("Stock Item Successfully remove.");
+                                toastr.success("Stock item successfully removed.");
                             },
                             error: function () {
                                 toastr.error("Failed to remove stock item.");
@@ -138,6 +148,8 @@ define("inventory/inventory.viewModel",
                                         selectedInventory().paperType("Roll Paper");
                                     }
                                     selectedInventory().reset();
+                                   
+                                    inventoryHasChanges.reset();
                                     showInventoryEditor();
                                     sharedNavigationVM.initialize(selectedInventory, function (saveCallback) { onSaveInventory(saveCallback); });
                                 }
@@ -151,6 +163,7 @@ define("inventory/inventory.viewModel",
                     getInventoriesListItems = function () {
                         isLoadingInventory(true);
                         dataservice.getInventoriesList({
+                            Region: orgRegion(),
                             SearchString: searchFilter(),
                             CategoryId: categoryFilter(),
                             SubCategoryId: subCategoryFilter(),
@@ -160,16 +173,15 @@ define("inventory/inventory.viewModel",
                             IsAsc: sortIsAsc()
                         }, {
                             success: function (data) {
-                                pager().totalCount(data.TotalCount);
-                                inventories.removeAll();
-                                var inventoryList = [];
-                                _.each(data.StockItems, function (item) {
-                                    var inventory = new model.InventoryListView.Create(item);
-                                    inventoryList.push(inventory);
-                                });
-                                ko.utils.arrayPushAll(inventories(), inventoryList);
-                                inventories.valueHasMutated();
+                                if (data) {
+                                    pager().totalCount(data.TotalCount);
+                                    inventories.removeAll();
+                                    _.each(data.StockItems, function(item) {
+                                        inventories.push( new model.InventoryListView.Create(item));
+                                    });
+                                }
                                 isLoadingInventory(false);
+                                    
                             },
                             error: function () {
                                 isLoadingInventory(false);
@@ -182,6 +194,9 @@ define("inventory/inventory.viewModel",
                     getBase = function () {
                         dataservice.getInventoryBase({
                             success: function (data) {
+                                // Orgnaisation region
+                                orgRegion(data.Region);
+                                getInventoriesListItems();
                                 //Categories
                                 categories.removeAll();
                                 ko.utils.arrayPushAll(categories(), data.StockCategories);
@@ -256,8 +271,7 @@ define("inventory/inventory.viewModel",
                             });
                         }
                     }, this),
-
-                     //On select Supplier
+                    //On select Supplier
                     selectedSupplier = ko.computed(function () {
                         if (supplierVm.selectedSupplier() !== undefined) {
                             selectedInventory().supplierId(supplierVm.selectedSupplier().supplierId());
@@ -399,7 +413,7 @@ define("inventory/inventory.viewModel",
                             supplierVm.selectedSupplier(undefined);
 
 
-                            dataservice.saveInventory(selectedInventory().convertToServerData(), {
+                            dataservice.saveInventory(selectedInventory().convertToServerData(orgRegion()), {
                                 success: function (data) {
                                     //For Add New
                                     if (selectedInventory().itemId() === 0) {
@@ -415,16 +429,18 @@ define("inventory/inventory.viewModel",
                                         selectedInventoryCopy().weightUnitName(data.WeightUnitName);
                                         selectedInventoryCopy().fullCategoryName(data.FullCategoryName);
                                         selectedInventoryCopy().supplierCompanyName(data.SupplierCompanyName);
+                                        selectedInventoryCopy().packCostPrice(data.PackCostPrice || '');
                                     }
                                     isInventoryEditorVisible(false);
+                                    sharedNavigationVM.reset();
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
-                                    toastr.success("Successfully save.");
+                                    toastr.success("Saved Successfully.");
                                 },
                                 error: function (exceptionMessage, exceptionType) {
 
-                                    if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                    if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
                                         toastr.error(exceptionMessage);
 
@@ -464,6 +480,7 @@ define("inventory/inventory.viewModel",
                             confirmation.afterCancel(function () {
                                 isInventoryEditorVisible(false);
                                 selectedInventory().reset();
+                                sharedNavigationVM.reset();
                             });
                             confirmation.show();
                             return;
@@ -481,7 +498,7 @@ define("inventory/inventory.viewModel",
                     },
                      // Select a Cost Item
                     selectCostItem = function (costItem) {
-                        if (selectedCostItem() != undefined && !selectedCostItem().isValid()) {
+                        if (selectedCostItem() !== undefined && !selectedCostItem().isValid()) {
                             return;
                         }
                         if (selectedCostItem() !== costItem) {
@@ -601,9 +618,13 @@ define("inventory/inventory.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
-                        pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventoriesListItems));
-                        getInventoriesListItems();
-
+                        pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
+                        categoryFilter.subscribe(function() {
+                            filterInventories();
+                        });
+                        subCategoryFilter.subscribe(function () {
+                            filterInventories();
+                        });
                     };
                 // #endregion Arrays
 
@@ -661,6 +682,8 @@ define("inventory/inventory.viewModel",
                     onAddSupplier: onAddSupplier,
                     gotoElement: gotoElement,
                     currencySymbol: currencySymbol,
+                    orgRegion: orgRegion,
+                    hasChangesOnInventory: hasChangesOnInventory
                 };
             })()
         };

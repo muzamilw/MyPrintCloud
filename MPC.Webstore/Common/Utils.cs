@@ -15,6 +15,7 @@ using MPC.Webstore.ModelMappers;
 using MPC.Models.ResponseModels;
 using System.Runtime.Caching;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MPC.Webstore.Common
 {
@@ -68,9 +69,6 @@ namespace MPC.Webstore.Common
             {
                 return "";
             }
-            // return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat.Replace(".",",")), 2));
-
-
         }
 
         public static DateTime AddBusinessdays(decimal ProductionDays, DateTime StartingDay)
@@ -107,7 +105,6 @@ namespace MPC.Webstore.Common
         public static string FormatDecimalValueToZeroDecimal(string valueToFormat)
         {
 
-            // return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat.Replace(".",",")), 2));
             return string.Format("{0:0}", Math.Round(Convert.ToDouble(valueToFormat), 2));
 
         }
@@ -194,15 +191,44 @@ namespace MPC.Webstore.Common
 
         public static string specialCharactersEncoder(string value)
         {
-            value = value.Replace("/", "-");
-            value = value.Replace(" ", "-");
-            value = value.Replace(";", "-");
-            value = value.Replace("&#34;", "");
-            value = value.Replace("&", "");
-            value = value.Replace("+", "");
+            if(!string.IsNullOrEmpty(value))
+            {
+                value = value.Replace("/", "-");
+                value = value.Replace(" ", "-");
+                value = value.Replace(";", "-");
+                value = value.Replace("&#34;", "");
+                value = value.Replace("&", "");
+                value = value.Replace("+", "");
+            }
+            
             return value;
         }
+        public static string BuildCategoryUrl(string pageName, string CategoryName, string CategoryId)
+        {
+            string queryString = string.Empty;
 
+            if (!string.IsNullOrWhiteSpace(pageName))
+                queryString = string.Format("{0}{1}{2}", "/", pageName, "/");
+
+            CategoryName = specialCharactersEncoder(CategoryName);
+            queryString += string.Format("{0}{1}{2}", CategoryName, "/", CategoryId);
+            return queryString;
+        }
+      
+    }
+
+    public static class CloneList
+    {
+        public static T DeepClone<T>(this T o)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, o);
+                stream.Position = 0;
+                return (T)formatter.Deserialize(stream);
+            }
+        }
     }
     public static class CommonHtmlExtensions
     {

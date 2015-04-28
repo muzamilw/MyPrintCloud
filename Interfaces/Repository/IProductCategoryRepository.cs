@@ -19,7 +19,7 @@ namespace MPC.Interfaces.Repository
 
         ProductCategory GetCategoryById(long categoryId);
 
-        List<ProductCategory> GetChildCategories(long categoryId);
+        List<ProductCategory> GetChildCategories(long categoryId, long CompanyId);
 
         List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 
@@ -41,7 +41,7 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Get parent categories
         /// </summary>
-        IEnumerable<ProductCategory> GetParentCategories();
-
+        IEnumerable<ProductCategory> GetParentCategories(long? companyId);
+        List<ProductCategory> GetChildCategories(long categoryId);
     }
 }

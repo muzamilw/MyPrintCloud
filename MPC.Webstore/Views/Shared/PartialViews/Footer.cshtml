@@ -5,26 +5,27 @@
 
     <div id="FooterContainer" class="PDTCWB">
         <div class="container content_area">
-            <div class="row left_right_padding">
+            <div class="left_right_padding">
                 <div class="footer_sub">
                     <div class="footer_sub_height">
-                        <div class="txtAlignLeft footerLogoContainer col-xs-12 col-sm-2 col-md-3 col-lg-3">
+                        <div class="txtAlignLeft footerLogoContainer col-xs-12 col-sm-4 col-md-3 col-lg-3">
 
                             <a href='/'>
-                                <img id="imgfooterLogo" class="footerLogoBranding" src="@Html.GetAppBasePath()@Model.Image" />
+                                <img id="imgfooterLogo" class="footerLogoBranding" src="/@Model.Image" />
                             </a>
                         </div>
-                        <div class="txtAlignLeft col-md-6 col-sm-6 col-xs-12 col-lg-6 payment_sec NoPadding">
+                        <div class="txtAlignLeft col-md-6 col-sm-5 col-xs-12 col-lg-6 payment_sec NoPadding">
                             <div class="copyTerms">
-                                <label id="lbl_CopyRightMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyrite", UserCookieManager.StoreId))</label>
+                                <a id="lbl_CopyRightMessage" onclick="ShowLoader();" style="  font-size: 12px;
+  font-weight: normal;" href="/pages/@SecondryPagesInfo.PrivacyPolicy/@Convert.ToInt32(SecondryPagesInfo.PrivacyPolicy)">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId))</a>
                                 <a id="lnkTermsCondtions" class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
-                                   href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.StoreId))</a>
+                                   href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.WBStoreId))</a>
                             </div>
 
                             <div class="powerPrivacy">
                                 <a id="hlPweredBy" href="http://www.myprintcloud.com/"
                                    class="poweredby"></a>
-                                <a id="lnkPrivacyPolicy" href="/pages/@SecondryPagesInfo.PrivacyPolicy/@Convert.ToInt32(SecondryPagesInfo.PrivacyPolicy)" class="small_gray_hyperlink hyPrivacyP" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.StoreId))</a>
+                                <label id="lnkPrivacyPolicy" class="small_gray_hyperlink hyPrivacyP" >@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyrite", UserCookieManager.WBStoreId))</label>
                             </div>
                         </div>
                         <div class="txtAlignLeft col-xs-12 col-md-3 col-sm-4  col-lg-3 social_icons" id="pnlFollowUs">

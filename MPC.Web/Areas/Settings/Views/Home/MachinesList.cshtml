@@ -4,105 +4,108 @@
 @section leftmenue {
 
 }
+
 <div class="row" id="divMachineListBinding">
     <div class="col-lg-12" data-bind="visible: !isEditorVisible()">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li><a href="~/Estimate/EstimateList">Settings</a></li>
-                    <li><a href="~/Estimate/EstimateDetail">Plant</a></li>
-                    <li class="active"><span>Machines</span></li>
+                  
+                    <li class="active"><span>&nbsp;</span></li>
                 </ol>
                 <h1>Machines</h1>
-            </div>
-        </div>
-        <div class="row">
-            @*id="user-profile"*@
-
-            <div class="col-lg-12 col-md-8 col-sm-8">
-                <div class="main-box clearfix">
-                    <div class="tabs-wrapper profile-tabs">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab-presses" data-bind="click: $root.GetMachineListForAll" data-toggle="tab">Presses</a></li>
-                            <li><a href="#tab-Guillotine" data-bind="click: $root.GetMachineListForGuillotine" data-toggle="tab">Guillotine</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane fade in active" id="tab-presses">
-                                <div class="col-lg-12">
-                                    <div class="main-box no-header clearfix">
-                                        <div class="main-box-body clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table user-list">
-                                                    <thead>
-                                                        <tr>
-                                                            <th><span>Machine Name</span></th>
-                                                            <th><span>Max Sheet Size</span></th>
-                                                            <th><span>Min Sheet Size</span></th>
-                                                            <th ><span>Calculation Method</span></th>
-                                                            <th>&nbsp;</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- ko template: { name: 'itemMachineTemplate' , foreach: $root.machineList } -->
-                                                        <!-- /ko -->
-
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div id="pagerDiv">
-                                        <!-- ko with: pager -->
-                                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                        <!-- /ko -->
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="tab-pane fade " id="tab-Guillotine" >
-                                <div class="col-lg-12">
-                                    <div class="main-box no-header clearfix">
-                                        <div class="main-box-body clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table user-list">
-                                                    <thead>
-                                                        <tr>
-                                                            <th><span>Machine Name</span></th>
-                                                            <th><span>Max Sheet Size</span></th>
-                                                            <th><span>Min Sheet Size</span></th>
-                                                            <th><span>Calculation Method</span></th>
-                                                            <th>&nbsp;</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- ko template: { name: 'itemMachineTemplate' , foreach: $root.machineList } -->
-                                                        <!-- /ko -->
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="pagerDiv">
-                                        <!-- ko with: pager -->
-                                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                        <!-- /ko -->
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                <div class="pull-right top-page-ui">
+                        <span id="btnCreateNewMachine">  Create New Press </span>
+                    <div id="addMachine">
+                        &nbsp;
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+                        <div class="col-lg-12 col-md-8 col-sm-8">
+                            <div class="main-box clearfix machineDetailsHeader">
+                                <div class="tabs-wrapper profile-tabs">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab-presses" data-bind="click: $root.GetMachineListForAll" data-toggle="tab">Presses</a></li>
+                                        <li><a href="#tab-Guillotine" data-bind="click: $root.GetMachineListForGuillotine" data-toggle="tab">Guillotine</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade in active" id="tab-presses">
+                                            <div class="col-lg-12">
+                                                <div class="no-header clearfix">
+                                                    <div class="main-box-body clearfix">
+                                                        <div class="table-responsive">
+                                                            <table class="table user-list">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th><span>Machine Name</span></th>
+                                                                        <th><span>Max Sheet Size</span></th>
+                                                                        <th><span>Min Sheet Size</span></th>
+                                                                        <th><span>Calculation Method</span></th>
+                                                                        <th>&nbsp;</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- ko template: { name: 'itemMachineTemplate' , foreach: $root.machineList } -->
+                                                                    <!-- /ko -->
+
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div id="pagerDiv" class="pull-right">
+                                                    <!-- ko with: pager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="tab-pane fade " id="tab-Guillotine">
+                                            <div class="col-lg-12">
+                                                <div class="no-header clearfix">
+                                                    <div class="main-box-body clearfix">
+                                                        <div class="table-responsive">
+                                                            <table class="table user-list">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th><span>Machine Name</span></th>
+                                                                        <th><span>Max Sheet Size</span></th>
+                                                                        <th><span>Min Sheet Size</span></th>
+                                                                        <th><span>Calculation Method</span></th>
+                                                                        <th>&nbsp;</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- ko template: { name: 'itemMachineTemplate' , foreach: $root.machineList } -->
+                                                                    <!-- /ko -->
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="pagerDiv" class="pull-right">
+                                                    <!-- ko with: pager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+        </div>
     </div>
     @Html.Partial("~/Areas/Settings/Views/Home/MachinesDetail.cshtml")
-   
+
     <!-- ko stopBinding: true -->
     @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
     @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
@@ -117,7 +120,7 @@
         </td>
         <td><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
         <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
-        
+
         <td data-bind="text: LookupMethodName"></td>
         <td id="actionColumn">
             <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
@@ -143,14 +146,17 @@
 </script>
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
-   
+
+
     <script>
         require(["machine/machine.view", "common/confirmation.view", "common/stockItem.view"]);
         $(function () {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');
             $('#liMachineList').addClass('active');
+           
         });
+        
 
     </script>
 }

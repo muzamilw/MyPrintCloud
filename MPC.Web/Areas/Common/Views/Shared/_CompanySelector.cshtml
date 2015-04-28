@@ -32,7 +32,7 @@
                         </div>
 
                     </div>
-                    <footer class="main-box-header pull-left">
+                    <footer class="main-box-header pull-right">
                         <div id="pagerDiv">
                             <!-- ko with: companyDialogPager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -43,7 +43,6 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
             </div>
         </div>
@@ -54,30 +53,27 @@
     <tr data-bind="click: $root.onSelectCompany">
         <td data-bind="text:name"></td>
         <td data-bind="text:url"></td>
-        <td data-bind="text:creationDate"></td>
+        <td>
+            <span data-bind="dateString:creationDate,datePattern: 'DD/MM/YYYY'"></span>
+        </td>
     </tr>
 </script>
 
 @* Filter Template *@
 <script id="companySelectorFilterTemplate" type="text/html">
     <div class="filter-body">
-        <div class="filter-block pull-left">
-            <div class="pull-left spanfilterlbl">
-                Search: &nbsp;
+        <form data-bind="submit: $root.searchCompanies">
+            <div class="filter-block pull-right">
+                <div class="form-group pull-right">
+                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: companyDialogFilter">
+                    <i class="fa fa-search search-icon" data-bind="click: $root.searchCompanies"></i>
+                </div>
             </div>
-            <div class="form-group pull-left">
-                <input type="text" class="form-control" placeholder="Search..." data-bind="value: companyDialogFilter">
-                <i class="fa fa-search search-icon"></i>
-            </div>
-            <div class="pull-left">
-                <button type="submit" class="btn btn-primary" data-bind="click: searchCompanies">Search</button>
-                <button type="submit" class="btn btn-default" data-bind="click: resetCompanies">Reset</button>
-            </div>
-        </div>
-        <div class="clearfix">
-            <div class="pull-right">
-            </div>
-        </div>
-    </div>
+         </form>
+         <div class="clearfix">
+              <div class="pull-right">
+              </div>
+         </div>
+</div>
 </script>
 @* Wizard Popup ends here*@

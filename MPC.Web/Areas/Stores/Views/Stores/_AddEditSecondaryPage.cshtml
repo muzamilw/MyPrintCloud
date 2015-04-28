@@ -1,6 +1,6 @@
 ﻿
 <div class="modal fade my-modal" id="secondaryPageAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedSecondaryPage">
+    <div style="width: 1280px;" class="modal-dialog" data-bind="with:$root.selectedSecondaryPage">
         <div class="modal-content">
             <div class="modal-header" >
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -11,11 +11,18 @@
                     <div class="main-box clearfix" id="tabsHeaderSecondarypage">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
+                                <!-- ko if: isUserDefined() == true -->
                                 <li class="active"><a href="#tab-SecondaryPageDetail" data-toggle="tab">Page Details</a></li>
-                                <li><a href="#tab-SecondaryPageKeyword" data-toggle="tab">Page Keywords</a></li>
+                                <!-- /ko -->
+
+                                <li data-bind="css: isUserDefined() == true ?  '' : 'active'" ><a href="#tab-SecondaryPageKeyword" data-toggle="tab">Page Keywords</a></li>
+
+                                <!-- ko if: isUserDefined() == true -->
                                 <li><a href="#tab-UserAddressInfo" data-toggle="tab">Page Content</a></li>
+                                <!-- /ko -->
                             </ul>
                             <div class="tab-content">
+                                <!-- ko if: isUserDefined() == true -->
                                 <div class="tab-pane fade in active" id="tab-SecondaryPageDetail">
                                     <div class="col-lg-12">
                                         <div class=" form-horizontal clearfix">
@@ -23,7 +30,7 @@
                                                 <div class="form-group ">
                                                     <div class="col-lg-5 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Title For Secondary Page" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Title For Secondary Page" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -36,7 +43,7 @@
                                                 <div class="form-group ">
                                                     <div class="col-lg-5 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category of Page" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category of Page" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -54,19 +61,16 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-5 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Banner from Media Library" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Banner from Media Library" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
-
                                                         </div>
-
                                                         <label class="control-label text-right tooltip-float">Upload banner (PNG 1000 pixels)</label>
-
                                                     </div>
-
                                                     <div class="col-lg-6">
-                                                        <img width="290" height="217" data-bind="attr: { src: imageSrc }" />
+                                                        @*<img width="290" height="217" data-bind="attr: { src: imageSrc }" />*@
+                                                        <img width="290" height="217" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
+                                                        <img width="290" height="217" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
                                                     </div>
                                                     <div class="col-lg-1">
                                                         <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
@@ -75,11 +79,33 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-5 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This will list the secondary pages on the Home Page footer for quick reference.  Secondary pages are editable to create your own versions of help, about us etc.  Secondary pages can be individualized to each store" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label class="control-label text-right tooltip-float">Is Enable</label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="statusSecondaryPages" data-bind="checked:isEnabled">
+                                                            <label class="onoffswitch-label" for="statusSecondaryPages">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="tab-SecondaryPageKeyword">
+                                <!-- /ko -->
+
+                                <div data-bind="css: isUserDefined() == true ?  'tab-pane fade in' : 'tab-pane fade in active'"  id="tab-SecondaryPageKeyword">
                                     <div class=" form-horizontal clearfix">
                                         <h3 class="group-header">Page Keywords</h3>
 
@@ -91,7 +117,7 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <button class="btn btn-primary pull-right" data-bind="click:$root.addDefaultPageKeyWords,disable:$root.selectedStore().companyId()===undefined">
+                                                    <button class="btn btn-primary pull-right" data-bind="click:$root.addDefaultPageKeyWords">
                                                         Load Defaults
                                                     </button>
                                                 </div>
@@ -101,7 +127,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Keywords List" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Keywords List" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -125,7 +151,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Meta Title" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Meta Title" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -145,7 +171,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Description Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Description Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -167,7 +193,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -187,7 +213,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Robot Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Robot Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -207,7 +233,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Author Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Author Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -227,7 +253,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Language Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Language Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -247,7 +273,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Revist after contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Revist after contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -266,15 +292,18 @@
 
                                     </div>
                                 </div>
+                                
+                                <!-- ko if: isUserDefined() == true -->
                                 <div class="tab-pane fade" id="tab-UserAddressInfo">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="main-box clearfix">
-                                                <textarea name="html_link_content" id="content" data-bind="editor: pageHTML, valueUpdate: 'afterkeydown'"></textarea>
+                                                <textarea name="html_link_content" id="content" data-bind="editor: pageHTML, valueUpdate: 'afterkeydown',openFrom:$root.ckEditorOpenFrom"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- /ko -->
                             </div>
                         </div>
                     </div>
@@ -283,6 +312,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable:isUserDefined() && $root.selectedSecondaryPage().id() != undefined">Archive</button>
             </div>
         </div>
     </div>

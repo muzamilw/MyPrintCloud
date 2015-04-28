@@ -9,16 +9,28 @@
         <div class="row">
             <div class="col-lg-12" id="topArea">
                 <ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li class="active"><span>Stores</span></li>
+                    <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Stores</h1>
+                    <h1 class="pull-left">Manage Stores</h1>
                 </div>
-                <div class="pull-right top-page-ui">
+                @*<div class="pull-right top-page-ui">
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Store
                     </a>
+                </div>*@
+                <div class="btn-group pull-right top-page-ui">
+                    <button class="btn btn-primary" >
+                        Add Store
+                    </button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" data-bind="click : $root.onCreatePrivateStore">Private Store</a></li>
+                        <li><a href="#" data-bind="click: $root.onCreatePublicStore">Public Store</a></li>
+                    </ul>
                 </div>
                 <div id="addStore">
                     &nbsp;
@@ -35,12 +47,11 @@
                             <table class="table user-list">
                                 <thead>
                                     <tr id="storesList" class="span12">
-                                        <th class="col-lg-1"></th>
-                                        <th class="col-lg-3"><span>All Stores</span></th>
-                                        <th class="col-lg-3"><span>Type</span></th>
-                                        <th class="col-lg-2"><span>Status</span></th>
+                                        <th class="col-lg-2"></th>
+                                        <th class="col-lg-4"><span>All Stores</span></th>
+                                        <th class="col-lg-4"><span>Type</span></th>
 
-                                        <th class="col-lg-1">&nbsp;</th>
+                                        @*<th class="col-lg-1">&nbsp;</th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,7 +66,7 @@
 
                     </div>
                 </div>
-                <div id="pagerDiv">
+                <div id="pagerDiv" class="pull-right">
                     <!-- ko with: pager -->
                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                     <!-- /ko -->
@@ -78,59 +89,39 @@
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-            @*<a href="#" class="table-link danger" data-bind="click : $root.deleteStore" style="float: right">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>*@
         </script>
         <script id="itemStoreTemplate" type="text/html">
             <tr data-bind="click: $root.selectStore, css: { selectedRow: $data === $root.selectedStore}">
                 <td>
-                    <img data-bind="attr: { src: storeImageFileBinary }" alt="" />
+                    <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
                 </td>
                 <td>
                     <a href="#" class="store-user-link" data-bind="text: name,click : $root.onEditItem"></a>
-                    <a href="#" class="store-user-link" style="font-size: 0.875em; color: black;" data-bind="text: url"><i class="fa fa-external-link-square"></i></a>
+                    <a href="#" class="store-user-link storeSubText" data-bind="text: url,click : $root.onEditItem"><i class="fa fa-external-link-square"></i></a>
                 </td>
 
                 <td data-bind="text: type"></td>
-
+                
                 <td>
-                    <!-- ko if: status() == 1 -->
-                    <span class="label label-success">Active</span>
-                    <!-- /ko -->
-                    <!-- ko if: status() != 1 -->
-                    <span class="label label-danger">In-Active</span>
-                    <!-- /ko -->
+                    <a class="btn btn-success" data-bind="text: 'Preview', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a> 
                 </td>
-
-                <td id="actionColumn">
-                    <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                    <!-- /ko -->
-                </td>
+                @*<td id="actionColumn">
+                        <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>*@
             </tr>
         </script>
         @* Filter Template *@
         <script id="filterTemplate" type="text/html">
             <div class="filter-body" id="filter" style="margin-bottom:10px;">
-                <div class="filter-block pull-left">
-                    <div class="pull-left spanfilterlbl">
-                        Search &nbsp;
+                <form data-bind="submit: $root.getStores">
+                    <div class="filter-block pull-right" style="margin-right: -12px">
+                        <div class="form-group pull-left">
+                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                            <i class="fa fa-search search-icon"></i>
+                        </div>
                     </div>
-                    <div class="form-group pull-left">
-                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
-                        <i class="fa fa-search search-icon"></i>
-                    </div>
-
-                    <div class="pull-right">
-                        <button type="submit" class="btn btn-primary" data-bind="click:$root.getStores">Search</button>
-                        <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection">Reset</button>
-                    </div>
-                </div>
-                <div class="clearfix">
-                </div>
+                </form>
             </div>
         </script>
     </div>
@@ -139,63 +130,31 @@
         Html.RenderPartial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml");
     }
 
+    <input type="text" id="isStoreScreen" value="true" style="display: none" />
+
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->
-
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 
 @section Scripts{
-    
+
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
 
-        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view"]);
-      
+        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view", "common/stockItem.view"]);
+
         $(function () {
-            
-            $('#lisettings').addClass('active');
-            $('#ligeneralsettings').addClass('active');
-            $('#listore').addClass('active');
+
+            $('#listores').addClass('active');
         });
-        
+
         $(document).ready(function () {
 
-            
             //min/max slider
             $('.bs-example-tooltips a').popover();
-            $('.slider-minmax').noUiSlider({
-                range: [0, 100],
-                start: [100],
-                handles: 1,
-                connect: 'upper',
-                slide: function () {
-
-
-                },
-                set: function () {
-                    var val = $(this).val();
-                    if (val >= 60) {
-
-                        $('.Top_Cat_Body').css("width", "22%");
-                        $('.FI_TL').css("height", "210px");
-                        $('.productListIcons').css("width", "239px");
-                    } else if (val >= 40) {
-
-                        $('.Top_Cat_Body').css("width", "18%");
-                        $('.FI_TL').css("height", "210px");
-                        $('.productListIcons').css("width", "194px");
-                    } else if (val <= 20) {
-
-                        $('.Top_Cat_Body').css("width", "13%");
-                        $('.FI_TL').css("height", "140px");
-                        $('.productListIcons').css("width", "139px");
-                    }
-                }
-
-            });
-            $('.slider-minmax').val(100, true);
         });
 
     </script>

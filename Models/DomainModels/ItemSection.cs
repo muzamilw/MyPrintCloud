@@ -108,10 +108,10 @@ namespace MPC.Models.DomainModels
         public bool? IsMakeReadyUsed { get; set; }
         public bool? isWorknTurn { get; set; }
         public bool? isWorkntumble { get; set; }
-        public byte[] QuestionQueue { get; set; }
-        public byte[] StockQueue { get; set; }
-        public byte[] InputQueue { get; set; }
-        public byte[] CostCentreQueue { get; set; }
+        public string QuestionQueue { get; set; }
+        public string StockQueue { get; set; }
+        public string InputQueue { get; set; }
+        public string CostCentreQueue { get; set; }
         public int? PressSpeed1 { get; set; }
         public int? PressSpeed2 { get; set; }
         public int? PressSpeed3 { get; set; }
@@ -173,13 +173,11 @@ namespace MPC.Models.DomainModels
         public int? InkColorType { get; set; }
         public int? PlateInkId { get; set; }
         public int? SimilarSections { get; set; }
-
         public virtual Item Item { get; set; }
-
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
-
         public virtual StockItem StockItem { get; set; }
         public virtual Machine Machine { get; set; }
+        public virtual ICollection<SectionInkCoverage> SectionInkCoverages { get; set; }
 
         #region Public
 
@@ -206,6 +204,7 @@ namespace MPC.Models.DomainModels
             target.ItemSizeWidth = ItemSizeWidth;
             target.IsItemSizeCustom = IsItemSizeCustom;
             target.IsMainSection = IsMainSection;
+            target.ItemSizeId = ItemSizeId;
         }
 
         #endregion

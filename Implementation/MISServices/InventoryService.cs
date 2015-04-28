@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -80,16 +82,19 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public InventoryBaseResponse GetBaseData()
         {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            IEnumerable<StockCategory> stocks = stockCategoryRepository.GetAll();
             return new InventoryBaseResponse
             {
-                StockCategories = stockCategoryRepository.GetAll(),
-                StockSubCategories = stockSubCategoryRepository.GetAll(),
+                StockCategories = stocks,
+                StockSubCategories = stocks.SelectMany(s => s.StockSubCategories).ToList(),
                 PaperSizes = paperSizeRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagForInventory(),
                 WeightUnits = weightUnitRepository.GetAll(),
                 LengthUnits = lengthUnitRepository.GetAll(),
                 PaperBasisAreas = paperBasisAreaRepository.GetAll(),
-                Organisation = organisationRepository.GetOrganizatiobByID(),
+                Organisation = organisation,
+                Region = organisation.GlobalLanguage.culture
             };
         }
 
@@ -103,7 +108,7 @@ namespace MPC.Implementation.MISServices
             {
                 CompanyTypes = companyTypeRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
-                NominalCodes = chartOfAccountRepository.GetAll(),
+                //NominalCodes = chartOfAccountRepository.GetAll(),
                 SystemUsers = systemUserRepository.GetAll(),
                 Flags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.Suppliers)),
                 PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.CustomerPriceMatrix)),
@@ -114,6 +119,54 @@ namespace MPC.Implementation.MISServices
         /// Load Stock Items, based on search filters
         /// </summary>
         public InventorySearchResponse LoadStockItems(InventorySearchRequestModel request)
+        {
+            IEnumerable<SectionFlag> sectionFlags = sectionFlagRepository.GetSectionFlagForInventory();
+            IEnumerable<WeightUnit> weightUnits = weightUnitRepository.GetAll();
+            InventorySearchResponse stockItemResponse = null;
+            if (request.SubCategoryId >= 0)
+            {
+                stockItemResponse = stockItemRepository.GetStockItems(request);
+            }
+            else
+            {
+                stockItemResponse = stockItemRepository.GetStockItemsInOrders(request);
+            }
+            IEnumerable<StockItem> stockItems = stockItemResponse.StockItems;
+            int totalCount = stockItemResponse.TotalCount;
+            foreach (var stockItem in stockItems)
+            {
+                //Set selected color code
+                if (stockItem.FlagID != null && stockItem.FlagID != 0 && sectionFlags != null)
+                {
+                    SectionFlag sectionFlag = sectionFlags.FirstOrDefault(x => x.SectionFlagId == stockItem.FlagID);
+                    if (sectionFlag != null)
+                        stockItem.FlagColor = sectionFlag.FlagColor;
+                }
+                //Set selected unit name
+                if (stockItem.ItemWeightSelectedUnit != null && weightUnits != null)
+                {
+                    WeightUnit weightUnit = weightUnits.FirstOrDefault(x => x.Id == stockItem.ItemWeightSelectedUnit);
+                    if (weightUnit != null)
+                        stockItem.WeightUnitName = weightUnit.UnitName;
+                }
+                //Set Supplier Company Name
+                //if (stockItem.SupplierId != null)
+                //{
+                //    long supplierId = Convert.ToInt64(stockItem.SupplierId ?? 0);
+                //    if (supplierId != 0)
+                //    {
+                //        stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
+                //    }
+                //}
+            }
+        
+            return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
+        }
+
+        /// <summary>
+        /// Load Stock Items, based on search filters
+        /// </summary>
+        public InventorySearchResponse LoadStockItemsInOrder(InventorySearchRequestModel request)
         {
             IEnumerable<SectionFlag> sectionFlags = sectionFlagRepository.GetSectionFlagForInventory();
             IEnumerable<WeightUnit> weightUnits = weightUnitRepository.GetAll();
@@ -146,9 +199,8 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
-
-
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
+
         }
 
         /// <summary>
@@ -178,8 +230,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public StockItem SaveInevntory(StockItem stockItem)
         {
-
-            if (stockItem != null && stockItem.StockItemId > 0)
+            stockItem.OrganisationId = stockItemRepository.OrganisationId;
+            if (stockItem.StockItemId > 0)
             {
                 return UpdateStockItem(stockItem);
             }
@@ -197,7 +249,6 @@ namespace MPC.Implementation.MISServices
             stockItem.StockCreated = DateTime.Now;
             stockItem.ItemCode = prefixRepository.GetNextItemCodePrefix();
             stockItem.LastModifiedDateTime = DateTime.Now;
-            stockItem.OrganisationId = stockItemRepository.OrganisationId;
             stockItemRepository.Add(stockItem);
             stockItemRepository.SaveChanges();
             //After save item content for list view
@@ -265,7 +316,6 @@ namespace MPC.Implementation.MISServices
                     {
                         item.ItemId = stockItem.StockItemId;
                         stockCostAndPriceRepository.Add(item);
-                        stockCostAndPriceRepository.SaveChanges();
                     }
                     else
                     {
@@ -282,12 +332,13 @@ namespace MPC.Implementation.MISServices
                                 dbStockCostAndPriceItem.CostPrice = item.CostPrice;
                                 dbStockCostAndPriceItem.FromDate = item.FromDate;
                                 dbStockCostAndPriceItem.ToDate = item.ToDate;
+                                dbStockCostAndPriceItem.PackCostPrice = item.PackCostPrice;
                             }
                         }
                     }
                 }
             }
-            stockItemRepository.SaveChanges();
+            
             //find missing items
             List<StockCostAndPrice> missingStockCostAndPriceListItems = new List<StockCostAndPrice>();
             foreach (StockCostAndPrice dbversionStockCostAndPriceItem in stockItemDbVersion.StockCostAndPrices)
@@ -309,9 +360,10 @@ namespace MPC.Implementation.MISServices
                 if (dbVersionMissingItem.CostPriceId > 0)
                 {
                     stockCostAndPriceRepository.Delete(dbVersionMissingItem);
-                    stockCostAndPriceRepository.SaveChanges();
                 }
             }
+
+            stockItemRepository.SaveChanges();
         }
         /// <summary>
         /// After Add/Edit return stock item detail contents for list view
@@ -344,6 +396,11 @@ namespace MPC.Implementation.MISServices
                     stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
                 }
             }
+
+            // Load Stock Category
+            stockItemRepository.LoadProperty(stockItem, () => stockItem.StockCategory);
+            stockItemRepository.LoadProperty(stockItem, () => stockItem.StockSubCategory);
+
             return stockItem;
         }
 
@@ -362,6 +419,7 @@ namespace MPC.Implementation.MISServices
         {
             company.CreationDate = DateTime.Now;
             company.OrganisationId = companyRepository.OrganisationId;
+            company.IsCustomer = (short) CustomerTypes.Suppliers;
 
             if (company.Addresses != null)
             {
@@ -382,6 +440,7 @@ namespace MPC.Implementation.MISServices
             }
             companyRepository.Add(company);
             companyRepository.SaveChanges();
+            SaveCompanyProfileImage(company);
             return company;
         }
 
@@ -398,6 +457,31 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+
+        private void SaveCompanyProfileImage(Company company)
+        {
+            if (company.CompanyLogoSource != null)
+            {
+                string base64 = company.CompanyLogoSource.Substring(company.CompanyLogoSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + company.CompanyId);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\logo.png";
+                File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+
+                company.Image = savePath;
+                companyRepository.SaveChanges();
+
+            }
+        }
         #endregion
     }
 

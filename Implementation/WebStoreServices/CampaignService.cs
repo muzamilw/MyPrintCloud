@@ -4,7 +4,9 @@ using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -33,9 +35,9 @@ namespace MPC.Implementation.WebStoreServices
 
         #endregion
 
-        public Campaign GetCampaignRecordByEmailEvent(int iEmailEvent)
+        public Campaign GetCampaignRecordByEmailEvent(int iEmailEvent, long OrganisationId, long CompanyId)
         {
-            return _CampaignRepository.GetCampaignRecordByEmailEvent(iEmailEvent);
+            return _CampaignRepository.GetCampaignRecordByEmailEvent(iEmailEvent, OrganisationId, CompanyId);
         }
 
         public bool emailBodyGenerator(Campaign oCampaign, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore,int OrganisationId, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0)
@@ -44,13 +46,18 @@ namespace MPC.Implementation.WebStoreServices
             return _CampaignRepository.emailBodyGenerator(oCampaign, CompOrganisation, variablValues, userRecord, ModeOfStore, password, shopReceiptHtml, emailOfSubscribedUsers, emailOfSalesManager, ReceiverName, secondEmail, AttachmentsList, PostCodes, SubscriptionEndDate, PayyPalGatwayEmail, brokerCompanyName, SubscriptionPath, MarkBreifSumm, Email1, UnOrderedTotalItems, UnOrderedItemsTotal, SavedDesignsCount);
         }
 
-        public void SendEmailToSalesManager(int Event, int ContactId, int CompanyId, int brokerid, int OrderId, int BrokerAdminContactID, int CorporateManagerID, StoreMode Mode, Company company, SystemUser SaleManager, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0)
+        public void SendEmailToSalesManager(int Event, long ContactId, long CompanyId, long OrderId, long OrganisationId, int CorporateManagerID, StoreMode Mode, long StoreId, SystemUser SaleManager, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0)
         {
-            SystemUser SaleManagerParam = _UserManagerRepository.GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
             int ItemIDs = _OrderRepository.GetFirstItemIDByOrderId(OrderId);
-            Organisation CompOrganisation = _organisationRepsoitory.GetOrganizatiobByID((int)company.OrganisationId);
-            _CampaignRepository.SendEmailToSalesManager(Event, ContactId, CompanyId, brokerid, OrderId, CompOrganisation, BrokerAdminContactID, CorporateManagerID, Mode, company, SaleManager, ItemIDs, NameOfBrokerComp, MarketingBreifMesgSummry, RFQId);
+            Organisation CompOrganisation = _organisationRepsoitory.GetOrganizatiobByID(OrganisationId);
+            _CampaignRepository.SendEmailToSalesManager(Event, ContactId, CompanyId, OrderId, CompOrganisation, OrganisationId, CorporateManagerID, Mode, StoreId, SaleManager, ItemIDs, NameOfBrokerComp, MarketingBreifMesgSummry, RFQId);
 
+        }
+
+        public string GetPinkCardsShopReceiptPage(int OrderId, long CorpID)
+        {
+            return _CampaignRepository.GetPinkCardsShopReceiptPage(OrderId, CorpID);
+            
         }
         public void SendPendingCorporateUserRegistrationEmailToAdmins(int contactID, int Companyid,int organisationId)
         {
@@ -70,6 +77,10 @@ namespace MPC.Implementation.WebStoreServices
         public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID)
         {
             return _CampaignRepository.AddMsgToTblQueue(Toemail,CC,ToName,msgbody,fromName,fromEmail,smtpUserName,ServerPass,ServerName,subject,AttachmentList,CampaignReportID);
+        }
+        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId)
+        {
+            _CampaignRepository.EmailsToCorpUser(orderID,contactID,ModeOfStore, loggedinTerritoryId, serverSettings, StoreId);
         }
     }
 

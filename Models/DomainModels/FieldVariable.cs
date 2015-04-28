@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -11,7 +12,7 @@ namespace MPC.Models.DomainModels
         public string VariableName { get; set; }
         public string RefTableName { get; set; }
         public string CriteriaFieldName { get; set; }
-        public int? VariableSectionId { get; set; }
+        public long? VariableSectionId { get; set; }
         public string VariableTag { get; set; }
         public int? SortOrder { get; set; }
         public string KeyField { get; set; }
@@ -26,5 +27,10 @@ namespace MPC.Models.DomainModels
         public string VariableTitle { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<VariableOption> VariableOptions { get; set; }
+        public virtual ICollection<ScopeVariable> ScopeVariables { get; set; }
+        public virtual ICollection<SmartFormDetail> SmartFormDetails { get; set; }
+
+        [NotMapped]
+        public long? FakeIdVariableId { get; set; }
     }
 }

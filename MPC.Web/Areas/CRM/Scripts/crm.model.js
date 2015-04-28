@@ -3,43 +3,51 @@
 define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #region ______________  CUSTOMER LIST VIEW MODEL   _________________
-    var customerViewListModel = function(companytId,custName, custCraetionDate, custStatus, cusStatusClass, custEmail) {
+    var customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary) {
         var
             self,
             id = ko.observable(companytId),
             name = ko.observable(custName),
             creationdate = ko.observable(custCraetionDate),
             status = ko.observable(custStatus),
+            customerTYpe = ko.observable(undefined),
             statusClass = ko.observable(cusStatusClass),
+            storeImageFileBinary = ko.observable(cusStoreImageFileBinary),
             email = ko.observable(custEmail),
+            defaultContact = ko.observable(undefined),
+            defaultContactEmail = ko.observable(undefined),
             // Errors
             errors = ko.validation.group({
             }),
             // Is Valid 
-            isValid = ko.computed(function() {
+            isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
             }),
             // Has Changes
-            hasChanges = ko.computed(function() {
+            hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
             //Convert To Server
-            convertToServerData = function(source) {
+            convertToServerData = function (source) {
             },
             // Reset
-            reset = function() {
+            reset = function () {
                 dirtyFlag.reset();
             };
         self = {
-            id:id,
+            id: id,
             name: name,
             creationdate: creationdate,
             status: status,
-            statusClass:statusClass,
+            statusClass: statusClass,
             email: email,
+            customerTYpe:customerTYpe,
+            defaultContact: defaultContact,
+            defaultContactEmail:defaultContactEmail,
+            storeImageFileBinary: storeImageFileBinary,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -59,14 +67,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             statusClass = 'label label-default';
         if (source.Status == "Pending")
             statusClass = 'label label-warning';
+        var customerType=null;
         var customer = new customerViewListModel(
             source.CompnayId,
             source.CustomerName,
             source.DateCreted,
             source.Status,
             statusClass,
-            source.Email
+            source.Email,
+            source.StoreImagePath
         );
+        customer.defaultContact(source.DefaultContactName);
+        customer.defaultContactEmail(source.DefaultContactEmail);
+        customer.customerTYpe(source.CustomerType);
         return customer;
     };
     // #endregion
@@ -83,6 +96,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
            url = ko.observable(specifiedUrl),
            isCustomer = ko.observable(specifiedIsCustomer),
            storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
+            defaultContact = ko.observable(undefined),
+            defaultContactEmail = ko.observable(undefined),
            type = ko.observable(),
             email = ko.observable(specifiedEmail),
            createdDate = ko.observable(specifiedCreatedDate),
@@ -137,6 +152,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isCustomer: isCustomer,
             storeImageFileBinary: storeImageFileBinary,
             email: email,
+            defaultContact: defaultContact,
+            defaultContactEmail: defaultContactEmail,
             createdDate: createdDate,
             isValid: isValid,
             errors: errors,
@@ -168,29 +185,40 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
            source.Image,
            source.URL,
            source.IsCustomer,
-           source.ImageSource,
+           source.StoreImagePath,
            source.Email,
            source.CreatedDate != null ? moment(source.CreatedDate).format('YYYY/MM/DD') : ''
        );
+        crmSupplierListViewModel.defaultContact(source.DefaultContactName);
+        crmSupplierListViewModel.defaultContactEmail(source.DefaultContactEmail);
 
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
+        if (source.IsCustomer == 0) {
+            crmSupplierListViewModel.type("Prospect");
+        }
         if (source.IsCustomer == 1) {
-            crmSupplierListViewModel.type("Retail Customer");
+            crmSupplierListViewModel.type("Customer");
+        }
+        if (source.IsCustomer == 2) {
+            crmSupplierListViewModel.type("Supplier");
+        }
+        if (source.IsCustomer == 3) {
+            crmSupplierListViewModel.type(" Corporate Store");
         }
             //else if (source.IsCustomer == 2) {
             //    store.type("Prospect");
             //}
-        else if (source.IsCustomer == 3) {
-            crmSupplierListViewModel.type("Corporate");
+        else if (source.IsCustomer == 4) {
+            crmSupplierListViewModel.type("Retail Store");
         }
 
         return crmSupplierListViewModel;
     };
     // #endregion
 
-    // #region ______________  ADDRESS   __________________________________
+    // #region ______________  A D D R E S S   _________________
 
     // ReSharper disable once InconsistentNaming
     var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
@@ -202,10 +230,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
             addressName = ko.observable(specifiedAddressName).extend({ required: true }),
-            address1 = ko.observable(specifiedAddress1),
+            address1 = ko.observable(specifiedAddress1).extend({ required: true }),
             address2 = ko.observable(specifiedAddress2),
             address3 = ko.observable(specifiedAddress3),
-            city = ko.observable(specifiedCity),
+            city = ko.observable(specifiedCity).extend({ required: true }),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
@@ -232,10 +260,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isDefaultTerrorityShipping = ko.observable(specifiedisDefaultTerrorityShipping),
             organisationId = ko.observable(specifiedOrganisationId),
             territory = ko.observable(),
+            scopeVariables = ko.observableArray([]),
             // Errors
             errors = ko.validation.group({
                 addressName: addressName,
-                territoryId: territoryId
+                territoryId: territoryId,
+                address1: address1,
+                city: city
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -273,7 +304,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 isPrivate: isPrivate,
                 isDefaultTerrorityBilling: isDefaultTerrorityBilling,
                 isDefaultTerrorityShipping: isDefaultTerrorityShipping,
-                organisationId: organisationId
+                organisationId: organisationId,
+                scopeVariables: scopeVariables
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -289,8 +321,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     Address2: address2(),
                     Address3: address3(),
                     City: city(),
-                    State: state(),
-                    Country: country(),
+                    StateId: state(),
+                    CountryId: country(),
                     PostCode: postCode(),
                     Fax: fax(),
                     URL: uRL(),
@@ -309,7 +341,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     isPrivate: isPrivate(),
                     isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
                     isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
+                    Email: email(),
                     OrganisationId: organisationId(),
+                    ScopeVariables: []
                     //Territory: territory().convertToServerData(),
                 };
             },
@@ -351,6 +385,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             organisationId: organisationId,
             territory: territory,
             territoryName: territoryName,
+            scopeVariables: scopeVariables,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -405,8 +440,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Address2,
             source.Address3,
             source.City,
-            source.State,
-            source.Country,
+            source.StateId,
+            source.CountryId,
             source.StateName,
             source.CountryName,
             source.PostCode,
@@ -435,7 +470,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     // #endregion ______________  A D D R E S S   _________________
 
-    // #region ________________COMPANY CONTACT ____________________________
+    // #region ________________C O M P A N Y   C O N T A C T ___________________
 
     // ReSharper disable once InconsistentNaming
     // ReSharper restore InconsistentNaming
@@ -455,6 +490,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
+            companyName = ko.observable(undefined),
             firstName = ko.observable(specifiedFirstName).extend({ required: true }),
             middleName = ko.observable(specifiedMiddleName),
             lastName = ko.observable(specifiedLastName),
@@ -464,7 +500,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail).extend({ required: true }),
+            email = ko.observable(specifiedEmail).extend({ required: true, email: true }),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),
@@ -478,7 +514,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeCountry = ko.observable(specifiedHomeCountry),
             secretQuestion = ko.observable(specifiedSecretQuestion),
             secretAnswer = ko.observable(specifiedSecretAnswer),
-            password = ko.observable(specifiedPassword),
+            password = ko.observable(specifiedPassword).extend({ required: { params: true, message: 'This field is required with minimum 6 characters!' }, minLength: 6 }),
             uRL = ko.observable(specifiedURL),
             isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
             isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),
@@ -542,12 +578,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
 
+            companyContactVariables = ko.observableArray([]),
+            confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password }),
+
 
             // Errors
             errors = ko.validation.group({
                 firstName: firstName,
                 email: email,
-                bussinessAddressId: bussinessAddressId
+                bussinessAddressId: bussinessAddressId,
+                password: password,
+                confirmPassword: confirmPassword
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -579,7 +620,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 homeCity: homeCity,
                 homeState: homeState,
                 homePostCode: homePostCode,
-                HomeCountry: homeCountry,
+                homeCountry: homeCountry,
                 secretQuestion: secretQuestion,
                 secretAnswer: secretAnswer,
                 password: password,
@@ -640,7 +681,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 canPlaceDirectOrder: canPlaceDirectOrder,
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
-                fileName: fileName
+                fileName: fileName,
+                companyName: companyName
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -734,10 +776,105 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    ScopVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
             },
+             update = function (source) {
+                 contactId(source.contactId());
+                 contactId(source.contactId());
+                 addressId(source.addressId());
+                 companyId(source.companyId());
+                 firstName(source.firstName());
+                 middleName(source.middleName());
+                 lastName(source.lastName());
+                 title(source.title());
+                 homeTel1(source.homeTel1());
+                 homeTel2(source.homeTel2());
+                 homeExtension1(source.homeExtension1());
+                 homeExtension2(source.homeExtension2());
+                 mobile(source.mobile());
+                 email(source.email());
+                 fAX(source.fAX());
+                 jobTitle(source.jobTitle());
+                 dOB(source.dOB());
+                 notes(source.notes());
+                 isDefaultContact(source.isDefaultContact());
+                 homeAddress1(source.homeAddress1());
+                 homeAddress2(source.homeAddress2());
+                 homeCity(source.homeCity());
+                 homeState(source.homeState());
+                 homePostCode(source.homePostCode());
+                 homeCountry(source.homeCountry());
+                 secretQuestion(source.secretQuestion());
+                 secretAnswer(source.secretAnswer());
+                 password(source.password());
+                 uRL(source.uRL());
+                 isEmailSubscription(source.isEmailSubscription());
+                 isNewsLetterSubscription(source.isNewsLetterSubscription());
+                 image(source.image());
+                 quickFullName(source.quickFullName());
+                 quickTitle(source.quickTitle());
+                 quickCompanyName(source.quickCompanyName());
+                 quickAddress1(source.quickAddress1());
+                 quickAddress2(source.quickAddress2());
+                 quickAddress3(source.quickAddress3());
+                 quickPhone(source.quickPhone());
+                 quickFax(source.quickFax());
+                 quickEmail(source.quickEmail());
+                 quickWebsite(source.quickWebsite());
+                 quickCompMessage(source.quickCompMessage());
+                 questionId(source.questionId());
+                 isApprover(source.isApprover());
+                 isWebAccess(source.isWebAccess());
+                 isPlaceOrder(source.isPlaceOrder());
+                 creditLimit(source.creditLimit());
+                 isArchived(source.isArchived());
+                 contactRoleId(source.contactRoleId());
+                 territoryId(source.territoryId());
+                 claimIdentifer(source.claimIdentifer());
+                 authentifiedBy(source.authentifiedBy());
+                 isPayByPersonalCreditCard(source.isPayByPersonalCreditCard());
+                 isPricingshown(source.isPricingshown());
+                 skypeId(source.skypeId());
+                 linkedinURL(source.linkedinURL());
+                 facebookURL(source.facebookURL());
+                 twitterURL(source.twitterURL());
+                 authenticationToken(source.authenticationToken());
+                 twitterScreenName(source.twitterScreenName());
+                 shippingAddressId(source.shippingAddressId());
+                 isUserLoginFirstTime(source.isUserLoginFirstTime());
+                 quickMobileNumber(source.quickMobileNumber());
+                 quickTwitterId(source.quickTwitterId());
+                 quickFacebookId(source.quickFacebookId());
+                 quickLinkedInId(source.quickLinkedInId());
+                 quickOtherId(source.quickOtherId());
+                 pOBoxAddress(source.pOBoxAddress());
+                 corporateUnit(source.corporateUnit());
+                 officeTradingName(source.officeTradingName());
+                 contractorName(source.contractorName());
+                 bPayCRN(source.bPayCRN());
+                 aBN(source.aBN());
+                 aCN(source.aCN());
+                 additionalField1(source.additionalField1());
+                 additionalField2(source.additionalField2());
+                 additionalField3(source.additionalField3());
+                 additionalField4(source.additionalField4());
+                 additionalField5(source.additionalField5());
+                 canUserPlaceOrderWithoutApproval(source.canUserPlaceOrderWithoutApproval());
+                 canUserEditProfile(source.canUserEditProfile());
+                 canPlaceDirectOrder(source.canPlaceDirectOrder());
+                 organisationId(source.organisationId());
+                 bussinessAddressId(source.bussinessAddressId());
+                 confirmPassword(source.confirmPassword());
+                 roleName(source.roleName());
+                 fileName(source.fileName());
+                 bussinessAddress(source.bussinessAddress());
+                 shippingAddress(source.shippingAddress());
+                 stateName(source.stateName());
+                 companyContactVariables(source.companyContactVariables());
+             },
             // Reset
             reset = function () {
                 dirtyFlag.reset();
@@ -766,7 +903,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeCity: homeCity,
             homeState: homeState,
             homePostCode: homePostCode,
-            HomeCountry: homeCountry,
+            homeCountry: homeCountry,
             secretQuestion: secretQuestion,
             secretAnswer: secretAnswer,
             password: password,
@@ -775,6 +912,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isNewsLetterSubscription: isNewsLetterSubscription,
             image: image,
             quickFullName: quickFullName,
+            companyName:companyName,
             quickTitle: quickTitle,
             quickCompanyName: quickCompanyName,
             quickAddress1: quickAddress1,
@@ -827,16 +965,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canPlaceDirectOrder: canPlaceDirectOrder,
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
+            confirmPassword: confirmPassword,
             roleName: roleName,
             fileName: fileName,
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
             stateName: stateName,
+            companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
+            update: update,
             reset: reset
         };
         return self;
@@ -1015,12 +1156,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.CanUserEditProfile,
             source.canPlaceDirectOrder,
             source.OrganisationId,
-            source.BussinessAddressId,
+            //source.BussinessAddressId,
+            source.AddressId,
             source.RoleName,
             source.FileName
         );
+        companyContact.companyName(source.CompanyName);
         return companyContact;
     };
+
     // #endregion ________________COMPANY CONTACT ___________________
 
     // #region ______________  SYSTEM USER   ______________________________
@@ -1090,7 +1234,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     //WebMasterTag WebAnalyticCode
     // ReSharper disable once InconsistentNaming
-    var Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+    var Store = function (specifiedStoreId,specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
         specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
         specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
@@ -1102,12 +1246,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     ) {
         var self,
+            //storeId is used for select store dropdown on crm prospect/customer screen
+            storeId = ko.observable(specifiedStoreId),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
             image = ko.observable(specifiedImage),
             url = ko.observable(specifiedUrl),
-            accountOpenDate = ko.observable(specifiedAccountOpenDate),
+            accountOpenDate = ko.observable(specifiedAccountOpenDate ? moment(specifiedAccountOpenDate).toDate() : undefined),
             accountManagerId = ko.observable(specifiedAccountManagerId),
             avatRegNumber = ko.observable(specifiedAvatRegNumber),
             avatRegReference = ko.observable(specifiedAvatRegReference),
@@ -1125,7 +1271,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             //        }
             //    }
             //}),
-            webAccessCode = ko.observable(specifiedWebAccessCode).extend({ required: true }),
+            webAccessCode = ko.observable(specifiedWebAccessCode),//.extend({ required: true })
             twitterUrl = ko.observable(specifiedTwitterUrl),
             facebookUrl = ko.observable(specifiedFacebookUrl),
             linkedinUrl = ko.observable(specifiedLinkedinUrl),
@@ -1220,7 +1366,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 companyId: companyId,
                 name: name,
-                webAccessCode: webAccessCode,
+                //webAccessCode: webAccessCode,
                 url: url,
             }),
             // Is Valid 
@@ -1232,6 +1378,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 // ReSharper restore InconsistentNaming
+                storeId: storeId,
                 companyId: companyId,
                 name: name,
                 status: status,
@@ -1298,18 +1445,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
+                result.StoreId = source.storeId();
                 result.CompanyId = source.companyId();
                 result.Name = source.name();
                 result.Status = source.status();
                 //result.ImageBytes = source.image();
                 result.URL = source.url();
-                result.AccountOpenDate = source.accountOpenDate();
+                result.AccountOpenDate = source.accountOpenDate() ? moment(source.accountOpenDate()).format(ist.utcFormat) + 'Z' : undefined;
                 result.AccountManagerId = source.accountManagerId();
                 result.AvatRegNumber = source.avatRegNumber();
                 result.PvatRegReference = source.avatRegReference();
                 result.PhoneNo = source.phoneNo();
-                //result.IsCustomer = source.isCustomer();
-                result.IsCustomer = source.type();
+                result.IsCustomer = source.isCustomer();
+                //result.IsCustomer = source.type();
                 result.Notes = source.notes();
                 result.WebMasterTag = source.webMasterTag();
                 result.WebAnalyticCode = source.webAnalyticCode();
@@ -1356,18 +1504,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 _.each(source.companyTerritories(), function (item) {
                     result.CompanyTerritories.push(item.convertToServerData());
                 });
-                result.CompanyCmykColors = [];
-                _.each(source.companyCMYKColors(), function (item) {
-                    result.CompanyCmykColors.push(item.convertToServerData());
-                });
+
                 result.CompanyDomains = [];
                 _.each(source.companyDomains(), function (item) {
                     result.CompanyDomains.push(item.convertToServerData());
                 });
-                result.CompanyCostCenters = [];
-                _.each(source.companyCostCenters(), function (item) {
-                    result.CompanyCostCenters.push(item.convertToServerData());
-                });
+                //result.CompanyCostCenters = [];
+                //_.each(source.companyCostCenters(), function (item) {
+                //    result.CompanyCostCenters.push(item.convertToServerData());
+                //});
                 //_.each(source.users(), function (item) {
                 //    result.CompanyContacts.push(item.convertToServerData());
                 //});
@@ -1418,6 +1563,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             };
         self = {
             //#region SELF
+            storeId: storeId,
             companyId: companyId,
             name: name,
             status: status,
@@ -1502,6 +1648,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     Store.CreateFromClientModel = function (source) {
         var result = new Store(
+            source.storeId,
             source.companyId,
             source.name,
             source.status,
@@ -1554,6 +1701,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     Store.Create = function (source) {
         var store = new Store(
+            source.StoreId,
             source.CompanyId,
             source.Name,
             source.Status,
@@ -1607,12 +1755,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.StoreImagePath
         );
 
-        if (source.IsCustomer == 4) {
-            store.type("4");
+        if (source.IsCustomer == 0) {
+            store.type("0");
         }
 
-        else if (source.IsCustomer == 3) {
-            store.type("3");
+        else if (source.IsCustomer == 1) {
+            store.type("1");
         }
         _.each(source.Addresses, function (item) {
             store.addresses.push(Address.Create(item));
@@ -1620,7 +1768,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         _.each(source.CompanyContacts, function (item) {
             store.users.push(CompanyContact.Create(item));
         });
-        
+
         return store;
     };
     // #endregion _____________________ S T O R E ______________________________
@@ -1676,6 +1824,543 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #endregion ______________ MediaLibrary _________________
 
+    // #region ______________  C O M P A N Y    T E R R I T O R Y    ______
+
+    // ReSharper disable once InconsistentNaming
+    var CompanyTerritory = function (specifiedTerritoryId, specifiedTerritoryName, specifiedCompanyId, specifiedTerritoryCode, specifiedisDefault) {
+
+        var self,
+            territoryId = ko.observable(specifiedTerritoryId),
+            territoryName = ko.observable(specifiedTerritoryName).extend({ required: true }),
+            companyId = ko.observable(specifiedCompanyId),
+            territoryCode = ko.observable(specifiedTerritoryCode).extend({ required: true }),
+            isDefault = ko.observable(specifiedisDefault),
+            // Errors
+            errors = ko.validation.group({
+                territoryName: territoryName,
+                territoryCode: territoryCode
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                territoryId: territoryId,
+                territoryName: territoryName,
+                companyId: companyId,
+                territoryCode: territoryCode,
+                isDefault: isDefault
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    TerritoryId: territoryId(),
+                    TerritoryName: territoryName(),
+                    CompanyId: companyId(),
+                    TerritoryCode: territoryCode(),
+                    isDefault: isDefault()
+                }
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            territoryId: territoryId,
+            territoryName: territoryName,
+            companyId: companyId,
+            territoryCode: territoryCode,
+            isDefault: isDefault,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    CompanyTerritory.CreateFromClientModel = function (source) {
+        return new CompanyTerritory(
+            source.territoryId,
+            source.territoryName,
+            source.companyId,
+            source.territoryCode,
+            source.isDefault
+        );
+    };
+    CompanyTerritory.Create = function (source) {
+        var companyTerritory = new CompanyTerritory(
+            source.TerritoryId,
+            source.TerritoryName,
+            source.CompanyId,
+            source.TerritoryCode,
+            source.isDefault
+        );
+        return companyTerritory;
+    };
+
+    // #endregion ______________  C O M P A N Y    T E R R I T O R Y    _________________
+
+    // #region __________________  R O L E   ______________________
+
+    // ReSharper disable once InconsistentNaming
+    var Role = function (specifiedRoleId, specifiedRoleName) {
+
+        var self,
+            roleId = ko.observable(specifiedRoleId),
+            roleName = ko.observable(specifiedRoleName),            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                roleId: roleId,
+                roleName: roleName,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    RoleId: roleId(),
+                    RoleName: roleName()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            roleId: roleId,
+            roleName: roleName,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    Role.CreateFromClientModel = function (source) {
+        return new Role(
+            source.roleId,
+            source.rolesName
+            );
+    };
+    Role.Create = function (source) {
+        var role = new Role(
+            source.ContactRoleId,
+            source.ContactRoleName
+            );
+        return role;
+    };
+    // #endregion __________________  R O L E   ______________________
+
+    // #region __________________  R E G I S  T R A T I O N   Q U E S T I O N  ______________________
+
+    // ReSharper disable once InconsistentNaming
+    var RegistrationQuestion = function (specifiedQuestionId, specifiedQuestion) {
+
+        var self,
+            questionId = ko.observable(specifiedQuestionId),
+            question = ko.observable(specifiedQuestion),            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                questionId: questionId,
+                question: question,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    QuestionId: questionId(),
+                    Question: question()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            questionId: questionId,
+            question: question,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    RegistrationQuestion.CreateFromClientModel = function (source) {
+        return new RegistrationQuestion(
+            source.questionId,
+            source.question
+            );
+    };
+    RegistrationQuestion.Create = function (source) {
+        var registrationQuestion = new RegistrationQuestion(
+            source.QuestionId,
+            source.Question
+            );
+        return registrationQuestion;
+    };
+    // #endregion __________________  R E G I S  T R A T I O N   Q U E S T I O N  ______________________
+
+    // #region __________________  O R D E R ______________________
+
+    // ReSharper disable once UnusedLocals
+    var Estimate = function (specifiedId, specifiedCode, specifiedName, specifiedCompanyName, specifiedCreationDate,
+        specifiedFlagColor, specifiedOrderCode, specifiedStstud, specifiedestimateTotal, specifiedisDirectOrder) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId || 0),
+             // Order Code
+            status = ko.observable(specifiedStstud || undefined),
+            estimateTotal = ko.observable(specifiedestimateTotal || 0),
+            isDirectOrder = ko.observable(specifiedisDirectOrder || undefined),
+            // Name
+            name = ko.observable(specifiedName || undefined).extend({ required: true }),
+            // Code
+            code = ko.observable(specifiedCode || undefined),
+            // Company Name
+            companyName = ko.observable(specifiedCompanyName || undefined),
+            creationDate = ko.observable(specifiedCreationDate || undefined),
+            flagColor = ko.observable(specifiedFlagColor || undefined),
+            orderCode = ko.observable(specifiedOrderCode || undefined),
+            isDirectSaleUi = ko.computed(function () {
+                return isDirectOrder() ? "Direct Order" : "Online Order";
+            }),
+                        // Errors
+            errors = ko.validation.group({
+                name: name,
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // Show All Error Messages
+            showAllErrors = function () {
+                // Show Item Errors
+                errors.showAllMessages();
+            },
+            // Set Validation Summary
+            setValidationSummary = function (validationSummaryList) {
+                validationSummaryList.removeAll();
+            },
+            // True if the order has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        return {
+            id: id,
+            status: status,
+            estimateTotal: estimateTotal,
+            isDirectOrder: isDirectOrder,
+            companyName: companyName,
+            name: name,
+            code: code,
+            creationDate: creationDate,
+            flagColor: flagColor,
+            orderCode: orderCode,
+            isDirectSaleUi: isDirectSaleUi,
+            errors: errors,
+            isValid: isValid,
+            showAllErrors: showAllErrors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            setValidationSummary: setValidationSummary,
+        };
+    };
+    // Estimate Factory
+    Estimate.Create = function (source) {
+        var estimate = new Estimate(source.EstimateId, source.OrderCode, source.EstimateName, source.CompanyName,
+            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal + '$', source.IsDirectOrder);
+        return estimate;
+    };
+
+    // #endregion __________________  O R D E R ______________________
+
+    // #region __________________  I N V O I C E ______________________
+
+    // ReSharper disable once InconsistentNaming
+    var Invoice = function (specifiedId, specifiedCmpName, specifiedinvoiceCode, specifiedinvoiceDate, specifiedinvoiceName,
+        specifiedisArchive, sepecifiedTotal, specifiedCOntact, specifiedStatus, specifiedFlagId) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId || 0),
+            // Name
+            companyName = ko.observable(specifiedCmpName),
+            // Code
+            invoiceCode = ko.observable(specifiedinvoiceCode || undefined),
+            invoiceDate = ko.observable(specifiedinvoiceDate || undefined),
+            invoiceName = ko.observable(specifiedinvoiceName || undefined),
+            isArchive = ko.observable(specifiedisArchive || undefined),
+            invoiceTotal = ko.observable(sepecifiedTotal || 0),
+            contact = ko.observable(specifiedCOntact || undefined),
+            status = ko.observable(specifiedStatus || undefined),
+            flagColor = ko.observable('#C0C0C0'),
+            flagId = ko.observable(specifiedFlagId),
+                  // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // Show All Error Messages
+            showAllErrors = function () {
+                // Show Item Errors
+                errors.showAllMessages();
+            },
+            // Set Validation Summary
+            setValidationSummary = function (validationSummaryList) {
+                validationSummaryList.removeAll();
+            },
+            // True if the order has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        return {
+            id: id,
+            companyName: companyName,
+            invoiceCode: invoiceCode,
+            invoiceDate: invoiceDate,
+            invoiceName: invoiceName,
+            isArchive: isArchive,
+            invoiceTotal: invoiceTotal,
+            contact: contact,
+            flagId: flagId,
+            status: status,
+            flagColor: flagColor,
+            errors: errors,
+            isValid: isValid,
+            showAllErrors: showAllErrors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            setValidationSummary: setValidationSummary,
+        };
+    };
+    // Estimate Factory
+    Invoice.Create = function (source) {
+        var invoice = new Invoice(source.InvoiceId, source.CompanyName, source.InvoiceCode, source.InvoiceDate,
+            source.InvoiceName, source.IsArchive, source.InvoiceTotal + "$", source.ContactName, source.Status, source.FlagId);
+        return invoice;
+    };
+
+    // #endregion __________________  O R D E R ______________________
+
+    // #region ______________  PURCHASE LIST VIEW MODEL   _____________
+    // ReSharper disable once InconsistentNaming
+    var PurchaseListViewModel =
+    function (specifiedPurchaseId, specifiedCode, specifiedDatePurchase, specifiedSupplierName, specifiedTotalPrice) {
+        var self,
+           purchaseId = ko.observable(specifiedPurchaseId),
+           code = ko.observable(specifiedCode),
+           datePurchase = ko.observable(specifiedDatePurchase),
+           supplierName = ko.observable(specifiedSupplierName),
+           totalPrice = ko.observable(specifiedTotalPrice),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                purchaseId: purchaseId,
+                code: code,
+                datePurchase: datePurchase,
+                supplierName: supplierName,
+                totalPrice: totalPrice
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+
+            //Convert To Server
+            convertToServerData = function () {
+                var result = {};
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            purchaseId: purchaseId,
+            code: code,
+            datePurchase: datePurchase,
+            supplierName: supplierName,
+            totalPrice: totalPrice,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    PurchaseListViewModel.CreateFromClientModel = function (source) {
+        return new PurchaseListViewModel(
+            source.purchaseId,
+            source.code,
+            source.supplierName,
+            source.totalPrice
+        );
+    };
+    PurchaseListViewModel.Create = function (source) {
+        var purchaseListViewModel = new PurchaseListViewModel(
+           source.PurchaseId,
+           source.Code,
+           source.DatePurchase != null ? moment(source.DatePurchase).format('YYYY/MM/DD') : '',
+           source.SupplierName,
+           source.TotalPrice
+       );
+
+
+        return purchaseListViewModel;
+    };
+    // #endregion
+
+    // #region ______________  GOODS RECIEVED NOTE LIST VIEW MODEL   _____________
+    // ReSharper disable once InconsistentNaming
+    var GoodsReceivedNoteListViewModel =
+    function (specifiedGoodsReceivedId, specifiedCode, specifiedDateReceived, specifiedSupplierName, specifiedTotalPrice) {
+        var self,
+           goodsReceivedId = ko.observable(specifiedGoodsReceivedId),
+           code = ko.observable(specifiedCode),
+           dateReceived = ko.observable(specifiedDateReceived),
+           supplierName = ko.observable(specifiedSupplierName),
+           totalPrice = ko.observable(specifiedTotalPrice),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                goodsReceivedId: goodsReceivedId,
+                code: code,
+                dateReceived: dateReceived,
+                supplierName: supplierName,
+                totalPrice: totalPrice
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+
+            //Convert To Server
+            convertToServerData = function () {
+                var result = {};
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            goodsReceivedId: goodsReceivedId,
+            code: code,
+            dateReceived: dateReceived,
+            supplierName: supplierName,
+            totalPrice: totalPrice,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    GoodsReceivedNoteListViewModel.CreateFromClientModel = function (source) {
+        return new GoodsReceivedNoteListViewModel(
+            source.goodsReceivedId,
+            source.code,
+            source.dateReceived,
+            source.supplierName,
+            source.totalPrice
+            
+        );
+    };
+    GoodsReceivedNoteListViewModel.Create = function (source) {
+        var goodsReceivedNoteListViewModel = new GoodsReceivedNoteListViewModel(
+           source.GoodsReceivedId,
+           source.Code,
+           source.DateReceived != null ? moment(source.DateReceived).format('YYYY/MM/DD') : '',
+           source.SupplierName,
+           source.TotalPrice
+       );
+
+
+        return goodsReceivedNoteListViewModel;
+    };
+    // #endregion
 
     return {
         customerViewListModel: customerViewListModel,
@@ -1684,6 +2369,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         CompanyContact: CompanyContact,
         SystemUser: SystemUser,
         Store: Store,
-        MediaLibrary: MediaLibrary
+        MediaLibrary: MediaLibrary,
+        CompanyTerritory: CompanyTerritory,
+        Role: Role,
+        RegistrationQuestion: RegistrationQuestion,
+        Estimate: Estimate,
+        Invoice: Invoice,
+        PurchaseListViewModel: PurchaseListViewModel,
+        GoodsReceivedNoteListViewModel: GoodsReceivedNoteListViewModel
     };
 });

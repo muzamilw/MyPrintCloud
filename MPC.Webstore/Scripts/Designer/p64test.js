@@ -5754,6 +5754,13 @@ fabric.Shadow.reOffsetsAndBlur = /(?:\s|^)(-?\d+(?:px)?(?:\s?|$))?(-?\d+(?:px)?(
                     }
                 });
                 if (!lockedObjectFound) {
+                    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage0");
+                    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+                        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+                        //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
+                        $("#FrontBackOptionPanal").css("display", "none");
+                    }
+                    $(".collapseDesignerMenu").css("display", "none");
                     pcL36('hide', '#textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText');
                     k4();
                     pcL36('show', '#DivAlignObjs');
@@ -16194,6 +16201,7 @@ fabric.Image.fromObject = function (object, callback) {
 * @param {Object} [imgOptions] Options object
 */
 fabric.Image.fromURL = function (url, callback, imgOptions) {
+  
     fabric.util.loadImage(url, function (img) {
         if (img != null) {
             callback(new fabric.Image(img, imgOptions));
@@ -17512,7 +17520,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
 	'maxWidth','customStyles',
 		'maxHeight',
 		'charSpacing', 'clippedText' , 'IsPositionLocked','IsEditable',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'IsOverlayObject', 'IsQuickText', 'textCase'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'IsOverlayObject', 'IsQuickText', 'textCase','IsUnderlinedText'
   );
 
     /**
@@ -17800,7 +17808,8 @@ fabric.Image.filters.Tint.fromObject = function (object) {
     clippedText: '',
       _charWidthsCache: {},
       _cachedObject: null,
-      textCase :0,
+      textCase: 0,
+        IsUnderlinedText:false,
     /**
     * Constructor
     * @param {String} text Text string
@@ -18181,7 +18190,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
                     this.fontSize = this.fontSize - 0.667;
                     return this.wrapText(context, text, x, y, maxWidth, this.lineHeight * this.fontSize, BoxHeight, charSpacing, textAlign, this.fontSize, appliedStyles, this);
                 }
-        } else {
+        } //else {
             chars = chars.substring(0, chars.length - 1);
             this.clippedText = chars;
             this._cachedObject = clone(this);
@@ -18200,7 +18209,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
             //    formattedText = formattedTextTemp;
             //}
             return formattedText;
-        } 
+       // } 
     },
 
     _performClipping: function (ctx, text, objThis) {
@@ -18712,7 +18721,8 @@ fabric.Image.filters.Tint.fromObject = function (object) {
             textBackgroundColor: this.textBackgroundColor,
             useNative: this.useNative,
             maxWidth: this.maxWidth,
-            textCase : this.textCase,
+            textCase: this.textCase,
+            IsUnderlinedText: this.IsUnderlinedText,
             maxHeight: this.maxHeight
         });
         if (!this.includeDefaultValues) {

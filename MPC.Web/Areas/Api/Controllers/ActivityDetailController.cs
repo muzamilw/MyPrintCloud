@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -37,6 +38,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Activity Detail By ID
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public Activity Get([FromUri]int activityId)
         {
             return calendarService.ActivityDetail(activityId).CreateFrom();
@@ -46,6 +49,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Add/Update a Calendar Activity
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public void Post(Activity activity)
         {
             if (activity == null || !ModelState.IsValid)

@@ -1,40 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Threading;
+using System.Web;
 using System.Web.Mvc;
+using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
-using MPC.Webstore.Common;
-using System.Web;
+using MPC.Webstore.Models;
+using DotNetOpenAuth.OAuth2;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity;
+using System.IO;
+using System.Text;
+using System.Security.Claims;
+using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
+using MPC.Models.Common;
+using MPC.Interfaces.Common;
+using System.Reflection;
+using MPC.Models.DomainModels;
+using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
+using System.Web.Security;
+using WebSupergoo.ABCpdf8;
+using System.Web;
+using System.Web.Http;
+using System.Globalization;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+
 namespace MPC.Webstore.Controllers
 {
-    
+
     public class DomainController : Controller
     {
-         #region Private
+        #region Private
 
         private readonly ICompanyService _myCompanyService;
-
+        private readonly IWebstoreClaimsHelperService _webauthorizationChecker;
 
         #endregion
 
+        [Dependency]
+        public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
 
+
+
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public DomainController(ICompanyService myCompanyService)
+        public DomainController(ICompanyService myCompanyService, IWebstoreClaimsHelperService _webauthorizationChecker)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
-          
+
             this._myCompanyService = myCompanyService;
+            this._webauthorizationChecker = _webauthorizationChecker;
         }
 
         #endregion
@@ -53,13 +85,13 @@ namespace MPC.Webstore.Controllers
             if (storeId == 0)
             {
                 Response.Redirect("/Error");
-              
+
             }
             else
             {
-                if(UserCookieManager.StoreId == 0)
+                if (UserCookieManager.WBStoreId == 0)
                 {
-                    UserCookieManager.StoreId = storeId;
+                    UserCookieManager.WBStoreId = storeId;
                 }
 
                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
@@ -71,15 +103,15 @@ namespace MPC.Webstore.Controllers
                 {
                     StoreBaseResopnse = _myCompanyService.GetStoreFromCache(storeId);
                 }
-              
+
                 if (StoreBaseResopnse.Company != null)
                 {
-                    UserCookieManager.StoreId = StoreBaseResopnse.Company.CompanyId;
-                    UserCookieManager.StoreMode = StoreBaseResopnse.Company.IsCustomer;
+                    UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
+                    UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
                     UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
                     UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
-                    UserCookieManager.OrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
-                   
+                    UserCookieManager.WEBOrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
+                    UserCookieManager.isRegisterClaims = 2;
                     // set global language of store
 
                     string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
@@ -100,7 +132,7 @@ namespace MPC.Webstore.Controllers
                     {
                         Response.Redirect("/Login");
                     }
-                    else 
+                    else
                     {
                         Response.Redirect("/");
                     }
@@ -110,9 +142,9 @@ namespace MPC.Webstore.Controllers
                     RedirectToAction("Error", "Home");
                 }
             }
-           
-           // return RedirectToAction("Index", "Home");
-          //  return View();
+
+            // return RedirectToAction("Index", "Home");
+            //  return View();
         }
 
         public void updateCache(string name)
@@ -120,5 +152,7 @@ namespace MPC.Webstore.Controllers
             _myCompanyService.GetStoreFromCache(Convert.ToInt64(name), true);
             RedirectToAction("Error", "Home");
         }
+
+       
     }
 }

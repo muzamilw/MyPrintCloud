@@ -2,9 +2,11 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -35,6 +37,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Addresses
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public SecondaryPageResponse Get([FromUri] SecondaryPageRequestModel request)
         {
             return companyService.GetCMSPages(request).CreateFrom();
@@ -43,6 +47,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Stock Item By Id
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public CmsPage Get(int id)
         {
             if (id <= 0)

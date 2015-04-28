@@ -7,6 +7,7 @@ using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -76,7 +77,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<SectionFlag> GetAllForCustomerPriceIndex()
         {
-            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix).ToList();
+            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix && sf.OrganisationId == OrganisationId).ToList();
         }
 
         /// <summary>
@@ -93,14 +94,46 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-                
-                return db.SectionFlags.Where(s => s.OrganisationId == OID).ToList();
+
+                Mapper.CreateMap<SectionFlag, SectionFlag>()
+               .ForMember(x => x.Section, opt => opt.Ignore());
+               
+
+                List<SectionFlag> scFlag = db.SectionFlags.Where(s => s.OrganisationId == OID).ToList();
+
+                List<SectionFlag> oOutputSection = new List<SectionFlag>();
+
+                if (scFlag != null && scFlag.Count > 0)
+                {
+                    foreach (var item in scFlag)
+                    {
+                        var omappedItem = Mapper.Map<SectionFlag, SectionFlag>(item);
+                        oOutputSection.Add(omappedItem);
+                    }
+                }
+                return oOutputSection;
+
             }
             catch(Exception ex)
             {
                 throw ex;
 
             }
+        }
+        public SectionFlag GetSectionFlag(long id)
+        {
+                    
+                    
+             return  db.SectionFlags.Where(a => a.SectionFlagId == id).FirstOrDefault();
+          
+        }
+
+        /// <summary>
+        /// Get Defualt Section Flag for Price Matrix in webstore by organisation Id
+        /// </summary>
+        public int GetDefaultSectionFlagId(long OrganisationId)
+        {
+            return DbSet.Where(sf => sf.SectionId == 81 && sf.isDefault == true && sf.OrganisationId == OrganisationId).Select(id => id.SectionFlagId).FirstOrDefault();
         }
 
         #endregion

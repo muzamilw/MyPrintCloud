@@ -12,12 +12,16 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
+        bool ValidatEmail(string email);
+        CompanyContact createContact(int CCompanyId, string E, string F, string L, string AccountNumber = "", int questionID = 0, string Answer = "", string Password = "");
+        //CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
         CompanyContact GetContactByEmail(string Email, long OID);
+        CompanyContact GetContactById(int contactId);
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
-        CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
+        CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId, bool isAutoRegister);
         CompanyContact GetContactByID(Int64 ContactID);
 
         Models.ResponseModels.CompanyContactResponse GetCompanyContacts(
@@ -30,20 +34,20 @@ namespace MPC.Interfaces.Repository
 
         void UpdateUserPassword(int userId, string pass);
 
-        CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId);
+        CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId, long OrganisationId);
 
         long GetContactIdByCustomrID(long customerID);
         string GetContactMobile(long CID);
 
         bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
-         /// <summary>
+        /// <summary>
         /// Gets the count of users register against a company by its id
         /// </summary>
         /// <param name="CompanyId"></param>
         /// <returns></returns>
         int GetContactCountByCompanyId(long CompanyId);
 
-         /// <summary>
+        /// <summary>
         /// Gets the contact orders count by Status
         /// </summary>
         /// <param name="contactId"></param>
@@ -61,19 +65,19 @@ namespace MPC.Interfaces.Repository
 
         CompanyContact GetCorporateAdmin(long contactCompanyId);
 
-    
+
 
 
         /// <param name="statusId"></param>
         /// <returns></returns>
         int GetAllPendingOrders(long CompanyId, OrderStatus statusId);
-         /// <summary>
+        /// <summary>
         /// Get all orders count placed against a company
         /// </summary>
         /// <param name="CCID"></param>
         /// <returns></returns>
         int GetAllOrdersCount(long CompanyId);
-         /// <summary>
+        /// <summary>
         /// Gets login user orders count which are placed and not archieved
         /// </summary>
         /// <param name="CID"></param>
@@ -86,7 +90,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        CompanyContact GetRetailUser(string email, string password);
+        CompanyContact GetRetailUser(string email, string password, long OrganisationId);
 
         long GetContactTerritoryID(long CID);
         bool updateQuikcTextInfo(long contactId, QuickText objQuickText);
@@ -102,5 +106,28 @@ namespace MPC.Interfaces.Repository
         /// Get All By Company ID
         /// </summary>
         IEnumerable<CompanyContact> GetContactsByCompanyId(long companyId);
+
+        //bool VerifyHashSha1(string plainText, string compareWithSalt);
+
+        string GetPasswordByContactID(long ContactID);
+
+        bool SaveResetPassword(long ContactID, string Password);
+        bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId);
+
+        CompanyContact GetContactByEmailID(string Email);
+
+        /// <summary>
+        /// Get Company Contact By search string and Customer Type
+        /// </summary>
+        CompanyContactResponse GetContactsBySearchNameAndType(CompanyContactForCalendarRequestModel request);
+        /// <summary>
+        /// get corporate user for auto login process
+        /// </summary>
+        /// <param name="emailAddress"></param>
+        /// <param name="organistionId"></param>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
+        
     }
 }

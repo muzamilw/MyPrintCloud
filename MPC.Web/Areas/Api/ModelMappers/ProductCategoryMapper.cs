@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
@@ -9,14 +11,24 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ProductCategory CreateFrom(this DomainModels.ProductCategory source)
         {
             byte[] thumbnailPathBytes = null;
-            if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
+            string path = null;
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
-                thumbnailPathBytes = source.ThumbnailPath != null ? File.ReadAllBytes(source.ThumbnailPath) : null;
+                path = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(path))
+                {
+                    thumbnailPathBytes = File.ReadAllBytes(path);
+                } 
             }
             byte[] imagePathBytes = null;
-            if (source.ImagePath != null && File.Exists(source.ImagePath))
+            if (!string.IsNullOrEmpty(source.ImagePath))
             {
-                imagePathBytes = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
+                path = HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
+                if (File.Exists(path))
+                {
+                    imagePathBytes = File.ReadAllBytes(path);
+                } 
+                //imagePathBytes = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
             }
             var productCategory = new ProductCategory
             {
@@ -30,7 +42,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ParentCategoryId = source.ParentCategoryId,
                 DisplayOrder = source.DisplayOrder,
                 ImagePath = source.ImagePath,
-                ThumbnailPath = source.ThumbnailPath,
+                ThumbnailPath = path ?? string.Empty,
                 isEnabled = source.isEnabled,
                 isMarketPlace = source.isMarketPlace,
                 TemplateDesignerMappedCategoryName = source.TemplateDesignerMappedCategoryName,
@@ -76,7 +88,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 //ThumbnailStreamId = source.ThumbnailStreamId,
                 //ImageStreamId = source.ImageStreamId,
                 Image = imagePathBytes,
-                ThumbNail = thumbnailPathBytes
+                ThumbNail = thumbnailPathBytes,
+                CategoryTerritories = source.CategoryTerritories != null ? source.CategoryTerritories.Select(x=> x.CreateFromCategoryTerritory()).ToList(): null
             };
 
             return productCategory;
@@ -95,8 +108,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 ParentCategoryId = source.ParentCategoryId,
                 DisplayOrder = source.DisplayOrder,
-                ImagePath = source.ImagePath,
-                ThumbnailPath = source.ThumbnailPath,
                 isEnabled = source.isEnabled ?? false,
                 isMarketPlace = source.isMarketPlace,
                 TemplateDesignerMappedCategoryName = source.TemplateDesignerMappedCategoryName,
@@ -120,7 +131,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MetaKeywords = source.MetaKeywords,
                 MetaDescription = source.MetaDescription,
                 MetaTitle = source.MetaTitle,
-                OrganisationId = source.OrganisationId,
                 SubCategoryDisplayMode1 = source.SubCategoryDisplayMode1,
                 SubCategoryDisplayMode2 = source.SubCategoryDisplayMode2,
                 SubCategoryDisplayColumns = source.SubCategoryDisplayColumns,
@@ -139,10 +149,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsShowStockStatus = source.IsShowStockStatus,
                 IsShowProductDescription = source.IsShowProductDescription,
                 IsShowProductShortDescription = source.IsShowProductShortDescription,
-                //ImageBytes = source.ImageBytes,
-                //ImageFileName = source.ImageName,
-                //ThumbNailBytes = source.ThumbnailBytes,
-                //ThumbNailFileName = source.ThumbnailName
+                ImageBytes = source.ImageBytes,
+                ThumbNailBytes = source.ThumbnailBytes,
+                CategoryTerritories = source.CategoryTerritories != null ? source.CategoryTerritories.Select(x => x.CreateFromTerritory()).ToList() : null
             };
         }
 
@@ -174,5 +183,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ScaleFactor = source.ScaleFactor
             };
         }
+
     }
 }

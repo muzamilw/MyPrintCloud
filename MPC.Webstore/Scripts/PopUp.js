@@ -7,15 +7,23 @@
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
     
-    var left = parseInt((bws.width - 500) / 2);
+    var left = 0;
     var top = parseInt((bws.height - 170) / 2);
+
+    if (bws.width <  640) {
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        
+    } else {
+        left = parseInt((bws.width - 500) / 2);
+        document.getElementById("innerLayer").style.width = "500px";
+    }
 
     document.getElementById("innerLayer").innerHTML = container;
 
     document.getElementById("innerLayer").style.top = top + "px";
     document.getElementById("innerLayer").style.left = left + "px";
 
-    document.getElementById("innerLayer").style.width = "500px";
+   
     document.getElementById("innerLayer").style.height = "170px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
@@ -96,7 +104,7 @@ function ConfirmDeleteItemPopUP(ItemID,OrderID)
   
     var Path = "/ShopCart/RemoveProduct/" + ItemID + "/" + OrderID;
     var Type = "Alert!";
-    var Message = "Are you sure you want to remove this item from your shopping cart?"
+    var Message = "Are you sure you want to remove this item from your cart?"
     var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=ConfirmRemove('+ItemID+','+OrderID+'); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
 
     var bws = getBrowserHeight();
@@ -104,9 +112,16 @@ function ConfirmDeleteItemPopUP(ItemID,OrderID)
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
 
-    var left = parseInt((bws.width - 500) / 2);
+    var left = 0;
     var top = parseInt((bws.height - 170) / 2);
 
+    if (bws.width < 640) {
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+
+    } else {
+        left = parseInt((bws.width - 500) / 2);
+        document.getElementById("innerLayer").style.width = "500px";
+    }
     document.getElementById("innerLayer").innerHTML = container;
 
     document.getElementById("innerLayer").style.top = top + "px";
@@ -182,11 +197,11 @@ function ShowLoader() {
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
+    document.getElementById("innerLayer").style.background = "transparent";
 }
 function ShowArtWorkPopup(Type, panelHtml) {
 
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
-
+    
     var bws = getBrowserHeight();
 
     var shadow = document.getElementById("innerLayer");
@@ -194,14 +209,55 @@ function ShowArtWorkPopup(Type, panelHtml) {
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
 
-    var left = parseInt((bws.width - 730) / 2);
+    var left = 0;
+    var container = "";
+    if (bws.width < 700 && bws.width > 640) {
+        //left = parseInt((bws.width) / 2);
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="">' + panelHtml + '</div></div>';
+
+    }
+    else if (bws.width == 640) {
+        //left = parseInt((bws.width) / 2);
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:350px;">' + panelHtml + '</div></div>';
+
+    }
+    else if (bws.width < 640 && bws.width > 600) {
+        //left = parseInt((bws.width) / 2);
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:550px;">' + panelHtml + '</div></div>';
+
+    }
+    else if (bws.width < 600 && bws.width > 500) {
+        //left = parseInt((bws.width) / 2);
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:350px;">' + panelHtml + '</div></div>';
+
+    } else if (bws.width < 500) {
+        //left = parseInt((bws.width) / 2);
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:550px;">' + panelHtml + '</div></div>';
+
+    }
+    else
+    {
+
+        left = parseInt((bws.width - 730) / 2);
+        document.getElementById("innerLayer").style.width = "730px";
+         container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
+
+       
+    }
+
+  
 
     document.getElementById("innerLayer").innerHTML = container;
 
     document.getElementById("innerLayer").style.left = left + "px";
     document.getElementById("innerLayer").style.top = "0px";
 
-    document.getElementById("innerLayer").style.width = "730px";
+    
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 
@@ -213,6 +269,12 @@ function ConfirmRemove(ItemID,OrderID)
    
     ShowLoader();
     window.location.href = "/RemoveProduct/" + ItemID + "/" + OrderID;
+}
+function ConfirmRemoveSaveDesign(ItemID) {
+
+    ShowLoader();
+
+    window.location.href = "/RemoveSaveDesign/" + ItemID;
 }
 function DesignNow(callFrom,EditType,ItemID,TemplateID)
 {
@@ -231,7 +293,7 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
 var CcQueueItems = null;
 var idsToValidate = "";
 function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice) {
-   
+    console.log(CostCentreQueueItems);
     CcQueueItems = CostCentreQueueItems;
     var innerHtml = "";
     var Heading = "Please enter the following details of Cost Centre";
@@ -246,7 +308,7 @@ function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, S
                     idsToValidate = idsToValidate + ',' + 'txtBox' + CostCentreQueueItems[i].ID;
                 }
 
-                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + CostCentreQueueItems[i].ID + ' data-id=' + CostCentreQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
+                innerHtml = innerHtml +'<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + CostCentreQueueItems[i].ID + ' data-id=' + CostCentreQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
             }
 
             if (CostCentreQueueItems[i].ItemType == 3) { // drop down
@@ -260,6 +322,14 @@ function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, S
                     + CostCentreQueueItems[i].VisualQuestion +
                     '</label></div><div class="cost-centre-right-container"><select id=dropdown' + CostCentreQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
                     + OptionHtml + '</select></div><br/><div class="clearBoth"></div>';
+            }
+            if (CostCentreQueueItems[i].ItemType == 2) { // radio
+
+
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+                    + CostCentreQueueItems[i].VisualQuestion +
+                    '</label></div><div class="cost-centre-right-container"><input type="radio" checked="checked" name="Group2" id=radioNo' + CostCentreQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioNo' + CostCentreQueueItems[i].ID + ' >No</label><input type="radio" name="Group2" id=radioYes' + CostCentreQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioYes' + CostCentreQueueItems[i].ID + ' >Yes</label>' +
+                    '</div><br/><div class="clearBoth"></div>';
             }
             if (CostCentreQueueItems[i].ItemType == 4) { // formula matrix
 
@@ -359,7 +429,6 @@ function ShowFormulaMatrix(Rows, Columns, matrixIndex) {
     var RowsHtml = "";
     var trHtml = "<tr>";
 
-  
     for (var row = 0; row < Rows; row++) {
         for (var col = 0; col < Columns; col++) {
           
@@ -424,7 +493,6 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
     var isNotValidInput = 0;
 
     var isFormulaValidationError = 0;
-
     for (var i = 0; i < arrayOfIds.length; i++) {
         if (arrayOfIds[i].indexOf("formulaMatrixBox") != -1) {
             
@@ -436,17 +504,22 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             }
 
         } else {
-
-            if ($("#" + arrayOfIds[i]).val() == "") {
-                $("#" + arrayOfIds[i]).css("border", "1px solid red");
-                isDisplyEmptyFieldsMesg = 1;
-            } else if (isNaN($("#" + arrayOfIds[i]).val())) {
-                isNotValidInput = 1;
-                $("#" + arrayOfIds[i]).css("border", "1px solid red");
-            } else {
+           
+            if ($("#" + arrayOfIds[i]).val() == undefined) {
                 $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
-            }
+            } else {
+                if ($("#" + arrayOfIds[i]).val() == "") {
+                    $("#" + arrayOfIds[i]).css("border", "1px solid red");
+                    isDisplyEmptyFieldsMesg = 1;
+                } else if (isNaN($("#" + arrayOfIds[i]).val())) {
+                    isNotValidInput = 1;
+                    $("#" + arrayOfIds[i]).css("border", "1px solid red");
+                } else {
+                    $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
+                }
 
+            }
+            
         }
       
        
@@ -464,6 +537,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
            
             $("#CCErrorMesgContainer").html("Please enter in the hightlighted fields.");
         }
+        return;
     } else if (isNotValidInput == 1) {
         $("#CCErrorMesgContainer").css("display", "block");
         $("#CCErrorMesgContainer").html("Please enter numbers only to proceed.");
@@ -471,8 +545,10 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             var html = $("#CCErrorMesgContainer").text() + "<br/> Please select value formula values also."
             $("#CCErrorMesgContainer").html(html);
         }
+        return;
     } else if (isFormulaValidationError == 1) {
         $("#CCErrorMesgContainer").html("Please select value formula values ");
+        return;
     } else {
         var desriptionOfCostCentre = "";
         $("#CCErrorMesgContainer").css("display", "none");
@@ -507,8 +583,15 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
       
         var jsonObjects = JSON.stringify(CcQueueItems, null, 2);
         var populatedQueuItems = $("#costCentreQueueItems").val();
-        populatedQueuItems = populatedQueuItems + jsonObjects;
-        $("#costCentreQueueItems").val(populatedQueuItems);
+      
+        if (populatedQueuItems != "null") {
+            populatedQueuItems = populatedQueuItems + jsonObjects;
+            $("#costCentreQueueItems").val(populatedQueuItems);
+        }
+        else {
+            populatedQueuItems = jsonObjects;
+            $("#costCentreQueueItems").val(populatedQueuItems);
+        }
         
         var to;
         to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + ClonedItemId + "&parameter3=" + $("#VMQuantityOrdered").val() + "&parameter4=New";
@@ -519,12 +602,13 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             contentType: "application/json",
             async: true,
             success: function (response) {
+                
                 ShowLoader();
                 var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
                 if (updatedAddOns != null) {
 
                     for (var i = 0; i < $(updatedAddOns).length; i++) {
-                        if ($(updatedAddOns)[i].CostCenterId == 335) {
+                        if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                             $(updatedAddOns)[i].ActualPrice = response;
                             $(updatedAddOns)[i].Description = desriptionOfCostCentre;
                             $(updatedAddOns)[i].CostCentreJasonData = jsonObjects;
@@ -545,7 +629,6 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                             }
                             totalVal = parseFloat(totalVal) + parseFloat(actualP);
                         }
-                        console.log($(updatedAddOns)[i]);
                     }
                     displayTotalPrice(ItemPrice, totalVal);
                     $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
@@ -558,8 +641,9 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         var returnText = $.ajax(options).responseText;
         
     }
+   
+    idsToValidate = "";
 
-    
 }
 function HideLoader() {
 
@@ -572,7 +656,110 @@ function ShowOrderingPolicyPopUp(title, Tvalue) {
    
      //<textarea name="Text1" cols="40" rows="5" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly" >@ViewBag.CorpCompany.CorporateOrderingPolicy</textarea>
    // var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="txtOrderPolicy"  class="rounded_corners5 text_box" value=' + Tvalue + ' /><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button></div></div>';
-    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <textarea type="text" id="txtOrderPolicy" cols="40" rows="5"  class="rounded_corners5 text_box" >' + Tvalue + '</textarea><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button></div></div>';
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <textarea type="text" id="txtOrderPolicy" cols="40" rows="5"  class="rounded_corners5 text_box" >' + Tvalue + '</textarea><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button><button type="button" id="Close" class="btn btn-primary" onclick="Cancel()">Close</button></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+   // document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+function ViewOrderPopUp(Type, panelHtml) {
+
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
+
+    var bws = getBrowserHeight();
+
+    var shadow = document.getElementById("innerLayer");
+
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 730) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+   
+    document.getElementById("innerLayer").style.left = left + "px";
+    document.getElementById("innerLayer").style.top = "0px";
+  
+    document.getElementById("innerLayer").style.width = "730px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+function ShippingBillingDetails(Type, panelHtml) {
+
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
+
+      var bws = getBrowserHeight();
+
+    var shadow = document.getElementById("innerLayer");
+
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 730) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.left = left + "px";
+    document.getElementById("innerLayer").style.top = "0px";
+    //730
+    document.getElementById("innerLayer").style.width = "778px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+function ShowResetPassword(Type, panelHtml) {
+  
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
+
+    var bws = getBrowserHeight();
+
+    var shadow = document.getElementById("innerLayer");
+
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 645) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.left = left + "px";
+    document.getElementById("innerLayer").style.top = "0px";
+
+    document.getElementById("innerLayer").style.width = "645px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+function ConfirmDeleteSaveDesignPopup(ItemID) {
+
+    var Path = "/SavedDesigns/RemoveSaveDesign/" + ItemID;
+    var Type = "Alert!";
+    var Message = "Are you sure you want to delete this Saved Design?"
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=ConfirmRemoveSaveDesign(' + ItemID + '); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
+
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
     document.getElementById("layer").style.width = bws.width + "px";
@@ -591,6 +778,169 @@ function ShowOrderingPolicyPopUp(title, Tvalue) {
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+
+    return false;
+}
+function ConfirmPopUpForApprove() {
+
+    var Type = "Alert!";
+    var Message = "Are you sure you want to approve order?"
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="button" id="ApproveOk"  class="btn btn-primary" value="Yes" onclick="Show()" /><input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="HideLoader()"></button></div></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+
+}
+
+function ConfirmPopUpForReject() {
+
+    var Type = "Alert!";
+    var Message = "Are you sure you want to reject order?"
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input id="Save" type="submit" class="btn btn-primary" value="Yes" /><button type="button" id="cancel" class="btn btn-primary">No</button></div></div></div>';
+
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+
+}
+function ShowMyPopUp()
+{
+    var title = 'Alert';
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="Po" cols="40" rows="5"  class="rounded_corners5 text_box" ></input><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button><button type="button" id="Close" class="btn btn-primary" onclick="Cancel()">Close</button></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    // document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+
+function ShowPopUpForConfirmApprove() {
+
+    var title = 'Po number';
+    //<textarea name="Text1" cols="40" rows="5" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly" >@ViewBag.CorpCompany.CorporateOrderingPolicy</textarea>
+    // var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="txtOrderPolicy"  class="rounded_corners5 text_box" value=' + Tvalue + ' /><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button></div></div>';
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="MyPoNo" class="rounded_corners5 text_box" ></input><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderApproveOK" class="btn btn-primary" onclick="oKApproveOrder()">Yes</button><button type="button" id="Close" class="btn btn-primary"  onclick="HideLoader()">No</button></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+    
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "187px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+function ConfirmPopUpForReject()
+{
+    var Type = "Alert!";
+    var Message = "Are you sure you want to Reject order?"
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="button" id="ApproveOk"  class="btn btn-primary" value="Yes" onclick="RejectOrder()" /><input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="HideLoader()"></button></div></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+
+function ShowReceiptLoader() {
+
+    var container = '<div class="md-modal md-effect-7 rounded_corners" id="modal-7"><div class="md-content rounded_corners"><div class="modal-body rounded_corners"><div style="text-align:center; margin-bottom:10px;"><img src="/Content/Images/loading.gif" /></div>Your order is being processed.<br/> Check your inbox for your order receipt.</div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 400) / 2);
+    var top = parseInt((bws.height - 50) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "400px";
+    document.getElementById("innerLayer").style.height = "50px";
+
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.borderRadius = "5px";
+   
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
 }

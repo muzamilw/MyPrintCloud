@@ -17,6 +17,7 @@ define("stores/stores.view",
                     $("#rave").modal("show");
                     initializeLabelPopovers();
                 },
+               
                 // Hide Activity the dialog
                 hideRaveReviewDialog = function () {
                     $("#rave").modal("hide");
@@ -149,12 +150,22 @@ define("stores/stores.view",
                  // Show Veriable Defination the dialog
                 showVeriableDefinationDialog = function () {
                     $("#veriableDefinationModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Veriable Defination the dialog
                 hideVeriableDefinationDialog = function () {
                     $("#veriableDefinationModal").modal("hide");
                 },
-                
+                // Show Smart Form Dialog
+                showSmartFormDialog = function () {
+                    $("#smartFormDialog").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Smart Form Dialog
+                hideSmartFormDialog = function () {
+                    $("#smartFormDialog").modal("hide");
+                },
+
                 //#endregion
 
                initializeForm = function () {
@@ -196,6 +207,36 @@ define("stores/stores.view",
                     $('.bs-example-tooltips a').popover();
                     // ReSharper restore UnknownCssClass
                 },
+                // Product Category Selected Event 
+                productCategorySelectedEvent = function(category) {
+                    $.event.trigger({
+                        type: "ProductCategorySelected",
+                        category: category
+                    });
+                },
+                // Wire Up Theme List Click event 
+                wireupThemeListClick = function () {
+                    $(document).ready(function () {
+                        var themeListOpen = false;
+                        
+                        $("#ops_theme_dropdown #ops_theme_list #ops_theme_select").click(function () {
+                            if (themeListOpen == true) {
+                                $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                                themeListOpen = false;
+                            } else {
+
+                                $("#ops_theme_dropdown #ops_theme_list ul").show();
+                                themeListOpen = true;
+                            }
+                            return false;
+                        });
+
+                    });
+                },
+                // Close Theme List
+                closeThemeList = function() {
+                    $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                },
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
@@ -206,7 +247,7 @@ define("stores/stores.view",
             return {
                 bindingRoot: bindingRoot,
                 showRaveReviewDialog: showRaveReviewDialog,
-                showVeriableDefinationDialog:showVeriableDefinationDialog,
+                showVeriableDefinationDialog: showVeriableDefinationDialog,
                 hideVeriableDefinationDialog: hideVeriableDefinationDialog,
                 hideRaveReviewDialog: hideRaveReviewDialog,
                 showCompanyCMYKColorDialog: showCompanyCMYKColorDialog,
@@ -237,10 +278,15 @@ define("stores/stores.view",
                 hideStoreProductCategoryDialog: hideStoreProductCategoryDialog,
                 showMediaGalleryDialog: showMediaGalleryDialog,
                 hideMediaGalleryDialog: hideMediaGalleryDialog,
+                showSmartFormDialog: showSmartFormDialog,
+                hideSmartFormDialog: hideSmartFormDialog,
                 initializeForm: initializeForm,
                 gotoElement: gotoElement,
                 viewModel: viewModel,
-                initializeLabelPopovers: initializeLabelPopovers
+                initializeLabelPopovers: initializeLabelPopovers,
+                productCategorySelectedEvent: productCategorySelectedEvent,
+                wireupThemeListClick: wireupThemeListClick,
+                closeThemeList: closeThemeList
             };
         })(storesViewModel);
 

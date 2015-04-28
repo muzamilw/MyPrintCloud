@@ -1,10 +1,12 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using MPC.Interfaces.Data;
+using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -33,6 +35,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Addresses / Compnay Contacts
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
+        [CompressFilterAttribute]
         public CompanyContactResponse Get([FromUri] CompanyContactRequestModel request)
         {
             if (request == null || !ModelState.IsValid)
@@ -45,6 +49,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Delete Contact
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
+        [CompressFilterAttribute]
         public bool Delete(CompanyContactDeleteModel request)
         {
             if (request == null || !ModelState.IsValid || request.CompanyContactId <= 0)
@@ -57,13 +63,15 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get contact's detail
         /// </summary>
-        public CompanyBaseResponse Get([FromUri] short companyId)
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
+        [CompressFilterAttribute]
+        public CompanyBaseResponse Get(int companyId)
         {
             if (companyId <= 0 || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return companyContactService.GetContactDetail(companyId).CreateFrom();
+            return companyContactService.GetContactDetail((short)companyId).CreateFrom();
         }
         #endregion
     }

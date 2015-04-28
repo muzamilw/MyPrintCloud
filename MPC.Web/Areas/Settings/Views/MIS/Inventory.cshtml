@@ -8,17 +8,17 @@
     <div class="col-lg-12" data-bind="visible: !isInventoryEditorVisible()">
         <div class="row">
             <div class="col-lg-12" id="topArea">
-                <ol class="breadcrumb">
+                @*<ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li class="active"><span>Inventories</span></li>
-                </ol>
+                </ol>*@
                 <div class="clearfix">
-                    <h1 class="pull-left">Inventories</h1>
+                    <h1 class="pull-left">Inventory</h1>
 
                 </div>
                 <div class="pull-right top-page-ui">
                     <button class="btn btn-primary" data-bind="click:createInventory">
-                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Inventory
+                        Add Inventory
                     </button>
                 </div>
                 <div id="addInventory">
@@ -39,7 +39,7 @@
                                         <th class="col-lg-1">&nbsp;</th>
                                         <th class="col-lg-4"> <span>Name<span></span></span></th>
                                         <th class="col-lg-3"> <span>Category<span></span></span></th>
-                                        <th class="col-lg-3">Cost</th>
+                                        <th class="col-lg-3">Selling Pack Price</th>
                                         <th class="col-lg-1">&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -52,7 +52,7 @@
 
                     </div>
                 </div>
-                <div id="pagerDiv">
+                <div id="pagerDiv" class="pull-right">
                     <!-- ko with: pager -->
                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                     <!-- /ko -->
@@ -62,29 +62,30 @@
         @* Filter Template *@
         <script id="filterTemplate" type="text/html">
             <div class="filter-body" id="filter" style="margin-bottom:10px;">
-                <div class="filter-block pull-left">
-                    <div class="pull-left spanfilterlbl">
-                        Search: &nbsp;
-                    </div>
-                    <div class="form-group pull-left">
-                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
-                        <i class="fa fa-search search-icon"></i>
-                    </div>
+                <form data-bind="submit: $root.filterInventories">
+                    <div class="filter-block pull-right">
 
-                    <div class="form-group pull-left">
-                        <select id="category" class="form-control" data-bind="options: $root.categories,optionsCaption:'Category', optionsText: 'Name', optionsValue: 'CategoryId',value:categoryFilter"></select>
+                        <div class="form-group pull-left">
+                            <select id="category" class="form-control" data-bind="options: $root.categories,optionsCaption:'Select Category', optionsText: 'Name', optionsValue: 'CategoryId',value:categoryFilter"></select>
+                        </div>
+                        <div class="form-group pull-left">
+                            <select id="subCategory" class="form-control" data-bind="options: $root.filteredSubCategories,optionsCaption:'Select Sub Category', optionsText: 'Name', optionsValue: 'SubCategoryId',value:subCategoryFilter"></select>
+                        </div>
+
+                        <div class="form-group pull-left">
+                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                            <i data-bind="click:$root.filterInventories" class="fa fa-search search-icon"></i>
+                        </div>
+
+                        @*<div class="pull-right">
+                    <button type="submit" class="btn btn-primary" data-bind="click:$root.filterInventories">Search</button>
+                    <button type="reset" class="btn btn-default closeSaveButtonMarginRemove" data-bind="click:$root.resetFilter">Reset</button>
+                </div>*@
                     </div>
-                    <div class="form-group pull-left">
-                        <select id="subCategory" class="form-control" data-bind="options: $root.filteredSubCategories,optionsCaption:'Sub Category', optionsText: 'Name', optionsValue: 'SubCategoryId',value:subCategoryFilter"></select>
+                </form>
+                    <div class="clearfix">
                     </div>
-                    <div class="pull-right">
-                        <button type="submit" class="btn btn-primary" data-bind="click:$root.filterInventories">Search</button>
-                        <button type="reset" class="btn btn-default closeSaveButtonMarginRemove" data-bind="click:$root.resetFilter">Reset</button>
-                    </div>
-                </div>
-                <div class="clearfix">
-                </div>
-            </div>
+</div>
         </script>
     </div>
     @Html.Partial("_InventoryEditor")
@@ -94,18 +95,10 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_SupplierDialog.cshtml")
 <!-- /ko -->
 @section Scripts{
-    <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
-    <script src="~/Scripts/jquery.form.js"></script>
     <script>
         require(["inventory/inventory.view", "common/confirmation.view", "common/supplier.view"]);
         $(function () {
-            $('#myWizard').wizard();
             $('#listores').addClass('active');
-            //masked inputs
-            $("#maskedDate").mask("99/99/9999");
-            $("#maskedPhone").mask("(999) 999-9999");
-            $("#maskedPhoneExt").mask("(999) 999-9999? x99999");
         });
     </script>
 }
@@ -129,7 +122,7 @@
     <tr>
         <td class="col-lg-1" data-bind="style: {backgroundColor: colour}"></td>
         <td class="col-lg-4">
-            <a href="#" class="store-user-link" data-bind="text: name"></a>
+            <a href="#" class="store-user-link" data-bind="text: name, click : $root.onEditInventory"></a>
             <label style="font-size: 0.875em; color: black;" data-bind="text: supplierCompanyName"><i class="fa fa-external-link-square"></i></label>
         </td>
         @*<td>
@@ -138,13 +131,11 @@
             </td>*@
         <td class="col-lg-3" data-bind="text: fullCategoryName"></td>
         <td class="col-lg-3">
-            <span data-bind="text: weight"></span> <span data-bind="text: weightUnitName"></span>
-            <br /><br />
-            <span data-bind="text:perQtyQty"> Sheets</span>
+            <span data-bind="text: packCostPrice()!=='' ?($root.currencySymbol()+' '+ packCostPrice()):''"></span>
         </td>
         <td class="col-lg-2" id="actionColumn">
-            <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-            <!-- /ko -->
+            @*<!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+            <!-- /ko -->*@
         </td>
     </tr>
 </script>

@@ -1,0 +1,67 @@
+﻿
+@model List<MPC.Models.DomainModels.CompanyBanner>
+@using MPC.Webstore.Common;
+@*<head>
+    <script src="/Scripts/slider.js" type="text/javascript"></script>
+</head>*@
+<head>
+    <script src="/Scripts/jquery-1.2.6.js"></script>
+    <script src="/mpc/Scripts/jquery-1.2.6.pack.js"></script>
+    <script src="/Scripts/startstop-slider.js"></script>
+    <link href="/Content/style.css" rel="stylesheet" type="text/css" media="screen"  />
+</head>
+
+  
+    @*<div id="page-wrap">
+        <div id="slider">
+            <div id="mover">
+                @foreach (var banner in Model)
+                {
+                <div id="slide-1" class="slide">
+                    @*<h4>@banner.Heading</h4>
+              <p>Donec gravida posuere arcu. Nulla facilisi. Phasellus imperdiet. Vestibulum at metus. Integer euismod. Nullam placerat rhoncus sapien. Ut euismod. Praesent libero. Morbi pellentesque libero sit amet ante. Maecenas tellus.</p>
+               <a href="#"><img src="@banner.ImageURL" alt="learn more" /></a>
+                    <a href="#"><img src="/Content/Images/slide-1-image.png" /></a>
+                </div>
+                }
+            </div>
+
+        </div>
+        
+    </div>*@
+<body>
+    <div id="page-wrap">
+        <div id="slider">
+
+            <div id="mover">
+               @*@foreach(var banner in Model)*@
+                @*{*@ 
+                <div class="slide">
+
+                    <h1>Garden Rack</h1>
+
+                    <p>Donec gravida posuere arcu. Nulla facilisi. Phasellus imperdiet. Vestibulum at metus. Integer euismod. Nullam placerat rhoncus sapien. Ut euismod. Praesent libero. Morbi pellentesque libero sit amet ante. Maecenas tellus.</p>
+
+                    <a href="#"><img src="/Content/Images/slide-1-image.png" alt=" learn more" /></a>
+                </div>
+
+                <div class="slide">
+
+                    <h1>Tulip Bulbs</h1>
+
+                    <p>Donec gravida posuere arcu. Nulla facilisi. Phasellus imperdiet. Vestibulum at metus. Integer euismod. Nullam placerat rhoncus sapien. Ut euismod. Praesent libero. Morbi pellentesque libero sit amet ante. Maecenas tellus.</p>
+
+                    <a href="#"><img src="/Content/Images/slide-2-image.png" alt="learn more" /></a>
+                </div>
+                @*}*@
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+
+
+
+

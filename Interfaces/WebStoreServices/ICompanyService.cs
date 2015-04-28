@@ -12,6 +12,18 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
+        long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
+        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
+        CompanyContact GetContactByEmailID(string Email);
+        Country GetCountryByCountryID(long CountryID);
+        void ResetDefaultShippingAddress(Address address);
+        List<State> GetAllStates();
+        List<State> GetCountryStates(long CountryId);
+        bool AddAddBillingShippingAdd(Address Address);
+        bool AddressNameExist(Address address);
+        bool UpdateBillingShippingAdd(Address Model);
+        List<Address> GetsearchedAddress(long CompanyId, String searchtxt);
         MyCompanyDomainBaseReponse GetStoreFromCache(long companyId);
         long GetStoreIdFromDomain(string domain);
         List<ProductCategory> GetCompanyParentCategoriesById(long companyId, long OrganisationId);
@@ -19,13 +31,13 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetUserByEmailAndPassword(string email, string password);
 
         CompanyContact GetContactByFirstName(string FName);
-
+        CompanyContact GetContactById(int contactId);
         CompanyContact GetContactByEmail(string Email, long OID);
 
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
 
-        CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
+        CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId);
         Company GetCompanyByCompanyID(Int64 companyID);
 
         CompanyContact GetContactByID(long contactID);
@@ -47,11 +59,11 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId);
         List<ProductCategory> GetAllCategories(long companyId);
-        CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId);
+        CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId, long OrganisationId);
 
         ProductCategory GetCategoryById(long categoryId);
 
-        List<ProductCategory> GetChildCategories(long categoryId);
+        List<ProductCategory> GetChildCategories(long categoryId, long CompanyId);
 
         List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 
@@ -62,7 +74,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
         void GetStoreFromCache(long companyId, bool clearcache);
 
-        ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
+        ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
         string FormatDecimalValueToTwoDecimal(string valueToFormat);
@@ -70,7 +82,7 @@ namespace MPC.Interfaces.WebStoreServices
         double CalculateVATOnPrice(double ActualPrice, double TaxValue);
 
         double CalculateDiscount(double price, double discountPrecentage);
-        long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId, CompanyContact regContact = null);
+        long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId,long StoreId, CompanyContact regContact = null);
         Organisation getOrganisatonByID(int OID);
         string GetContactMobile(long CID);
 
@@ -79,7 +91,7 @@ namespace MPC.Interfaces.WebStoreServices
         Address GetAddressByID(long AddressID);
 
         CompanyContact GetCorporateAdmin(long contactCompanyId);
-
+        Company GetCustomer(int CompanyId);
         List<Address> GetAddressByCompanyID(long companyID);
 
         CompanyTerritory GetTerritoryById(long territoryId);
@@ -163,7 +175,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        CompanyContact GetRetailUser(string email, string password);
+        CompanyContact GetRetailUser(string email, string password, long OrganisationId);
 
         long GetContactTerritoryID(long CID);
 
@@ -190,5 +202,29 @@ namespace MPC.Interfaces.WebStoreServices
         bool UpdateCompanyContactForRetail(CompanyContact Instance);
         bool  UpdateCompanyContactForCorporate(CompanyContact Instance);
         bool UpdateCompanyName(Company Instance);
+
+        bool VerifyHashSha1(string plainText, string compareWithSalt);
+
+        string GetPasswordByContactID(long ContactID);
+
+        bool SaveResetPassword(long ContactID, string Password);
+        List<Address> GetAddressesListByContactCompanyID(long contactCompanyId);
+        List<CmsSkinPageWidget> GetStoreWidgets(long CompanyId);
+        State GetStateByStateID(long StateID);
+        List<Country> GetAllCountries();
+        NewsLetterSubscriber GetSubscriber(string email, long CompanyId);
+        int AddSubscriber(NewsLetterSubscriber subsriber);
+        bool UpdateSubscriber(string subscriptionCode, SubscriberStatus status);
+        RaveReview GetRaveReview();
+        /// <summary>
+        /// Check web access code exists
+        /// </summary>
+        /// <param name="subscriptionCode"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
+
+        CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
+        
     }
 }

@@ -12,6 +12,54 @@
 #productBinding #gridZoomSlider {
   width: 100%;
 }
+#productBinding #ListForm th {
+  background: #f3f3f3;
+  border-right: 1px solid white;
+}
+#productBinding #ListForm #Top_Cat_ThumbnailPath {
+  width: 150px;
+  height: 150px;
+}
+#productBinding #ListForm #productCodeHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#productBinding #ListForm #productImageHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#productBinding #ListForm #productNameHeader {
+  width: 20%;
+  max-width: 20%;
+}
+#productBinding #ListForm #productPriceHeader {
+  width: 10%;
+  max-width: 10%;
+}
+#productBinding #ListForm #productCategoriesHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#productBinding #ListForm #productPublishedHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#productBinding .productIcons {
+  display: none;
+  margin-top: -38px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: absolute;
+  width: 22%;
+  background-color: #fffffb;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+#productBinding .LCLB:hover .productIcons {
+  display: block;
+}
 #productBinding #pressDialog #pressDialogMainContainer {
   width: 838px;
 }

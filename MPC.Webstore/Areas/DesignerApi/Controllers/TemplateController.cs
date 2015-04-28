@@ -87,16 +87,18 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         [HttpPost]
         public HttpResponseMessage Preview([FromBody]  DesignerPostSettings obj)
         {
-            double bleedAreaSize = 0;
-            MyCompanyDomainBaseResponse response = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            if(response != null)
-            {
-                var org = response.Organisation;
-                if(org != null && org.BleedAreaSize != null)
-                {
-                    bleedAreaSize = org.BleedAreaSize.Value;
-                }
-            }
+            double bleedAreaSize = 0; // will be calculated in generate proof function 
+            //MyCompanyDomainBaseResponse response = _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId).CreateFromOrganisation();
+            
+            //if(response != null)
+            //{
+            //    var org = response.Organisation;
+            //    if(org != null && org.BleedAreaSize != null)
+            //    {
+            //        bleedAreaSize = org.BleedAreaSize.Value;
+            //    }
+            //}
+            
             var result = templateService.GenerateProof(obj,bleedAreaSize);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
@@ -141,6 +143,19 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public HttpResponseMessage SaveDesignAttachments(long parameter1,long parameter2,long parameter3,string parameter4,string parameter5,long parameter6)
         {
             var result = itemService.SaveDesignAttachments(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
+        public HttpResponseMessage AutoGenerateTemplate(long parameter1, int parameter2, long parameter3,long parameter4, long parameter5, long parameter6, long parameter7)
+        {
+            var result = itemService.ProcessCorpOrderSkipDesignerMode(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6, parameter7); //"generating";// itemService.SaveDesignAttachments(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

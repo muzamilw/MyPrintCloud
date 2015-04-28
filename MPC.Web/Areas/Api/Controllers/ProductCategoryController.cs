@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using Microsoft.Owin;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -45,6 +46,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [ApiException]
+        [CompressFilterAttribute]
         public ProductCategoryResultModel Get(int id)
         {
             if (id <= 0)
@@ -52,7 +54,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            var categories= categoryService.GetChildCategories(id).Select(x=> x.CreateFrom()).ToList();
+            var categories = categoryService.GetChildCategories(id).Select(x => x.ListViewModelCreateFrom()).ToList();
             return new ProductCategoryResultModel
             {
                 ProductCategories = categories,
@@ -61,6 +63,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [ApiException]
+        [CompressFilterAttribute]
         public ProductCategory Get([FromUri]ProductCategoryRequestModel requestModel)
         {
             if (requestModel.IsProductCategoryEditting)
@@ -73,6 +76,8 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         [ApiException]
         [HttpPost]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public ProductCategory Post(ProductCategory productCategory)
         {
             if (!ModelState.IsValid)
@@ -82,6 +87,18 @@ namespace MPC.MIS.Areas.Api.Controllers
             return categoryService.Save(productCategory.CreateFrom()).CreateFrom();
         }
 
+        /// <summary>
+        /// Delete Category 
+        /// </summary>
+        public bool Delete(ProductCategoryDeleteModel request)
+        {
+            if (request == null || !ModelState.IsValid || request.ProductCategoryId <= 0)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+            categoryService.DeleteCategory(request.ProductCategoryId);
+            return true;
+        }
         #endregion
     }
 }

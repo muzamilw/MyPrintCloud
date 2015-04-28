@@ -14,7 +14,7 @@ namespace MPC.MIS.Controllers
         [Dependency]
         public IClaimsSecurityService ClaimsSecurityService { get; set; }
 
-        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
+       [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
         public ActionResult Index()
         {
             Boolean istrial = false;

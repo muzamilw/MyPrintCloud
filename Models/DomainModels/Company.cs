@@ -56,13 +56,12 @@ namespace MPC.Models.DomainModels
         public bool? isDisplaySiteFooter { get; set; }
         public string RedirectWebstoreURL { get; set; }
         public int? defaultPalleteId { get; set; }
-        public bool? isDisplaylBrokerBanners { get; set; }
-        public bool? isBrokerCanLaminate { get; set; }
-        public bool? isBrokerCanRoundCorner { get; set; }
+        public bool? isLaminate { get; set; }
+        public bool? isRoundCorner { get; set; }
         public bool? isBrokerCanDeliverSameDay { get; set; }
-        public bool? isBrokerCanAcceptPaymentOnline { get; set; }
-        public bool? isBrokerOrderApprovalRequired { get; set; }
-        public bool? isBrokerPaymentRequired { get; set; }
+        public bool? isAcceptPaymentOnline { get; set; }
+        public bool? isOrderApprovalRequired { get; set; }
+        public bool? isPaymentRequired { get; set; }
         public bool? isWhiteLabel { get; set; }
         public string TwitterURL { get; set; }
         public string FacebookURL { get; set; }
@@ -74,7 +73,6 @@ namespace MPC.Models.DomainModels
         public string WatermarkText { get; set; }
         public int? CoreCustomerId { get; set; }
         public string StoreBackgroundImage { get; set; }
-        public bool? isDisplayBrokerSecondaryPages { get; set; }
         public int? PriceFlagId { get; set; }
         public bool? isIncludeVAT { get; set; }
         public bool? isAllowRegistrationFromWeb { get; set; }
@@ -91,10 +89,10 @@ namespace MPC.Models.DomainModels
         public bool? canUserPlaceOrderWithoutApproval { get; set; }
         public bool? CanUserEditProfile { get; set; }
         public long? OrganisationId { get; set; }
-        public bool? includeEmailBrokerArtworkOrderReport { get; set; }
-        public bool? includeEmailBrokerArtworkOrderXML { get; set; }
-        public bool? includeEmailBrokerArtworkOrderJobCard { get; set; }
-        public bool? makeEmailBrokerArtworkOrderProductionReady { get; set; }
+        public bool? includeEmailArtworkOrderReport { get; set; }
+        public bool? includeEmailArtworkOrderXML { get; set; }
+        public bool? includeEmailArtworkOrderJobCard { get; set; }
+        public bool? makeEmailArtworkOrderProductionReady { get; set; }
         public Guid? SalesAndOrderManagerId1 { get; set; }
         public Guid? SalesAndOrderManagerId2 { get; set; }
         public Guid? ProductionManagerId1 { get; set; }
@@ -106,11 +104,46 @@ namespace MPC.Models.DomainModels
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
+        public long? CurrentThemeId { get; set; }
 
         /// <summary>
         /// Map Image Url
         /// </summary>
         public string MapImageUrl { get; set; }
+        [NotMapped]
+        public byte[] MapImageUrlSourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(MapImageUrl))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = MapImageUrl.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (MapImageUrl.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = MapImageUrl.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
 
         public long? PickupAddressId { get; set; }
 
@@ -125,6 +158,8 @@ namespace MPC.Models.DomainModels
 
         public bool? isCalculateTaxByService { get; set; }
 
+        public long? ActiveBannerSetId { get; set; }
+
         [NotMapped]
         public string ImageName { get; set; }
 
@@ -134,6 +169,8 @@ namespace MPC.Models.DomainModels
 
         public virtual ICollection<Address> Addresses { get; set; }
         public virtual ICollection<CmsPage> CmsPages { get; set; }
+        [NotMapped]
+        public virtual ICollection<CmsPage> SystemPages { get; set; }
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         public virtual ICollection<RaveReview> RaveReviews { get; set; }
@@ -154,9 +191,10 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<SmartForm> SmartForms { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<FieldVariable> FieldVariables { get; set; }
+        public virtual ICollection<TemplateColorStyle> TemplateColorStyles { get; set; }
 
         #region Additional Properties
-      
+
         /// <summary>
         /// Default Sprite Source
         /// </summary>
@@ -182,6 +220,67 @@ namespace MPC.Models.DomainModels
         /// Logo Image Bytes
         /// </summary>
         public string ImageBytes { get; set; }
+
+        /// <summary>
+        /// Company Logo Source
+        /// </summary>
+        [NotMapped]
+        public string CompanyLogoSource { get; set; }
+        /// <summary>
+        /// Company Logo Name
+        /// </summary>
+        [NotMapped]
+        public string CompanyLogoName { get; set; }
+
+        /// <summary>
+        /// store work flow File Name
+        /// </summary>
+        [NotMapped]
+         public string StoreWorkflowImage { get; set; }
+
+        /// <summary>
+        /// Scope Variables
+        /// </summary>
+        [NotMapped]
+        public List<ScopeVariable> ScopeVariables { get; set; }
+
+        /// <summary>
+        /// File Source Bytes - byte[] representation of Base64 string FileSource
+        /// </summary>
+        [NotMapped]
+        public byte[] StoreWorkFlowFileSourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(WatermarkText))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = WatermarkText.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (WatermarkText.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = WatermarkText.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
         #endregion
     }
 }

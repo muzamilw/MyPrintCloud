@@ -5,8 +5,11 @@
        opacity: 1
    },1500)
    $("#content").addClass("on");
-   
-    StartLoader();
+   if (IsCalledFrom == 3) {
+       StartLoader("Select a design to start customizing");
+   } else {
+       StartLoader();
+   }
     fu02UI();
     fu02();
 });
@@ -82,7 +85,12 @@ function b3_1(caller) {
 function b8_svc(imageID, productID) {
     $.get("/designerapi/TemplateBackgroundImage/DeleteProductBackgroundImage/" + productID + "/" + imageID + "/" + organisationId,
         function (DT) {
-            b8_svc_CallBack(DT);
+            if (DT != "false") {
+                $("#" + imageID).parent().parent().remove();
+                i2(DT);
+                StopLoader();
+                $("#btnAdd").click();
+            }
         });
 }
 function fu03() {
@@ -93,21 +101,121 @@ function fu03() {
        fu04();
    });
 }
+function fu04_1GetItem(DT)
+{
+    
+    $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID,
+         function (result) {
+            
+             if (result.ZoomFactor > 1)
+             {
+                 var zf = parseInt(result.ZoomFactor);
+                 for(var i = 1; i<zf;i++)
+                 {
+                     D1CS = D1CS * D1SF;
+                     dfZ1l = D1CS;
+                 }
+             }
+             //update dimestions 
+             var w = DT.PDFTemplateWidth;
+             var h = DT.PDFTemplateHeight;
+             h = h / 96 * 72;
+             w = w / 96 * 72;
+             h = h / 2.834645669;
+             w = w / 2.834645669;
+             w = w.toFixed(3);
+             h = h.toFixed(3);
+             h = h - 10;
+             w = w - 10;
+             if (result.ScaleFactor != null && result.ScaleFactor != 0) {
+                 w = w * result.ScaleFactor;
+                 h = h * result.ScaleFactor;
+             }
+             if (result.IsTemplateDesignMode == 3) {
+                 objectsSelectable = false;
+             }
+             //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
+             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
+             productDimensionUpdated = true;
+           //
+             item = result;
+             if (item.SmartFormId != null) {
+               
+                 if (item.SmartFormId != 0) {
+                     $(".QuickTxt").css("visibility", "hidden");
+                     $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
+                       function (DT2) {
+                           $(".QuickTxt").css("visibility", "visible");
+                           pcl41(DT2);
+                           smartFormClicked = false;
+                           fu04_TempCbkGen(DT);
+                       });
+                 } else
+                 {
+                     fu04_TempCbkGen(DT);
+                 }
+                 
+             } else {
+                 $(".QuickTxt").css("visibility", "hidden");
+                 $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
+                      function (userData) {
+                          userVariableData = userData;
+                          fu04_TempCbkGen(DT);
+                          if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
+                              $("#collapseDesignerMenu").click();
+                          }
+                      });
+             }
+           
+             if (item.allowPdfDownload == true) {
+                 $(".previewBtnContainer").css("display", "block");
+                 $(".PreviewerDownloadPDF").css("display", "block");
+             }
+             if (item.allowImageDownload == true) {
+                 $(".PreviewerDownloadImg").css("display", "block");
+             }
+             if (item.isMultipagePDF == true) {
+                 isMultiPageProduct = true;
+             }
+             if (item.printCropMarks == false) {
+                 printCropMarks = false;
+             }
+             if (item.drawWaterMarkTxt == false) {
+                 printWaterMarks = false;
+             }
+            
+           
+           
+         });
+}
+function fu04_TempCbkGen(DT) {
+    DT.ProductID = DT.ProductId;
+    $.each(DT.TemplatePages, function (i, IT) {
+        IT.ProductID = IT.ProductId;
+        IT.ProductPageID = IT.ProductPageId;
+    });
+    fu04_callBack(DT);
+    if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
+        restrictControls();
+    }
+}
+function fu04_1(DT) {
+    if (IsCalledFrom == 2) {
+        c4_RS();
+        $(".QuickTxt").css("visibility", "hidden"); 
+        $("#btnGoToLandingPage").css("visibility", "hidden");
+        
+        fu04_TempCbkGen(DT);
+    } else {
+        fu04_1GetItem(DT);
+    }
+}
 function fu04() {
     $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
-    //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
-   function (DT) {
-       DT.ProductID = DT.ProductId;
-       $.each(DT.TemplatePages, function (i, IT) {
-           IT.ProductID = IT.ProductId;
-           IT.ProductPageID = IT.ProductPageId;
-       });
-       fu04_callBack(DT);
-       if (DT.IsCorporateEditable == false) {
-           restrictControls();
-       }
-   });
-
+       //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
+      function (DT) {
+          fu04_1(DT);   
+      });
 }
 function fu04_01() {
     $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
@@ -116,16 +224,34 @@ function fu04_01() {
               IT.ProductID = IT.ProductId;
               IT.ObjectID = IT.ObjectId;
               IT.ProductPageId = IT.ProductPageId;
+              if (item != null) {
+
+                  if (IT.ObjectType == 8) {
+                      if (item.companyImage != "") {
+                          IT.ContentString = item.companyImage;
+                      }
+                  } else if (IT.ObjectType == 12) {
+                      if (item.userImage != "") {
+                          IT.ContentString = item.userImage;
+                      }
+                  }
+              }
           });
+          pcl42_updateTemplate(DT);
           TO = DT;
+          if(smartFormData != null)
+              pcl42_UpdateTO();
           fu07();
           fu06();
           // if (firstLoad) {
           fu05();
           //   }
+         
       });
     k0();
-
+    if (IsCalledFrom == 2) {
+        k28();
+    }
 }
 function fu05_Clload() {
     var Cid = 0;
@@ -138,14 +264,13 @@ function fu05_Clload() {
        });
 }
 function fu05() {
-    //CustomerID = parent.CustomerID;
-    //ContactID = parent.ContactID;
-    $(".QuickTextFields").html("");
-    //  $(".QuickTextFields").append('<li><a class="add addTxtSubtitle ThemeColor" style="" data-style="title">Update your Quick text Profile</a></li>');
-    $.getJSON("/designerapi/template/getQuickText/" + CustomerID + "/" + ContactID,
-        function (xdata) {
-            fu05_SvcCallback(xdata);
-        });
+
+    //$(".QuickTextFields").html("");
+
+    //$.getJSON("/designerapi/template/getQuickText/" + CustomerID + "/" + ContactID,
+    //    function (xdata) {
+    //        fu05_SvcCallback(xdata);
+    //    });
 }
 function fu09() {
     if (tcAllcc) return;
@@ -161,8 +286,14 @@ function fu09() {
 function svcCall1(ca, gtID) {
     $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
           function (xdata) {
-              fu04();
+            //  console.log("call returned");
+              SvcLoad2ndTemplate();
+              if (item.SmartFormId != null) {
 
+                  if (item.SmartFormId != 0) {
+                      $("#Quick").click();
+                  }
+              }
           });
 }
 function svcCall2(n, tID, imgtype) {
@@ -208,3 +339,95 @@ function fu06() {
 
 
 
+function c4_RS() {
+    
+    $("#divVariableContainer").css("top", "135px");
+    $("#divVariableContainer").css("left", ($(window).width() - $('#divVariableContainer').width() -20) + "px");
+    $("#divVariableContainer").draggable({
+
+        appendTo: "body",
+        cursor: 'move'
+    });
+    $.getJSON("/designerapi/SmartForm/GetVariablesList/" + isRealestateproduct + "/" + CustomerID + "/" + organisationId,
+        function (xdata) {
+            pcl40(xdata);
+        });
+    $.getJSON("/designerapi/SmartForm/GetTemplateVariables/" + tID,
+    function (xdata) {
+        varList = xdata;
+    });
+}
+
+function pcl42_svc(data, cId) {
+ 
+    var to = "/designerApi/SmartForm/SaveUserVariables";
+    var list = {
+        contactId: cId,
+        variables: data
+    };
+    var jsonObjects = JSON.stringify(list, null, 2);
+    var options = {
+        type: "POST",
+        url: to,
+        data: jsonObjects,
+        contentType: "application/json",
+        async: true,
+        complete: function (httpresp, returnstatus) {
+            if (returnstatus == "success") {
+                if (httpresp.responseText == '"true"') {
+                    //do nothing
+                }
+                else {
+                    alert(httpresp.responseText);
+                }
+            }
+        }
+    };
+    var returnText = $.ajax(options).responseText;
+
+}
+
+function SvcLoad2ndTemplate() {
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
+     function (DT) {
+         DT.ProductID = DT.ProductId;
+         $.each(DT.TemplatePages, function (i, IT) {
+             IT.ProductID = IT.ProductId;
+             IT.ProductPageID = IT.ProductPageId;
+         });
+         Template = DT;
+         tID = Template.ProductId;
+         TP = [];
+         $.each(Template.TemplatePages, function (i, IT) {
+             TP.push(IT);
+         });
+         $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
+        function (DT) {
+            $.each(DT, function (i, IT) {
+                IT.ProductID = IT.ProductId;
+                IT.ObjectID = IT.ObjectId;
+                IT.ProductPageId = IT.ProductPageId;
+            });
+            TO = DT;
+            fu06();
+            fu07();
+        });
+     });
+
+
+}
+
+function k28() {
+
+    $.getJSON("/designerapi/TemplateBackgroundImage/GetTerritories/" + CustomerID,
+        function (xdata) {
+            $.each(xdata, function (i, item) {
+                k29("dropDownTerritories", "ter_" + item.TerritoryId, item.TerritoryName, "territroyContainer");
+            });
+        });
+}
+function k29(divID, itemID, itemName, Container) {
+    var html = '<div class="checkboxRowsTxt"><input type="checkbox" id="' + itemID + '" class="' + itemID + '" style="  margin-right: 5px;"><label for="' + itemID + '">' + itemName + '</label></div>';
+    $('#' + divID).append(html);
+    $('#' + Container).css("display", "block");
+}

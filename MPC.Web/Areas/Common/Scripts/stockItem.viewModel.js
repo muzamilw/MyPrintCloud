@@ -11,12 +11,18 @@ define("common/stockItem.viewModel",
                     view,
                     // Stock Items
                     stockItems = ko.observableArray([]),
+                    // Stock Categories
+                    categories = ko.observableArray([]),
                     // Stock Dialog Filter
                     stockDialogFilter = ko.observable(),
                     // Stock Dialog Cat Filter
                     stockDialogCatFilter = ko.observable(),
                     // Is Category Filter Visible
                     isCategoryFilterVisible = ko.observable(),
+                    // Is Base Data Loaded
+                    isBaseDataLoaded = ko.observable(false),
+                    // Selected Stock category
+                    selectedCategoryId = ko.observable(),
                     // Pagination For Press Dialog
                     stockDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, stockItems)),
                     // Search Stock Items
@@ -56,6 +62,9 @@ define("common/stockItem.viewModel",
                         }
                         
                         afterSelect = afterSelectCallback;
+                        getStockItems();
+                        if (!isBaseDataLoaded())
+                        getStockCategories();
                     },
                     // On Select Stock Item
                     onSelectStockItem = function (stockItem) {
@@ -89,16 +98,35 @@ define("common/stockItem.viewModel",
                             PageSize: stockDialogPager().pageSize(),
                             PageNo: stockDialogPager().currentPage(),
                             CategoryId: stockDialogCatFilter(),
+                            StockCategoryId: selectedCategoryId(),
                         }, {
                             success: function (data) {
                                 stockItems.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    stockDialogPager().totalCount(data.TotalCount);
                                     mapStockItems(data.StockItems);
+                                    stockDialogPager().totalCount(data.TotalCount);
                                 }
                             },
                             error: function (response) {
                                 toastr.error("Failed to load stock items" + response);
+                            }
+                        });
+                    },
+                    // Get StockCategories
+                    getStockCategories = function () {
+                        dataservice.getStockCategories({
+                        }, {
+                            success: function (data) {
+                                if (data) {
+                                    categories.removeAll();
+                                    _.each(data, function (item) {
+                                        categories.push(item);
+                                    });
+                                }
+                                isBaseDataLoaded(true);
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load stock categories" + response);
                             }
                         });
                     };
@@ -114,7 +142,9 @@ define("common/stockItem.viewModel",
                     //Utilities
                     onSelectStockItem: onSelectStockItem,
                     initialize: initialize,
-                    show: show
+                    categories:categories,
+                    show: show,
+                    selectedCategoryId: selectedCategoryId
                 };
             })()
         };

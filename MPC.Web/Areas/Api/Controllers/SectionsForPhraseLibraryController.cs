@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -39,6 +40,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Sections
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct, SecurityAccessRight.CanViewSecurity })]
+        [CompressFilterAttribute]
         public IEnumerable<SectionForPhraseLibrary> Get()
         {
             return phraseLibraryService.GetSections().Select(s => s.CreateFrom());
@@ -49,6 +52,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Phrases By Phrase Field Id
         /// </summary>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct, SecurityAccessRight.CanViewSecurity })]
+        [CompressFilterAttribute]
         public IEnumerable<Phrase> Get([FromUri]int fieldId)
         {
             return phraseLibraryService.GetPhrasesByPhraseFiledId(fieldId).Select(p => p.CreateFrom());
@@ -56,6 +61,8 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         [ApiException]
         [HttpPost]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct, SecurityAccessRight.CanViewSecurity })]
+        [CompressFilterAttribute]
         public int Post(PhraseLibrarySaveModel Sections)
         {
             //FormCollection

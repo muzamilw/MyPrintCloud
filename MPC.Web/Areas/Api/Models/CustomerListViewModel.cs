@@ -28,8 +28,42 @@ namespace MPC.MIS.Areas.Api.Models
         public string Status { get; set; }
 
         /// <summary>
+        /// Customer TYpe 
+        /// </summary>
+        public short CustomerType { get; set; }
+
+        /// <summary>
+        /// Default Contact Name
+        /// </summary>
+        public string DefaultContactName { get; set; }
+
+        /// <summary>
+        /// Default Contact Email
+        /// </summary>
+        public string DefaultContactEmail { get; set; }
+
+        /// <summary>
         /// Customer Email
         /// </summary>
         public string Email { get; set; }
+        public byte[] Image { get; set; }
+        public string ImageBytes { get; set; }
+        public string StoreImagePath { get; set; }
+        /// <summary>
+        /// Image Source
+        /// </summary>
+        public string ImageSource
+        {
+            get
+            {
+                if (Image == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(Image);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
     }
 }

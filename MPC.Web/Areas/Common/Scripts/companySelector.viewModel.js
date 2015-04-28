@@ -14,7 +14,9 @@ define("common/companySelector.viewModel",
                     // company Dialog Filter
                     companyDialogFilter = ko.observable(),
                     // company Dialog is Customer Filter
-                    companyDialogStoreTypeFilter = ko.observable(),
+                    companyDialogStoreTypeFilter = ko.observableArray([]),
+                    // Is Opened from Order
+                    isOpenedFromOrder = ko.observable(),
                     // Pagination For Press Dialog
                     companyDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, companies)),
                     // Search Stock Items
@@ -41,23 +43,27 @@ define("common/companySelector.viewModel",
                         companyDialogFilter(undefined);
                         // Reset Category
                         companyDialogStoreTypeFilter(undefined);
+                        // Reset Opened From Order Flag
+                        isOpenedFromOrder(undefined);
                     },
                     // Show
-                    show = function (afterSelectCallback, storeType) {
+                    show = function (afterSelectCallback, storeType, isForOrder) {
                         resetCompanies();
                         view.showDialog();
                         if (storeType) {
                             companyDialogStoreTypeFilter(storeType);
                         }
-                        
+
+                        isOpenedFromOrder(isForOrder || undefined);
+
                         afterSelect = afterSelectCallback;
+                        getCompanies();
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
                         if (afterSelect && typeof afterSelect === "function") {
                             afterSelect(company);
                         }
-
                         view.hideDialog();
                     },
                     // Initialize the view model
@@ -83,13 +89,14 @@ define("common/companySelector.viewModel",
                             SearchString: companyDialogFilter(),
                             PageSize: companyDialogPager().pageSize(),
                             PageNo: companyDialogPager().currentPage(),
-                            IsCustomerType: companyDialogStoreTypeFilter(),
+                            CustomerTypes: companyDialogStoreTypeFilter(),
+                            ForOrder: isOpenedFromOrder()
                         }, {
                             success: function (data) {
                                 companies.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    companyDialogPager().totalCount(data.TotalCount);
                                     mapCompanies(data.Companies);
+                                    companyDialogPager().totalCount(data.TotalCount);
                                 }
                             },
                             error: function (response) {

@@ -12,14 +12,20 @@ namespace MPC.Interfaces.Repository
         //bool Delete(long MachineID);
         // bool UpdateSystemMachine(long MachineID, string Name, string Description);
         MachineResponseModel GetMachineByID(long MachineID);
+        MachineResponseModel CreateMachineByType(bool isGuillotine);
         bool archiveMachine(long id);
         bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
+        long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
         //   List<Machine> GetMachineList();
         MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request);
 
         List<Machine> GetMachinesByOrganisationID(long OID);
 
         List<LookupMethod> getLookupmethodsbyOrganisationID(long OID);
+
+        string GetInkPlatesSidesByInkID(long InkID);
+
+        string GetMachineByID(int MachineID);
     }
 }
 

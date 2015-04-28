@@ -3,30 +3,27 @@
 }
 @section leftmenue {
 }
-<div class="row">
-    <div class="col-lg-12 clearfix">
+<div class="row" data-bind="visible: $root.isEditorVisible()" style="display: none">
+    <div class="col-lg-12 clearfix" data-bind="with: selectedCostCenter()">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li><a href="~/Settings/DeliveryCostCentres">Delivery Cost Centers</a></li>
-                    <li class="active"><span>Edit Cost Center</span></li>
+                    <li class="active"><span>Edit Delivery Cost Center</span></li>
                 </ol>
-                <h1>Delivery Cost Center</h1>
+               
             </div>
         </div>
         <div class="row" id="user-profile">
-            <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px; padding-right: 0px;">
-
-                <div class="col-xs-4">
-                </div>
-                <div class="col-xs-4">
-                </div>
-
-                <div class="col-xs-4" style="text-align: right;">
-
-                    <button type="button" class="btn btn-primary btn-lg">
+            <div class="clearfix">
+                <h1 class="pull-left" data-bind="text: name()"></h1>
+                <div class="pull-right top-page-ui">
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
                         <span class="fa fa-save"></span>&nbsp;Save
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.closeCostCenterDetail">
+                        <span class="fa fa-power-off"></span>&nbsp;Close
                     </button>
                 </div>
             </div>
@@ -36,7 +33,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-CCDescription" data-toggle="tab">Cost Center Description</a></li>
 
-                            <li><a href="#tab-DeliveryTimeZone" data-toggle="tab">Delivery Zone Table</a></li>
+                            @*<li><a href="#tab-DeliveryTimeZone" data-toggle="tab">Delivery Zone Table</a></li>*@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-CCDescription">
@@ -49,8 +46,9 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
                                                     </div>
 
@@ -60,7 +58,7 @@
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtEmail">
+                                                    <input type="text" class="form-control" id="txtEmail" data-bind="value: name, validationTooltip: name">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -68,8 +66,9 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
                                                     </div>
 
@@ -79,7 +78,8 @@
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtFName">
+                                                    <textarea class="form-control" id="txtInternalDesc" placeholder="Enter Internal Description" rows="5" data-bind="value: description"></textarea>
+                                                    
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -87,8 +87,9 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
                                                     </div>
 
@@ -98,83 +99,170 @@
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtLName">
+                                                    <textarea class="form-control" id="txtWebDesc" placeholder="Enter Internal Description" rows="5" data-bind="value: webStoreDesc"></textarea>
                                                 </div>
                                             </div>
-                                            <div class="form-group ">
+                                            <div class="form-group">
                                                 <div class="col-lg-5 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
                                                     </div>
 
 
-                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Grouping and Job Title Priority</label>
+                                                    <label for="ddCarrier" class="control-label text-right tooltip-float">Send & Calculate Delivery Via</label>
 
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtJTitle">
+
+                                                    <select class="form-control" data-bind="options:$root.deliveryCarriers, optionsText:'CarrierName',optionsValue:'CarrierId', value: carrierId"></select>
+                                                   
                                                 </div>
+
                                             </div>
-                                            <div class="form-group ">
+                                            
+                                            <div class="form-group" data-bind="visible: carrierId() === 1">
                                                 <div class="col-lg-5 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
                                                     </div>
-
-
-                                                    <label for="txtCellNo" class="control-label text-right tooltip-float">Cost Center Category</label>
+                                                    <label for="ddCarrier" class="control-label text-right tooltip-float">Fedex Service Type</label>
 
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtCellNo">
+                                                    <select class="form-control" data-bind="options:$root.fedexServiceTypes, optionsText:'Text',optionsValue:'Text' ,value:deliveryServiceType"></select>
                                                 </div>
                                             </div>
-                                            <div class="form-group ">
+                                            
+                                            <div class="form-group" data-bind="visible: carrierId() === 3">
                                                 <div class="col-lg-5 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Delivery price" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
                                                     </div>
 
 
-                                                    <label for="txtDirectL" class="control-label text-right tooltip-float">Notes</label>
+                                                    <label for="txtDelcharges" class="control-label text-right tooltip-float">Fixed Delivery Price</label>
 
                                                 </div>
+                                                <div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" data-bind="value:deliveryCharges">
+                                                    </div>
+                                                   
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="form-group" data-bind="visible: carrierId() === 3">
+                                                <div class="col-lg-5 text-right">
 
-                                                <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtDirectL">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Delivery Time" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtDelvTime" class="control-label text-right tooltip-float">Fixed Delivery Time</label>
+                                                </div>
+                                                <div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" data-bind="value:estimateProductionTime">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <span>Day(s)</span>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            @*<div class="form-group ">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+
+
+                                                        <label for="txtJTitle" class="control-label text-right tooltip-float">Grouping and Job Title Priority</label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-7">
+                                                        <input type="text" class="form-control" data-bind="value: priority">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+
+
+                                                        <label for="txtDirectL" class="control-label text-right tooltip-float">Notes</label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-7">
+                                                        <textarea class="form-control" rows="5" placeholder="Enter Notes" data-bind="value: itemDescription"></textarea>
+    </div>
+                                                </div>*@
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-md-5 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
                                                     </div>
 
                                                     <label class="control-label text-right tooltip-float">Thumbnail</label>
 
                                                 </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <div class="clearfix">
+                                                        <img style="width:200px;" data-bind="visible:costcentreImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
+                                                        <img style="width:200px;" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
+                                                        <div class="pull-right">
+                                                            <div class="fileUpload btn btn-primary">
+                                                                <span>....</span>
+                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.costcenterImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="profile-stars">
+                                                            <span data-bind="value: type"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                                <div class="col-lg-6">
+                                                @*<div class="col-lg-6">
                                                     <div id="dropzoneM" class="dropzonepl">
                                                         <form id="demo-uploadMM" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
                                                             <div class="dz-default dz-message">
@@ -183,25 +271,26 @@
                                                         </form>
                                                     </div>
                                                     <span class="help-block text-right"></span>
-                                                </div>
+                                                </div>*@
 
                                             </div>
-                                            <br />
+                                            
                                             <div class="form-group">
 
-                                                <div class="col-lg-8 text-right">
+                                                <div class="col-lg-5 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
                                                     </div>
-                                                    <label for="switchNewsLetter" class="control-label text-right tooltip-float">Is Published on Webstore</label>
+                                                    <label for="switchIsPublished" class="control-label text-right tooltip-float">Published on Webstore</label>
 
                                                 </div>
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsPublished" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsPublished" data-bind="checked:isPublished">
                                                         <label class="onoffswitch-label" for="switchIsPublished">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -213,66 +302,11 @@
                                             </div>
 
                                         </div>
-                                        <div class="clearfix">
-                                        </div>
-                                        <h3 class="group-header">Delivery cost Center</h3>
-                                        <div class="clearfix">
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <div class="col-lg-5 text-right">
-
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                                        </div>
-
-
-                                                        <label for="ddSupplier" class="control-label text-right tooltip-float">Supplier</label>
-
-                                                    </div>
-
-                                                    <div class="col-lg-7">
-                                                        <select class="form-control" id="ddSupplier">
-                                                            <option>CMYK Hub </option>
-                                                            <option>Jasco</option>
-                                                            <option>Kodak</option>
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-
-
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
-
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                                        </div>
-
-
-                                                        <label for="txtDelvTime" class="control-label text-right tooltip-float">Delivery Time</label>
-
-                                                    </div>
-
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtDelvTime">
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
 
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="tab-DeliveryTimeZone">
+                            @*<div class="tab-pane fade" id="tab-DeliveryTimeZone">
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="main-box no-header clearfix">
                                         <div class="main-box-body clearfix">
@@ -303,8 +337,8 @@
                                                             </td>
                                                             <td class="col-lg-3">
                                                                 <div class="input-group">
-                                                                    <span class="input-group-addon">$</span>
-                                                                    <input type="text" class="form-control" id="txtDelvPricePerKilo" /><span class="input-group-addon">per kg</span>
+                                                                    <span class="input-group-addon" tabindex="-1">$</span>
+                                                                    <input type="text" class="form-control" id="txtDelvPricePerKilo" /><span class="input-group-addon" tabindex="-1">per kg</span>
                                                                 </div>
                                                             </td>
                                                             <td class="col-lg-2">
@@ -312,8 +346,8 @@
                                                             </td>
                                                             <td class="col-lg-3">
                                                                 <div class="input-group">
-                                                                    <span class="input-group-addon">$</span>
-                                                                    <input type="text" class="form-control" id="txtMinimumCharge" /><span class="input-group-addon">.00</span>
+                                                                    <span class="input-group-addon" tabindex="-1">$</span>
+                                                                    <input type="text" class="form-control" id="txtMinimumCharge" /><span class="input-group-addon" tabindex="-1">.00</span>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -331,8 +365,8 @@
                                                             </td>
                                                             <td class="col-lg-3">
                                                                 <div class="input-group">
-                                                                    <span class="input-group-addon">$</span>
-                                                                    <input type="text" class="form-control" id="txtDelvPricePerKilo1" /><span class="input-group-addon">per kg</span>
+                                                                    <span class="input-group-addon" tabindex="-1">$</span>
+                                                                    <input type="text" class="form-control" id="txtDelvPricePerKilo1" /><span class="input-group-addon" tabindex="-1">per kg</span>
                                                                 </div>
                                                             </td>
                                                             <td class="col-lg-2">
@@ -340,8 +374,8 @@
                                                             </td>
                                                             <td class="col-lg-3">
                                                                 <div class="input-group">
-                                                                    <span class="input-group-addon">$</span>
-                                                                    <input type="text" class="form-control" id="txtMinimumCharge1" /><span class="input-group-addon">.00</span>
+                                                                    <span class="input-group-addon" tabindex="-1">$</span>
+                                                                    <input type="text" class="form-control" id="txtMinimumCharge1" /><span class="input-group-addon" tabindex="-1">.00</span>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -359,8 +393,8 @@
                                                             </td>
                                                             <td class="col-lg-3">
                                                                 <div class="input-group">
-                                                                    <span class="input-group-addon">$</span>
-                                                                    <input type="text" class="form-control" id="txtDelvPricePerKilo2" /><span class="input-group-addon">per kg</span>
+                                                                    <span class="input-group-addon" tabindex="-1">$</span>
+                                                                    <input type="text" class="form-control" id="txtDelvPricePerKilo2" /><span class="input-group-addon" tabindex="-1">per kg</span>
                                                                 </div>
                                                             </td>
                                                             <td class="col-lg-2">
@@ -368,8 +402,8 @@
                                                             </td>
                                                             <td class="col-lg-3">
                                                                 <div class="input-group">
-                                                                    <span class="input-group-addon">$</span>
-                                                                    <input type="text" class="form-control" id="txtMinimumCharge2" /><span class="input-group-addon">.00</span>
+                                                                    <span class="input-group-addon" tabindex="-1">$</span>
+                                                                    <input type="text" class="form-control" id="txtMinimumCharge2" /><span class="input-group-addon" tabindex="-1">.00</span>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -379,7 +413,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>

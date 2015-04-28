@@ -86,7 +86,7 @@ namespace MPC.Webstore
             ConfigureLogger();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+          //  GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
@@ -137,65 +137,76 @@ namespace MPC.Webstore
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-
-            companyService = container.Resolve<ICompanyService>();
-            
-            string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);
-
-            long storeId = companyService.GetStoreIdFromDomain(url);
-
-            if (storeId > 0)
+            Uri sdsd = Request.Url;
+            if (UserCookieManager.WBStoreId == 0 || (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) == null)
             {
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
-                if ((cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>).ContainsKey(storeId))
-                {
-                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[storeId];
-                }
-                else
-                {
-                    StoreBaseResopnse = companyService.GetStoreFromCache(storeId);
-                }
+                Uri urlReferrer = Request.UrlReferrer;
                 
-                if (StoreBaseResopnse.Company != null)
+                companyService = container.Resolve<ICompanyService>();
+
+                string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);
+
+                long storeId = companyService.GetStoreIdFromDomain(url);
+
+                if (storeId > 0)
                 {
-                    UserCookieManager.StoreId = StoreBaseResopnse.Company.CompanyId;
-                    UserCookieManager.StoreMode = StoreBaseResopnse.Company.IsCustomer;
-                    UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
-                    UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
-                    UserCookieManager.OrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
-                    //UserCookieManager.OrganisationLanguageIdentifier = "_" + UserCookieManager.OrganisationID.ToString();
-                    // set global language of store
-
-                    string languageName =
-                        companyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
-
-                    CultureInfo ci = null;
-
-                    if (string.IsNullOrEmpty(languageName))
+                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
+                    if ((cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>).ContainsKey(storeId))
                     {
-                        languageName = "en-US";
+                        StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[storeId];
+                    }
+                    else
+                    {
+                        StoreBaseResopnse = companyService.GetStoreFromCache(storeId);
                     }
 
-                    ci = new CultureInfo(languageName);
-
-                    Thread.CurrentThread.CurrentUICulture = ci;
-                    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-
-                    if (StoreBaseResopnse.Company.IsCustomer == 3) // corporate customer
+                    if (StoreBaseResopnse.Company != null)
                     {
-                        Response.Redirect("/Login");
+                        UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
+                        UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
+                        UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
+                        UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
+                        UserCookieManager.WEBOrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
+                        //UserCookieManager.OrganisationLanguageIdentifier = "_" + UserCookieManager.OrganisationID.ToString();
+                        // set global language of store
+
+                        string languageName =
+                            companyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
+
+                        CultureInfo ci = null;
+
+                        if (string.IsNullOrEmpty(languageName))
+                        {
+                            languageName = "en-US";
+                        }
+
+                        ci = new CultureInfo(languageName);
+
+                        Thread.CurrentThread.CurrentUICulture = ci;
+                        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+
+                        // checking autologin if auto login then do not redirect as he redirection will be handle by the auto login action
+                        if(!Request.Url.AbsolutePath.ToLower().Contains("autologin"))
+                        {
+                            if (StoreBaseResopnse.Company.IsCustomer == 3) // corporate customer
+                            {
+                                Response.Redirect("/Login");
+                            }
+                        }
+                       
+                    }
+                    else
+                    {
+                        //  Response.Redirect("/Error");
                     }
                 }
                 else
                 {
-                  //  Response.Redirect("/Error");
+                    //  Response.Redirect("/Error");
                 }
-            }
-            else
-            {
-              //  Response.Redirect("/Error");
-            }
 
+            }
+          
         }
     }
 }

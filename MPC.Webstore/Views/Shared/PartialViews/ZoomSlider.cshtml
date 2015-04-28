@@ -1,0 +1,25 @@
+﻿
+
+<head>
+    <script src="/Scripts/zoomSlider.js"></script>
+    <link href="/Content/Slider.css" rel="stylesheet" />
+    @*<link href="/Content/zoomslider.css" rel="stylesheet" />*@
+    @*<script src="@Url.Content("~/Scripts/zoomSlider.js")" type="text/javascript"></script>*@
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+</head>
+
+@model List<MPC.Models.DomainModels.CompanyBanner>
+@using MPC.Webstore.Common;
+<div id="bannerContainer" class="content_area">
+    <div id="wrapper">
+        <div id="zoom-slider">
+      @foreach (var banner in Model)
+      {
+        <a class="imgLink"><img id="img" src="@banner.ImageURL"></a>
+            @*<a id="MainContent__ffd141c70df307b1_rptrPageBanners_hlItemUrl_1"><img id="MainContent__ffd141c70df307b1_rptrPageBanners_imgBanner_1" src="/StoredImages/PageBanners/62e6a56f-7f16-4fd9-b64e-ee1004f204c1_HomePageBanner.png"></a>
+            <a id="MainContent__ffd141c70df307b1_rptrPageBanners_hlItemUrl_2"><img id="MainContent__ffd141c70df307b1_rptrPageBanners_imgBanner_2" src="/StoredImages/PageBanners/7efba2af-fe55-4a30-b0fa-690d24662967_HomePageBanner.png"></a>*@
+      }
+        </div>
+    </div>
+</div>
+
