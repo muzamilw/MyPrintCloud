@@ -60,25 +60,26 @@ namespace MPC.MIS.Controllers
              * On Call back, if user is authenticated then add Claims
              */
 
+           
             ValidationInfo validationInfo = null;
-            using (var client = new HttpClient())
-            {
+            //using (var client = new HttpClient())
+            //{
 
 
-                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //    client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                string url = "login?token=" + token;
-                string responsestr = "";
-                var response = client.GetAsync(url);
-                if (response.Result.IsSuccessStatusCode)
-                {
-                    responsestr =  response.Result.Content.ReadAsStringAsync().Result;
-                    validationInfo =  JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
-                }
+            //    string url = "login?token=" + token;
+            //    string responsestr = "";
+            //    var response = client.GetAsync(url);
+            //    if (response.Result.IsSuccessStatusCode)
+            //    {
+            //        responsestr =  response.Result.Content.ReadAsStringAsync().Result;
+            //        validationInfo =  JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+            //    }
                
-            }
+            //}
 
             long organisationId = 0; //Request.QueryString["OrganisationId"];
             string userId = ""; //Request.QueryString["UserId"];
