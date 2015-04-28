@@ -215,10 +215,12 @@
                         <div class="rptContainers">
                             @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
                             {
+                                Random random = new Random();
+                                string randonNumber = "?r=" + random.Next();
                                     <div class="LGBC BD_PCS rounded_corners">
                                         <a id="hlSide1">
                                             <div class="PDTC_LP FI_PCS">
-                                                <img class="full_img_ThumbnailPath_LP" src="/@templateItem.FolderPath/@templateItem.FileName@imagePath" />
+                                                <img class="full_img_ThumbnailPath_LP" src="/@templateItem.FolderPath/@templateItem.FileName@imagePath@randonNumber" />
 
                                             </div>
                                         </a>
@@ -726,12 +728,15 @@
 
     $(document).ready(function() {
 
-
+        
         $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
         $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
 
-        hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
+        SelectedFirstPaperIfNoPaperSelected();
 
+      
+        hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
+        
         MatrixToggle();
         if (isRanged) {
             if ($("#rangedQuantityOrdered").val() == "") {
@@ -769,6 +774,22 @@
     $("#priceToggle").click(function() {
         $('#priceMatrixContainer').slideToggle();
     });
+        
+    function SelectedFirstPaperIfNoPaperSelected() {
+        var isPaperSelected = false;
+        $('input:radio[name=StockPaper]').each(function() {
+            if ($(this).is(':checked')) {
+                isPaperSelected = true;
+            }
+        });
+
+        if(isPaperSelected == false){
+            $('input:radio[name=StockPaper]').each(function() {
+                $(this).prop('checked', true);
+                return false;
+            });
+        }
+    }
 
     function ConfirmCart() {
         if (isPriceSelected == 0) {
@@ -956,6 +977,8 @@
                     $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
                 }
             });
+
+           
 
             var stockID = $('input:radio[class=' + classname + ']').attr("data-Id");
 
