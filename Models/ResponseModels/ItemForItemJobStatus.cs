@@ -45,7 +45,7 @@ namespace MPC.Models.ResponseModels
         /// <summary>
         /// Status Id
         /// </summary>
-        public short? StatusId { get; set; }
+        public int? StatusId { get; set; }
 
         /// <summary>
         /// Expected Shipping Date

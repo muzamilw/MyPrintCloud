@@ -752,7 +752,7 @@ define("order/order.viewModel",
                     onStatusChangeItemResetToUnAssigned = function () {
                         var counter = 0;
                         _.each(selectedOrder().items(), function (item) {
-                            item.statusId(jobStatuses()[0].StatusId);
+                            item.jobStatusId(jobStatuses()[0].StatusId);
                             counter = counter + 1;
                         });
 
