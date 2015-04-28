@@ -62,6 +62,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new DomainModels.SectionCostcentre
             {
                 SectionCostcentreId = source.SectionCostcentreId,
+                Name = source.Name,
                 CostCentreId = source.CostCentreId,
                 Qty1 = source.Qty1,
                 Qty1Charge = source.Qty1Charge,

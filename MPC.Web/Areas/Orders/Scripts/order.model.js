@@ -569,7 +569,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemAttachments = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({
-                    productCode: productCode,
                     productName: productName
                 }),
                 // Is Valid

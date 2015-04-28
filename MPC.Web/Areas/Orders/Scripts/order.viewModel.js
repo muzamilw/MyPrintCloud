@@ -1573,7 +1573,7 @@ define("order/order.viewModel",
                         },
                     createNewCostCenterProduct = function (costCenter) {
                         selectedCostCentre(costCenter);
-                        var item = model.Item.Create({});
+                        var item = model.Item.Create({ EstimateId: selectedOrder().id() });
                         item.productName(selectedCostCentre().name());
                         item.qty1(selectedCostCentre().quantity1());
                         item.qty1NetTotal(selectedCostCentre().setupCost());
@@ -1666,14 +1666,14 @@ define("order/order.viewModel",
                             }
                         },
                         onSaveProductInventory = function () {
-                            var item = model.Item.Create({});
+                            var item = model.Item.Create({ EstimateId: selectedOrder().id() });
                             item.productName(inventoryStockItemToCreate().name);
                             var itemSection = model.ItemSection.Create({});
                             var sectionCostCenter = model.SectionCostCentre.Create({});
                             sectionCostCenter.qty1(selectedCostCentre().quantity1());
                             sectionCostCenter.qty2(selectedCostCentre().quantity2());
                             sectionCostCenter.qty3(selectedCostCentre().quantity3());
-                            sectionCostCenter.costCentreId(selectedCostCentre().id());
+                            sectionCostCenter.costCentreId(getStockCostCenterId(139));
                             sectionCostCenter.costCentreName(selectedCostCentre().name());
                             sectionCostCenter.name('Stock(s)');
                             //sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
@@ -1915,6 +1915,7 @@ define("order/order.viewModel",
                                             sectionCostCenter.qty2Charge(0);
                                             sectionCostCenter.qty3Charge(0);
                                             sectionCostCenter.qty1(1);
+                                            sectionCostCenter.costCentreId(stockOption.costCentreId());
 
                                             //sectionCostCenter.qty1NetTotal(stockOption.totalPrice());//todo 
                                             selectedSectionCostCenter(sectionCostCenter);
