@@ -60,6 +60,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICostCentreRepository CostCentreRepository;
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
         private readonly IShippingInformationRepository shippingInformationRepository;
+        private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
 
         /// <summary>
         /// Creates New Order and assigns new generated code
@@ -213,6 +214,24 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Creates New Section Cost Centre Detail
+        /// </summary>
+        private SectionCostCentreDetail CreateSectionCostCentreDetail()
+        {
+            SectionCostCentreDetail itemTarget = sectionCostCentreDetailRepository.Create();
+            sectionCostCentreDetailRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Section Cost Centre Detail
+        /// </summary>
+        private void DeleteSectionCostCentreDetail(SectionCostCentreDetail item)
+        {
+            sectionCostCentreDetailRepository.Delete(item);
+        }
+
+        /// <summary>
         /// Saves Image to File System
         /// </summary>
         /// <param name="mapPath">File System Path for Item</param>
@@ -314,7 +333,8 @@ namespace MPC.Implementation.MISServices
             IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository, 
             IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository, 
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository, 
-            ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository)
+            ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository)
         {
             if (estimateRepository == null)
             {
@@ -388,7 +408,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("shippingInformationRepository");
             }
-
+            if (sectionCostCentreDetailRepository == null)
+            {
+                throw new ArgumentNullException("sectionCostCentreDetailRepository");
+            }
             this.estimateRepository = estimateRepository;
             this.companyRepository = companyRepository;
             this.prefixRepository = prefixRepository;
@@ -422,6 +445,8 @@ namespace MPC.Implementation.MISServices
             this.PayPalRepsoitory = PayPalRepsoitory;
             this.sectionInkCoverageRepository = sectionInkCoverageRepository;
             this.shippingInformationRepository = shippingInformationRepository;
+            this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
+            this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
         }
 
         #endregion
@@ -483,7 +508,9 @@ namespace MPC.Implementation.MISServices
                                          DeleteSectionInkCoverage = DeleteSectionInkCoverage,
                                          CreateShippingInformation = CreateNewShippingInformation,
                                          DeleteShippingInformation = DeleteShippingInformation,
-                                         GetNextJobCode = GetJobCodeForItem
+                                         GetNextJobCode = GetJobCodeForItem,
+                                         CreateSectionCostCenterDetail = CreateSectionCostCentreDetail,
+                                         DeleteSectionCostCenterDetail = DeleteSectionCostCentreDetail,
                                      });
             // Save Changes
             estimateRepository.SaveChanges();
