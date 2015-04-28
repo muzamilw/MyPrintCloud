@@ -800,7 +800,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             doBeforeSave = function () {
                 var flag = true;
                 
-                if (selectedCostCenter().calculationMethodType() == '2') {
+                if (selectedCostCenter().type() == 11)
+                {
+
+                }
+                else if (selectedCostCenter().calculationMethodType() == '2') {
                     if (selectedCostCenter().isTimeVariable() == '2') {
                         if (selectedCostCenter().timeQuestionString() == null || selectedCostCenter().timeQuestionString() == undefined || selectedCostCenter().timeQuestionString().length == 0) {
                             errorList.push({ name: "Enter a Valid Question for Number of Hours.", element: selectedCostCenter().timeQuestionString.domElement });
@@ -809,7 +813,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         }
                     }
                 }
-                if (selectedCostCenter().calculationMethodType() == '3') {
+                else if (selectedCostCenter().calculationMethodType() == '3') {
                     if (selectedCostCenter().isQtyVariable() == '2') {
                         if (selectedCostCenter().quantityQuestionString() == null || selectedCostCenter().quantityQuestionString() == undefined || selectedCostCenter().quantityQuestionString().length == 0) {
                             errorList.push({ name: "Enter a Valid Question for Number of Hours.", element: selectedCostCenter().quantityQuestionString().domElement });
@@ -917,6 +921,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 cc.setupCost('0');
                 cc.minimumCost('0');
                 cc.type('11');
+                cc.calculationMethodType('1');
                 selectedCostCenter(cc);
                 getCostCentersBaseData();
                 // getVariablesTree();
@@ -949,6 +954,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 newcostcenter.calculationMethodType('2');
                 newcostcenter.isQtyVariable('1');
                 newcostcenter.isTimeVariable('1');
+                newcostcenter.isCalculationMethodEnable(true);
             },
             createWorkInstruction = function () {
                 var wi = new model.NewCostCenterInstruction();
