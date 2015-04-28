@@ -651,6 +651,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 },
                 // Convert To Server Data
                 convertToServerData = function () {
+                   // id() < 0 ? id(0) : id();
                     return {
                         ItemId: id(),
                         ItemCode: code(),
@@ -684,9 +685,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         JobManagerId: jobManagerId(),
                         JobStatusId: jobStatusId(),
                         ItemSections: itemSections.map(function (itemSection, index) {
-                            var section = itemSection.convertToServerData(id() === 0);
+                            var section = itemSection.convertToServerData(id() < 0);
                             section.SectionNo = index + 1;
-                            if (!id()) {
+                            if (id() < 0) {
                                 section.ItemSectionId = 0;
                                 section.ItemId = 0;
                             }
