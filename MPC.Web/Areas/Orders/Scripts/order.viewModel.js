@@ -1864,6 +1864,7 @@ define("order/order.viewModel",
 
                             createNewRetailStoreProduct = function () {
                                 var item = selecteditem().convertToServerData();
+                                item.EstimateId = selectedOrder().id();
                                 var newItem = model.Item.Create(item);
                                 selectedProduct(newItem);
                                 newItem.id(0);
