@@ -1513,11 +1513,11 @@ define("order/order.viewModel",
                                 } else {
                                     companyId = selectedOrder().companyId();
                                 }
-                                addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol());
+                                addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id());
                             }
                         },
                     addItemFromRetailStore = function (newItem) {
-                        
+                        selectedProduct(newItem);
                         selectedOrder().items.splice(0, 0, newItem);
                     },
                         onAddCostCenter = function () {
@@ -1696,6 +1696,16 @@ define("order/order.viewModel",
                                 selectedSectionCostCenter().sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                             }
                         },
+
+                     getStockCostCenterId = function (type) {
+                         var costCentreId;
+                         _.each(costCentres, function (costCenter) {
+                             if (costCenter.Type == type) {
+                                 costCentreId = costCenter.CostCentreId;
+                             }
+                         });
+                         return costCentreId;
+                     },
                         onSaveProductInventory = function () {
                             var item = model.Item.Create({ EstimateId: selectedOrder().id() });
                             selectedProduct(item);
@@ -1761,60 +1771,6 @@ define("order/order.viewModel",
 
                     //Filtered Item Price matrix List
                         filteredItemPriceMatrixList = ko.observableArray([]),
-
-                            getPrice = function (listElementNumber, count) {
-                                if (count == 1) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType1();
-                                }
-                                else if (count == 2) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType2();
-                                }
-                                else if (count == 3) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType3();
-                                }
-                                else if (count == 4) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType4();
-                                }
-                                else if (count == 5) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType5();
-                                }
-                                else if (count == 6) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType6();
-                                }
-                                else if (count == 7) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType7();
-                                }
-                                else if (count == 8) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType8();
-                                }
-                                else if (count == 9) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType9();
-                                }
-                                else if (count == 10) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType10();
-                                }
-                                else if (count == 11) {
-                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
-                                }
-                                return null;
-                            },
-
-                                item.EstimateId = selectedOrder().id();
-                                selectedProduct(newItem);
-
-                               
-                                
-                                selectedQty(1);
-
-                                selectedSection(newItem.itemSections()[0]);
-                          
-                                            sectionCostCenter.costCentreId(stockOption.costCentreId());
-
-                                            selectedSectionCostCenter(sectionCostCenter);
-                                            selectedQty(1);
-
-                                            selectedSection(newItem.itemSections()[0]);
-                         
 
                             //Call Method to update stock cost center
                             //If there is no selected cost center in retail store then add Cost Centers of Type 29 (Web Order Cost Center) and 139 (Stock Type Cost Center)

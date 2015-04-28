@@ -33,10 +33,12 @@ define("common/addProduct.viewModel",
                    
                     // after selection
                     afterAddCostCenter = null,
+                     orderId = null,
                     currencySymbol = ko.observable(),
                     
                     // Show
-                show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym) {
+                show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId) {
+                    orderId = oId;
                     currencySymbol(currencySym);
                         afterAddCostCenter = afterAddCostCenterCallback;
                         costCentresFromOrders = costCentresBaseData;
@@ -118,13 +120,12 @@ define("common/addProduct.viewModel",
                             });
                     },
                     createNewRetailStoreProduct = function () {
-                                var item = selecteditem().convertToServerData();
-                                var newItem = model.Item.Create(item);
-                                newItem.id(0);
-                                newItem.qty1NetTotal(totalProductPrice());
-                              
-                                addSelectedAddOnsAsCostCenters(newItem);
-                                afterAddCostCenter(newItem);
+                        var item = selecteditem().convertToServerData();
+                        item.EstimateId = orderId;
+                        var newItem = model.Item.Create(item);
+                        newItem.id(0);
+                        newItem.qty1NetTotal(totalProductPrice());
+                          afterAddCostCenter(newItem);
                     },
                     onSaveRetailStoreProduct = function () {
                                 createNewRetailStoreProduct();
