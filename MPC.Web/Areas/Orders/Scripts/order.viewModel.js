@@ -1278,7 +1278,7 @@ define("order/order.viewModel",
                             order.Items = itemsArray;
                             dataservice.saveOrder(order, {
                                 success: function (data) {
-                                    orderFlag = _.find(sectionFlags(), function (item) {
+                                    var orderFlag = _.find(sectionFlags(), function (item) {
                                         return item.id === selectedOrder().sectionFlagId();
                                     });
 
@@ -1289,7 +1289,8 @@ define("order/order.viewModel",
                                         var total1 = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                         selectedOrder().estimateTotal(total1);
                                         selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
-                                        if (orderFlag !== undefined) {
+                                        selectedOrder().numberOfItems(data.ItemsCount || 0);
+                                        if (orderFlag) {
                                             selectedOrder().flagColor(orderFlag.color);
                                         }
                                         // Add to top of list
@@ -1303,7 +1304,8 @@ define("order/order.viewModel",
                                             var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                             orderUpdated.estimateTotal(total);
                                             orderUpdated.name(data.OrderName);
-                                            if (orderFlag !== undefined) {
+                                            orderUpdated.numberOfItems(data.ItemsCount || 0);
+                                            if (orderFlag) {
                                                 orderUpdated.flagColor(orderFlag.color);
                                             }
 
