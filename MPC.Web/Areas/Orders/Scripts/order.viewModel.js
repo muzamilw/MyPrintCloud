@@ -1646,20 +1646,26 @@ define("order/order.viewModel",
                             });
 
                             var sectionCostCenter = model.SectionCostCentre.Create({});
+                            if (!containsStockItem) {
+                                selectedSectionCostCenter(sectionCostCenter);
+                                selectedQty(1);
+                            }
+                            
                             //sectionCostCenter.name(stockItemToCreate().name);
                             sectionCostCenter.name('Stock(s)');
-                            sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
+                            //sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
                             sectionCostCenter.costCentreType('139');
-                            sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
-                            sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
-                            sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
+                            //sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
+                            //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
+                            //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
                             sectionCostCenter.qty1EstimatedStockCost(0);
                             sectionCostCenter.qty2EstimatedStockCost(0);
                             sectionCostCenter.qty3EstimatedStockCost(0);
-                            sectionCostCenter.qty1Charge(0);
+                            sectionCostCenter.qty1Charge(stockItemToCreate().price);
                             sectionCostCenter.qty2Charge(0);
                             sectionCostCenter.qty3Charge(0);
                             view.hideCostCentersQuantityDialog();
+
                             var sectionCostCenterDetail = model.SectionCostCenterDetail.Create({});
                             sectionCostCenterDetail.stockName(stockItemToCreate().name);
                             sectionCostCenterDetail.costPrice(stockItemToCreate().price);
@@ -1671,8 +1677,11 @@ define("order/order.viewModel",
                             sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                             if (!containsStockItem) {
                                 selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
+                                
                             }
                             else {
+                                var newCost = selectedSectionCostCenter().qty1Charge() + sectionCostCenterDetail.costPrice();
+                                selectedSectionCostCenter().qty1Charge(newCost);
                                 selectedSectionCostCenter().sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                             }
                         },
