@@ -10,7 +10,7 @@
             id: specifiedId,
             name: specifiedName,
             url: specifiedURL,
-            creationDate: specifiedCreationDate ? moment(specifiedCreationDate).format(ist.datePattern) : undefined,
+            creationDate: specifiedCreationDate ? moment(specifiedCreationDate).toDate() : undefined,
             storeId: specifiedStoreId,
             isCustomer: specifiedIsCustomer
         };

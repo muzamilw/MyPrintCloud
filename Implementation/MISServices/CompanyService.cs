@@ -2533,7 +2533,7 @@ namespace MPC.Implementation.MISServices
                 fieldVariableDbVersion.VariableTitle = fieldVariable.VariableTitle;
                 fieldVariableDbVersion.VariableType = fieldVariable.VariableType;
                 fieldVariableDbVersion.WaterMark = fieldVariable.WaterMark;
-                fieldVariableDbVersion.OrganisationId = fieldVariableRepository.OrganisationId;  
+                fieldVariableDbVersion.OrganisationId = fieldVariableRepository.OrganisationId;
                 if (fieldVariable.VariableOptions != null)
                 {
                     foreach (var item in fieldVariable.VariableOptions)
@@ -2607,6 +2607,10 @@ namespace MPC.Implementation.MISServices
                 {
                     if (smartFormDetail.SmartFormDetailId == 0)
                     {
+                        if (smartFormDbVersion.SmartFormDetails == null)
+                        {
+                            smartFormDbVersion.SmartFormDetails = new List<SmartFormDetail>();
+                        }
                         smartFormDbVersion.SmartFormDetails.Add(smartFormDetail);
                     }
                     else if (smartFormDetail.SmartFormDetailId > 0 && smartFormDetail.ObjectType == (int)SmartFormDetailFieldType.GroupCaption)
@@ -2950,7 +2954,7 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
             IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
-            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository, 
+            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository,
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
             ITemplateColorStylesRepository templateColorStylesRepository)
         {
@@ -4406,10 +4410,10 @@ namespace MPC.Implementation.MISServices
 
                                             }
                                         }
-                                        
-                                        if(item.ItemImages != null && item.ItemImages.Count > 0)
+
+                                        if (item.ItemImages != null && item.ItemImages.Count > 0)
                                         {
-                                            foreach(var img in item.ItemImages)
+                                            foreach (var img in item.ItemImages)
                                             {
                                                 if (!string.IsNullOrEmpty(img.ImageURL))
                                                 {

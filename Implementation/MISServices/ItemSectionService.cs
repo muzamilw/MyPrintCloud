@@ -85,9 +85,9 @@ namespace MPC.Implementation.MISServices
         #endregion
 
         #region Estimation Methods
-        
 
-        
+
+
 
         public ItemSection CalculatePressCost(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, int PressReRunMode = (int)PressReRunModes.NotReRun, int PressReRunQuantityIndex = 1, double OverrideValue = 0, bool isBestPress = false)
         {
@@ -1646,7 +1646,7 @@ namespace MPC.Implementation.MISServices
 
             oItemSectionCostCenter.Name = "Plate ( " + oPlateDTO.ItemName + " )";
 
-                        
+
             if (IsReRun == false || IsSectionCostCentreFoundInReRun == false)
             {
                 oItemSectionCostCenter.SectionCostCentreDetails.Add(oItemSectionCostCenterDetail);
@@ -2068,7 +2068,7 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection CalculateMakeReadyCost(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false)
         {
-            
+
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
             bool IsSectionCostCentreFoundInReRun = false;
             string sMinimumCost = null;
@@ -2770,7 +2770,7 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection CalculateInkCost(ItemSection oItemSection, int CurrentCostCentreIndex, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, List<SectionInkCoverage> oSectionAllInks = null)
         {
-            
+
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
             string sMinimumCost = null;
             double intPrintArea = 0;
@@ -3107,7 +3107,10 @@ namespace MPC.Implementation.MISServices
             if (IsReRun == false)
             {
                 oItemSectionCostCentre.Name = "Inks";
-
+                if (oItemSection.SectionCostcentres == null)
+                {
+                    oItemSection.SectionCostcentres = new List<SectionCostcentre>();
+                }
                 oItemSection.SectionCostcentres.Add(oItemSectionCostCentre);
             }
             return oItemSection;//.tbl_section_costcentres.ToList();
@@ -3616,7 +3619,7 @@ namespace MPC.Implementation.MISServices
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
             oItemSectionCostCenter.Qty3 = oItemSection.Qty3;
-            
+
             if (IsReRun == false)
             {
                 oItemSectionCostCenter.SectionCostCentreDetails.Add(oItemSectionCostCenterDetail);
@@ -5382,7 +5385,7 @@ namespace MPC.Implementation.MISServices
                 PressList = GetBestPresses(section),
                 UserCostCenters = uCostCenters
             };
-        }     
+        }
 
         public ItemSection GetUpdatedSectionWithSystemCostCenters(ItemSection currentSection)
         {

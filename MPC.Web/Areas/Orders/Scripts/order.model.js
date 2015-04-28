@@ -47,7 +47,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Estimate Total
                 estimateTotal = ko.observable(undefined),
                 // Flag Id
-                sectionFlagId = ko.observable(specifiedSectionFlagId || undefined),
+                sectionFlagId = ko.observable(specifiedSectionFlagId || undefined).extend({ required: true }),
                 // Order Code
                 orderCode = ko.observable(specifiedOrderCode || undefined),
                 // Is Estimate
@@ -170,7 +170,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Errors
                 errors = ko.validation.group({
                     name: name,
-                    companyId: companyId
+                    companyId: companyId,
+                    sectionFlagId: sectionFlagId
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -194,6 +195,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (companyId.error) {
                         validationSummaryList.push({ name: "Customer", element: companyId.domElement });
                     }
+                    if (sectionFlagId.error) {
+                        validationSummaryList.push({ name: "Order Flag ", element: sectionFlagId.domElement });
+                    }
+
 
                     // Show Item  Errors
                     var itemInvalid = items.find(function (item) {
@@ -243,8 +248,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                     footNotes: footNotes,
                     sectionFlagId: sectionFlagId,
-                    statusId: statusId,
-                    estimateTotal: estimateTotal
+                    statusId: statusId
+                    //estimateTotal: estimateTotal
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -264,6 +269,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         CompanyId: companyId(),
                         ContactId: contactId(),
                         AddressId: addressId(),
+                        EstimateTotal: estimateTotal(),
                         SectionFlagId: sectionFlagId(),
                         IsDirectSale: isDirectSale(),
                         IsOfficialOrder: isOfficialOrder(),
@@ -348,6 +354,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 officialOrderSetBy: officialOrderSetBy,
                 officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                 items: items,
+                numberOfItems: numberOfItems,
                 deliveryItems: deliveryItems,
                 nonDeliveryItems: nonDeliveryItems,
                 prePayments: prePayments,
@@ -563,7 +570,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemAttachments = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({
-                    productCode: productCode,
                     productName: productName
                 }),
                 // Is Valid
@@ -677,8 +683,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                             moment(jobEstimatedCompletionDateTime()).format(ist.utcFormat) + "Z" : undefined,
                         JobManagerId: jobManagerId(),
                         JobStatusId: jobStatusId(),
+                        Qty1Tax1Value: qty1Tax1Value(),
+                        Qty1GrossTotal: qty1GrossTotal(),
+                        Qty1NetTotal: qty1NetTotal(),
+                        Tax1: tax1(),
                         ItemSections: itemSections.map(function (itemSection, index) {
-                            var section = itemSection.convertToServerData(id() > 0);
+                            var section = itemSection.convertToServerData(id() === 0);
                             section.SectionNo = index + 1;
                             if (!id()) {
                                 section.ItemSectionId = 0;
@@ -1240,6 +1250,88 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 qty3EstimatedStockCost: qty3EstimatedStockCost,
                 sectionCostCentreDetails: sectionCostCentreDetails,
                 sectionCostCentreResources: sectionCostCentreResources,
+                errors: errors,
+                isValid: isValid,
+                dirtyFlag: dirtyFlag,
+                hasChanges: hasChanges,
+                reset: reset,
+                convertToServerData: convertToServerData
+            };
+        },
+        //Section Cost Center Detail
+        SectionCostCenterDetail = function (
+            specifiedSectionCostCentreDetailId, specifiedSectionCostCentreId, specifiedStockId, specifiedSupplierId, specifiedQty1, specifiedQty2,
+            specifiedQty3, specifiedCostPrice, specifiedActualQtyUsed, specifiedStockName, specifiedSupplier
+        ) {
+            var
+            sectionCostCentreDetailId = ko.observable(specifiedSectionCostCentreDetailId),
+            sectionCostCentreId = ko.observable(specifiedSectionCostCentreId),
+            stockId = ko.observable(specifiedStockId),
+            supplierId = ko.observable(specifiedSupplierId),
+            qty1 = ko.observable(specifiedQty1),
+            qty2 = ko.observable(specifiedQty2),
+            qty3 = ko.observable(specifiedQty3),
+            costPrice = ko.observable(specifiedCostPrice),
+            actualQtyUsed = ko.observable(specifiedActualQtyUsed),
+            stockName = ko.observable(specifiedStockName),
+            supplier = ko.observable(specifiedSupplier),
+           // Errors
+                errors = ko.validation.group({
+
+                }),
+                // Is Valid
+                isValid = ko.computed(function () {
+                    return errors().length === 0;
+                }),
+                dirtyFlag = new ko.dirtyFlag({
+                    sectionCostCentreDetailId: sectionCostCentreDetailId,
+                    sectionCostCentreId: sectionCostCentreId,
+                    stockId: stockId,
+                    supplierId: supplierId,
+                    qty1: qty1,
+                    qty2: qty2,
+                    qty3: qty3,
+                    costPrice: costPrice,
+                    stockName: stockName,
+                    supplier: supplier
+                }),
+                // Has Changes
+                hasChanges = ko.computed(function () {
+                    return dirtyFlag.isDirty();
+                }),
+                // Reset
+                reset = function () {
+                    dirtyFlag.reset();
+                },
+                // Convert To Server Data
+                convertToServerData = function () {
+                    return {
+                        //            
+                        SectionCostCentreDetailId: sectionCostCentreDetailId(),
+                        SectionCostCentreId: sectionCostCentreId(),
+                        StockId: stockId(),
+                        SupplierId: supplierId(),
+                        Qty1: qty1(),
+                        Qty2: qty2(),
+                        Qty3: qty3(),
+                        CostPrice: costPrice(),
+                        ActualQtyUsed: actualQtyUsed(),
+                        StockName: stockName(),
+                        Supplier: supplier(),
+                    };
+                };
+
+            return {
+                sectionCostCentreDetailId: sectionCostCentreDetailId,
+                sectionCostCentreId: sectionCostCentreId,
+                stockId: stockId,
+                supplierId: supplierId,
+                qty1: qty1,
+                qty2: qty2,
+                qty3: qty3,
+                costPrice: costPrice,
+                stockName: stockName,
+                supplier: supplier,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2150,7 +2242,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return sectionCostCentre;
     };
+    // Section Cost Centre Factory
+    SectionCostCenterDetail.Create = function (source) {
 
+        var sectionCostCenterDetail = new SectionCostCenterDetail(source.SectionCostCentreDetailId, source.SectionCostCentreId, source.StockId, source.SupplierId, source.Qty1,
+            source.Qty2, source.Qty3, source.CostPrice, source.StockName, source.Supplier);
+
+        return sectionCostCenterDetail;
+    };
     // Item Section Factory
     ItemSection.Create = function (source) {
         var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
@@ -2242,7 +2341,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
         estimate.statusId(source.StatusId);
-        estimate.estimateTotal(source.EstimateTotal || undefined);
+        var total = (parseFloat((source.EstimateTotal === undefined || source.EstimateTotal === null) ? 0 : source.EstimateTotal)).toFixed(2);
+        estimate.estimateTotal(total);
         // Map Items if any
         if (source.Items && source.Items.length > 0) {
             var items = [];
@@ -2617,6 +2717,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         ItemSection: ItemSection,
         // Section Cost Centre Constructor
         SectionCostCentre: SectionCostCentre,
+        //Section Cost Center Detail
+        SectionCostCenterDetail: SectionCostCenterDetail,
         // Status Enum
         Status: Status,
         // Cost Center

@@ -245,24 +245,24 @@
 </div>
 <div style="clear:both;">
 </div>
-<div  style=" background: #f3f3f3;
+<div style=" background: #f3f3f3;
     padding:20px 20px 20px 15px;
     height: 35px;   width: 28.33333333333333%;float:left;">
     <span id="lbl_SpecialInstructions" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; margin-left: 22px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnspeacilinstruction", CookieStoreId))</span><br />
     <label id="lblSpecialInstructions" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.SpecialInstNotes</label><label style="visibility:hidden;">specialNotes</label>
 </div>
-            <div style=" background: #f3f3f3;
+<div style=" background: #f3f3f3;
     padding:20px 20px 20px 15px;
     height: 35px;   width: 30.33333333333333%;float:left;">
-                <span id="lbl_EstimatedDate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", CookieStoreId))</span><br />
-                <label id="lblEstimatedDispatchDate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
-            </div>
-            <div style=" background: #f3f3f3;
+    <span id="lbl_EstimatedDate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", CookieStoreId))</span><br />
+    <label id="lblEstimatedDispatchDate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
+</div>
+<div style=" background: #f3f3f3;
     padding:20px 20px 20px 15px;
     height: 35px;     width: 30.333333%;float:left;">
-                <span id="lbl_DelivaryMethod" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", CookieStoreId))</span><br />
-                <label id="lblEstimatedDeliveryMethod" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label>
-            </div>
+    <span id="lbl_DelivaryMethod" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", CookieStoreId))</span><br />
+    <label id="lblEstimatedDeliveryMethod" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label>
+</div>
 <div style="clear:both;">
 </div>
 <div style="height: 35px; padding: 3px; margin-top: 5px; font-size: 15px; font-weight: bold" class="col-md-12 col-lg-12 col-xs-12">
@@ -313,8 +313,16 @@
                                     }
 
 
+                                    if (FolderPathOfAttachment[0] == '/')
+                                    {
+                                        ImageSource = FolderPathOfAttachment + "/" + item.Attatchment.FileName + ThumnbString;
 
-                                    ImageSource = Html.GetAppBasePath() + FolderPathOfAttachment + "/" + item.Attatchment.FileName + ThumnbString;
+                                    }
+                                    else
+                                    {
+                                        ImageSource = "/" + FolderPathOfAttachment + "/" + item.Attatchment.FileName + ThumnbString;
+
+                                    }
 
 
                                 }
@@ -330,7 +338,7 @@
                                     }
                                     else
                                     {
-                                        completeImgPath = item.ThumbnailPath;
+                                        completeImgPath = "/" + item.ThumbnailPath;
                                     }
 
                                     ImageSource = completeImgPath;
@@ -338,6 +346,7 @@
 
                             }
                         }
+
 
                         <img src="@ImageSource" style="width: 40%;">
                     </td>
@@ -379,7 +388,7 @@
 </div>
 @if (ViewBag.IsShowPrices)
 {
-    <div id="PnalTotalBox"  style="width:88%;color: #333333; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; padding: 10px; background-color: #f3f3f3; border: 1px solid #f4f4f4;">
+    <div id="PnalTotalBox" style="width:88%;color: #333333; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; padding: 10px; background-color: #f3f3f3; border: 1px solid #f4f4f4;">
         <table border="0" cellpadding="3" cellspacing="0" width="100%">
             <tr>
                 <td style="width: 26%;"></td>

@@ -35,11 +35,12 @@ namespace MPC.Models.ModelMappers
             target.IsCreditApproved = source.IsCreditApproved;
             target.Order_Date = source.Order_Date;
             target.FinishDeliveryDate = source.FinishDeliveryDate;
-            target.CreationDate = source.CreationDate.HasValue && source.CreationDate.Value <= DateTime.MinValue ? DateTime.Now : source.CreationDate;
+            target.CreationDate = (!source.CreationDate.HasValue || source.CreationDate.Value <= DateTime.MinValue) ? DateTime.Now : source.CreationDate;
             target.CreationTime = source.CreationTime <= DateTime.MinValue ? DateTime.Now : source.CreationTime;
             target.HeadNotes = source.HeadNotes;
             target.FootNotes = source.FootNotes;
             target.isEstimate = source.isEstimate;
+            target.Estimate_Total = source.Estimate_Total;
 
             // Update Order Schedule
             UpdateOrderSchedule(source, target);
@@ -745,7 +746,7 @@ namespace MPC.Models.ModelMappers
             target.JobEstimatedStartDateTime = source.JobEstimatedStartDateTime;
             target.JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime;
             target.JobCode = source.JobCode;
-
+            
             // If Job Code is Already Assigned then skip
             if (!assignJobCodes || !string.IsNullOrEmpty(target.JobCode))
             {

@@ -282,7 +282,9 @@ define("order/order.viewModel",
                                 var val = item.qty1GrossTotal();
                                 total = total + parseFloat(val);
                             });
+                            selectedOrder().estimateTotal(total);
                         }
+
                         return total;
                     }),
                     // On Close Editor
@@ -414,7 +416,7 @@ define("order/order.viewModel",
                             });
                         }
 
-                        if (selectedSection() !== undefined && selectedSection().similarSections() !== undefined) {
+                        if (selectedSection() !== undefined && selectedSection().similarSections != undefined && selectedSection().similarSections() !== undefined) {
                             if (parseFloat(selectedSection().similarSections()) === 0) {
                                 selectedSection().similarSections(1);
                             }
@@ -600,6 +602,7 @@ define("order/order.viewModel",
                     },
                     // Open Stock Item Dialog For Adding Stock
                     openStockItemDialogForAddingStock = function () {
+                        //view.showCostCentersQuantityDialog();
                         isAddProductFromInventory(false);
                         isAddProductForSectionCostCenter(true);
                         stockDialog.show(function (stockItem) {
@@ -695,7 +698,7 @@ define("order/order.viewModel",
                 changeAllItemProgressToJob = function () {
                     if (selectedOrder().items().length > 0) {
                         selectedItemForProgressToJobWizard(selectedOrder().items()[progressToJobItemCounter]);
-                        selectedItemForProgressToJobWizard().statusId(jobStatuses()[0].StatusId);
+                        selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
                         progressToJobItemCounter = progressToJobItemCounter + 1;
                         view.showOrderStatusProgressToJobDialog();
                     }
@@ -1049,7 +1052,7 @@ define("order/order.viewModel",
                 getSide1Count = function () {
                     var count = 0;
                     _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                        if (item.side == 1) {
+                        if (item.side() == 1) {
                             count += 1;
                         }
                     });
@@ -1058,7 +1061,7 @@ define("order/order.viewModel",
                 getSide2Count = function () {
                     var count = 0;
                     _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                        if (item.side == 2) {
+                        if (item.side() == 2) {
                             count += 1;
                         }
                     });
@@ -1068,8 +1071,8 @@ define("order/order.viewModel",
                     var counter = 0;
                     while (counter < addNewCount) {
                         var item = new model.SectionInkCoverage();
-                        item.side = side;
-                        item.sectionId = selectedSection().id();
+                        item.side(side);
+                        item.sectionId(selectedSection().id());
                         selectedSection().sectionInkCoverageList.splice(0, 0, item);
                         counter++;
                     }
@@ -1078,7 +1081,7 @@ define("order/order.viewModel",
                     var counter = removeItemCount;
                     while (counter != 0) {
                         _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                            if (item.side == side && counter != 0) {
+                            if (item.side() == side && counter != 0) {
                                 selectedSection().sectionInkCoverageList.remove(item);
                                 counter--;
                             }
@@ -1271,21 +1274,41 @@ define("order/order.viewModel",
                                 itemsArray.push(item);
 
                             });
+
                             order.Items = itemsArray;
                             dataservice.saveOrder(order, {
                                 success: function (data) {
+                                    var orderFlag = _.find(sectionFlags(), function (item) {
+                                        return item.id === selectedOrder().sectionFlagId();
+                                    });
+
                                     if (!selectedOrder().id()) {
                                         // Update Id
-                                        selectedOrder().id(data.OrderId);
-
+                                        selectedOrder().id(data.EstimateId);
+                                        selectedOrder().orderCode(data.OrderCode);
+                                        var total1 = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
+                                        selectedOrder().estimateTotal(total1);
+                                        selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
+                                        selectedOrder().numberOfItems(data.ItemsCount || 0);
+                                        if (orderFlag) {
+                                            selectedOrder().flagColor(orderFlag.color);
+                                        }
                                         // Add to top of list
                                         orders.splice(0, 0, selectedOrder());
                                     } else {
                                         // Get Order
                                         var orderUpdated = getOrderFromList(selectedOrder().id());
                                         if (orderUpdated) {
-                                            order.orderCode(data.OrderCode);
-                                            order.orderName(data.OrderName);
+                                            orderUpdated.code(data.OrderCode);
+                                            orderUpdated.creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
+                                            var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
+                                            orderUpdated.estimateTotal(total);
+                                            orderUpdated.name(data.OrderName);
+                                            orderUpdated.numberOfItems(data.ItemsCount || 0);
+                                            if (orderFlag) {
+                                                orderUpdated.flagColor(orderFlag.color);
+                                            }
+
                                         }
                                     }
 
@@ -1544,7 +1567,7 @@ define("order/order.viewModel",
                         },
 
                         getCostCentersForProduct = function () {
-                        addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId());
+                            addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId());
                         },
                     //onAddCostCenterCallback = function () {
 
@@ -1564,33 +1587,47 @@ define("order/order.viewModel",
                         hideCostCentreDialog = function () {
                             view.hideRCostCentersDialog();
                         },
+                        //Product From Cost Center
                     createNewCostCenterProduct = function (costCenter) {
                         selectedCostCentre(costCenter);
-                            var item = model.Item.Create({});
-                            item.productName(selectedCostCentre().name());
-                            item.qty1(selectedCostCentre().quantity1());
-                            item.qty1NetTotal(selectedCostCentre().setupCost());
+                        var item = model.Item.Create({ EstimateId: selectedOrder().id() });
+                        selectedProduct(item);
+                        item.productName(selectedCostCentre().name());
+                        item.qty1(selectedCostCentre().quantity1());
+                        item.qty1NetTotal(selectedCostCentre().setupCost());
 
-                            var itemSection = model.ItemSection.Create({});
+                        var itemSection = model.ItemSection.Create({});
 
-                            var sectionCostCenter = model.SectionCostCentre.Create({});
-                            sectionCostCenter.qty1(selectedCostCentre().quantity1());
-                            sectionCostCenter.qty2(selectedCostCentre().quantity2());
-                            sectionCostCenter.qty3(selectedCostCentre().quantity3());
-                            sectionCostCenter.costCentreId(selectedCostCentre().id());
-                            sectionCostCenter.costCentreName(selectedCostCentre().name());
-                            sectionCostCenter.name(selectedCostCentre().name());
-                            sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
+                        var sectionCostCenter = model.SectionCostCentre.Create({});
+                        sectionCostCenter.qty1(selectedCostCentre().quantity1());
+                        sectionCostCenter.qty2(selectedCostCentre().quantity2());
+                        sectionCostCenter.qty3(selectedCostCentre().quantity3());
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
+                        sectionCostCenter.costCentreId(selectedCostCentre().id());
+                        sectionCostCenter.costCentreName(selectedCostCentre().name());
+                        sectionCostCenter.name(selectedCostCentre().name());
 
-                            itemSection.sectionCostCentres.push(sectionCostCenter);
-                            item.itemSections.push(itemSection);
+                        //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
+                        sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
 
-                            if (isCostCenterDialogForShipping()) {
+                        selectedSectionCostCenter(sectionCostCenter);
+                        selectedQty(1);
+                       
+
+                        itemSection.sectionCostCentres.push(sectionCostCenter);
+                        item.itemSections.push(itemSection);
+
+                        if (isCostCenterDialogForShipping()) {
                             item.itemType(2); // Delivery Item
-                        } 
+                        }
 
                         selectedOrder().items.splice(0, 0, item);
-                        },
+
+                        selectedSection(itemSection);
+                       
+                    },
                         createNewInventoryProduct = function (stockItem) {
                             var costCenter = model.costCentre.Create({});
                             selectedCostCentre(costCenter);
@@ -1611,48 +1648,94 @@ define("order/order.viewModel",
 
                         },
                         onSaveStockitemForSectionCostCenter = function () {
+                            var containsStockItem = false;
+                            _.each(selectedSection().sectionCostCentres(), function (costCenter) {
+                                if (costCenter.costCentreType() == '139') {
+                                    containsStockItem = true;
+                                    selectedSectionCostCenter(costCenter);
+                                }
+                            });
+
                             var sectionCostCenter = model.SectionCostCentre.Create({});
-                            sectionCostCenter.name(stockItemToCreate().name);
-                            sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
+                            if (!containsStockItem) {
+                                selectedSectionCostCenter(sectionCostCenter);
+                                selectedQty(1);
+                            }
+                            
+                            //sectionCostCenter.name(stockItemToCreate().name);
+                            sectionCostCenter.name('Stock(s)');
+                            //sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
                             sectionCostCenter.costCentreType('139');
-                            sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
-                            sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
-                            sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
+                            //sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
+                            //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
+                            //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
                             sectionCostCenter.qty1EstimatedStockCost(0);
                             sectionCostCenter.qty2EstimatedStockCost(0);
                             sectionCostCenter.qty3EstimatedStockCost(0);
-                            sectionCostCenter.qty1Charge(0);
+                            sectionCostCenter.qty1Charge(stockItemToCreate().price);
                             sectionCostCenter.qty2Charge(0);
                             sectionCostCenter.qty3Charge(0);
                             view.hideCostCentersQuantityDialog();
-                            selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
+
+                            var sectionCostCenterDetail = model.SectionCostCenterDetail.Create({});
+                            sectionCostCenterDetail.stockName(stockItemToCreate().name);
+                            sectionCostCenterDetail.costPrice(stockItemToCreate().price);
+                            sectionCostCenterDetail.qty1(selectedCostCentre().quantity1());
+                            //sectionCostCenterDetail.qty1NetTotal(selectedCostCentre().quantity1());
+                            //sectionCostCenterDetail.qty2NetTotal(selectedCostCentre().quantity2());
+                            //sectionCostCenterDetail.qty2NetTotal(selectedCostCentre().quantity3());
+
+                            sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
+                            if (!containsStockItem) {
+                                selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
+                                
+                            }
+                            else {
+                                var newCost = selectedSectionCostCenter().qty1Charge() + sectionCostCenterDetail.costPrice();
+                                selectedSectionCostCenter().qty1Charge(newCost);
+                                selectedSectionCostCenter().sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
+                            }
                         },
                         onSaveProductInventory = function () {
-                            var item = model.Item.Create({});
+                            var item = model.Item.Create({ EstimateId: selectedOrder().id() });
+                            selectedProduct(item);
                             item.productName(inventoryStockItemToCreate().name);
                             var itemSection = model.ItemSection.Create({});
                             var sectionCostCenter = model.SectionCostCentre.Create({});
                             sectionCostCenter.qty1(selectedCostCentre().quantity1());
                             sectionCostCenter.qty2(selectedCostCentre().quantity2());
                             sectionCostCenter.qty3(selectedCostCentre().quantity3());
-                            sectionCostCenter.costCentreId(selectedCostCentre().id());
+                            sectionCostCenter.costCentreId(getStockCostCenterId(139));
                             sectionCostCenter.costCentreName(selectedCostCentre().name());
-                            sectionCostCenter.name('Stock');
-                            sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
-                            sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
-                            sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
+                            sectionCostCenter.name('Stock(s)');
+                            //sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
+                            //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
+                            //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
                             sectionCostCenter.qty1EstimatedStockCost(0);
                             sectionCostCenter.qty2EstimatedStockCost(0);
                             sectionCostCenter.qty3EstimatedStockCost(0);
-                            sectionCostCenter.qty1Charge(0);
+                            sectionCostCenter.qty1Charge(inventoryStockItemToCreate().price);
                             sectionCostCenter.qty2Charge(0);
                             sectionCostCenter.qty3Charge(0);
                             sectionCostCenter.costCentreType('139');
+
+                            var sectionCostCenterDetail = model.SectionCostCenterDetail.Create({});
+                            sectionCostCenterDetail.stockName(inventoryStockItemToCreate().name);
+                            sectionCostCenterDetail.costPrice(inventoryStockItemToCreate().price);
+                            sectionCostCenterDetail.qty1(inventoryStockItemToCreate().packageQty);
+
+                            sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
+
+                            selectedSectionCostCenter(sectionCostCenter);
+                            selectedQty(1);
 
                             itemSection.sectionCostCentres.push(sectionCostCenter);
                             item.itemSections.push(itemSection);
                             view.hideCostCentersQuantityDialog();
                             selectedOrder().items.splice(0, 0, item);
+
+                            selectedSection(itemSection);
+                            
                         },
                         onSaveProductCostCenter = function () {
                             createNewCostCenterProduct();
@@ -1716,8 +1799,21 @@ define("order/order.viewModel",
                                 return null;
                             },
 
-                          
+                                item.EstimateId = selectedOrder().id();
+                                selectedProduct(newItem);
 
+                               
+                                
+                                selectedQty(1);
+
+                                selectedSection(newItem.itemSections()[0]);
+                          
+                                            sectionCostCenter.costCentreId(stockOption.costCentreId());
+
+                                            selectedSectionCostCenter(sectionCostCenter);
+                                            selectedQty(1);
+
+                                            selectedSection(newItem.itemSections()[0]);
                          
 
                             //Call Method to update stock cost center
@@ -1753,7 +1849,7 @@ define("order/order.viewModel",
 
                                         var sectionCostCenter = model.SectionCostCentre.Create({});
                                         sectionCostCenter.id(costCenter.CostCentreId);
-                                        sectionCostCenter.name('Stock');
+                                        sectionCostCenter.name('Stock(s)');
                                         sectionCostCenter.qty1EstimatedStockCost(0);
                                         sectionCostCenter.qty2EstimatedStockCost(0);
                                         sectionCostCenter.qty3EstimatedStockCost(0);
@@ -1911,7 +2007,7 @@ define("order/order.viewModel",
                             if (selectedDeliverySchedule() !== undefined && selectedDeliverySchedule().isValid()) {
                                 setDeliveryScheduleFields();
                             }
-                        var deliverySchedule = model.ShippingInformation.Create({ EstimateId: selectedOrder().id() });
+                            var deliverySchedule = model.ShippingInformation.Create({ EstimateId: selectedOrder().id() });
                             if (selectedOrder().items().length > 0) {
                                 setQuantityOfNewDeliverySchedule(deliverySchedule);
                             }

@@ -31,7 +31,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
-        public ItemSection Post([FromUri] ItemSection request)
+        public ItemSection Post(ItemSection request)
         {
             if (request == null || !ModelState.IsValid)
             {

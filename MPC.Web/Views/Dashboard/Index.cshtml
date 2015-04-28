@@ -251,12 +251,12 @@
                                                 <table>
                                                     <tr>
                                                         <td>
-                                                            <span class="graph-legend-value">
+                                                            <span class="dashboardcounters23">
                                                                 $&nbsp;
                                                             </span>
                                                         </td>
                                                         <td>
-                                                            <span class="graph-legend-value" data-bind="text: $root.totalEarning">
+                                                            <span class="dashboardcounters23" data-bind="text: $root.totalEarning">
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -268,7 +268,7 @@
                                                 <span class="graph-legend-name">
                                                     Orders this Month
                                                 </span>
-                                                <span class="graph-legend-value" data-bind="text:$root.currentMonthOrdersCount">
+                                                <span class="dashboardcounters23" data-bind="text:$root.currentMonthOrdersCount">
                                                 </span>
                                             </div>
                                         </div>
@@ -277,7 +277,7 @@
                                                 <span class="graph-legend-name">
                                                     Live Stores
                                                 </span>
-                                                <span class="graph-legend-value" data-bind="text: $root.liveStoresCount">
+                                                <span class="dashboardcounters23" data-bind="text: $root.liveStoresCount">
                                                 </span>
                                             </div>
                                         </div>
@@ -508,7 +508,7 @@
                 <td>
                     @*data-bind="attr: {href:'/mis/orders/home/'+id }"*@
                     @*<span class="store-user-link" data-bind="text: companyName"></span>*@
-                    <a class="store-user-link" data-bind="text: companyName, attr: {href:'/mis/orders/home?id='+id() }"></a>
+                    <a class="store-user-link" data-bind="text: companyName, attr: {href:'/mis/orders/home?id='+id() },click: function() { return true;}, clickBubble: false" target="_blank"></a>
                 </td>
                 <td data-bind="text: orderCode"></td>
                 <td> <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
