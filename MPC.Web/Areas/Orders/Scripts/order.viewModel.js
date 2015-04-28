@@ -1285,6 +1285,9 @@ define("order/order.viewModel",
                                     if (!selectedOrder().id()) {
                                         // Update Id
                                         selectedOrder().id(data.EstimateId);
+                                        selectedOrder().orderCode(data.OrderCode);
+                                        var total1 = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
+                                        selectedOrder().estimateTotal(total1);
                                         selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
                                         if (orderFlag !== undefined) {
                                             selectedOrder().flagColor(orderFlag.color);
@@ -1297,7 +1300,8 @@ define("order/order.viewModel",
                                         if (orderUpdated) {
                                             orderUpdated.code(data.OrderCode);
                                             orderUpdated.creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
-                                            orderUpdated.estimateTotal(data.EstimateTotal === null ? 0 : data.EstimateTotal);
+                                            var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
+                                            orderUpdated.estimateTotal(total);
                                             orderUpdated.name(data.OrderName);
                                             if (orderFlag !== undefined) {
                                                 orderUpdated.flagColor(orderFlag.color);
@@ -1584,18 +1588,18 @@ define("order/order.viewModel",
                         sectionCostCenter.qty1(selectedCostCentre().quantity1());
                         sectionCostCenter.qty2(selectedCostCentre().quantity2());
                         sectionCostCenter.qty3(selectedCostCentre().quantity3());
-                            sectionCostCenter.qty1EstimatedStockCost(0);
-                            sectionCostCenter.qty2EstimatedStockCost(0);
-                            sectionCostCenter.qty3EstimatedStockCost(0);
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
                         sectionCostCenter.costCentreId(selectedCostCentre().id());
                         sectionCostCenter.costCentreName(selectedCostCentre().name());
                         sectionCostCenter.name(selectedCostCentre().name());
 
-                            //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
-                            sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
+                        //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
+                        sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
 
-                            selectedSectionCostCenter(sectionCostCenter);
-                            selectedQty(1);
+                        selectedSectionCostCenter(sectionCostCenter);
+                        selectedQty(1);
 
                         itemSection.sectionCostCentres.push(sectionCostCenter);
                         item.itemSections.push(itemSection);
@@ -1627,7 +1631,7 @@ define("order/order.viewModel",
                         },
                         onSaveStockitemForSectionCostCenter = function () {
                             var containsStockItem = false;
-                            _.each(selectedSection().sectionCostCentres(), function(costCenter) {
+                            _.each(selectedSection().sectionCostCentres(), function (costCenter) {
                                 if (costCenter.costCentreType() == '139') {
                                     containsStockItem = true;
                                     selectedSectionCostCenter(costCenter);

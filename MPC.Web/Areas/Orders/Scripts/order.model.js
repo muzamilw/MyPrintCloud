@@ -198,7 +198,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (sectionFlagId.error) {
                         validationSummaryList.push({ name: "Order Flag ", element: sectionFlagId.domElement });
                     }
-                    
+
 
                     // Show Item  Errors
                     var itemInvalid = items.find(function (item) {
@@ -269,7 +269,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         CompanyId: companyId(),
                         ContactId: contactId(),
                         AddressId: addressId(),
-                        EstimateTotal:estimateTotal(),
+                        EstimateTotal: estimateTotal(),
                         SectionFlagId: sectionFlagId(),
                         IsDirectSale: isDirectSale(),
                         IsOfficialOrder: isOfficialOrder(),
@@ -1255,24 +1255,24 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         },
         //Section Cost Center Detail
         SectionCostCenterDetail = function (
-            specifiedSectionCostCentreDetailId, specifiedSectionCostCentreId, specifiedStockId, specifiedSupplierId, specifiedQty1, specifiedQty2, 
+            specifiedSectionCostCentreDetailId, specifiedSectionCostCentreId, specifiedStockId, specifiedSupplierId, specifiedQty1, specifiedQty2,
             specifiedQty3, specifiedCostPrice, specifiedActualQtyUsed, specifiedStockName, specifiedSupplier
-        ) {   
+        ) {
             var
-            sectionCostCentreDetailId= ko.observable(specifiedSectionCostCentreDetailId),
+            sectionCostCentreDetailId = ko.observable(specifiedSectionCostCentreDetailId),
             sectionCostCentreId = ko.observable(specifiedSectionCostCentreId),
-            stockId= ko.observable(specifiedStockId),
-            supplierId= ko.observable(specifiedSupplierId),
-            qty1= ko.observable(specifiedQty1),
-            qty2= ko.observable(specifiedQty2),
-            qty3= ko.observable(specifiedQty3),
-            costPrice= ko.observable(specifiedCostPrice),
-            actualQtyUsed= ko.observable(specifiedActualQtyUsed),
-            stockName= ko.observable(specifiedStockName),
-            supplier= ko.observable(specifiedSupplier),
+            stockId = ko.observable(specifiedStockId),
+            supplierId = ko.observable(specifiedSupplierId),
+            qty1 = ko.observable(specifiedQty1),
+            qty2 = ko.observable(specifiedQty2),
+            qty3 = ko.observable(specifiedQty3),
+            costPrice = ko.observable(specifiedCostPrice),
+            actualQtyUsed = ko.observable(specifiedActualQtyUsed),
+            stockName = ko.observable(specifiedStockName),
+            supplier = ko.observable(specifiedSupplier),
            // Errors
                 errors = ko.validation.group({
-                   
+
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -1306,7 +1306,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         SectionCostCentreId: sectionCostCentreId(),
                         StockId: stockId(),
                         SupplierId: supplierId(),
-                        Qty1: qty1() ,
+                        Qty1: qty1(),
                         Qty2: qty2(),
                         Qty3: qty3(),
                         CostPrice: costPrice(),
@@ -1333,7 +1333,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 hasChanges: hasChanges,
                 reset: reset,
                 convertToServerData: convertToServerData
-            }; 
+            };
         },
         // Pre Payment
         PrePayment = function (specifiedPrePaymentId, specifiedCustomerId, specifiedOrderId, specifiedAmount, specifiedPaymentDate, specifiedPaymentMethodId,
@@ -2239,7 +2239,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     // Section Cost Centre Factory
     SectionCostCenterDetail.Create = function (source) {
-        
+
         var sectionCostCenterDetail = new SectionCostCenterDetail(source.SectionCostCentreDetailId, source.SectionCostCentreId, source.StockId, source.SupplierId, source.Qty1,
             source.Qty2, source.Qty3, source.CostPrice, source.StockName, source.Supplier);
 
@@ -2336,7 +2336,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
         estimate.statusId(source.StatusId);
-        estimate.estimateTotal(source.EstimateTotal || undefined);
+        var total = (parseFloat((source.EstimateTotal === undefined || source.EstimateTotal === null) ? 0 : source.EstimateTotal)).toFixed(2);
+        estimate.estimateTotal(total);
         // Map Items if any
         if (source.Items && source.Items.length > 0) {
             var items = [];
