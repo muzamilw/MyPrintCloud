@@ -813,7 +813,6 @@
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Common\Controllers\order.viewModel.js" />
     <Content Include="Areas\Common\Scripts\addProduct.dataservice.js" />
     <Content Include="Areas\Common\Scripts\addCostCenter.dataservice.js" />
     <Content Include="Areas\Common\Scripts\addProduct.model.js" />
@@ -2039,7 +2038,6 @@
     <Content Include="Areas\Orders\Views\Shared\_OrderStatusProgressToJob.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
-    <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantityForStockItem.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3251,6 +3249,7 @@
     <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Api\Views\StockCategory\" />
     <Folder Include="Areas\Api\Views\SystemUser\" />
+    <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\DeliveryNotes\Models\" />

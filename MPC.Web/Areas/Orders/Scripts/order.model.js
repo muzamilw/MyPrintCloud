@@ -689,9 +689,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Qty1NetTotal: qty1NetTotal(),
                         Tax1: tax1(),
                         ItemSections: itemSections.map(function (itemSection, index) {
-                            var section = itemSection.convertToServerData(id() < 0);
+                            var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
-                            if (id() < 0) {
+                            if (id() <= 0) {
                                 section.ItemSectionId = 0;
                                 section.ItemId = 0;
                             }
@@ -1019,7 +1019,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Side1Inks: side1Inks(),
                         Side2Inks: side2Inks(),
                         SectionCostcentres: sectionCostCentres.map(function (scc) {
-                            var sectionCc = scc.convertToServerData();
+                            var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {
                                 sectionCc.ItemSectionId = 0;
                             }
@@ -1192,7 +1192,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function () {
+                convertToServerData = function (isNewSectionCostCenter) {
                     return {
                         ItemSectionId: itemSectionId(),
                         SectionCostcentreId: id(),
@@ -1212,7 +1212,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Qty3MarkUpId: qty3MarkUpId(),
                         Qty1MarkUpValue: qty1MarkUpValue(),
                         Qty2MarkUpValue: qty2MarkUpValue(),
-                        Qty3MarkUpValue: qty3MarkUpValue()
+                        Qty3MarkUpValue: qty3MarkUpValue(),
+                        SectionCostCentreDetails: sectionCostCentreDetails.map(function (scc) {
+                            var sectionCc = scc.convertToServerData();
+                            if (isNewSectionCostCenter) {
+                                sectionCc.SectionCostCentreId = 0;
+                            }
+                            return sectionCc;
+                        }),
                     };
                 };
 
@@ -2233,7 +2240,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // Map Section Cost Centre Details if Any
         if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
+            var sectionCostcentresDetails = [];
 
+            _.each(source.SectionCostcentres, function (sectionCostCentreDetail) {
+                sectionCostcentresDetails.push(SectionCostCenterDetail.Create(sectionCostCentreDetail));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(sectionCostCentre.sectionCostCentreDetails(), sectionCostcentresDetails);
+            sectionCostCentre.sectionCostCentreDetails.valueHasMutated();
         }
 
         // Map Section Cost Resources if Any
