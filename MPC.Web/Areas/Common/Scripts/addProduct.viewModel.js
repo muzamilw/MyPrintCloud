@@ -168,7 +168,6 @@ define("common/addProduct.viewModel",
 
                         //sectionCostCenter.qty1NetTotal(price);
 
-
                         newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
                         //#endregion
 
