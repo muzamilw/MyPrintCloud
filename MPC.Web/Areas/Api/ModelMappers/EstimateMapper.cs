@@ -62,6 +62,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateTotal = source.Estimate_Total,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
                 new List<OrderItem>(),
+                ItemsCount = source.Items != null ? source.Items.Count : 0,
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
                 new List<PrePayment>(),
                 ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()) :

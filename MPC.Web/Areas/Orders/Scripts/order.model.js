@@ -354,6 +354,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 officialOrderSetBy: officialOrderSetBy,
                 officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                 items: items,
+                numberOfItems: numberOfItems,
                 deliveryItems: deliveryItems,
                 nonDeliveryItems: nonDeliveryItems,
                 prePayments: prePayments,
@@ -682,6 +683,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                             moment(jobEstimatedCompletionDateTime()).format(ist.utcFormat) + "Z" : undefined,
                         JobManagerId: jobManagerId(),
                         JobStatusId: jobStatusId(),
+                        Qty1Tax1Value: qty1Tax1Value(),
+                        Qty1GrossTotal: qty1GrossTotal(),
+                        Qty1NetTotal: qty1NetTotal(),
+                        Tax1: tax1(),
                         ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() === 0);
                             section.SectionNo = index + 1;
