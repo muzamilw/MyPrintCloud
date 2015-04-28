@@ -191,7 +191,7 @@ namespace MPC.Webstore.Controllers
              
                    // _ItemService.CopyAttachments(ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
 
-                    _ItemService.CopyAttachments((int)ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
+                    _ItemService.CopyAttachments(ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), StoreBaseResopnse.Company.CompanyId);
 
                     string URL = "/ProductOptions/0/" + clonedItem.ItemId + "/SaveOrder/" + clonedItem.TemplateId;
         

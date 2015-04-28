@@ -28,7 +28,7 @@
                                     <div class="PDTCWB">
                                         <div class="PDTC_SD FISaved" style="display: block;">
 
-                                            <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath@saveDesign.AttachmentFileName@thumbname" />
+                                            <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath/@saveDesign.AttachmentFileName@thumbname" />
                                         </div>
                                     </div>
                                     <div class="LCLB product_detail_image_heading rounded_corners">
@@ -48,7 +48,7 @@
                                     @if (saveDesign.StatusID == 3)
                                     {
                                         <a href="#" onclick="ConfirmDeleteSaveDesignPopup('@saveDesign.ItemID');" id="DeleteSavedDesgn" class="btnReorderSavedDesigns btnDeleteSavedDesigns">
-                                            <img src="~/content/images/delete.png" tooltip="Delete saved design" width="48px"/>
+                                            <img src="~/content/images/delete.png"  width="48px"/>
                                         </a>
                                     }
 

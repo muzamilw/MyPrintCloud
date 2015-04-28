@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -11,6 +13,12 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IEstimateRepository : IBaseRepository<Estimate, long>
     {
+
+        /// <summary>
+        /// Load Property
+        /// </summary>
+        void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
+
         /// <summary>
         /// Get Estimates
         /// </summary>

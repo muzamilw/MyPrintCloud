@@ -494,6 +494,9 @@ namespace MPC.Implementation.MISServices
             // Save Changes
             estimateRepository.SaveChanges();
 
+            // Load Items to show count on list view
+            estimateRepository.LoadProperty(order, () => order.Items, true);
+
             // Return 
             return order;
         }
