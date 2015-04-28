@@ -416,7 +416,7 @@ define("order/order.viewModel",
                             });
                         }
 
-                        if (selectedSection() !== undefined && selectedSection().similarSections() !== undefined) {
+                        if (selectedSection() !== undefined && selectedSection().similarSections != undefined && selectedSection().similarSections() !== undefined) {
                             if (parseFloat(selectedSection().similarSections()) === 0) {
                                 selectedSection().similarSections(1);
                             }
@@ -1503,6 +1503,7 @@ define("order/order.viewModel",
                                 getItemsByCompanyId();
                                 openProductFromStoreDialog();
                             }
+                            
                         },
                         onAddCostCenter = function () {
                             getCostCenters();
@@ -1571,9 +1572,11 @@ define("order/order.viewModel",
                         hideCostCentreDialog = function () {
                             view.hideRCostCentersDialog();
                         },
+                        //Product From Cost Center
                     createNewCostCenterProduct = function (costCenter) {
                         selectedCostCentre(costCenter);
                         var item = model.Item.Create({});
+                        selectedProduct(item);
                         item.productName(selectedCostCentre().name());
                         item.qty1(selectedCostCentre().quantity1());
                         item.qty1NetTotal(selectedCostCentre().setupCost());
@@ -1596,6 +1599,7 @@ define("order/order.viewModel",
 
                             selectedSectionCostCenter(sectionCostCenter);
                             selectedQty(1);
+                       
 
                         itemSection.sectionCostCentres.push(sectionCostCenter);
                         item.itemSections.push(itemSection);
@@ -1605,6 +1609,9 @@ define("order/order.viewModel",
                         }
 
                         selectedOrder().items.splice(0, 0, item);
+
+                        selectedSection(itemSection);
+                       
                     },
                         createNewInventoryProduct = function (stockItem) {
                             var costCenter = model.costCentre.Create({});
@@ -1667,6 +1674,7 @@ define("order/order.viewModel",
                         },
                         onSaveProductInventory = function () {
                             var item = model.Item.Create({});
+                            selectedProduct(item);
                             item.productName(inventoryStockItemToCreate().name);
                             var itemSection = model.ItemSection.Create({});
                             var sectionCostCenter = model.SectionCostCentre.Create({});
@@ -1682,7 +1690,7 @@ define("order/order.viewModel",
                             sectionCostCenter.qty1EstimatedStockCost(0);
                             sectionCostCenter.qty2EstimatedStockCost(0);
                             sectionCostCenter.qty3EstimatedStockCost(0);
-                            sectionCostCenter.qty1Charge(0);
+                            sectionCostCenter.qty1Charge(inventoryStockItemToCreate().price);
                             sectionCostCenter.qty2Charge(0);
                             sectionCostCenter.qty3Charge(0);
                             sectionCostCenter.costCentreType('139');
@@ -1701,6 +1709,9 @@ define("order/order.viewModel",
                             item.itemSections.push(itemSection);
                             view.hideCostCentersQuantityDialog();
                             selectedOrder().items.splice(0, 0, item);
+
+                            selectedSection(itemSection);
+                            
                         },
                         onSaveProductCostCenter = function () {
                             createNewCostCenterProduct();
@@ -1839,6 +1850,7 @@ define("order/order.viewModel",
                             createNewRetailStoreProduct = function () {
                                 var item = selecteditem().convertToServerData();
                                 var newItem = model.Item.Create(item);
+                                selectedProduct(newItem);
                                 newItem.id(0);
                                 newItem.qty1NetTotal(totalProductPrice());
                                 //if (newItem.itemSections().length > 0) {
@@ -1858,6 +1870,9 @@ define("order/order.viewModel",
 
                                 // set section id 0 && sectioncost center id = 0
                                 selectedOrder().items.splice(0, 0, newItem);
+
+                               
+                                
                             },
 
                             onSaveRetailStoreProduct = function () {
@@ -1896,9 +1911,12 @@ define("order/order.viewModel",
                                 sectionCostCenter.costCentreId(getStockCostCenterId(29));
 
                                 //sectionCostCenter.qty1NetTotal(price);
-
+                                selectedSectionCostCenter(sectionCostCenter);
+                                selectedQty(1);
 
                                 newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
+
+                                selectedSection(newItem.itemSections()[0]);
                                 //#endregion
 
                                 //#region Add Selected Addons as Cost Centers
@@ -1920,6 +1938,8 @@ define("order/order.viewModel",
                                             selectedSectionCostCenter(sectionCostCenter);
                                             selectedQty(1);
                                             newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
+
+                                            selectedSection(newItem.itemSections()[0]);
                                         }
                                     });
                                 }
