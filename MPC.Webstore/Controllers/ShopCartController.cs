@@ -373,7 +373,7 @@ namespace MPC.Webstore.Controllers
             newCloneditem = _ItemService.CloneItem(ItemID, 0, OrderID, 0, 0, 0, null, false, true, _myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
 
             Estimate objOrder = _OrderService.GetOrderByID(OrderID);
-            _ItemService.CopyAttachments(ItemID, newCloneditem, objOrder.Order_Code, true, objOrder.CreationDate ?? DateTime.Now);
+            _ItemService.CopyAttachments(ItemID, newCloneditem, objOrder.Order_Code, true, objOrder.CreationDate ?? DateTime.Now,Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), StoreBaseResopnse.Company.CompanyId);
 
             if (StoreBaseResopnse.Company.ShowPrices ?? true)
             {
@@ -837,7 +837,7 @@ namespace MPC.Webstore.Controllers
                 {
                     foreach (ArtWorkAttatchment itemAtt in attatchmentList)
                     {
-                        completePath = itemAtt.FolderPath + itemAtt.FileName;
+                        completePath = "/" + itemAtt.FolderPath + "/" + itemAtt.FileName;
                         if (itemAtt.UploadFileType == UploadFileTypes.Artwork)
                         {
                             Utils.DeleteFile(completePath + "Thumb.png");

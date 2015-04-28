@@ -183,11 +183,92 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetMarketingInquiryAnswersByQID(QID);
         }
-        public void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate)
+        public void CopyAttachments(long ItemID, Item NewlyClonedItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate, long OrganisationId, long CompanyId)
         {
             try
             {
-                _ItemRepository.CopyAttachments(itemID, NewItem, OrderCode, CopyTemplate, OrderCreationDate);
+               
+                int sideNumber = 1;
+                List<ItemAttachment> attachmentsOfActualItem = _ItemRepository.GetItemAttactchments(ItemID);
+                List<ItemAttachment> attachmentsOfNewlyClonedItem = new List<ItemAttachment>();
+                ItemAttachment obj = null;
+
+                foreach (ItemAttachment attachment in attachmentsOfActualItem)
+                {
+                    obj = new ItemAttachment();
+
+                    obj.ApproveDate = attachment.ApproveDate;
+                    obj.Comments = attachment.Comments;
+                    obj.ContactId = attachment.ContactId;
+                    obj.ContentType = attachment.ContentType;
+                    obj.CompanyId = attachment.CompanyId;
+                    obj.FileTitle = attachment.FileTitle;
+                    obj.FileType = attachment.FileType;
+                    obj.FolderPath = "mpc_content/Attachments/" + OrganisationId + "/" + CompanyId + "/Products/" + NewlyClonedItem.ItemId;
+                    obj.IsApproved = attachment.IsApproved;
+                    obj.isFromCustomer = attachment.isFromCustomer;
+                    obj.Parent = attachment.Parent;
+                    obj.Type = attachment.Type;
+                    obj.UploadDate = attachment.UploadDate;
+                    obj.Version = attachment.Version;
+                    obj.ItemId = NewlyClonedItem.ItemId;
+                    if (NewlyClonedItem.TemplateId > 0)
+                    {
+                        obj.FileName = GetTemplateAttachmentFileName(NewlyClonedItem.ProductCode, OrderCode, NewlyClonedItem.ItemCode,
+                            "Side" + sideNumber.ToString(), "", "", OrderCreationDate);
+                       
+                    }
+                    else
+                    {
+                        obj.FileName = GetAttachmentFileName(NewlyClonedItem.ProductCode, OrderCode, NewlyClonedItem.ItemCode,
+                            sideNumber.ToString() + "Copy", "", "", OrderCreationDate);
+                        
+                    }
+                    sideNumber += 1;
+                    attachmentsOfNewlyClonedItem.Add(obj);
+
+                    // Copy physical file
+                    string sourceFileName = null;
+                    string destFileName = null;
+                    if (NewlyClonedItem.TemplateId > 0 && CopyTemplate == true)
+                    {
+                        sourceFileName =
+                            HttpContext.Current.Server.MapPath("/" + attachment.FolderPath + "/" + attachment.FileName + attachment.FileType);
+                        destFileName = HttpContext.Current.Server.MapPath("/" + obj.FolderPath + "/" + obj.FileName + attachment.FileType);
+                    }
+                    else
+                    {
+                        sourceFileName = HttpContext.Current.Server.MapPath("/" + attachment.FolderPath + "/" + attachment.FileName + attachment.FileType);
+                        destFileName = HttpContext.Current.Server.MapPath("/" + obj.FolderPath + "/" + obj.FileName + obj.FileType);
+                    }
+
+                    if (File.Exists(sourceFileName))
+                    {
+                        string destinationFolderDir = HttpContext.Current.Server.MapPath("~/" + obj.FolderPath);
+                        if (!Directory.Exists(destinationFolderDir))
+                            Directory.CreateDirectory(destinationFolderDir);
+                       
+                        File.Copy(sourceFileName, destFileName);
+
+                        // Generate the thumbnail
+
+                        byte[] fileData = File.ReadAllBytes(destFileName);
+
+                        if (obj.FileType == ".pdf" || obj.FileType == ".TIF" || obj.FileType == ".TIFF")
+                        {
+                            GenerateThumbnailForPdf(fileData, destFileName, false);
+                        }
+                        else
+                        {
+                            MemoryStream ms = new MemoryStream();
+                            ms.Write(fileData, 0, fileData.Length);
+
+                            CreatAndSaveThumnail(ms, destFileName);
+                        }
+                    }
+                    _ItemRepository.AddAttachment(obj);
+                }
+
             }
             catch(Exception ex)
             {
@@ -1068,139 +1149,271 @@ namespace MPC.Implementation.WebStoreServices
           
         }
 
+        public static string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode,
+         string SideCode, string VirtualFolderPath, string extension, DateTime OrderCreationDate)
+        {
+            try
+            {
+                string FileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
+                             OrderCreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode +
+                             "-" + SideCode + extension;
+                //checking whether file exists or not
+                while (System.IO.File.Exists(VirtualFolderPath + FileName))
+                {
+                    string fileName1 = System.IO.Path.GetFileNameWithoutExtension(FileName);
+                    fileName1 += "a";
+                    FileName = fileName1 + extension;
+                }
+                return FileName;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-        //private void CloneItem(long id, StoreMode mode, long OrderId, long ContactId, long CompanyId,)
-        //{
-        //    string CacheKeyName = "CompanyBaseResponse";
-        //    ObjectCache cache = MemoryCache.Default;
-        //    long ItemID = 0;
-        //    long TemplateID = 0;
-        //    bool isCorp = true;
-        //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-        //        isCorp = true;
-        //    else
-        //        isCorp = false;
-        //    int TempDesignerID = 0;
-        //    string ProductName = string.Empty;
+        }
+        public static string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode,
+          string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate)
+        {
+            try
+            {
+                string FileName = CreationDate.Year.ToString() + CreationDate.ToString("MMMM") + CreationDate.Day.ToString() +
+                             "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
 
-        //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                return FileName;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-        //    long ContactID = _myClaimHelper.loginContactID();
-        //    long CompanyID = _myClaimHelper.loginContactCompanyID();
-        //    if (UserCookieManager.WEBOrderId == 0)
-        //    {
-        //        long OrderID = 0;
-        //        long TemporaryRetailCompanyId = 0;
-        //        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-        //        {
-        //            TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-        //            OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
-        //            if (OrderID > 0)
-        //            {
-        //                UserCookieManager.WEBOrderId = OrderID;
-        //            }
-        //            if (TemporaryRetailCompanyId != 0)
-        //            {
-        //                UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-        //                ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
-        //            }
-        //            CompanyID = TemporaryRetailCompanyId;
+        }
+        public void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin)
+        {
+            try
+            {
+                //
+                using (Doc theDoc = new Doc())
+                {
+                    theDoc.Read(PDFFile);
+                    theDoc.PageNumber = 1;
+                    theDoc.Rect.String = theDoc.CropBox.String;
 
-        //        }
-        //        else
-        //        {
-        //            OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
-        //            if (OrderID > 0)
-        //            {
-        //                UserCookieManager.WEBOrderId = OrderID;
-        //            }
-        //        }
+                    if (insertCuttingMargin)
+                    {
+                        theDoc.Rect.Inset((int)MPC.Models.Common.Constants.CuttingMargin,
+                            (int)MPC.Models.Common.Constants.CuttingMargin);
+                    }
 
-        //        // create new order
+                    Stream oImgstream = new MemoryStream();
+
+                    theDoc.Rendering.DotsPerInch = 300;
+                    theDoc.Rendering.Save("tmp.png", oImgstream);
+
+                    theDoc.Clear();
+                    theDoc.Dispose();
+
+                    CreatAndSaveThumnail(oImgstream, sideThumbnailPath);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath)
+        {
+            try
+            {
+                string baseAddress = sideThumbnailPath.Substring(0, sideThumbnailPath.LastIndexOf('\\'));
+                sideThumbnailPath = Path.GetFileNameWithoutExtension(sideThumbnailPath) + "Thumb.png";
+
+                sideThumbnailPath = baseAddress + "\\" + sideThumbnailPath;
+
+                Image origImage = Image.FromStream(oImgstream);
+
+                float WidthPer, HeightPer;
+
+                int NewWidth, NewHeight;
+                int ThumbnailSizeWidth = 400;
+                int ThumbnailSizeHeight = 400;
+
+                if (origImage.Width > origImage.Height)
+                {
+                    NewWidth = ThumbnailSizeWidth;
+                    WidthPer = (float)ThumbnailSizeWidth / origImage.Width;
+                    NewHeight = Convert.ToInt32(origImage.Height * WidthPer);
+                }
+                else
+                {
+                    NewHeight = ThumbnailSizeHeight;
+                    HeightPer = (float)ThumbnailSizeHeight / origImage.Height;
+                    NewWidth = Convert.ToInt32(origImage.Width * HeightPer);
+                }
+
+                Bitmap origThumbnail = new Bitmap(NewWidth, NewHeight, origImage.PixelFormat);
+                Graphics oGraphic = Graphics.FromImage(origThumbnail);
+                oGraphic.CompositingQuality = CompositingQuality.HighQuality;
+                oGraphic.SmoothingMode = SmoothingMode.HighQuality;
+                oGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                Rectangle oRectangle = new Rectangle(0, 0, NewWidth, NewHeight);
+                oGraphic.DrawImage(origImage, oRectangle);
 
 
-        //        Item item = _IItemService.CloneItem(id, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+                origThumbnail.Save(sideThumbnailPath, ImageFormat.Png);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
-        //        if (item != null)
-        //        {
-        //            ItemID = item.ItemId;
-        //            TemplateID = item.TemplateId ?? 0;
-        //            TempDesignerID = item.DesignerCategoryId ?? 0;
-        //            ProductName = item.ProductName;
-        //        }
+        /// <summary>
+        /// Load designer in case of print product 
+        /// </summary>
+        /// <param name="ItemId"></param>
+        /// <param name="ModeOfStore"></param>
+        /// <param name="OrderIdFromCookie"></param>
+        /// <param name="ContactIdFromClaim"></param>
+        /// <param name="CompanyIdFromClaim"></param>
+        /// <param name="TemporaryRetailCompanyIdFromCookie"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        public ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId)
+        {
 
-        //    }
-        //    else
-        //    {
-        //        if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail && ContactID == 0)
-        //        {
-        //            long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+            ItemCloneResult itemCloneObj = new ItemCloneResult();
 
-        //            // create new order
+            
+            long ItemID = 0;
+            long TemplateID = 0;
+            bool isCorp = true;
+            if (ModeOfStore == StoreMode.Corp)
+                isCorp = true;
+            else
+                isCorp = false;
+            int TempDesignerID = 0;
+            string ProductName = string.Empty;
 
-        //            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
-        //            if (OrderID > 0)
-        //            {
-        //                UserCookieManager.WEBOrderId = OrderID;
-        //            }
-        //            if (TemporaryRetailCompanyId != 0)
-        //            {
-        //                UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-        //                ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
-        //            }
-        //            CompanyID = TemporaryRetailCompanyId;
-        //        }
-        //        else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-        //        {
-        //            CompanyID = UserCookieManager.TemporaryCompanyId;
-        //            ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
-        //        }
-        //        Item item = _IItemService.CloneItem(id, 0, UserCookieManager.WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+            long ContactID = ContactIdFromClaim;
+            long CompanyID = CompanyIdFromClaim;
+            itemCloneObj.OrderId = OrderIdFromCookie;
+            itemCloneObj.TemporaryCustomerId = TemporaryRetailCompanyIdFromCookie;
+            if (OrderIdFromCookie == 0)
+            {
+                long OrderID = 0;
+                long TemporaryRetailCompanyId = 0;
+                if (ModeOfStore == StoreMode.Retail)
+                {
+                    TemporaryRetailCompanyId = TemporaryRetailCompanyIdFromCookie;
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        itemCloneObj.OrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        itemCloneObj.TemporaryCustomerId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
 
-        //        if (item != null)
-        //        {
-        //            ItemID = item.ItemId;
-        //            TemplateID = item.TemplateId ?? 0;
-        //            TempDesignerID = item.DesignerCategoryId ?? 0;
-        //            ProductName = Utils.specialCharactersEncoder(item.ProductName);
-        //        }
-        //    }
+                }
+                else
+                {
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        itemCloneObj.OrderId = OrderID;
+                    }
+                }
 
-        //    int isCalledFrom = 0;
-        //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-        //        isCalledFrom = 4;
-        //    else
-        //        isCalledFrom = 3;
+                // create new order
 
-        //    bool isEmbedded;
-        //    bool printWaterMark = true;
-        //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-        //    {
-        //        isEmbedded = true;
-        //    }
-        //    else
-        //    {
-        //        printWaterMark = false;
-        //        isEmbedded = false;
-        //    }
 
-        //    ProductName = _IItemService.specialCharactersEncoder(ProductName);
-        //    //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
-        //    bool printCropMarks = true;
-        //    string URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+                Item item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
 
-        //    // ItemID ok
-        //    // TemplateID ok
-        //    // iscalledfrom ok
-        //    // cv scripts require
-        //    // productName ok
-        //    // contactid // ask from iqra about retail and corporate
-        //    // companyID // ask from iqra
-        //    // isembaded ook
-        //    Response.Redirect(URL);
-        //    return null;
-        //}
+                if (item != null)
+                {
+                    ItemID = item.ItemId;
+                    TemplateID = item.TemplateId ?? 0;
+                    TempDesignerID = item.DesignerCategoryId ?? 0;
+                    ProductName = item.ProductName;
+                }
 
-        
+            }
+            else
+            {
+                if (TemporaryRetailCompanyIdFromCookie == 0 && ModeOfStore == StoreMode.Retail && ContactID == 0)
+                {
+                    long TemporaryRetailCompanyId = TemporaryRetailCompanyIdFromCookie;
+
+                    // create new order
+
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        itemCloneObj.OrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        itemCloneObj.TemporaryCustomerId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+                }
+                else if (TemporaryRetailCompanyIdFromCookie > 0 && ModeOfStore == StoreMode.Retail)
+                {
+                    CompanyID = TemporaryRetailCompanyIdFromCookie;
+                    ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
+                }
+                Item item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
+
+                if (item != null)
+                {
+                    ItemID = item.ItemId;
+                    TemplateID = item.TemplateId ?? 0;
+                    TempDesignerID = item.DesignerCategoryId ?? 0;
+                    ProductName = specialCharactersEncoder(item.ProductName);
+                }
+            }
+
+            int isCalledFrom = 0;
+            if (ModeOfStore == StoreMode.Corp)
+                isCalledFrom = 4;
+            else
+                isCalledFrom = 3;
+
+            bool isEmbedded;
+            bool printWaterMark = true;
+            if (ModeOfStore == StoreMode.Corp || ModeOfStore == StoreMode.Retail)
+            {
+                isEmbedded = true;
+            }
+            else
+            {
+                printWaterMark = false;
+                isEmbedded = false;
+            }
+
+            ProductName = specialCharactersEncoder(ProductName);
+            //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
+            bool printCropMarks = true;
+            itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+            
+            // ItemID ok
+            // TemplateID ok
+            // iscalledfrom ok
+            // cv scripts require
+            // productName ok
+            // contactid // ask from iqra about retail and corporate
+            // companyID // ask from iqra
+            // isembaded ook
+            return itemCloneObj;
+        }
     }
 }
