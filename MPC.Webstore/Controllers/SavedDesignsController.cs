@@ -173,10 +173,13 @@ namespace MPC.Webstore.Controllers
                         {
                             OrderID = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationID, string.Empty);
                         }
-                       
-                       UserCookieManager.WEBOrderId = OrderID;
-                    }
 
+                        UserCookieManager.WEBOrderId = OrderID;
+                    }
+                    else
+                    {
+                        OrderID = UserCookieManager.WEBOrderId;
+                    }
 
                     Item clonedItem = null;
 
