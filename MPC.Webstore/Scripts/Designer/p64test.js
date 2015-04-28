@@ -17520,7 +17520,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
 	'maxWidth','customStyles',
 		'maxHeight',
 		'charSpacing', 'clippedText' , 'IsPositionLocked','IsEditable',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'IsOverlayObject', 'IsQuickText', 'textCase'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'IsOverlayObject', 'IsQuickText', 'textCase','IsUnderlinedText'
   );
 
     /**
@@ -17808,7 +17808,8 @@ fabric.Image.filters.Tint.fromObject = function (object) {
     clippedText: '',
       _charWidthsCache: {},
       _cachedObject: null,
-      textCase :0,
+      textCase: 0,
+        IsUnderlinedText:false,
     /**
     * Constructor
     * @param {String} text Text string
@@ -18720,7 +18721,8 @@ fabric.Image.filters.Tint.fromObject = function (object) {
             textBackgroundColor: this.textBackgroundColor,
             useNative: this.useNative,
             maxWidth: this.maxWidth,
-            textCase : this.textCase,
+            textCase: this.textCase,
+            IsUnderlinedText: this.IsUnderlinedText,
             maxHeight: this.maxHeight
         });
         if (!this.includeDefaultValues) {

@@ -39,7 +39,7 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-detail" data-toggle="tab">Components</a></li>
-                            <li><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
+                            <li data-bind="visible: $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
                             <li><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
                         </ul>
                         <div class="tab-content">
@@ -260,7 +260,7 @@
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5"></textarea>
-                                             </div>
+                                            </div>
                                             <div class="col-lg-2">
                                                 <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
@@ -404,7 +404,7 @@
 
                                         </div>
                                         <div class="col-lg-6">
-                                            <label class="control-label" data-bind="dateString: jobCreationDateTime" style="margin-left:5px;"></label>
+                                            <label class="control-label" data-bind="dateString: orderDate, datePattern: 'DD/MM/YYYY'" style="margin-left:5px;"></label>
 
                                         </div>
                                     </div>
@@ -423,7 +423,7 @@
 
                                         </div>
                                         <div class="col-lg-6">
-                                            <label class="control-label" style="margin-left:5px;">14/06/2014</label>
+                                            <label class="control-label" style="margin-left:5px;" data-bind="dateString: jobEstimatedStartDateTime, datePattern: 'DD/MM/YYYY'"></label>
 
                                         </div>
                                     </div>
@@ -442,7 +442,7 @@
 
                                         </div>
                                         <div class="col-lg-6">
-                                            <label class="control-label" style="margin-left:5px;">15/06/2014</label>
+                                            <label class="control-label" style="margin-left:5px;" data-bind="dateString: jobEstimatedCompletionDateTime, datePattern: 'DD/MM/YYYY'"></label>
 
                                         </div>
                                     </div>
@@ -570,6 +570,7 @@
             </div>
         </div>
     </div>
+    @*@Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantityForStockItem.cshtml")*@
 </div>
 
 

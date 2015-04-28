@@ -89,6 +89,11 @@ namespace MPC.Models.ModelMappers
         /// Action to create an Order
         /// </summary>
         public Func<Estimate> CreateNewOrder { get; set; }
+
+        /// <summary>
+        /// Action to Get Next Job Code
+        /// </summary>
+        public Func<string> GetNextJobCode { get; set; }
         
         #endregion
     }

@@ -24,7 +24,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get by Id
         /// </summary>
-        Item GetById(long id);
+        Item GetById(long id, bool changeTemplateSizeUnits = true);
 
         /// <summary>
         /// Save Product Image
