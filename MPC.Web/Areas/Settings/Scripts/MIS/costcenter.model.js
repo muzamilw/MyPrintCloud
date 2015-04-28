@@ -148,7 +148,8 @@
              isEditTime = ko.observable(false),
              isTimeVariable = ko.observable(),
              //isTimePrompt = ko.observable(false)
-             isQtyVariable = ko.observable()
+             isQtyVariable = ko.observable(),
+             isCalculationMethodEnable = ko.observable(costCentreId === 0 || costCentreId === undefined ? true : false),
         //isQtyPrompt = ko.observable(false),
         errors = ko.validation.group({
             name: name,
@@ -332,6 +333,7 @@
             isEditLabourCost: isEditLabourCost,
             isEditLabourQuote: isEditLabourQuote,
             isEditLabourActualCost: isEditLabourActualCost,
+            isCalculationMethodEnable:isCalculationMethodEnable,
             isEditTime: isEditTime,
             dirtyFlag: dirtyFlag,
             errors: errors,
