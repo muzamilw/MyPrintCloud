@@ -26,7 +26,7 @@
                 </a>
                 <label id="lblVerticalLine" class="crumb_notActive">&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</label>
                 <a id="aLinkItem" href="#" class="crumb_Active left_align">
-                    @ViewBag.Item.ProductName
+                    @ViewBag.ItemModel.ProductName
                 </a>
 
 
@@ -110,7 +110,7 @@
                                             <div class="extra_pricing float_right">
                                                 @if (costcenter.Type != 4)
                                                 {
-                                                    <label id="lblAddOnPrice">@ViewBag.Currency@costcenter.AddOnPrice</label>
+                                                    <label id="lblAddOnPrice">@ViewBag.Currency@costcenter.AddOnPrice </label>
                                                 }
                                             </div>
                                             <label class="checkBoxAdOnDesc marginLeft">@costcenter.WebStoreDesc</label>
@@ -215,10 +215,12 @@
                         <div class="rptContainers">
                             @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
                             {
+                                Random random = new Random();
+                                string randonNumber = "?r=" + random.Next();
                                     <div class="LGBC BD_PCS rounded_corners">
                                         <a id="hlSide1">
                                             <div class="PDTC_LP FI_PCS">
-                                                <img class="full_img_ThumbnailPath_LP" src="@templateItem.FolderPath@templateItem.FileName@imagePath" />
+                                                <img class="full_img_ThumbnailPath_LP" src="/@templateItem.FolderPath/@templateItem.FileName@imagePath@randonNumber" />
 
                                             </div>
                                         </a>
@@ -260,7 +262,7 @@
                     </asp:hyperlink>
                 </div>
                 <div>
-                    @if (ViewBag.Item.IsQtyRanged == true)
+                    @if (ViewBag.ItemModel.IsQtyRanged == true)
                     {
                         if (ViewBag.SelectedQuantity != null)
                         {
@@ -277,7 +279,7 @@
                     else
                     {
                         <select class="dropdownBorderCS dropdown190 rounded_corners5 template_designing float_right dropdownQtyListClass clearRight ">
-                            @foreach (var quantity in ViewBag.Item.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
+                            @foreach (var quantity in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
                             {
                                 if (ViewBag.SelectedQuantity != null)
                                 {
@@ -307,7 +309,7 @@
                 </div>
                 <br />
                 <div class=" left_align productStockDesc">
-                    <label class="Fsize15 colorBlack left_align colorDGry">@ViewBag.Item.ProductName</label>
+                    <label class="Fsize15 colorBlack left_align colorDGry">@ViewBag.ItemModel.ProductName</label>
                     <br />
                     <label id="lblStock" class="LightGrayLabels"></label><br />
                     <label id="lblExtra" class="LightGrayLabels"></label>
@@ -383,7 +385,7 @@
                     &nbsp;
                 </div>
                 <div id="matrixHeadingsContainer" class="" style="display: none;">
-                    @if (ViewBag.Item.IsQtyRanged == true)
+                    @if (ViewBag.ItemModel.IsQtyRanged == true)
                     {
                         <div class="confirm_design divtxtalgn MLR">
                             <label id="lbl_Quantity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId))</label>
@@ -391,7 +393,7 @@
                         <br />
                     }
                     <div class="width50p">
-                        @if (ViewBag.Item.IsQtyRanged == true)
+                        @if (ViewBag.ItemModel.IsQtyRanged == true)
                         {
                             <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -46px;">
                                 <label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId))</label>
@@ -421,7 +423,7 @@
                 </div>
                 <div id="priceMatrixContainer" style="" class="spacerbottom cntlndngtbl">
 
-                    @foreach (var matrixItem in ViewBag.Item.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
+                    @foreach (var matrixItem in ViewBag.ItemModel.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
                     {
                         if (PriceBackgroundCount % 2 == 0)
                         {
@@ -437,7 +439,7 @@
                                     <input type="hidden" id="txtHiddenPriceMatrixID" class="AccessPriceInScript" value='@matrixItem.PriceMatrixId' />
 
                                 </div>
-                                @if (ViewBag.Item.IsQtyRanged == true)
+                                @if (ViewBag.ItemModel.IsQtyRanged == true)
                                 {
                                     <div id="QtyRangeFrom" class="LandingPageQty divQNum">
                                         @matrixItem.QtyRangeFrom
@@ -543,7 +545,7 @@
                 <label id="lbl_CategroyCode" class="marginall5"></label>
                 
                 <p class="marginall5" style="width: 220px;">
-                    <label style="font-weight:normal;">@ViewBag.Item.WebDescription</label>
+                    <label style="font-weight:normal;">@ViewBag.ItemModel.WebDescription</label>
                 </p>
                 <br />
             </div>
@@ -565,7 +567,7 @@
 <div id="pnlArtworkUploader" style="display: none;" class="">
 
     <div id="PnlUploaderLeftContainer">
-        @if (!string.IsNullOrEmpty(ViewBag.Item.File1) || !string.IsNullOrEmpty(ViewBag.Item.File2) || !string.IsNullOrEmpty(ViewBag.Item.File3) || !string.IsNullOrEmpty(ViewBag.Item.File4))
+        @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1) || !string.IsNullOrEmpty(ViewBag.ItemModel.File2) || !string.IsNullOrEmpty(ViewBag.ItemModel.File3) || !string.IsNullOrEmpty(ViewBag.ItemModel.File4))
         {
             <div id="lbl_DownloadTemplates" class="DownloadExmContainer">
                 @Html.Raw(Html.GetKeyValueFromResourceFile("downloadExmp", UserCookieManager.WBStoreId))
@@ -576,41 +578,41 @@
             </div>
 
             <div id="PnlUploaderDownloadIcons" style="text-align: left;">
-                @if (!string.IsNullOrEmpty(ViewBag.Item.File1))
+                @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
                 {
-                    <a id="IcoPhotoshop" href="@ViewBag.Item.File1" target="_blank" class="DownloadImages">
-                        <img src="@Html.GetAppBasePath()@ViewBag.Item.File1" />
+                    <a id="IcoPhotoshop" href="@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
+                        <img src="@Html.GetAppBasePath()@ViewBag.ItemModel.File1" />
                     </a>
                 }
-                @if (!string.IsNullOrEmpty(ViewBag.Item.File2))
+                @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
                 {
-                    <a id="IcoIllustrator" href="@ViewBag.Item.File2" target="_blank" class="DownloadImages">
-                        <img src="@Html.GetAppBasePath()@ViewBag.Item.File2" />
+                    <a id="IcoIllustrator" href="@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
+                        <img src="@Html.GetAppBasePath()@ViewBag.ItemModel.File2" />
                     </a>
                 }
-                @if (!string.IsNullOrEmpty(ViewBag.Item.File3))
+                @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
                 {
-                    <a id="Icoindesign" href="@ViewBag.Item.File3" target="_blank" class="DownloadImages">
-                        <img src="@Html.GetAppBasePath()@ViewBag.Item.File3" />
+                    <a id="Icoindesign" href="@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
+                        <img src="@Html.GetAppBasePath()@ViewBag.ItemModel.File3" />
                     </a>
                 }
-                @if (!string.IsNullOrEmpty(ViewBag.Item.File4))
+                @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
                 {
-                    <a id="IcoPdf" href="@ViewBag.Item.File4" target="_blank" class="DownloadImages">
-                        <img src="@Html.GetAppBasePath()@ViewBag.Item.File4" />
+                    <a id="IcoPdf" href="@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
+                        <img src="@Html.GetAppBasePath()@ViewBag.ItemModel.File4" />
                     </a>
                 }
             </div>
             <div class="clearBoth">&nbsp;</div>
         }
-        @if (ViewBag.Item.GridImage != null)
+        @if (ViewBag.ItemModel.GridImage != null)
         {
             <div id="formatDesignContainer">
                 <div class="DesgnFormatelbl">
                     <label id="lbl_DesignSize_Format" class="Fsize13">Design sizes & format</label>
                 </div>
                 <div class="white_background rounded_corners left_align">
-                    <img id="designFormateimg" src="@ViewBag.Item.GridImage" />
+                    <img id="designFormateimg" src="@ViewBag.ItemModel.GridImage" />
                 </div>
             </div>
         }
@@ -717,21 +719,24 @@
     <script src="~/Scripts/PopUp.js"></script>
     <script>
 
-    var isRanged = "@ViewBag.Item.IsQtyRanged.ToString()" == "False" ? 0 : 1;
-        var TotalItemPrice = 0;
-        var data = "";
+    var isRanged = "@ViewBag.ItemModel.IsQtyRanged.ToString()" == "False" ? 0 : 1;
+    var TotalItemPrice = 0;
+    var data = "";
     var isPriceSelected = 0;
     var mandatoryRefiningOptIds = "";
-     
-    
+    var isImageUploadedOnLandingPage = 0;
+
     $(document).ready(function() {
+
         
-     
         $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
         $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
 
-        hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
+        SelectedFirstPaperIfNoPaperSelected();
 
+      
+        hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
+        
         MatrixToggle();
         if (isRanged) {
             if ($("#rangedQuantityOrdered").val() == "") {
@@ -762,28 +767,51 @@
             }
             $('#VMJsonAddOns').val(JSON.stringify(updatedAddOns));
         }
+
+        isImageUploadedOnLandingPage = @ViewBag.AttachmentCount;
     });
 
     $("#priceToggle").click(function() {
         $('#priceMatrixContainer').slideToggle();
     });
+        
+    function SelectedFirstPaperIfNoPaperSelected() {
+        var isPaperSelected = false;
+        $('input:radio[name=StockPaper]').each(function() {
+            if ($(this).is(':checked')) {
+                isPaperSelected = true;
+            }
+        });
+
+        if(isPaperSelected == false){
+            $('input:radio[name=StockPaper]').each(function() {
+                $(this).prop('checked', true);
+                return false;
+            });
+        }
+    }
 
     function ConfirmCart() {
         if (isPriceSelected == 0) {
             ShowPopUp("Message", "Please check your details to proceed.");
             return false;
         } else {
+
+            if("@ViewBag.ItemModel.isUploadImage" == "True" && isImageUploadedOnLandingPage == 0 && "@ViewBag.ItemModel.Mode" == "UploadDesign"){
+                ShowPopUp("Message", "Please upload your artwork to proceed.");
+                return false;
+            }
             var noRefiningOptSelected = 1;
             if(mandatoryRefiningOptIds != ""){
                 var ListOfOptnToCheck = mandatoryRefiningOptIds.split(',');
-               
+
                 $(ListOfOptnToCheck).each(function(i, val) {
                     if($("#" + val).is(':checked')){
                     }else{
                         $("#" + val).parent().parent().css("background-color", "rgb(228, 180, 182)");
                         noRefiningOptSelected = 0;
                     }
-                    
+
                 });
 
                 if(noRefiningOptSelected == 0){
@@ -794,7 +822,7 @@
                 }
             }else{
                 ShowLoader();
-               
+
             }
         }
     }
@@ -813,7 +841,7 @@
             $('#ToogleTable').css("margin-bottom", "10px");
             $('#matrixHeadingsContainer').css("display", "block");
             $('#cntTabLabel').css("display", "block");
-            
+
         }
     }
 
@@ -950,6 +978,8 @@
                 }
             });
 
+           
+
             var stockID = $('input:radio[class=' + classname + ']').attr("data-Id");
 
             $("#VMStockId").val(stockID);
@@ -1038,8 +1068,8 @@
         itemPrice = parseFloat(itemPrice);
         addOnPrice = parseFloat(addOnPrice);
 
-        
-        $("#VMAddOnrice").val(addOnPrice);
+
+
         $("#VMItemId").val(@ViewBag.ClonedItemId);
         $("#VMOrderId").val(@ViewBag.Order.EstimateId);
         // this condition sets the total to zero because no quantity is selected
@@ -1198,13 +1228,15 @@
                     var actualPrice = selectedCheckBox.ActualPrice;
 
                     if (selectedCheckBox.Type == 2) {
-
+                        var ActualPriceIncludeVat = 0;
                         if (isRanged) {
                             var quantityOrdered = $("#rangedQuantityOrdered").val();
                             actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
                             if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
                                 actualPrice = selectedCheckBox.MinimumCost;
                             }
+                            ActualPriceIncludeVat = actualPrice + ((actualPrice * @ViewBag.TaxRate) / 100);
+                            ActualPriceIncludeVat = (ActualPriceIncludeVat).toFixed(2).toString();
                         } else {
                             var quantityOrdered = $(".dropdownQtyListClass").find(":selected").val();
 
@@ -1213,8 +1245,12 @@
                                 actualPrice = selectedCheckBox.MinimumCost;
 
                             }
+                            ActualPriceIncludeVat = actualPrice + ((actualPrice * @ViewBag.TaxRate) / 100);
+                            ActualPriceIncludeVat = (ActualPriceIncludeVat).toFixed(2).toString();
                         }
-                        checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
+                        $("#VMAddOnrice").val(actualPrice);
+
+                        checkedPriceTotal = checkedPriceTotal + parseFloat(ActualPriceIncludeVat);
 
                     } else if (selectedCheckBox.Type == 4) { // gets the value from the label
                         if ($(val).next().next().children(':first').text() == "") {
@@ -1304,9 +1340,10 @@
                         actualPrice = selectedCheckBox.MinimumCost;
 
                     }
-                    actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
-                    $(val).next().next().children(':first').html(actualPrice);
-
+                    var ActualPriceIncludeVat = actualPrice + ((actualPrice * @ViewBag.TaxRate) / 100);
+                    ActualPriceIncludeVat = "@ViewBag.Currency" + (ActualPriceIncludeVat).toFixed(2).toString();
+                    $(val).next().next().children(':first').html(ActualPriceIncludeVat);
+                    $(val).next().next().children(':first').attr('data-actualCCPrice', (actualPrice).toFixed(2).toString());
                     if (selectedCheckBox.isChecked == true) {
                         $(val).click();
                     }
@@ -1335,7 +1372,7 @@
             var files = $('#imageUploader')[0].files;
             //alert(files.length);
             if (files.length > 0) {
-            
+
                 for (i = 0; i < files.length; i++) {
                     data.append("file" + i, files[i]);
                 }
@@ -1376,11 +1413,11 @@
         while (FileName.indexOf('/') != -1)
             FileName = FileName.replace("/", "__")
         if (data != "") {
-            
+
             //for (i = 0; i < files.length; i++) {
             //    data.append("file" + i, files[i]);
             //}
-            
+
             $.ajax({
                 type: "POST",
                 url: "/designerapi/AttachmentUploader/PostAsync/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,
@@ -1405,14 +1442,14 @@
                     HideLoader();
                 }
             });
-        }else 
+        }else
         {
             HideLoader();
             console.log(files);
             alert(files.length);
         }
     }
-  
+
     function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID) {
 
         ShowLoader();
@@ -1545,42 +1582,42 @@
         }
     }
 
-        function LoadCostCentersByStockId(StockId) {
-       
-            var noRefiningOpt = 1;
-            mandatoryRefiningOptIds = "";
-            $(".CostCenterItems").each(function(i, val) {
-                if (StockId == $(val).attr('data-StockId')) {
-                    $(val).css("display", "block");
-                    if($(val).attr('data-ismandatory') == 1){
-                   
-                        if(mandatoryRefiningOptIds == ""){
-                            mandatoryRefiningOptIds = $(val).children().next().children().attr('id');
-                        }else{
-                            mandatoryRefiningOptIds = mandatoryRefiningOptIds + "," + $(val).children().next().children().attr('id');
-                        }
-                    }
-               
-                    noRefiningOpt = 0;
-                } else {
+    function LoadCostCentersByStockId(StockId) {
 
-                    $(val).css("display", "none");
+        var noRefiningOpt = 1;
+        mandatoryRefiningOptIds = "";
+        $(".CostCenterItems").each(function(i, val) {
+            if (StockId == $(val).attr('data-StockId')) {
+                $(val).css("display", "block");
+                if($(val).attr('data-ismandatory') == 1){
 
-                    if ($(val).children().next().children().is(':checked')) {
-                        $(val).children().next().children().click();
-
+                    if(mandatoryRefiningOptIds == ""){
+                        mandatoryRefiningOptIds = $(val).children().next().children().attr('id');
+                    }else{
+                        mandatoryRefiningOptIds = mandatoryRefiningOptIds + "," + $(val).children().next().children().attr('id');
                     }
                 }
-           
-            });
-       
-            if(noRefiningOpt == 1){
-                $("#lbl_RefiningOptions").css("display", "none");
-                mandatoryRefiningOptIds = "";
-            }else{
-                $("#lbl_RefiningOptions").css("display", "block");
-            }
-        }
 
-    </script>
+                noRefiningOpt = 0;
+            } else {
+
+                $(val).css("display", "none");
+
+                if ($(val).children().next().children().is(':checked')) {
+                    $(val).children().next().children().click();
+
+                }
+            }
+
+        });
+
+        if(noRefiningOpt == 1){
+            $("#lbl_RefiningOptions").css("display", "none");
+            mandatoryRefiningOptIds = "";
+        }else{
+            $("#lbl_RefiningOptions").css("display", "block");
+        }
+    }
+
+</script>
 }
