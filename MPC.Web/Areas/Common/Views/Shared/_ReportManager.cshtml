@@ -103,7 +103,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" style="margin-left: 0px;">ok</button>
+                <button type="button" class="btn btn-primary" style="margin-left: 0px;">
+                @Html.ActionLink("ok", "Index", "Report")
+                
+                ok</button>
                 <button type="button" class="btn btn-default" data-bind="click:$root.hide"> Cancel</button>
             </div>
         </div>

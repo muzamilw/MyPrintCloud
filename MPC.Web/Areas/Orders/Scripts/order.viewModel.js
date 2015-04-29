@@ -2170,7 +2170,18 @@ define("order/order.viewModel",
                             if (selectedSection().itemSizeHeight() == null || selectedSection().itemSizeWidth() == null || selectedSection().sectionSizeHeight() == null || selectedSection().sectionSizeWidth() == null) {
                                 return;
                             }
-                            var orient = selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape() ? 0 : 1;
+                            var orient;
+                            if(selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape())
+                            {
+                                orient = 0;
+                                selectedSection().isPortrait(true);
+                            }
+                            else
+                            {
+                                orient = 1;
+                                selectedSection().isPortrait(false);
+                            }
+                                 
                             isPtvCalculationInProgress(true);
                             dataservice.getPTVCalculation({
                                 orientation: orient,
