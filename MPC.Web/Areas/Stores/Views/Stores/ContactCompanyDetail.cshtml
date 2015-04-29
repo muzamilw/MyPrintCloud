@@ -5,7 +5,7 @@
 }
 
 <div data-bind="visible: $root.isEditorVisible()" style="display: none">
-    <form method="post" enctype="multipart/form-data" id="fileUploadForm">
+    @*<form method="post" enctype="multipart/form-data" id="fileUploadForm">*@
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
@@ -528,10 +528,12 @@
                                                 <!--/ko-->
                                                 <div class="filter-block">
                                                     <div class="filter-block pull-right col-xs-5">
-                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
-                                                        </div>
+                                                        <form data-bind="submit:$root.searchCompanyContact ">
+                                                            <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                                <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
+                                                            </div>
+                                                        </form>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary pull-right">
                                                             Add Contact
                                                         </a>
@@ -584,10 +586,12 @@
                                                 <!--/ko-->
                                                 <div class="filter-block">
                                                     <div class="filter-block pull-right col-xs-5">
-                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
-                                                        </div>
+                                                        <form data-bind="submit:$root.searchAddressByFilter ">
+                                                            <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                                <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchAddressByFilter"></i>
+                                                            </div>
+                                                        </form>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
                                                             Add Address
                                                         </a>
@@ -634,10 +638,12 @@
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block">
                                                     <div class="filter-block pull-right col-xs-5">
-                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
-                                                        </div>
+                                                        <form data-bind="submit:$root.searchCompanyTerritory ">
+                                                            <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                                <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
+                                                            </div>
+                                                        </form>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyTerritory" class="btn btn-primary pull-right">
                                                             Add Territory
                                                         </a>
@@ -2455,7 +2461,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
             </tr>
         </script>
-    </form>
+    @*</form>*@
 </div>
 <style type="text/css" media="screen">
     #editor {
