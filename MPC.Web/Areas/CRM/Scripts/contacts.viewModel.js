@@ -78,6 +78,7 @@ define("crm/contacts.viewModel",
                 },
                 // Search button handler
                 searchButtonHandler = function (callback) {
+                    pager().reset();
                     getCompanyContacts();
                 },
                 // Reset button handler
