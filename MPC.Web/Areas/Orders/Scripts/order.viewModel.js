@@ -1288,6 +1288,7 @@ define("order/order.viewModel",
                                     selectedOrder().estimateTotal(total1);
                                     selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
                                     selectedOrder().numberOfItems(data.ItemsCount || 0);
+                                    selectedOrder().status(data.Status || '');
                                     if (orderFlag) {
                                         selectedOrder().flagColor(orderFlag.color);
                                     }
@@ -1303,6 +1304,7 @@ define("order/order.viewModel",
                                         orderUpdated.estimateTotal(total);
                                         orderUpdated.name(data.OrderName);
                                         orderUpdated.numberOfItems(data.ItemsCount || 0);
+                                        orderUpdated.status(data.Status || '');
                                         if (orderFlag) {
                                             orderUpdated.flagColor(orderFlag.color);
                                         }

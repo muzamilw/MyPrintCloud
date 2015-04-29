@@ -407,7 +407,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Draw bleed area
             drawBleedArea = ko.observable(specifiedDrawBleedArea || false),
             // Is Multipage Pdf
-            isMultiPagePdf = ko.observable(specifiedPrintCropMarks || false),
+            isMultiPagePdf = ko.observable(specifiedIsMultiPagePdf || false),
             // Allow Pdf Download
             allowPdfDownload = ko.observable(specifiedAllowPdfDownload || false),
             // Allow Image Download
@@ -1448,7 +1448,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     PrintCropMarks: printCropMarks(),
                     DrawWaterMarkTxt: drawWatermarkText(),
                     DrawBleedArea: drawBleedArea(),
-                    IsMultiPagePdf: isMultiPagePdf(),
+                    IsMultipagePdf: isMultiPagePdf(),
                     AllowPdfDownload: allowPdfDownload(),
                     AllowImageDownload: allowImageDownload(),
                     ItemLength: itemLength(),
@@ -3295,7 +3295,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.SupplierId, source.SupplierId2, source.EstimateProductionTime, source.ItemProductDetail, source.IsTemplateDesignMode, source.DesignerCategoryId,
             source.Scalar, source.ZoomFactor, source.IsCmyk, source.TemplateType, source.ProductDisplayOptions, source.IsRealStateProduct, source.IsUploadImage,
             source.IsDigitalDownload, source.PrintCropMarks, source.DrawWaterMarkTxt, source.OrganisationId, source.CompanyId, source.IsAddCropMarks,
-            source.DrawBleedArea, source.AllowPdfDownload, source.IsMultiPagePdf, source.AllowImageDownload, source.ItemLength, source.ItemWidth, source.ItemHeight,
+            source.DrawBleedArea, source.AllowPdfDownload, source.IsMultipagePdf, source.AllowImageDownload, source.ItemLength, source.ItemWidth, source.ItemHeight,
             source.ItemWeight, source.TemplateId, source.SmartFormId, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any

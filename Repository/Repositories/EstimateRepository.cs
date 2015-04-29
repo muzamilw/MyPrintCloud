@@ -88,7 +88,8 @@ namespace MPC.Repository.Repositories
                     (item.isEstimate.HasValue && !item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
                     ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
                     ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
-                    item.OrganisationId == OrganisationId && item.StatusId != (int)OrderStatus.ShoppingCart);
+                    item.OrganisationId == OrganisationId &&
+                    (item.StatusId != (int)OrderStatus.ShoppingCart && item.StatusId != (int)OrderStatus.PendingCorporateApprovel));
 
             IEnumerable<Estimate> items = request.IsAsc
                ? DbSet.Where(query)
@@ -162,7 +163,9 @@ namespace MPC.Repository.Repositories
                 UnConfirmedOrdersCount = DbSet.Count(estimate => estimate.OrganisationId == OrganisationId && estimate.isEstimate == true),
                 TotalEarnings = DbSet.Where(order => order.OrganisationId == OrganisationId).Sum(estimate =>estimate.Estimate_Total ),
                 CurrentMonthOdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.Order_Date.HasValue && 
-                    order.isEstimate == false && DateTime.Now.Month == order.Order_Date.Value.Month)
+                (order.isEstimate.Value == false || !order.isEstimate.HasValue) && 
+                (order.StatusId != (int)OrderStatus.ShoppingCart && order.StatusId != (int)OrderStatus.PendingCorporateApprovel) &&
+                    DateTime.Now.Month == order.Order_Date.Value.Month)
             };
         }
 
