@@ -92,6 +92,7 @@ namespace MPC.Implementation.MISServices
 
         }
 
+       
         public List<StoresListResponse> GetStoreNameByOrganisationId()
         {
             return CompanyRepository.GetStoresNameByOrganisationId();

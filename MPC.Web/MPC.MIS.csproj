@@ -54,37 +54,28 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GrapeCity.ActiveReports.Diagnostics.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Diagnostics.v7.dll</HintPath>
-    </Reference>
     <Reference Include="GrapeCity.ActiveReports.Document.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
     </Reference>
-    <Reference Include="GrapeCity.ActiveReports.Export.Html.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+    <Reference Include="GrapeCity.ActiveReports.Export.Excel.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Export.Html.v7.dll</HintPath>
-    </Reference>
-    <Reference Include="GrapeCity.ActiveReports.Export.Image.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Export.Image.v7.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Export.Excel.v7.dll</HintPath>
     </Reference>
     <Reference Include="GrapeCity.ActiveReports.Export.Pdf.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Export.Pdf.v7.dll</HintPath>
-    </Reference>
-    <Reference Include="GrapeCity.ActiveReports.Extensibility.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Extensibility.v7.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Export.Pdf.v7.dll</HintPath>
     </Reference>
     <Reference Include="GrapeCity.ActiveReports.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.v7.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.v7.dll</HintPath>
     </Reference>
     <Reference Include="GrapeCity.ActiveReports.Web.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Web.v7.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Web.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.LicenseService.ActiveReports.v7">
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.LicenseService.ActiveReports.v7.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.4.0, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -770,7 +761,6 @@
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
-    <Compile Include="Areas\Reports\Controllers\HomeController.cs" />
     <Compile Include="Areas\DeliveryNotes\Controllers\HomeController.cs" />
     <Compile Include="Areas\DeliveryNotes\DeliveryNoteAreaRegistration.cs" />
     <Compile Include="Areas\Invoices\Controllers\HomeController.cs" />
@@ -781,8 +771,6 @@
     <Compile Include="Areas\Production\ProductionAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
-    <Compile Include="Areas\Reports\Models\ReportDescriptor.cs" />
-    <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\MISController.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
@@ -889,8 +877,6 @@
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\supplier.model.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
-    <Content Include="Areas\Reports\Content\Site.css" />
-    <Content Include="Areas\Reports\Views\Home\WebViewer.ascx" />
     <Content Include="Areas\CRM\Scripts\calendar.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\calendar.model.js" />
     <Content Include="Areas\CRM\Scripts\calendar.view.js" />
@@ -3266,6 +3252,7 @@
     <Content Include="Views\Home\OrderMenuItems.cshtml" />
     <Content Include="Views\Home\Viewer.cshtml" />
     <Content Include="SectionReport.rpx" />
+    <Content Include="Views\Home\_Viewer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3312,7 +3299,6 @@
     <Folder Include="Areas\Orders\Models\" />
     <Folder Include="Areas\Production\Models\" />
     <Folder Include="Areas\Products\Models\" />
-    <Folder Include="Areas\Reports\Views\Shared\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Stores\Models\" />
     <Folder Include="Content\Images\gallery\" />
