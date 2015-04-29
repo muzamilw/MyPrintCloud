@@ -63,7 +63,7 @@ namespace MPC.Implementation.MISServices
                             CompanyName = item.Company != null ? item.Company.Name : string.Empty,
                             ProductName = item.ProductName,
                             Qty1 = item.Qty1,
-                            StatusId = item.StatusId,
+                            StatusId = item.JobStatusId,
                             JobEstimatedCompletionDateTime = item.JobEstimatedCompletionDateTime,
                             Qty1NetTotal = item.Qty1NetTotal
                         };
@@ -97,7 +97,7 @@ namespace MPC.Implementation.MISServices
             Item itemDbVersion = itemRepository.Find(item.ItemId);
             if (itemDbVersion != null)
             {
-                itemDbVersion.StatusId = item.StatusId;
+                itemDbVersion.JobStatusId = item.StatusId;
                 itemRepository.SaveChanges();
             }
         }
