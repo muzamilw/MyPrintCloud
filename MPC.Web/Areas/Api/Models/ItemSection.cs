@@ -49,6 +49,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int? PlateInkId { get; set; }
         public int Side1Inks { get; set; }
         public int Side2Inks { get; set; }
+        public bool? IsPortrait { get; set; }
         public virtual Item Item { get; set; }
         public virtual StockItem StockItem { get; set; }
         public virtual Machine Machine { get; set; }
