@@ -702,8 +702,8 @@ namespace MPC.Implementation.MISServices
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-         //  return GenerateOrderArtworkArchive(OrderID, sZipName);
-            return ExportPDF(520, 0, ReportType.Internal, 0, string.Empty);
+           return GenerateOrderArtworkArchive(OrderID, sZipName);
+           // return ExportPDF(520, 0, ReportType.Internal, 0, string.Empty);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
