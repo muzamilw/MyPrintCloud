@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryDate = source.DeliveryDate,
                 Price = source.Price,
                 AddressId = source.AddressId,
+                EstimateId = source.EstimateId,
                 DeliveryNoteRaised = source.DeliveryNoteRaised
             };
         }
@@ -39,6 +40,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryDate = source.DeliveryDate,
                 Price = source.Price,
                 AddressId = source.AddressId,
+                EstimateId = source.EstimateId,
                 DeliveryNoteRaised = source.DeliveryNoteRaised
             };
         }

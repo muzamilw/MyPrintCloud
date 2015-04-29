@@ -10,12 +10,8 @@
     {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     }
-    else
-    {
-      
-    }
 
-  
+
 
     <title>@ViewBag.Title </title>
 
@@ -27,7 +23,7 @@
     @Styles.Render("~/Content/CSS")
     @RenderSection("headerScripts", required: false)
     @RenderSection("metatags", false)
-   
+
 </head>
 <body class="bodycolor">
     <div class="body-content">
@@ -39,7 +35,6 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
-    
     @Scripts.Render("~/pageSpecific")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
@@ -48,12 +43,12 @@
     @Scripts.Render("~/bundles/PopUps")
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
-    $(document).ready(function () {
-        $('.bxslider').bxSlider({
-            auto:true
-        }
-        );
-    });
+        $(document).ready(function () {
+            $('.bxslider').bxSlider({
+                auto: true
+            }
+            );
+        });
 
     </script>
 

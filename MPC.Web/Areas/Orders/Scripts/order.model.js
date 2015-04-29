@@ -651,6 +651,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 },
                 // Convert To Server Data
                 convertToServerData = function () {
+                   // id() < 0 ? id(0) : id();
                     return {
                         ItemId: id(),
                         ItemCode: code(),
@@ -688,9 +689,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Qty1NetTotal: qty1NetTotal(),
                         Tax1: tax1(),
                         ItemSections: itemSections.map(function (itemSection, index) {
-                            var section = itemSection.convertToServerData(id() === 0);
+                            var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
-                            if (!id()) {
+                            if (id() <= 0) {
                                 section.ItemSectionId = 0;
                                 section.ItemId = 0;
                             }
@@ -779,7 +780,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             specifiedQty3, specifiedQty1Profit, specifiedQty2Profit, specifiedQty3Profit, specifiedBaseCharge1, specifiedBaseCharge2, specifiedBaseCharge3,
             specifiedIncludeGutter, specifiedFilmId, specifiedIsPaperSupplied, specifiedSide1PlateQty, specifiedSide2PlateQty, specifiedIsPlateSupplied,
             specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn, specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedPlateInkId,
-            specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks) {
+            specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -878,6 +879,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         doubleOrWorknTurn(value);
                     }
                 }),
+                isPortrait = ko.observable(specifiedIsPortrait),
                 printViewLayout = ko.observable(),
                 // PrintViewLayoutPortrait
                 printViewLayoutPortrait = ko.observable(specifiedPrintViewLayoutPortrait || 0),
@@ -999,6 +1001,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         ItemSizeWidth: itemSizeWidth(),
                         IsDoubleSided: isDoubleSided(),
                         IsWorknTurn: isWorknTurn(),
+                        IsPortrait:isPortrait(),
                         PrintViewLayout: printViewLayout(),
                         PrintViewLayoutPortrait: printViewLayoutPortrait(),
                         PrintViewLayoutLandscape: printViewLayoutLandscape(),
@@ -1018,7 +1021,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Side1Inks: side1Inks(),
                         Side2Inks: side2Inks(),
                         SectionCostcentres: sectionCostCentres.map(function (scc) {
-                            var sectionCc = scc.convertToServerData();
+                            var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {
                                 sectionCc.ItemSectionId = 0;
                             }
@@ -1071,6 +1074,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionInkCoverageList: sectionInkCoverageList,
                 isWorknTurn: isWorknTurn,
                 doubleWorknTurn: doubleWorknTurn,
+                isPortrait: isPortrait,
                 printViewLayout: printViewLayout,
                 printViewLayoutPortrait: printViewLayoutPortrait,
                 printViewLayoutLandscape: printViewLayoutLandscape,
@@ -1191,7 +1195,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function () {
+                convertToServerData = function (isNewSectionCostCenter) {
                     return {
                         ItemSectionId: itemSectionId(),
                         SectionCostcentreId: id(),
@@ -1211,7 +1215,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Qty3MarkUpId: qty3MarkUpId(),
                         Qty1MarkUpValue: qty1MarkUpValue(),
                         Qty2MarkUpValue: qty2MarkUpValue(),
-                        Qty3MarkUpValue: qty3MarkUpValue()
+                        Qty3MarkUpValue: qty3MarkUpValue(),
+                        SectionCostCentreDetails: sectionCostCentreDetails.map(function (scc) {
+                            var sectionCc = scc.convertToServerData();
+                            if (isNewSectionCostCenter) {
+                                sectionCc.SectionCostCentreId = 0;
+                            }
+                            return sectionCc;
+                        }),
                     };
                 };
 
@@ -1534,6 +1545,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 deliveryDate: deliveryDate,
                 formattedDeliveryDate: formattedDeliveryDate,
                 itemName: itemName,
+                estimateId:estimateId,
                 addressName: addressName,
                 isSelected: isSelected,
                 errors: errors,
@@ -2233,7 +2245,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // Map Section Cost Centre Details if Any
         if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
+            var sectionCostcentresDetails = [];
 
+            _.each(source.SectionCostcentres, function (sectionCostCentreDetail) {
+                sectionCostcentresDetails.push(SectionCostCenterDetail.Create(sectionCostCentreDetail));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(sectionCostCentre.sectionCostCentreDetails(), sectionCostcentresDetails);
+            sectionCostCentre.sectionCostCentreDetails.valueHasMutated();
         }
 
         // Map Section Cost Resources if Any
@@ -2258,7 +2278,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.GuillotineId, source.Qty1,
             source.Qty2, source.Qty3, source.Qty1Profit, source.Qty2Profit, source.Qty3Profit, source.BaseCharge1, source.BaseCharge2,
             source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
-            source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandscape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks);
+            source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandscape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks, source.IsPortrait);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
@@ -2648,7 +2668,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     ShippingInformation.Create = function (source) {
-        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate);
+        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate, source.EstimateId);
     };
 
     // Item Stock Option Factory

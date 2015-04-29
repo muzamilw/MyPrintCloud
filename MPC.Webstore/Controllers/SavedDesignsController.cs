@@ -150,7 +150,7 @@ namespace MPC.Webstore.Controllers
 
                     //(Go Landing Page and Add it to Cart)
 
-                    string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
+                    string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/Template/" + ExistingProduct.TemplateID;
 
                    
                        
@@ -173,10 +173,13 @@ namespace MPC.Webstore.Controllers
                         {
                             OrderID = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationID, string.Empty);
                         }
-                       
-                       UserCookieManager.WEBOrderId = OrderID;
-                    }
 
+                        UserCookieManager.WEBOrderId = OrderID;
+                    }
+                    else
+                    {
+                        OrderID = UserCookieManager.WEBOrderId;
+                    }
 
                     Item clonedItem = null;
 
