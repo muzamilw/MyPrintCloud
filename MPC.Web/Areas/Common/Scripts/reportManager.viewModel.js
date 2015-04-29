@@ -9,7 +9,9 @@
                     isLoading = ko.observable(false),
                     outputTo = ko.observable(false),
                      reportcategoriesList = ko.observableArray([])
-                   
+                //OpenReport = function () {
+                //    if(outputTo=="")
+                //},
                     
                     // Show the dialog
                     show = function (CategoryId) {
@@ -53,6 +55,7 @@
                     reportcategoriesList: reportcategoriesList,
                     outputTo:outputTo,
                     initialize: initialize,
+                    OpenReport:OpenReport,
                     show: show,
                     hide: hide
                 };
