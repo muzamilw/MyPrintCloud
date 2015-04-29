@@ -3521,29 +3521,42 @@ function k31(cCanvas, IO) {
         IOL.setAngle(IO.RotationAngle);
         IOL.setOpacity(IO.Opacity);
         IOL.selectable = objectsSelectable;
-        if (IsCalledFrom == 1 || IsCalledFrom == 2) {
-            IOL.lockMovementX = false;
-            IOL.lockMovementY = false;
-            IOL.lockScalingX = false;
-            IOL.lockScalingY = false;
-            IOL.lockRotation = false;
-            IOL.IsPositionLocked = false;
-            IOL.IsHidden = false;
-            IOL.IsEditable = false;
-            IOL.IsTextEditable = true;
-        } else {
+        //if (IsCalledFrom == 1 || IsCalledFrom == 2) {
+        //    IOL.lockMovementX = false;
+        //    IOL.lockMovementY = false;
+        //    IOL.lockScalingX = false;
+        //    IOL.lockScalingY = false;
+        //    IOL.lockRotation = false;
+        //    IOL.IsPositionLocked = false;
+        //    IOL.IsHidden = false;
+        //    IOL.IsEditable = false;
+        //    IOL.IsTextEditable = true;
+        //} else {
+        //    IOL.lockMovementX = true;
+        //    IOL.lockMovementY = true;
+        //    IOL.lockScalingX = true;
+        //    IOL.lockScalingY = true;
+        //    IOL.lockRotation = true;
+        //    IOL.IsPositionLocked = true;
+        //    IOL.IsHidden = true;
+        //    IOL.IsEditable = true;
+        //    IOL.IsTextEditable = false;
+        //    IOL.selectable = true;
+        //}
+        IOL.IsPositionLocked = IO.IsPositionLocked;
+        IOL.IsOverlayObject = IO.IsOverlayObject;
+        IOL.IsTextEditable = IO.IsTextEditable;
+        IOL.AutoShrinkText = IO.AutoShrinkText;
+        IOL.IsHidden = IO.IsHidden;
+        IOL.IsEditable = IO.IsEditable;
+        IOL.selectable = objectsSelectable;
+        if (IO.IsPositionLocked == true) {
             IOL.lockMovementX = true;
             IOL.lockMovementY = true;
             IOL.lockScalingX = true;
             IOL.lockScalingY = true;
             IOL.lockRotation = true;
-            IOL.IsPositionLocked = true;
-            IOL.IsHidden = true;
-            IOL.IsEditable = true;
-            IOL.IsTextEditable = false;
-            IOL.selectable = true;
         }
-
         IOL.set({
             borderColor: 'red',
             cornerColor: 'orange',
