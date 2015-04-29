@@ -3341,7 +3341,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         if (source.Template != null) {
             item.template(Template.Create(source.Template));
             // If Designer Product then set its Created Manual to undefined
-            if (item.templateTypeUi() === "3") {
+            if (item.templateTypeUi() === "1") {
+                item.template().isCreatedManualUi(true);
+            }
+            else if (item.templateTypeUi() === "2") {
+                item.template().isCreatedManualUi(false);
+            }
+            else if (item.templateTypeUi() === "3") {
                 item.template().isCreatedManualUi(undefined);
             }
         }
