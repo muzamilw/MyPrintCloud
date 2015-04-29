@@ -1513,12 +1513,6 @@ define("order/order.viewModel",
                                 }
                                 addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id());
                         }
-                                addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id());
-                        }
-                    },
-                    addItemFromRetailStore = function (newItem) {
-                        selectedProduct(newItem);
-                        selectedOrder().items.splice(0, 0, newItem);
                     },
                     addItemFromRetailStore = function (newItem) {
                         selectedProduct(newItem);
