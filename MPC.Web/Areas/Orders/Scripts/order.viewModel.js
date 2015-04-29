@@ -1656,6 +1656,13 @@ define("order/order.viewModel",
 
                         if (isCostCenterDialogForShipping()) {
                             item.itemType(2); // Delivery Item
+                            var deliveryItem = _.find(selectedOrder().items(), function (itemWithType2) {
+                                return itemWithType2.itemType() === 2;
+                            });
+                            if (deliveryItem !== undefined) {
+                                selectedOrder().items.remove(deliveryItem);
+                            }
+
                         }
 
                         selectedOrder().items.splice(0, 0, item);
