@@ -106,8 +106,17 @@ function fu04_1GetItem(DT)
     
     $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID,
          function (result) {
+            
+             if (result.ZoomFactor > 1)
+             {
+                 var zf = parseInt(result.ZoomFactor);
+                 for(var i = 1; i<zf;i++)
+                 {
+                     D1CS = D1CS * D1SF;
+                     dfZ1l = D1CS;
+                 }
+             }
              //update dimestions 
-
              var w = DT.PDFTemplateWidth;
              var h = DT.PDFTemplateHeight;
              h = h / 96 * 72;
@@ -135,13 +144,17 @@ function fu04_1GetItem(DT)
                  if (item.SmartFormId != 0) {
                      $(".QuickTxt").css("visibility", "hidden");
                      $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
-                       function (DT) {
+                       function (DT2) {
                            $(".QuickTxt").css("visibility", "visible");
-                           pcl41(DT);
-                           smartFormClicked = false; 
+                           pcl41(DT2);
+                           smartFormClicked = false;
+                           fu04_TempCbkGen(DT);
                        });
+                 } else
+                 {
+                     fu04_TempCbkGen(DT);
                  }
-                 fu04_TempCbkGen(DT);
+                 
              } else {
                  $(".QuickTxt").css("visibility", "hidden");
                  $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
@@ -224,9 +237,10 @@ function fu04_01() {
                   }
               }
           });
- 
           pcl42_updateTemplate(DT);
           TO = DT;
+          if(smartFormData != null)
+              pcl42_UpdateTO();
           fu07();
           fu06();
           // if (firstLoad) {
@@ -272,9 +286,14 @@ function fu09() {
 function svcCall1(ca, gtID) {
     $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
           function (xdata) {
-              console.log("call returned");
+            //  console.log("call returned");
               SvcLoad2ndTemplate();
+              if (item.SmartFormId != null) {
 
+                  if (item.SmartFormId != 0) {
+                      $("#Quick").click();
+                  }
+              }
           });
 }
 function svcCall2(n, tID, imgtype) {

@@ -26,18 +26,21 @@ using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
 using System.Web.Security;
 using WebSupergoo.ABCpdf8;
-
+using System.Web;
+using System.Web.Http;
 using System.Globalization;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 
 namespace MPC.Webstore.Controllers
 {
-    
+
     public class DomainController : Controller
     {
-         #region Private
+        #region Private
 
         private readonly ICompanyService _myCompanyService;
-
+        private readonly IWebstoreClaimsHelperService _webauthorizationChecker;
 
         #endregion
 
@@ -55,14 +58,15 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public DomainController(ICompanyService myCompanyService)
+        public DomainController(ICompanyService myCompanyService, IWebstoreClaimsHelperService _webauthorizationChecker)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
-          
+
             this._myCompanyService = myCompanyService;
+            this._webauthorizationChecker = _webauthorizationChecker;
         }
 
         #endregion
@@ -81,11 +85,11 @@ namespace MPC.Webstore.Controllers
             if (storeId == 0)
             {
                 Response.Redirect("/Error");
-              
+
             }
             else
             {
-                if(UserCookieManager.WBStoreId == 0)
+                if (UserCookieManager.WBStoreId == 0)
                 {
                     UserCookieManager.WBStoreId = storeId;
                 }
@@ -99,7 +103,7 @@ namespace MPC.Webstore.Controllers
                 {
                     StoreBaseResopnse = _myCompanyService.GetStoreFromCache(storeId);
                 }
-              
+
                 if (StoreBaseResopnse.Company != null)
                 {
                     UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
@@ -123,12 +127,12 @@ namespace MPC.Webstore.Controllers
 
                     Thread.CurrentThread.CurrentUICulture = ci;
                     Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-                   
+
                     if (StoreBaseResopnse.Company.IsCustomer == 3)// corporate customer
                     {
                         Response.Redirect("/Login");
                     }
-                    else 
+                    else
                     {
                         Response.Redirect("/");
                     }
@@ -138,9 +142,9 @@ namespace MPC.Webstore.Controllers
                     RedirectToAction("Error", "Home");
                 }
             }
-           
-           // return RedirectToAction("Index", "Home");
-          //  return View();
+
+            // return RedirectToAction("Index", "Home");
+            //  return View();
         }
 
         public void updateCache(string name)
@@ -148,5 +152,7 @@ namespace MPC.Webstore.Controllers
             _myCompanyService.GetStoreFromCache(Convert.ToInt64(name), true);
             RedirectToAction("Error", "Home");
         }
+
+       
     }
 }

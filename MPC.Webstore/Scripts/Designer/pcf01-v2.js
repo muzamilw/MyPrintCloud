@@ -233,6 +233,7 @@ function c0(cCanvas, TOC) {
     TOL.AutoShrinkText = TOC.AutoShrinkText;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
+    TOL.IsUnderlinedText = TOC.IsUnderlinedText;
     if (TOC.IsPositionLocked) {
         TOL.lockMovementX = true;
         TOL.lockMovementY = true;
@@ -1013,7 +1014,7 @@ function fu02UI() {
             width: newWidth
         });
     });
-    var height = $(window).height();
+    var height = $(window).height() - 70;
     $('.scrollPane').slimscroll({
         height: height
     });
@@ -3131,11 +3132,11 @@ function k16(TempImgType, ImC, Caller) {
                             var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
                               '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">'// + '<span class="info btnRemoveImg"><span class=" moreInfo ">✖</span></span>'
                               + bkContainer + '<span class="info">' + '<span class="moreInfo" title="Show more info" onclick=k26(' + title + "," + index + "," + loaderType + ')>i</span>' +
-		                       '</span></a></li>';
+		                       '</span></a><p class="bkFileName">' + IT.ImageTitle + '</p></li>';
                             $("." + strName).append(ahtml);
                         } else {
                             var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
-                              '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">' + bkContainer + '</a></li>';
+                              '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">' + bkContainer + '</a><p class="bkFileName">' + IT.ImageTitle + '</p></li>';
 
                             $("." + strName).append(ahtml);
 
@@ -3929,7 +3930,7 @@ function pcl41(xdata) {
         {
             if(IT.FieldVariable.IsSystem == true)
             {
-                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex);
+                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex,IT.FieldVariable.VariableTag);
             } else {
                 if(IT.FieldVariable.VariableType == 1 )
                 {
@@ -3937,7 +3938,7 @@ function pcl41(xdata) {
                     html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.VariableOptions, IT.FieldVariable.DefaultValue, tabIndex);
 
                 } else if (IT.FieldVariable.VariableType == 2) {
-                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex);
+                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex, IT.FieldVariable.VariableTag);
                 }
             }
             tabIndex++;
@@ -3945,6 +3946,7 @@ function pcl41(xdata) {
     });
 
     $("#SmartFormContainer").html(html);
+  //  pcl40_InsertDefaultValues(smartFormData.smartFormObjs);
     pcl40_InsertUserData(smartFormData.scopeVariables);
     pcl40_updateDropdownDefaultValues();
     pcl40_applyInputMask(smartFormData.smartFormObjs);
@@ -4002,11 +4004,16 @@ function pcl40_addDropDown(title, varId,options,def,tabindex) {
     html+=    '</select></div>';
     return html;
 }
-function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex) {
+function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex,variableTag) {
     var required = "";
+    if (variableTag != null) {
+        if (variableTag.toLowerCase() == "{{webaccesscode}}" || variableTag.toLowerCase() == "{{email}}") {
+            required += 'disabled=disabled';
+        }
+    }
     if (IsRequired == true)
     {
-        required = "required";
+        required += "required";
     }
    
     if (Value == "undefined" || Value == undefined) {
@@ -4023,16 +4030,24 @@ function pcl40_addCaption(caption) {
 function pcl40_addLineSeperator() {
     return ' <div class="clear"></div><div class="smartFormLineSeperator"></div>';
 }
+function pcl40_InsertDefaultValues(scope) {
+    $.each(scope, function (i, IT) {
+        if (IT.FieldVariable.DefaultValue != null || IT.FieldVariable.DefaultValue != "" || IT.FieldVariable.DefaultValue != "undefined" || IT.FieldVariable.DefaultValue != undefined)
+            $("#txtSmart" + IT.VariableId).val(IT.FieldVariable.DefaultValue);
+            else
+            $("#txtSmart" + IT.VariableId).val("");
+    });
+}
 function pcl40_InsertUserData(scope) {
     $.each(scope, function (i, IT) {
-            if (IT.Value != null && IT.value != "" && IT.value != undefined) {
-                $("#txtSmart" + IT.VariableId).val(IT.Value);
-            } else {
-                if (IT.DefaultValue != null && IT.DefaultValue != "" && IT.DefaultValue != "undefined" && IT.DefaultValue !=undefined)
-                    $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
-                else 
-                    $("#txtSmart" + IT.VariableId).val("");
-            }
+        if (IT.Value != null && IT.Value != "" && IT.Value != undefined) {
+            $("#txtSmart" + IT.VariableId).val(IT.Value);
+        } else {
+            //if (IT.DefaultValue != null || IT.DefaultValue != "" || IT.DefaultValue != "undefined" || IT.DefaultValue != undefined)
+            //    $("#txtSmart" + IT.VariableId).val("");
+            //else
+            //    $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
+        }
     });
 }
 function pcl40_applyInputMask(sObjs) {

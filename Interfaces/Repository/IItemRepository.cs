@@ -16,6 +16,8 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Get Items With Details
         /// </summary>
+        List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
+        List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
         Item GetItemWithDetails(long itemId);
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace MPC.Interfaces.Repository
 
         List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID);
 
-        void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
+        void AddAttachment(ItemAttachment AttachmentObject);
 
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
@@ -166,6 +168,12 @@ namespace MPC.Interfaces.Repository
         List<Item> GetItemsWithAttachmentsByOrderID(long OrderID);
 
         Item GetItemWithSections(long itemID);
+        /// <summary>
+        /// Gets the attchment list
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        List<ItemAttachment> GetItemAttactchments(long itemID);
     }
 
 }

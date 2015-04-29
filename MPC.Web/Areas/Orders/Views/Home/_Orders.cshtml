@@ -21,13 +21,13 @@
             <div class="main-box-body main-box clearfix">
                 <div class="tabs-wrapper profile-tabs">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Orders</a></li>
-                        <li><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Pending Orders</a></li>
-                        <li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(5);}">Confirmed Starts</a></li>
-                        <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(6);}">In Production</a></li>
-                        <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(7);}">Ready For Shipping</a></li>
-                        <li><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(8);}">Invoiced</a></li>
-                        <li><a href="#tab-CancelledOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(9);}">Cancelled Orders</a></li>
+                        <li id="all-orders" class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Orders</a></li>
+                        <li id="pending-orders"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Pending Orders</a></li>
+                        <li id="confirmed-starts"><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(5);}">Confirmed Starts</a></li>
+                        <li id="in-production"><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(6);}">In Production</a></li>
+                        <li id="ready-shipping"><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(7);}">Ready For Shipping</a></li>
+                        <li id="invoiced"><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(8);}">Invoiced</a></li>
+                        <li id="cancelled-orders"><a href="#tab-CancelledOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(9);}">Cancelled Orders</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-All">
@@ -137,7 +137,7 @@
                 <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
             </td>
 
-            <td>
+            <td style="text-align: right">
                 <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() +estimateTotal():''"></span>
             </td>
 
@@ -156,7 +156,7 @@
                             <th class="col-lg-2"><span>Order Code</span></th>
                             <th class="col-lg-2"><span>Order Date</span></th>
                             <th class="col-lg-1"><span>Flag</span></th>
-                            <th class="col-lg-2"><span>Order Total</span></th>
+                            <th class="col-lg-2" style="text-align: right"><span>Order Total</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -172,4 +172,61 @@
             <!-- /ko -->
         </div>
     </script>
+    
+    
 </div>
+
+
+<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+<script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+        var page = Request.QueryString("to");
+        if (page != null)
+        {
+            if (page == 'ord')
+            {
+                $("#all-orders").removeClass("active");
+                $("#tab-All").removeClass("active");
+
+                $("#in-production").removeClass("active");
+                $("#tab-InProduction").removeClass("active");
+
+                $("#invoiced").removeClass("active");
+                $("#tab-Invoiced").removeClass("active");
+
+                $("#pending-orders").addClass("active");
+                $("#tab-PendingOrders").addClass("active");
+            }
+            else if (page == 'prd')
+            {
+                $("#all-orders").removeClass("active");
+                $("#tab-All").removeClass("active");
+
+                $("#pending-orders").removeClass("active");
+                $("#tab-PendingOrders").removeClass("active");
+
+                $("#invoiced").removeClass("active");
+                $("#tab-Invoiced").removeClass("active");
+
+                $("#in-production").addClass("active");
+                $("#tab-InProduction").addClass("active");
+            }
+            else if(page == 'com')
+            {
+                $("#all-orders").removeClass("active");
+                $("#tab-All").removeClass("active");
+
+                $("#in-production").removeClass("active");
+                $("#tab-InProduction").removeClass("active");
+
+                $("#pending-orders").removeClass("active");
+                $("#tab-PendingOrders").removeClass("active");
+
+                $("#invoiced").addClass("active");
+                $("#tab-Invoiced").addClass("active");
+            }
+        }
+    });
+</script>

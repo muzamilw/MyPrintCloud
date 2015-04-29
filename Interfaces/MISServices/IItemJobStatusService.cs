@@ -18,5 +18,10 @@ namespace MPC.Interfaces.MISServices
         /// Update Item Status
         /// </summary>
         void UpdateItem(ItemForItemJobStatus item);
+
+        /// <summary>
+        /// Get Currency Symbol
+        /// </summary>
+        string GetCurrencySymbol();
     }
 }

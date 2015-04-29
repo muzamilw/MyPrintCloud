@@ -16,29 +16,29 @@ namespace MPC.MIS.Areas.Api.Controllers
 {
     public class ItemSectionController : ApiController
     {
-        private readonly IOrderService orderService;
+        private readonly IItemSectionService itemsectionService;
 
         #region Constructor
-        public ItemSectionController(IOrderService orderService)
+        public ItemSectionController(IItemSectionService _itemsectionService)
         {
-            if (orderService == null)
+            if (_itemsectionService == null)
             {
-                throw new ArgumentNullException("orderService");
+                throw new ArgumentNullException("itemsectionService");
             }
-            this.orderService = orderService;
+            this.itemsectionService = _itemsectionService;
         }
         #endregion
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
-        public ItemSection GetUpdatedSection([FromUri] UpdateSectionCostCentersRequest request)
+        public ItemSection Post(ItemSection request)
         {
             if (request == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return orderService.GetUpdatedSectionCostCenters(request).CreateFrom();
+            return itemsectionService.GetUpdatedSectionWithSystemCostCenters(request.CreateFromForOrder()).CreateFromForOrder();
         }
         #endregion
     }

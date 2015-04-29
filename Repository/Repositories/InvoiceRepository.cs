@@ -86,9 +86,10 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            bool isStatusSpecified = request.Status == 0;
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<Invoice, bool>> query =
-                invoice => invoice.OrganisationId == this.OrganisationId && invoice.IsArchive != true;
+                invoice => invoice.OrganisationId == this.OrganisationId && invoice.IsArchive != true && ((!isStatusSpecified && invoice.InvoiceStatus == request.Status || isStatusSpecified));
             int rowCount = DbSet.Count(query);
             IEnumerable<Invoice> invoices = request.IsAsc
                 ? DbSet.Where(query)
@@ -124,6 +125,7 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(i => i.InvoiceId == Id).ToList().FirstOrDefault();
         }
 
+        
         #endregion
     }
 }

@@ -10,6 +10,11 @@ namespace MPC.Interfaces.Repository
     {
 
         /// <summary>
+        /// Get Prefixed Next Job Code
+        /// </summary>
+        string GetNextJobCodePrefix(bool shouldIncrementNextItem = true);
+
+        /// <summary>
         /// Get Prefixed Next Order Code
         /// </summary>
         string GetNextOrderCodePrefix();

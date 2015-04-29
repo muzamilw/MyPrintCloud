@@ -55,12 +55,12 @@
         </div>
         <div>
             <div class="Width100Percent">
-                <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
+                <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners hidden-xs">
 
                     <div>
                         @using (Html.BeginForm())
                         {
-                            <div class="cntFilteringCritariaRight">
+                            <div class="cntFilteringCritariaRight ">
                                 <div class="col-lg-1 col-md-1 col-xs-1">
 
                                 </div>
@@ -597,7 +597,7 @@
                     $("#DeliveryAddressName").text(response.shippingAddress.AddressName);
 
                     if (response.shippingAddress.Address1 == null) {
-                        $("#DeliveryAddressline1").text('');
+                        $("#Delive  ryAddressline1").text('');
                     }
                     else {
                         $("#DeliveryAddressline1").text(response.shippingAddress.Address1);

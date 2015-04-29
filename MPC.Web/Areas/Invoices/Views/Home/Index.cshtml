@@ -24,7 +24,7 @@
                     <div class="row" data-bind="visible: !isDetailsVisible()">
                         <div class="col-lg-12">
                             <div class="pull-right">
-                                <button id="open-wizard" class="btn btn-primary pull-right">
+                                <button id="open-wizard" class="btn btn-primary pull-right" data-bind="click:$root.createInvoice">
                                     Add Invoice
                                 </button>
                             </div>
@@ -42,11 +42,11 @@
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(0);}">All Invoices</a></li>
-                                            <li><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(4);}">Awaiting</a></li>
-                                            <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(5);}">Posted</a></li>
-                                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(6);}">Cancelled</a></li>
-                                            <li><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(7);}">Archived</a></li>
-                                            <li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(8);}">Proforma</a></li>
+                                            <li><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(19);}">Awaiting</a></li>
+                                            <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(20);}">Posted</a></li>
+                                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(21);}">Cancelled</a></li>
+                                            <li><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(22);}">Archived</a></li>
+                                            <li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(30);}">Proforma</a></li>
 
                                         </ul>
                                         <div class="tab-content">
@@ -135,7 +135,7 @@
                                     <span data-bind="text: code"></span>
                                 </td>
                                 <td>
-                                    <span data-bind="text:invoiceTotal()!==undefined ? invoiceTotal():''"></span>
+                                    <span data-bind="text: invoiceTotal()!==undefined ? '$' + invoiceTotal():''"></span>
                                 </td>
                             </tr>
                         </script>

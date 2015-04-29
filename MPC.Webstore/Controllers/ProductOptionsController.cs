@@ -170,6 +170,16 @@ namespace MPC.Webstore.Controllers
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId));
                 referenceItemId = clonedItem.RefItemId ?? 0;
+                if (clonedItem.ItemSections != null) 
+                {
+                    if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
+                    {
+                        ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1;
+                        ViewBag.SelectedQuantity = clonedItem.Qty1;
+
+                    }
+                   
+                }
             }
 
             ViewBag.ClonedItemId = clonedItem.ItemId;
@@ -421,11 +431,11 @@ namespace MPC.Webstore.Controllers
 
             if (_webstoreAuthorizationChecker.isUserLoggedIn())
             {
-                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, true, UserCookieManager.WBStoreId);
+                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, true, UserCookieManager.WBStoreId, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
             }
             else
             {
-                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, false, 0);
+                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, false, 0, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
             }
 
             PriceMatrixObjectList = new List<ProductPriceMatrixViewModel>();
@@ -534,9 +544,24 @@ namespace MPC.Webstore.Controllers
             PriceMatrixObjectList = null;
             AddonObjectList = null;
 
-            ViewBag.Item = referenceItem;
+            
+            ItemViewModel ItemModel = new ItemViewModel();
+            ItemModel.File1 = referenceItem.File1;
+            ItemModel.File2 = referenceItem.File2;
+            ItemModel.File3 = referenceItem.File3;
+            ItemModel.File4 = referenceItem.File4;
+            ItemModel.GridImage = referenceItem.GridImage;
+            ItemModel.IsQtyRanged = referenceItem.IsQtyRanged ?? false;
+            ItemModel.isUploadImage = referenceItem.IsUploadImage ?? false;
+            ItemModel.ItemPriceMatrices = referenceItem.ItemPriceMatrices.ToList();
+            ItemModel.ProductName = referenceItem.ProductName;
+            ItemModel.WebDescription = referenceItem.WebDescription;
+            ItemModel.ItemId = referenceItem.ItemId;
+            ItemModel.Mode = ViewData["Templates"] == null ? "UploadDesign" : "Template";
+            ViewBag.ItemModel = ItemModel;
             ViewBag.CategoryName = _myItemService.GetCategoryNameById(0, ReferenceItemId);
             ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + _myItemService.GetCategoryIdByItemId(ReferenceItemId);
+            referenceItem = null;
         }
         private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId)
         {

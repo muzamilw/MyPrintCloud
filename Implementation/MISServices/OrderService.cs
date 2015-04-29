@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -16,6 +17,7 @@ using Ionic.Zip;
 using System.Text;
 using System.Xml;
 using GrapeCity.ActiveReports;
+using System.Data;
 
 namespace MPC.Implementation.MISServices
 {
@@ -56,6 +58,9 @@ namespace MPC.Implementation.MISServices
         private readonly IMachineRepository MachineRepository;
         private readonly IPayPalResponseRepository PayPalRepsoitory;
         private readonly ICostCentreRepository CostCentreRepository;
+        private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
+        private readonly IShippingInformationRepository shippingInformationRepository;
+        private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
 
         /// <summary>
         /// Creates New Order and assigns new generated code
@@ -90,19 +95,21 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Creates New Delivery Note
+        /// Creates New Delivery Schedule
         /// </summary>
-        private DeliveryNote CreateNewDeliveryNote()
+        private ShippingInformation CreateNewShippingInformation()
         {
-            throw new NotImplementedException();
+            ShippingInformation itemTarget = shippingInformationRepository.Create();
+            shippingInformationRepository.Add(itemTarget);
+            return itemTarget;
         }
 
         /// <summary>
-        /// Delete Delivery Note
+        /// Delete Delivery Schedule
         /// </summary>
-        private void DeleteDeliveryNote(DeliveryNote deliveryNote)
+        private void DeleteShippingInformation(ShippingInformation shippingInformation)
         {
-            throw new NotImplementedException();
+            shippingInformationRepository.Delete(shippingInformation);
         }
 
         /// <summary>
@@ -180,6 +187,138 @@ namespace MPC.Implementation.MISServices
             sectionCostCentreRepository.Delete(item);
         }
 
+        /// <summary>
+        /// Creates New Section Ink Coverage
+        /// </summary>
+        private SectionInkCoverage CreateSectionInkCoverage()
+        {
+            SectionInkCoverage itemTarget = sectionInkCoverageRepository.Create();
+            sectionInkCoverageRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Section Ink Coverage
+        /// </summary>
+        private void DeleteSectionInkCoverage(SectionInkCoverage item)
+        {
+            sectionInkCoverageRepository.Delete(item);
+        }
+
+        /// <summary>
+        /// Returns Next Job Code
+        /// </summary>
+        private string GetJobCodeForItem()
+        {
+            return prefixRepository.GetNextJobCodePrefix(false);
+        }
+
+        /// <summary>
+        /// Creates New Section Cost Centre Detail
+        /// </summary>
+        private SectionCostCentreDetail CreateSectionCostCentreDetail()
+        {
+            SectionCostCentreDetail itemTarget = sectionCostCentreDetailRepository.Create();
+            sectionCostCentreDetailRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Section Cost Centre Detail
+        /// </summary>
+        private void DeleteSectionCostCentreDetail(SectionCostCentreDetail item)
+        {
+            sectionCostCentreDetailRepository.Delete(item);
+        }
+
+        /// <summary>
+        /// Saves Image to File System
+        /// </summary>
+        /// <param name="mapPath">File System Path for Item</param>
+        /// <param name="existingImage">Existing File if any</param>
+        /// <param name="caption">Unique file caption e.g. ItemId + ItemProductCode + ItemProductName + "_thumbnail_"</param>
+        /// <param name="fileName">Name of file being saved</param>
+        /// <param name="fileSource">Base64 representation of file being saved</param>
+        /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
+        /// <returns>Path of File being saved</returns>
+        private string SaveImage(string mapPath, string existingImage, string caption, string fileName,
+            string fileSource, byte[] fileSourceBytes)
+        {
+            if (!string.IsNullOrEmpty(fileSource))
+            {
+                // Look if file already exists then replace it
+                if (!string.IsNullOrEmpty(existingImage))
+                {
+                    if (Path.IsPathRooted(existingImage))
+                    {
+                        if (File.Exists(existingImage))
+                        {
+                            // Remove Existing File
+                            File.Delete(existingImage);
+                        }
+                    }
+                    else
+                    {
+                        string filePath = HttpContext.Current.Server.MapPath("~/" + existingImage);
+                        if (File.Exists(filePath))
+                        {
+                            // Remove Existing File
+                            File.Delete(filePath);
+                        }
+                    }
+
+                }
+
+                // First Time Upload
+                string imageurl = mapPath + "\\" + caption + fileName;
+                File.WriteAllBytes(imageurl, fileSourceBytes);
+
+                int indexOf = imageurl.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                imageurl = imageurl.Substring(indexOf, imageurl.Length - indexOf);
+                return imageurl;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Save Item Attachments
+        /// </summary>
+        private void SaveItemAttachments(Estimate estimate)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/");
+
+            if (estimate.Items == null)
+            {
+                return;
+            }
+
+            foreach (Item item in estimate.Items)
+            {
+                string attachmentMapPath = mapPath + item.ItemId;
+
+                // Create directory if not there
+                if (!Directory.Exists(attachmentMapPath))
+                {
+                    Directory.CreateDirectory(attachmentMapPath);
+                }
+
+                if (item.ItemAttachments == null)
+                {
+                    continue;
+                }
+
+                foreach (ItemAttachment itemAttachment in item.ItemAttachments)
+                {
+                    itemAttachment.FolderPath = SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
+                        itemAttachment.FileName,
+                        itemAttachment.FileSource, itemAttachment.FileSourceBytes);
+                }
+            }
+        }
+
         #endregion
         #region Constructor
 
@@ -191,7 +330,11 @@ namespace MPC.Implementation.MISServices
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
             IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository, IInkPlateSideRepository inkPlateSideRepository, IStockItemRepository stockItemRepository, IInkCoverageGroupRepository inkCoverageGroupRepository,
             ICompanyRepository companyRepository, IPrefixRepository prefixRepository, IPrePaymentRepository prePaymentRepository,
-            IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository, IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository, IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository)
+            IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository, 
+            IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository, 
+            IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository, 
+            ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository)
         {
             if (estimateRepository == null)
             {
@@ -257,7 +400,18 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionCostCentreRepository");
             }
-
+            if (sectionInkCoverageRepository == null)
+            {
+                throw new ArgumentNullException("sectionInkCoverageRepository");
+            }
+            if (shippingInformationRepository == null)
+            {
+                throw new ArgumentNullException("shippingInformationRepository");
+            }
+            if (sectionCostCentreDetailRepository == null)
+            {
+                throw new ArgumentNullException("sectionCostCentreDetailRepository");
+            }
             this.estimateRepository = estimateRepository;
             this.companyRepository = companyRepository;
             this.prefixRepository = prefixRepository;
@@ -289,6 +443,10 @@ namespace MPC.Implementation.MISServices
             this.MachineRepository = MachineRepository;
             this.CostCentreRepository = CostCentreRepository;
             this.PayPalRepsoitory = PayPalRepsoitory;
+            this.sectionInkCoverageRepository = sectionInkCoverageRepository;
+            this.shippingInformationRepository = shippingInformationRepository;
+            this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
+            this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
         }
 
         #endregion
@@ -339,22 +497,34 @@ namespace MPC.Implementation.MISServices
                                          CreateNewOrder = CreateNewOrder,
                                          CreatePrePayment = CreateNewPrePayment,
                                          DeletePrePayment = DeletePrePayment,
-                                         CreateDeliveryNote = CreateNewDeliveryNote,
                                          CreateItem = CreateItem,
                                          DeleteItem = DeleteItem,
                                          CreateItemSection = CreateItemSection,
                                          CreateSectionCostCentre = CreateSectionCostCentre,
                                          DeleteSectionCostCenter = DeleteSectionCostCentre,
                                          CreateItemAttachment = CreateItemAttachment,
-                                         DeleteItemAttachment = DeleteItemAttachment
+                                         DeleteItemAttachment = DeleteItemAttachment,
+                                         CreateSectionInkCoverage = CreateSectionInkCoverage,
+                                         DeleteSectionInkCoverage = DeleteSectionInkCoverage,
+                                         CreateShippingInformation = CreateNewShippingInformation,
+                                         DeleteShippingInformation = DeleteShippingInformation,
+                                         GetNextJobCode = GetJobCodeForItem,
+                                         CreateSectionCostCenterDetail = CreateSectionCostCentreDetail,
+                                         DeleteSectionCostCenterDetail = DeleteSectionCostCentreDetail,
                                      });
+            // Save Changes
+            estimateRepository.SaveChanges();
+
+            // Save Item Attachments
+            SaveItemAttachments(order);
+
             // Save Changes
             estimateRepository.SaveChanges();
 
             // Return 
             return order;
         }
-
+        
         /// <summary>
         /// Get base data for order
         /// </summary>
@@ -373,7 +543,8 @@ namespace MPC.Implementation.MISServices
                        PaperSizes = paperSizeRepository.GetAll(),
                        InkPlateSides = inkPlateSideRepository.GetAll(),
                        Inks = stockItemRepository.GetStockItemOfCategoryInk(),
-                       InkCoverageGroups = inkCoverageGroupRepository.GetAll()
+                       InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
+                       CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem()
                    };
         }
 
@@ -525,63 +696,14 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
-        #region Print View Plan Code
-        
-        
+       
 
-        public PtvDTO GetPTV(PTVRequestModel request)
-        {
-            Organisation organisation = organisationRepository.GetOrganizatiobByID();
-
-            if (organisation != null)
-            {
-                request.ItemHeight = LengthConversionHelper.ConvertLength(request.ItemHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemWidth = LengthConversionHelper.ConvertLength(request.ItemWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.PrintHeight = LengthConversionHelper.ConvertLength(request.PrintHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.PrintWidth = LengthConversionHelper.ConvertLength(request.PrintWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemHorizentalGutter = LengthConversionHelper.ConvertLength(request.ItemHorizentalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemVerticalGutter = LengthConversionHelper.ConvertLength(request.ItemVerticalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-            }
-
-
-            return itemsectionRepository.DrawPTV((PrintViewOrientation)request.Orientation, request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, request.isWorknTrun, request.isWorknTumble, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, (GripSide)request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter);
-        }
-
-        
-
-        public PtvDTO GetPTVCalculation(PTVRequestModel request)
-        {
-            Organisation organisation = organisationRepository.GetOrganizatiobByID();
-
-            if (organisation != null)
-            {
-                request.ItemHeight = LengthConversionHelper.ConvertLength(request.ItemHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemWidth = LengthConversionHelper.ConvertLength(request.ItemWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.PrintHeight = LengthConversionHelper.ConvertLength(request.PrintHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.PrintWidth = LengthConversionHelper.ConvertLength(request.PrintWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemHorizentalGutter = LengthConversionHelper.ConvertLength(request.ItemHorizentalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemVerticalGutter = LengthConversionHelper.ConvertLength(request.ItemVerticalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-            }
-            return itemsectionRepository.CalculatePTV(request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, false, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, 0, request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter, request.isWorknTrun, request.isWorknTumble);
-        }
-
-        #endregion
-
-        #region Estimation Methods
-        public BestPressResponse GetBestPresses(ItemSection currentSection)
-        {
-            return itemsectionRepository.GetBestPressResponse(currentSection);
-        }
-
-        public ItemSection GetUpdatedSectionCostCenters(UpdateSectionCostCentersRequest request)
-        {
-            return itemsectionRepository.GetUpdatedSectionWithSystemCostCenters(request.CurrentSection, request.PressId, request.CurrentSection.SectionInkCoverages.ToList());
-        }
-
+        #region Download Artwork
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-            return GenerateOrderArtworkArchive(OrderID, sZipName);
+           return GenerateOrderArtworkArchive(OrderID, sZipName);
+           // return ExportPDF(1, 0, ReportType.Internal, 0,string.Empty);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
@@ -613,26 +735,29 @@ namespace MPC.Implementation.MISServices
                 Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
 
 
-                
-                Company store = companyRepository.GetCompanyByCompanyIDforArtwork(oOrder.Company.StoreId ?? 0);
-                if (store != null)
+                if(oOrder.Company != null)
                 {
-                    IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
-                    IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
-                    IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
-                    MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
-                }
-                else
-                {
-                    store = companyRepository.GetCompanyByCompanyIDforArtwork(oOrder.CompanyId);
-                    if (store != null)
+                    if (oOrder.Company.IsCustomer == 3)
                     {
-                        IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
-                        IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
-                        IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
-                        MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
+                        IncludeOrderReport = oOrder.Company.includeEmailArtworkOrderReport ?? false;
+                        IncludeJobCardReport = oOrder.Company.includeEmailArtworkOrderJobCard ?? false;
+                        IncludeOrderXML = oOrder.Company.includeEmailArtworkOrderXML ?? false;
+                        MakeArtWorkProductionReady = oOrder.Company.makeEmailArtworkOrderProductionReady ?? false;
                     }
+                    else
+                    {
+                       Company  store = companyRepository.GetStoreById(oOrder.Company.StoreId ?? 0);
+                       if (store != null)
+                       {
+                           IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
+                           IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
+                           IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
+                           MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
+                       }
+                    }
+
                 }
+              
                 if (!IncludeOrderReport && !IncludeJobCardReport && !IncludeOrderXML && !MakeArtWorkProductionReady)
                 {
                     IncludeOrderReport = true;
@@ -713,7 +838,7 @@ namespace MPC.Implementation.MISServices
                             //job card report
                             if (IncludeJobCardReport)
                             {
-                                string sJCReportPath = ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID);
+                                string sJCReportPath = ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID,string.Empty);
                                 if (System.IO.File.Exists(sJCReportPath))
                                 {
                                     ZipEntry jcr = zip.AddFile(sJCReportPath, ZipfolderName);
@@ -728,7 +853,7 @@ namespace MPC.Implementation.MISServices
                         //order report
                         if (IncludeOrderReport)
                         {
-                            string sOrderReportPath = ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID);
+                            string sOrderReportPath = ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID,string.Empty);
                             if (System.IO.File.Exists(sOrderReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderReportPath, "");
@@ -783,21 +908,10 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
-
-
-
-
                 string sOrderID = oOrder.EstimateId.ToString();
                 string sProductionFolderPath = "MPC_Content/Artworks/" + OrganisationId + "/Production";
                 string sCustomerID = oOrder.CompanyId.ToString();
-
                 return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder,OrganisationId);
-
-
-
-                //clientserv.OpenReadCompleted += new OpenReadCompletedEventHandler(clientserv_OpenReadCompleted);
-                //clientserv.OpenReadAsync(sParameterURl);
-
 
             }
             catch (Exception ex)
@@ -1152,7 +1266,7 @@ namespace MPC.Implementation.MISServices
         {
 
 
-            var Rec = companyRepository.GetCompanyByCompanyIDforArtwork(CustomerID);
+            var Rec = companyRepository.GetStoreById(CustomerID);
 
 
             if (Rec != null)
@@ -1187,7 +1301,7 @@ namespace MPC.Implementation.MISServices
             return FileName;
         }
 
-        public string ExportPDF(int iReportID, long iRecordID,ReportType type, long OrderID)
+        public string ExportPDF(int iReportID, long iRecordID,ReportType type, long OrderID,string CriteriaParam)
         {
             string sFilePath = string.Empty;
             try
@@ -1208,7 +1322,7 @@ namespace MPC.Implementation.MISServices
                     // Load it to memory stream
                     ms.Position = 0;
                     SectionReport currReport = new SectionReport();
-                    string sFileName = iRecordID + "OrderReport.pdf";
+                    string sFileName = string.Empty;
                     // FileNamesList.Add(sFileName);
                     currReport.LoadLayout(ms);
                     if (type == ReportType.JobCard)
@@ -1220,22 +1334,30 @@ namespace MPC.Implementation.MISServices
                     }
                     else if(type == ReportType.Order)
                     {
-
+                        sFileName = iRecordID + "OrderReport.pdf";
                         List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
                         currReport.DataSource = rptOrderSource;
                     }
+                    else if(type == ReportType.Internal)
+                    {
+                        string ReportDataSource = string.Empty;
+                        string ReportTemplate = string.Empty;
 
+                        sFileName =  "CustomerList.pdf";
+                        DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
+                        currReport.DataSource = dataSourceList;
+                    }
                     if (currReport != null)
                     {
                         currReport.Run();
                         GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport pdf = new GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport();
-                        string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/");
+                        string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))
                         {
                             Directory.CreateDirectory(Path);
                         }
                         // PdfExport pdf = new PdfExport();
-                        sFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/") + sFileName;
+                        sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
 
                         pdf.Export(currReport.Document, sFilePath);
                         ms.Close();
@@ -2567,7 +2689,7 @@ namespace MPC.Implementation.MISServices
 
                     string sFileName = orderEntity.Order_Code + "_" + "OrderXML.xml";
                     // FileNamesList.Add(sFileName);
-                    string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID);
+                    string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID);
                     if (!Directory.Exists(Path))
                     {
                         Directory.CreateDirectory(Path);
@@ -2586,7 +2708,7 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID)
+        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam)
         {
             string sFilePath = string.Empty;
             try
@@ -2623,18 +2745,25 @@ namespace MPC.Implementation.MISServices
                         List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
                         currReport.DataSource = rptOrderSource;
                     }
+                    else if (type == ReportType.Internal)
+                    {
+                        string ReportDataSource = string.Empty;
+                        string ReportTemplate = string.Empty;
 
+                        DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
+                        currReport.DataSource = dataSourceList;
+                    }
                     if (currReport != null)
                     {
                         currReport.Run();
                         GrapeCity.ActiveReports.Export.Excel.Section.XlsExport xls = new GrapeCity.ActiveReports.Export.Excel.Section.XlsExport();
-                        string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/");
+                        string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))
                         {
                             Directory.CreateDirectory(Path);
                         }
                         // PdfExport pdf = new PdfExport();
-                        sFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/") + sFileName;
+                        sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
 
                         xls.Export(currReport.Document, sFilePath);
                         ms.Close();
@@ -2649,9 +2778,12 @@ namespace MPC.Implementation.MISServices
             }
             return sFilePath;
         }
+
+
         #endregion
 
-        
+
+       
 
 
     }

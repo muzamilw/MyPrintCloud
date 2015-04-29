@@ -420,7 +420,7 @@ function e3() {
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
-
+   // console.log(dfZ1l + " " + D1CS);
 }
 
 function e5() {
@@ -2320,6 +2320,16 @@ function pcL06() {
         canvas.renderAll();
     }
 }
+function pcL06ULine() {
+    var D1AO = canvas.getActiveObject();
+    if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
+        alert();
+        setActiveStyle('textDecoration', 'underline');
+        pcL22_Sub(D1AO);
+        // c2(D1AO);
+        canvas.renderAll();
+    }
+}
 function pcL07() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
@@ -2678,6 +2688,7 @@ function pcL29(fontSize, isBold, ContentString) {
     D1NTO.IsQuickText = false;
     D1NTO.FontSize = fontSize;
     D1NTO.textCase = 0;
+    D1NTO.IsUnderlinedText = false;
     var uiTextObject = c0(canvas, D1NTO);
     var center = canvas.getCenter();
     uiTextObject.left = center.left;
@@ -2768,6 +2779,15 @@ function setActiveStyle(styleName, value, c, m, y, k) {
             }
             else {
                 value = 'italic';
+            }
+            object[styleName] = value;
+        } else if (styleName == "textDecoration") {
+            styleName = "textDecoration";
+            if (object.textDecoration == 'underline') {
+                value = 'initial';
+            }
+            else {
+                value = 'underline';
             }
             object[styleName] = value;
         }
@@ -2913,14 +2933,20 @@ function pcl42_updateVariables(data) {
     });
 }
 function pcl42_UpdateTO() {
-
+    //alert();
     $.each(TO, function (i, IT) {
-        $.each(smartFormData.smartFormObjs, function (i, obj) {
-            if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
-            {
+        $.each(smartFormData.scopeVariables, function (i, obj) {
+            //if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
+            //{
                 var variableTag = obj.FieldVariable.VariableTag;
+                var variableTagUpperCase = "_&*)_*!!£$";  // because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null)
+                    variableTagUpperCase= obj.FieldVariable.VariableTag.toUpperCase();
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null)
+                    variableTagLowerCase =obj.FieldVariable.VariableTag.toLowerCase();
                 if (IT.originalContentString != null) {
-                    if (IT.originalContentString.indexOf(variableTag) != -1) {
+                    if (IT.originalContentString.indexOf(variableTag) != -1 || IT.originalContentString.indexOf(variableTagUpperCase) != -1 || IT.originalContentString.indexOf(variableTagLowerCase) != -1) {
                         IT.ContentString = IT.originalContentString;
                         IT.textStyles = IT.originalTextStyles;
                         if (IT.originalTextStyles != null) {
@@ -2928,7 +2954,7 @@ function pcl42_UpdateTO() {
                         }
                     }
                 }
-            }
+            //}
         });
     });
     if ($("#optionRadioOtherProfile").is(':checked')) {
@@ -2941,8 +2967,20 @@ function pcl42_UpdateTO() {
                 }
                 if (obj.Value != null ) {
                     var variableTag = obj.FieldVariable.VariableTag;
+                    var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (obj.FieldVariable.VariableTag != null) {
+                        variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                        variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                    }
+                   
+                    
                     while (IT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(IT, variableTag, obj.Value);
+                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
+                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value);
+                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
+                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value);
                         // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
               //  }
@@ -2953,12 +2991,24 @@ function pcl42_UpdateTO() {
         $.each(TO, function (i, IT) {
             $.each(smartFormData.scopeVariables, function (i, obj) {
                 var variableTag = obj.FieldVariable.VariableTag;
+                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null) {
+                    variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                    variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                }
                 if (obj.Value == null) {
                     obj.Value = "";
                 }
                 if (obj.Value != null) {
                     while (IT.ContentString.indexOf(variableTag) != -1) {
                         updateTOWithStyles(IT, variableTag,obj.Value);
+                    }
+                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1) {
+                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value);
+                    }
+                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
+                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value);
                     }
 //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
@@ -2969,6 +3019,7 @@ function pcl42_UpdateTO() {
 
 }
 function pcl42_updateTemplate(DT) {
+   // alert();
     if (userVariableData != null) {
         $.each(userVariableData, function (i, vari) {
             if (vari.Value != null) {
@@ -2976,6 +3027,27 @@ function pcl42_updateTemplate(DT) {
                 $.each(DT, function (i, objDT) {
                     while (objDT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(objDT, variableTag, vari.Value);
+                    while (objDT.ContentString.indexOf(variableTag.toLowerCase()) != -1)
+                        updateTOWithStyles(objDT, variableTag.toLowerCase(), vari.Value);
+                    while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
+                        updateTOWithStyles(objDT, variableTag.toUpperCase(), vari.Value);
+                });
+            } else {
+                var variableTag = vari.FieldVariable.VariableTag;
+                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (vari.FieldVariable.VariableTag != null)
+                {
+                    variableTagUpperCase = vari.FieldVariable.VariableTag.toUpperCase();
+                    variableTagLowerCase = vari.FieldVariable.VariableTag.toLowerCase();
+                }
+                $.each(DT, function (i, objDT) {
+                    while (objDT.ContentString.indexOf(variableTag) != -1)
+                        updateTOWithStyles(objDT, variableTag, "");
+                    while (objDT.ContentString.indexOf(variableTagUpperCase) != -1)
+                        updateTOWithStyles(objDT, variableTagUpperCase, "");
+                    while (objDT.ContentString.indexOf(variableTagLowerCase) != -1)
+                        updateTOWithStyles(objDT, variableTagLowerCase, "");
                 });
             }
         });

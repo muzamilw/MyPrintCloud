@@ -3,6 +3,8 @@ html
     height: 100%;
 }
 
+
+
 body 
 {
     background: #fff;
@@ -279,5 +281,11 @@ div#spinner {
   position: absolute;
   cursor: pointer;}
    
-   
+  .dashboardcounters23{
+      font-size:23px;
+      font-weight:600;
+  } 
   
+  
+
+    

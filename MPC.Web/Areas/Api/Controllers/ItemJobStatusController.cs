@@ -3,6 +3,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
+using MPC.MIS.Areas.Api.Models;
 using MPC.Models.ResponseModels;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -35,9 +36,14 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Items For Item Job Status
         /// </summary>
-        public IEnumerable<ItemForItemJobStatus> Get()
+        public ItemJobStatusResponse Get()
         {
-            return itemJobStatusService.GetItemsForItemJobStatus();
+            return new ItemJobStatusResponse
+            {
+                Items = itemJobStatusService.GetItemsForItemJobStatus(),
+                CurrencySymbol = itemJobStatusService.GetCurrencySymbol()
+            };
+
         }
 
 

@@ -844,7 +844,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Item CreateNewItem()
         {
-            string itemCode = prefixRepository.GetNextItemCodePrefix();
+            string itemCode = prefixRepository.GetNextItemCodePrefix(false);
             Item itemTarget = itemRepository.Create();
             itemRepository.Add(itemTarget);
             itemTarget.ItemCreationDateTime = DateTime.Now;
@@ -1867,7 +1867,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get By Id
         /// </summary>
-        public Item GetById(long id)
+        public Item GetById(long id, bool changeTemplateSizeUnits = true)
         {
             if (id <= 0)
             {
@@ -1879,6 +1879,12 @@ namespace MPC.Implementation.MISServices
             if (item == null)
             {
                 throw new MPCException(string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_ItemNotFound, id), itemRepository.OrganisationId);
+            }
+
+            // If Fetching item for Cloning then don't change Size values
+            if (!changeTemplateSizeUnits)
+            {
+                return item;
             }
             
             // If template Exists then Convert the Height & Width to System Unit
@@ -2137,7 +2143,7 @@ namespace MPC.Implementation.MISServices
         public Item CloneProduct(long itemId)
         {
             // Find Item - Throws Exception if not exist
-            Item source = GetById(itemId);
+            Item source = GetById(itemId, false);
 
             // Create New Instance
             // And Generate ItemCode for it

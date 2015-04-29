@@ -4123,7 +4123,7 @@ define("stores/stores.viewModel",
                                         emails.push(campaign);
                                     });
                                 }
-                                
+
                                 if (data.Company.CompanyBannerSets) {
                                     _.each(data.Company.CompanyBannerSets, function (item) {
                                         companyBannerSetList.push(model.CompanyBannerSet.Create(item));
@@ -4150,12 +4150,12 @@ define("stores/stores.viewModel",
                                         selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
                                     });
                                 }
-                                
+
                                 selectedStore().activeBannerSetId(data.Company.ActiveBannerSetId);
                                 selectedStore().currentThemeId(data.Company.CurrentThemeId);
                                 selectedTheme(data.Company.CurrentThemeId);
                             }
-                            
+
                             if (data.SecondaryPageResponse) {
                                 if (data.SecondaryPageResponse.CmsPages) {
                                     _.each(data.SecondaryPageResponse.CmsPages, function (item) {
@@ -4171,10 +4171,10 @@ define("stores/stores.viewModel",
                                     systemPagePager().totalCount(data.SecondaryPageResponse.SystemPagesRowCount || 0);
                                 }
                             }
-                            
+
                             storeImage(data.ImageSource);
                         }
-                        
+
                         allPagesWidgets.removeAll();
                         pageSkinWidgets.removeAll();
                         selectedCurrentPageId(undefined);
@@ -5449,6 +5449,7 @@ define("stores/stores.viewModel",
                 fieldvariableOfSmartForm.variableTag(fieldVariable.variableTag());
                 fieldvariableOfSmartForm.scopeName(fieldVariable.scopeName());
                 fieldvariableOfSmartForm.typeName(fieldVariable.typeName());
+                fieldvariableOfSmartForm.waterMark(fieldVariable.waterMark());
                 fieldvariableOfSmartForm.variableType(fieldVariable.variableType());
                 fieldvariableOfSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
                 fieldvariableOfSmartForm.title(fieldVariable.variableTitle());
@@ -5466,6 +5467,7 @@ define("stores/stores.viewModel",
                 fieldVariableForSmartForm.variableTag(fieldVariable.variableTag());
                 fieldVariableForSmartForm.scopeName(fieldVariable.scopeName());
                 fieldVariableForSmartForm.typeName(fieldVariable.typeName());
+                fieldVariableForSmartForm.waterMark(fieldVariable.waterMark());
                 fieldVariableForSmartForm.variableType(fieldVariable.variableType());
                 fieldVariableForSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
                 fieldVariableForSmartForm.title(fieldVariable.variableTitle());
@@ -5517,10 +5519,12 @@ define("stores/stores.viewModel",
                     return type.id == selectedFieldVariable().variableType();
                 });
                 updatedFieldVariable.typeName(selectedType.name);
+                updatedFieldVariable.variableType(selectedFieldVariable().variableType());
 
                 updatedFieldVariable.variableName(selectedFieldVariable().variableName());
                 updatedFieldVariable.variableTag(selectedFieldVariable().variableTag());
                 updatedFieldVariable.variableTitle(selectedFieldVariable().variableTitle());
+                updatedFieldVariable.waterMark(selectedFieldVariable().waterMark());
                 updateSmartFormVariableOnUpdatingCustomCrmField(updatedFieldVariable);
             },
                 //Do Before Save Field Variable
@@ -5861,13 +5865,13 @@ define("stores/stores.viewModel",
                         smartFormDetail.objectType(3);
                         smartFormDetail.variableId(source.data.id());
                         var title = (source.data.title() === (null || undefined)) ? "" : source.data.title();
-                        var defaultValue = (source.data.defaultValue() === (null || undefined)) ? "" : source.data.defaultValue();
+                        var waterMark = (source.data.waterMark() === null || source.data.waterMark() === undefined) ? "" : source.data.waterMark();
                         var htmlData = "";
                         if (source.data.variableType() === 1) {
-                            htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div class=\"col-lg-12\"><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>";
+                            htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div class=\"col-lg-12\"><select disabled class=\"form-control\"><option>" + waterMark + "</option></select></div></div></div>";
 
                         } else {
-                            htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>";
+                            htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + waterMark + "\"></div></div></div>";
                         }
                         smartFormDetail.html(htmlData);
                         selectedSmartForm().smartFormDetails.push(smartFormDetail);
@@ -5921,7 +5925,7 @@ define("stores/stores.viewModel",
                             smartForms.splice(0, 0, selectedSmartForm());
                         }
                         view.hideSmartFormDialog();
-                        toastr.success("Successfully save.");
+                        toastr.success("Successfully saved.");
                     },
                     error: function (exceptionMessage, exceptionType) {
 
@@ -5993,12 +5997,12 @@ define("stores/stores.viewModel",
                             _.each(data, function (item) {
                                 var smartFormDetail = model.SmartFormDetail.Create(item);
                                 if (item.ObjectType === 3) {
-                                    var title = item.Title === null ? "" : item.Title, defaultValue = item.DefaultValue === null ? "" : item.DefaultValue;
+                                    var title = item.Title === null ? "" : item.Title, waterMark = (item.WaterMark === null || item.WaterMark === undefined) ? "" : item.WaterMark;
                                     if (item.VariableType === 1) {
-                                        smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div class=\"col-lg-12\"><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>");
+                                        smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div class=\"col-lg-12\"><select disabled class=\"form-control\"><option>" + waterMark + "</option></select></div></div></div>");
 
                                     } else {
-                                        smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>");
+                                        smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + waterMark + "\"></div></div></div>");
                                     }
                                 } else if (item.ObjectType === 2) {
                                     smartFormDetail.html("<hr style=\"height:3px;border:none;color:#333;background-color:black;\" />");

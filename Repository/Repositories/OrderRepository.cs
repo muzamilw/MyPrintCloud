@@ -1338,7 +1338,7 @@ namespace MPC.Repository.Repositories
                     if (orderStatus != OrderStatus.ShoppingCart)
                         item.StatusId = (short)itemStatus;
 
-                    updateStockAndSendNotification(Convert.ToInt32(item.RefItemId), Mode, Convert.ToInt32(tblOrder.CompanyId), Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), Convert.ToInt32(item.ItemId), Convert.ToInt32(tblOrder.EstimateId), MgrIds, org);
+                    //updateStockAndSendNotification(Convert.ToInt32(item.RefItemId), Mode, Convert.ToInt32(tblOrder.CompanyId), Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), Convert.ToInt32(item.ItemId), Convert.ToInt32(tblOrder.EstimateId), MgrIds, org);
 
                 }
                 else

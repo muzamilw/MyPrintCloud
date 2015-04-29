@@ -63,8 +63,8 @@ namespace MPC.Repository.Repositories
 		/// Get All Cost Centres that are not system defined
 		/// </summary>
 		public IEnumerable<CostCentre> GetAllNonSystemCostCentres()
-		{
-			return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != 1 && costcentre.IsDisabled != 1 && costcentre.Type != 11)
+		{			
+            return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != (int)CostCenterTypes.SystemCostCentres && costcentre.IsDisabled != 1 && costcentre.Type != (int)CostCenterTypes.Delivery && costcentre.Type != (int)CostCenterTypes.WebOrder)
                 .OrderBy(costcentre => costcentre.Name).ToList();
 		}
 		/// <summary>
@@ -79,7 +79,8 @@ namespace MPC.Repository.Repositories
                 s =>
                     (isSearchFilterSpecified && (s.Name.Contains(request.SearchString)) ||
                      (s.HeaderCode.Contains(request.SearchString)) ||
-                     !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29));
+                     !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29)) &&
+                     s.OrganisationId == OrganisationId;
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch
@@ -801,6 +802,10 @@ namespace MPC.Repository.Repositories
 		public IEnumerable<CostCentre> GetAllCompanyCentersByOrganisationId()
 		{
 			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true).ToList();
+		}
+		public IEnumerable<CostCentre> GetAllCompanyCentersForOrderItem()
+		{
+			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true && (x.Type == 29 || x.Type == 139)).ToList();
 		}
 
         public IEnumerable<CostCentre> GetAllDeliveryCostCentersForStore()
