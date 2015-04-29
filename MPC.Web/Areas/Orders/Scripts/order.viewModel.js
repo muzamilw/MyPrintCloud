@@ -2174,12 +2174,12 @@ define("order/order.viewModel",
                             if(selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape())
                             {
                                 orient = 0;
-                                selectedSection().isPortrait(1);
+                                selectedSection().isPortrait(true);
                             }
                             else
                             {
                                 orient = 1;
-                                selectedSection().isPortraitUi(0);
+                                selectedSection().isPortraitUi(false);
                             }
                                  
                             isPtvCalculationInProgress(true);

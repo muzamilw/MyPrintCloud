@@ -1001,7 +1001,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         ItemSizeWidth: itemSizeWidth(),
                         IsDoubleSided: isDoubleSided(),
                         IsWorknTurn: isWorknTurn(),
-                        IsPortrait:isPortrait(),
+                        IsPortrait: isPortrait(),
                         PrintViewLayout: printViewLayout(),
                         PrintViewLayoutPortrait: printViewLayoutPortrait(),
                         PrintViewLayoutLandscape: printViewLayoutLandscape(),
