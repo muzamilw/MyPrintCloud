@@ -137,8 +137,41 @@ namespace MPC.Repository.Repositories
 
         }
 
+        /// <summary>
+        /// gets the single attachment record
+        /// </summary>
+        /// <param name="AttachmentId"></param>
+        /// <returns></returns>
+        public ItemAttachment GetArtworkAttachment(long AttachmentId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.ItemAttachments.Where(a => a.ItemAttachmentId == AttachmentId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-
+        /// <summary>
+        /// delete attachment
+        /// </summary>
+        /// <param name="AttachmentId"></param>
+        /// <returns></returns>
+        public void DeleteArtworkAttachment(ItemAttachment AttachmentRecord)
+        {
+            try
+            {
+                db.ItemAttachments.Remove(AttachmentRecord);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

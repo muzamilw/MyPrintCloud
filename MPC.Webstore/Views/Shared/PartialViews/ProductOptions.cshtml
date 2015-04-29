@@ -184,8 +184,7 @@
                                     string randonNumber = "?r=" + random.Next();
                                     <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                         <div class="DeleteIconPP">
-                                            <asp:button id="DeleteBtn2" cssclass="delete_icon_img " onclientclick="return confirm('Are you sure you want to delete this Design?');"
-                                                        commandname="DeleteDesign" />
+                                            <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId);"></button>
                                         </div>
                                         <a id="hlSide1">
                                             <div class="PDTC_LP FI_PCS">
@@ -1384,6 +1383,7 @@
     function openDailog() {
         ShowLoader();
         var files = $('#imageUploader')[0].files;//$("#imageUploader").get(0).files;
+        alert(files[0].name.replace(/C:\\fakepath\\/i, ''));
         var sideOFImage = $("#uploadedImageSide").val();
         if (sideOFImage == 0) {
             sideOFImage = 1;
@@ -1413,7 +1413,7 @@
         while (FileName.indexOf('/') != -1)
             FileName = FileName.replace("/", "__")
         if (data != "") {
-
+            
             //for (i = 0; i < files.length; i++) {
             //    data.append("file" + i, files[i]);
             //}
@@ -1428,10 +1428,11 @@
 
                     sideOFImage = parseInt(sideOFImage) + 1;
                     $("#uploadedImageSide").val(sideOFImage);
-                    if (messages[0] == "Artwork not uploaded") {
-                        alert(messages[0]);
-                    } else {
+                    if (messages[0] == "Success") {
                         window.location.reload(true);
+                        
+                    } else {
+                        ShowPopUp('Message', messages[0]);
                     }
 
 
