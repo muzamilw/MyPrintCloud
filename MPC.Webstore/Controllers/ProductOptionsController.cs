@@ -170,6 +170,16 @@ namespace MPC.Webstore.Controllers
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId));
                 referenceItemId = clonedItem.RefItemId ?? 0;
+                if (clonedItem.ItemSections != null) 
+                {
+                    if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
+                    {
+                        ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1;
+                        ViewBag.SelectedQuantity = clonedItem.Qty1;
+
+                    }
+                   
+                }
             }
 
             ViewBag.ClonedItemId = clonedItem.ItemId;

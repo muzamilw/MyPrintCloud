@@ -150,7 +150,7 @@ namespace MPC.Webstore.Controllers
 
                     //(Go Landing Page and Add it to Cart)
 
-                    string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
+                    string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/Template/" + ExistingProduct.TemplateID;
 
                    
                        
