@@ -84,7 +84,7 @@ namespace MPC.Implementation.MISServices
             }
 
         }
-        //public List<usp_OrderReport_Result> GetOrderReportSource()
+        //public List<usp_OrderReport_Resuilt> GetOrderReportSource()
         //{
 
         //}
