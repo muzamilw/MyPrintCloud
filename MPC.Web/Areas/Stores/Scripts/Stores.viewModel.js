@@ -1809,6 +1809,11 @@ define("stores/stores.viewModel",
             smartFormPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Address Search Filter
             searchAddressFilter = ko.observable(),
+            //wrapper Function For Search Address
+            searchAddressByFilter = function() {
+                addressPager().reset();
+                searchAddress();
+            },
                 //Search Address
             searchAddress = function () {
                 if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
@@ -2601,11 +2606,11 @@ define("stores/stores.viewModel",
                         success: function (data) {
                             var isStoreDirty = selectedStore().hasChanges();
                             selectedStore().users.removeAll();
-
                             _.each(data.CompanyContacts, function (companyContactItem) {
                                 var companyContact = new model.CompanyContact.Create(companyContactItem);
                                 selectedStore().users.push(companyContact);
                             });
+
                             contactCompanyPager().totalCount(data.RowCount);
                             _.each(edittedCompanyContacts(), function (item) {
                                 _.each(selectedStore().users(), function (companyContactItem) {
@@ -2621,6 +2626,7 @@ define("stores/stores.viewModel",
                                     }
                                 });
                             });
+
                             //check on client side, push all if new added work
                             if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
                                 if (contactCompanyTerritoryFilter() != undefined) {
@@ -6173,6 +6179,7 @@ define("stores/stores.viewModel",
                     newAddresses: newAddresses,
                     addressPager: addressPager,
                     searchAddressFilter: searchAddressFilter,
+                    searchAddressByFilter: searchAddressByFilter,
                     searchAddress: searchAddress,
                     isSavingNewAddress: isSavingNewAddress,
                     templateToUseAddresses: templateToUseAddresses,

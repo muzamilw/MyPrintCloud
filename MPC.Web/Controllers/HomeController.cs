@@ -17,6 +17,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Configuration;
+using GrapeCity.ActiveReports;
+using MPC.Web.Reports;
 
 namespace MPC.MIS.Controllers
 {
@@ -27,16 +29,17 @@ namespace MPC.MIS.Controllers
         //    ViewData["Heading"] = "Setting";
         //    return View();
         //}
-
+        private readonly IReportService IReportService;
         private IAuthenticationManager AuthenticationManager
         {
             get { return HttpContext.GetOwinContext().Authentication; }
         }
         private IOrderService orderService{ get; set; }
 
-        public HomeController(IOrderService orderService)
+        public HomeController(IOrderService orderService, IReportService reportService)
         {
             this.orderService = orderService;
+            this.IReportService = reportService;
         }
         [Dependency]
         public IClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -290,6 +293,32 @@ namespace MPC.MIS.Controllers
             ViewBag.Invoiced = OrderStatusCount.Invoiced;
             ViewBag.CancelledOrders = OrderStatusCount.CancelledOrders;
             return PartialView();
+        }
+
+        public ActionResult Viewer()
+        {
+
+
+
+            return View();
+        }
+
+
+        // GET: Common/Report
+        public ActionResult GetReport()
+        {
+
+            SectionReport report = IReportService.GetReport(103);
+            
+         
+       //   SectionReport report = new SectionReport();
+           
+            ViewBag.Report = report;
+
+
+
+                  return PartialView("WebViewer");
+
         }
     }
 }

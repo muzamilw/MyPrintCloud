@@ -54,6 +54,29 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Document.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Excel.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Export.Excel.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Pdf.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Export.Pdf.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Web.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Web.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.LicenseService.ActiveReports.v7">
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.LicenseService.ActiveReports.v7.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.4.0, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ICSharpCode.SharpZipLib.Patched.0.86.4\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -808,6 +831,12 @@
     <Compile Include="Areas\Api\Models\MyOrganizationBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\MyOrganizationSaveResponse.cs" />
     <Compile Include="Areas\Api\Models\StockCategoryResponse.cs" />
+    <Compile Include="Reports\EstimateReportCostCenters.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\EstimateReportCostCenters.Designer.cs">
+      <DependentUpon>EstimateReportCostCenters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
@@ -1112,6 +1141,7 @@
     <Content Include="Content\less\Store.min.css">
       <DependentUpon>Store.css</DependentUpon>
     </Content>
+    <Content Include="Content\ReportViewerSite.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -3126,6 +3156,7 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\WebViewer.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3212,6 +3243,9 @@
     <Content Include="Views\CRM\SuppliersList.cshtml" />
     <Content Include="Views\Shared\PageUnAvailable.cshtml" />
     <Content Include="Views\Home\OrderMenuItems.cshtml" />
+    <Content Include="Views\Home\Viewer.cshtml" />
+    <Content Include="SectionReport.rpx" />
+    <Content Include="Views\Home\_Viewer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3251,6 +3285,7 @@
     <Folder Include="Areas\Api\Views\SystemUser\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
+    <Folder Include="Areas\Common\Views\Report\" />
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\DeliveryNotes\Models\" />
     <Folder Include="Areas\DeliveryNotes\Scripts\" />
@@ -3276,7 +3311,6 @@
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
-    <Folder Include="Reports\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />
     <Folder Include="Views\Shared\Address\" />
@@ -3319,6 +3353,10 @@
     <EmbeddedResource Include="Areas\Api\LanguageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Reports\EstimateReportCostCenters.resx">
+      <DependentUpon>EstimateReportCostCenters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
