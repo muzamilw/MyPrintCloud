@@ -722,6 +722,7 @@
     var isRanged = "@ViewBag.ItemModel.IsQtyRanged.ToString()" == "False" ? 0 : 1;
     var TotalItemPrice = 0;
     var data = "";
+    var fileExtension = "";
     var isPriceSelected = 0;
     var mandatoryRefiningOptIds = "";
     var isImageUploadedOnLandingPage = 0;
@@ -1370,7 +1371,10 @@
         $('#imageUploader').change(function () {
             data = new FormData();
             var files = $('#imageUploader')[0].files;
-            //alert(files.length);
+           // console.log(files);
+            var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
+            fileExtension = name1.substr(name1.lastIndexOf('.') + 1);
+            
             if (files.length > 0) {
 
                 for (i = 0; i < files.length; i++) {
@@ -1392,6 +1396,7 @@
             sideOFImage = parseInt(sideOFImage) + 1;
             $("#uploadedImageSide").val(sideOFImage);
         }
+        alert(fileExtension);
         //var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
         //var fileExtension = name1.replace(/^.*\./, '');
         var today = new Date();
