@@ -1,0 +1,205 @@
+﻿
+@{
+    ViewBag.Title = "ReportBanner";
+}
+@section leftmenue {
+
+}
+
+<div class="row" id="reportBannerBinding">
+    <div>
+        <form method="post" enctype="multipart/form-data" id="prefixForm">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="~/Dashboard/Index">Home</a></li>
+                            <li>Settings</li>                           
+                            <li class="active"><span>Report Banner</span></li>
+                        </ol>
+                        <div class="clearfix">
+                            <h1 class="pull-left">Report Banners</h1>
+                            <div data-bind="visible:$root.errorList().length > 0" style="display: none;">
+                                <p> Please corresct these errors.</p>
+                                <table id="table">
+                                    <tbody>
+                                        <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
+                                        <!-- /ko -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="row" id="ReportBannerdata">
+                    <button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn">Save</button>
+                    <div class="col-lg-12 main-box clearfix">
+                        <div class="main-box-body">
+                            <div class="col-lg-4 form-horizontal" style="margin-top:15px">
+                                <div class="main-box no-header clearfix">
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive">
+                                            <table class="table user-list">
+                                                <thead>
+                                                    <tr id="ccList" class="span12">
+                                                        <th class="col-lg-3"><span>StoreName</span></th>
+                                                       
+                                                        <th class="col-lg-2">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- ko template: { name: 'storesListTemplate' , foreach: $root.Stores } -->
+    <!-- /ko -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-9 form-horizontal" style="margin-top:15px">
+                                <div class="form-group">
+                                    <div class="col-md-4 text-right">
+                                      
+                                        <label class="control-label text-right tooltip-float">Estimate Report</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="clearfix">
+                                            <div>
+                                                <img style="width:400px; " />
+                                                <img style="width:400px;" />
+                                            </div>
+                                            
+                                            <div class="pull-right">
+                                                <div class="fileUpload btn btn-primary">
+                                                    <span>....</span>
+                                                    <input type="file" class="upload" id="image_files" />
+                                                </div>
+                                            </div>
+                                            <div class="profile-stars">
+                                                <span></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4 text-right">
+                                        
+                                        <label class="control-label text-right tooltip-float">Order Report</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="clearfix">
+                                            <img style="width:400px;" />
+                                            <img style="width:400px;" />
+                                            <div class="pull-right">
+                                                <div class="fileUpload btn btn-primary">
+                                                    <span>....</span>
+                                                    <input type="file" class="upload" id="image_files" />
+                                                </div>
+                                            </div>
+                                            <div class="profile-stars">
+                                                <span></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4 text-right">
+                                        
+                                        <label class="control-label text-right tooltip-float">Invoice Report</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="clearfix">
+                                            <img style="width:400px;" />
+                                            <img style="width:400px;" />
+                                            <div class="pull-right">
+                                                <div class="fileUpload btn btn-primary">
+                                                    <span>....</span>
+                                                    <input type="file" class="upload" id="image_files" />
+                                                </div>
+                                            </div>
+                                            <div class="profile-stars">
+                                                <span></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4 text-right">
+                                       
+                                        <label class="control-label text-right tooltip-float">Purchase Order Report</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="clearfix">
+                                            <img style="width:400px;" />
+                                            <img style="width:400px;" />
+                                            <div class="pull-right">
+                                                <div class="fileUpload btn btn-primary">
+                                                    <span>....</span>
+                                                    <input type="file" class="upload" id="image_files" />
+                                                </div>
+                                            </div>
+                                            <div class="profile-stars">
+                                                <span></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4 text-right">
+                                      
+                                        <label class="control-label text-right tooltip-float">Delivery Note Report</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="clearfix">
+                                            <img style="width:400px;" />
+                                            <img style="width:400px;" />
+                                            <div class="pull-right">
+                                                <div class="fileUpload btn btn-primary">
+                                                    <span>....</span>
+                                                    <input type="file" class="upload" id="image_files" />
+                                                </div>
+                                            </div>
+                                            <div class="profile-stars">
+                                                <span></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script id="storesListTemplate" type="text/html">
+    <tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.SelectedCompany}">
+
+        <td><a class="table-link" data-bind="text: StoreName, click : $root.getBannerByStoreId"></a></td>
+
+
+    </tr>
+
+</script>
+@section Scripts{
+
+<script src="~/Scripts/jquery.form.js"></script>
+<script>
+    require(["reportBanner/reportBanner.view", "common/confirmation.view"]);
+   
+ </script>
+   
+}

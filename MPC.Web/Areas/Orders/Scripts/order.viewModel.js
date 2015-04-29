@@ -260,11 +260,13 @@ define("order/order.viewModel",
                         selectedOrder(model.Estimate.Create({}));
                         view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
+                        $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
                         openOrderEditor();
                     },
                     // Edit Order
                     editOrder = function (data) {
                         getOrderById(data.id(), openOrderEditor);
+                        $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
                     },
                     // Open Editor
                     openOrderEditor = function () {
@@ -526,7 +528,20 @@ define("order/order.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(observableList(), list);
                         observableList.valueHasMutated();
+                        setDeliveryScheduleAddressName();
                     },
+                    //In case Of Edit Order set Delivery Schedule Address Name
+                    setDeliveryScheduleAddressName = function () {
+                        _.each(selectedOrder().deliverySchedules(), function (dSchedule) {
+                            var selectedAddressItem = _.find(companyAddresses(), function (item) {
+                                return item.id === dSchedule.addressId();
+                            });
+                            if (selectedAddressItem) {
+                                dSchedule.addressName(selectedAddressItem.name);
+                            }
+                        });
+                    },
+
                     // Map Orders 
                     mapOrders = function (data) {
                         var ordersList = [];
@@ -1389,6 +1404,7 @@ define("order/order.viewModel",
                     },
                     //get Orders Of Current Screen
                     getOrdersOfCurrentScreen = function () {
+                        pager().reset();
                         getOrders(currentScreen());
                     },
                     //Get Order Tab Changed Event
@@ -1448,6 +1464,9 @@ define("order/order.viewModel",
                                     if (data.CompanyId) {
                                         getBaseForCompany(data.CompanyId, 0);
                                     }
+
+                                    // Set Delivey Schedule Item Name
+                                    setDeliveryScheduleItemName();
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
@@ -1461,6 +1480,18 @@ define("order/order.viewModel",
                                 isLoadingOrders(false);
                                 toastr.error("Failed to load order details" + response);
                                 view.initializeLabelPopovers();
+                            }
+                        });
+                    },
+
+                      //In case Of Edit Order set Delivery Schedule Item Name
+                    setDeliveryScheduleItemName = function () {
+                        _.each(selectedOrder().deliverySchedules(), function (dSchedule) {
+                            var selectedItem = _.find(selectedOrder().items(), function (item) {
+                                return item.id() === dSchedule.itemId();
+                            });
+                            if (selectedItem) {
+                                dSchedule.itemName(selectedItem.productName());
                             }
                         });
                     },
@@ -1525,12 +1556,19 @@ define("order/order.viewModel",
                         selectedOrder().items.splice(0, 0, newItem);
                     },
                     onAddCostCenter = function () {
-                        getCostCenters();
-                        view.showCostCentersDialog();
+                        // getCostCenters();
+                        // view.showCostCentersDialog();
+                        var companyId = 0;
+                        if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3 && selectedCompany().storeId !== null) {
+                            companyId = selectedCompany().storeId;
+                        } else {
+                            companyId = selectedOrder().companyId();
+                        }
+                        addCostCenterVM.show(createNewCostCenterProduct, companyId, true);
                     },
                     onAddCostCenterForProduct = function () {
                         getCostCentersForProduct();
-                        view.showCostCentersDialog();
+                        // view.showCostCentersDialog();
                     },
                     onAddInventoryItem = function () {
 
@@ -1571,7 +1609,7 @@ define("order/order.viewModel",
                     },
 
                     getCostCentersForProduct = function () {
-                        addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId());
+                        addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId(), false);
                     },
                     //onAddCostCenterCallback = function () {
 
@@ -1625,6 +1663,13 @@ define("order/order.viewModel",
 
                         if (isCostCenterDialogForShipping()) {
                             item.itemType(2); // Delivery Item
+                            var deliveryItem = _.find(selectedOrder().items(), function (itemWithType2) {
+                                return itemWithType2.itemType() === 2;
+                            });
+                            if (deliveryItem !== undefined) {
+                                selectedOrder().items.remove(deliveryItem);
+                            }
+
                         }
 
                         selectedOrder().items.splice(0, 0, item);
@@ -2283,8 +2328,6 @@ define("order/order.viewModel",
                                 return;
                             }
                             $('#myTab a[href="#tab-recomendation"]').tab('show');
-                            // $("#home").removeClass("active");  // this deactivates the home tab
-                            // $("#profile").addClass("active");
                             getBestPress();
                         },
                         getBestPress = function () {
