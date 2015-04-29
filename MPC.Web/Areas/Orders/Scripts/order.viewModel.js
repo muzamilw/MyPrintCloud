@@ -1317,7 +1317,7 @@ define("order/order.viewModel",
                                         orderUpdated.creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
                                         var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                         orderUpdated.estimateTotal(total);
-                                        orderUpdated.name(data.OrderName);
+                                        orderUpdated.name(data.EstimateName);
                                             orderUpdated.numberOfItems(data.ItemsCount || 0);
                                         orderUpdated.status(data.Status || '');
                                             if (orderFlag) {

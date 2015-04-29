@@ -61,6 +61,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OrderReportSignedBy = source.OrderReportSignedBy,
                 IsEstimate = source.isEstimate,
                 EstimateTotal = source.Estimate_Total,
+                CreationDate = source.CreationDate,
+                CreationTime = source.CreationTime,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
                 new List<OrderItem>(),
                 ItemsCount = source.Items != null ? source.Items.Count : 0,
