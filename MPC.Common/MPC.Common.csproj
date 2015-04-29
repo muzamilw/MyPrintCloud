@@ -86,6 +86,8 @@
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Export.Excel.v7.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Export.Pdf.v7.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.v7.dll" />
+    <Content Include="Externaldlls\GrapeCity.ActiveReports.Web.v7.dll" />
+    <Content Include="Externaldlls\GrapeCity.LicenseService.ActiveReports.v7.dll" />
     <Content Include="Externaldlls\Ionic.Zip.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

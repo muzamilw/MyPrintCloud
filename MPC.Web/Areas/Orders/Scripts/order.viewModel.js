@@ -1513,6 +1513,12 @@ define("order/order.viewModel",
                                 }
                                 addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id());
                         }
+                                addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id());
+                        }
+                    },
+                    addItemFromRetailStore = function (newItem) {
+                        selectedProduct(newItem);
+                        selectedOrder().items.splice(0, 0, newItem);
                     },
                     addItemFromRetailStore = function (newItem) {
                         selectedProduct(newItem);
@@ -2174,12 +2180,12 @@ define("order/order.viewModel",
                             if(selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape())
                             {
                                 orient = 0;
-                                selectedSection().isPortrait(true);
+                                selectedSection().isPortrait(1);
                             }
                             else
                             {
                                 orient = 1;
-                                selectedSection().isPortrait(false);
+                                selectedSection().isPortraitUi(0);
                             }
                                  
                             isPtvCalculationInProgress(true);
