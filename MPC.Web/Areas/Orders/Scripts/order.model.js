@@ -165,6 +165,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 deliverySchedules = ko.observableArray([]),
                 // Status Id
                 statusId = ko.observable(undefined),
+                // Status
+                status = ko.observable(undefined),
                 // Order signed by
                 orderReportSignedBy = ko.observable(undefined),
                 // Errors
@@ -177,7 +179,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 isValid = ko.computed(function () {
                     return errors().length === 0 &&
                         items.filter(function (item) {
-                            return !item.isValid();
+                            return !item.isValid() && item.itemType() !== 2;
                         }).length === 0;
                 }),
                 // Show All Error Messages
@@ -202,7 +204,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                     // Show Item  Errors
                     var itemInvalid = items.find(function (item) {
-                        return !item.isValid();
+                        return !item.isValid() && item.itemType() !== 2;
                     });
 
                     if (itemInvalid) {
@@ -367,7 +369,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 reset: reset,
                 setValidationSummary: setValidationSummary,
                 convertToServerData: convertToServerData,
-                statusId: statusId
+                statusId: statusId,
+                status: status
             };
         },
         // Item Entity
@@ -651,7 +654,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 },
                 // Convert To Server Data
                 convertToServerData = function () {
-                   // id() < 0 ? id(0) : id();
+                    // id() < 0 ? id(0) : id();
                     return {
                         ItemId: id(),
                         ItemCode: code(),
@@ -827,7 +830,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Qty3Profit Width
                 qty3Profit = ko.observable(specifiedQty3Profit || 0),
                 // Base Charge1
-                baseCharge1 = ko.observable(specifiedBaseCharge1 != null ? specifiedBaseCharge1.toFixed(2) : 0),
+                baseCharge1 = ko.observable((specifiedBaseCharge1 != null || specifiedBaseCharge1 != undefined) ? specifiedBaseCharge1.toFixed(2) : 0),
                 // Base Charge2
                 baseCharge2 = ko.observable(specifiedBaseCharge2 || 0),
                 // Base Charge3
@@ -1545,7 +1548,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 deliveryDate: deliveryDate,
                 formattedDeliveryDate: formattedDeliveryDate,
                 itemName: itemName,
-                estimateId:estimateId,
+                estimateId: estimateId,
                 addressName: addressName,
                 isSelected: isSelected,
                 errors: errors,
@@ -2362,6 +2365,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
         estimate.statusId(source.StatusId);
+        estimate.status(source.Status);
         var total = (parseFloat((source.EstimateTotal === undefined || source.EstimateTotal === null) ? 0 : source.EstimateTotal)).toFixed(2);
         estimate.estimateTotal(total);
         // Map Items if any

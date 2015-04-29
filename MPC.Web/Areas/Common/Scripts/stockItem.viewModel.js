@@ -21,8 +21,6 @@ define("common/stockItem.viewModel",
                     isCategoryFilterVisible = ko.observable(),
                     // Is Base Data Loaded
                     isBaseDataLoaded = ko.observable(false),
-                    // Selected Stock category
-                    selectedCategoryId = ko.observable(),
                     // Pagination For Press Dialog
                     stockDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, stockItems)),
                     // Search Stock Items
@@ -79,6 +77,10 @@ define("common/stockItem.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         stockDialogPager(new pagination.Pagination({ PageSize: 5 }, stockItems, getStockItems));
+                        // Subscribe Category Filter Change
+                        stockDialogCatFilter.subscribe(function() {
+                            searchStockItems();
+                        });
                     },
                     // Map Stock Items 
                     mapStockItems = function (data) {
@@ -97,8 +99,7 @@ define("common/stockItem.viewModel",
                             SearchString: stockDialogFilter(),
                             PageSize: stockDialogPager().pageSize(),
                             PageNo: stockDialogPager().currentPage(),
-                            CategoryId: stockDialogCatFilter(),
-                            StockCategoryId: selectedCategoryId(),
+                            CategoryId: stockDialogCatFilter()
                         }, {
                             success: function (data) {
                                 stockItems.removeAll();
@@ -143,8 +144,7 @@ define("common/stockItem.viewModel",
                     onSelectStockItem: onSelectStockItem,
                     initialize: initialize,
                     categories:categories,
-                    show: show,
-                    selectedCategoryId: selectedCategoryId
+                    show: show
                 };
             })()
         };

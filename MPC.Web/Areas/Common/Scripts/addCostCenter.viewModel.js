@@ -11,6 +11,8 @@ define("common/addCostCenter.viewModel",
                     view,
                     // Cost Centres
                     costCentres = ko.observableArray([]),
+                    // Company Id
+                    selectedCompanyId = ko.observable(),
                     // Cost Center Dialog Filter
                     costCenterDialogFilter = ko.observable(),
                     // Active Cost Center
@@ -28,7 +30,12 @@ define("common/addCostCenter.viewModel",
                     // Search Stock Items
                     searchCostCenters = function () {
                         costCentreDialogPager().reset();
-                        getCostCenters();
+                        if (isCostCenterDialogForShipping()) {
+                            getCostCenters();
+                        } else {
+                            getCostCentersForProduct();
+                        }
+
                     },
                     // Reset Cost center Items
                     resetCostCenters = function () {
@@ -50,14 +57,20 @@ define("common/addCostCenter.viewModel",
 
                     },
                     // Show
-                    show = function (afterAddCostCenterCallback, companyId) {
+                    show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag) {
                         isAddProductForSectionCostCenter(false);
                         isAddProductFromInventory(false);
                         isDisplayCostCenterQuantityDialog(false);
+                        isCostCenterDialogForShipping(isCostCenterDialogForShippingFlag);
                         resetCostCenters();
                         view.showDialog();
                         afterAddCostCenter = afterAddCostCenterCallback;
-                        getCostCenters(companyId);
+                        selectedCompanyId(companyId);
+                        if (isCostCenterDialogForShipping()) {
+                            getCostCenters();
+                        } else {
+                            getCostCentersForProduct();
+                        }
                     },
                     // On Select Cost Center
                     onSelectCostCenter = function (costCenter) {
@@ -68,7 +81,7 @@ define("common/addCostCenter.viewModel",
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
-                        costCentreDialogPager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
+                        costCentreDialogPager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCentersForProduct));
                     },
                      onSaveProductCostCenter = function () {
                          if (afterAddCostCenter && typeof afterAddCostCenter === "function") {
@@ -84,30 +97,53 @@ define("common/addCostCenter.viewModel",
                        hideCostCentreQuantityDialog = function () {
                            view.hideCostCentersQuantityDialog();
                        },
-                    // Get Cost Centers
-                    getCostCenters = function (companyId) {
-                        dataservice.getCostCentersForProduct({
-                            CompanyId: companyId,
-                            SearchString: costCenterDialogFilter(),
-                            PageSize: costCentreDialogPager().pageSize(),
-                            PageNo: costCentreDialogPager().currentPage(),
-                        }, {
-                            success: function (data) {
-                                if (data != null) {
-                                    costCentres.removeAll();
-                                    _.each(data.CostCentres, function (item) {
-                                        var costCentre = new model.CostCentre.Create(item);
-                                        costCentres.push(costCentre);
-                                    });
-                                    costCentreDialogPager().totalCount(data.RowCount);
-                                }
-                            },
-                            error: function (response) {
-                                costCentres.removeAll();
-                                toastr.error("Failed to Load Cost Centres. Error: " + response);
-                            }
-                        });
-                    };
+                         getCostCenters = function () {
+                             dataservice.getCostCenters({
+                                 CompanyId: selectedCompanyId(),
+                                 SearchString: costCenterDialogFilter(),
+                                 PageSize: costCentreDialogPager().pageSize(),
+                                 PageNo: costCentreDialogPager().currentPage(),
+                             }, {
+                                 success: function (data) {
+                                     if (data != null) {
+                                         costCentres.removeAll();
+                                         _.each(data.CostCentres, function (item) {
+                                             var costCentre = new model.CostCentre.Create(item);
+                                             costCentres.push(costCentre);
+                                         });
+                                         costCentreDialogPager().totalCount(data.RowCount);
+                                     }
+                                 },
+                                 error: function (response) {
+                                     costCentres.removeAll();
+                                     toastr.error("Failed to Load Cost Centres. Error: " + response);
+                                 }
+                             });
+                         },
+                        // Get Cost Centers
+                       getCostCentersForProduct = function () {
+                           dataservice.getCostCentersForProduct({
+                               CompanyId: selectedCompanyId(),
+                               SearchString: costCenterDialogFilter(),
+                               PageSize: costCentreDialogPager().pageSize(),
+                               PageNo: costCentreDialogPager().currentPage(),
+                           }, {
+                               success: function (data) {
+                                   if (data != null) {
+                                       costCentres.removeAll();
+                                       _.each(data.CostCentres, function (item) {
+                                           var costCentre = new model.CostCentre.Create(item);
+                                           costCentres.push(costCentre);
+                                       });
+                                       costCentreDialogPager().totalCount(data.RowCount);
+                                   }
+                               },
+                               error: function (response) {
+                                   costCentres.removeAll();
+                                   toastr.error("Failed to Load Cost Centres. Error: " + response);
+                               }
+                           });
+                       };
 
                 return {
                     //Arrays

@@ -23,6 +23,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty,
                 StatusId = source.StatusId,
+                Status = source.Status != null ? source.Status.StatusName : string.Empty,
                 EstimateCode = source.Estimate_Code,
                 EstimateName = source.Estimate_Name,
                 EnquiryId = source.EnquiryId,
@@ -60,6 +61,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OrderReportSignedBy = source.OrderReportSignedBy,
                 IsEstimate = source.isEstimate,
                 EstimateTotal = source.Estimate_Total,
+                CreationDate = source.CreationDate,
+                CreationTime = source.CreationTime,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
                 new List<OrderItem>(),
                 ItemsCount = source.Items != null ? source.Items.Count : 0,

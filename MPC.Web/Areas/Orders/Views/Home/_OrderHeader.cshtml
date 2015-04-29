@@ -11,8 +11,8 @@
                     <center><div class="slider" style="margin-bottom:60px; width:600px"></div></center>
                 </div>
             </div>
-        </div>               
-                   
+        </div>
+
         <div class="col-lg-6">
             <div class="form-group">
                 <div class="col-lg-4 text-right">
@@ -177,16 +177,16 @@
             </div>
 
             @*<div class="form-group" style="margin-top:-17px">
-                <div class="col-lg-4 text-right">
+                    <div class="col-lg-4 text-right">
 
-                    <label class="control-label text-right tooltip-float">First Shipping Date</label>
-                </div>
-                <div class="col-lg-6">
+                        <label class="control-label text-right tooltip-float">First Shipping Date</label>
+                    </div>
+                    <div class="col-lg-6">
 
-                    <input type="text" class="form-control" id="datepickerFinishDDate" data-bind="datepicker: finishDeliveryDate">
+                        <input type="text" class="form-control" id="datepickerFinishDDate" data-bind="datepicker: finishDeliveryDate">
 
-                </div>
-            </div>*@
+                    </div>
+                </div>*@
         </div>
 
 
@@ -238,7 +238,7 @@
                             <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewProductFromRetailStore">Add Product from Store</button>
                         </div>
                         <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                            <button type="button" class="btn btn-primary">Add Blank Print Product</button>                            
+                            <button type="button" class="btn btn-primary">Add Blank Print Product</button>
                         </div>
                         <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                             <button type="button" class="btn btn-primary" data-bind="click: $root.openStockItemDialogForAddingProduct">Add Inventory Item</button>
@@ -268,12 +268,11 @@
                                     <thead>
                                         <tr>
                                             <th class="col-lg-5"><span></span></th>
-                                            <th class="col-lg-3"></th>
                                             <th class="col-lg-3"><span>Gross Total</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- ko template: { name: 'itemTemplate', foreach: deliveryItems } -->
+                                        <!-- ko template: { name: 'deliveryItemTemplate', foreach: deliveryItems } -->
                                         <!-- /ko -->
                                     </tbody>
                                 </table>
@@ -310,7 +309,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-2 text-right">    
+                <div class="col-lg-2 text-right">
                     <label class="control-label tooltip-float">
                         Signed By
                     </label>
@@ -350,12 +349,25 @@
                 </td>*@
         </tr>
     </script>
+
+    <script id="deliveryItemTemplate" type="text/html">
+        <tr>
+            <td>
+                <span style="font-size:20px;" data-bind="text: productName"></span>
+            </td>
+
+            <td>
+                <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+            </td>
+
+        </tr>
+    </script>
     @*@Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")*@
     @*@Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")*@
     @*@Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")*@
     @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")
     @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
-   
+
 </div>
 
 <script type="text/javascript">
