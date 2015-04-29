@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GrapeCity.ActiveReports;
+using MPC.Models.ResponseModels;
 
 
 namespace MPC.Interfaces.MISServices
@@ -14,5 +15,7 @@ namespace MPC.Interfaces.MISServices
         List<ReportCategory> GetReportCategories();
         ReportCategory GetReportCategory(long CategoryId);
         SectionReport GetReport(int iReportID);
+
+        List<StoresListResponse> GetStoreNameByOrganisationId();
     }
 }

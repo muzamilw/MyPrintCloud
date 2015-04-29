@@ -595,6 +595,7 @@ define("inventory/inventory.viewModel",
                     },
                      // Filter Inventories
                     filterInventories = function () {
+                        pager().reset();
                         // Get Inventories
                         getInventoriesListItems();
                     },

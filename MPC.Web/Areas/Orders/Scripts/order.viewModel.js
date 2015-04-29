@@ -1404,6 +1404,7 @@ define("order/order.viewModel",
                     },
                     //get Orders Of Current Screen
                     getOrdersOfCurrentScreen = function () {
+                        pager().reset();
                         getOrders(currentScreen());
                     },
                     //Get Order Tab Changed Event
