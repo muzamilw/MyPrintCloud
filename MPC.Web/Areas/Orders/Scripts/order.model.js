@@ -1545,6 +1545,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 deliveryDate: deliveryDate,
                 formattedDeliveryDate: formattedDeliveryDate,
                 itemName: itemName,
+                estimateId:estimateId,
                 addressName: addressName,
                 isSelected: isSelected,
                 errors: errors,
@@ -2666,7 +2667,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     ShippingInformation.Create = function (source) {
-        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate);
+        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate, source.EstimateId);
     };
 
     // Item Stock Option Factory
