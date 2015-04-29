@@ -1565,10 +1565,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             };
         },
         // System User Entity        
-        SystemUser = function (specifiedId, specifiedName) {
+        SystemUser = function (specifiedId, specifiedName, specifiedFullName) {
             return {
                 id: specifiedId,
-                name: specifiedName
+                name: specifiedName,
+                fullName: specifiedFullName
             };
         },
         // Pipeline Source Entity        
@@ -2652,7 +2653,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // System User Factory
     SystemUser.Create = function (source) {
-        return new SystemUser(source.SystemUserId, source.UserName);
+        return new SystemUser(source.SystemUserId, source.UserName, source.FullName);
     };
 
     // Pipeline Source Factory

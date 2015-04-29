@@ -927,10 +927,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // #region ______________  S Y S T E M     U S E R   _________________
     // ReSharper disable once InconsistentNaming
-    var SystemUser = function (specifiedSystemUserId, specifiedUserName) {
+    var SystemUser = function (specifiedSystemUserId, specifiedUserName, specifiedfullName) {
         var self,
             systemUserId = ko.observable(specifiedSystemUserId),
             userName = ko.observable(specifiedUserName),
+            fullName = ko.observable(specifiedfullName),
             // Errors
             errors = ko.validation.group({
 
@@ -944,7 +945,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             dirtyFlag = new ko.dirtyFlag({
                 // ReSharper restore InconsistentNaming
                 systemUserId: systemUserId,
-                userName: userName
+                userName: userName,
+                fullName: fullName
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -964,6 +966,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         self = {
             systemUserId: systemUserId,
             userName: userName,
+            fullName:fullName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -982,7 +985,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     SystemUser.Create = function (source) {
         var systemUser = new SystemUser(
             source.SystemUserId,
-            source.UserName
+            source.UserName,
+            source.FullName
         );
         return systemUser;
     };

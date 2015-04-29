@@ -1169,10 +1169,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #region ______________  SYSTEM USER   ______________________________
     // ReSharper disable once InconsistentNaming
-    var SystemUser = function (specifiedSystemUserId, specifiedUserName) {
+    var SystemUser = function (specifiedSystemUserId, specifiedUserName, specifiedFullName) {
         var self,
             systemUserId = ko.observable(specifiedSystemUserId),
             userName = ko.observable(specifiedUserName),
+            fullName = ko.observable(specifiedFullName),
             // Errors
             errors = ko.validation.group({
 
@@ -1206,6 +1207,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         self = {
             systemUserId: systemUserId,
             userName: userName,
+            fullName:fullName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1224,7 +1226,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     SystemUser.Create = function (source) {
         var systemUser = new SystemUser(
             source.SystemUserId,
-            source.UserName
+            source.UserName,
+            source.FullName
         );
         return systemUser;
     };

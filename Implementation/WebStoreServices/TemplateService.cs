@@ -1110,7 +1110,7 @@ namespace MPC.Implementation.WebStoreServices
                                         oPdf.Layer = 1;
                                         oPdf.Rect.Position(posX, posY);
                                         oPdf.Rect.Resize(width, height);
-
+                                        oPdf.Transform.Rotate(45, oPdf.MediaBox.Width / 2, oPdf.MediaBox.Height / 2);
 
                                         oPdf.AddImageObject(oImg, true);
                                         oPdf.Transform.Reset();
