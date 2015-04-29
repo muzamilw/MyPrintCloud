@@ -6308,5 +6308,26 @@ namespace MPC.Repository.Repositories
         {
             return db.Companies.Where(c => c.WebAccessCode == WebAccessCode && c.OrganisationId == OrganisationId && c.IsCustomer == (int)CustomerTypes.Corporate).SingleOrDefault();
         }
+
+        public List<StoresListResponse> GetStoresNameByOrganisationId()
+        {
+            List<Company> objCompany = db.Companies.Where(c => c.OrganisationId == OrganisationId && c.IsCustomer == 3 || c.IsCustomer == 4).ToList();
+
+            List<StoresListResponse> response = new List<StoresListResponse>();
+            if (objCompany != null && objCompany.Count > 0)
+            {
+                foreach(var obj in objCompany)
+                {
+                    StoresListResponse objRes = new StoresListResponse();
+                    objRes.StoreID = obj.CompanyId;
+                    objRes.StoreName = obj.Name;
+
+                    response.Add(objRes);
+                }
+            }
+            return response;
+
+           
+        }
     }
 }

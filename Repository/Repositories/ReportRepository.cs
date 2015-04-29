@@ -228,6 +228,11 @@ namespace MPC.Repository.Repositories
                 oConn.Close();
             }
         }
+
+        //public ReportNote GetReportNoteByCompanyId(long CompanyId)
+        //{
+        //    return db.ReportNotes.Where(c => c.)
+        //}
        // GetReportsByOrganisationID
     }
 }
