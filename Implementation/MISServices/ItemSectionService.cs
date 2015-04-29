@@ -5451,6 +5451,8 @@ namespace MPC.Implementation.MISServices
                 updatedSection.BaseCharge2 = Math.Round((updatedSection.BaseCharge2 ?? 0 * updatedSection.SimilarSections ?? 1), 2);
                 updatedSection.Basecharge3 = Math.Round((updatedSection.Basecharge3 ?? 0 * updatedSection.SimilarSections ?? 1), 2);
             }
+            if (updatedSection.StockItem == null)
+                updatedSection.StockItem = itemsectionRepository.GetStockById(Convert.ToInt64(updatedSection.StockItemID1));
 
             return updatedSection;
 

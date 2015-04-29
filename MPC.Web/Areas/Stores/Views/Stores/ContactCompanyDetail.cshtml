@@ -5,7 +5,7 @@
 }
 
 <div data-bind="visible: $root.isEditorVisible()" style="display: none">
-    <form method="post" enctype="multipart/form-data" id="fileUploadForm">
+    @*<form method="post" enctype="multipart/form-data" id="fileUploadForm">*@
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
@@ -304,7 +304,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
 
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().accountManagerId"></select>   @*,value: $root.selectedClaimFilterListitem*@
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().accountManagerId"></select>   @*,value: $root.selectedClaimFilterListitem*@
                                                     <span class="help-block text-right">&nbsp;</span>
 
                                                 </div>
@@ -528,10 +528,12 @@
                                                 <!--/ko-->
                                                 <div class="filter-block">
                                                     <div class="filter-block pull-right col-xs-5">
-                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
-                                                        </div>
+                                                        <form data-bind="submit:$root.searchCompanyContact ">
+                                                            <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                                <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
+                                                            </div>
+                                                        </form>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary pull-right">
                                                             Add Contact
                                                         </a>
@@ -584,10 +586,12 @@
                                                 <!--/ko-->
                                                 <div class="filter-block">
                                                     <div class="filter-block pull-right col-xs-5">
-                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
-                                                        </div>
+                                                        <form data-bind="submit:$root.searchAddressByFilter ">
+                                                            <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                                <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchAddressByFilter"></i>
+                                                            </div>
+                                                        </form>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
                                                             Add Address
                                                         </a>
@@ -634,10 +638,12 @@
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block">
                                                     <div class="filter-block pull-right col-xs-5">
-                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
-                                                        </div>
+                                                        <form data-bind="submit:$root.searchCompanyTerritory ">
+                                                            <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                                <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
+                                                            </div>
+                                                        </form>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyTerritory" class="btn btn-primary pull-right">
                                                             Add Territory
                                                         </a>
@@ -685,7 +691,7 @@
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 1</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId1"></select>   @*,value: $root.selectedClaimFilterListitem*@
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId1"></select>   @*,value: $root.selectedClaimFilterListitem*@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -699,7 +705,7 @@
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 2</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId2"></select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId2"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -713,7 +719,7 @@
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 1</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId1"></select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId1"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -727,7 +733,7 @@
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 2</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId2"></select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId2"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -741,7 +747,7 @@
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 1</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId1"></select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId1"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -755,7 +761,7 @@
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 2</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId2"></select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId2"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -2455,7 +2461,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
             </tr>
         </script>
-    </form>
+    @*</form>*@
 </div>
 <style type="text/css" media="screen">
     #editor {

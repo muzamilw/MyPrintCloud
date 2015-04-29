@@ -77,6 +77,10 @@ define("inventoryCategory/inventoryCategory.viewModel",
                             }
                         });
                     },
+                    filterHandler = function () {
+                        pager().reset();
+                        getStockCategories();
+                    },
                     //GET Stock Categories
                     getStockCategories = function () {
                         isLoadingStockCategories(true);
@@ -287,7 +291,8 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     templateToUseStockSubCategories: templateToUseStockSubCategories,
                     onCreateNewStockSubCategory: onCreateNewStockSubCategory,
                     onDeleteStockSubCategory: onDeleteStockSubCategory,
-                    initialize: initialize
+                    initialize: initialize,
+                    filterHandler: filterHandler
                 };
             })()
         };

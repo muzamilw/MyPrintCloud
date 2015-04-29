@@ -370,7 +370,7 @@ namespace MPC.Repository.Repositories
                             clonedTemplate.isWatermarkText = oCutomer.isTextWatermark;
                             if (oCutomer.isTextWatermark == false)
                             {
-                                clonedTemplate.TempString = HttpContext.Current.Server.MapPath(oCutomer.WatermarkText);
+                                clonedTemplate.TempString = HttpContext.Current.Server.MapPath("~/"+oCutomer.WatermarkText);
                             }
 
                         }

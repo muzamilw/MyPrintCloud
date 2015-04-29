@@ -3,6 +3,7 @@ using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace MPC.Implementation.MISServices
         private readonly IReportRepository _IReportRepository;
         private readonly IOrganisationRepository organisationRepository;
         private readonly IReportRepository ReportRepository;
-        public ReportService(IReportRepository IReportRepository, IOrganisationRepository organisationRepository, IReportRepository ReportRepository)
+        private readonly ICompanyRepository CompanyRepository;
+        public ReportService(IReportRepository IReportRepository, IOrganisationRepository organisationRepository, IReportRepository ReportRepository, ICompanyRepository CompanyRepository)
         {
             if (IReportRepository == null)
             {
@@ -30,9 +32,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("ReportRepository");
             }
+            if (CompanyRepository == null)
+            {
+                throw new ArgumentNullException("CompanyRepository");
+            }
             this._IReportRepository = IReportRepository;
             this.organisationRepository = organisationRepository;
             this.ReportRepository = ReportRepository;
+            this.CompanyRepository = CompanyRepository;
         }
 
         public ReportCategory GetReportCategory(long CategoryId)
@@ -84,6 +91,13 @@ namespace MPC.Implementation.MISServices
             }
 
         }
+
+       
+        public List<StoresListResponse> GetStoreNameByOrganisationId()
+        {
+            return CompanyRepository.GetStoresNameByOrganisationId();
+        }
+
         //public List<usp_OrderReport_Result> GetOrderReportSource()
         //{
 

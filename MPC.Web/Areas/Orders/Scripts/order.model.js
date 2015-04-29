@@ -177,7 +177,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 isValid = ko.computed(function () {
                     return errors().length === 0 &&
                         items.filter(function (item) {
-                            return !item.isValid();
+                            return !item.isValid() && item.itemType() !== 2;
                         }).length === 0;
                 }),
                 // Show All Error Messages
@@ -202,7 +202,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                     // Show Item  Errors
                     var itemInvalid = items.find(function (item) {
-                        return !item.isValid();
+                        return !item.isValid() && item.itemType() !== 2;
                     });
 
                     if (itemInvalid) {
@@ -651,7 +651,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 },
                 // Convert To Server Data
                 convertToServerData = function () {
-                   // id() < 0 ? id(0) : id();
+                    // id() < 0 ? id(0) : id();
                     return {
                         ItemId: id(),
                         ItemCode: code(),
@@ -1001,6 +1001,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         ItemSizeWidth: itemSizeWidth(),
                         IsDoubleSided: isDoubleSided(),
                         IsWorknTurn: isWorknTurn(),
+                        IsPortrait: isPortrait(),
                         PrintViewLayout: printViewLayout(),
                         PrintViewLayoutPortrait: printViewLayoutPortrait(),
                         PrintViewLayoutLandscape: printViewLayoutLandscape(),
@@ -1073,6 +1074,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionInkCoverageList: sectionInkCoverageList,
                 isWorknTurn: isWorknTurn,
                 doubleWorknTurn: doubleWorknTurn,
+                isPortrait: isPortrait,
                 printViewLayout: printViewLayout,
                 printViewLayoutPortrait: printViewLayoutPortrait,
                 printViewLayoutLandscape: printViewLayoutLandscape,
@@ -1543,6 +1545,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 deliveryDate: deliveryDate,
                 formattedDeliveryDate: formattedDeliveryDate,
                 itemName: itemName,
+                estimateId: estimateId,
                 addressName: addressName,
                 isSelected: isSelected,
                 errors: errors,
@@ -1562,10 +1565,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             };
         },
         // System User Entity        
-        SystemUser = function (specifiedId, specifiedName) {
+        SystemUser = function (specifiedId, specifiedName, specifiedFullName) {
             return {
                 id: specifiedId,
-                name: specifiedName
+                name: specifiedName,
+                fullName: specifiedFullName
             };
         },
         // Pipeline Source Entity        
@@ -2649,7 +2653,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // System User Factory
     SystemUser.Create = function (source) {
-        return new SystemUser(source.SystemUserId, source.UserName);
+        return new SystemUser(source.SystemUserId, source.UserName, source.FullName);
     };
 
     // Pipeline Source Factory
@@ -2664,7 +2668,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     ShippingInformation.Create = function (source) {
-        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate);
+        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate, source.EstimateId);
     };
 
     // Item Stock Option Factory

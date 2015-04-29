@@ -81,6 +81,7 @@ define("crm/crm.viewModel",
                 //GET Suppliers For Suppliers List View
                 getSuppliers = function () {
                     isLoadingSuppliers(true);
+                    supplierpager().reset();
                     //dataservice.getStores({
                     dataservice.getSuppliers({
                         SearchString: searchSupplierFilter(),
@@ -175,7 +176,8 @@ define("crm/crm.viewModel",
                 },
 
                 // Search button handler
-                searchButtonHandler = function () {
+                filterHandler = function () {
+                    prospectPager().reset();
                     getCustomers(companyType());
                 },
                 //  Reset button handler
@@ -1134,6 +1136,7 @@ define("crm/crm.viewModel",
                 searchCompanyContactFilter = ko.observable(),
                 //Search Company Contact        
                 searchCompanyContact = function () {
+                    contactCompanyPager().reset();
                     if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
                         dataservice.searchCompanyContact({
                             SearchFilter: searchCompanyContactFilter(),
@@ -2435,7 +2438,7 @@ define("crm/crm.viewModel",
                     isEditorVisible: isEditorVisible,
                     isProspectOrCustomerScreen: isProspectOrCustomerScreen,
                     customersForListView: customersForListView,
-                    searchButtonHandler: searchButtonHandler,
+                    filterHandler: filterHandler,
                     resetButtonHandler: resetButtonHandler,
                     sharedNavigationVm: sharedNavigationVm,
                     closeEditDialog: closeEditDialog,

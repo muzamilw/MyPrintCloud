@@ -43,23 +43,11 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 if (Request.Content.IsMimeMultipartContent())
                 {
                     string uploadPath = HttpContext.Current.Server.MapPath("~/" + parameter1);
+                    if (!Directory.Exists(uploadPath))
+                        Directory.CreateDirectory(uploadPath);
                     MyStreamProvider streamProvider = new MyStreamProvider(uploadPath);
                     await Request.Content.ReadAsMultipartAsync(streamProvider);
                     List<string> messages = new List<string>();
-                    foreach (var file in streamProvider.FileData)
-                    {
-                        FileInfo fi = new FileInfo(file.LocalFileName);
-                        string fileExt = Path.GetExtension(fi.Name);
-                        bool isStringContainedInList = new[] { ".pdf", ".jpg", ".eps", ".tiff", ".csv", ".xls", ".xlsx" }.Contains(fileExt);
-                        if (isStringContainedInList == false)
-                        {
-                            messages.Add("You cannot upload file except of pdf,jpg,eps,tiff,csv,xls,xlsx.");
-                            return messages;
-                        }
-                    }
-                   
-                    if (!Directory.Exists(uploadPath))
-                    Directory.CreateDirectory(uploadPath);
                    
                     ItemAttachment attachment = null;
                     foreach (var file in streamProvider.FileData)
