@@ -827,7 +827,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Qty3Profit Width
                 qty3Profit = ko.observable(specifiedQty3Profit || 0),
                 // Base Charge1
-                baseCharge1 = ko.observable(specifiedBaseCharge1 != null ? specifiedBaseCharge1.toFixed(2) : 0),
+                baseCharge1 = ko.observable((specifiedBaseCharge1 != null || specifiedBaseCharge1 != undefined) ? specifiedBaseCharge1.toFixed(2) : 0),
                 // Base Charge2
                 baseCharge2 = ko.observable(specifiedBaseCharge2 || 0),
                 // Base Charge3
