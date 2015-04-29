@@ -703,7 +703,7 @@ namespace MPC.Implementation.MISServices
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
            return GenerateOrderArtworkArchive(OrderID, sZipName);
-           // return ExportPDF(1, 0, ReportType.Internal, 0,string.Empty);
+           // return ExportPDF(520, 0, ReportType.Internal, 0, string.Empty);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
@@ -1157,67 +1157,144 @@ namespace MPC.Implementation.MISServices
                                 {
                                     System.IO.Directory.CreateDirectory(VirtualFolderPath2);
                                 }
-
-                                int index = 0;
-                                foreach (var oPage in oPages)
+                                if (Item.isMultipagePDF == true)
                                 {
-                                    ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
-                                    index = index + 1;
-                                    //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
-                                    if (oPage1Attachment != null)
+
+                                    List<ArtWorkAttatchment> oPage1Attachment = oLstAttachments;
+                                    foreach (var page in oPages)
                                     {
-                                        string fileName = oPage1Attachment.FileName + oPage1Attachment.FileExtention;
-                                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-                                        string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
-                                        string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
-
-                                        if (fileName.Contains("overlay"))
-                                        {
-                                            sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
-
-                                        }
-
-                                        //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
-                                        if (File.Exists(sourcePath))
-                                        {
-                                            System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
-                                            System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
-                                        }
-
-
-
-                                        if (oPage.hasOverlayObjects == true)
-                                        {
-                                            oPage1Attachment = oLstAttachments[index];
-                                            index = index + 1;
-                                            if (oPage1Attachment != null)
-                                            {
-                                                fileName = oPage1Attachment.FileName;
-                                                fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-                                                fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
-                                                sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
-
-                                                if (fileName.Contains("overlay"))
-                                                {
-                                                    sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
-
-                                                }
-
-                                                //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
-                                                if (File.Exists(sourcePath))
-                                                {
-                                                    System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
-                                                    System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
-                                                }
-                                            }
-                                        }
-                                        //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
-                                        //string ThumbnailPath = fileCompleteAddress;
-                                        //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
-                                        //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+                                        if (page.hasOverlayObjects == true)
+                                            hasOverlayPdf = true;
                                     }
 
+                                  //  index = index + 1;
+                                    //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
+                                   
+                                    foreach (var attachment in oPage1Attachment)
+                                    {
+                                        if (attachment != null)
+                                        {
+                                            string fileName = attachment.FileName + attachment.FileExtention;
+                                            string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                            string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                            string sourcePath = DesignerPath + TemplateID + "/pages.pdf";
+
+                                            if (fileName.Contains("overlay"))
+                                            {
+                                                sourcePath = DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf";
+
+                                            }
+
+                                            //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                            if (File.Exists(sourcePath))
+                                            {
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+                                            }
+
+
+
+                                            //if (hasOverlayPdf == true)
+                                            //{
+                                            //    //  oPage1Attachment = oLstAttachments[0];
+
+                                            //    if (oPage1Attachment != null)
+                                            //    {
+                                            //        fileName = attachment.FileName;
+                                            //        fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                            //        fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                            //        sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+                                            //        if (fileName.Contains("overlay"))
+                                            //        {
+                                            //            sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+                                            //        }
+
+                                            //        //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                            //        if (File.Exists(sourcePath))
+                                            //        {
+                                            //            System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                            //            System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+                                            //        }
+                                            //    }
+                                            //}
+                                            //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                            //string ThumbnailPath = fileCompleteAddress;
+                                            //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
+                                            //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+                                        }
+                                    }
+                                   
+
+
                                 }
+                                else
+                                {
+                                    int index = 0;
+                                    foreach (var oPage in oPages)
+                                    {
+                                        ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
+                                        index = index + 1;
+                                        //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
+                                        if (oPage1Attachment != null)
+                                        {
+                                            string fileName = oPage1Attachment.FileName + oPage1Attachment.FileExtention;
+                                            string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                            string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                            string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+                                            if (fileName.Contains("overlay"))
+                                            {
+                                                sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+                                            }
+
+                                            //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                            if (File.Exists(sourcePath))
+                                            {
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+                                            }
+
+
+
+                                            if (oPage.hasOverlayObjects == true)
+                                            {
+                                                oPage1Attachment = oLstAttachments[index];
+                                                index = index + 1;
+                                                if (oPage1Attachment != null)
+                                                {
+                                                    fileName = oPage1Attachment.FileName;
+                                                    fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                                    fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                                    sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+                                                    if (fileName.Contains("overlay"))
+                                                    {
+                                                        sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+                                                    }
+
+                                                    //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                                    if (File.Exists(sourcePath))
+                                                    {
+                                                        System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                                        System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+                                                    }
+                                                }
+                                            }
+                                            //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                            //string ThumbnailPath = fileCompleteAddress;
+                                            //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
+                                            //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+                                        }
+
+                                    }
+                                }
+                                
+
+                               
                             }
                         }
                         else // case of uplaod images
@@ -1343,7 +1420,7 @@ namespace MPC.Implementation.MISServices
                         string ReportDataSource = string.Empty;
                         string ReportTemplate = string.Empty;
 
-                        sFileName =  "CustomerList.pdf";
+                        sFileName =  "OrderReport.pdf";
                         DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
                         currReport.DataSource = dataSourceList;
                     }
