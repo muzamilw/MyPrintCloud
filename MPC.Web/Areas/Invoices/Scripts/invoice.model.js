@@ -72,7 +72,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 footNotes = ko.observable(specifiedFootNotes),
                 xeroAccessCode = ko.observable(specifiedXeroAccessCode),
                 isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
-                isPostedInvoice = ko.observable(invoiceStatus == 20 ? true : false),
+                isPostedInvoice = ko.observable(invoiceStatus === 20 ? true : false),
+                deliveryItems = ko.computed(function () {
+                    if (invoiceDetailItems().length === 0) {
+                        return [];
+                    }
+
+                    return invoiceDetailItems.filter(function (item) {
+                        return item.detailType() === 2;
+                    });
+                }),
                 // Is Direct Sale Ui
                 isDirectSaleUi = ko.computed(function () {
                     return isDirectSale() ? "Direct Order" : "Online Order";
@@ -197,6 +206,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 isDirectSaleUi: isDirectSaleUi,
                 isDirectSale: isDirectSale,
                 invoiceDetailItems: invoiceDetailItems,
+                deliveryItems:deliveryItems,
                 statusName:statusName,
                 errors: errors,
                 isValid: isValid,

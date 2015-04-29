@@ -39,7 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
-        public BestPressResponse Post(ItemSection section)
+        public BestPressResponse Post( ItemSection section)
         {
             if (section == null || !ModelState.IsValid)
             {

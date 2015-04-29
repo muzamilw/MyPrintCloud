@@ -129,33 +129,34 @@ define("itemJobStatus/itemJobStatus.viewModel",
                         inReadyForShippingTotal(0);
                         inInvoiceAndShippedTotal(0);
                         _.each(items(), function (item) {
+                           var  qty1NetTotal = item.qty1NetTotal() === undefined || item.qty1NetTotal() === null ? 0 : item.qty1NetTotal();
                             if (item.statusId() === 11) {
-                                var total = (parseFloat(needAssigningTotal()) + parseFloat(item.qty1NetTotal()));
+                                var total = (parseFloat(needAssigningTotal()) + parseFloat(qty1NetTotal));
                                 total.toFixed(2);
                                 needAssigningTotal(total);
                             }
                             else if (item.statusId() === 12) {
-                                var total1 = (parseFloat(inStudioTotal()) + parseFloat(item.qty1NetTotal()));
+                                var total1 = (parseFloat(inStudioTotal()) + parseFloat(qty1NetTotal));
                                 total1.toFixed(2);
                                 inStudioTotal(total1);
                             }
                             else if (item.statusId() === 13) {
-                                var total2 = (parseFloat(inPrintTotal()) + parseFloat(item.qty1NetTotal()));
+                                var total2 = (parseFloat(inPrintTotal()) + parseFloat(qty1NetTotal));
                                 total2.toFixed(2);
                                 inPrintTotal(total2);
                             }
                             else if (item.statusId() === 14) {
-                                var total3 = (parseFloat(inPostPressTotal()) + parseFloat(item.qty1NetTotal()));
+                                var total3 = (parseFloat(inPostPressTotal()) + parseFloat(qty1NetTotal));
                                 total3.toFixed(2);
                                 inPostPressTotal(total3);
                             }
                             else if (item.statusId() === 15) {
-                                var total4 = (parseFloat(inReadyForShippingTotal()) + parseFloat(item.qty1NetTotal()));
+                                var total4 = (parseFloat(inReadyForShippingTotal()) + parseFloat(qty1NetTotal));
                                 total4.toFixed(2);
                                 inReadyForShippingTotal(total4);
                             }
                             else if (item.statusId() === 16) {
-                                var total5 = (parseFloat(inInvoiceAndShippedTotal()) + parseFloat(item.qty1NetTotal()));
+                                var total5 = (parseFloat(inInvoiceAndShippedTotal()) + parseFloat(qty1NetTotal));
                                 total5.toFixed(2);
                                 inInvoiceAndShippedTotal(total5);
                             }

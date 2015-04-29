@@ -279,5 +279,8 @@ div#spinner {
   position: absolute;
   cursor: pointer;}
    
-   
+  .dashboardcounters23{
+      font-size:23px;
+      font-weight:600;
+  } 
   

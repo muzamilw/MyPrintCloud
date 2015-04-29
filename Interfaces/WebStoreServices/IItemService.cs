@@ -28,7 +28,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID);
 
-        void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
+        void CopyAttachments(long ItemID, Item NewlyClonedItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate, long OrganisationId, long CompanyId);
         ItemStockControl GetStockItem(long itemId);
         List<AddOnCostsCenter> GetStockOptionCostCentres(long itemId, long companyId);
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
@@ -194,5 +194,18 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="itemID"></param>
         /// <returns></returns>
         long GetCategoryIdByItemId(long ItemId);
+          /// <summary>
+        /// Load designer in case of print product 
+        /// </summary>
+        /// <param name="ItemId"></param>
+        /// <param name="ModeOfStore"></param>
+        /// <param name="OrderIdFromCookie"></param>
+        /// <param name="ContactIdFromClaim"></param>
+        /// <param name="CompanyIdFromClaim"></param>
+        /// <param name="TemporaryRetailCompanyIdFromCookie"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId);
+        
     }
 }

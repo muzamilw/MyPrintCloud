@@ -447,7 +447,12 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
-
+                    createInvoice = function () {                     
+                        selectedInvoice(model.Invoice.Create({}));
+                        selectedInvoice().invoiceStatus(19);
+                        selectedInvoice().isPostedInvoice(false);
+                        openInvoiceEditor();
+                    },
 
                 //Initialize method to call in every screen
                 initializeScreen = function (specifiedView) {
@@ -493,7 +498,9 @@ define("invoice/invoice.viewModel",
                     onCloseInvoiceEditor: onCloseInvoiceEditor,
                     isCompanyBaseDataLoaded: isCompanyBaseDataLoaded,
                     invoiceTypes: invoiceTypes,
-                    onSaveInvoice: onSaveInvoice
+                    onSaveInvoice: onSaveInvoice,
+                    getInvoicesOnTabChange: getInvoicesOnTabChange,
+                    createInvoice: createInvoice
                 };
             })()
         };

@@ -534,9 +534,24 @@ namespace MPC.Webstore.Controllers
             PriceMatrixObjectList = null;
             AddonObjectList = null;
 
-            ViewBag.Item = referenceItem;
+            
+            ItemViewModel ItemModel = new ItemViewModel();
+            ItemModel.File1 = referenceItem.File1;
+            ItemModel.File2 = referenceItem.File2;
+            ItemModel.File3 = referenceItem.File3;
+            ItemModel.File4 = referenceItem.File4;
+            ItemModel.GridImage = referenceItem.GridImage;
+            ItemModel.IsQtyRanged = referenceItem.IsQtyRanged ?? false;
+            ItemModel.isUploadImage = referenceItem.IsUploadImage ?? false;
+            ItemModel.ItemPriceMatrices = referenceItem.ItemPriceMatrices.ToList();
+            ItemModel.ProductName = referenceItem.ProductName;
+            ItemModel.WebDescription = referenceItem.WebDescription;
+            ItemModel.ItemId = referenceItem.ItemId;
+            ItemModel.Mode = ViewData["Templates"] == null ? "UploadDesign" : "Template";
+            ViewBag.ItemModel = ItemModel;
             ViewBag.CategoryName = _myItemService.GetCategoryNameById(0, ReferenceItemId);
             ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + _myItemService.GetCategoryIdByItemId(ReferenceItemId);
+            referenceItem = null;
         }
         private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId)
         {

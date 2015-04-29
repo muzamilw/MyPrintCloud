@@ -602,7 +602,7 @@ namespace MPC.Repository.Repositories
                             File.Copy(drURL + oTemplatePage.BackgroundFileName,
                                 drURL + result.ToString() + "/" +
                                 oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"),
-                                    oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")));
+                                    oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")),true);
                             oTemplatePage.BackgroundFileName = result.ToString() + "/" +
                                                                oTemplatePage.BackgroundFileName.Substring(
                                                                    oTemplatePage.BackgroundFileName.IndexOf("/"),
@@ -1500,101 +1500,105 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate,
-            DateTime OrderCreationDate)
-        {
-            try
-            {
-                int sideNumber = 1;
-                List<ItemAttachment> attchmentRes = GetItemAttactchments(itemID);
-                List<ItemAttachment> Newattchments = new List<ItemAttachment>();
-                ItemAttachment obj = null;
+        //public void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate,
+        //    DateTime OrderCreationDate)
+        //{
+        //    try
+        //    {
+        //        int sideNumber = 1;
+        //        List<ItemAttachment> attchmentRes = GetItemAttactchments(itemID);
+        //        List<ItemAttachment> Newattchments = new List<ItemAttachment>();
+        //        ItemAttachment obj = null;
 
-                foreach (ItemAttachment attachment in attchmentRes)
-                {
-                    obj = new ItemAttachment();
+        //        foreach (ItemAttachment attachment in attchmentRes)
+        //        {
+        //            obj = new ItemAttachment();
 
-                    obj.ApproveDate = attachment.ApproveDate;
-                    obj.Comments = attachment.Comments;
-                    obj.ContactId = attachment.ContactId;
-                    obj.ContentType = attachment.ContentType;
-                    obj.CompanyId = attachment.CompanyId;
-                    obj.FileTitle = attachment.FileTitle;
-                    obj.FileType = attachment.FileType;
-                    obj.FolderPath = attachment.FolderPath;
-                    obj.IsApproved = attachment.IsApproved;
-                    obj.isFromCustomer = attachment.isFromCustomer;
-                    obj.Parent = attachment.Parent;
-                    obj.Type = attachment.Type;
-                    obj.UploadDate = attachment.UploadDate;
-                    obj.Version = attachment.Version;
-                    obj.ItemId = NewItem.ItemId;
-                    if (NewItem.TemplateId > 0)
-                    {
-                        obj.FileName = GetTemplateAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                            "Side" + sideNumber.ToString(), attachment.FolderPath, "", OrderCreationDate);
-                        //NewItemID + " Side" + sideNumber + attachment.FileType;
-                    }
-                    else
-                    {
-                        obj.FileName = GetAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                            sideNumber.ToString() + "Copy", attachment.FolderPath, "", OrderCreationDate);
-                        //NewItemID + " Side" + sideNumber + attachment.FileType;
-                    }
-                    sideNumber += 1;
-                    db.ItemAttachments.Add(obj);
-                    Newattchments.Add(obj);
+        //            obj.ApproveDate = attachment.ApproveDate;
+        //            obj.Comments = attachment.Comments;
+        //            obj.ContactId = attachment.ContactId;
+        //            obj.ContentType = attachment.ContentType;
+        //            obj.CompanyId = attachment.CompanyId;
+        //            obj.FileTitle = attachment.FileTitle;
+        //            obj.FileType = attachment.FileType;
+        //            obj.FolderPath = attachment.FolderPath;
+        //            obj.IsApproved = attachment.IsApproved;
+        //            obj.isFromCustomer = attachment.isFromCustomer;
+        //            obj.Parent = attachment.Parent;
+        //            obj.Type = attachment.Type;
+        //            obj.UploadDate = attachment.UploadDate;
+        //            obj.Version = attachment.Version;
+        //            obj.ItemId = NewItem.ItemId;
+        //            if (NewItem.TemplateId > 0)
+        //            {
+        //                obj.FileName = GetTemplateAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
+        //                    "Side" + sideNumber.ToString(), attachment.FolderPath, "", OrderCreationDate);
+        //                //NewItemID + " Side" + sideNumber + attachment.FileType;
+        //            }
+        //            else
+        //            {
+        //                obj.FileName = GetAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
+        //                    sideNumber.ToString() + "Copy", attachment.FolderPath, "", OrderCreationDate);
+        //                //NewItemID + " Side" + sideNumber + attachment.FileType;
+        //            }
+        //            sideNumber += 1;
+        //            db.ItemAttachments.Add(obj);
+        //            Newattchments.Add(obj);
 
-                    // Copy physical file
-                    string sourceFileName = null;
-                    string destFileName = null;
-                    if (NewItem.TemplateId > 0 && CopyTemplate == true)
-                    {
-                        sourceFileName =
-                            HttpContext.Current.Server.MapPath(attachment.FolderPath +
-                                                               System.IO.Path.GetFileNameWithoutExtension(
-                                                                   attachment.FileName) + "Thumb.png");
-                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName + "Thumb.png");
-                    }
-                    else
-                    {
-                        sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName + attachment.FileType);
-                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName + obj.FileType);
-                    }
+        //            // Copy physical file
+        //            string sourceFileName = null;
+        //            string destFileName = null;
+        //            if (NewItem.TemplateId > 0 && CopyTemplate == true)
+        //            {
+        //                sourceFileName =
+        //                    HttpContext.Current.Server.MapPath(attachment.FolderPath +
+        //                                                       System.IO.Path.GetFileNameWithoutExtension(
+        //                                                           attachment.FileName) + "Thumb.png");
+        //                destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName + "Thumb.png");
+        //            }
+        //            else
+        //            {
+        //                sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + "/" + attachment.FileName + attachment.FileType);
+        //                destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + "/" + obj.FileName + obj.FileType);
+        //            }
 
-                    if (File.Exists(sourceFileName))
-                    {
-                        File.Copy(sourceFileName, destFileName);
+        //            if (File.Exists(sourceFileName))
+        //            {
+        //                File.Copy(sourceFileName, destFileName);
 
-                        // Generate the thumbnail
+        //                // Generate the thumbnail
 
-                        byte[] fileData = File.ReadAllBytes(destFileName);
+        //                byte[] fileData = File.ReadAllBytes(destFileName);
 
-                        if (obj.FileType == ".pdf" || obj.FileType == ".TIF" || obj.FileType == ".TIFF")
-                        {
-                            GenerateThumbnailForPdf(fileData, destFileName, false);
-                        }
-                        else
-                        {
-                            MemoryStream ms = new MemoryStream();
-                            ms.Write(fileData, 0, fileData.Length);
+        //                if (obj.FileType == ".pdf" || obj.FileType == ".TIF" || obj.FileType == ".TIFF")
+        //                {
+        //                    GenerateThumbnailForPdf(fileData, destFileName, false);
+        //                }
+        //                else
+        //                {
+        //                    MemoryStream ms = new MemoryStream();
+        //                    ms.Write(fileData, 0, fileData.Length);
 
-                            CreatAndSaveThumnail(ms, destFileName);
-                        }
-                    }
+        //                    CreatAndSaveThumnail(ms, destFileName);
+        //                }
+        //            }
 
-                }
+        //        }
 
-                db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        db.SaveChanges();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
 
-        }
-
-        public List<ItemAttachment> GetItemAttactchments(int itemID)
+        //}
+        /// <summary>
+        /// Gets the attchment list
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        public List<ItemAttachment> GetItemAttactchments(long itemID)
         {
             try
             {
@@ -2153,25 +2157,27 @@ namespace MPC.Repository.Repositories
                     {
                         if (clonedItem.DefaultItemTax != null)
                         {
-                            double currTax = ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); //(itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax) / 100);
+                            double TaxAppliedOnItemTotal = ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); //(itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax) / 100);
+                            double TaxAppliedOnCostCentreTotal = ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
                             //itemPrice = itemPrice - (currTax - (currTax * Convert.ToDouble(clonedItem.DefaultItemTax) / 100));
 
                             itemPrice = itemPrice; //- (currTax - Math.Ceiling(((currTax * TaxRate) / 100)));
                             netTotal = itemPrice + addonsPrice;
 
                             netTotal = netTotal + markupRate ?? 0;
-                            grossTotal = netTotal + (netTotal * currTax);
-                            clonedItem.Qty1Tax1Value = currTax;//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                            grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);
+                            clonedItem.Qty1Tax1Value = (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
                         }
                         else
                         {
-                            double currTax = (itemPrice * TaxRate / 100);
+                            double TaxAppliedOnItemTotal = (itemPrice * TaxRate / 100);
+                            double TaxAppliedOnCostCentreTotal = (addonsPrice * TaxRate / 100);
                             itemPrice = itemPrice;// - (currTax - Math.Ceiling(((currTax * TaxRate) / 100)));
                             netTotal = itemPrice + addonsPrice;
 
                             netTotal = netTotal + markupRate ?? 0;
-                            grossTotal = netTotal + currTax;//CalculatePercentage(netTotal, TaxRate);
-                            clonedItem.Qty1Tax1Value = currTax;//GetTaxPercentage(netTotal, TaxRate);
+                            grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//CalculatePercentage(netTotal, TaxRate);
+                            clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
                         }
                     }
                     else 
@@ -2534,17 +2540,17 @@ namespace MPC.Repository.Repositories
                                         string Actualfilenamepdf = attatchment.FileName + attatchment.FileType;
 
                                         string Sourcefilenamepdf =
-                                            HttpContext.Current.Server.MapPath(attatchment.FolderPath +
+                                            HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/" +
                                                                                attatchment.FileName + attatchment.FileType);
                                         string newfilenamepdf = GetTemplateAttachmentFileName(item.ProductCode,
                                             ActualOrder.Order_Code, item.ItemCode, "Side" + PageNo.ToString(), "",
                                             ".pdf", TemporaryOrder.CreationDate ?? DateTime.Now);
 
-                                        SourceTargetFolder = System.Web.HttpContext.Current.Server.MapPath(attatchment.FolderPath);
-                                        string destinationTargetFolder = System.Web.HttpContext.Current.Server.MapPath("/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID);
+                                        SourceTargetFolder = System.Web.HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/");
+                                        string destinationTargetFolder = System.Web.HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/");
                                         
                                         string destnationfilepdf =
-                                            HttpContext.Current.Server.MapPath("/mpc_content/Attachments/"+ OrganisationId +"/" + realCustomerID + "/" + newfilenamepdf);
+                                            HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/" + newfilenamepdf);
 
                                         if (!System.IO.Directory.Exists(destinationTargetFolder))
                                         {
@@ -2552,20 +2558,18 @@ namespace MPC.Repository.Repositories
                                         }
 
                                         System.IO.File.Move(Sourcefilenamepdf, destnationfilepdf);
-
-                                        //string Actualfilenamepng =
-                                        //    System.IO.Path.GetFileNameWithoutExtension(attatchment.FileName);
+                                      
                                         string Sourcefilenamepng =
-                                            HttpContext.Current.Server.MapPath(attatchment.FolderPath +
+                                            HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/" +
                                                                                attatchment.FileName + "Thumb.png");
                                         string newfilenamepng = GetTemplateAttachmentFileName(item.ProductCode,
                                             ActualOrder.Order_Code, item.ItemCode, "Side" + PageNo.ToString(), "",
                                             "Thumb.png", TemporaryOrder.CreationDate ?? DateTime.Now);
                                         string destnationfilepng =
-                                            HttpContext.Current.Server.MapPath("/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/" + newfilenamepng);
+                                            HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/" + newfilenamepng);
                                         System.IO.File.Move(Sourcefilenamepng, destnationfilepng);
                                         attatchment.FileName = System.IO.Path.GetFileNameWithoutExtension(newfilenamepdf);
-                                        attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
+                                        attatchment.FolderPath = attatchment.FolderPath;
                                     }
                                     attatchment.CompanyId = realCustomerID;
                                     attatchment.ContactId = realContactID;
@@ -2576,10 +2580,10 @@ namespace MPC.Repository.Repositories
                             });
                         }
 
-                        if (System.IO.Directory.Exists(SourceTargetFolder) && !string.IsNullOrEmpty(SourceTargetFolder))
-                        {
-                            System.IO.Directory.Delete(SourceTargetFolder, true);
-                        }
+                        //if (System.IO.Directory.Exists(SourceTargetFolder) && !string.IsNullOrEmpty(SourceTargetFolder))
+                        //{
+                        //    System.IO.Directory.Delete(SourceTargetFolder, true);
+                        //}
                         
                         //item
                         TemporaryOrderItems.ToList().ForEach(item =>
@@ -2596,10 +2600,7 @@ namespace MPC.Repository.Repositories
                             TemporaryOrder.CompanyId = realCustomerID;
                             TemporaryOrder.ContactId = realContactID;
                         }
-                        else
-                        {
-                          
-                        }
+                       
 
                         //List<Address> temporaryCustomerAddress = db.Addesses.Where(a => a.CompanyId == TemporaryCustomerID).ToList();
                         //foreach (Address add in temporaryCustomerAddress)
@@ -3102,7 +3103,6 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-
                 List<TemplatePage> oPages = null;
                 db.Configuration.LazyLoadingEnabled = false;
                 bool hasOverlayPdf = false;
@@ -3130,7 +3130,7 @@ namespace MPC.Repository.Repositories
                     System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" +
                                                                   organisationId.ToString() + "/Templates/");
                 // string DesignerPath = System.Web.HttpContext.Current.Server.MapPath("~/designengine/designer/products/");
-
+                
                 if (oLstAttachments.Count == 0)
                 //no attachments already exist, hence a new entry in attachments is required
                 {
@@ -3138,17 +3138,16 @@ namespace MPC.Repository.Repositories
                     //special working for attaching the PDF
                     List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                     ArtWorkAttatchment attatcment = null;
-                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID +
-                                        "/";
+                    string folderPath = "mpc_content/Attachments/" + organisationId + "/" + HttpContext.Current.Request.Cookies["WBStoreId"].Value + "/Products/" + itemID;
                     //Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = "";
                     if (caller == "webstore")
                     {
-                        virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath(folderPath);
+                        virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath(folderPath + "/");
                     }
                     else
                     {
-                        virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath);
+                        virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath + "/");
                     }
 
 
@@ -3270,9 +3269,9 @@ namespace MPC.Repository.Repositories
                 }
                 else // attachment alredy exists hence we need to updat the existing artwork.
                 {
-                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID;
+                    string folderPath = "mpc_content/Attachments/" + organisationId + "/" + HttpContext.Current.Request.Cookies["WBStoreId"].Value + "/Products/" + itemID;
                     // Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
-                    string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath);
+                    string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath + "/");
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
                     int index = 0;
@@ -3344,7 +3343,7 @@ namespace MPC.Repository.Repositories
                             if (oPage1Attachment != null)
                             {
                                 string fileName = oPage1Attachment.FileName;
-                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
                                 string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo +
                                                     ".pdf";
                                 if (fileName.Contains("overlay"))
@@ -3370,7 +3369,7 @@ namespace MPC.Repository.Repositories
                                 if (oPage1Attachment != null)
                                 {
                                     string fileName = oPage1Attachment.FileName;
-                                    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
                                     string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo +
                                                         ".pdf";
                                     if (fileName.Contains("overlay"))
@@ -4454,6 +4453,20 @@ namespace MPC.Repository.Repositories
             try
             {
                 return db.Items.Include("itemSections.sectioncostcentres").Where(i => i.ItemId == itemID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public void AddAttachment(ItemAttachment AttachmentObject)
+        {
+            try
+            {
+                db.ItemAttachments.Add(AttachmentObject);
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
