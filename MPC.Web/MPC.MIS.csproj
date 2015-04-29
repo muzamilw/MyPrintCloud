@@ -831,7 +831,9 @@
     <Compile Include="Areas\Api\Models\MyOrganizationBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\MyOrganizationSaveResponse.cs" />
     <Compile Include="Areas\Api\Models\StockCategoryResponse.cs" />
-    <Compile Include="Reports\EstimateReportCostCenters.cs" />
+    <Compile Include="Reports\EstimateReportCostCenters.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\EstimateReportCostCenters.Designer.cs">
       <DependentUpon>EstimateReportCostCenters.cs</DependentUpon>
     </Compile>
