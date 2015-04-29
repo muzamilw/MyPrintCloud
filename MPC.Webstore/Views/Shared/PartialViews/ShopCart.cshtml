@@ -211,13 +211,7 @@
                                                 </td>
                                             }
 
-                                            @*<td align="left" style="width:20%; padding-top:3px;" valign="top">*@
-                                                @*<input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove">
-                                                @*<a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">Remove</a>*@
-                                                @*<br>*@
-                                                @* @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.WEBOrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })*@
-                                                @*<input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Copy in cart">*@
-                                            @*</td>*@
+                                          
                                         </tr>
 
                                             subtotal = _priceTotal.ToString();

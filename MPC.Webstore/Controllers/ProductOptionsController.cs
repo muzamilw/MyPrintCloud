@@ -141,7 +141,7 @@ namespace MPC.Webstore.Controllers
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
-                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0);
+                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName);
                 }
                 else
                 {
@@ -168,7 +168,7 @@ namespace MPC.Webstore.Controllers
             {
                 OrderID = UserCookieManager.WEBOrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId));
+                BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName);
                 referenceItemId = clonedItem.RefItemId ?? 0;
                 if (clonedItem.ItemSections != null) 
                 {
@@ -563,7 +563,7 @@ namespace MPC.Webstore.Controllers
             ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + _myItemService.GetCategoryIdByItemId(ReferenceItemId);
             referenceItem = null;
         }
-        private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId)
+        private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId, string ProductName)
         {
             List<TemplateViewData> Templates = new List<TemplateViewData>();
             Template Template = _template.GetTemplate(TemplateId);// _templatePages.GetTemplatePages(TemplateId).ToList();
@@ -592,7 +592,7 @@ namespace MPC.Webstore.Controllers
                 }
 
                 objTemplate.TemplateId = Template.ProductId;
-                objTemplate.TemplateName = Utils.specialCharactersEncoder(Template.ProductName);
+                objTemplate.TemplateName = objTemplate.TemplateName == null ? Utils.specialCharactersEncoder(ProductName) : Utils.specialCharactersEncoder(Template.ProductName);
                 objTemplate.ItemId = ItemId;
                 objTemplate.FileName = attach.FileName;
                 objTemplate.FolderPath = attach.FolderPath;
@@ -631,7 +631,7 @@ namespace MPC.Webstore.Controllers
 
         }
 
-
+        
 
     }
 
