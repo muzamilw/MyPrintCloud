@@ -33,12 +33,12 @@ define("common/addProduct.viewModel",
                     counterForItem = ko.observable(0),
                     // after selection
                     afterAddCostCenter = null,
-                     orderId = null,
+                    orderId = ko.observable(),
                     currencySymbol = ko.observable(),
 
                     // Show
                 show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId) {
-                    orderId = oId;
+                    orderId (oId);
                     currencySymbol(currencySym);
                     afterAddCostCenter = afterAddCostCenterCallback;
                     costCentresFromOrders = costCentresBaseData;
@@ -121,7 +121,7 @@ define("common/addProduct.viewModel",
                     },
                     createNewRetailStoreProduct = function () {
                         var item = selecteditem().convertToServerData();
-                        item.EstimateId = orderId;
+                        item.EstimateId = orderId();
                         var newItem = model.Item.Create(item);
                         counterForItem(counterForItem() - 1);
                         newItem.id(counterForItem());
