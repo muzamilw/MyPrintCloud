@@ -76,8 +76,8 @@ namespace MPC.MIS
         /// </summary>
         private static void ChangeMvcConfiguration()
         {
-            ViewEngines.Engines.Clear();
-            ViewEngines.Engines.Add(new CustomRazorViewEngine());
+            //ViewEngines.Engines.Clear();
+            //ViewEngines.Engines.Add(new CustomRazorViewEngine());
         }
 
         #endregion

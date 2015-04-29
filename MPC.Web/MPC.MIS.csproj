@@ -54,6 +54,38 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Diagnostics.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Diagnostics.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Document.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Html.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Export.Html.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Image.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Export.Image.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Pdf.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Export.Pdf.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Extensibility.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Extensibility.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Web.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Web.v7.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.4.0, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ICSharpCode.SharpZipLib.Patched.0.86.4\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -732,7 +764,7 @@
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
-    <Compile Include="Areas\Common\Controllers\ReportController.cs" />
+    <Compile Include="Areas\Reports\Controllers\HomeController.cs" />
     <Compile Include="Areas\DeliveryNotes\Controllers\HomeController.cs" />
     <Compile Include="Areas\DeliveryNotes\DeliveryNoteAreaRegistration.cs" />
     <Compile Include="Areas\Invoices\Controllers\HomeController.cs" />
@@ -743,6 +775,8 @@
     <Compile Include="Areas\Production\ProductionAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
+    <Compile Include="Areas\Reports\Models\ReportDescriptor.cs" />
+    <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\MISController.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
@@ -805,11 +839,18 @@
     <Compile Include="Areas\Api\Models\MyOrganizationBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\MyOrganizationSaveResponse.cs" />
     <Compile Include="Areas\Api\Models\StockCategoryResponse.cs" />
+    <Compile Include="Reports\EstimateReportCostCenters.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\EstimateReportCostCenters.Designer.cs">
+      <DependentUpon>EstimateReportCostCenters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ActiveReports.ReportService.asmx" />
     <Content Include="Areas\Common\Scripts\companySelector.dataservice.js" />
     <Content Include="Areas\Common\Scripts\reportManager.dataservice.js" />
     <Content Include="Areas\Common\Scripts\reportManager.model.js" />
@@ -835,6 +876,8 @@
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\supplier.model.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
+    <Content Include="Areas\Reports\Content\Site.css" />
+    <Content Include="Areas\Reports\Views\Home\WebViewer.ascx" />
     <Content Include="Areas\CRM\Scripts\calendar.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\calendar.model.js" />
     <Content Include="Areas\CRM\Scripts\calendar.view.js" />
@@ -1101,6 +1144,7 @@
     <Content Include="Content\less\Store.min.css">
       <DependentUpon>Store.css</DependentUpon>
     </Content>
+    <Content Include="Content\ReportViewerSite.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -2025,6 +2069,8 @@
     <Content Include="Areas\Production\Views\Home\ItemJobStatus.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_InventoryCategoryDialog.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_OrderStatusProgressToJob.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\Viewer.cshtml" />
+    <Content Include="Areas\Reports\Views\web.config" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3111,6 +3157,7 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\WebViewer.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3197,6 +3244,8 @@
     <Content Include="Views\CRM\SuppliersList.cshtml" />
     <Content Include="Views\Shared\PageUnAvailable.cshtml" />
     <Content Include="Views\Home\OrderMenuItems.cshtml" />
+    <Content Include="Views\Home\Viewer.cshtml" />
+    <Content Include="SectionReport.rpx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3234,6 +3283,7 @@
     <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Api\Views\StockCategory\" />
     <Folder Include="Areas\Api\Views\SystemUser\" />
+    <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Common\Views\Report\" />
     <Folder Include="Areas\CRM\Models\" />
@@ -3242,6 +3292,7 @@
     <Folder Include="Areas\Orders\Models\" />
     <Folder Include="Areas\Production\Models\" />
     <Folder Include="Areas\Products\Models\" />
+    <Folder Include="Areas\Reports\Views\Shared\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Stores\Models\" />
     <Folder Include="Content\Images\gallery\" />
@@ -3261,7 +3312,6 @@
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
-    <Folder Include="Reports\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />
     <Folder Include="Views\Shared\Address\" />
@@ -3304,6 +3354,10 @@
     <EmbeddedResource Include="Areas\Api\LanguageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Reports\EstimateReportCostCenters.resx">
+      <DependentUpon>EstimateReportCostCenters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

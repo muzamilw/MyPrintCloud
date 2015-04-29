@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ActiveReportsLayout Version="3.2" PrintWidth="9360" DocumentName="ARNet Document" ScriptLang="C#" MasterReport="0">
+  <StyleSheet>
+    <Style Name="Normal" Value="font-family: Arial; font-style: normal; text-decoration: none; font-weight: normal; font-size: 10pt; color: Black" />
+    <Style Name="Heading1" Value="font-size: 16pt; font-weight: bold" />
+    <Style Name="Heading2" Value="font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: italic" />
+    <Style Name="Heading3" Value="font-size: 13pt; font-weight: bold" />
+  </StyleSheet>
+  <Sections>
+    <Section Type="PageHeader" Name="PageHeader1" Height="360" BackStyle="1" BackColor="12632256" />
+    <Section Type="Detail" Name="Detail1" Height="810" BackColor="16777215">
+      <Control Type="AR.Field" Name="TextBox1" DataField="somevalue" Left="1290.24" Top="210.24" Width="1440" Height="288" Text="TextBox1" />
+    </Section>
+    <Section Type="PageFooter" Name="PageFooter1" Height="360" BackStyle="1" BackColor="255" />
+  </Sections>
+  <ReportComponentTray />
+  <PageSettings />
+  <Parameters />
+</ActiveReportsLayout>
