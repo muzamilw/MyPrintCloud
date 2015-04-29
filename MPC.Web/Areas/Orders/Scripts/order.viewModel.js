@@ -752,7 +752,7 @@ define("order/order.viewModel",
                     onStatusChangeItemResetToUnAssigned = function () {
                         var counter = 0;
                         _.each(selectedOrder().items(), function (item) {
-                            item.statusId(jobStatuses()[0].StatusId);
+                            item.jobStatusId(jobStatuses()[0].StatusId);
                             counter = counter + 1;
                         });
 
@@ -1513,12 +1513,6 @@ define("order/order.viewModel",
                                 }
                                 addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id());
                         }
-                                addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id());
-                        }
-                    },
-                    addItemFromRetailStore = function (newItem) {
-                        selectedProduct(newItem);
-                        selectedOrder().items.splice(0, 0, newItem);
                     },
                     addItemFromRetailStore = function (newItem) {
                         selectedProduct(newItem);
