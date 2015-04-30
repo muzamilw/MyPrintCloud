@@ -713,7 +713,7 @@ function ShippingBillingDetails(Type, panelHtml) {
 
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
-
+    
     var left = 0;
     var container = "";
     if (bws.width < 700 && bws.width > 640) {
@@ -755,7 +755,7 @@ function ShippingBillingDetails(Type, panelHtml) {
     }
 
 
-
+    document.getElementById("innerLayer").style.width = (bws.width) + "px";
     document.getElementById("innerLayer").innerHTML = container;
 
     document.getElementById("innerLayer").style.left = left + "px";
