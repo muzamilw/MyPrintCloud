@@ -2184,11 +2184,11 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Method for Order Add Product
         /// </summary>
-        /// <param name="companyId"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        public IEnumerable<Item> GetItemsByCompanyId(long companyId)
+        public IEnumerable<Item> GetItemsByCompanyId(ItemSearchRequestModel request)
         {
-            return itemRepository.GetItemsByCompanyId(companyId);
+            return itemRepository.GetItemsByCompanyId(request);
         }
 
         /// <summary>
