@@ -2169,7 +2169,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner, specifiedisEnabled) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner, specifiedisEnabled, specifiedCompanyId) {
         var self,
             id = ko.observable(specifiedPageId),
            // pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -2196,6 +2196,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
         defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
         pageBanner = ko.observable(specifiedPageBanner),
+        companyId = ko.observable(specifiedCompanyId),
 
         pageBannerWithCacheRemoveTechnique = ko.computed(function () {
             if (pageBanner() !== undefined && pageBanner() !== null) {
@@ -2255,6 +2256,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
             result.isEnabled = source.isEnabled();
             result.IsUserDefined = source.isUserDefined();
+            result.CompanyId = source.companyId();
             return result;
         },
         // Reset
@@ -2281,6 +2283,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isValid: isValid,
             isUserDefined: isUserDefined,
             pageBannerWithCacheRemoveTechnique: pageBannerWithCacheRemoveTechnique,
+            companyId:companyId,
             errors: errors,
             isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,

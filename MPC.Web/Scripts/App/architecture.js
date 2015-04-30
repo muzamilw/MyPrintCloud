@@ -40,6 +40,18 @@ var ist = {
         tapToDismiss: true,
         extendedTimeOut: 0,
         timeOut: 0 // Set timeOut to 0 to make it sticky
+    },
+    // Makes comma seperated Number
+    addCommasToNumber: function(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
     }
 };
 
@@ -291,7 +303,7 @@ require(["ko", "knockout-validation"], function (ko) {
             }
 
             CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
-
+            var instance = CKEDITOR.instances['content'];
             //CKEDITOR.instances
             //CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
             if (ko.isObservable(value)) {
@@ -310,15 +322,14 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 };
-
-                $element.on('input, change, keyup, mouseup', function () {
-                    if (!isSubscriberChange) {
-                        isEditorChange = true;
-                        value($element.html());
-                        isEditorChange = false;
-
-                    }
+                instance.on('contentDom', function () {
+                    instance.document.on('keyup', function (event) {
+                        if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
+                            ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
+                        }
+                    });
                 });
+               
                 value.subscribe(function (newValue) {
                     if (!isEditorChange) {
                         isSubscriberChange = true;

@@ -48,7 +48,8 @@ namespace MPC.MIS.Areas.Api.Models
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
                 Image = bytes,
-                PageBanner = source.PageBanner
+                PageBanner = source.PageBanner,
+                CompanyId=source.CompanyId
             };
         }
 
@@ -75,7 +76,8 @@ namespace MPC.MIS.Areas.Api.Models
                 FileName = source.FileName,
                 Bytes = source.Bytes,
                 PageBanner = source.PageBanner,
-                isEnabled = source.isEnabled
+                isEnabled = source.isEnabled,
+                CompanyId = source.CompanyId
             };
         }
 
