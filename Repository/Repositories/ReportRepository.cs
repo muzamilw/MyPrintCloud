@@ -140,7 +140,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.usp_EstimateReport(OrganisationId, EstimateID).ToList();
+                //return db.usp_EstimateReport(OrganisationId, EstimateID).ToList();
+                return null;
 
             }
             catch (Exception ex)
@@ -153,7 +154,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.usp_InvoiceReport(OrganisationId, InvoiceID).ToList();
+               // return db.usp_InvoiceReport(OrganisationId, InvoiceID).ToList();
+                return null;
 
             }
             catch (Exception ex)

@@ -13,7 +13,7 @@
             estimateBannerBytes = ko.observable(specifiedEstimateBannerBytes),
             orderBannerBytes = ko.observable(specifiedOrderBannerBytes),
             invoiceBannerBytes = ko.observable(specifiedInvoiceBannerBytes),
-            purchaeBannerBytes = ko.observable(specifiedPurchaseBannerBytes),
+            purchaseBannerBytes = ko.observable(specifiedPurchaseBannerBytes),
             deliveryBannerBytes = ko.observable(specifiedeliveryBannerBytes),
 
             errors = ko.validation.group({
@@ -46,7 +46,7 @@
                 EstimateBannerBytes: estimateBannerBytes(),
                 orderBannerBytes : orderBannerBytes(),
                 invoiceBannerBytes : invoiceBannerBytes(),
-                purchaeBannerBytes : purchaeBannerBytes(),
+                purchaseBannerBytes: purchaseBannerBytes(),
                 deliveryBannerBytes: deliveryBannerBytes()
             };
         };
@@ -61,7 +61,7 @@
             estimateBannerBytes: estimateBannerBytes,
             orderBannerBytes : orderBannerBytes,
             invoiceBannerBytes : invoiceBannerBytes,
-            purchaeBannerBytes : purchaeBannerBytes,
+            purchaseBannerBytes: purchaseBannerBytes,
             deliveryBannerBytes: deliveryBannerBytes,
             dirtyFlag: dirtyFlag,
             errors: errors,

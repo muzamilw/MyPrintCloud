@@ -70,8 +70,8 @@
                                         <div class="col-md-6">
                                             <div class="clearfix">
                                                 <div>
-                                                    <img style="width:400px;" data-bind="visible:estimateBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
-                                                    <img style="width:400px;" data-bind="visible:estimateBannerBytes()!==undefined,attr: { src: costcentreImageFileBinary }" />
+                                                    <img style="width:400px;" data-bind="visible:estimateBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
+                                                    <img style="width:400px;" data-bind="visible:estimateBannerBytes()!==undefined,attr: { src: estimateBannerBytes }" />
                                                 </div>
 
                                                 <div class="pull-right">
@@ -97,8 +97,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="clearfix">
-                                                <img style="width:400px;" />
-                                                <img style="width:400px;" />
+                                                <img style="width:400px;" data-bind="visible:orderBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
+                                                <img style="width:400px;" data-bind="visible:orderBannerBytes()!==undefined,attr: { src: orderBannerBytes }" />
                                                 <div class="pull-right">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
@@ -122,8 +122,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="clearfix">
-                                                <img style="width:400px;" />
-                                                <img style="width:400px;" />
+                                                <img style="width:400px;" data-bind="visible:invoiceBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
+                                                <img style="width:400px;" data-bind="visible:invoiceBannerBytes()!==undefined,attr: { src: invoiceBannerBytes }" />
                                                 <div class="pull-right">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
@@ -147,8 +147,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="clearfix">
-                                                <img style="width:400px;" />
-                                                <img style="width:400px;" />
+                                                <img style="width:400px;" data-bind="visible:purchaseBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
+                                                <img style="width:400px;" data-bind="visible:purchaseBannerBytes()!==undefined,attr: { src: purchaseBannerBytes }" />
                                                 <div class="pull-right">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
@@ -172,8 +172,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="clearfix">
-                                                <img style="width:400px;" />
-                                                <img style="width:400px;" />
+                                                <img style="width:400px;" data-bind="visible:deliveryBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
+                                                <img style="width:400px;" data-bind="visible:deliveryBannerBytes()!==undefined,attr: { src: deliveryBannerBytes }" />
                                                 <div class="pull-right">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
