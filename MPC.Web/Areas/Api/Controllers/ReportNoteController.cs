@@ -45,6 +45,14 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return reportService.GetStoreNameByOrganisationId();
         }
+
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+       
+        public IEnumerable<ReportNote> GetReportNote(long CompanyID)
+        {
+            return reportService.GetReportNoteByCompanyID(CompanyID).Select(c => c.CreateFrom());
+
+        }
         #endregion
     }
 }

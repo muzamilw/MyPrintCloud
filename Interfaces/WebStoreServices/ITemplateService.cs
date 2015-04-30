@@ -43,6 +43,6 @@ namespace MPC.Interfaces.WebStoreServices
 
         bool UpdateQuickTextTemplateSelection(QuickText objQText);
 
-        
+        string GetConvertedSizeWithUnits(long productId, long organisationID, long itemID);
     }
 }
