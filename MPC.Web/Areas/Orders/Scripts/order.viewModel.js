@@ -1317,7 +1317,7 @@ define("order/order.viewModel",
                                         orderUpdated.creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
                                         var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                         orderUpdated.estimateTotal(total);
-                                        orderUpdated.name(data.OrderName);
+                                        orderUpdated.name(data.EstimateName);
                                             orderUpdated.numberOfItems(data.ItemsCount || 0);
                                         orderUpdated.status(data.Status || '');
                                             if (orderFlag) {
@@ -2430,9 +2430,12 @@ define("order/order.viewModel",
                                     if (data != null) {
                                         selectedSection(model.ItemSection.Create(data));
                                         hideEstimateRunWizard();
-                                        baseCharge1Total(parseFloat(selectedSection().baseCharge1()));
-                                        baseCharge2Total(parseFloat(selectedSection().baseCharge2()));
-                                        baseCharge3Total(parseFloat(selectedSection().baseCharge3()));
+                                        var charge1 = setDecimalPlaceValue(selectedSection().baseCharge1());
+                                        var charge2 = setDecimalPlaceValue(selectedSection().baseCharge2());
+                                        var charge3 = setDecimalPlaceValue(selectedSection().baseCharge3());
+                                        baseCharge1Total(charge1);
+                                        baseCharge2Total(charge2);
+                                        baseCharge3Total(charge3);
 
                                     }
                                     isLoadingOrders(false);
@@ -2442,6 +2445,23 @@ define("order/order.viewModel",
                                     toastr.error("Error: Failed to Load System Cost Centers." + response);
                                 }
                             });
+                        },
+                        setDecimalPlaceValue = function (chargevalue) {
+                            if (chargevalue) {
+                                var val = parseFloat(chargevalue);
+                                var calc;
+                                if (!isNaN(val)) {
+                                    calc = (val.toFixed(2));                                    
+                                    return calc;
+                                }
+                                else {
+                                    calc = 0.00;
+                                    return calc;
+                                }
+                            }
+                            else {
+                                return 0.00;
+                            }
                         },
                         downloadArtwork = function () {
                             isLoadingOrders(true);

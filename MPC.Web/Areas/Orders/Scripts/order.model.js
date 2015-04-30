@@ -1153,11 +1153,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Qty3
                 qty3 = ko.observable(specifiedQty3 || undefined),
                 // Qty1 Profit
-                qty1NetTotal = ko.observable(specifiedQty1NetTotal || undefined),
+                qty1NetTotal = ko.observable(specifiedQty1NetTotal != null? specifiedQty1NetTotal.toFixed(2) : 0 || undefined),
                 // Qty2NetTotal
-                qty2NetTotal = ko.observable(specifiedQty2NetTotal || undefined),
+                qty2NetTotal = ko.observable(specifiedQty2NetTotal != null ? specifiedQty2NetTotal.toFixed(2) : 0 || undefined),
                 // Qty3NetTotal
-                qty3NetTotal = ko.observable(specifiedQty3NetTotal || undefined),
+                qty3NetTotal = ko.observable(specifiedQty3NetTotal != null ? specifiedQty3NetTotal.toFixed(2) : 0 || undefined),
                 // Item Section Id
                 itemSectionId = ko.observable(specifiedItemSectionId || undefined),
                 //Qty 1 Work Instructions
@@ -2281,7 +2281,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.GuillotineId, source.Qty1,
             source.Qty2, source.Qty3, source.Qty1Profit, source.Qty2Profit, source.Qty3Profit, source.BaseCharge1, source.BaseCharge2,
             source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
-            source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandscape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks, source.IsPortrait);
+            source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks, source.IsPortrait);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
