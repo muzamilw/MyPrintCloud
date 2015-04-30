@@ -1,5 +1,5 @@
 ﻿<div id="divReportManager" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" style="width: 700px;">
+    <div class="modal-dialog" style="width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -15,23 +15,18 @@
                                 <ol class="dd-list">
                                     <!-- ko template: { name: 'reportCategoriesTemplate' , foreach: reportcategoriesList } -->
                                     <!-- /ko -->
-
-                                  
                                 </ol>
-
-
                             </div>
                         </div>
-
                         <div style="display:inline;width:50% !important;" class="col-md-8">
                             <div class="treeviewClickCharge-partial">
                                 <div class="form-group">
                                     <div class="col-lg-6 text-right">
-                                        <label  class="control-label text-right tooltip-float">Title: </label>
+                                        <label class="control-label text-right tooltip-float">Title: </label>
                                     </div>
-                                    <div class="col-lg-5" >
+                                    <div class="col-lg-5">
                                         <span> NA</span>
-                                       
+
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -53,7 +48,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                  
+
                                     <div>
                                         <span> Output To:</span>
                                     </div>
@@ -64,7 +59,7 @@
                                         <input id="chkpreview" type="radio" value="preview" data-bind="checked: outputTo" />
                                         <label for="chkpreview">Preview</label>
                                     </div>
-                                  
+
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-3"></div>
@@ -72,9 +67,6 @@
                                         <input id="chkemail" type="radio" value="email" data-bind="checked: outputTo" />
                                         <label for="chkemail">Email</label>
                                     </div>
-                                   
-                                    
-                                   
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-3"></div>
@@ -82,9 +74,6 @@
                                         <input id="chkpdf" type="radio" value="pdf" data-bind="checked: outputTo" />
                                         <label for="chkpdf">Acrobat Reader (PDF)</label>
                                     </div>
-                                   
-                                   
-
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-3"></div>
@@ -92,9 +81,6 @@
                                         <input type="radio" id="chkexcel" value="excel" data-bind="checked: outputTo" />
                                         <label for="chkexcel">Microsoft Excel</label>
                                     </div>
-                                   
-                                    
-
                                 </div>
                             </div>
 
@@ -103,21 +89,35 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" style="margin-left: 0px;">
-                @*@Html.ActionLink("Index", "Report")*@
-                
-                ok</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.OpenReport" style="margin-left: 0px;">
+                        ok
+                </button>
                 <button type="button" class="btn btn-default" data-bind="click:$root.hide"> Cancel</button>
             </div>
         </div>
+
+
+    </div>
+
+
+
+</div>
+<div id="idReportViewerHtml" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 902px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Report Viewer</h4>
+            </div>
+            <iframe id="ReportViewerIframid" src="@Url.Action("Viewer", "Home", new { area = ""})" width="900" height="700" seamless="" frameborder="0"></iframe>
+        </div>
     </div>
 </div>
-
 <script id="reportCategoriesTemplate" type="text/html">
     <li class="dd-item dd-item-list" id="treeviewClickCharge">
-        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-        <div class="dd-handle" data-bind="text:CategoryName">
-        </div>
+        @*<div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+    <div class="dd-handle" data-bind="text:CategoryName">
+    </div>*@
         <!-- ko template: { name: 'reportTemplate' , foreach: reports } -->
         <!-- /ko -->
 
@@ -129,8 +129,11 @@
     <ol class="dd-list my-navigator" id="treeviewClickCharge">
         <li class="dd-item dd-item-list my-navigator">
             <div class="dd-handle-list my-navigator"><i class="fa fa-bars"></i></div>
-            <a class="my-navigator"> <div class="dd-handle" data-bind="text:Name, click:$root.GetMachineLookupById, attr:{id:ReportId}"></div></a>
+            <a class="my-navigator"> <div class="dd-handle" data-bind="text:Name, click:$root.SelectReportById, attr:{id:ReportId}"></div></a>
         </li>
     </ol>
 
 </script>
+
+
+

@@ -303,7 +303,7 @@ require(["ko", "knockout-validation"], function (ko) {
             }
 
             CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
-
+            var instance = CKEDITOR.instances['content'];
             //CKEDITOR.instances
             //CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
             if (ko.isObservable(value)) {
@@ -322,15 +322,14 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 };
-
-                $element.on('input, change, keyup, mouseup', function () {
-                    if (!isSubscriberChange) {
-                        isEditorChange = true;
-                        value($element.html());
-                        isEditorChange = false;
-
-                    }
+                instance.on('contentDom', function () {
+                    instance.document.on('keyup', function (event) {
+                        if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
+                            ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
+                        }
+                    });
                 });
+               
                 value.subscribe(function (newValue) {
                     if (!isEditorChange) {
                         isSubscriberChange = true;

@@ -19,7 +19,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 SectionCostcentreId = source.SectionCostcentreId,
                 CostCentreId = source.CostCentreId,
-                CostCentreType = source.CostCentreType,
+                CostCentreType = source.CostCentre != null ? source.CostCentre.Type : source.CostCentreType,
                 CostCentreName = source.CostCentre != null ? source.CostCentre.Name : string.Empty,
                 CostingActualCost = source.CostingActualCost,
                 CostingActualQty = source.CostingActualQty,

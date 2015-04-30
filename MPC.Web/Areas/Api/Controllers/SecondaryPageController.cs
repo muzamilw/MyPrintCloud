@@ -58,6 +58,32 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return companyService.GetCmsPageById(id).CreateFrom();
         }
+
+
+        /// <summary>
+        /// Save Secondary Page
+        /// </summary>
+        public long Post(CmsPage cmsPage)
+        {
+            if (cmsPage == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return companyService.SaveSecondaryPage(cmsPage.CreateFrom());
+
+        }
+
+        /// <summary>
+        /// Delete Secondary Page
+        /// </summary>
+        public void Delete(CmsPage cmsPage)
+        {
+            if (cmsPage == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            companyService.DeleteSecondaryPage(cmsPage.PageId);
+        }
         #endregion
     }
 }
