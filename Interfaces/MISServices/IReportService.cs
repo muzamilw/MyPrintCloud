@@ -12,7 +12,7 @@ namespace MPC.Interfaces.MISServices
     public interface IReportService
     {
         List<ReportCategory> GetReportCategories();
-        ReportCategory GetReportCategory(long CategoryId);
-        SectionReport GetReport(int iReportID);
+        ReportCategory GetReportCategory(long CategoryId, int IsExternal);
+        SectionReport GetReport(int iReportID, long itemid);
     }
 }

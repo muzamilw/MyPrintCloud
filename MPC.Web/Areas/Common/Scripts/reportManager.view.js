@@ -18,13 +18,21 @@ define("common/reportManager.view",
                 // Hide the dialog
                 hide = function () {
                     $("#divReportManager").modal("hide");
-                };
-
+                },
+            showWebViewer = function () {
+                $("#idReportViewerHtml").modal("show");
+            },
+            hideWebViewer = function () {
+                $("#idReportViewerHtml").modal("hide");
+                
+            };
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
                 show: show,
-                hide: hide
+                hide: hide,
+                showWebViewer: showWebViewer,
+                hideWebViewer: hideWebViewer
             };
         })(ist.reportManager.viewModel);
 

@@ -35,15 +35,15 @@ namespace MPC.Implementation.MISServices
             this.ReportRepository = ReportRepository;
         }
 
-        public ReportCategory GetReportCategory(long CategoryId)
+        public ReportCategory GetReportCategory(long CategoryId, int IsExternal)
         {
-            return _IReportRepository.GetReportCategory(CategoryId);
+            return _IReportRepository.GetReportCategory(CategoryId, IsExternal);
         }
         public List<ReportCategory> GetReportCategories()
         {
             return _IReportRepository.GetReportCategories();
         }
-        public SectionReport GetReport(int iReportID)
+        public SectionReport GetReport(int iReportID, long itemid)
         {
             //, long iRecordID, ReportType type, long OrderID
             string sFilePath = string.Empty;
@@ -68,10 +68,22 @@ namespace MPC.Implementation.MISServices
 
                  
                     currReport.LoadLayout(ms);
-                  
 
-                        List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, 46847);
-                        currReport.DataSource = rptOrderSource;
+                    if (itemid > 0)
+                    {
+                        currReport.DataSource = ReportRepository.getOrderReportResult(OrganisationID, itemid);
+                    }
+                    else
+                    {
+                        currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(iReportID, "");
+                    }
+
+                  
+                    //DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
+                    //currReport.DataSource = dataSourceList;
+
+                     // List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, 0);
+                       
                     
 
 

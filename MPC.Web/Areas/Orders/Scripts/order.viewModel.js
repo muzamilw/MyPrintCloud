@@ -2436,7 +2436,10 @@ define("order/order.viewModel",
                             });
                         },
                         openReportsOrder = function () {
-                            reportManager.show(12);
+                            reportManager.show(12,0,0);
+                        },
+                        openExternalReportsOrder = function () {
+                            reportManager.show(12, 1, selectedOrder().id());
                         },
                     //#endregion
                     //#region INITIALIZE
@@ -2546,6 +2549,7 @@ define("order/order.viewModel",
                     side1Image: side1Image,
                     side2Image: side2Image,
                     showSide1Image: showSide1Image,
+                    openExternalReportsOrder:openExternalReportsOrder,
                     inks: inks,
                     inkCoverageGroup: inkCoverageGroup,
                     openSectionCostCenterDialog: openSectionCostCenterDialog,

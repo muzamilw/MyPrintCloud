@@ -1,12 +1,37 @@
-﻿
+﻿@model MPC.MIS.Models.ReportDescriptor
+
 @{
     ViewBag.Title = "Viewer";
     Layout = null;
-   
 }
 
-<div >
+<!DOCTYPE html>
 
-       @Html.Action("GetReport")
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        html {
+            background-color: #fff !important;
+        }
 
- </div>   
+        body {
+            background-color: #fff !important;
+        }
+    </style>
+
+    <title>Viewer</title>
+</head>
+<body>
+    <div class="container">
+
+       
+       
+        @if (Model.Id > 0)
+        {
+            @Html.Action("GetReport", "Home", new { area = "", Model = Model });
+            }
+
+    </div>
+</body>
+</html>
