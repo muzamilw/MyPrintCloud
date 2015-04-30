@@ -34,10 +34,12 @@ define("common/addProduct.viewModel",
                     counterForItem = ko.observable(0),
                     // after selection
                     afterAddCostCenter = null,
-                     orderId = null,
+                    orderId = null,
                     currencySymbol = ko.observable(),
                     saveSectionCostCenterForproduct = null,
                     createItemFromOrder = null,
+                   companyIdFromOrder = null,
+                    searchFilter = ko.observable(),
 
                     // Show
                 show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem) {
@@ -46,9 +48,10 @@ define("common/addProduct.viewModel",
                     afterAddCostCenter = afterAddCostCenterCallback;
                     costCentresFromOrders = costCentresBaseData;
                     view.showProductFromRetailStoreModal();
-                    getItemsByCompanyId(companyId);
+                    companyIdFromOrder = companyId;
                     saveSectionCostCenterForproduct = saveSectionCostCenter;
                     createItemFromOrder = createItem;
+                    getItemsByCompanyId();
                 },
 
                     // On Select fcosCost Center
@@ -63,14 +66,18 @@ define("common/addProduct.viewModel",
                     },
 
                     //Get Items By CompanyId
-                    getItemsByCompanyId = function (companyId) {
+                    getItemsByCompanyId = function () {
 
                         dataservice.getItemsByCompanyId({
-                            CompanyId: companyId
+                            CompanyId: companyIdFromOrder,
+                            SearchString: searchFilter()
                         }, {
                             success: function (data) {
                                 if (data != null) {
                                     orderProductItems.removeAll();
+                                    productQuantitiesList.removeAll();
+                                    selecteditem(undefined);
+
                                     _.each(data.Items, function (item) {
                                         var itemToBePushed = new model.Item.Create(item);
                                         orderProductItems.push(itemToBePushed);
@@ -115,7 +122,6 @@ define("common/addProduct.viewModel",
                                         item.itemSections.push(itemSectionToBePushed);
                                     }
 
-
                                     selecteditem(item);
                                 }
                             },
@@ -159,7 +165,7 @@ define("common/addProduct.viewModel",
                         }
                         sectionCostCenter.qty1Charge(price);
                         sectionCostCenter.costCentreId(getStockCostCenterId(29));
-                        saveSectionCostCenterForproduct(newItem, sectionCostCenter, selectedStockOption());
+                        saveSectionCostCenterForproduct(newItem, sectionCostCenter, selectedStockOption(), selectedProductQuanity());
                         return newItem;
                     },
 
@@ -206,7 +212,7 @@ define("common/addProduct.viewModel",
                                else if (count == 11) {
                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
                                }
-                                // ReSharper disable once NotAllPathsReturnValue
+                               // ReSharper disable once NotAllPathsReturnValue
                            },
                       //On Product From Retail Store update Item price matrix table and Add on Table 
                             updateViewOnStockOptionChange = ko.computed(function () {
@@ -289,7 +295,9 @@ define("common/addProduct.viewModel",
                     productQuantitiesList: productQuantitiesList,
                     costCentresFromOrders: costCentresFromOrders,
                     currencySymbol: currencySymbol,
-                    updateViewOnStockOptionChange: updateViewOnStockOptionChange
+                    updateViewOnStockOptionChange: updateViewOnStockOptionChange,
+                    searchFilter: searchFilter,
+                    getItemsByCompanyId: getItemsByCompanyId
                 };
             })()
         };

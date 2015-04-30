@@ -3790,12 +3790,12 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public IEnumerable<Item> GetItemsByCompanyId(long companyId)
+        public IEnumerable<Item> GetItemsByCompanyId(ItemSearchRequestModel requestModel)
         {
             try
             {
                 return
-               DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId && i.IsPublished == true && i.EstimateId == null)
+                    DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == requestModel.CompanyId && i.OrganisationId == OrganisationId && i.IsPublished == true && i.EstimateId == null && (requestModel.SearchString != null ? i.ProductName.Contains(requestModel.SearchString) : true))
                    .ToList();
             }
             catch (Exception ex)
