@@ -23,6 +23,12 @@ define("reportBanner/reportBanner.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    amplify.request.define('getReportNote', 'ajax', {
+                        url: ist.siteUrl + '/Api/ReportNote',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'GET'
+                    });
                     
                     // Define request to save Prefixes
                     amplify.request.define('savePrefixes', 'ajax', {
@@ -52,11 +58,22 @@ define("reportBanner/reportBanner.dataservice", function () {
                     error: callbacks.error,
                     data: param
                 });
+            },
+
+                getReportNote = function (param, callbacks) {
+                    initialize();
+                    return amplify.request({
+                        resourceId: 'getReportNote',
+                        success: callbacks.success,
+                        error: callbacks.error,
+                        data: param
+                    });
             };
 
         return {
             getStores: getStores,
             savePrefixes: savePrefixes,
+            getReportNote : getReportNote
         };
     })();
 

@@ -98,6 +98,10 @@ namespace MPC.Implementation.MISServices
             return CompanyRepository.GetStoresNameByOrganisationId();
         }
 
+        public ReportNote GetReportNoteByCompanyID(long CompanyID)
+        {
+            return ReportRepository.GetReportNoteByCompanyId(CompanyID); 
+        }
         //public List<usp_OrderReport_Result> GetOrderReportSource()
         //{
 

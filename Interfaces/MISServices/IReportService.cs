@@ -17,5 +17,7 @@ namespace MPC.Interfaces.MISServices
         SectionReport GetReport(int iReportID);
 
         List<StoresListResponse> GetStoreNameByOrganisationId();
+
+        ReportNote GetReportNoteByCompanyID(long CompanyID);
     }
 }

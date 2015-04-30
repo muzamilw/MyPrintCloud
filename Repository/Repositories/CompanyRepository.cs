@@ -6311,7 +6311,9 @@ namespace MPC.Repository.Repositories
 
         public List<StoresListResponse> GetStoresNameByOrganisationId()
         {
-            List<Company> objCompany = db.Companies.Where(c => c.OrganisationId == OrganisationId && c.IsCustomer == 3 || c.IsCustomer == 4).ToList();
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Company> objCompany = db.Companies.Where(c => c.OrganisationId == OrganisationId && (c.IsCustomer == 3 || c.IsCustomer == 4)).ToList();
 
             List<StoresListResponse> response = new List<StoresListResponse>();
             if (objCompany != null && objCompany.Count > 0)

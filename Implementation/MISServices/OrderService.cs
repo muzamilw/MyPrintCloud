@@ -1415,6 +1415,18 @@ namespace MPC.Implementation.MISServices
                         List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
                         currReport.DataSource = rptOrderSource;
                     }
+                    else if(type == ReportType.Estimate)
+                    {
+                        sFileName = iRecordID + "EstimateReport.pdf";
+                        List<usp_EstimateReport_Result> rptEstimateSource = ReportRepository.getEstimateReportResult(OrganisationID, OrderID);
+                        currReport.DataSource = rptEstimateSource;
+                    }
+                    else if (type == ReportType.Invoice)
+                    {
+                        sFileName = iRecordID + "InvoiceReport.pdf";
+                        List<usp_InvoiceReport_Result> rptInvoiceSource = ReportRepository.getInvoiceReportResult(OrganisationID, OrderID);
+                        currReport.DataSource = rptInvoiceSource;
+                    }
                     else if(type == ReportType.Internal)
                     {
                         string ReportDataSource = string.Empty;
