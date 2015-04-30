@@ -352,7 +352,7 @@
         </div>
     </div>
     <script id="itemStockCategory" type="text/html">
-        <tr data-bind="click: $root.selectStockCategory, css: { selectedRow: $data === $root.selectedStockCategory}">
+        <tr style="cursor: pointer" data-bind="click: $root.onEditItem, css: { selectedRow: $data === $root.selectedStockCategory}">
             <td class="col-lg-6" data-bind="click : $root.onEditItem"><a data-bind="text: name" style="cursor:pointer"></a></td>
             <td class="col-lg-6" data-bind="text: description"></td>
         </tr>
