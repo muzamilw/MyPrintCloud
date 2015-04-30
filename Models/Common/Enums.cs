@@ -458,4 +458,5 @@ namespace MPC.Models.Common
         CriteriaFields = 8
 
     }
+
 }
