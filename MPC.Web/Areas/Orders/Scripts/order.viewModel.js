@@ -1752,7 +1752,7 @@ define("order/order.viewModel",
 
                      getStockCostCenterId = function (type) {
                          var costCentreId;
-                         _.each(costCentres, function (costCenter) {
+                         _.each(costCentresBaseData(), function (costCenter) {
                              if (costCenter.Type == type) {
                                  costCentreId = costCenter.CostCentreId;
                              }
