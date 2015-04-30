@@ -994,7 +994,7 @@ function fu01(a) {
     }
 }
 function fu02UI() {
-    $.noConflict();
+    
     CzRnd = fabric.util.getRandomInt(1, 100);
     $("#documentMenu li").hover(function () {
         $el = $(this);
@@ -1102,6 +1102,7 @@ function fu02UI() {
             }
         }
     });
+   
     $("#BtnFontSizeRetail").spinner({
         step: 0.50,
         numberFormat: "n",
