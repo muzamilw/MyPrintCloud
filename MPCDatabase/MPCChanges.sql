@@ -3629,3 +3629,37 @@ end
 
 
 GO
+
+/* Execution Date: 30/04/2015 */
+
+GO
+
+update shippingInformation
+set itemid = null
+
+alter table shippingInformation
+drop constraint DF__tbl_shipp__ItemI__1D66518C
+
+alter table shippingInformation
+alter column itemid bigint null
+
+alter table shippinginformation
+add constraint FK_ShippingInformation_Items
+foreign key (ItemId)
+references Items (ItemId)
+
+update shippingInformation
+set addressId = null
+
+alter table shippingInformation
+drop constraint DF__tbl_shipp__Addre__1E5A75C5
+
+alter table shippingInformation
+alter column addressid bigint null
+
+alter table shippinginformation
+add constraint FK_ShippingInformation_Address
+foreign key (AddressId)
+references Address (AddressId)
+
+GO

@@ -1614,7 +1614,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return DbSet.Where(supplier => supplier.OrganisationId == OrganisationId && supplier.IsCustomer == 0).ToList();
+                return DbSet.Where(supplier => supplier.OrganisationId == OrganisationId && 
+                    supplier.IsCustomer == (int)CustomerTypes.Suppliers &&
+                    (!supplier.isArchived.HasValue || !supplier.isArchived.Value)).ToList();
             }
             catch (Exception ex)
             {
