@@ -286,5 +286,6 @@ div#spinner {
       font-weight:600;
   } 
   
-  
-    
+.selectedReport{
+            background: none repeat scroll 0 0 #E5E5ED!important;
+        }
