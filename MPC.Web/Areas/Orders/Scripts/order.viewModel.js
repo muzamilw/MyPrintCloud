@@ -1958,7 +1958,7 @@ define("order/order.viewModel",
                         
                         return newItem;
                     },
-                    saveSectionCostCenter = function (newItem, sectionCostCenter, selectedStockOptionParam) {
+                    saveSectionCostCenter = function (newItem, sectionCostCenter, selectedStockOptionParam, selectedProductQuanityParam) {
                         //var orderNewItem = new model.Item.Create(newItem.convertToServerData());
                         //newItem = orderNewItem;
                         sectionCostCenter.name('Web Order Cost Center');
