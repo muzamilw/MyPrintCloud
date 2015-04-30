@@ -32,6 +32,6 @@ namespace MPC.Interfaces.Repository
         double getOrganisationBleedArea(long organisationID);
 
         void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
-      
+        double ConvertLength(double Input, MPC.Models.Common.LengthUnit InputUnit, MPC.Models.Common.LengthUnit OutputUnit);
     }
 }
