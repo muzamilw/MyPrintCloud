@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -93,6 +94,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? RefEstimateId { get; set; }
         public string XeroAccessCode { get; set; }
         public int? ItemsCount { get; set; }
+        public string Status { get; set; }
         public IEnumerable<OrderItem> Items { get; set; }
         public IEnumerable<PrePayment> PrePayments { get; set; }
         public IEnumerable<ShippingInformation> ShippingInformations { get; set; }

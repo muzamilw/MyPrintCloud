@@ -31,8 +31,32 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-All">
-                            <!-- ko template: { name: 'tabItemsList' } -->
-                            <!-- /ko -->
+                            <div class="main-box-body main-box clearfix">
+                                <div class="table-responsive">
+                                    <table id="OrderListtbl" class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-lg-1"><span>&nbsp;</span></th>
+                                                <th class="col-lg-4"><span>Customer</span></th>
+                                                <th class="col-lg-2"><span>Order Code</span></th>
+                                                <th class="col-lg-2"><span>Order Date</span></th>
+                                                <th class="col-lg-1"><span>Flag</span></th>
+                                                <th class="col-lg-1"><span>Status</span></th>
+                                                <th class="col-lg-2" style="text-align: right"><span>Order Total</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- ko template: { name: 'allOrderListViewTemplate', foreach: orders } -->
+                                            <!-- /ko -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="pagerDiv" class="pull-right">
+                                <!-- ko with: pager -->
+                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                <!-- /ko -->
+                            </div>
                         </div>
                         <div class="tab-pane fade in" id="tab-PendingOrders">
                             <!-- ko template: { name: 'tabItemsList' } -->
@@ -143,6 +167,44 @@
 
         </tr>
     </script>
+    
+    <script id="allOrderListViewTemplate" type="text/html">
+        <tr>
+            <td>
+                <!-- ko if: isDirectSale()==true -->
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/forwardicon.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: isDirectSale()==false -->
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/arrow_down.png")" alt="" />
+                <!-- /ko -->
+            </td>
+            <td>
+                <a data-bind="text: companyName, click: $root.editOrder" style="cursor:pointer;" class="user-link"></a>
+                <span class="user-subhead">
+                    <span data-bind="text: name"></span>
+                    <span data-bind="text: ' '"></span>
+                    <span data-bind="text: noOfItemsUi"></span>
+                </span>
+            </td>
+            <td>
+                <span data-bind="text: orderCode"></span>
+            </td>
+            <td>
+                <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span>
+            </td>
+            <td>
+                <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
+            </td>
+            <td>
+                <span data-bind="text: status"></span>
+            </td>
+            <td style="text-align: right">
+                <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() +estimateTotal():''"></span>
+            </td>
+
+        </tr>
+    </script>
+
 
     @* Tab Items Lists*@
     <script id="tabItemsList" type="text/html">

@@ -206,6 +206,10 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
         ItemCloneResult CloneItemAndLoadDesigner(long ItemId, StoreMode ModeOfStore, long OrderIdFromCookie, long ContactIdFromClaim, long CompanyIdFromClaim, long TemporaryRetailCompanyIdFromCookie, long OrganisationId);
-        
+         /// <summary>
+        /// delete single attachment record
+        /// </summary>
+        /// <param name="ItemAttachmentId"></param>
+        void DeleteItemAttachment(long ItemAttachmentId);
     }
 }

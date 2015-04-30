@@ -784,6 +784,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         //    return View("PartialViews/RequestQuote", Model);
         //}
         
+        [HttpPost]
+        public void DeleteArtworkAttachment(long AttachmentId)
+        {
+
+            _ItemService.DeleteItemAttachment(AttachmentId);
+
+        }
       public class JasonResponseObject
           {
           public Order order;

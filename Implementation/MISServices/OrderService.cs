@@ -521,6 +521,9 @@ namespace MPC.Implementation.MISServices
             // Save Changes
             estimateRepository.SaveChanges();
 
+            // Load Status
+            estimateRepository.LoadProperty(order, () => order.Status);
+
             // Return 
             return order;
         }

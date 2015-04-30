@@ -1401,19 +1401,42 @@ namespace MPC.Implementation.WebStoreServices
             }
 
             ProductName = specialCharactersEncoder(ProductName);
-            //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
+           
             bool printCropMarks = true;
             itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
             
-            // ItemID ok
-            // TemplateID ok
-            // iscalledfrom ok
-            // cv scripts require
-            // productName ok
-            // contactid // ask from iqra about retail and corporate
-            // companyID // ask from iqra
-            // isembaded ook
             return itemCloneObj;
+        }
+        /// <summary>
+        /// delete single attachment record
+        /// </summary>
+        /// <param name="ItemAttachmentId"></param>
+        public void DeleteItemAttachment(long ItemAttachmentId)
+        {
+            try
+            {
+               ItemAttachment oDbAttachmentRecord = _itemAtachement.GetArtworkAttachment(ItemAttachmentId);
+               if (oDbAttachmentRecord != null) 
+               {
+                   // delete attachment record
+                   _itemAtachement.DeleteArtworkAttachment(oDbAttachmentRecord);
+                   // delete physical file
+                   string completePhysicalPathOfAttachmentThumbnail = HttpContext.Current.Server.MapPath("~/" + oDbAttachmentRecord.FolderPath + "/" + oDbAttachmentRecord.FileName + "Thumb.png");
+                   string completePhysicalPathOfAttachmentFile = HttpContext.Current.Server.MapPath("~/" + oDbAttachmentRecord.FolderPath + "/" + oDbAttachmentRecord.FileName + oDbAttachmentRecord.FileType);
+                   if (System.IO.File.Exists(completePhysicalPathOfAttachmentFile))
+                   {
+                       System.IO.File.Delete(completePhysicalPathOfAttachmentFile);
+                   }
+                   if (System.IO.File.Exists(completePhysicalPathOfAttachmentThumbnail))
+                   {
+                       System.IO.File.Delete(completePhysicalPathOfAttachmentThumbnail);
+                   }
+               }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

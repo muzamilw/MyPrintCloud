@@ -358,6 +358,11 @@ namespace MPC.Webstore
          new { controller = "Home", action = "AutoLoginOrRegister", C = UrlParameter.Optional, F = UrlParameter.Optional, L = UrlParameter.Optional, E = UrlParameter.Optional, CC = UrlParameter.Optional }
       );
             routes.MapRoute(
+         "RemoveArtwork",
+         "DeleteArtworkAttachment/{AttachmentID}",
+         new { controller = "ProductOptions", action = "DeleteArtworkAttachment", AttachmentID = UrlParameter.Optional}
+           );
+            routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters
                new { controller = "Home", action = "Index", id = UrlParameter.Optional }  // Parameter defaults
