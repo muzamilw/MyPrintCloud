@@ -40,6 +40,18 @@ var ist = {
         tapToDismiss: true,
         extendedTimeOut: 0,
         timeOut: 0 // Set timeOut to 0 to make it sticky
+    },
+    // Makes comma seperated Number
+    addCommasToNumber: function(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
     }
 };
 

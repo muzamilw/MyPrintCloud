@@ -896,9 +896,6 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_OrderReport_Result>("usp_OrderReport", organisationIdParameter, orderIdParameter);
         }
 
-        /// <summary>
-        /// Delivery Report Stored Procudure
-        /// </summary>
 // ReSharper disable InconsistentNaming
         public ObjectResult<usp_DeliveryReport_Result> usp_DeliveryReport(long? organisationId, long? deliveryId)
 // ReSharper restore InconsistentNaming
@@ -911,12 +908,10 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("DeliveryID", deliveryId) :
                 new ObjectParameter("DeliveryID", typeof(long));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_DeliveryReport_Result>("usp_DeliveryReport", organisationIdParameter, deliveryIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_DeliveryReport_Result>("usp_DeliveryReport", organisationIdParameter, 
+                deliveryIdParameter);
         }
 
-        /// <summary>
-        /// Estiamte Report Stored Procedure
-        /// </summary>
 // ReSharper disable InconsistentNaming
         public ObjectResult<usp_EstimateReport_Result> usp_EstimateReport(long? organisationId, long? estimateId)
 // ReSharper restore InconsistentNaming
@@ -929,12 +924,10 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("EstimateID", estimateId) :
                 new ObjectParameter("EstimateID", typeof(long));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_EstimateReport_Result>("usp_EstimateReport", organisationIdParameter, estimateIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_EstimateReport_Result>("usp_EstimateReport", organisationIdParameter, 
+                estimateIdParameter);
         }
 
-        /// <summary>
-        /// Invoice Report Stored Procedure
-        /// </summary>
 // ReSharper disable InconsistentNaming
         public ObjectResult<usp_InvoiceReport_Result> usp_InvoiceReport(long? organisationid, long? invoiceId)
 // ReSharper restore InconsistentNaming
@@ -947,12 +940,10 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("InvoiceId", invoiceId) :
                 new ObjectParameter("InvoiceId", typeof(long));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_InvoiceReport_Result>("usp_InvoiceReport", organisationidParameter, invoiceIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_InvoiceReport_Result>("usp_InvoiceReport", organisationidParameter, 
+                invoiceIdParameter);
         }
 
-        /// <summary>
-        /// Purchase Order Report Stored Procedure
-        /// </summary>
 // ReSharper disable InconsistentNaming
         public ObjectResult<usp_PurchaseOrderReport_Result> usp_PurchaseOrderReport(long? organisationId, long? purchaseId)
 // ReSharper restore InconsistentNaming

@@ -119,7 +119,7 @@
     </a>
 </script>
 <script id="itemInventoryTemplate" type="text/html">
-    <tr>
+    <tr data-bind=" click: $root.onEditInventory" style="cursor: pointer">
         <td class="col-lg-1" data-bind="style: {backgroundColor: colour}"></td>
         <td class="col-lg-4">
             <a href="#" class="store-user-link" data-bind="text: name, click : $root.onEditInventory"></a>
@@ -135,7 +135,7 @@
         </td>
         <td class="col-lg-2" id="actionColumn">
             @*<!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-            <!-- /ko -->*@
+                <!-- /ko -->*@
         </td>
     </tr>
 </script>

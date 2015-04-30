@@ -363,7 +363,7 @@ namespace MPC.Repository.Repositories
                         clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
 
                         var oCutomer = db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
-
+                        clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
                         if (oCutomer != null)
                         {
                             clonedTemplate.TempString = oCutomer.WatermarkText;
@@ -3110,7 +3110,7 @@ namespace MPC.Repository.Repositories
                     db.TemplatePages.Where(
                         g => g.ProductId == templateID && (g.IsPrintable == true || g.IsPrintable == null)).ToList();
 
-                UpdateItemName(itemID, DesignName);
+                UpdateItemName(itemID, DesignName, templateID);
 
                 List<ArtWorkAttatchment> oLstAttachments = GetItemAttactchments(itemID, ".pdf", UploadFileTypes.Artwork);
 
@@ -3485,15 +3485,15 @@ namespace MPC.Repository.Repositories
 
         }
 
-        private bool UpdateItemName(long ItemID, string ProductName)
+        private bool UpdateItemName(long ItemID, string ProductName, long TemplateId)
         {
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 Item oItem = db.Items.Where(g => g.ItemId == ItemID).Single();
-
+                Template oTemplate = db.Templates.Where(t => t.ProductId == TemplateId).Single();
                 oItem.ProductName = ProductName;
-
+                oTemplate.ProductName = ProductName;
                 db.SaveChanges();
                 return true;
             }
@@ -3790,12 +3790,12 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public IEnumerable<Item> GetItemsByCompanyId(long companyId)
+        public IEnumerable<Item> GetItemsByCompanyId(ItemSearchRequestModel requestModel)
         {
             try
             {
                 return
-               DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId && i.IsPublished == true && i.EstimateId == null)
+                    DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == requestModel.CompanyId && i.OrganisationId == OrganisationId && i.IsPublished == true && i.EstimateId == null && (requestModel.SearchString != null ? i.ProductName.Contains(requestModel.SearchString) : true))
                    .ToList();
             }
             catch (Exception ex)
