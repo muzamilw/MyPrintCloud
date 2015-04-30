@@ -284,6 +284,7 @@ define("order/order.viewModel",
                                 var val = item.qty1GrossTotal();
                                 total = total + parseFloat(val);
                             });
+                            total = total.toFixed(2);
                             selectedOrder().estimateTotal(total);
                         }
 
@@ -699,9 +700,9 @@ define("order/order.viewModel",
                                 view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
                                 changeAllItemProgressToJob();
                             });
-                            confirmation.afterCancel(function () {
+                            confirmation.afterCancel(function() {
                                 view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
-                            })
+                            });
                             confirmation.show();
                             return;
                         }
