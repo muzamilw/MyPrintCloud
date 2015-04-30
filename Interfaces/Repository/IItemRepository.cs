@@ -125,9 +125,9 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Get Items By Company Id
         /// </summary>
-        /// <param name="companyId"></param>
+        /// <param name="requestModel"></param>
         /// <returns></returns>
-        IEnumerable<Item> GetItemsByCompanyId(long companyId);
+        IEnumerable<Item> GetItemsByCompanyId(ItemSearchRequestModel requestModel);
         /// <summary>
         /// get cart items count 
         /// </summary>

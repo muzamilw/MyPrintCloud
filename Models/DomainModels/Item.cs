@@ -433,6 +433,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
         public virtual ICollection<ItemProductDetail> ItemProductDetails { get; set; }
         public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
+        public virtual ICollection<ShippingInformation> ShippingInformations { get; set; }
 
             #endregion
         #region Additional Properties
