@@ -98,6 +98,43 @@ namespace MPC.Implementation.MISServices
             return CompanyRepository.GetStoresNameByOrganisationId();
         }
 
+        public List<ReportNote> GetReportNoteByCompanyID(long CompanyID)
+        {
+            return ReportRepository.GetReportNoteByCompanyId(CompanyID); 
+        }
+
+        //public ReportNote Update(ReportNote reportNote)
+        //{
+        //    //Organisation org = _organisationRepository.GetOrganizatiobByID();
+        //  //  string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+        //    //reportNote.BannerAbsolutePath = SaveCostCenterImage(costcenter);
+        //    //_costCenterRepository.Update(costcenter);
+        //    //SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);
+        //    //return costcenter;
+        //}
+
+        //private string SaveReportNoteImage(ReportNote reportNote)
+        //{
+        //    if (reportNote != null)
+        //    {
+        //        string base64 = costcenter.ImageBytes.Substring(costcenter.ImageBytes.IndexOf(',') + 1);
+        //        base64 = base64.Trim('\0');
+        //        byte[] data = Convert.FromBase64String(base64);
+
+        //        string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/CostCentres/" + _costCenterRepository.OrganisationId + "/" + costcenter.CostCentreId);
+
+        //        if (directoryPath != null && !Directory.Exists(directoryPath))
+        //        {
+        //            Directory.CreateDirectory(directoryPath);
+        //        }
+        //        string savePath = directoryPath + "\\thumbnail.png";
+        //        File.WriteAllBytes(savePath, data);
+        //        int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+        //        savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+        //        return savePath;
+        //    }
+        //    return null;
+        //}
         //public List<usp_OrderReport_Result> GetOrderReportSource()
         //{
 

@@ -122,6 +122,14 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+
+                    // Define request to delete Secondary Page
+                    amplify.request.define('deleteSecondaryPage', 'ajax', {
+                        url: ist.siteUrl + '/Api/SecondaryPage',
+                        dataType: 'json',
+                        type: 'DELETE',
+                        decoder: amplify.request.decoders.istStatusDecoder
+                    });
                     // Define request to get CompanyContact
                     amplify.request.define('searchCompanyContact', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyContact',
@@ -195,6 +203,14 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to save Secondary Page
+                    amplify.request.define('saveSecondaryPage', 'ajax', {
+                        url: ist.siteUrl + '/Api/SecondaryPage',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    
                     // Define request to Create Store
                     amplify.request.define('createStore', 'ajax', {
                         url: ist.siteUrl + '/Api/ImportExportOrganisation/ImportStore?parameter1={parameter1}&parameter2={parameter2}&parameter3={parameter3}',
@@ -664,6 +680,17 @@
                     data: param
                 });
             },
+            // Delete Secondary Page
+            deleteSecondaryPage = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteSecondaryPage',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+            
             deleteCompanyPermanent = function (param, callbacks) {
                 initialize();
                 return amplify.request({
@@ -679,6 +706,16 @@
             initialize();
             return amplify.request({
                 resourceId: 'saveFieldVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+          // save Secondary Page
+        saveSecondaryPage = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveSecondaryPage',
                 success: callbacks.success,
                 error: callbacks.error,
                 data: param
@@ -758,7 +795,9 @@
             deleteProductCategoryById: deleteProductCategoryById,
             createStore: createStore,
             deleteCompanyPermanent: deleteCompanyPermanent,
-            deleteMediaLibraryItemById:deleteMediaLibraryItemById
+            deleteMediaLibraryItemById: deleteMediaLibraryItemById,
+            saveSecondaryPage: saveSecondaryPage,
+            deleteSecondaryPage:deleteSecondaryPage
         };
     })();
 

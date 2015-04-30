@@ -3478,6 +3478,59 @@ namespace MPC.Implementation.MISServices
             }
             return defaultPageKeyWords ?? string.Empty;
         }
+
+
+        /// <summary>
+        /// Save Cms Page
+        /// </summary>
+        public long SaveSecondaryPage(CmsPage cmsPage)
+        {
+            if (cmsPage.PageId > 0)
+            {
+                CmsPage cmsPageDbVersion = cmsPageRepository.Find(cmsPage.PageId);
+                if (cmsPageDbVersion != null)
+                {
+                    cmsPageRepository.Update(UpdateCmsPage(cmsPage, cmsPageDbVersion));
+                }
+            }
+            else
+            {
+                cmsPageRepository.Add(cmsPage);
+            }
+            cmsPageRepository.SaveChanges();
+            return cmsPage.PageId;
+        }
+
+
+        /// <summary>
+        /// Delete Secondary Page
+        /// </summary>
+        public void DeleteSecondaryPage(long pageId)
+        {
+            cmsPageRepository.Delete(cmsPageRepository.Find(pageId));
+        }
+
+        private CmsPage UpdateCmsPage(CmsPage source, CmsPage target)
+        {
+            target.isUserDefined = source.isUserDefined;
+            target.CategoryId = source.CategoryId;
+            target.Meta_AuthorContent = source.Meta_AuthorContent;
+            target.Meta_CategoryContent = source.Meta_CategoryContent;
+            target.Meta_DescriptionContent = source.Meta_DescriptionContent;
+            target.Meta_LanguageContent = source.Meta_LanguageContent;
+            target.Meta_RevisitAfterContent = source.Meta_RevisitAfterContent;
+            target.Meta_RobotsContent = source.Meta_RobotsContent;
+            target.Meta_Title = source.Meta_Title;
+            target.PageHTML = source.PageHTML;
+            target.PageKeywords = source.PageKeywords;
+            target.PageTitle = source.PageTitle;
+            // target.FileName = source.FileName,
+            //target.Bytes = source.Bytes,
+            target.PageBanner = source.PageBanner;
+            target.isEnabled = source.isEnabled;
+            target.CompanyId = source.CompanyId;
+            return target;
+        }
         #endregion
 
         #region ExportOrganisation

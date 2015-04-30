@@ -3335,7 +3335,7 @@ namespace MPC.Repository.Repositories
         { 
             try
             {
-
+                db.Database.CommandTimeout = 1080;
                 db.usp_DeleteOrganisation(Convert.ToInt32(OrganisationID));
             }
             catch(Exception ex)
