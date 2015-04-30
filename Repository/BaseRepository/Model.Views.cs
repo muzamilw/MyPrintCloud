@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsA69D527075BD65C506D4BF92D0CD448C79C35628CD03059F2AA15060B5EDD110))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets548C1C12D5B83011BDB09B2104C913140F4E42CC54FA839385B21D8FF5DA0BD8))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsA69D527075BD65C506D4BF92D0CD448C79C35628CD03059F2AA15060B5EDD110 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets548C1C12D5B83011BDB09B2104C913140F4E42CC54FA839385B21D8FF5DA0BD8 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsA69D527075BD65C506D4BF92D0CD448C79C35628CD03059F2AA15060B5EDD110()
+        public ViewsForBaseEntitySets548C1C12D5B83011BDB09B2104C913140F4E42CC54FA839385B21D8FF5DA0BD8()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "f7e7777c3d239770bca212288f05cfff37e23c9322df04d73546febea835b08c";
-            this.HashOverAllExtentViews = "5e70a608e805a63d9fccc1f6adc2bb2fc901cc23d86dac17ac3a7026542521ee";
+            this.HashOverMappingClosure = "f9fb9d050de3e5da7718b77a270cf638dc0aaf35b7ab2f226de8c273440447a6";
+            this.HashOverAllExtentViews = "b354b4e35411e82785c7058378714e45d081c947d4eb9a240796acdcba795fe6";
             this.ViewCount = 332;
         }
         
@@ -11449,7 +11449,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ReportNote", @"
     SELECT VALUE -- Constructing ReportNote
-        [DomainModels.Store.ReportNote](T1.ReportNote_Id, T1.ReportNote_FootNotes, T1.ReportNote_HeadNotes, T1.ReportNote_AdvertitorialNotes, T1.ReportNote_UserId, T1.ReportNote_ReportCategoryId, T1.ReportNote_SystemSiteId, T1.ReportNote_ReportBanner, T1.ReportNote_ReportTitle, T1.ReportNote_BannerAbsolutePath, T1.ReportNote_isDefault, T1.ReportNote_OrganisationId)
+        [DomainModels.Store.ReportNote](T1.ReportNote_Id, T1.ReportNote_FootNotes, T1.ReportNote_HeadNotes, T1.ReportNote_AdvertitorialNotes, T1.ReportNote_UserId, T1.ReportNote_ReportCategoryId, T1.ReportNote_SystemSiteId, T1.ReportNote_ReportBanner, T1.ReportNote_ReportTitle, T1.ReportNote_BannerAbsolutePath, T1.ReportNote_isDefault, T1.ReportNote_OrganisationId, T1.ReportNote_CompanyId)
     FROM (
         SELECT 
             T.Id AS ReportNote_Id, 
@@ -11464,6 +11464,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.BannerAbsolutePath AS ReportNote_BannerAbsolutePath, 
             T.isDefault AS ReportNote_isDefault, 
             T.OrganisationId AS ReportNote_OrganisationId, 
+            T.CompanyId AS ReportNote_CompanyId, 
             True AS _from0
         FROM BaseDbContext.ReportNotes AS T
     ) AS T1");
@@ -11525,7 +11526,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ReportNotes", @"
     SELECT VALUE -- Constructing ReportNotes
-        [DomainModels.ReportNote](T1.ReportNote_Id, T1.ReportNote_FootNotes, T1.ReportNote_HeadNotes, T1.ReportNote_AdvertitorialNotes, T1.ReportNote_UserId, T1.ReportNote_ReportCategoryId, T1.ReportNote_SystemSiteId, T1.ReportNote_ReportBanner, T1.ReportNote_ReportTitle, T1.ReportNote_BannerAbsolutePath, T1.ReportNote_isDefault, T1.ReportNote_OrganisationId)
+        [DomainModels.ReportNote](T1.ReportNote_Id, T1.ReportNote_FootNotes, T1.ReportNote_HeadNotes, T1.ReportNote_AdvertitorialNotes, T1.ReportNote_UserId, T1.ReportNote_ReportCategoryId, T1.ReportNote_SystemSiteId, T1.ReportNote_ReportBanner, T1.ReportNote_ReportTitle, T1.ReportNote_BannerAbsolutePath, T1.ReportNote_isDefault, T1.ReportNote_OrganisationId, T1.ReportNote_CompanyId)
     FROM (
         SELECT 
             T.Id AS ReportNote_Id, 
@@ -11540,6 +11541,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.BannerAbsolutePath AS ReportNote_BannerAbsolutePath, 
             T.isDefault AS ReportNote_isDefault, 
             T.OrganisationId AS ReportNote_OrganisationId, 
+            T.CompanyId AS ReportNote_CompanyId, 
             True AS _from0
         FROM DomainModelsStoreContainer.ReportNote AS T
     ) AS T1");

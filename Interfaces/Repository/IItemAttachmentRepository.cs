@@ -18,6 +18,17 @@ namespace MPC.Interfaces.Repository
 
         List<ArtWorkAttatchment> GetItemAttactchmentsForRegenerateTemplateAttachments(long itemID, string fileExtionsion, UploadFileTypes uploadedFileType);
 
-
+         /// <summary>
+        /// gets the single attachment record
+        /// </summary>
+        /// <param name="AttachmentId"></param>
+        /// <returns></returns>
+        ItemAttachment GetArtworkAttachment(long AttachmentId);
+         /// <summary>
+        /// delete attachment 
+        /// </summary>
+        /// <param name="AttachmentId"></param>
+        /// <returns></returns>
+        void DeleteArtworkAttachment(ItemAttachment AttachmentRecord);
     }
 }

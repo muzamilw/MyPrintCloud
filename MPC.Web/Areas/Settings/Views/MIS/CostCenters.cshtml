@@ -72,7 +72,7 @@
             </a>
         </script>
         <script id="itemCostCenterTemplate" type="text/html">
-            <tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedCostCenter}">
+            <tr style="cursor: pointer" data-bind="click: $root.onEditItem, css: { selectedRow: $data === $root.selectedCostCenter}">
                 <td>
                     <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
                 </td>
@@ -91,11 +91,11 @@
                     <!-- ko if: calculationMethodType() == 4 -->
                     <span class="label label-danger">Formula Base</span>
                     <!-- /ko -->
-                    </td>
+                </td>
 
                 <td id="actionColumn">
                     @*<!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                    <!-- /ko -->*@
+                <!-- /ko -->*@
                 </td>
             </tr>
         </script>

@@ -30,7 +30,12 @@ define("crm/crm.supplier.viewModel",
                 //#endregion
 
                 //#region ____________SUPPLIERS LIST VIEW____________
-                
+                   // Search button handler
+                searchButtonHandler = function () {
+                    supplierpager().reset();
+                    getSuppliers();
+                },
+
                 //GET Suppliers For Suppliers List View
                 getSuppliers = function () {
                     isLoadingSuppliers(true);
@@ -88,7 +93,8 @@ define("crm/crm.supplier.viewModel",
                     getSuppliers: getSuppliers,
                     templateToUseSupplier: templateToUseSupplier,
                     resetSupplierFilterSection: resetSupplierFilterSection,
-                    initialize: initialize
+                    initialize: initialize,
+                    searchButtonHandler: searchButtonHandler
                 };
             })()
         };

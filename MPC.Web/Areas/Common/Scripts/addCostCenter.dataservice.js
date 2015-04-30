@@ -10,7 +10,12 @@ define("common/addCostCenter.dataservice", function () {
             // Initialize
             initialize = function () {
                 if (!isInitialized) {
-
+                    // Define request to get cost centers By CompanyId
+                    amplify.request.define('getCostCentersByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyCostCenters',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get cost centers for product dialog
                     amplify.request.define('getCostCentersForProduct', 'ajax', {
                         url: ist.siteUrl + '/Api/ProductCostCenter',
@@ -30,10 +35,20 @@ define("common/addCostCenter.dataservice", function () {
                 error: callbacks.error,
                 data: params
             });
+        },
+        // get Cost centres for company
+        getCostCenters = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getCostCentersByCompanyId',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
         };
-
         return {
-            getCostCentersForProduct: getCostCentersForProduct
+            getCostCentersForProduct: getCostCentersForProduct,
+            getCostCenters: getCostCenters
         };
     })();
 

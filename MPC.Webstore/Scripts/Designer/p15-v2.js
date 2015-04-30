@@ -104,7 +104,7 @@ function fu03() {
 function fu04_1GetItem(DT)
 {
     
-    $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID,
+    $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID + "/" + organisationId,
          function (result) {
             
              if (result.ZoomFactor > 1)
@@ -127,62 +127,69 @@ function fu04_1GetItem(DT)
              h = h.toFixed(3);
              h = h - 10;
              w = w - 10;
-             if (result.ScaleFactor != null && result.ScaleFactor != 0) {
-                 w = w * result.ScaleFactor;
-                 h = h * result.ScaleFactor;
-             }
-             if (result.IsTemplateDesignMode == 3) {
-                 objectsSelectable = false;
-             }
+             //if (result.ScaleFactor != null && result.ScaleFactor != 0) {
+             //    w = w * result.ScaleFactor;
+             //    h = h * result.ScaleFactor;
+             //}
+             var res = result.TemplateDimensionConvertionRatio.split("__");
+             w = w * res[0];
+             h = h * res[0];
+             //alert();
              //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
-             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
+             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " " + res[1]);
              productDimensionUpdated = true;
            //
              item = result;
-             if (item.SmartFormId != null) {
-               
-                 if (item.SmartFormId != 0) {
-                     $(".QuickTxt").css("visibility", "hidden");
-                     $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
-                       function (DT2) {
-                           $(".QuickTxt").css("visibility", "visible");
-                           pcl41(DT2);
-                           smartFormClicked = false;
-                           fu04_TempCbkGen(DT);
-                       });
-                 } else
-                 {
-                     fu04_TempCbkGen(DT);
+             if (IsCalledFrom != 2) {
+                 if (result.IsTemplateDesignMode == 3) {
+                     objectsSelectable = false;
                  }
-                 
-             } else {
-                 $(".QuickTxt").css("visibility", "hidden");
-                 $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
-                      function (userData) {
-                          userVariableData = userData;
-                          fu04_TempCbkGen(DT);
-                          if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
-                              $("#collapseDesignerMenu").click();
-                          }
-                      });
-             }
-           
-             if (item.allowPdfDownload == true) {
-                 $(".previewBtnContainer").css("display", "block");
-                 $(".PreviewerDownloadPDF").css("display", "block");
-             }
-             if (item.allowImageDownload == true) {
-                 $(".PreviewerDownloadImg").css("display", "block");
+                 if (item.SmartFormId != null) {
+
+                     if (item.SmartFormId != 0) {
+                         $(".QuickTxt").css("visibility", "hidden");
+                         $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
+                           function (DT2) {
+                               $(".QuickTxt").css("visibility", "visible");
+                               pcl41(DT2);
+                               smartFormClicked = false;
+                               fu04_TempCbkGen(DT);
+                           });
+                     } else {
+                         fu04_TempCbkGen(DT);
+                     }
+
+                 } else {
+                     $(".QuickTxt").css("visibility", "hidden");
+                     $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
+                          function (userData) {
+                              userVariableData = userData;
+                              fu04_TempCbkGen(DT);
+                              if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
+                                  $("#collapseDesignerMenu").click();
+                              }
+                          });
+                 }
+
+
+                 if (item.allowPdfDownload == true) {
+                     $(".previewBtnContainer").css("display", "block");
+                     $(".PreviewerDownloadPDF").css("display", "block");
+                 }
+                 if (item.allowImageDownload == true) {
+                     $(".PreviewerDownloadImg").css("display", "block");
+                 }
+                 if (item.printCropMarks == false) {
+                     printCropMarks = false;
+                 }
+                 if (item.drawWaterMarkTxt == false) {
+                     printWaterMarks = false;
+                 }
              }
              if (item.isMultipagePDF == true) {
                  isMultiPageProduct = true;
              }
-             if (item.printCropMarks == false) {
-                 printCropMarks = false;
-             }
-             if (item.drawWaterMarkTxt == false) {
-                 printWaterMarks = false;
-             }
+            
             
            
            
@@ -206,6 +213,7 @@ function fu04_1(DT) {
         $("#btnGoToLandingPage").css("visibility", "hidden");
         
         fu04_TempCbkGen(DT);
+        fu04_1GetItem(DT);
     } else {
         fu04_1GetItem(DT);
     }

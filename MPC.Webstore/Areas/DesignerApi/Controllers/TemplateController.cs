@@ -162,6 +162,20 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
+
+
+        //[System.Web.Http.AcceptVerbs("GET", "POST")]
+        //[System.Web.Http.HttpGet]
+        //// long productID, long OrganisationId, long itemID
+        //public HttpResponseMessage GetDimensionCoversionRatio(long parameter1, long parameter2, long parameter3)
+        //{
+        //    var result = templateService.GetConvertedSizeWithUnits(parameter1,parameter2,parameter3); 
+        //    var formatter = new JsonMediaTypeFormatter();
+        //    var json = formatter.SerializerSettings;
+        //    json.Formatting = Newtonsoft.Json.Formatting.Indented;
+        //    json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        //    return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        //}
         #endregion
     }
  

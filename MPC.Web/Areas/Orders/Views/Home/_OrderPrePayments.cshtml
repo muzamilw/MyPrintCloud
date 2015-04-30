@@ -37,20 +37,20 @@
         </div>
     </div>
     <script id="prePaymentItemTemplate" type="text/html">
-        <tr data-bind="click:$root.onEditPrePayment">
+        <tr data-bind="click:$root.onEditPrePayment" style="cursor: pointer">
             <td data-bind="click:$root.onEditPrePayment"><a href="#"><span data-bind="text:referenceCode"></span></a></td>
             <td data-bind="text:paymentDescription"></td>
             <td><span data-bind="visible:formattedPaymentDate()!==undefined">Paid on </span><span data-bind="dateString:paymentDate,datePattern: 'DD/MM/YYYY'"></span></td>
             <td data-bind="text:paymentMethodName"></td>
             <td><span data-bind="visible:amount()!==undefined,text:$root.currencySymbol,"></span><span data-bind="text:amount"></span></td>
             @*<td class="text-right">
-                    <a href="" class="table-link" data-bind="">
-                        <span class="fa-stack">
-                            <i class="fa fa-square fa-stack-2x"></i>
-                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </td>*@
+                <a href="" class="table-link" data-bind="">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>*@
         </tr>
     </script>
 </div>

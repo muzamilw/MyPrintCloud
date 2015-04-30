@@ -3,6 +3,7 @@
 */
 define("common/addProduct.viewModel",
     ["jquery", "amplify", "ko", "common/addProduct.dataservice", "common/addProduct.model", "common/pagination"], function ($, amplify, ko, dataservice, model,
+// ReSharper disable once UnusedParameter
     pagination) {
         var ist = window.ist || {};
         ist.addProduct = {
@@ -33,17 +34,24 @@ define("common/addProduct.viewModel",
                     counterForItem = ko.observable(0),
                     // after selection
                     afterAddCostCenter = null,
-                     orderId = null,
+                    orderId = null,
                     currencySymbol = ko.observable(),
+                    saveSectionCostCenterForproduct = null,
+                    createItemFromOrder = null,
+                   companyIdFromOrder = null,
+                    searchFilter = ko.observable(),
 
                     // Show
-                show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId) {
+                show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem) {
                     orderId = oId;
                     currencySymbol(currencySym);
                     afterAddCostCenter = afterAddCostCenterCallback;
                     costCentresFromOrders = costCentresBaseData;
                     view.showProductFromRetailStoreModal();
-                    getItemsByCompanyId(companyId);
+                    companyIdFromOrder = companyId;
+                    saveSectionCostCenterForproduct = saveSectionCostCenter;
+                    createItemFromOrder = createItem;
+                    getItemsByCompanyId();
                 },
 
                     // On Select fcosCost Center
@@ -58,14 +66,18 @@ define("common/addProduct.viewModel",
                     },
 
                     //Get Items By CompanyId
-                    getItemsByCompanyId = function (companyId) {
+                    getItemsByCompanyId = function () {
 
                         dataservice.getItemsByCompanyId({
-                            CompanyId: companyId
+                            CompanyId: companyIdFromOrder,
+                            SearchString: searchFilter()
                         }, {
                             success: function (data) {
                                 if (data != null) {
                                     orderProductItems.removeAll();
+                                    productQuantitiesList.removeAll();
+                                    selecteditem(undefined);
+
                                     _.each(data.Items, function (item) {
                                         var itemToBePushed = new model.Item.Create(item);
                                         orderProductItems.push(itemToBePushed);
@@ -84,7 +96,7 @@ define("common/addProduct.viewModel",
                     //Update Items Data On Item Selection
                     //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
                     updateItemsDataOnItemSelection = function (item) {
-                        var v = item;
+                        //var v = item;
                         dataservice.getItemsDetailsByItemId({
                             itemId: item.id()
                         }, {
@@ -110,7 +122,6 @@ define("common/addProduct.viewModel",
                                         item.itemSections.push(itemSectionToBePushed);
                                     }
 
-
                                     selecteditem(item);
                                 }
                             },
@@ -120,9 +131,11 @@ define("common/addProduct.viewModel",
                         });
                     },
                     createNewRetailStoreProduct = function () {
-                        var item = selecteditem().convertToServerData();
-                        item.EstimateId = orderId;
-                        var newItem = model.Item.Create(item);
+                        var newItem = createItemFromOrder(selecteditem());
+                        newItem.estimateId(orderId);
+                        //var item = selecteditem().convertToServerData();
+                        //item.EstimateId = orderId;
+                        //var newItem = model.Item.Create(item);
                         counterForItem(counterForItem() - 1);
                         newItem.id(counterForItem());
                         newItem.qty1NetTotal(totalProductPrice());
@@ -139,23 +152,10 @@ define("common/addProduct.viewModel",
                      //req: In retail store case add selected addons as cost centers of new creating product
                             //and make new cost center of name 'Web order Cost Center' in any case
                     addSelectedAddOnsAsCostCenters = function (newItem) {
-
-                        //#region Add Default Web Order Cost Center
                         var sectionCostCenter = model.SectionCostCentre.Create({});
-                        //sectionCostCenter.id();
-                        sectionCostCenter.name('Web Order Cost Center');
-                        sectionCostCenter.qty1EstimatedStockCost(0);
-                        sectionCostCenter.qty2EstimatedStockCost(0);
-                        sectionCostCenter.qty3EstimatedStockCost(0);
-
-                        sectionCostCenter.qty2Charge(0);
-                        sectionCostCenter.qty3Charge(0);
-                        sectionCostCenter.qty1(selectedProductQuanity());
-
-                        //sectionCostCenter.costCentreType();
                         var counter = 0;
                         var price = 0;
-                        if (selecteditem() != undefined) {// && selecteditem().isQtyRanged() == 2
+                        if (selecteditem() != undefined) {
                             _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
                                 counter = counter + 1;
                                 if (priceMatrix.quantity() == selectedProductQuanity()) {
@@ -165,34 +165,7 @@ define("common/addProduct.viewModel",
                         }
                         sectionCostCenter.qty1Charge(price);
                         sectionCostCenter.costCentreId(getStockCostCenterId(29));
-
-                        //sectionCostCenter.qty1NetTotal(price);
-
-                        newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
-                        //#endregion
-
-                        //#region Add Selected Addons as Cost Centers
-                        if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
-                            _.each(selectedStockOption().itemAddonCostCentres(), function (stockOption) {
-                                if (stockOption.isSelected()) {
-                                    sectionCostCenter = model.SectionCostCentre.Create({});
-                                    sectionCostCenter.costCentreId(stockOption.costCentreId());
-                                    sectionCostCenter.name(stockOption.costCentreName());
-                                    sectionCostCenter.qty1EstimatedStockCost(0);
-                                    sectionCostCenter.qty2EstimatedStockCost(0);
-                                    sectionCostCenter.qty3EstimatedStockCost(0);
-                                    sectionCostCenter.qty1Charge(stockOption.totalPrice());
-                                    sectionCostCenter.qty2Charge(0);
-                                    sectionCostCenter.qty3Charge(0);
-                                    sectionCostCenter.qty1(1);
-
-                                    sectionCostCenter.qty1NetTotal(stockOption.totalPrice());//todo 
-                                    newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
-                                }
-                            });
-                        }
-                        //#endregion
-
+                        saveSectionCostCenterForproduct(newItem, sectionCostCenter, selectedStockOption(), selectedProductQuanity());
                         return newItem;
                     },
 
@@ -239,6 +212,7 @@ define("common/addProduct.viewModel",
                                else if (count == 11) {
                                    return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
                                }
+                               // ReSharper disable once NotAllPathsReturnValue
                            },
                       //On Product From Retail Store update Item price matrix table and Add on Table 
                             updateViewOnStockOptionChange = ko.computed(function () {
@@ -254,8 +228,9 @@ define("common/addProduct.viewModel",
                                         selectedStockOption(itemStockOption);
                                     }
                                 });
-                            })
-                ,  //Calculate Total Price
+                            }),
+                    //Calculate Total Price
+                    // ReSharper disable once UnusedLocals
                         calculateTotalPrice = ko.computed(function () {
                             //selecteditem().itemStockOptions()[0].itemAddonCostCentres()
                             //selectedStockOption().itemAddonCostCentres()
@@ -279,7 +254,7 @@ define("common/addProduct.viewModel",
                             }
                             else if (selecteditem() != undefined && selecteditem().isQtyRanged() == 1) {
                                 //totalPrice = parseInt(selectedProductQuanity());
-                                var qtyInLimit = false;
+                                //var qtyInLimit = false;
                                 counter = 0;
                                 _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
                                     counter = counter + 1;
@@ -319,7 +294,10 @@ define("common/addProduct.viewModel",
                     totalProductPrice: totalProductPrice,
                     productQuantitiesList: productQuantitiesList,
                     costCentresFromOrders: costCentresFromOrders,
-                    currencySymbol: currencySymbol
+                    currencySymbol: currencySymbol,
+                    updateViewOnStockOptionChange: updateViewOnStockOptionChange,
+                    searchFilter: searchFilter,
+                    getItemsByCompanyId: getItemsByCompanyId
                 };
             })()
         };

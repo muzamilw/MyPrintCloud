@@ -106,7 +106,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Apply Theme
         /// </summary>
-        void ApplyTheme(int themeId,string themeName, long companyId);
+        void ApplyTheme(int themeId, string themeName, long companyId);
 
         /// <summary>
         /// Get Cms Tags For Cms Page Load Default page keywords
@@ -124,6 +124,16 @@ namespace MPC.Interfaces.MISServices
         CrmBaseResponse GetBaseDataForCrm();
 
         CompanyResponse GetCompanyByIdForCrm(long companyId);
+
+        /// <summary>
+        /// Save Cms Page
+        /// </summary>
+        long SaveSecondaryPage(CmsPage cmsPage);
+
+        /// <summary>
+        /// Delete Secondary Page
+        /// </summary>
+        void DeleteSecondaryPage(long pageId);
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
@@ -131,9 +141,9 @@ namespace MPC.Interfaces.MISServices
         bool ImportOrganisation(long OrganisationId, string SubDomain, bool isCorpStore);
 
 
-        bool ImportStore(long OrganisationId, string StoreName,string SubDomain);
+        bool ImportStore(long OrganisationId, string StoreName, string SubDomain);
         #endregion
 
-       
+
     }
 }

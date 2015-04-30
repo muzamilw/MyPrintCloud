@@ -2480,7 +2480,7 @@ BEGIN
 
 END
 
-
+GO
 ------------------------------------------------------------------------
 
 /****** Object:  UserDefinedFunction [dbo].[fn_GetItemAttachmentsList]    Script Date: 4/16/2015 7:18:50 PM ******/
@@ -2539,7 +2539,7 @@ BEGIN
 
 END
 
-
+GO
 --------------------------------------------------------------------------------------
 
 
@@ -2884,7 +2884,8 @@ GO
 
 --------------------------------------------------------------- update report template
 
-update Report set ReportTemplate = '<?xml version="1.0" encoding="utf-8"?>
+update Report set ReportTemplate = 
+'<?xml version="1.0" encoding="utf-8"?>
 <ActiveReportsLayout Version="3.2" PrintWidth="11203.2" DocumentName="ARNet Document" ScriptLang="C#" MasterReport="0">
   <StyleSheet>
     <Style Name="Normal" Value="font-family: Arial; font-style: normal; text-decoration: none; font-weight: normal; font-size: 10pt; color: Black" />
@@ -3326,5 +3327,339 @@ alter table ShippingInformation
 add constraint FK_ShippingInformation_Estimate
 foreign key (EstimateId)
 references Estimate (EstimateId)
+
+GO
+
+/* Execution Date: 29/04/2105 */
+
+GO
+
+alter table ReportNote
+add CompanyId bigint null
+
+update purchase
+set createdby = null
+
+alter table purchase
+drop constraint DF__tbl_purch__Creat__7E22B05D
+
+alter table Purchase
+alter Column CreatedBy nvarchar null
+
+alter table Purchase
+alter Column CreatedBy uniqueidentifier null
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_EstimateReport]    Script Date: 4/29/2015 2:10:24 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE procedure [dbo].[usp_EstimateReport]
+ @OrganisationId bigint,
+ @EstimateID bigint
+AS
+Begin
+
+SELECT  i.ItemID,i.Title, i.Qty1 as Qty1, i.Qty2 as Qty2, i.Qty3 as Qty3, i.Qty1NetTotal as Qty1NetTotal,Company.OrganisationId,
+  
+    i.Qty2NetTotal as Qty2NetTotal, i.Qty3NetTotal as Qty3NetTotal, 
+                      i.JobDescription, i.JobDescription1 as JobDescription1,		 
+                      i.JobDescription2 as JobDescription2 ,i.JobDescription3 as JobDescription3,i.JobDescription4  as JobDescription4,
+                      i.JobDescription5 as JobDescription5 ,i.JobDescription6 as JobDescription6 ,i.JobDescription7 as JobDescription7,
+                       CASE 
+						  WHEN i.JobDescription1 is null then null
+						  WHEN i.JobDescription1 is not null THEN  i.JobDescriptionTitle1
+				       END As JobDescriptionTitle1,
+				        CASE 
+						  WHEN i.JobDescription2 is null THEN Null
+						  WHEN i.JobDescription2 is not null THEN  i.JobDescriptionTitle2
+				       END As JobDescriptionTitle2,
+				        CASE 
+						  WHEN i.JobDescription3 is null THEN Null
+						  WHEN i.JobDescription3 is not null THEN  i.JobDescriptionTitle3
+				       END As JobDescriptionTitle3,
+				        CASE 
+						  WHEN i.JobDescription4 is null THEN Null
+						  WHEN i.JobDescription4 is not null THEN  i.JobDescriptionTitle4
+				       END As JobDescriptionTitle4,
+				        CASE 
+						  WHEN i.JobDescription5 is null THEN Null
+						  WHEN i.JobDescription5 is not null THEN  i.JobDescriptionTitle5
+				       END As JobDescriptionTitle5,
+				        CASE 
+						  WHEN i.JobDescription6 is null THEN Null
+						  WHEN i.JobDescription6 is not null THEN  i.JobDescriptionTitle6
+				       END As JobDescriptionTitle6,
+				        CASE 
+						  WHEN i.JobDescription7 is null THEN Null
+						  WHEN i.JobDescription7 is not null THEN  i.JobDescriptionTitle7
+				       END As JobDescriptionTitle7,
+							
+                       dbo.Estimate.Estimate_Name, dbo.Estimate.Estimate_Code, dbo.Estimate.Estimate_Total, dbo.Estimate.FootNotes, 
+                      dbo.Estimate.HeadNotes, dbo.Estimate.EstimateDate, dbo.Estimate.Greeting, dbo.Estimate.CustomerPO, dbo.Address.AddressName, 
+                      dbo.Address.Address1, dbo.Address.Address2, dbo.Address.Address3, dbo.Address.Email, dbo.Address.Fax, st.StateName, 
+                      ct.CountryName, dbo.Address.URL, dbo.Address.Tel1, dbo.Company.AccountNumber, 
+                      dbo.Company.Name AS CustomerName, dbo.Company.URL AS CustomerURL, dbo.Estimate.EstimateID, i.ProductName, 
+                      
+                       isnull((select top 1 CategoryName from ProductCategory where ProductCategoryID = pcat.ProductCategoryID),'')+ SPACE(1) + i.ProductName as FullProductName,
+                       
+                      dbo.CompanyContact.FirstName + ISNULL(' ' + dbo.CompanyContact.MiddleName, '') + ISNULL(' ' + dbo.CompanyContact.LastName, '') AS ContactName, 
+                      dbo.SystemUser.FullName,(select top 1 ReportBanner from ReportNote where ReportCategoryID=3 and isdefault = 1) as BannerPath,
+                      (select top 1 ReportTitle from ReportNote where ReportCategoryID=3 and isdefault = 1) as ReportTitle,
+                      (select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=3 and isdefault = 1) as ReportBanner,
+                      dbo.Address.PostCode,
+                       CASE 
+						  WHEN i.Qty1NetTotal is null or i.Qty1NetTotal = '' then null
+						  WHEN i.Qty1NetTotal is not null THEN  (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID)
+				        
+				       END As CurrencySymbol,
+				        CASE 
+						  WHEN i.Qty2NetTotal is null or i.Qty2NetTotal = '' then null
+						  WHEN i.Qty2NetTotal is not null THEN  (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID)
+				       
+				       END As CurrencySymbol2,
+				        CASE 
+						  WHEN i.Qty3NetTotal is null or i.Qty3NetTotal = '' then null
+						  WHEN i.Qty3NetTotal is not null THEN  (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID)
+						 
+				       END As CurrencySymbol3
+                                
+                      
+FROM         dbo.Company INNER JOIN
+                      dbo.Estimate ON dbo.Company.CompanyId = dbo.Estimate.CompanyId INNER JOIN
+                      dbo.CompanyContact ON dbo.CompanyContact.ContactID = dbo.Estimate.ContactID INNER JOIN
+                      dbo.Items i ON dbo.Estimate.EstimateID = i.EstimateID INNER JOIN
+                      dbo.SystemUser ON dbo.Estimate.ReportSignedBy = dbo.SystemUser.SystemUserID INNER JOIN
+                      dbo.Address ON dbo.Estimate.BillingAddressID = dbo.Address.AddressID
+					  inner join dbo.ProductCategoryItem pc2 on i.ItemId = pc2.ItemId
+					 inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
+					 inner join dbo.State st on Address.StateId = st.StateId
+					 inner join dbo.Country ct on Address.CountryId = ct.CountryID 
+
+					 where Estimate.estimateid = @EstimateID and Company.OrganisationId = @OrganisationId
+
+End
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_PurchaseOrderReport]    Script Date: 4/29/2015 2:12:25 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE procedure [dbo].[usp_PurchaseOrderReport]
+ @OrganisationId bigint,
+ @PurchaseID bigint
+AS
+Begin
+
+select Purchase.PurchaseID,Purchase.Code, Purchase.date_Purchase, Purchase.SupplierID,
+			Purchase.TotalPrice, Purchase.UserID,Purchase.RefNo, Purchase.ContactID, 
+			Purchase.isproduct, Purchase.TotalTax, Purchase.Discount, Purchase.discountType, 
+			Purchase.NetTotal, PurchaseDetail.ItemID, PurchaseDetail.quantity, 
+			PurchaseDetail.price AS DetailPrice, PurchaseDetail.packqty,                         
+			PurchaseDetail.ItemCode , PurchaseDetail.ItemName,
+			(PurchaseDetail.TotalPrice + PurchaseDetail.NetTax) as PriceIncTax,
+			Purchase.TotalTax as TaxSum, Purchase.GrandTotal as GrandTotal,
+			(select '<font size=2px face="arial"><b>' + isnull(ProductCode,'N/A') + '</b> <br> <i>' + isnull(ProductName,'N/A') + '</i> <br>' + isnull(WebDescription,'N/A') + '</font>' from Items where itemid = PurchaseDetail.ItemId) as ProductDetail, 
+
+			--(select ProductCode from tbl_items where itemid = tbl_purchasedetail.ItemId) as ProductCode,
+			--(select ProductName from tbl_items where itemid = tbl_purchasedetail.ItemId) as ProductName,
+			--(select WebDescription from tbl_items where itemid = tbl_purchasedetail.ItemId) as ProductDescription, 
+           PurchaseDetail.TotalPrice AS DetailTotalPrice, 
+			(select ReportTitle from ReportNote where ReportCategoryID=5 and isdefault = 1) as ReportTitle,
+			(select ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=5 and isdefault = 1) as ReportBanner,                        
+			PurchaseDetail.Discount AS DetailDiscount, PurchaseDetail.NetTax AS DetailNetTax,
+			PurchaseDetail.freeitems, Purchase.Comments, Purchase.FootNote, Purchase.UserNotes,
+			Purchase.Status, Purchase.CreatedBy, Company.Name,                        
+			(select HeadNotes from ReportNote where ReportCategoryID = 5 and isdefault = 1) as HeadNotes,
+			Address.Address1, Address.Address2,
+			Address.City, Address.PostCode, Country.CountryName, State.StateName,
+			(isnull(Address.City, '') + space(1) + isnull(State.StateName, '') + ' ' + isnull(Address.PostCode, '') + space(1) + isnull(Country.CountryName, '')) As FullAddress,
+			CompanyContact.FirstName AS SuppContactFirstName, CompanyContact.MiddleName AS SuppContactMiddleName,  
+			CompanyContact.LastName AS SuppContactLastName,SystemUser.FullName,
+			(CompanyContact.FirstName + space(1) + isnull(CompanyContact.LastName, '')) As SupplierContactFullName, 
+			(select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol
+			,est.FinishDeliveryDate as FinishDeliveryDate, est.AddressName as dAddressName, est.address1 as DAddress1
+			,est.address2 As DAddress2
+			,est.city As DCity
+			,est.stateName As DState
+			,est.PostCode As DPostCode
+			,est.CountryName As DCountry
+			,est.UserNotes As EstimateUserNotes
+			,est.Order_Code As OrderCode
+			,est.CompanyName, est.ContactFullName
+     FROM  
+			purchase 
+			INNER JOIN   purchasedetail ON purchase.PurchaseID = purchasedetail.PurchaseID
+			INNER JOIN Company ON purchase.SupplierID = Company.CompanyId and Company.iscustomer = 2
+			INNER JOIN  CompanyContact ON purchase.ContactID = CompanyContact.ContactID
+			INNER JOIN Address ON purchase.SupplierContactAddressID = Address.AddressID  
+			inner join state on address.StateId = State.StateId
+			inner join Country on address.CountryId = Country.CountryId
+			inner join SystemUser on purchase.createdby = SystemUser.SystemUserID
+			
+			left join (select e.UserNotes, e.Order_Code, e.FinishDeliveryDate, i.ItemID, a.AddressID, a.AddressName, a.address1, a.address2, a.city, State.StateName, a.postcode, Country.CountryName
+			,(c.FirstName + space(1) + isnull(c.LastName, '')) As ContactFullName, cc.Name as CompanyName
+			from Estimate e 
+			inner join items i on i.EstimateID = e.EstimateID and e.isEstimate = 0
+			inner join address a on a.AddressID = e.AddressID
+			inner join state on a.StateId = State.StateId
+			inner join Country on a.CountryId = Country.CountryId
+			inner join companycontact c on c.ContactID = e.ContactID
+			inner join Company cc on cc.companyid = e.companyid
+			)as est on est.ItemID = PurchaseDetail.ItemId where company.OrganisationId = @OrganisationId and Purchase.PurchaseId = @PurchaseID
+
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_InvoiceReport]    Script Date: 4/29/2015 2:14:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+---------------------------------------------------- invoice -------------------------------
+
+
+CREATE procedure [dbo].[usp_InvoiceReport]
+ @Organisationid bigint,
+ @InvoiceId bigint
+AS
+Begin
+
+SELECT     dbo.Invoice.InvoiceID, dbo.Invoice.InvoiceCode, dbo.Invoice.OrderNo, dbo.Invoice.InvoiceTotal, dbo.Invoice.InvoiceDate, 
+                      dbo.Invoice.AccountNumber, dbo.Invoice.HeadNotes, dbo.Invoice.FootNotes, dbo.Invoice.TaxValue, dbo.Company.Name, dbo.Address.AddressName, dbo.Address.Address1, 
+                      dbo.Address.Address2, dbo.Address.Address3, dbo.Address.City, dbo.State.StateName, dbo.Country.CountryName, dbo.Address.Email,  isnull(dbo.State.StateName, '') + ' ' + isnull(dbo.Address.PostCode, '') As StatePostCode,
+                      dbo.Address.URL,Address.PostCode, dbo.invoicedetail.Quantity, dbo.invoicedetail.ItemTaxValue, dbo.items.InvoiceDescription, dbo.items.Qty1BaseCharge1, 
+                      dbo.Items.Qty1Tax1Value, (dbo.Items.Qty1BaseCharge1 +  dbo.Items.Qty1Tax1Value) as TotalPrice , dbo.Invoice.GrandTotal, dbo.items.ProductName,
+                       (select ReportBanner from ReportNote where ReportCategoryID=13) as BannerPath,
+                      (select ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=13) as ReportBanner,
+                       (select Top 1 FootNotes  from ReportNote where ReportCategoryID=13 and isdefault = 1) as ReportFootNotes,
+                      dbo.Company.TaxLabel As TaxLabel, (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					  isnull((select isnull(order_code,'') from Estimate where estimateid = Invoice.estimateid),'') as OrderCode,	
+					  isnull((select isnull(Estimate_Code,'') from Estimate where estimateid = Invoice.estimateid),'') as Estimate_Code,	
+				( select FinishDeliveryDate from Estimate where estimateid = invoice.estimateid) as FinishDeliveryDate,
+					 ISNULL((select AddressName from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddressName,
+                    ISNULL((select address1 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress1,
+					ISNULL((select address2 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress2,
+					ISNULL((select city from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BCity,
+					ISNULL(State.StateName,'N/A') as BState,
+					ISNULL((select PostCode from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BPostCode,
+					ISNULL(Country.CountryName,'N/A') as BCountry,
+					case when (select Estimate_Code from estimate where estimateid = invoice.estimateid) is not null then 'Estimate Code:'
+					     when (select Estimate_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as EstimateCodeLabel,
+					case when (select Order_Code from estimate where estimateid = invoice.estimateid) is not null then 'Order Code:'
+					     when (select Order_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as OrderCodeLabel
+					
+FROM         dbo.InvoiceDetail INNER JOIN
+                      dbo.invoice ON dbo.invoicedetail.InvoiceID = dbo.invoice.InvoiceID INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId INNER JOIN
+                      dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID INNER JOIN
+                      dbo.items ON dbo.invoicedetail.ItemID = dbo.items.ItemID
+                      inner join dbo.state on Address.StateId = dbo.State.StateId
+					  inner join dbo.Country on Address.CountryId = dbo.Country.CountryID
+
+					  where Company.OrganisationId = @Organisationid and dbo.Invoice.InvoiceId = @InvoiceId
+
+end
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_DeliveryReport]    Script Date: 4/29/2015 2:16:12 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create procedure [dbo].[usp_DeliveryReport]
+ @OrganisationID bigint,
+ @DeliveryID bigint
+AS
+Begin
+
+select	  cc.Name As CompanyName,
+
+		  sup.Name As SupplierName,cc.OrganisationId,
+
+		  ISNULL(c.FirstName, '') + ' ' + ISNULL(c.LastName, '') As CotactFullName, 
+
+		  ad.AddressName, ad.Address1,ad.City,st.StateName as StateName, ad.PostCode,ad.Tel1,ct.CountryName as CountryName,
+
+		 dd.Description, dd.ItemQty, dd.GrossItemTotal, 
+
+          dn.Code,dn.DeliveryDate,dn.OrderReff,dn.CustomerOrderReff,dn.CsNo,dn.DeliveryNoteID,
+
+          CASE 
+
+			  WHEN dn.IsStatus = 1 THEN 'Un Delivered'
+
+			  WHEN dn.IsStatus = 2 THEN 'Delivered' 
+
+		 END As DeliveryStatus,
+
+		 (select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=6) as ReportBanner
+
+		
+
+from	deliverynote dn
+
+	    left join company cc on cc.companyID = dn.ContactCompanyId
+
+		left join company sup on sup.CompanyId = dn.SupplierId
+
+		left join CompanyContact c on c.contactID = dn.ContactId
+
+		left join address ad on ad.AddressID = dn.AddressID
+
+		inner join state st on ad.StateId = st.StateId
+
+		inner join country ct on ad.CountryId = ct.CountryID
+
+		left join deliverynotedetail dd on dd.DeliveryNoteID = dn.DeliveryNoteID
+
+		where cc.OrganisationId = @OrganisationID and dn.DeliveryNoteId = @DeliveryID
+
+
+end
+
+
+GO
+
+/* Execution Date: 30/04/2015 */
+
+GO
+
+update shippingInformation
+set itemid = null
+
+alter table shippingInformation
+drop constraint DF__tbl_shipp__ItemI__1D66518C
+
+alter table shippingInformation
+alter column itemid bigint null
+
+alter table shippinginformation
+add constraint FK_ShippingInformation_Items
+foreign key (ItemId)
+references Items (ItemId)
+
+update shippingInformation
+set addressId = null
+
+alter table shippingInformation
+drop constraint DF__tbl_shipp__Addre__1E5A75C5
+
+alter table shippingInformation
+alter column addressid bigint null
+
+alter table shippinginformation
+add constraint FK_ShippingInformation_Address
+foreign key (AddressId)
+references Address (AddressId)
 
 GO

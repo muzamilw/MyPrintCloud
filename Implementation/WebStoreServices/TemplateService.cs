@@ -1081,7 +1081,7 @@ namespace MPC.Implementation.WebStoreServices
                                 System.Drawing.Image objImage = null;
                                 try
                                 {
-                                    oPdf.PageNumber = PageNo;
+                                    oPdf.PageNumber = i;
 
 
                                     bool bFileExists = false;
@@ -1110,7 +1110,7 @@ namespace MPC.Implementation.WebStoreServices
                                         oPdf.Layer = 1;
                                         oPdf.Rect.Position(posX, posY);
                                         oPdf.Rect.Resize(width, height);
-
+                                        oPdf.Transform.Rotate(45, oPdf.MediaBox.Width / 2, oPdf.MediaBox.Height / 2);
 
                                         oPdf.AddImageObject(oImg, true);
                                         oPdf.Transform.Reset();
@@ -2945,74 +2945,73 @@ namespace MPC.Implementation.WebStoreServices
             return _contactRepository.updateQuikcTextInfo(objQText.ContactID, objQText);
 
         }
-       
+
+
+        public string GetConvertedSizeWithUnits(long productId, long organisationID, long itemID)
+        {
+
+            double h = Math.Round(Convert.ToDouble(1), 0);
+            string unit = "mm";
+        //    double w = Math.Round(Convert.ToDouble(1), 0);
+            double height = h;
+         //   double width = w;
+            double scaledHeight = h;
+         //   double scaledWidth = w;
+            double resultDimentions = h; // current height or width 
+            var organisation = _organisationRepository.GetOrganizatiobByID(organisationID);
+            var item = _itemRepository.GetItemByIdDesigner(itemID);
+            //  string resultDisplaySize = "";
+            if (item != null)
+            {
+                scaledHeight = Convert.ToDouble(item.Scalar);
+            //    scaledWidth = Convert.ToDouble(item.Scalar);
+                if (scaledHeight == 0)
+                {
+                    scaledHeight = 1;
+                }
+              //  if (scaledWidth == 0)
+              //  {
+                  //  scaledWidth = 1;
+               // }
+            }
+
+
+            if (organisation.SystemLengthUnit == 1)
+            {
+                scaledHeight *= height;
+               // scaledWidth *= width;
+                resultDimentions =  scaledHeight;
+               
+            }
+            else if (organisation.SystemLengthUnit == 2)
+            {
+                height = _templateRepository.ConvertLength(Convert.ToDouble(1), MPC.Models.Common.LengthUnit.Mm, MPC.Models.Common.LengthUnit.Cm);
+               // width = _templateRepository.ConvertLength(Convert.ToDouble(widthInMM),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Cm);
+                height = Math.Round(height, 3);
+               // width = Math.Round(width, 3);
+                scaledHeight *= height;
+              //  scaledWidth *= width;
+                resultDimentions =scaledHeight;
+                unit = "cm";
+                //  resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h cm";
+            }
+            else if (organisation.SystemLengthUnit == 3)
+            {
+                height = _templateRepository.ConvertLength(Convert.ToDouble(1),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Inch);
+               // width = _templateRepository.ConvertLength(Convert.ToDouble(widthInMM),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Inch);
+                height = Math.Round(height, 3);
+              //  width = Math.Round(width, 3);
+                scaledHeight *= height;
+               // scaledWidth *= width;
+                resultDimentions =  scaledHeight ;
+                unit = "inch";
+                // resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h inch";
+            }
+
+
+            return resultDimentions + "__" + unit;
+        }
         
-        //public string GetConvertedSizeWithUnits(double heightInMM, double widthInMM, long productId,long organisationID)
-        //{
-
-        //    double h = Math.Round(Convert.ToDouble(heightInMM), 0);
-        //    double w = Math.Round(Convert.ToDouble(widthInMM), 0);
-        //    double height = h;
-        //    double width = w;
-        //    double scaledHeight = h;
-        //    double scaledWidth = w;
-        //    string resultDimentions = w.ToString() + " w *  " + h.ToString() + " h mm"; // current height or width 
-        //    var organisation = _organisationRepository.GetOrganizatiobByID(organisationID);
-        //    var template = _templateRepository.GetTemplate(productId, true);
-        //    //  string resultDisplaySize = "";
-        //    if (template != null)
-        //    {
-        //        scaledHeight = Convert.ToDouble(template.ScaleFactor);
-        //        scaledWidth = Convert.ToDouble(template.ScaleFactor);
-        //        if (scaledHeight == 0)
-        //        {
-        //            scaledHeight = 1;
-        //        }
-        //        if (scaledWidth == 0)
-        //        {
-        //            scaledWidth = 1;
-        //        }
-        //    }
-
-
-        //    if (organisation.SystemLengthUnit == 1)
-        //        {
-        //            scaledHeight *= height;
-        //            scaledWidth *= width;
-        //            resultDimentions = scaledWidth.ToString() + " w *  " + scaledHeight.ToString() + " h mm";
-        //            // double height = Utils.ConvertLength(Convert.ToDouble(heightInMM), Utils.LengthUnits.mm, BLL.Utils.LengthUnits.mm);
-        //        }
-        //    else if (organisation.SystemLengthUnit == 2)
-        //        {
-        //            height = DesignerUtils.ConvertLength(Convert.ToDouble(heightInMM), Util.LengthUnits.mm, BLL.Util.LengthUnits.cm);
-        //            width = Util.ConvertLength(Convert.ToDouble(widthInMM), Util.LengthUnits.mm, BLL.Util.LengthUnits.cm);
-        //            height = Math.Round(height, 3);
-        //            width = Math.Round(width, 3);
-        //            scaledHeight *= height;
-        //            scaledWidth *= width;
-        //            resultDimentions = scaledWidth + " w *  " + scaledHeight + " h cm";
-        //            //  resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h cm";
-        //        }
-        //    else if (organisation.SystemLengthUnit == 3)
-        //        {
-        //            height = Util.ConvertLength(Convert.ToDouble(heightInMM), Util.LengthUnits.mm, BLL.Util.LengthUnits.inch);
-        //            width = Util.ConvertLength(Convert.ToDouble(widthInMM), Util.LengthUnits.mm, BLL.Util.LengthUnits.inch);
-        //            height = Math.Round(height, 3);
-        //            width = Math.Round(width, 3);
-        //            scaledHeight *= height;
-        //            scaledWidth *= width;
-        //            resultDimentions = scaledWidth + " w *  " + scaledHeight + " h inch";
-        //            // resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h inch";
-        //        }
-
-
-
-            
-        //    //resultDimentions = "Size : " + resultDimentions;
-        //    resultDimentions = "" + resultDimentions;
-        //    resultDimentions = "PDF Canvas Size : <br />" + resultDimentions + "<br />";
-        //    return resultDimentions;
-        //}
         #endregion
     }
 

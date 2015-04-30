@@ -89,5 +89,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="status"></param>
         /// <returns></returns>
         Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
+
+        List<StoresListResponse> GetStoresNameByOrganisationId();
     }
 }

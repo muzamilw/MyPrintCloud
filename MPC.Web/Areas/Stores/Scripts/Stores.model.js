@@ -927,10 +927,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // #region ______________  S Y S T E M     U S E R   _________________
     // ReSharper disable once InconsistentNaming
-    var SystemUser = function (specifiedSystemUserId, specifiedUserName) {
+    var SystemUser = function (specifiedSystemUserId, specifiedUserName, specifiedfullName) {
         var self,
             systemUserId = ko.observable(specifiedSystemUserId),
             userName = ko.observable(specifiedUserName),
+            fullName = ko.observable(specifiedfullName),
             // Errors
             errors = ko.validation.group({
 
@@ -944,7 +945,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             dirtyFlag = new ko.dirtyFlag({
                 // ReSharper restore InconsistentNaming
                 systemUserId: systemUserId,
-                userName: userName
+                userName: userName,
+                fullName: fullName
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -964,6 +966,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         self = {
             systemUserId: systemUserId,
             userName: userName,
+            fullName:fullName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -982,7 +985,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     SystemUser.Create = function (source) {
         var systemUser = new SystemUser(
             source.SystemUserId,
-            source.UserName
+            source.UserName,
+            source.FullName
         );
         return systemUser;
     };
@@ -2165,7 +2169,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner, specifiedisEnabled) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner, specifiedisEnabled, specifiedCompanyId) {
         var self,
             id = ko.observable(specifiedPageId),
            // pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -2192,6 +2196,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
         defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
         pageBanner = ko.observable(specifiedPageBanner),
+        companyId = ko.observable(specifiedCompanyId),
 
         pageBannerWithCacheRemoveTechnique = ko.computed(function () {
             if (pageBanner() !== undefined && pageBanner() !== null) {
@@ -2251,6 +2256,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
             result.isEnabled = source.isEnabled();
             result.IsUserDefined = source.isUserDefined();
+            result.CompanyId = source.companyId();
             return result;
         },
         // Reset
@@ -2277,6 +2283,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isValid: isValid,
             isUserDefined: isUserDefined,
             pageBannerWithCacheRemoveTechnique: pageBannerWithCacheRemoveTechnique,
+            companyId:companyId,
             errors: errors,
             isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,

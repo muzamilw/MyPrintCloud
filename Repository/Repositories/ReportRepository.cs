@@ -128,6 +128,34 @@ namespace MPC.Repository.Repositories
             try
             {
                 return db.usp_OrderReport(OrganisationId, OrderID).ToList();
+               // return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<usp_EstimateReport_Result> getEstimateReportResult(long OrganisationID, long EstimateID)
+        {
+            try
+            {
+                return db.usp_EstimateReport(OrganisationId, EstimateID).ToList();
+                
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<usp_InvoiceReport_Result> getInvoiceReportResult(long OrganisationID, long InvoiceID)
+        {
+            try
+            {
+               return db.usp_InvoiceReport(OrganisationId, InvoiceID).ToList();
+               
 
             }
             catch (Exception ex)
@@ -227,6 +255,14 @@ namespace MPC.Repository.Repositories
             {
                 oConn.Close();
             }
+        }
+
+
+
+
+        public List<ReportNote> GetReportNoteByCompanyId(long CompanyId)
+        {
+            return db.ReportNotes.Where(c => c.CompanyId == CompanyId).ToList();
         }
        // GetReportsByOrganisationID
     }

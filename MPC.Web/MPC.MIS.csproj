@@ -323,6 +323,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCentreMatrixController.cs" />
@@ -426,6 +427,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
@@ -933,12 +935,16 @@
     <Content Include="Areas\Settings\Scripts\MIS\inventory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\costcenter.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\reportBanner.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\costcenter.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\reportBanner.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\costcenter.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\reportBanner.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\costcenter.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\reportBanner.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\sectionflags.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\sectionflags.model.js" />
@@ -2070,6 +2076,7 @@
     <Content Include="Areas\Orders\Views\Shared\_OrderStatusProgressToJob.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\ReportBanner.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

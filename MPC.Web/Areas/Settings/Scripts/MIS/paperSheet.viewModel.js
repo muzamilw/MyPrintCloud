@@ -78,6 +78,7 @@ define("paperSheet/paperSheet.viewModel",
                     //GET Paper Sheets
                     getPaperSheets = function () {
                         isLoadingPaperSheet(true);
+                        pager().reset();
                         dataservice.getPaperSheets({
                             SearchString: searchFilter(),
                             Region:orgCulture(),

@@ -3,6 +3,7 @@ using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace MPC.Implementation.MISServices
         private readonly IReportRepository _IReportRepository;
         private readonly IOrganisationRepository organisationRepository;
         private readonly IReportRepository ReportRepository;
-        public ReportService(IReportRepository IReportRepository, IOrganisationRepository organisationRepository, IReportRepository ReportRepository)
+        private readonly ICompanyRepository CompanyRepository;
+        public ReportService(IReportRepository IReportRepository, IOrganisationRepository organisationRepository, IReportRepository ReportRepository, ICompanyRepository CompanyRepository)
         {
             if (IReportRepository == null)
             {
@@ -30,9 +32,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("ReportRepository");
             }
+            if (CompanyRepository == null)
+            {
+                throw new ArgumentNullException("CompanyRepository");
+            }
             this._IReportRepository = IReportRepository;
             this.organisationRepository = organisationRepository;
             this.ReportRepository = ReportRepository;
+            this.CompanyRepository = CompanyRepository;
         }
 
         public ReportCategory GetReportCategory(long CategoryId, int IsExternal)
@@ -96,7 +103,51 @@ namespace MPC.Implementation.MISServices
             }
 
         }
-        //public List<usp_OrderReport_Resuilt> GetOrderReportSource()
+
+       
+        public List<StoresListResponse> GetStoreNameByOrganisationId()
+        {
+            return CompanyRepository.GetStoresNameByOrganisationId();
+        }
+
+        public List<ReportNote> GetReportNoteByCompanyID(long CompanyID)
+        {
+            return ReportRepository.GetReportNoteByCompanyId(CompanyID); 
+        }
+
+        //public ReportNote Update(ReportNote reportNote)
+        //{
+        //    //Organisation org = _organisationRepository.GetOrganizatiobByID();
+        //  //  string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+        //    //reportNote.BannerAbsolutePath = SaveCostCenterImage(costcenter);
+        //    //_costCenterRepository.Update(costcenter);
+        //    //SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);
+        //    //return costcenter;
+        //}
+
+        //private string SaveReportNoteImage(ReportNote reportNote)
+        //{
+        //    if (reportNote != null)
+        //    {
+        //        string base64 = costcenter.ImageBytes.Substring(costcenter.ImageBytes.IndexOf(',') + 1);
+        //        base64 = base64.Trim('\0');
+        //        byte[] data = Convert.FromBase64String(base64);
+
+        //        string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/CostCentres/" + _costCenterRepository.OrganisationId + "/" + costcenter.CostCentreId);
+
+        //        if (directoryPath != null && !Directory.Exists(directoryPath))
+        //        {
+        //            Directory.CreateDirectory(directoryPath);
+        //        }
+        //        string savePath = directoryPath + "\\thumbnail.png";
+        //        File.WriteAllBytes(savePath, data);
+        //        int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+        //        savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+        //        return savePath;
+        //    }
+        //    return null;
+        //}
+        //public List<usp_OrderReport_Result> GetOrderReportSource()
         //{
 
         //}
