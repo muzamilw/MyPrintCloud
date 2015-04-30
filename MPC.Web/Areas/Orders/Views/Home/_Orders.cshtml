@@ -169,7 +169,7 @@
     </script>
     
     <script id="allOrderListViewTemplate" type="text/html">
-        <tr>
+        <tr data-bind=" click: $root.editOrder" style="cursor: pointer">
             <td>
                 <!-- ko if: isDirectSale()==true -->
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/forwardicon.png")" alt="" />

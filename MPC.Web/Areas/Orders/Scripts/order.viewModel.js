@@ -1954,6 +1954,7 @@ define("order/order.viewModel",
                     createitemForRetailStoreProduct = function (selectedItem) {
                         var item = selectedItem.convertToServerData();
                         //item.EstimateId = orderId;
+                        selectedSection(undefined);
                         var newItem = model.Item.Create(item);
                         
                         return newItem;
@@ -1968,7 +1969,7 @@ define("order/order.viewModel",
 
                         sectionCostCenter.qty2Charge(0);
                         sectionCostCenter.qty3Charge(0);
-                        sectionCostCenter.qty1(selectedProductQuanity());
+                        sectionCostCenter.qty1(selectedProductQuanityParam);
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
 

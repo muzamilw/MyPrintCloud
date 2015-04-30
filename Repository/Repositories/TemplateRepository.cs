@@ -922,6 +922,7 @@ namespace MPC.Repository.Repositories
 
         public double getOrganisationBleedArea(long organisationID)
         {
+           
             double bleedArea = 0;
             try
             {
@@ -938,7 +939,45 @@ namespace MPC.Repository.Repositories
             }
             return bleedArea;
         }
+        public double ConvertLength(double Input, MPC.Models.Common.LengthUnit InputUnit, MPC.Models.Common.LengthUnit OutputUnit)
+        {
+            double ConversionUnit = 0;
+            double convertedValue = 0;
+            MPC.Models.DomainModels.LengthUnit oRows = db.LengthUnits.Where(o => o.Id == (int)InputUnit).FirstOrDefault();
+            if (oRows != null)
+            {
+                switch (OutputUnit)
+                {
+                    case MPC.Models.Common.LengthUnit.Cm:
+                        ConversionUnit = (double)oRows.CM;
+                        convertedValue =  (Input * ConversionUnit);
+                        break;
+                    case MPC.Models.Common.LengthUnit.Inch:
+                        ConversionUnit = (double)oRows.Inch;
+                        convertedValue =  (Input * ConversionUnit * 8) / 8.0d;
+                        break;
+                    case MPC.Models.Common.LengthUnit.Mm:
+                        ConversionUnit = (double)oRows.MM;
+                        convertedValue =  (Input * ConversionUnit);
+                        break;
+                    default:
+                        convertedValue =  0;
+                        break;
+                }
 
+            }
+            else
+                convertedValue =  0;
+
+            return convertedValue;
+
+        }
+
+
+    #endregion
+        // copied by zohaib from template service to reposiotry
+        #region MISSpeicificFunctions
+  
         public void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize)
         {
             if (drawBleedArea == false)
