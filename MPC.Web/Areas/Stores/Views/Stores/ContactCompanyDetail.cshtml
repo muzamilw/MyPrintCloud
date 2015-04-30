@@ -2090,7 +2090,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemRaveReviewTemplate" type="text/html">
             <tr data-bind="click: $root.onEditRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}" style="cursor: pointer">
-                <td><a href="#" class="store-user-link" data-bind="text: reviewBy,click : $root.onEditRaveReview"></a></td>
+                <td><a href="#" class="store-user-link" data-bind="text: reviewBy"></a></td>
                 <td data-bind="text: review"></td>
                 <td>
                     <div class="type">
@@ -2119,7 +2119,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemCompanyCMYKColorTemplate" type="text/html">
             <tr data-bind="click: $root.onEditCompanyCMYKColor, css: { selectedRow: $data === $root.selectedRaveReview}" style="cursor: pointer">
-                <td><a href="#" class="store-user-link" data-bind="text: colorName,click : $root.onEditCompanyCMYKColor"></a></td>
+                <td><a href="#" class="store-user-link" data-bind="text: colorName"></a></td>
                 <td data-bind="text: colorC"></td>
                 <td data-bind="text: colorM"></td>
                 <td data-bind="text: colorY"></td>
@@ -2192,8 +2192,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <tr data-bind=" click: $root.onEditSecondaryPage" style="cursor: pointer">
                 <td>
                     @*<img src="" alt="" data-bind="attr: { src: imageSource }" />*@
-                    <a href="#" class="store-user-link" data-bind="text: pageTitle,click : $root.onEditSecondaryPage"></a>
-                    <a href="#" class="store-user-link storeSubText" data-bind="text: metaTitle,click : $root.onEditSecondaryPage"></a>
+                    <a href="#" class="store-user-link" data-bind="text: pageTitle"></a>
+                    <a href="#" class="store-user-link storeSubText" data-bind="text: metaTitle"></a>
                 </td>
                 <td data-bind="text:categoryName, visible: isUserDefined"></td>
                 <td class="text-center">
@@ -2238,10 +2238,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-        </script>nagers and Visitor
+        </script>
         <script id="itemAddressTemplate" type="text/html">
             <tr style="cursor: pointer" data-bind="click: $root.onEditAddress, css: { selectedRow: $data === $root.selectedAddress}">
-                <td><a href="#" class="store-user-link" data-bind="text: addressName,click : $root.onEditAddress"></a></td>
+                <td><a href="#" class="store-user-link" data-bind="text: addressName"></a></td>
                 <td data-bind="text: city"></td>
                 @*<td data-bind="text: territoryName"></td>*@
 
@@ -2307,8 +2307,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                         <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
                     </div>
                     <div class="details col-lg-1">
-                        <a href="#" class="store-user-link" data-bind="text: firstName,click : $root.onEditCompanyContact"></a>
-                        <a href="#" class="store-user-link storeSubText" data-bind="text: email,click : $root.onEditCompanyContact"></a>
+                        <a href="#" class="store-user-link" data-bind="text: firstName"></a>
+                        <a href="#" class="store-user-link storeSubText" data-bind="text: email"></a>
                         @*<div class="name">
                         <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
                     </div>
@@ -2377,7 +2377,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemPaymentGatewayTemplate" type="text/html">
             <tr style="cursor: pointer" data-bind="click: $root.selectPaymentGateway, css: { selectedRow: $data === $root.selectedPaymentGateway}">
-                <td><a href="#" class="store-user-link" data-bind="text: paymentMethodName,click : $root.onEditPaymentGateway"></a></td>
+                <td><a href="#" class="store-user-link" data-bind="text: paymentMethodName"></a></td>
                 <td data-bind="text: businessEmail"></td>
                 <!--ko if: isActive() === true -->
                 <td>
@@ -2497,7 +2497,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
     <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">
-        <td><a href="#" class="store-user-link" data-bind="text: campaignName,click : $root.onEditEmail"></a></td>
+        <td><a href="#" class="store-user-link" data-bind="text: campaignName"></a></td>
         <td data-bind="text:eventName"></td>
         @*<td class="text-right">
                 <a href="" class="table-link" data-bind="click:$root.onEditEmail">
@@ -2624,7 +2624,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 <script id="filedVariablesItemTemplate" type="text/html">
     <tr data-bind=" click: $root.onEditFieldVariable" style="cursor: pointer">
-        <td><a href="#" class="store-user-link" data-bind="text: variableName,click : $root.onEditFieldVariable"></a></td>
+        <td><a href="#" class="store-user-link" data-bind="text: variableName"></a></td>
         <td data-bind="text:scopeName"></td>
         <td data-bind="text:typeName"></td>
         <td data-bind="text:variableTag"></td>
@@ -2641,7 +2641,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </script>
 <script id="smartFormItemTemplate" type="text/html">
     <tr data-bind=" click: $root.onEditSmartForm" style="cursor: pointer">
-        <td><a href="#" class="store-user-link" data-bind="text: name,click : $root.onEditSmartForm"></a></td>
+        <td><a href="#" class="store-user-link" data-bind="text: name"></a></td>
         <td data-bind="text:heading"></td>
         @*<td class="text-right">
                 <a href="" class="table-link" data-bind="click:$root.onEditSmartForm">
