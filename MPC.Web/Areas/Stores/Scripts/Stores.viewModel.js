@@ -441,6 +441,7 @@ define("stores/stores.viewModel",
                 //GET Stores For Stores List View
                 getStores = function () {
                     isLoadingStores(true);
+                    pager().reset();
                     dataservice.getStores({
                         SearchString: searchFilter(),
                         PageSize: pager().pageSize(),
@@ -714,6 +715,7 @@ define("stores/stores.viewModel",
             searchCompanyTerritoryFilter = ko.observable(),
                 //Search Company Territory
             searchCompanyTerritory = function () {
+                companyTerritoryPager().reset();
                 if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
                     dataservice.searchCompanyTerritory({
                         SearchFilter: searchCompanyTerritoryFilter(),
@@ -2593,6 +2595,7 @@ define("stores/stores.viewModel",
             searchCompanyContactFilter = ko.observable(),
                 //Search Company Contact        
             searchCompanyContact = function () {
+                contactCompanyPager().reset();
                 if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
                     dataservice.searchCompanyContact({
                         SearchFilter: searchCompanyContactFilter(),

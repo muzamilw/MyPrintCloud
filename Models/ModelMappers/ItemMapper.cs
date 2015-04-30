@@ -349,6 +349,9 @@ namespace MPC.Models.ModelMappers
                     break;
             }
 
+            // Set Template Name as Item Name
+            target.Template.ProductName = target.ProductName;
+
             // Update Template Pages
             UpdateTemplatePages(source, target, actions);
         }

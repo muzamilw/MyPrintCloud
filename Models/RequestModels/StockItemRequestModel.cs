@@ -12,13 +12,7 @@ namespace MPC.Models.RequestModels
         ///Category Id
         /// </summary>
         public long? CategoryId { get; set; }
-
-
-        /// <summary>
-        ///Stock Category Id
-        /// </summary>
-        public long? StockCategoryId { get; set; }
-
+        
         /// <summary>
         /// Stock Category By Column for sorting
         /// </summary>

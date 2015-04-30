@@ -3,17 +3,19 @@
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Product From Retail Store</h4>
+                <h4 class="modal-title">Product From Store</h4>
             </div>
 
             <div class="col-lg-12 col-lg-12 outerDiv-Padding form-horizontal">
                 <div class="col-lg-6 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1">
                     <header class="main-box-header clearfix">
                         <div class="filter-block pull-left">
-                            <div class="form-group pull-left">
-                                <input style="margin-left:16px" type="text" class="form-control" placeholder="Search...">    @*data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter"*@
-                                <i class="fa fa-search search-icon"></i>@*data-bind="click:$root.searchCompanyTerritory"*@
-                            </div>
+                            <form data-bind="submit: $root.getItemsByCompanyId">
+                                <div class="form-group pull-left">
+                                    <input style="margin-left:16px" type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                                    <i class="fa fa-search search-icon" data-bind="click: $root.getItemsByCompanyId"></i>
+                                </div>
+                            </form>
                         </div>
                     </header>
                     <div class="main-box-body clearfix" style="max-height: 360px; overflow-y: auto">

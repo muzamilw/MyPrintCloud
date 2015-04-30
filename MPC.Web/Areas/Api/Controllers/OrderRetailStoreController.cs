@@ -5,6 +5,7 @@ using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.Models.RequestModels;
 using MPC.WebBase.Mvc;
 using Item = MPC.Models.DomainModels.Item;
 
@@ -33,9 +34,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
-        public ItemSearchResponse Get([FromUri]int companyId)
+        public ItemSearchResponse Get([FromUri]ItemSearchRequestModel request)
         {
-            IEnumerable<Item> items = itemService.GetItemsByCompanyId(companyId);
+            IEnumerable<Item> items = itemService.GetItemsByCompanyId(request);
             ItemSearchResponse itemSearchResponse = new ItemSearchResponse
             {
                 TotalCount = items.Count(),

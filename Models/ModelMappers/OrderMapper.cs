@@ -768,6 +768,7 @@ namespace MPC.Models.ModelMappers
             target.ProductCode = source.ProductCode;
             target.ProductName = source.ProductName;
             target.ProductType = source.ProductType;
+            target.ItemType = source.ItemType;
             target.IsPublished = source.IsPublished;
             target.ItemLastUpdateDateTime = DateTime.Now;
             target.EstimateId = source.EstimateId;

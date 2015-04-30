@@ -1614,7 +1614,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return DbSet.Where(supplier => supplier.OrganisationId == OrganisationId && supplier.IsCustomer == 0).ToList();
+                return DbSet.Where(supplier => supplier.OrganisationId == OrganisationId && 
+                    supplier.IsCustomer == (int)CustomerTypes.Suppliers &&
+                    (!supplier.isArchived.HasValue || !supplier.isArchived.Value)).ToList();
             }
             catch (Exception ex)
             {
@@ -6307,6 +6309,27 @@ namespace MPC.Repository.Repositories
         public Company isValidWebAccessCode(string WebAccessCode, long OrganisationId)
         {
             return db.Companies.Where(c => c.WebAccessCode == WebAccessCode && c.OrganisationId == OrganisationId && c.IsCustomer == (int)CustomerTypes.Corporate).SingleOrDefault();
+        }
+
+        public List<StoresListResponse> GetStoresNameByOrganisationId()
+        {
+            List<Company> objCompany = db.Companies.Where(c => c.OrganisationId == OrganisationId && c.IsCustomer == 3 || c.IsCustomer == 4).ToList();
+
+            List<StoresListResponse> response = new List<StoresListResponse>();
+            if (objCompany != null && objCompany.Count > 0)
+            {
+                foreach(var obj in objCompany)
+                {
+                    StoresListResponse objRes = new StoresListResponse();
+                    objRes.StoreID = obj.CompanyId;
+                    objRes.StoreName = obj.Name;
+
+                    response.Add(objRes);
+                }
+            }
+            return response;
+
+           
         }
     }
 }
