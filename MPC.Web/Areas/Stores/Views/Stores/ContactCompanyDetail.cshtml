@@ -2089,7 +2089,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </a>
         </script>
         <script id="itemRaveReviewTemplate" type="text/html">
-            <tr data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}">
+            <tr data-bind="click: $root.onEditRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}" style="cursor: pointer">
                 <td><a href="#" class="store-user-link" data-bind="text: reviewBy,click : $root.onEditRaveReview"></a></td>
                 <td data-bind="text: review"></td>
                 <td>
@@ -2098,9 +2098,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     </div>
                 </td>
                 @*<td id="actionColumn">
-                        <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                        <!-- /ko -->
-                    </td>*@
+                <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                <!-- /ko -->
+            </td>*@
             </tr>
         </script>
         <script id="actionsCompanyCMYKColorTemplate" type="text/html">
@@ -2118,7 +2118,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </a>
         </script>
         <script id="itemCompanyCMYKColorTemplate" type="text/html">
-            <tr data-bind="click: $root.selectCompanyCMYKColorCompanyCMYKColor, css: { selectedRow: $data === $root.selectedRaveReview}">
+            <tr data-bind="click: $root.onEditCompanyCMYKColor, css: { selectedRow: $data === $root.selectedRaveReview}" style="cursor: pointer">
                 <td><a href="#" class="store-user-link" data-bind="text: colorName,click : $root.onEditCompanyCMYKColor"></a></td>
                 <td data-bind="text: colorC"></td>
                 <td data-bind="text: colorM"></td>
@@ -2130,9 +2130,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     </div>
                 </td>
                 @*<td id="actionColumn">
-                        <!-- ko template: { name: "actionsCompanyCMYKColorTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                        <!-- /ko -->
-                    </td>*@
+                <!-- ko template: { name: "actionsCompanyCMYKColorTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                <!-- /ko -->
+            </td>*@
             </tr>
         </script>
         <script id="actionsCompanyTerritoryTemplate" type="text/html">
@@ -2189,7 +2189,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </tr>
         </script>
         <script id="secondaryPageItemTemplate" type="text/html">
-            <tr>
+            <tr data-bind=" click: $root.onEditSecondaryPage" style="cursor: pointer">
                 <td>
                     @*<img src="" alt="" data-bind="attr: { src: imageSource }" />*@
                     <a href="#" class="store-user-link" data-bind="text: pageTitle,click : $root.onEditSecondaryPage"></a>
@@ -2200,28 +2200,28 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <span class="label" data-bind="text: isEnabled() ? 'Active' : 'In-Active', css:{ 'label-success': isEnabled, 'label-danger': !isEnabled() }"></span>
                 </td>
                 @*<td class="text-center">
-                        <span class="label" data-bind="text: isUserDefined() ? 'Yes' : 'No', css:{ 'label-success': isUserDefined, 'label-danger': !isUserDefined() }"></span>
-                    </td>*@
+                <span class="label" data-bind="text: isUserDefined() ? 'Yes' : 'No', css:{ 'label-success': isUserDefined, 'label-danger': !isUserDefined() }"></span>
+            </td>*@
                 @*<td style="width: 20%;">
-                        <a href="#" class="table-link">
-                            <span class="fa-stack">
-                                <i class="fa fa-square fa-stack-2x"></i>
-                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                        <a href="" class="table-link" data-bind="click:$root.onEditSecondaryPage">
-                            <span class="fa-stack">
-                                <i class="fa fa-square fa-stack-2x"></i>
-                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                        <a href="#" class="table-link danger" data-bind="click:$root.onDeleteSecondaryPage">
-                            <span class="fa-stack">
-                                <i class="fa fa-square fa-stack-2x"></i>
-                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </td>*@
+                <a href="#" class="table-link">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="" class="table-link" data-bind="click:$root.onEditSecondaryPage">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="table-link danger" data-bind="click:$root.onDeleteSecondaryPage">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>*@
             </tr>
         </script>
 
@@ -2238,9 +2238,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-        </script>
+        </script>nagers and Visitor
         <script id="itemAddressTemplate" type="text/html">
-            <tr data-bind="click: $root.selectAddress, css: { selectedRow: $data === $root.selectedAddress}">
+            <tr style="cursor: pointer" data-bind="click: $root.onEditAddress, css: { selectedRow: $data === $root.selectedAddress}">
                 <td><a href="#" class="store-user-link" data-bind="text: addressName,click : $root.onEditAddress"></a></td>
                 <td data-bind="text: city"></td>
                 @*<td data-bind="text: territoryName"></td>*@
@@ -2280,9 +2280,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <!-- /ko -->
                 @*<td id="actionColumn" class="text-right">
-                        <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                        <!-- /ko -->
-                    </td>*@
+                <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                <!-- /ko -->
+            </td>*@
             </tr>
         </script>
 
@@ -2301,7 +2301,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </a>
         </script>
         <script id="itemCompanyContactTemplate" type="text/html">
-            <tr data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact }">
+            <tr style="cursor: pointer" data-bind="click: $root.onEditCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact }">
                 <td style="width: 20%; max-width: 20%;">
                     <div class="img col-xs-2">
                         <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
@@ -2310,10 +2310,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                         <a href="#" class="store-user-link" data-bind="text: firstName,click : $root.onEditCompanyContact"></a>
                         <a href="#" class="store-user-link storeSubText" data-bind="text: email,click : $root.onEditCompanyContact"></a>
                         @*<div class="name">
-                                <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
-                            </div>
-                            <div class="time online" data-bind="text: email">
-                            </div>*@
+                        <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
+                    </div>
+                    <div class="time online" data-bind="text: email">
+                    </div>*@
                     </div>
                 </td>
                 <td style="width: 10%; max-width: 10%;">
@@ -2331,8 +2331,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     </div>
                 </td>
                 @*
-                    <td data-bind="text: firstName "></td>
-                    <td data-bind="text: contactRoleId"></td>*@
+            <td data-bind="text: firstName "></td>
+            <td data-bind="text: contactRoleId"></td>*@
                 <td style="width: 10%; max-width: 10%;">
                     <div class="type">
                         <span class="label" data-bind="text: isWebAccess() == true ? 'Yes' : 'No' , css: { 'label-success': (isWebAccess() == true),'label-danger': (isWebAccess() != true)}"></span>   @*class="label label-danger"*@
@@ -2356,9 +2356,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
                 @*<td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
-                        <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                        <!-- /ko -->
-                    </td>*@
+                <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                <!-- /ko -->
+            </td>*@
             </tr>
         </script>
         <script id="actionsPaymentGatewayTemplate" type="text/html">
@@ -2376,7 +2376,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </a>
         </script>
         <script id="itemPaymentGatewayTemplate" type="text/html">
-            <tr data-bind="click: $root.selectPaymentGateway, css: { selectedRow: $data === $root.selectedPaymentGateway}">
+            <tr style="cursor: pointer" data-bind="click: $root.selectPaymentGateway, css: { selectedRow: $data === $root.selectedPaymentGateway}">
                 <td><a href="#" class="store-user-link" data-bind="text: paymentMethodName,click : $root.onEditPaymentGateway"></a></td>
                 <td data-bind="text: businessEmail"></td>
                 <!--ko if: isActive() === true -->
@@ -2390,9 +2390,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <!-- /ko -->
                 @*<td id="actionColumn">
-                        <!-- ko template: { name: "actionsPaymentGatewayTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                        <!-- /ko -->
-                    </td>*@
+                <!-- ko template: { name: "actionsPaymentGatewayTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                <!-- /ko -->
+            </td>*@
             </tr>
         </script>
         <script id="itemProductCategoriesTemplate" type="text/html">
@@ -2428,7 +2428,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </tr>
         </script>
         <script id="itemCompanyDomainTemplate" type="text/html">
-            <tr data-bind="click: $root.selectCompanyDomain, css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
+            <tr style="cursor: pointer"  data-bind="click: $root.selectCompanyDomain, css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
                 <!--ko if: isMandatoryDomain()-->
                 <td class="col-lg-12"><a data-bind="text: domain, attr: {href: domain}, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>  (Default)</td>
                 <!-- /ko -->
@@ -2496,7 +2496,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
-    <tr>
+    <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">
         <td><a href="#" class="store-user-link" data-bind="text: campaignName,click : $root.onEditEmail"></a></td>
         <td data-bind="text:eventName"></td>
         @*<td class="text-right">
@@ -2512,7 +2512,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </script>
 <script id="oneTimeMarketingEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 3 -->
-    <tr>
+    <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">
         <td><a href="#" class="store-user-link" data-bind="text: campaignName,click : $root.onEditEmail"></a></td>
         <td data-bind="dateString:startDateTime,datePattern: 'DD/MM/YYYY'"></td>
         <!-- ko if: isEnabled -->
@@ -2544,7 +2544,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </script>
 <script id="intervalMarketingEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 2 -->
-    <tr>
+    <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">
         <td><a href="#" class="store-user-link" data-bind="text: campaignName,click : $root.onEditEmail"></a></td>
         <td data-bind="text:sendEmailAfterDays "></td>
         <td data-bind="text:eventName"></td>
@@ -2623,7 +2623,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 
 <script id="filedVariablesItemTemplate" type="text/html">
-    <tr>
+    <tr data-bind=" click: $root.onEditFieldVariable" style="cursor: pointer">
         <td><a href="#" class="store-user-link" data-bind="text: variableName,click : $root.onEditFieldVariable"></a></td>
         <td data-bind="text:scopeName"></td>
         <td data-bind="text:typeName"></td>
@@ -2640,7 +2640,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 </script>
 <script id="smartFormItemTemplate" type="text/html">
-    <tr>
+    <tr data-bind=" click: $root.onEditSmartForm" style="cursor: pointer">
         <td><a href="#" class="store-user-link" data-bind="text: name,click : $root.onEditSmartForm"></a></td>
         <td data-bind="text:heading"></td>
         @*<td class="text-right">

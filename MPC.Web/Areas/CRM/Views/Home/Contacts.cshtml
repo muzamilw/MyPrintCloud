@@ -61,7 +61,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <!-- ko  foreach: $root.companyContactsForListView  -->
-                                                            <tr>
+                                                            <tr data-bind=" click: $root.editContactbuttonHandler" style="cursor: pointer">
                                                                 <td>
                                                                     <img data-bind="attr: { src: image()==='' ? 'abc/def':image() }" alt="" />
                                                                 </td>
