@@ -24,7 +24,7 @@
                 return errors().length === 0 ? true : false;;
             }),
             dirtyFlag = new ko.dirtyFlag({
-                reportBannerUrl: reportBannerUrl
+                reportBanner: reportBanner
                 
             }),
             hasChanges = ko.computed(function() {

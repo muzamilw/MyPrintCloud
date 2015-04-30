@@ -127,8 +127,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.usp_OrderReport(OrganisationId, OrderID).ToList();
-
+                //return db.usp_OrderReport(OrganisationId, OrderID).ToList();
+                return null;
             }
             catch (Exception ex)
             {
@@ -154,7 +154,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               // return db.usp_InvoiceReport(OrganisationId, InvoiceID).ToList();
+              //  return db.usp_Delet(OrganisationId, InvoiceID).ToList();
                 return null;
 
             }
@@ -260,9 +260,9 @@ namespace MPC.Repository.Repositories
 
 
 
-        public ReportNote GetReportNoteByCompanyId(long CompanyId)
+        public List<ReportNote> GetReportNoteByCompanyId(long CompanyId)
         {
-            return db.ReportNotes.Where(c => c.CompanyId == CompanyId).FirstOrDefault();
+            return db.ReportNotes.Where(c => c.CompanyId == CompanyId).ToList();
         }
        // GetReportsByOrganisationID
     }

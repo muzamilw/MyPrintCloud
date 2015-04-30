@@ -24,7 +24,7 @@ namespace MPC.Interfaces.Repository
 
         DataTable GetReportDataSourceByReportID(long ReportID, string CriteriaParam);
 
-        ReportNote GetReportNoteByCompanyId(long CompanyId);
+        List<ReportNote> GetReportNoteByCompanyId(long CompanyId);
 
         List<usp_EstimateReport_Result> getEstimateReportResult(long OrganisationID, long EstimateID);
 

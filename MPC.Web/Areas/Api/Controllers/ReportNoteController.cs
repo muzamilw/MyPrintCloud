@@ -48,10 +48,12 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public ReportNote GetReportNote(long CompanyID)
+        public List<ReportNote> GetReportNote(long CompanyID)
         {
+            List<ReportNote> g = new List<ReportNote>();
 
-            return reportService.GetReportNoteByCompanyID(CompanyID).CreateFrom();
+            return g;
+
         }
         #endregion
     }

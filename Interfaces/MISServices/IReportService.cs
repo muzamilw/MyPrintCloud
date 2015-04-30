@@ -18,6 +18,6 @@ namespace MPC.Interfaces.MISServices
 
         List<StoresListResponse> GetStoreNameByOrganisationId();
 
-        ReportNote GetReportNoteByCompanyID(long CompanyID);
+        List<ReportNote> GetReportNoteByCompanyID(long CompanyID);
     }
 }
