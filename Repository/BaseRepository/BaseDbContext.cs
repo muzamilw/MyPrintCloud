@@ -896,6 +896,70 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_OrderReport_Result>("usp_OrderReport", organisationIdParameter, orderIdParameter);
         }
 
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_DeliveryReport_Result> usp_DeliveryReport(long? organisationId, long? deliveryId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationID", organisationId) :
+                new ObjectParameter("OrganisationID", typeof(long));
+
+            var deliveryIdParameter = deliveryId.HasValue ?
+                new ObjectParameter("DeliveryID", deliveryId) :
+                new ObjectParameter("DeliveryID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_DeliveryReport_Result>("usp_DeliveryReport", organisationIdParameter, 
+                deliveryIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_EstimateReport_Result> usp_EstimateReport(long? organisationId, long? estimateId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var estimateIdParameter = estimateId.HasValue ?
+                new ObjectParameter("EstimateID", estimateId) :
+                new ObjectParameter("EstimateID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_EstimateReport_Result>("usp_EstimateReport", organisationIdParameter, 
+                estimateIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_InvoiceReport_Result> usp_InvoiceReport(long? organisationid, long? invoiceId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("Organisationid", organisationid) :
+                new ObjectParameter("Organisationid", typeof(long));
+
+            var invoiceIdParameter = invoiceId.HasValue ?
+                new ObjectParameter("InvoiceId", invoiceId) :
+                new ObjectParameter("InvoiceId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_InvoiceReport_Result>("usp_InvoiceReport", organisationidParameter, 
+                invoiceIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_PurchaseOrderReport_Result> usp_PurchaseOrderReport(long? organisationId, long? purchaseId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var purchaseIdParameter = purchaseId.HasValue ?
+                new ObjectParameter("PurchaseID", purchaseId) :
+                new ObjectParameter("PurchaseID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_PurchaseOrderReport_Result>("usp_PurchaseOrderReport", organisationIdParameter, 
+                purchaseIdParameter);
+        }
+
         #endregion
     }
 }
