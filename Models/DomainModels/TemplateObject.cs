@@ -66,6 +66,7 @@
         public int textCase { get; set; }
         public string originalTextStyles { get; set; }
         public string originalContentString { get; set; }
+        public bool? hasInlineFontStyle { get; set; }
         public virtual Template Template { get; set; }
     }
 }

@@ -466,13 +466,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 }
                 if (contact.image != null || contact.image != "")
                 {
-
                     RemovePreviousFile(contact.image);
                 }
                 var fileName = Path.GetFileName(Request.FileName);
-
                 Request.SaveAs(virtualFolderPth + "/" + fileName);
-
                 ImagePath = folderPath + "/" + fileName;
             }
             else

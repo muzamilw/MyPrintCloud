@@ -30,9 +30,9 @@ define("reportBanner/reportBanner.dataservice", function () {
                         type: 'GET'
                     });
                     
-                    // Define request to save Prefixes
-                    amplify.request.define('savePrefixes', 'ajax', {
-                        url: ist.siteUrl + '/Api/Prefix',
+                    // Define request to save invoice
+                    amplify.request.define('saveReportNote', 'ajax', {
+                        url: ist.siteUrl + '/Api/ReportNote',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
@@ -49,11 +49,11 @@ define("reportBanner/reportBanner.dataservice", function () {
                     error: callbacks.error,
                 });
             },
-            // Save Prefixes
-            savePrefixes = function (param, callbacks) {
+            // save ReportNote
+            saveReportNote = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'savePrefixes',
+                    resourceId: 'saveReportNote',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
@@ -72,7 +72,7 @@ define("reportBanner/reportBanner.dataservice", function () {
 
         return {
             getStores: getStores,
-            savePrefixes: savePrefixes,
+            saveReportNote: saveReportNote,
             getReportNote : getReportNote
         };
     })();

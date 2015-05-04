@@ -35,7 +35,7 @@
 
                 </div>
                 <div class="row" id="ReportBannerdata">
-                    <button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn">Save</button>
+                    <button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn" data-bind="click: $root.saveNotes">Save</button>
                     <div class="col-lg-12 main-box clearfix">
                         <div class="main-box-body">
                             <div class="col-lg-4 form-horizontal" style="margin-top:15px">
@@ -44,8 +44,9 @@
                                         <div class="table-responsive">
                                             <table class="table user-list">
                                                 <thead>
+
                                                     <tr id="ccList" class="span12">
-                                                        <th class="col-lg-3"><span>StoreName</span></th>
+                                                        <th width="80%;" class="col-lg-5"><span>Select Store to upload report banner</span></th>
                                                        
                                                         <th class="col-lg-2">&nbsp;</th>
                                                     </tr>
@@ -63,131 +64,135 @@
 
                                 <div data-bind="with: SelectedReportNote">
                                     <div class="form-group">
-                                        <div class="col-md-4 text-right">
-
-                                            <label class="control-label text-right tooltip-float">Estimate Report</label>
+                                        <div class="col-md-2 text-right">
+                                        
+                                            <label class="control-label text-right tooltip-float">Estimate</label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-10">
                                             <div class="clearfix">
-                                                <div>
-                                                    <img style="width:400px;" data-bind="visible:estimateBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
-                                                    <img style="width:400px;" data-bind="visible:estimateBannerBytes()!==undefined,attr: { src: estimateBannerBytes }" />
-                                                </div>
+                                                
+                                                    <img style="width:520px;" data-bind="visible:estimateBannerBytes()==null,attr: { src: '@Url.Content("~/")' + reportBanner() }" />
+                                                    <img style="width:520px;" data-bind="visible:estimateBannerBytes()!=null,attr: { src: estimateBannerBytes }" />
+                                              
 
                                                 <div class="pull-right">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" />
+                                                        <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.ImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
                                                 <div class="profile-stars">
-                                                    <span></span>
+                                                    <span>(PNG 1000 pixels width)</span>
                                                 </div>
 
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                               
+                               <br />
                                 <div data-bind="with: SelectOrderReportNote">
                                     <div class="form-group">
-                                        <div class="col-md-4 text-right">
-
-                                            <label class="control-label text-right tooltip-float">Order Report</label>
-                                        </div>
-                                        <div class="col-md-6">
+                                     
+                                            <div class="col-md-2 text-right">
+                                                <label class="control-label text-right tooltip-float">Order Report</label>
+                                            </div>
+                                     
+                                        <div class="col-md-10">
                                             <div class="clearfix">
-                                                <img style="width:400px;" data-bind="visible:orderBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
-                                                <img style="width:400px;" data-bind="visible:orderBannerBytes()!==undefined,attr: { src: orderBannerBytes }" />
+                                                <img style="width:520px;" data-bind="visible:orderBannerBytes()==null,attr: { src: '@Url.Content("~/")' + reportBanner() }" />
+                                                <img style="width:520px;" data-bind="visible:orderBannerBytes()!=null,attr: { src: orderBannerBytes }" />
                                                 <div class="pull-right">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" />
+                                                        <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.ImageFilesOrderLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
                                                 <div class="profile-stars">
-                                                    <span></span>
+                                                    <span>(PNG 1000 pixels width)</span>
                                                 </div>
 
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
+                                <br />
                                 <div data-bind="with: SelectedInvoiceReportNote">
                                     <div class="form-group">
-                                        <div class="col-md-4 text-right">
-
-                                            <label class="control-label text-right tooltip-float">Invoice Report</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="clearfix">
-                                                <img style="width:400px;" data-bind="visible:invoiceBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
-                                                <img style="width:400px;" data-bind="visible:invoiceBannerBytes()!==undefined,attr: { src: invoiceBannerBytes }" />
-                                                <div class="pull-right">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" />
+                                        
+                                            <div class="col-md-2 text-right">
+                                                <label class="control-label text-right tooltip-float">Invoice Report</label>
+                                            </div>
+                                        <div class="col-md-10">
+                                         
+                                                <div class="clearfix">
+                                                    <img style="width:520px;" data-bind="visible:invoiceBannerBytes()==null,attr: { src: '@Url.Content("~/")' + reportBanner() }" />
+                                                    <img style="width:520px;" data-bind="visible:invoiceBannerBytes()!=null,attr: { src: invoiceBannerBytes }" />
+                                                    <div class="pull-right">
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>....</span>
+                                                            <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.ImageFilesInvoiceLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="profile-stars">
-                                                    <span></span>
-                                                </div>
+                                                    <div class="profile-stars">
+                                                        <span>(PNG 1000 pixels width)</span>
+                                                    </div>
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
-
+                                <br />
                                 <div data-bind="with: SelectedPurchaseOrderReportNote">
                                     <div class="form-group">
-                                        <div class="col-md-4 text-right">
-
-                                            <label class="control-label text-right tooltip-float">Purchase Order Report</label>
-                                        </div>
-                                        <div class="col-md-6">
+                                     
+                                            <div class="col-md-2 text-right">
+                                                <label class="control-label text-right tooltip-float">Purchase Order Report</label>
+                                            </div>
+                                        
+                                        <div class="col-md-10">
                                             <div class="clearfix">
-                                                <img style="width:400px;" data-bind="visible:purchaseBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
-                                                <img style="width:400px;" data-bind="visible:purchaseBannerBytes()!==undefined,attr: { src: purchaseBannerBytes }" />
+                                                <img style="width:520px;" data-bind="visible:purchaseBannerBytes()==null,attr: { src: '@Url.Content("~/")' + reportBanner() }" />
+                                                <img style="width:520px;" data-bind="visible:purchaseBannerBytes()!=null,attr: { src: purchaseBannerBytes }" />
                                                 <div class="pull-right">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" />
+                                                        <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.ImageFilesPurchaseLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
                                                 <div class="profile-stars">
-                                                    <span></span>
+                                                    <span>(PNG 1000 pixels width)</span>
                                                 </div>
 
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
+                                <br />
                                 <div data-bind="with: SelectedDeliveryReportNote">
                                     <div class="form-group">
-                                        <div class="col-md-4 text-right">
+                                        <div class="col-md-2 text-right">
 
-                                            <label class="control-label text-right tooltip-float">Delivery Note Report</label>
+                                            <label class="control-label text-right tooltip-float">Delivery Report</label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-10">
                                             <div class="clearfix">
-                                                <img style="width:400px;" data-bind="visible:deliveryBannerBytes()===undefined,attr: { src: '@Url.Content("~/")' + BannerAbsolutePath() }" />
-                                                <img style="width:400px;" data-bind="visible:deliveryBannerBytes()!==undefined,attr: { src: deliveryBannerBytes }" />
+                                                <img style="width:520px;" data-bind="visible:deliveryBannerBytes()==null,attr: { src: '@Url.Content("~/")' + reportBanner() }" />
+                                                <img style="width:520px;" data-bind="visible:deliveryBannerBytes()!=null,attr: { src: deliveryBannerBytes }" />
                                                 <div class="pull-right">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" />
+                                                        <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.ImageFilesDeliveryLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
                                                 <div class="profile-stars">
-                                                    <span></span>
+                                                    <span>(PNG 1000 pixels width)</span>
                                                 </div>
 
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <br />
                         </div>
                     </div>
                 </div>
@@ -198,7 +203,7 @@
 <script id="storesListTemplate" type="text/html">
     <tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.SelectedCompany}">
 
-        <td><a class="table-link" data-bind="text: StoreName, click : $root.getBannerByStoreId"></a></td>
+        <td  style="width:80%;"><a class="table-link" style="cursor:pointer" data-bind="text: StoreName, click : $root.checkStoreBannerUpload"></a></td>
 
 
     </tr>

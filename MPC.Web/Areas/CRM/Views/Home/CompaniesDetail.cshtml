@@ -907,22 +907,22 @@
         </a>
     </script>
     <script id="itemAddressTemplate" type="text/html">
-        <tr data-bind="click: $root.selectAddress, css: { selectedRow: $data === $root.selectedAddress}">
-            <td><a href="#" class="store-user-link" data-bind="text: addressName,click : $root.onEditAddress"></a></td>
+        <tr data-bind="click: $root.onEditAddress, css: { selectedRow: $data === $root.selectedAddress}">
+            <td><a href="#" class="store-user-link" data-bind="text: addressName"></a></td>
             <td data-bind="text: city"></td>
             @*<td data-bind="text: territoryName"></td>*@
             @*<!--ko if: $root.selectedStore().type() == 4-->
-                <!--ko if: isDefaultShippingAddress() == true -->
-                <td class="type">
-                    <span class="label label-success">Yes </span>
-                </td>
-                <!-- /ko -->
-                <!--ko if: isDefaultShippingAddress() != true-->
-                <td class="type">
-                    <span class="label label-danger">No </span>
-                </td>
-                <!-- /ko -->
-                <!--/ko-->*@
+            <!--ko if: isDefaultShippingAddress() == true -->
+            <td class="type">
+                <span class="label label-success">Yes </span>
+            </td>
+            <!-- /ko -->
+            <!--ko if: isDefaultShippingAddress() != true-->
+            <td class="type">
+                <span class="label label-danger">No </span>
+            </td>
+            <!-- /ko -->
+            <!--/ko-->*@
             @*<!--ko if:  $root.selectedStore().type() == 3-->*@
             <!--ko if: isDefaultShippingAddress() == true -->
             <td class="type">
