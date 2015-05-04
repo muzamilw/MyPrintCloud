@@ -2,6 +2,14 @@
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @using System;
+@{
+    var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
+        .Where(b => b.Path == "~/pageSpecific")
+        .First();
+
+    bundle.Include(
+                   "~/Scripts/jquery.MultiFile.js");
+}
 @using (Html.BeginForm())
 {
     <style type="text/css">
@@ -347,7 +355,7 @@
                                 </div>
                                 <div class="TTL widthAvenior">
 
-                                    <input type="file" id="fuImageUpload" name="fuImageUpload" class="newTxtBox" tabindex="12" />
+                                    <input type="file" id="fuImageUpload" name="fuImageUpload" class="newTxtBox" tabindex="12" onchange="ShowPreview(this)" />
                                 </div>
                                 <div class="clearBoth">
                                 </div>
@@ -364,8 +372,7 @@
                                     {
                                         <img src="/Content/Images/upload_your_picture.png" id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
                                     }
-                                    <input id="btnUploadFile" type="button" value="Upload Image" class="btnUploadImage_UP float_left_simple rounded_corners5" style="visibility:hidden;" />
-
+                                   
                                     <div class="clearBoth">
                                     </div>
                                 </div>
@@ -444,7 +451,21 @@
 }
 @section scripts {
     <script type="text/javascript">
-
+        var obj=null;
+        $(document).ready(function(){
+            CreateMultipleUpload();
+            
+        });
+            function ShowPreview(input) {  
+                if (input.files && input.files[0]) {  
+                    var ImageDir = new FileReader();  
+                    ImageDir.onload = function(e) {  
+                        $('#imgContactPicture').attr('src', e.target.result);  
+                    }  
+                    ImageDir.readAsDataURL(input.files[0]);  
+                }  
+            } 
+          
         function RefreshPage() {
             window.location.href = "/ContactDetail";
         }
@@ -509,13 +530,15 @@
                 var IsNewsLetterSubscription = $("#News")[0].checked;
 
                 var data = new FormData();
+                
+                if($("#fuImageUpload").val()!=null)
+                {
+                    var files = $("#fuImageUpload").get(0).files;
 
-                var files = $("#fuImageUpload").get(0).files;
-
-                if (files.length > 0) {
-                    data.append("UploadedImage", files[0]);
+                    if (files.length > 0) {
+                        data.append("UploadedImage", files[0]);
+                    }
                 }
-
                 var Model = { FirstName: FirstName, LastName: LastName, Email: Email, JobTitle: JobTitle, HomeTel1: HomeTel1, Mobile: Mobile, FAX: FAX, quickWebsite: quickWebsite, POBoxAddress: POBoxAddress, CorporateUnit: CorporateUnit, OfficeTradingName: OfficeTradingName, ContractorName: ContractorName, BPayCRN: BPayCRN, ABN: ABN, ACN: ACN, AdditionalField1: AdditionalField1, AdditionalField2: AdditionalField2, AdditionalField3: AdditionalField3, AdditionalField4: AdditionalField4, AdditionalField5: AdditionalField5, IsEmailSubscription: IsEmailSubscription, IsNewsLetterSubscription: IsNewsLetterSubscription };
                 $.ajax({
                     type: "POST",
@@ -584,6 +607,21 @@
         function Cancel() {
             window.location.href = "/Dashboard";
         }
+        function CreateMultipleUpload() {
+            //set up the file upload
+            $("#fuImageUpload").MultiFile(
+              {
+                  max: 1,
+                  accept: 'jpg,bmp,png',
+                  //afterFileSelect: function (element, value, master_element) {
+                      
+                  //},
+                  //afterFileRemove: function (element, value, master_element) {
+                      
+                  //}
+              });
+        }
+
     </script>
 }
 
