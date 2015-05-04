@@ -2454,6 +2454,7 @@ define("stores/stores.viewModel",
                 if (doBeforeSaveSecondaryPage()) {
                     var pageHtml = CKEDITOR.instances.content.getData();
                     sPage.pageHTML(pageHtml);
+                    sPage.companyId(selectedStore().companyId());
                     saveSecondaryPage(sPage.convertToServerData(sPage));
 
 
