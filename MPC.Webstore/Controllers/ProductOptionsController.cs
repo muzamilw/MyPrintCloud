@@ -161,8 +161,16 @@ namespace MPC.Webstore.Controllers
                 }
 
                 QueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().QuestionQueue;
-                List<QuestionQueueItem> objSettings = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QueueItem);
-                ViewBag.CostCentreQueueItems = objSettings;
+                if (QueueItem == null)
+                {
+                    List<QuestionQueueItem> objSettings = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QueueItem);
+                    ViewBag.CostCentreQueueItems = objSettings;
+                }
+                else 
+                {
+                    ViewBag.CostCentreQueueItems = null;
+                }
+              
             }
             else if (!string.IsNullOrEmpty(TemplateId))// template case
             {

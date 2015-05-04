@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                                 <div id="Div1" class="cntReorderDesign">
-                                    <a href="#" id="ImageButton1" onclick="ReOrderSaveDesign('@saveDesign.ItemID');" class="btnReorderSavedDesigns">
+                                    <a id="ImageButton1" href="@Url.Action("ReOrder", "SavedDesigns", new { ItemID = saveDesign.ItemID })" onclick="ShowLoader();" class="btnReorderSavedDesigns">
                                         <img src="~/content/images/repeat.png" />
                                     </a>
                                     @*<asp:ImageButton ID="ImageButton1" runat="server" CssClass=" btnReorderSavedDesigns"

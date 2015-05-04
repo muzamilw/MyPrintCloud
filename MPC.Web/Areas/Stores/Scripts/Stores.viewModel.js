@@ -441,7 +441,7 @@ define("stores/stores.viewModel",
                 //GET Stores For Stores List View
                 getStores = function () {
                     isLoadingStores(true);
-                    pager().reset();
+                    //pager().reset();
                     dataservice.getStores({
                         SearchString: searchFilter(),
                         PageSize: pager().pageSize(),
@@ -2446,6 +2446,7 @@ define("stores/stores.viewModel",
                 if (doBeforeSaveSecondaryPage()) {
                     var pageHtml = CKEDITOR.instances.content.getData();
                     sPage.pageHTML(pageHtml);
+                    sPage.companyId(selectedStore().companyId());
                     saveSecondaryPage(sPage.convertToServerData(sPage));
 
 
