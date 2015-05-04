@@ -91,6 +91,23 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection CalculatePressCost(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, int PressReRunMode = (int)PressReRunModes.NotReRun, int PressReRunQuantityIndex = 1, double OverrideValue = 0, bool isBestPress = false)
         {
+            List<MachineSpoilage> machineSpoilageList = itemsectionRepository.GetSpoilageByPressId(PressID);     
+
+
+            if (machineSpoilageList != null && machineSpoilageList.Count > 0)
+            {
+                int InkColors = oItemSection.Side1Inks + oItemSection.Side2Inks;
+                var maxPressColor = machineSpoilageList.Max(m => m.NoOfColors);
+                if (maxPressColor != null && InkColors > maxPressColor)
+                    InkColors = (int)maxPressColor;
+
+                var setupspoilage = machineSpoilageList.Where(m => m.NoOfColors == InkColors).FirstOrDefault();
+                if (setupspoilage != null)
+                {
+                    oItemSection.SetupSpoilage = setupspoilage.SetupSpoilage;
+                    oItemSection.RunningSpoilage = Convert.ToInt16(setupspoilage.RunningSpoilage);
+                }
+            }
 
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
             bool functionReturnValue = false;
@@ -102,6 +119,19 @@ namespace MPC.Implementation.MISServices
             SectionCostCentreResource oResourceDto = new SectionCostCentreResource();
             //Get Machine Query
             Machine oPressDTO = itemsectionRepository.GetPressById(PressID);
+
+            if (oPressDTO.isplateused == true)
+            {
+                oItemSection.IsPlateUsed = true;
+                oItemSection.PlateId = oPressDTO.DefaultPlateId;
+            }
+            else
+                oItemSection.IsPlateUsed = false;
+            oItemSection.IsWashup = oPressDTO.iswashupused == true ? true : false;
+            oItemSection.IsMakeReadyUsed = oPressDTO.ismakereadyused == true ? true : false;
+
+
+
             int SheetPTV = 0;
             int SetupSpoilage = 0;
             double RunningSpoilagePercentage = 0;
@@ -5331,38 +5361,11 @@ namespace MPC.Implementation.MISServices
             foreach (var press in EnablePresses)
             {
 
-                currentSection.PressId = press.MachineId;
-                List<MachineSpoilage> machineSpoilageList = itemsectionRepository.GetSpoilageByPressId(press.MachineId);
-                if (press.isplateused == true)
-                {
-                    currentSection.IsPlateUsed = true;
-                    currentSection.PlateId = press.DefaultPlateId;
-                }
-                else
-                    currentSection.IsPlateUsed = false;
-                currentSection.IsWashup = press.iswashupused == true ? true : false;
-                currentSection.IsMakeReadyUsed = press.ismakereadyused == true ? true : false;
-
-
-                if (machineSpoilageList != null && machineSpoilageList.Count > 0)
-                {
-                    int InkColors = currentSection.Side1Inks + currentSection.Side2Inks;
-                    var maxPressColor = machineSpoilageList.Max(m => m.NoOfColors);
-                    if (maxPressColor != null && InkColors > maxPressColor)
-                        InkColors = (int)maxPressColor;
-
-                    var setupspoilage = machineSpoilageList.Where(m => m.NoOfColors == InkColors).FirstOrDefault();
-                    if (setupspoilage != null)
-                    {
-                        currentSection.SetupSpoilage = setupspoilage.SetupSpoilage;
-                        currentSection.RunningSpoilage = Convert.ToInt16(setupspoilage.RunningSpoilage);
-
-                    }
-
-                }
+                //currentSection.PressId = press.MachineId;
+                
 
                 ItemSection updateSection = CalculatePressCost(currentSection, press.MachineId, false, false, (int)PressReRunModes.NotReRun, 1, 0, true);
-                SectionCostcentre presscc = updateSection.SectionCostcentres.Where(c => c.CostCentreId == oPressCostCentre.CostCentreId).FirstOrDefault();
+                SectionCostcentre presscc = updateSection.SectionCostcentres.Where(c => c.CostCentreId == oPressCostCentre.CostCentreId && c.CostCentreType == 1).FirstOrDefault();
                 if (presscc != null)
                 {
                     bestpress.Add(new BestPress { MachineID = press.MachineId, MachineName = press.MachineName, Qty1Cost = Math.Round(presscc.Qty1NetTotal ?? 0, 2), Qty1RunTime = Math.Round(presscc.Qty1EstimatedTime, 2), Qty2Cost = Math.Round(presscc.Qty2NetTotal ?? 0, 2), Qty2RunTime = presscc.Qty2EstimatedTime, Qty3Cost = Math.Round(presscc.Qty3NetTotal ?? 0, 2), Qty3RunTime = presscc.Qty3EstimatedTime });
