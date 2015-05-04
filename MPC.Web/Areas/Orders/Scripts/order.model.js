@@ -2239,7 +2239,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Section Cost Centre Factory
     SectionCostCentre.Create = function (source) {
-        var sectionCostCentre = new SectionCostCentre(source.SectionCostcentreId, source.Name, source.CostCentreId, source.CostCenterType, source.Order,
+        var sectionCostCentre = new SectionCostCentre(source.SectionCostcentreId, source.Name, source.CostCentreId, source.CostCentreType, source.Order,
             source.IsDirectCost, source.IsOptionalExtra, source.IsPurchaseOrderRaised, source.Status, source.Qty1Charge, source.Qty2Charge, source.Qty3Charge,
             source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
             source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
@@ -2250,7 +2250,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
             var sectionCostcentresDetails = [];
 
-            _.each(source.SectionCostcentres, function (sectionCostCentreDetail) {
+            _.each(source.SectionCostCentreDetails, function (sectionCostCentreDetail) {
                 sectionCostcentresDetails.push(SectionCostCenterDetail.Create(sectionCostCentreDetail));
             });
 
