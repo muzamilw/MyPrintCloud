@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using System.Configuration;
 using GrapeCity.ActiveReports;
 using MPC.Web.Reports;
+using MPC.MIS.Models;
 
 namespace MPC.MIS.Controllers
 {
@@ -295,23 +296,21 @@ namespace MPC.MIS.Controllers
             return PartialView();
         }
 
-        public ActionResult Viewer()
+        public ActionResult Viewer(int id, int itemId)
         {
 
+            ReportDescriptor model = new ReportDescriptor() { Id = id, ItemId = itemId };
 
 
-            return View();
+            return View(model);
         }
 
 
         // GET: Common/Report
-        public ActionResult GetReport()
+        public ActionResult GetReport(ReportDescriptor req)
         {
 
-            SectionReport report = IReportService.GetReport(103);
-            
-         
-       //   SectionReport report = new SectionReport();
+            SectionReport report = IReportService.GetReport(req.Id, req.ItemId);
            
             ViewBag.Report = report;
 

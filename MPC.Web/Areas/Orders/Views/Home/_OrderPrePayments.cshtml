@@ -38,7 +38,7 @@
     </div>
     <script id="prePaymentItemTemplate" type="text/html">
         <tr data-bind="click:$root.onEditPrePayment" style="cursor: pointer">
-            <td data-bind="click:$root.onEditPrePayment"><a href="#"><span data-bind="text:referenceCode"></span></a></td>
+            <td ><a href="#"><span data-bind="text:referenceCode"></span></a></td>
             <td data-bind="text:paymentDescription"></td>
             <td><span data-bind="visible:formattedPaymentDate()!==undefined">Paid on </span><span data-bind="dateString:paymentDate,datePattern: 'DD/MM/YYYY'"></span></td>
             <td data-bind="text:paymentMethodName"></td>
