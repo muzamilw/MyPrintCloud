@@ -441,7 +441,6 @@ define("stores/stores.viewModel",
                 //GET Stores For Stores List View
                 getStores = function () {
                     isLoadingStores(true);
-                    //pager().reset();
                     dataservice.getStores({
                         SearchString: searchFilter(),
                         PageSize: pager().pageSize(),
@@ -465,6 +464,10 @@ define("stores/stores.viewModel",
                             toastr.error("Error: Failed To load Stores " + response, "", ist.toastrOptions);
                         }
                     });
+                },
+                getStoresByFilter = function() {
+                    pager().reset();
+                    getStores();
                 },
                 //Store Image Files Loaded Callback
                 storeImageFilesLoadedCallback = function (file, data) {
@@ -715,7 +718,7 @@ define("stores/stores.viewModel",
             searchCompanyTerritoryFilter = ko.observable(),
                 //Search Company Territory
             searchCompanyTerritory = function () {
-                companyTerritoryPager().reset();
+                
                 if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
                     dataservice.searchCompanyTerritory({
                         SearchFilter: searchCompanyTerritoryFilter(),
@@ -1056,6 +1059,11 @@ define("stores/stores.viewModel",
 
                 }
             },
+            //search CompanyTerritory By Filter
+             searchCompanyTerritoryByFilter = function () {
+                 companyTerritoryPager().reset();
+                 searchCompanyTerritory();
+             },
                 // #endregion __________________ C O M P A N Y   T E R R I T O R Y __________________
 
                 // #region _________C O M P A N Y    C M Y K   C O L O R  ________
@@ -2611,7 +2619,6 @@ define("stores/stores.viewModel",
             searchCompanyContactFilter = ko.observable(),
                 //Search Company Contact        
             searchCompanyContact = function () {
-                contactCompanyPager().reset();
                 if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
                     dataservice.searchCompanyContact({
                         SearchFilter: searchCompanyContactFilter(),
@@ -3089,6 +3096,11 @@ define("stores/stores.viewModel",
                 });
                 return result;
             },
+            //search Company Contact By Filter
+             searchCompanyContactByFilter = function() {
+                 contactCompanyPager().reset();
+                 searchCompanyContact();
+             },
                 // #endregion
 
                 // #region _________P A Y M E N T    G A T E W A Y _________________
@@ -6137,6 +6149,7 @@ define("stores/stores.viewModel",
                     isStoreEditorVisible: isStoreEditorVisible,
                     deleteStore: deleteStore,
                     getStores: getStores,
+                    getStoresByFilter:getStoresByFilter,
                     doBeforeSave: doBeforeSave,
                     saveStore: saveStore,
                     countries: countries,
@@ -6192,6 +6205,7 @@ define("stores/stores.viewModel",
                     edittedCompanyTerritories: edittedCompanyTerritories,
                     newCompanyTerritories: newCompanyTerritories,
                     isSavingNewCompanyTerritory: isSavingNewCompanyTerritory,
+                    searchCompanyTerritoryByFilter:searchCompanyTerritoryByFilter,
                     //#endregion Company territory
                     //#region Addresses
                     selectedAddress: selectedAddress,
@@ -6256,6 +6270,7 @@ define("stores/stores.viewModel",
                     onCloseCompanyContact: onCloseCompanyContact,
                     doBeforeSaveCompanyContact: doBeforeSaveCompanyContact,
                     onSaveCompanyContact: onSaveCompanyContact,
+                    searchCompanyContactByFilter: searchCompanyContactByFilter,
                     //#endregion Company Contacts
                     //#region Company Territories
                     contactCompanyTerritoriesFilter: contactCompanyTerritoriesFilter,

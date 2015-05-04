@@ -78,7 +78,6 @@ define("paperSheet/paperSheet.viewModel",
                     //GET Paper Sheets
                     getPaperSheets = function () {
                         isLoadingPaperSheet(true);
-                        pager().reset();
                         dataservice.getPaperSheets({
                             SearchString: searchFilter(),
                             Region:orgCulture(),
@@ -103,6 +102,10 @@ define("paperSheet/paperSheet.viewModel",
                                 toastr.error("Error: Failed to Load Paper Sheet Data." + response);
                             }
                         });
+                    },
+                    getPaperSheetsByFilter = function() {
+                        pager().reset();
+                        getPaperSheets();
                     },
                     //Do Before Save
                     doBeforeSave = function () {
@@ -246,6 +249,7 @@ define("paperSheet/paperSheet.viewModel",
                     getBaseData: getBaseData,
                     onClosePaperSheet: onClosePaperSheet,
                     initialize: initialize,
+                    getPaperSheetsByFilter:getPaperSheetsByFilter,
                     orgCulture: orgCulture
                 };
             })()
