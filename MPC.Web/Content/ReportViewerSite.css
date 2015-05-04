@@ -351,5 +351,7 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
-
+div.viewer-layout-container{
+    border: none !important;
+}
 

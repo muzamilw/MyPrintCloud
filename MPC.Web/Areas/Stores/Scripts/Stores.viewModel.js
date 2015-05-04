@@ -441,7 +441,7 @@ define("stores/stores.viewModel",
                 //GET Stores For Stores List View
                 getStores = function () {
                     isLoadingStores(true);
-                    pager().reset();
+                    //pager().reset();
                     dataservice.getStores({
                         SearchString: searchFilter(),
                         PageSize: pager().pageSize(),

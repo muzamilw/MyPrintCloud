@@ -65,13 +65,13 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public ReportCategory GetReportCategory(long CategoryId)
+        public ReportCategory GetReportCategory(long CategoryId, int IsExternal)
         {
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 ReportCategory oReportCategory = db.ReportCategories.Where(g => g.CategoryId == CategoryId).SingleOrDefault();
-                List<Report> ReportList = db.Reports.Where(g => g.OrganisationId == OrganisationId).ToList();
+                List<Report> ReportList = db.Reports.Where(g => g.OrganisationId == OrganisationId && g.IsExternal==IsExternal).ToList();
 
               
 

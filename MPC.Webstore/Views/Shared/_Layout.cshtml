@@ -32,9 +32,11 @@
     <div id="layer" class="opaqueLayer"></div>
     <div id="innerLayer">
     </div>
-
+   
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
+    
+   
     @Scripts.Render("~/pageSpecific")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
@@ -44,10 +46,15 @@
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.bxslider').bxSlider({
-                auto: true
+
+            //dirty check, this should be moved into slider Script rendering.
+            if (typeof bxSlider == 'function') {
+                $('.bxslider').bxSlider({
+                    auto: true
+                }
+
+                );
             }
-            );
         });
 
     </script>
