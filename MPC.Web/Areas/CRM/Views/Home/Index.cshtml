@@ -80,7 +80,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <!-- ko foreach: $root.customersForListView -->
-                                                            <tr data-bind="click: $root.selectStore">
+                                                            <tr data-bind=" click: $root.onEditItem" style="cursor: pointer">
                                                                 <td>
                                                                     <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
 
@@ -93,8 +93,8 @@
                                                                     <p data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'"></p>
                                                                 </td>
                                                                 @*<td>
-                            <span data-bind="text:status, css:statusClass"></span>
-                        </td>*@
+                <span data-bind="text:status, css:statusClass"></span>
+            </td>*@
                                                                 <td>
                                                                     <a>
                                                                         <p data-bind="text:defaultContactEmail"></p>

@@ -1,16 +1,20 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function(ko) {
-    var ReportNote = function (specifiedId, specifiedHeadNote, specifiedFootNote, AdvertitorialNote, specifiedCategoryId, specifiedReportBanner, specifiedTitle) {  
+    var ReportNote = function (specifiedId, specifiedHeadNote, specifiedFootNote, AdvertitorialNote, specifiedCategoryId, specifiedReportBanner, specifiedTitle, specifiedEstimateBannerBytes,specifiedOrderBannerBytes, specifiedInvoiceBannerBytes, specifiedPurchaseBannerBytes, specifiedeliveryBannerBytes) {
 
         var
             self,
             id = ko.observable(specifiedId || 0),
             headNote = ko.observable(specifiedHeadNote),
             footnote = ko.observable(specifiedFootNote),
-            AdvertitorialNote = ko.observable(AdvertitorialNote),
-            specifiedCategoryId = ko.observable(specifiedCategoryId),
-            specifiedReportBanner = ko.observable(specifiedReportBanner),
-            specifiedTitle = ko.observable(specifiedTitle),
-
+            advertitorialNote = ko.observable(AdvertitorialNote),
+            categoryId = ko.observable(specifiedCategoryId),
+            reportBanner = ko.observable(specifiedReportBanner),
+            title = ko.observable(specifiedTitle),
+            estimateBannerBytes = ko.observable(specifiedEstimateBannerBytes),
+            orderBannerBytes = ko.observable(specifiedOrderBannerBytes),
+            invoiceBannerBytes = ko.observable(specifiedInvoiceBannerBytes),
+            purchaseBannerBytes = ko.observable(specifiedPurchaseBannerBytes),
+            deliveryBannerBytes = ko.observable(specifiedeliveryBannerBytes),
 
             errors = ko.validation.group({
                 
@@ -20,7 +24,7 @@
                 return errors().length === 0 ? true : false;;
             }),
             dirtyFlag = new ko.dirtyFlag({
-                reportBannerUrl: reportBannerUrl
+                reportBanner: reportBanner
                 
             }),
             hasChanges = ko.computed(function() {
@@ -33,22 +37,32 @@
         convertToServerData = function () {
             return {
                 Id: id(),
-                HeadNotes: specifiedFootNote(),
-                AdvertitorialNotes: detailType(),
-                ReportCategoryId: specifiedCategoryId(),
-                ReportBanner: specifiedReportBanner(),
-                ReportTitle: specifiedTitle(),
-               
+                HeadNotes: headNote(),
+                AdvertitorialNotes: advertitorialNote(),
+                ReportCategoryId: categoryId(),
+                ReportBanner: reportBanner(),
+                ReportTitle: title(),
+                FootNote: footnote(),
+                EstimateBannerBytes: estimateBannerBytes(),
+                orderBannerBytes : orderBannerBytes(),
+                invoiceBannerBytes : invoiceBannerBytes(),
+                purchaseBannerBytes: purchaseBannerBytes(),
+                deliveryBannerBytes: deliveryBannerBytes()
             };
         };
         self = {
             id: id,
             headNote: headNote,
             footnote: footnote,
-            AdvertitorialNote: AdvertitorialNote,
-            specifiedCategoryId: specifiedCategoryId,
-            specifiedReportBanner: specifiedReportBanner,
-            specifiedTitle: specifiedTitle,
+            advertitorialNote: advertitorialNote,
+            categoryId: categoryId,
+            reportBanner: reportBanner,
+            title: title,
+            estimateBannerBytes: estimateBannerBytes,
+            orderBannerBytes : orderBannerBytes,
+            invoiceBannerBytes : invoiceBannerBytes,
+            purchaseBannerBytes: purchaseBannerBytes,
+            deliveryBannerBytes: deliveryBannerBytes,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -59,7 +73,7 @@
     };
 
     ReportNote.Create = function (source) {
-        var reprotNote = new ReportNote(source.Id, source.HeadNotes, source.FootNotes, source.AdvertitorialNotes, source.ReportCategoryId, source.ReportBanner, source.ReportTitle);
+        var reprotNote = new ReportNote(source.Id, source.HeadNotes, source.FootNotes, source.AdvertitorialNotes, source.ReportCategoryId, source.ReportBanner, source.ReportTitle, source.EstimateBannerBytes, source.OrderBannerBytes, source.InvoiceBannerBytes, source.PurchaseBannerBytes, source.DeliveryBannerBytes);
             
         
 

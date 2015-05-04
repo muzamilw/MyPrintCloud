@@ -39,14 +39,13 @@ namespace MPC.Models.DomainModels
         public bool? isDefaultTerrorityShipping { get; set; }
         public long? OrganisationId { get; set; }
         public bool? DisplayOnContactUs { get; set; }
-
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
         public virtual ICollection<CompanyContact> ShippingCompanyContacts { get; set; }
-
         public virtual Company Company { get; set; }
         public virtual Country Country { get; set; }
         public virtual State State { get; set; }
+        public virtual ICollection<ShippingInformation> ShippingInformations { get; set; }
 
         #region Additional Properties
 

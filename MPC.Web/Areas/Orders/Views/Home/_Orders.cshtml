@@ -169,7 +169,7 @@
     </script>
     
     <script id="allOrderListViewTemplate" type="text/html">
-        <tr>
+        <tr data-bind=" click: $root.editOrder" style="cursor: pointer">
             <td>
                 <!-- ko if: isDirectSale()==true -->
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/forwardicon.png")" alt="" />
@@ -179,7 +179,7 @@
                 <!-- /ko -->
             </td>
             <td>
-                <a data-bind="text: companyName, click: $root.editOrder" style="cursor:pointer;" class="user-link"></a>
+                <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
                 <span class="user-subhead">
                     <span data-bind="text: name"></span>
                     <span data-bind="text: ' '"></span>

@@ -215,6 +215,10 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.VATRegNumber = organisation.VATRegNumber;
             organisationDbVersion.BleedAreaSize = organisation.BleedAreaSize;
             organisationDbVersion.ShowBleedArea = organisation.ShowBleedArea;
+            organisationDbVersion.CurrencyId = organisation.CurrencyId;
+            organisationDbVersion.LanguageId = organisation.LanguageId;
+            organisationDbVersion.SystemLengthUnit = organisation.SystemLengthUnit;
+            organisationDbVersion.SystemWeightUnit = organisation.SystemWeightUnit;
 
             #region Markup
 

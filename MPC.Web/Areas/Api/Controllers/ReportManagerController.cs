@@ -25,10 +25,10 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
         // GET: Api/ReportManager
-
-        public ReportCategory get(long CategoryId)
+      //  ReportCategoryRequestModel
+        public ReportCategory get([FromUri] ReportCategoryRequestModel req)
         {
-            return _IReportService.GetReportCategory(CategoryId).CreateFrom();
+            return _IReportService.GetReportCategory(req.CategoryId, req.IsExternal).CreateFrom();
         }
 
         

@@ -61,12 +61,12 @@
                                                         </thead>
                                                         <tbody>
                                                             <!-- ko  foreach: $root.companyContactsForListView  -->
-                                                            <tr>
+                                                            <tr data-bind=" click: $root.editContactbuttonHandler" style="cursor: pointer">
                                                                 <td>
                                                                     <img data-bind="attr: { src: image()==='' ? 'abc/def':image() }" alt="" />
                                                                 </td>
                                                                 <td>
-                                                                    <a class="user-link" href="#" data-bind="text: firstName, click: $root.editContactbuttonHandler "></a>
+                                                                    <a class="user-link" href="#" data-bind="text: firstName "></a>
                                                                     @*<span data-bind="text: email"></span>*@
                                                                 </td>
                                                                 <td>

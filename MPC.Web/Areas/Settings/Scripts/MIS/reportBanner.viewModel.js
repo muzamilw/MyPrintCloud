@@ -12,6 +12,10 @@ define("reportBanner/reportBanner.viewModel",
                     // Active
                     SelectedCompany = ko.observable(),
                     SelectedReportNote = ko.observable(),
+                    SelectOrderReportNote = ko.observable(),
+                    SelectedInvoiceReportNote = ko.observable(),
+                    SelectedPurchaseOrderReportNote = ko.observable(),
+                    SelectedDeliveryReportNote = ko.observable(),
                     errorList = ko.observableArray([]),
                     Stores = ko.observableArray([]),
                     // #region Busy Indicators
@@ -45,8 +49,40 @@ define("reportBanner/reportBanner.viewModel",
                     },
 
                     // get banner by id
-                    getBannerByStoreId = function (Id) {
+                    getBannerByStoreId = function (store) {
+                        isLoading(true);
+                        var id = store.StoreID;
+                        dataservice.getReportNote(
+                            { CompanyID: id },
+                            {
+                                success: function (data) {
+                                    if (data.ReportCategoryId == 3)
+                                    {
+                                        SelectedReportNote(model.ReportNote.Create(data));
+                                    }
+                                    else if(data.ReportCategoryId == 12)
+                                    {
+                                        SelectOrderReportNote(model.ReportNote.Create(data));
+                                    }
+                                    else if(data.ReportCategoryId == 13)
+                                    {
+                                        SelectedInvoiceReportNote(model.ReportNote.Create(data));
+                                    }
+                                    else if(data.ReportCategoryId == 5)
+                                    {
+                                        SelectedPurchaseOrderReportNote(model.ReportNote.Create(data));
+                                    }
+                                    else if(data.ReportCategoryId == 6)
+                                    {
+                                        SelectedDeliveryReportNote(model.ReportNote.Create(data));
+                                    }
+                               
 
+                            },
+                            error: function () {
+                                toastr.error(ist.resourceText.loadBaseDataFailedMsg);
+                            }
+                        });
 
                     };
 
@@ -94,6 +130,11 @@ define("reportBanner/reportBanner.viewModel",
                 return {
                     // Observables
                     Stores: Stores,
+                    SelectedReportNote: SelectedReportNote,
+                    SelectOrderReportNote: SelectOrderReportNote,
+                    SelectedInvoiceReportNote : SelectedInvoiceReportNote,
+                    SelectedPurchaseOrderReportNote : SelectedPurchaseOrderReportNote,
+                    SelectedDeliveryReportNote : SelectedDeliveryReportNote,
                     errorList: errorList,
                     // Utility Methods
                     initialize: initialize,

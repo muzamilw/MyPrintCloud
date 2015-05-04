@@ -55,7 +55,9 @@
         return self;
 
     }
+    var requestReportList = function () {
 
+    }
     var Report = function (source) {
         var self
         if (source != undefined) {
