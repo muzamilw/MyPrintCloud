@@ -3669,3 +3669,12 @@ alter table Reportnote
 add CompanyId bigint null
 
 GO
+
+/* Execution Date: 04/05/2015 */
+
+GO
+
+ALTER TABLE TemplateObject
+ADD hasInlineFontStyle bit null
+
+GO
