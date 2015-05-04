@@ -76,8 +76,9 @@ namespace MPC.MIS
                 .Include("~/Scripts/respond.js")
                 .Include("~/Scripts/App/architecture.js")
                 .Include("~/Scripts/App/requireConfig.js")
-                 .Include("~/Scripts/Ace/lib/ace/ace.js")
-                  .Include("~/Scripts/autoNumeric/autoNumeric-1.9.25.min.js")
+                .Include("~/Scripts/Ace/lib/ace/ace.js")
+                .Include("~/Scripts/autoNumeric/autoNumeric-1.9.25.min.js")
+                .Include("~/Scripts/numeral/numeral.min.js")
                 .Include("~/Scripts/knockout-ace.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
