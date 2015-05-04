@@ -19,5 +19,7 @@ namespace MPC.Interfaces.MISServices
         List<StoresListResponse> GetStoreNameByOrganisationId();
 
         List<ReportNote> GetReportNoteByCompanyID(long CompanyID);
+
+        IEnumerable<ReportNote> Update(IEnumerable<ReportNote> reportNotes);
     }
 }
