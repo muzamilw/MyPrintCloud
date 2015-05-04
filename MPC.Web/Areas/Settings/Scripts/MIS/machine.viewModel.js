@@ -116,11 +116,12 @@ define("machine/machine.viewModel",
                             success: function (data) {
                                 machineList.removeAll();
                                 if (data != null) {
-                                    pager().totalCount(data.RowCount);
+                                    
                                     _.each(data.machine, function (item) {
                                         var module = model.machineListClientMapper(item);
                                         machineList.push(module);
                                     });
+                                    pager().totalCount(data.RowCount);
                                 }
                                 isLoadingMachineList(false);
                             },

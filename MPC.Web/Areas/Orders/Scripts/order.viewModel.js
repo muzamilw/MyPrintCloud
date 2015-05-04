@@ -2558,7 +2558,7 @@ define("order/order.viewModel",
                             reportManager.show(12,0,0);
                         },
                         openExternalReportsOrder = function () {
-                            reportManager.show(12, 1, selectedOrder().id());
+                            reportManager.show(12, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
                         },
                     //#endregion
                     //#region INITIALIZE
