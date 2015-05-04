@@ -264,6 +264,19 @@ namespace MPC.Repository.Repositories
         {
             return db.ReportNotes.Where(c => c.CompanyId == CompanyId).ToList();
         }
+        public void UpdateReportNotes(List<ReportNote> reportNotes)
+        {
+            foreach(var rpt in reportNotes)
+            {
+                if(rpt != null)
+                {
+                    db.ReportNotes.Add(rpt);
+                }
+
+            }
+            db.SaveChanges();
+
+        }
        // GetReportsByOrganisationID
     }
 }
