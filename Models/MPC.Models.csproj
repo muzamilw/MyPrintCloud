@@ -196,6 +196,7 @@
     <Compile Include="DomainModels\Purchase.cs" />
     <Compile Include="DomainModels\PurchaseDetail.cs" />
     <Compile Include="DomainModels\ReportCategory.cs" />
+    <Compile Include="DomainModels\Reportparam.cs" />
     <Compile Include="DomainModels\SaveDesignView.cs" />
     <Compile Include="DomainModels\ScopeVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
@@ -419,6 +420,7 @@
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
     <Compile Include="RequestModels\PTVRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
+    <Compile Include="RequestModels\ReportNoteRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\SmartFormRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />

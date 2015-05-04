@@ -24,7 +24,8 @@
                 return errors().length === 0 ? true : false;;
             }),
             dirtyFlag = new ko.dirtyFlag({
-                reportBanner: reportBanner
+                reportBanner: reportBanner,
+                estimateBannerBytes: estimateBannerBytes
                 
             }),
             hasChanges = ko.computed(function() {
@@ -33,7 +34,7 @@
             
             reset = function() {
                 dirtyFlag.reset();
-            };
+            },
         convertToServerData = function () {
             return {
                 Id: id(),
@@ -41,13 +42,13 @@
                 AdvertitorialNotes: advertitorialNote(),
                 ReportCategoryId: categoryId(),
                 ReportBanner: reportBanner(),
-                ReportTitle: title(),
+                ReportTitle: title(),   
                 FootNote: footnote(),
                 EstimateBannerBytes: estimateBannerBytes(),
-                orderBannerBytes : orderBannerBytes(),
-                invoiceBannerBytes : invoiceBannerBytes(),
-                purchaseBannerBytes: purchaseBannerBytes(),
-                deliveryBannerBytes: deliveryBannerBytes()
+                OrderBannerBytes: orderBannerBytes(),
+                InvoiceBannerBytes: invoiceBannerBytes(),
+                PurchaseBannerBytes: purchaseBannerBytes(),
+                DeliveryBannerBytes: deliveryBannerBytes()
             };
         };
         self = {
@@ -63,6 +64,7 @@
             invoiceBannerBytes : invoiceBannerBytes,
             purchaseBannerBytes: purchaseBannerBytes,
             deliveryBannerBytes: deliveryBannerBytes,
+            convertToServerData:convertToServerData,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,

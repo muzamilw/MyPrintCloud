@@ -1325,7 +1325,7 @@
                         break;
                     }
                 }
-
+                console.log(selectedCheckBox);
                 itemsList = itemsList + ", " + $(this).parent().next().text();
 
                 // check the costcenter if its type is fixed then we will take its setup cost
@@ -1344,6 +1344,7 @@
                     ActualPriceIncludeVat = "@ViewBag.Currency" + (ActualPriceIncludeVat).toFixed(2).toString();
                     $(val).next().next().children(':first').html(ActualPriceIncludeVat);
                     $(val).next().next().children(':first').attr('data-actualCCPrice', (actualPrice).toFixed(2).toString());
+                    alert(selectedCheckBox.isChecked);
                     if (selectedCheckBox.isChecked == true) {
                         $(val).click();
                     }
@@ -1357,7 +1358,11 @@
                     $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
 
                 }
-
+                else{
+                    if (selectedCheckBox.isChecked == true) {
+                        $(val).click();
+                    }
+                }
             }
         });
 
