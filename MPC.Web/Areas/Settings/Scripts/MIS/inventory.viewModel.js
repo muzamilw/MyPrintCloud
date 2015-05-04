@@ -174,11 +174,11 @@ define("inventory/inventory.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
-                                    pager().totalCount(data.TotalCount);
                                     inventories.removeAll();
                                     _.each(data.StockItems, function(item) {
                                         inventories.push( new model.InventoryListView.Create(item));
                                     });
+                                    pager().totalCount(data.TotalCount);
                                 }
                                 isLoadingInventory(false);
                                     

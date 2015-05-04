@@ -8,20 +8,33 @@
                     // True if we are loading data
                     isLoading = ko.observable(false),
                     outputTo = ko.observable("preview"),
+                    errorList = ko.observableArray([]),
                      reportcategoriesList = ko.observableArray([]),
                      selectedReportId = ko.observable(),
                      selectedItemId = ko.observable(0),
+                     IsExternalReport = ko.observable(0),
+                     selectedItemName = ko.observable(),
+                     selectedItemCode = ko.observable(),
+                     selectedItemTitle = ko.observable(),
                     OpenReport = function () {
-                        if (outputTo() == "preview") {
-                            view.hide();
-                            showProgress();
-                            view.showWebViewer();
-                            hideProgress();
-                        } else if (outputTo() == "email") {
+                        if (selectedReportId() > 0) {
 
-                        } else if (outputTo() == "pdf") {
 
-                        } else if (outputTo() == "excel") {
+                            if (outputTo() == "preview") {
+
+                                view.hide();
+                                showProgress();
+                                view.showWebViewer();
+                                hideProgress();
+                            } else if (outputTo() == "email") {
+
+                            } else if (outputTo() == "pdf") {
+
+                            } else if (outputTo() == "excel") {
+
+                            }
+                        } else {
+                            errorList.push({ name: "Please Select a Report to View", element: null });
 
                         }
                     },
@@ -29,19 +42,27 @@
                         $(".dd-handle").removeClass("selectedReport")
                         $("#" + report.ReportId()).addClass("selectedReport");
                         var scr = "/mis/Home/Viewer?id=" + report.ReportId() + "&itemId=" + selectedItemId();
+                        selectedReportId(report.ReportId());
                         $("#ReportViewerIframid").attr("src", scr);
-                      //  selectedReportId(report.ReportId());
-                    },
-                
+                        errorList.removeAll();
 
-                    show = function (CategoryId, IsExternal, ItemId) {
+                    },
+
+
+                    show = function (CategoryId, IsExternal, ItemId, Name, ItemCode, ItemTitle) {
                         reportcategoriesList.removeAll();
                         selectedItemId(ItemId);
+                        selectedReportId(0);
+                        selectedItemName(Name);
+                        selectedItemCode(ItemCode);
+                        selectedItemTitle(ItemTitle);
+                        IsExternalReport(IsExternal);
+                        $("#ReportViewerIframid").attr("src", "/mis/Home/Viewer?id=0&itemId=0");
                         if (CategoryId != undefined && CategoryId != null && CategoryId != 0) {
                             dataservice.getreportcategories({
                                 CategoryId: CategoryId,
                                 IsExternal: IsExternal,
-                               
+
                             }, {
                                 success: function (data) {
 
@@ -79,9 +100,14 @@
                     outputTo: outputTo,
                     initialize: initialize,
                     OpenReport: OpenReport,
-                    selectedItemId:selectedItemId,
-                    selectedReportId:selectedReportId,
-                    SelectReportById:SelectReportById,
+                    selectedItemId: selectedItemId,
+                    IsExternalReport:IsExternalReport,
+                    selectedReportId: selectedReportId,
+                    SelectReportById: SelectReportById,
+                    selectedItemName:selectedItemName,
+                    selectedItemCode :selectedItemCode,
+                    selectedItemTitle: selectedItemTitle,
+                    errorList:errorList,
                     show: show,
                     hide: hide
                 };

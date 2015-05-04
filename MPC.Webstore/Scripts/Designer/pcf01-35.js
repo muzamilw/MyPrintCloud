@@ -183,11 +183,14 @@ function d1CompanyLogoToCanvas(x, y) {
     var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
     D1NIO = fabric.util.object.clone(TO[0]);
+    console.log(TO);
     D1NIO.ObjectId = --NCI;
+    D1NIO.ObjectID = --NCI;
     D1NIO.ColorHex = "#000000";
     D1NIO.IsBold = false;
     D1NIO.IsItalic = false;
     D1NIO.ProductPageId = SP;
+    D1NIO.ProductPageID = SP;
     D1NIO.MaxWidth = 100;
     D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
     D1NIO.PositionX = center.left;
@@ -219,6 +222,7 @@ function d1ContactLogoToCanvas(x, y) {
     var D1NIO = {};
     D1NIO = fabric.util.object.clone(TO[0]);
     D1NIO.ObjectId = --NCI;
+    D1NIO.ObjectID = --NCI;
     D1NIO.ColorHex = "#000000";
     D1NIO.IsBold = false;
     D1NIO.IsItalic = false;
@@ -2750,6 +2754,10 @@ function setActiveStyle(styleName, value, c, m, y, k) {
         style[styleName] = value;
         object.setSelectionStyles(style);
         object.setCoords();
+        if(styleName = "font-Size")
+        {
+            object.hasInlineFontStyle = true;
+        }
     }
     else {
         if (styleName == "color") {

@@ -112,6 +112,7 @@ namespace MPC.Implementation.WebStoreServices
             oTempItem.IsQuickText = false;
             oTempItem.QuickTextOrder = 0;
             oTempItem.CharSpacing = 0;
+            oTempItem.hasInlineFontStyle = false;
             oTempItem.ColorHex = oColorConv.getColorHex(0, 100, 100, 20);
             oTempItem.originalContentString = oTempItem.ContentString;
            

@@ -80,7 +80,7 @@ namespace MPC.Repository.Repositories
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<PaperSize, bool>> query =
                 paperSize =>
-                    (isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified
+                    ((isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified)
                     && paperSize.OrganisationId==OrganisationId && paperSize.Region==request.Region);
 
             var rowCount = DbSet.Count(query);
