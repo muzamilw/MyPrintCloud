@@ -17,7 +17,7 @@ namespace MPC.Models.DomainModels
         public string ReportTitle { get; set; }
         public string BannerAbsolutePath { get; set; }
         public bool? isDefault { get; set; }
-        public long OrganisationId { get; set; }
+        public long? OrganisationId { get; set; }
         public long? CompanyId { get; set; }
         [NotMapped]
         public string EstimateBannerBytes { get; set; }
