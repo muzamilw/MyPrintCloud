@@ -3663,3 +3663,9 @@ foreign key (AddressId)
 references Address (AddressId)
 
 GO
+
+
+alter table Reportnote
+add CompanyId bigint null
+
+GO

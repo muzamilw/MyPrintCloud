@@ -16,12 +16,18 @@ namespace MPC.Interfaces.Repository
 
         Report GetReportByReportID(long iReportID);
         List<ReportCategory> GetReportCategories();
-        ReportCategory GetReportCategory(long CategoryId);
+        ReportCategory GetReportCategory(long CategoryId, int IsExternal);
 
         List<usp_JobCardReport_Result> getJobCardReportResult(long OrganisationID, long OrderID, long ItemID);
 
         List<usp_OrderReport_Result> getOrderReportResult(long OrganisationID, long OrderID);
 
         DataTable GetReportDataSourceByReportID(long ReportID, string CriteriaParam);
+
+        List<ReportNote> GetReportNoteByCompanyId(long CompanyId);
+
+        List<usp_EstimateReport_Result> getEstimateReportResult(long OrganisationID, long EstimateID);
+
+        List<usp_InvoiceReport_Result> getInvoiceReportResult(long OrganisationID, long InvoiceID);
     }
 }
