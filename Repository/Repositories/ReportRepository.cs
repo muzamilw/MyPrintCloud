@@ -71,7 +71,7 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 ReportCategory oReportCategory = db.ReportCategories.Where(g => g.CategoryId == CategoryId).SingleOrDefault();
-                List<Report> ReportList = db.Reports.Where(g => g.OrganisationId == OrganisationId && g.IsExternal==IsExternal).ToList();
+                List<Report> ReportList = db.Reports.Where(g => (g.OrganisationId == OrganisationId || g.OrganisationId == null) && g.IsExternal == IsExternal).ToList();
 
               
 
@@ -263,6 +263,19 @@ namespace MPC.Repository.Repositories
         public List<ReportNote> GetReportNoteByCompanyId(long CompanyId)
         {
             return db.ReportNotes.Where(c => c.CompanyId == CompanyId).ToList();
+        }
+        public void UpdateReportNotes(List<ReportNote> reportNotes)
+        {
+            foreach(var rpt in reportNotes)
+            {
+                if(rpt != null)
+                {
+                    db.ReportNotes.Add(rpt);
+                }
+
+            }
+            db.SaveChanges();
+
         }
        // GetReportsByOrganisationID
     }

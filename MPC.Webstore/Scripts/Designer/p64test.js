@@ -10475,6 +10475,13 @@ cloneWithoutData: function (callback) {
     */
     AutoShrinkText: false,
         /**
+    * AutoShrinkText // added by saqib
+    * @property
+    * @type boolean
+    */
+    hasInlineFontStyle: false,
+
+        /**
     * IsOverlayObject  // added by saqib
     * @property
     * @type boolean
@@ -17520,7 +17527,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
 	'maxWidth','customStyles',
 		'maxHeight',
 		'charSpacing', 'clippedText' , 'IsPositionLocked','IsEditable',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'IsOverlayObject', 'IsQuickText', 'textCase','IsUnderlinedText'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText','hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase','IsUnderlinedText'
   );
 
     /**
