@@ -1973,6 +1973,10 @@ define("order/order.viewModel",
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
 
+                        //Item's Quantity
+                        newItem.qty1(selectedProductQuanityParam);
+                        //Item's Section Quantity
+                        newItem.itemSections()[0].qty1(selectedProductQuanityParam);
                         newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
                         //#region Add Selected Addons as Cost Centers
                         if (selectedStockOptionParam != undefined && selectedStockOptionParam.itemAddonCostCentres().length > 0) {
