@@ -122,10 +122,7 @@ namespace MPC.Repository.Repositories
         }
         public SectionFlag GetSectionFlag(long id)
         {
-                    
-                    
              return  db.SectionFlags.Where(a => a.SectionFlagId == id).FirstOrDefault();
-          
         }
 
         /// <summary>
@@ -134,6 +131,11 @@ namespace MPC.Repository.Repositories
         public int GetDefaultSectionFlagId(long OrganisationId)
         {
             return DbSet.Where(sf => sf.SectionId == 81 && sf.isDefault == true && sf.OrganisationId == OrganisationId).Select(id => id.SectionFlagId).FirstOrDefault();
+        }
+
+        public IEnumerable<SectionFlag> GetAllSectionFlagName()
+        {
+            return db.SectionFlags.ToList();
         }
 
         #endregion

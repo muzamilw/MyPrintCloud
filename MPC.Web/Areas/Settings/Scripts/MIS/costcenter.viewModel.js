@@ -782,11 +782,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     success: function (data) {
                         costCentersList.removeAll();
                         if (data != null) {
-                            pager().totalCount(data.RowCount);
+                            
                             _.each(data.CostCenters, function (item) {
                                 var module = model.costCenterListView.Create(item);
                                 costCentersList.push(module);
                             });
+                            pager().totalCount(data.RowCount);
                         }
                         isLoadingCostCenter(false);
                     },
@@ -827,12 +828,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 }
                 return flag;
             },
-            AddnewChildItem = function (Item) {
-                if (Item.Id == 4) {
-
-                }
-
-            }
+            
             //Save Cost Center
             saveCostCenter = function (callback) {
                 errorList.removeAll();
@@ -1253,7 +1249,6 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 SelectedQuestionVariable: SelectedQuestionVariable,
                 SelectedMatrixVariable:SelectedMatrixVariable,
                 AddAnswerofQuestionVariable: AddAnswerofQuestionVariable,
-                AddnewChildItem: AddnewChildItem,
                 QuestionVariableType: QuestionVariableType,
                 saveQuestionVariable: saveQuestionVariable,
                 CurrencySymbol: CurrencySymbol,
