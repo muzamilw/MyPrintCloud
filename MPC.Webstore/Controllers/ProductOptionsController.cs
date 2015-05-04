@@ -161,7 +161,7 @@ namespace MPC.Webstore.Controllers
                 }
 
                 QueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().QuestionQueue;
-                if (QueueItem == null)
+                if (QueueItem != null)
                 {
                     List<QuestionQueueItem> objSettings = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QueueItem);
                     ViewBag.CostCentreQueueItems = objSettings;
@@ -327,12 +327,14 @@ namespace MPC.Webstore.Controllers
             if (mode == "Modify")
             {
                 ViewBag.Mode = "Modify";
-                clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId);
+                
             }
             else
             {
                 ViewBag.Mode = "";
             }
+
+            clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId);
 
             if (listOfCostCentres == null || listOfCostCentres.Count == 0)
             {
@@ -351,7 +353,7 @@ namespace MPC.Webstore.Controllers
             {
                 if (clonedSectionCostCentres != null)// this will run in case of modify mode and cost centres selected
                 {
-                    List<QuestionQueueItem> objSettings = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QueueItem);
+                    //List<QuestionQueueItem> objSettings = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QueueItem);
                     bool isAddedToList = false;
                     foreach (var cItem in clonedSectionCostCentres)
                     {

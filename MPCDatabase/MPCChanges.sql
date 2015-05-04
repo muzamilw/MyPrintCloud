@@ -3669,3 +3669,9 @@ alter table Reportnote
 add CompanyId bigint null
 
 GO
+
+/* 4-5-2015**/
+
+drop table StockItemHistory
+
+EXEC sp_rename 'ItemStockUpdateHistory', 'StockItemHistory'
