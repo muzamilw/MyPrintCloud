@@ -50,9 +50,9 @@
                                         <div class="main-box no-header clearfix">
                                             <div class="main-box-body clearfix">
                                                 <div class="table-responsive">
-                                                    <table class="table user-list span12">
+                                                    <table class="table table-striped table-hover">
                                                         <thead>
-                                                            <tr class="span12">
+                                                            <tr>
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Name</span></th>
                                                                 <th class="col-lg-3"><span>Email</span></th>
@@ -63,7 +63,7 @@
                                                             <!-- ko  foreach: $root.companyContactsForListView  -->
                                                             <tr data-bind=" click: $root.editContactbuttonHandler" style="cursor: pointer">
                                                                 <td>
-                                                                    <img data-bind="attr: { src: image()==='' ? 'abc/def':image() }" alt="" />
+                                                                    <img style="width: 70%; max-width: 70%;"  data-bind="attr: { src: image()==='' ? 'abc/def':image() }" alt="" />
                                                                 </td>
                                                                 <td>
                                                                     <a class="user-link" href="#" data-bind="text: firstName "></a>
