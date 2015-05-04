@@ -671,6 +671,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ShippingInformation> ShippingInformations { get; set; }
 
         /// <summary>
+        /// Report Param DbSet
+        /// </summary>
+        public DbSet<Reportparam> Reportparams { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming
