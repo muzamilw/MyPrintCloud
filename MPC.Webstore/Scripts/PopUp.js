@@ -1073,9 +1073,9 @@ function CustomeAlertBoxDesigner(msg,callbackFuncName) {
     document.getElementById("innerLayer").style.left = left + "px";
 
     document.getElementById("innerLayer").style.width = "500px";
-    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.height = "207px";
     document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.zIndex = "100002";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
