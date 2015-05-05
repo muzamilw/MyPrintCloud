@@ -113,7 +113,7 @@ define("common/addProduct.viewModel",
                                     _.each(data.ItemPriceMatrices, function (itemPriceMatrix) {
                                         var itemToBePushed = new model.ItemPriceMatrix.Create(itemPriceMatrix);
                                         item.itemPriceMatrices.push(itemToBePushed);
-                                        if (item.isQtyRanged() == 2) {
+                                        if (item.isQtyRanged() == 2 && itemToBePushed.quantity()!==0) {
                                             productQuantitiesList.push(itemToBePushed.quantity());
                                         }
                                     });
