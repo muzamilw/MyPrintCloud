@@ -12,7 +12,7 @@
                     <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Manage Stores</h1>
+                    <h1 class="pull-left">Your Web Stores</h1>
                 </div>
                 @*<div class="pull-right top-page-ui">
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
@@ -113,9 +113,19 @@
         </script>
         @* Filter Template *@
         <script id="filterTemplate" type="text/html">
-            <div class="filter-body" id="filter" style="margin-bottom:10px;">
+            <div class="filter-body" id="filter" style="margin-bottom:10px; background-color:#ffffff">
+                <div class="pull-left" style="margin-left:18px;">
+                    <div class="row">
+                       <span>Clear your browser history cache regularly.</span> 
+                    </div>
+                    <div class="row">
+                        <span>
+                            Open web stores in different browsers than the MIS when testing and reviewing.
+                        </span>
+                    </div>
+                </div>
                 <form data-bind="submit: $root.getStoresByFilter">
-                    <div class="filter-block pull-right" style="margin-right: -12px">
+                    <div class="filter-block pull-right" style="margin-right: -10px">
                         <div class="form-group pull-left">
                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
                             <i class="fa fa-search search-icon"></i>
