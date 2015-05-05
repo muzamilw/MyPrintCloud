@@ -21,5 +21,6 @@ namespace MPC.Interfaces.MISServices
         List<ReportNote> GetReportNoteByCompanyID(long CompanyID);
 
         IEnumerable<ReportNote> Update(IEnumerable<ReportNote> reportNotes);
+        List<ReportparamResponse> getParamsById(long Id);
     }
 }

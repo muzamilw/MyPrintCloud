@@ -1,4 +1,5 @@
 ﻿using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,6 +32,7 @@ namespace MPC.Interfaces.Repository
         List<usp_InvoiceReport_Result> getInvoiceReportResult(long OrganisationID, long InvoiceID);
 
         void UpdateReportNotes(List<ReportNote> reportNotes);
+        List<ReportparamResponse> getParamsById(long Id);
 
 
     }

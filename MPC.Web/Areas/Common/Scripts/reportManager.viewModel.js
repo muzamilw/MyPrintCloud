@@ -10,6 +10,7 @@
                     outputTo = ko.observable("preview"),
                     errorList = ko.observableArray([]),
                      reportcategoriesList = ko.observableArray([]),
+                     reportParamsList = ko.observableArray([]),
                      selectedReportId = ko.observable(),
                      selectedItemId = ko.observable(0),
                      IsExternalReport = ko.observable(0),
@@ -18,10 +19,9 @@
                      selectedItemTitle = ko.observable(),
                     OpenReport = function () {
                         if (selectedReportId() > 0) {
-
+                          //  getParams();
 
                             if (outputTo() == "preview") {
-
                                 view.hide();
                                 showProgress();
                                 view.showWebViewer();
@@ -38,6 +38,24 @@
 
                         }
                     },
+                    getParams = function () {
+                        if (selectedReportId() > 0) {
+                            reportParamsList.removeAll();
+                            dataservice.getreportparamsbyId({
+                                Id: selectedReportId()
+                            }, {
+                                success: function (data) {
+                                    _.each(data, function (item) {
+                                        reportParamsList.push(model.reportParamsMapper(item));
+                                    });
+                                },
+                                error: function (response) {
+
+                                }
+                            });
+
+                        }
+                    }
                     SelectReportById = function (report) {
                         $(".dd-handle").removeClass("selectedReport")
                         $("#" + report.ReportId()).addClass("selectedReport");

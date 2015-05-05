@@ -3671,12 +3671,13 @@ add CompanyId bigint null
 GO
 
 /* Execution Date: 04/05/2015 */
+ALTER TABLE TemplateObject
+ADD hasInlineFontStyle bit null
 
+GO
 drop table StockItemHistory
 GO
 
-ALTER TABLE TemplateObject
 EXEC sp_rename 'ItemStockUpdateHistory', 'StockItemHistory'
-ADD hasInlineFontStyle bit null
 
 GO

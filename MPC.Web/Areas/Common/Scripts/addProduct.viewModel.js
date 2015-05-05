@@ -20,6 +20,8 @@ define("common/addProduct.viewModel",
                     selectedStockOptionSequenceNumber = ko.observable(),
                     //SelectedStockOption
                     selectedStockOption = ko.observable(),
+                    //Selected Product
+                    selectedProductFromStore = ko.observable(),
                     // Active Cost Center
                     selectedCostCentre = ko.observable(),
                     //Selected Stock Item
@@ -96,7 +98,7 @@ define("common/addProduct.viewModel",
                     //Update Items Data On Item Selection
                     //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
                     updateItemsDataOnItemSelection = function (item) {
-                        //var v = item;
+                        selectedProductFromStore(item);
                         dataservice.getItemsDetailsByItemId({
                             itemId: item.id()
                         }, {
@@ -113,7 +115,7 @@ define("common/addProduct.viewModel",
                                     _.each(data.ItemPriceMatrices, function (itemPriceMatrix) {
                                         var itemToBePushed = new model.ItemPriceMatrix.Create(itemPriceMatrix);
                                         item.itemPriceMatrices.push(itemToBePushed);
-                                        if (item.isQtyRanged() == 2) {
+                                        if (item.isQtyRanged() == 2 && itemToBePushed.quantity()!==0) {
                                             productQuantitiesList.push(itemToBePushed.quantity());
                                         }
                                     });
@@ -297,7 +299,8 @@ define("common/addProduct.viewModel",
                     currencySymbol: currencySymbol,
                     updateViewOnStockOptionChange: updateViewOnStockOptionChange,
                     searchFilter: searchFilter,
-                    getItemsByCompanyId: getItemsByCompanyId
+                    getItemsByCompanyId: getItemsByCompanyId,
+                    selectedProductFromStore: selectedProductFromStore
                 };
             })()
         };

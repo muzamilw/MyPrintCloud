@@ -27,10 +27,11 @@ namespace MPC.Implementation.MISServices
         #region Private
         private readonly IOrganisationRepository organisationRepository;
         private readonly IItemSectionRepository itemsectionRepository;
+        private readonly IMachineRepository machineRepository;
         #endregion
 
         #region Constructor
-        public ItemSectionService(IOrganisationRepository _organisationRepository, IItemSectionRepository _itemsectionRepository)
+        public ItemSectionService(IOrganisationRepository _organisationRepository, IItemSectionRepository _itemsectionRepository, IMachineRepository _machineRepository)
         {
             if (_organisationRepository == null)
             {
@@ -40,8 +41,13 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemsectionRepository");
             }
+            if (_machineRepository == null)
+            {
+                throw new ArgumentNullException("machineRepository");
+            }
             this.organisationRepository = _organisationRepository;
             this.itemsectionRepository = _itemsectionRepository;
+            this.machineRepository = _machineRepository;
         }
         #endregion
         #region Print View Plan Code
@@ -5440,9 +5446,11 @@ namespace MPC.Implementation.MISServices
                 updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
             }
 
-            if (updatedSection.GuillotineId != null)
+            if (updatedSection.IsFirstTrim == true || updatedSection.IsSecondTrim == true)
             {
-                updatedSection = CalculateGuillotineCost(updatedSection, (int)updatedSection.PressId, false, false);
+                var guillotine = machineRepository.GetDefaultGuillotine();
+                if(guillotine != null)
+                    updatedSection = CalculateGuillotineCost(updatedSection, guillotine.MachineId, false, false);
             }
 
             updatedSection.BaseCharge1 = updatedSection.SectionCostcentres.Sum(a => a.Qty1NetTotal);
