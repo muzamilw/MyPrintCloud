@@ -74,7 +74,7 @@
                         <!--ko if: $root.selecteditem()!=undefined -->
                         <div class="main-box-body clearfix">
                             <div class="table-responsive">
-                                <table class="table table-striped table-hover">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
@@ -140,9 +140,9 @@
     </div>
 </div>
 <script id="itemsTemplate" type="text/html">
-    <tr data-bind="click : $root.updateItemsDataOnItemSelection" style="cursor: pointer">
-        <td data-bind="text: productName"></td>
-        <td data-bind="text: productCode"></td>
+    <tr data-bind="click : $root.updateItemsDataOnItemSelection, css: { selectedRow: $root.selectedProductFromStore() === $data }" style="cursor: pointer">
+        <td data-bind="text: productName, css: { selectedRow: $root.selectedProductFromStore() === $data }"></td>
+        <td data-bind="text: productCode, css: { selectedRow: $root.selectedProductFromStore() === $data }"></td>
     </tr>
 </script>
 <script id="addOnTemplate" type="text/html">

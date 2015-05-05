@@ -1,9 +1,11 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function(ko) {
-    var ReportNote = function (specifiedId, specifiedHeadNote, specifiedFootNote, AdvertitorialNote, specifiedCategoryId, specifiedReportBanner, specifiedTitle, specifiedEstimateBannerBytes,specifiedOrderBannerBytes, specifiedInvoiceBannerBytes, specifiedPurchaseBannerBytes, specifiedeliveryBannerBytes) {
+    var ReportNote = function (specifiedId,specifiedCompanyId,specifiedOrganisationId, specifiedHeadNote, specifiedFootNote, AdvertitorialNote, specifiedCategoryId, specifiedReportBanner, specifiedTitle, specifiedEstimateBannerBytes,specifiedOrderBannerBytes, specifiedInvoiceBannerBytes, specifiedPurchaseBannerBytes, specifiedeliveryBannerBytes) {
 
         var
             self,
             id = ko.observable(specifiedId || 0),
+            companyId = ko.observable(specifiedCompanyId || 0),
+            organisationid = ko.observable(specifiedOrganisationId || 0),
             headNote = ko.observable(specifiedHeadNote),
             footnote = ko.observable(specifiedFootNote),
             advertitorialNote = ko.observable(AdvertitorialNote),
@@ -38,6 +40,8 @@
         convertToServerData = function () {
             return {
                 Id: id(),
+                companyId: companyId(),
+                organisationid: organisationid(),
                 HeadNotes: headNote(),
                 AdvertitorialNotes: advertitorialNote(),
                 ReportCategoryId: categoryId(),
@@ -53,6 +57,8 @@
         };
         self = {
             id: id,
+            companyId: companyId,
+            organisationid: organisationid,
             headNote: headNote,
             footnote: footnote,
             advertitorialNote: advertitorialNote,
@@ -75,7 +81,7 @@
     };
 
     ReportNote.Create = function (source) {
-        var reprotNote = new ReportNote(source.Id, source.HeadNotes, source.FootNotes, source.AdvertitorialNotes, source.ReportCategoryId, source.ReportBanner, source.ReportTitle, source.EstimateBannerBytes, source.OrderBannerBytes, source.InvoiceBannerBytes, source.PurchaseBannerBytes, source.DeliveryBannerBytes);
+        var reprotNote = new ReportNote(source.Id,source.CompanyId,source.OrganisationId, source.HeadNotes, source.FootNotes, source.AdvertitorialNotes, source.ReportCategoryId, source.ReportBanner, source.ReportTitle, source.EstimateBannerBytes, source.OrderBannerBytes, source.InvoiceBannerBytes, source.PurchaseBannerBytes, source.DeliveryBannerBytes);
             
         
 
