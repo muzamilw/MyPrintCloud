@@ -80,20 +80,21 @@
                                         </div>
                                         @*</div>*@
                                         @*</div>*@
-
+                                        <!-- ko if: $root.selectedSection()!==undefined  -->
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <label class="control-label">Pre Trim</label>
-                                                <input type="checkbox" />
+                                                <label class="control-label">Pre Trim</label>                                               
+                                                <input type="checkbox" data-bind="checked: $root.selectedSection().isFirstTrim" />                                                
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <label class="control-label">Trim</label>
-                                                <input type="checkbox" />
+                                                <label class="control-label">Trim</label>                                                
+                                                <input type="checkbox" data-bind="checked: $root.selectedSection().isSecondTrim" />                                               
                                             </div>
                                         </div>
+                                        <!-- /ko -->
                                     </div>
                                 </div>
                                 <div class="tab-pane fade " id="tab-Sections">

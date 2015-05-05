@@ -3672,8 +3672,10 @@ GO
 
 /* Execution Date: 04/05/2015 */
 
+drop table StockItemHistory
 GO
 
+EXEC sp_rename 'ItemStockUpdateHistory', 'StockItemHistory'
 ALTER TABLE TemplateObject
 ADD hasInlineFontStyle bit null
 

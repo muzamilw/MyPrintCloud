@@ -69,7 +69,7 @@ namespace MPC.Repository.Repositories
                 var objList = from p in db.VariableSections
                               join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
                               where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)))
-                              orderby p.VariableSectionId, es.VariableType, es.SortOrder
+                              orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
                               select new
                               {
                                   SectionName = p.SectionName,
@@ -91,7 +91,7 @@ namespace MPC.Repository.Repositories
                 var objList = from p in db.VariableSections
                               join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
                               where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == null))
-                              orderby p.VariableSectionId, es.VariableType, es.SortOrder
+                              orderby p.VariableSectionId,es.VariableTag, es.VariableType, es.SortOrder
                               select new
                               {
                                   SectionName = p.SectionName,

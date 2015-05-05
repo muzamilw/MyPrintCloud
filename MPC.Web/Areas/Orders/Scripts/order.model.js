@@ -45,7 +45,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Flag Color
                 flagColor = ko.observable(specifiedFlagColor || undefined),
                 // Estimate Total
-                estimateTotal = ko.observable(undefined),
+                estimateTotal = ko.observable(0),
                 // Flag Id
                 sectionFlagId = ko.observable(specifiedSectionFlagId || undefined).extend({ required: true }),
                 // Order Code
@@ -783,7 +783,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             specifiedQty3, specifiedQty1Profit, specifiedQty2Profit, specifiedQty3Profit, specifiedBaseCharge1, specifiedBaseCharge2, specifiedBaseCharge3,
             specifiedIncludeGutter, specifiedFilmId, specifiedIsPaperSupplied, specifiedSide1PlateQty, specifiedSide2PlateQty, specifiedIsPlateSupplied,
             specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn, specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedPlateInkId,
-            specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait) {
+            specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait, specifiedFirstTrim, specifiedSecondTrim) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -910,6 +910,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionCostCentres = ko.observableArray([]),
                 // Section Ink Coverage List
                 sectionInkCoverageList = ko.observableArray([]),
+                isFirstTrim = ko.observable(specifiedFirstTrim || false),
+                isSecondTrim = ko.observable(specifiedSecondTrim || false),
                 // Select Stock Item
                 selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
@@ -975,7 +977,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     qty2: qty2,
                     includeGutter: includeGutter(),
                     isPaperSupplied: isPaperSupplied(),
-                    qty3: qty3
+                    qty3: qty3,
+                    isFirstTrim: isFirstTrim,
+                    isSecondTrim: isSecondTrim
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -1023,6 +1027,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Qty3: qty3(),
                         Side1Inks: side1Inks(),
                         Side2Inks: side2Inks(),
+                        IsFirstTrim: isFirstTrim(),
+                        IsSecondTrim: isSecondTrim(),
                         SectionCostcentres: sectionCostCentres.map(function (scc) {
                             var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {
@@ -2239,7 +2245,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Section Cost Centre Factory
     SectionCostCentre.Create = function (source) {
-        var sectionCostCentre = new SectionCostCentre(source.SectionCostcentreId, source.Name, source.CostCentreId, source.CostCenterType, source.Order,
+        var sectionCostCentre = new SectionCostCentre(source.SectionCostcentreId, source.Name, source.CostCentreId, source.CostCentreType, source.Order,
             source.IsDirectCost, source.IsOptionalExtra, source.IsPurchaseOrderRaised, source.Status, source.Qty1Charge, source.Qty2Charge, source.Qty3Charge,
             source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
             source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
@@ -2250,7 +2256,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
             var sectionCostcentresDetails = [];
 
-            _.each(source.SectionCostcentres, function (sectionCostCentreDetail) {
+            _.each(source.SectionCostCentreDetails, function (sectionCostCentreDetail) {
                 sectionCostcentresDetails.push(SectionCostCenterDetail.Create(sectionCostCentreDetail));
             });
 
@@ -2270,7 +2276,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     SectionCostCenterDetail.Create = function (source) {
 
         var sectionCostCenterDetail = new SectionCostCenterDetail(source.SectionCostCentreDetailId, source.SectionCostCentreId, source.StockId, source.SupplierId, source.Qty1,
-            source.Qty2, source.Qty3, source.CostPrice, source.StockName, source.Supplier);
+            source.Qty2, source.Qty3, source.CostPrice, source.ActualQtyUsed, source.StockName, source.Supplier);
 
         return sectionCostCenterDetail;
     };
@@ -2281,7 +2287,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.GuillotineId, source.Qty1,
             source.Qty2, source.Qty3, source.Qty1Profit, source.Qty2Profit, source.Qty3Profit, source.BaseCharge1, source.BaseCharge2,
             source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
-            source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks, source.IsPortrait);
+            source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks,
+            source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
