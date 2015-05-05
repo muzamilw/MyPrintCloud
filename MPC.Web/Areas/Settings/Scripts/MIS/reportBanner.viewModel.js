@@ -16,6 +16,7 @@ define("reportBanner/reportBanner.viewModel",
                     SelectedInvoiceReportNote = ko.observable(),
                     SelectedPurchaseOrderReportNote = ko.observable(),
                     SelectedDeliveryReportNote = ko.observable(),
+                    StoreName = ko.observable(),
                     errorList = ko.observableArray([]),
                     Stores = ko.observableArray([]),
                     CompanyReportNotes = ko.observableArray([]),
@@ -42,7 +43,8 @@ define("reportBanner/reportBanner.viewModel",
                                 Stores.removeAll();
                                 ko.utils.arrayPushAll(Stores(), data);
                                 Stores.valueHasMutated();
-
+                                getBannerByStoreId(Stores()[0]);
+                                StoreName(Stores()[0].StoreName);
                             },
                             error: function () {
                                 toastr.error(ist.resourceText.loadBaseDataFailedMsg);
@@ -72,16 +74,17 @@ define("reportBanner/reportBanner.viewModel",
 
                       checkStoreBannerUpload = function (store) {
                           if (SelectedReportNote() != null || SelectedReportNote() != undefined && (SelectedReportNote().estimateBannerBytes() != null)) {
-                              confirmation.messageText("Are you sure you want to discard banners uploaded for previous store?");
-                              confirmation.afterProceed(function () {
-                                  getBannerByStoreId(store);
+                              //confirmation.messageText("Are you sure you want to discard banners uploaded for previous store?");
+                              //confirmation.afterProceed(function () {
+                              //    getBannerByStoreId(store);
 
-                              });
-                              confirmation.afterCancel(function () {
-                                  return;
-                              });
-                              confirmation.show();
-                              return;
+                              //});
+                              //confirmation.afterCancel(function () {
+                              //    return;
+                              //});
+                              //confirmation.show();
+                              //return;
+                              getBannerByStoreId(store);
                           }
                           else
                           {
@@ -92,6 +95,7 @@ define("reportBanner/reportBanner.viewModel",
 
                     // get banner by id
                     getBannerByStoreId = function (store) {
+                        StoreName(store.StoreName);
                         isLoading(true);
                         var id = store.StoreID;
                         dataservice.getReportNote(
@@ -133,7 +137,7 @@ define("reportBanner/reportBanner.viewModel",
                     CompanyReportNotes.push(SelectedReportNote().convertToServerData());
                     CompanyReportNotes.push(SelectOrderReportNote().convertToServerData());
                     CompanyReportNotes.push(SelectedInvoiceReportNote().convertToServerData());
-                   // CompanyReportNotes.push(SelectedPurchaseOrderReportNote().convertToServerData());
+                    CompanyReportNotes.push(SelectedPurchaseOrderReportNote().convertToServerData());
                     CompanyReportNotes.push(SelectedDeliveryReportNote().convertToServerData());
                 },
                     // Save Notes
@@ -168,6 +172,7 @@ define("reportBanner/reportBanner.viewModel",
                 return {
                     // Observables
                     Stores: Stores,
+                    StoreName:StoreName,
                     SelectedReportNote: SelectedReportNote,
                     SelectOrderReportNote: SelectOrderReportNote,
                     SelectedInvoiceReportNote : SelectedInvoiceReportNote,

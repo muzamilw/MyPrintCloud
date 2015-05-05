@@ -289,3 +289,11 @@ div#spinner {
 .selectedReport{
             background: none repeat scroll 0 0 #E5E5ED!important;
         }
+
+.selectedRow{
+            background: none repeat scroll 0 0 #E5E5ED!important;
+        }
+
+a.reportAnchor a:hover{
+    text-decoration: underline;
+}
