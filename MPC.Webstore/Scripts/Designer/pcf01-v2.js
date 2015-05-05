@@ -1392,6 +1392,7 @@ function fu02UI() {
             stop: k5
         });
     }
+
     if (IsCalledFrom != 3)
     {
         $("#Homebtn").css("display", "none");
