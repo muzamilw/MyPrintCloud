@@ -56,8 +56,8 @@ namespace MPC.Repository.Repositories
                         (isSearchFilterSpecified && ((s.Email.Contains(request.SearchFilter)) ||
                          (s.AddressName.Contains(request.SearchFilter))) ||
                          !isSearchFilterSpecified)
-                         && ((isTerritoryInSearch && (s.TerritoryId == request.TerritoryId)) || !isTerritoryInSearch) && (s.CompanyId == request.CompanyId)//&& (s.CompanyId == request.CompanyId)
-                         ;
+                         && ((isTerritoryInSearch && (s.TerritoryId == request.TerritoryId)) || !isTerritoryInSearch) && (s.CompanyId == request.CompanyId) &&//&& (s.CompanyId == request.CompanyId)
+                         (!s.isArchived.HasValue || !s.isArchived.Value);
 
                 int rowCount = DbSet.Count(query);
                 // ReSharper disable once ConditionalTernaryEqualBranch
