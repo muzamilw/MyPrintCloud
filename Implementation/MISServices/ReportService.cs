@@ -266,5 +266,9 @@ namespace MPC.Implementation.MISServices
             }
             return null;
         }
+        public List<ReportparamResponse> getParamsById(long Id)
+        {
+            return new List<ReportparamResponse>();
+        }
     }
 }

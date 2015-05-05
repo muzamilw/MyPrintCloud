@@ -35,5 +35,11 @@ namespace MPC.Interfaces.Repository
         /// Get System Variables
         /// </summary>
         IEnumerable<FieldVariable> GetSystemVariables();
+        /// <summary>
+        /// Get all system variables and company variables
+        /// </summary>
+        /// <param name="companyID"></param>
+        /// <returns></returns>
+        List<FieldVariable> GetSystemAndCompanyVariables(long companyID);
     }
 }

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Repository.Repositories
 {
@@ -64,6 +65,21 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
+        }
+        public List<ReportparamResponse> getParamsById(long Id)
+        {
+            List<Reportparam> Reportparams = db.Reportparams.Where(g => g.ReportId == Id).ToList();
+            List<ReportparamResponse> ReportparamsList = new List<ReportparamResponse>();
+            foreach (var item in Reportparams)
+            {
+                ReportparamResponse reportpar = new ReportparamResponse();
+                reportpar.param = item;
+               if(item.ControlType == 1){
+                  // string query = "select * from "+ item.ComboTableName +""
+               }
+                
+            }
+            return ReportparamsList;
         }
         public ReportCategory GetReportCategory(long CategoryId, int IsExternal)
         {

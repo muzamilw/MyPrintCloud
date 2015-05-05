@@ -2431,11 +2431,26 @@ define("order/order.viewModel",
                             dataservice.getUpdatedSystemCostCenters(currSec, {
                                 success: function (data) {
                                     if (data != null) {
-                                        selectedSection(model.ItemSection.Create(data));
+                                        //selectedSection(model.ItemSection.Create(data));
+                                        
+                                        // Map Section Cost Centres if Any
+                                        if (data.SectionCostcentres && data.SectionCostcentres.length > 0) {
+                                            selectedSection().sectionCostCentres.removeAll();
+                                            var sectionCostcentres = [];
+
+                                            _.each(data.SectionCostcentres, function (sectionCostCentre) {
+                                                sectionCostcentres.push(model.SectionCostCentre.Create(sectionCostCentre));
+                                            });
+
+                                            // Push to Original Item
+                                            ko.utils.arrayPushAll(selectedSection().sectionCostCentres(), sectionCostcentres);
+                                            selectedSection().sectionCostCentres.valueHasMutated();
+                                        }
+                                        
                                         hideEstimateRunWizard();
                                         _.each(userCostCenters(), function (item) {
                                             if (item.isSelected()) {
-                                                var sectionCostCenterItem = model.SectionCostCentre();
+                                                var sectionCostCenterItem = model.SectionCostCentre.Create({});
                                                 sectionCostCenterItem.id(item.id());
                                                 sectionCostCenterItem.name(item.name());
                                                 selectedSection().sectionCostCentres.push(sectionCostCenterItem);
