@@ -3675,8 +3675,8 @@ GO
 drop table StockItemHistory
 GO
 
-ALTER TABLE TemplateObject
 EXEC sp_rename 'ItemStockUpdateHistory', 'StockItemHistory'
+ALTER TABLE TemplateObject
 ADD hasInlineFontStyle bit null
 
 GO
