@@ -1344,7 +1344,7 @@
                     ActualPriceIncludeVat = "@ViewBag.Currency" + (ActualPriceIncludeVat).toFixed(2).toString();
                     $(val).next().next().children(':first').html(ActualPriceIncludeVat);
                     $(val).next().next().children(':first').attr('data-actualCCPrice', (actualPrice).toFixed(2).toString());
-                    alert(selectedCheckBox.isChecked);
+                   
                     if (selectedCheckBox.isChecked == true) {
                         $(val).click();
                     }
