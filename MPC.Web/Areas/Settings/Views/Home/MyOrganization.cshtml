@@ -29,15 +29,16 @@
                     </div>
                 </div>
                 <div class="row" id="user-profile">
+                    <a href="~/Settings" class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-left: 15px;">Settings Menu</a>
                     <button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn" data-bind="click: $root.onSaveMyOrganization, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                     <div class="col-lg-12 col-md-8 col-sm-8">
                         <div class="main-box clearfix">
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs" id="myTab">
-                                    <li class="active"><a href="#tab-ORGDetail" data-toggle="tab">Organization Details</a></li>
-                                    <li><a href="#tab-RegionalSettings" data-toggle="tab">Regional Settings</a></li>
+                                    <li id="organization-details" class="active"><a href="#tab-ORGDetail" data-toggle="tab">Organization Details</a></li>
+                                    <li id="regional-settings"><a href="#tab-RegionalSettings" data-toggle="tab">Regional Settings</a></li>
                                     @*<li><a href="#tab-NominalCodes" data-toggle="tab">Nominal Codes</a></li>*@
-                                    <li><a href="#tab-languageeditor" data-toggle="tab">Language Editor</a></li>
+                                    <li id="language-editor"><a href="#tab-languageeditor" data-toggle="tab">Language Editor</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab-ORGDetail">
@@ -663,6 +664,7 @@
 @section Scripts{
 
     <script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
     <script>
         require(["myOrganization/myOrganization.view", "common/confirmation.view"]);
         $(function () {
@@ -671,6 +673,52 @@
             $('#limyorganization').addClass('active');
 
             $('.bs-example-tooltips a').popover();
+        });
+    </script>
+    <script>
+        $(document).ready(function()
+        {
+            var page = Request.QueryString("status");
+
+            if (page != null)
+            {
+                if (page == 'regional')
+                {
+                    $("#organization-details").removeClass("in active");
+                    $("#tab-ORGDetail").removeClass("in active");
+
+                    $("#regional-settings").addClass("in active");
+                    $("#tab-RegionalSettings").addClass("in active");
+
+                    $("#language-editor").removeClass("in active");
+                    $("#tab-languageeditor").removeClass("in active");
+                }
+                else if(page == 'language')
+                {
+
+                    $("#organization-details").removeClass("in active");
+                    $("#tab-ORGDetail").removeClass("in active");
+
+                    $("#regional-settings").removeClass("in active");
+                    $("#tab-RegionalSettings").removeClass("in active");
+
+                    $("#language-editor").addClass("in active");
+                    $("#tab-languageeditor").addClass("in active");
+
+                }
+                else 
+                {
+                    $("#organization-details").addClass("in active");
+                    $("#tab-ORGDetail").addClass("in active");
+
+                    $("#regional-settings").removeClass("in active");
+                    $("#tab-RegionalSettings").removeClass("in active");
+
+                    $("#language-editor").removeClass("in active");
+                    $("#tab-languageeditor").removeClass("in active");
+                }
+            }
+        
         });
     </script>
 }

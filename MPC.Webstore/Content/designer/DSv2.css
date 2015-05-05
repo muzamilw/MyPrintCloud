@@ -6847,3 +6847,20 @@ font-size: 13px;
 .md-modal{
     background-color:white;
 }
+#Homebtn {
+    margin-top: 0px;
+  left: 425px;
+  height: 35px;
+  background: url('assets-v2/homeIcon.png');
+  background-repeat: no-repeat;
+  background-position-x: 14px;
+  top: 14px;
+  left: 469px;
+  position: absolute;
+  width: 54px !important;
+}
+#Homebtn a:hover {
+        left: 0px;
+        height: 53px;
+        background: url('assets-v2/homeIcon_hover.png') ;background-repeat: no-repeat;background-position-x: 14px;
+}  

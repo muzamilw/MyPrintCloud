@@ -30,8 +30,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             return _IReportService.GetReportCategory(req.CategoryId, req.IsExternal).CreateFrom();
         }
-
         public void getParamsById(long Id)
+      //  public List<ReportparamResponse> getParamsById(long Id)
         {
 
         }
