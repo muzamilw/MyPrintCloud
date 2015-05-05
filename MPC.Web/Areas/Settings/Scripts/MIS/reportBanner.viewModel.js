@@ -143,9 +143,7 @@ define("reportBanner/reportBanner.viewModel",
                         ConvertListToServer();
                         
                         dataservice.saveReportNote(
-                            {
-                                reportNotes: CompanyReportNotes()
-                            },
+                            { ReportsBanners: CompanyReportNotes() },
                             {
                             success: function (data) {                                
                                 toastr.success("Successfully save.");
