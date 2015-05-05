@@ -136,6 +136,7 @@
     <Compile Include="Common\ProductModel.cs" />
     <Compile Include="Common\PtvDTO.cs" />
     <Compile Include="Common\PurchaseByColumn.cs" />
+    <Compile Include="Common\ReportparamComboCollection.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
@@ -474,6 +475,7 @@
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
     <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
+    <Compile Include="ResponseModels\ReportparamResponse.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
     <Compile Include="ResponseModels\SmartFormResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />

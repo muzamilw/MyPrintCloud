@@ -19,7 +19,7 @@
                      selectedItemTitle = ko.observable(),
                     OpenReport = function () {
                         if (selectedReportId() > 0) {
-                            getParams();
+                          //  getParams();
 
                             if (outputTo() == "preview") {
                                 view.hide();
