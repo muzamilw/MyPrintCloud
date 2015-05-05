@@ -26,6 +26,7 @@ namespace MPC.Interfaces.Repository
         string GetInkPlatesSidesByInkID(long InkID);
 
         string GetMachineByID(int MachineID);
+        Machine GetDefaultGuillotine();
     }
 }
 
