@@ -553,7 +553,10 @@ namespace MPC.Repository.Repositories
             return db.Machines.Where(c => c.MachineId == MachineID).Select(c => c.MachineName).FirstOrDefault();
         }
 
-        
+        public Machine GetDefaultGuillotine()
+        {
+            return DbSet.Where(m => m.MachineCatId == (int)MachineCategories.Guillotin).FirstOrDefault();
+        }
 
     }
 }
