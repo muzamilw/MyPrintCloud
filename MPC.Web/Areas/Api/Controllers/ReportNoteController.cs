@@ -58,13 +58,13 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         [ApiException]
         [CompressFilterAttribute]
-        public ReportNote Post(ReportNoteRequestModel reportNotes)
+        public void Post(ReportNoteRequestModel reportNotes)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    reportService.Update(reportNotes.ReportsBanners);
+                     reportService.Update(reportNotes.ReportsBanners);
                    
 
                 }
@@ -74,7 +74,11 @@ namespace MPC.MIS.Areas.Api.Controllers
                 }
 
             }
-            throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            else
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+           
         }
 
         #endregion

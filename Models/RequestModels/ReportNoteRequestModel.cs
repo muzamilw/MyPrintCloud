@@ -9,6 +9,6 @@ namespace MPC.Models.RequestModels
 {
     public class ReportNoteRequestModel
     {
-        public List<ReportNote> ReportsBanners { get; set; }
+        public IEnumerable<ReportNote> ReportsBanners { get; set; }
     }
 }

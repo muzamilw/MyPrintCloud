@@ -120,6 +120,38 @@
         </div>
     </div>
 </div>
+
+<div id="idReportParams" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 902px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Report Parameters</h4>
+            </div>
+            <!--ko if:ControlType()== 1-->
+            <select id="ddlbCostCenterType" class="form-control" data-bind="options: $root.costCenterTypes, optionsText: 'TypeName', optionsValue: 'TypeId',value:calculationMethodType, enable :isCalculationMethodEnable"></select>
+            
+            <!--/ko-->
+            <!--ko if:ControlType()== 2-->
+            DatePicker
+            <!--/ko-->
+            <!--ko if:ControlType()== 3-->
+            TextBox
+            <!--/ko-->
+
+            <!--ko if:ControlType()== 4-->
+            ExternalID
+            <!--/ko-->
+            <!--ko if:ControlType()== 5-->
+            CheckBox
+            <!--/ko-->
+            <!--ko if:ControlType()== 6-->
+            EmptyString
+            <!--/ko-->
+
+        </div>
+    </div>
+</div>
+
 <script id="reportCategoriesTemplate" type="text/html">
     <li class="dd-item dd-item-list" id="treeviewClickCharge">
         @*<div class="dd-handle-list"><i class="fa fa-bars"></i></div>
@@ -136,7 +168,7 @@
     <ol class="dd-list my-navigator" id="treeviewClickCharge">
         <li class="dd-item dd-item-list my-navigator">
             <div class="dd-handle-list my-navigator"><i class="fa fa-bars"></i></div>
-            <a class="my-navigator"> <div class="dd-handle" data-bind="text:Name, click:$root.SelectReportById, attr:{id:ReportId}"></div></a>
+            <a class="my-navigator"> <div class="dd-handle" style="cursor: pointer;" data-bind="text:Name, click:$root.SelectReportById, attr:{id:ReportId}"></div></a>
         </li>
     </ol>
 

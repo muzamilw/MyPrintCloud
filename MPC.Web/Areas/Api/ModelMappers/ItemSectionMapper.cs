@@ -113,6 +113,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PrintViewLayoutPortrait = source.PrintViewLayoutPortrait,
                 Side1Inks = source.Side1Inks,
                 Side2Inks = source.Side2Inks,
+                IsFirstTrim = source.IsFirstTrim,
+                IsSecondTrim = source.IsSecondTrim,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :  new List<SectionCostcentre>(),
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()) : new List<SectionInkCoverage>()
             };
@@ -160,6 +162,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PlateInkId = source.PlateInkId,
                 Side1Inks = source.Side1Inks,
                 Side2Inks = source.Side2Inks,
+                IsFirstTrim = source.IsFirstTrim,
+                IsSecondTrim = source.IsSecondTrim,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null,
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
 

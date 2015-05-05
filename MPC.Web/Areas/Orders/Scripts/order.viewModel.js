@@ -1973,6 +1973,10 @@ define("order/order.viewModel",
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
 
+                        //Item's Quantity
+                        newItem.qty1(selectedProductQuanityParam);
+                        //Item's Section Quantity
+                        newItem.itemSections()[0].qty1(selectedProductQuanityParam);
                         newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
                         //#region Add Selected Addons as Cost Centers
                         if (selectedStockOptionParam != undefined && selectedStockOptionParam.itemAddonCostCentres().length > 0) {
@@ -2356,15 +2360,19 @@ define("order/order.viewModel",
                         },
                         doBeforeRunningWizard = function () {
                             var flag = true;
-                            if (selectedSection().sectionInkCoverageList().length == 0) {
+                            if (selectedSection().qty1() <= 0) {
+                                errorList.push({ name: "Please set quantity greater than zero.", element: selectedSection().qty1.domElement });
+                                flag = false;
+                            }
+                            else if (selectedSection().sectionInkCoverageList().length == 0) {
                                 errorList.push({ name: "Please select ink colors.", element: selectedSection().plateInkId.domElement });
                                 flag = false;
                             }
-                            if (selectedSection().numberUp() <= 0) {
+                            else if (selectedSection().numberUp() <= 0) {
                                 errorList.push({ name: "Sheet plan cannot be zero.", element: selectedSection().numberUp.domElement });
                                 flag = false;
                             }
-                            if (selectedSection().stockItemId() == null) {
+                            else if (selectedSection().stockItemId() == null) {
                                 errorList.push({ name: "Please select stock.", element: selectedSection().stockItemName.domElement });
                                 flag = false;
                             }
@@ -2416,22 +2424,40 @@ define("order/order.viewModel",
                             }
 
                             isLoadingOrders(true);
-                            _.each(userCostCenters(), function (item) {
-                                if (item.isSelected()) {
-                                    var sectionCostCenterItem = model.SectionCostCentre();
-                                    sectionCostCenterItem.id(item.id());
-                                    sectionCostCenterItem.name(item.name());
-                                    selectedSection().sectionCostCentres.push(sectionCostCenterItem);
-                                }
-                            });
+                           
 
                             var currSec = selectedSection().convertToServerData();
                             currSec.PressId = selectedBestPressFromWizard().id;
                             dataservice.getUpdatedSystemCostCenters(currSec, {
                                 success: function (data) {
                                     if (data != null) {
-                                        selectedSection(model.ItemSection.Create(data));
+                                        //selectedSection(model.ItemSection.Create(data));
+                                        
+                                        // Map Section Cost Centres if Any
+                                        if (data.SectionCostcentres && data.SectionCostcentres.length > 0) {
+                                            selectedSection().sectionCostCentres.removeAll();
+                                            var sectionCostcentres = [];
+
+                                            _.each(data.SectionCostcentres, function (sectionCostCentre) {
+                                                sectionCostcentres.push(model.SectionCostCentre.Create(sectionCostCentre));
+                                            });
+
+                                            // Push to Original Item
+                                            ko.utils.arrayPushAll(selectedSection().sectionCostCentres(), sectionCostcentres);
+                                            selectedSection().sectionCostCentres.valueHasMutated();
+                                        }
+                                        
                                         hideEstimateRunWizard();
+                                        _.each(userCostCenters(), function (item) {
+                                            if (item.isSelected()) {
+                                                var sectionCostCenterItem = model.SectionCostCentre.Create({});
+                                                sectionCostCenterItem.id(item.id());
+                                                sectionCostCenterItem.name(item.name());
+                                                selectedSection().sectionCostCentres.push(sectionCostCenterItem);
+                                            }
+                                        });
+
+
                                         var charge1 = setDecimalPlaceValue(selectedSection().baseCharge1());
                                         var charge2 = setDecimalPlaceValue(selectedSection().baseCharge2());
                                         var charge3 = setDecimalPlaceValue(selectedSection().baseCharge3());

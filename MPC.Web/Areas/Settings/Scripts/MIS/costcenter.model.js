@@ -154,12 +154,12 @@
         errors = ko.validation.group({
             name: name,
             type: type,
-            setupCost: setupCost,
-            pricePerUnitQuantity: pricePerUnitQuantity,
-            minimumCost: minimumCost,
-            perHourPrice: perHourPrice,
-            timeQuestionString: timeQuestionString,
-            quantityQuestionString: quantityQuestionString
+            setupCost: setupCost
+           // pricePerUnitQuantity: pricePerUnitQuantity,
+          //  minimumCost: minimumCost,
+           // perHourPrice: perHourPrice,
+           // timeQuestionString: timeQuestionString,
+            //quantiQuestionString
         }),
         isValid = ko.computed(function () {
             return errors().length === 0 ? true : false;;
