@@ -291,6 +291,14 @@ function k35_load(DT) {
     // $("#BkImgContainer").tabs("option", "active", 1);
 }
 function d8(mode, dheight, title) {
+    if (IsCalledFrom == 2)
+    {
+        $.getJSON("/designerapi/Template/updateTemplateVariables/" + tID + "/" + CustomerID,
+       function (DT) {
+           if(DT != true)
+              alert("Error while saving field Variables.");
+       });
+    }
     IsDesignModified = false;
     if (mode == "preview") {
         var ra = fabric.util.getRandomInt(1, 1000);

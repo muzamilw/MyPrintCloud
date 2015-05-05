@@ -242,6 +242,7 @@
     <Compile Include="WebStoreServices\TemplateObjectService.cs" />
     <Compile Include="WebStoreServices\TemplatePageService.cs" />
     <Compile Include="WebStoreServices\TemplateService.cs" />
+    <Compile Include="WebStoreServices\TemplateVariableService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\UserManagerService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsSecurityService.cs" />
