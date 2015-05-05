@@ -520,8 +520,8 @@ namespace MPC.Repository.Repositories
                         c.CmsOffers,
                         c.CompanyCostCentres,
                         CompanyTerritories = c.CompanyTerritories.Take(1).ToList(),
-                        Addresses = c.Addresses.ToList(),
-                        CompanyContacts = c.CompanyContacts.ToList(),
+                        Addresses = c.Addresses.Where(address => (!address.isArchived.HasValue || !address.isArchived.Value)).Take(1).ToList(),
+                        CompanyContacts = c.CompanyContacts.Take(1).ToList(),
                         c.Image,
                         c.ActiveBannerSetId,
                         c.OrganisationId
