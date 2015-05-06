@@ -3262,7 +3262,7 @@ define("stores/stores.viewModel",
                     event.target.classList.remove("fa-chevron-circle-down");
                     event.target.classList.add("fa-chevron-circle-right");
                 }
-            }
+            },
                 //Get Category Child List Items
                 getCategoryChildListItems = function (dataRecieved, event) {
                     changeIcon(event);
