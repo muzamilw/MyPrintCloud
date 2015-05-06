@@ -131,7 +131,7 @@
                 <div class="row">
                     <div class="col-md-8 col-lg-8">
 
-                        <div class="row">
+                        @*<div class="row">
                             @if (ViewBag.Istrial == true)
                             {
 
@@ -184,14 +184,14 @@
                                 </div>
                             </a>
 
-                        </div>
+                        </div>*@
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="social-box-wrapper">
                                     <a href="/mis/Orders/Home/EstimatesList?to=est">
                                         <div class="social-box col-lg-3 col-sm-6 col-xs-6  estimates" style="cursor:pointer;" title="Pending Estimates">
-                                            <i class="fa fa-cubes"></i>
+                                            <i class="fa fa-fax"></i>
                                             <div class="clearfix">
                                                 <span class="social-count" data-bind="text:$root.canceledOrdersCount"></span>
                                                 <span class="social-action">Pending Estimates</span>
@@ -210,7 +210,7 @@
                                     </a>
                                     <a href="/mis/Orders/Home?to=prd">
                                         <div class="social-box col-lg-3 col-sm-6 col-xs-6  twitter" style="cursor:pointer;" title="In Production">
-                                            <i class="fa fa-cubes"></i>
+                                            <i class="glyphicon glyphicon-list-alt"></i>
                                             <div class="clearfix">
                                                 <span class="social-count" data-bind="text:$root.inProductionOrdersCount"></span>
                                                 <span class="social-action">In Production</span>
@@ -220,7 +220,7 @@
                                     </a>
                                     <a href="/mis/Orders/Home?to=com">
                                         <div class="social-box col-lg-3 col-sm-6 col-xs-6  google" style="cursor:pointer;" title="Completed">
-                                            <i class="fa fa-cubes"></i>
+                                            <i class="glyphicon glyphicon-file"></i>
                                             <div class="clearfix">
                                                 <span class="social-count" data-bind="text:$root.completedOrdersCount"></span>
                                                 <span class="social-action">Completed</span>
@@ -237,7 +237,7 @@
                             <div class="row">
                                 <div class="col-md-9">
                                     <div class="graph-box emerald-bg">
-                                        <h2>Sales &amp; Earnings</h2>
+                                        <h2>Earnings</h2>
                                         <div class="graph" id="graph-line" style="max-height: 335px;"></div>
                                     </div>
                                 </div>
@@ -378,47 +378,18 @@
                                 <div class="main-box-body clearfix">
                                     <ul class="widget-users row">
                                         <li class="col-md-12">
-                                            <div class="img">
-                                                <img src="~/Content/themes/Centaurus/img/samples/scarlet.png" alt="" />
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">
-                                                    <a href="#">Scarlett Johansson</a>
-                                                </div>
-                                                <div class="time">
-                                                    <i class="fa fa-clock-o"></i> Registerd on Retail Store, 1 day ago.
-                                                </div>
+                                          
+                                           
+                                              
+                                                    No New Registrations
+                                               
+                                              
 
-                                            </div>
+                                          
                                         </li>
 
 
-                                        <li class="col-md-12">
-                                            <div class="img">
-                                                <img src="~/Content/themes/Centaurus/img/samples/robert.png" alt="" />
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">
-                                                    <a href="#">Robert Downey Jr.</a>
-                                                </div>
-                                                <div class="time">
-                                                    <i class="fa fa-clock-o"></i>Registerd on Private Store, 2 days ago.
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="col-md-12">
-                                            <div class="img">
-                                                <img src="~/Content/themes/Centaurus/img/samples/emma.png" alt="" />
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">
-                                                    <a href="#">Emma Watson</a>
-                                                </div>
-                                                <div class="time">
-                                                    <i class="fa fa-clock-o"></i>Registerd on Retail Store, 2 day ago.
-                                                </div>
-                                            </div>
-                                        </li>
+                                       
 
 
 
@@ -681,21 +652,23 @@
                 graphLine = Morris.Line({
                     element: 'graph-line',
                     data: [
-                        { period: '2014-01-01', iphone: 2666, ipad: null, itouch: 2647 },
-                        { period: '2014-01-02', iphone: 9778, ipad: 2294, itouch: 2441 },
-                        { period: '2014-01-03', iphone: 4912, ipad: 1969, itouch: 2501 },
-                        { period: '2014-01-04', iphone: 3767, ipad: 3597, itouch: 5689 },
-                        { period: '2014-01-05', iphone: 6810, ipad: 1914, itouch: 2293 },
-                        { period: '2014-01-06', iphone: 5670, ipad: 4293, itouch: 1881 },
-                        { period: '2014-01-07', iphone: 4820, ipad: 3795, itouch: 1588 },
-                        { period: '2014-01-08', iphone: 15073, ipad: 5967, itouch: 5175 },
-                        { period: '2014-01-09', iphone: 10687, ipad: 4460, itouch: 2028 },
-                        { period: '2014-01-10', iphone: 8432, ipad: 5713, itouch: 1791 }
+                        { period: '2015-01-01', 'Retail Store': 0, ipad: null, itouch: 2647 },
+                        { period: '2015-02-02', 'Retail Store': 0, ipad: 2294, itouch: 2441 },
+                        { period: '2015-03-03', 'Retail Store': 0, ipad: 1969, itouch: 2501 },
+                        { period: '2015-04-04', 'Retail Store': 0, ipad: 3597, itouch: 5689 },
+                        { period: '2015-05-05', 'Retail Store': 0, ipad: 1914, itouch: 2293 },
+                        { period: '2015-06-06', 'Retail Store': 0, ipad: 4293, itouch: 1881 },
+                        { period: '2015-07-07', 'Retail Store': 0, ipad: 3795, itouch: 1588 },
+                        { period: '2015-08-08', 'Retail Store': 0, ipad: 5967, itouch: 5175 },
+                        { period: '2015-09-09', 'Retail Store': 0, ipad: 4460, itouch: 2028 },
+                        { period: '2015-10-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 },
+                        { period: '2015-11-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 },
+                        { period: '2015-12-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 }
                     ],
                     lineColors: ['#ffffff'],
                     xkey: 'period',
-                    ykeys: ['iphone'],
-                    labels: ['iPhone'],
+                    ykeys: ['Retail Store'],
+                    labels: ['Retail Store'],
                     pointSize: 3,
                     hideHover: 'auto',
                     gridTextColor: '#ffffff',
