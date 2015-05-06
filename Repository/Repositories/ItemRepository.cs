@@ -247,7 +247,7 @@ namespace MPC.Repository.Repositories
                 Item newItem = new Item();
 
 
-                Item ActualItem = GetItemToClone(itemID);
+                Item ActualItem = GetActualItemToClone(itemID);
                 //******************new item*********************
                 newItem = Clone<Item>(ActualItem);
 
@@ -341,14 +341,7 @@ namespace MPC.Repository.Repositories
                         }
 
                     }
-                    else // add web order section Cost center to item
-                    {
-                        tblISectionCostCenteresCloned.SectionCostcentreId = 0;
-                        tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
-                        tblISectionCostCenteresCloned.CostCentre =
-                            db.CostCentres.Where(c => c.CostCentreId == 206).FirstOrDefault();
-                        db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
-                    }
+                    
                 }
                 //Copy Template if it does exists
 
@@ -380,10 +373,6 @@ namespace MPC.Repository.Repositories
                     }
 
                 }
-
-
-                // add section of 20 type cost center which is web order cost center
-
 
                 db.SaveChanges();
                 if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct))
@@ -711,7 +700,7 @@ namespace MPC.Repository.Repositories
             return result;
         }
 
-        public Item GetItemToClone(long itemID)
+        public Item GetActualItemToClone(long itemID)
         {
             try
             {
@@ -2241,7 +2230,8 @@ namespace MPC.Repository.Repositories
                         sectionCC = new SectionCostcentre();
                       
                         sectionCC.Qty1MarkUpID = 1;
-                       
+                        sectionCC.Qty1Charge = itemPrice;
+                        sectionCC.Qty1NetTotal = itemPrice;
 
                         isNewSectionCostCenter = true;
                     }
@@ -3894,9 +3884,9 @@ namespace MPC.Repository.Repositories
             ItemSection tblItemSectionCloned = null;
             SectionCostcentre tblISectionCostCenteresCloned = null;
 
-          
 
-            Item ExistingItem = GetItemToClone(ExistingItemId);
+
+            Item ExistingItem = GetActualItemToClone(ExistingItemId);
 
             Item newItem = null;
             try

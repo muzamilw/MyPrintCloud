@@ -39,6 +39,12 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyService _myCompanyService;
         private readonly ISmartFormService _smartFormService;
         private readonly IProductCategoryItemRepository _ProductCategoryItemRepository;
+        private readonly IItemSectionRepository _ItemSectionRepository;
+        private readonly ISectionCostCentreRepository _ItemSectionCostCentreRepository;
+        private readonly ITemplateRepository _TemplateRepository;
+        private readonly ITemplatePageRepository _TemplatePageRepository;
+        private readonly ITemplateBackgroundImagesRepository _TemplateBackgroundImagesRepository;
+        private readonly ITemplateObjectRepository _TemplateObjectRepository;
         #region Constructor
 
         /// <summary>
@@ -48,7 +54,10 @@ namespace MPC.Implementation.WebStoreServices
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
             , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService
             , IPaymentGatewayRepository paymentRepository, IInquiryRepository inquiryRepository, IInquiryAttachmentRepository inquiryAttachmentRepository,
-            IOrderService orderService, ICompanyService companyService, ISmartFormService smartformService, IProductCategoryItemRepository ProductCategoryItemRepository)
+            IOrderService orderService, ICompanyService companyService, ISmartFormService smartformService, IProductCategoryItemRepository ProductCategoryItemRepository
+            , IItemSectionRepository ItemSectionRepository, ISectionCostCentreRepository ItemSectionCostCentreRepository
+            , ITemplateRepository TemplateRepository, ITemplatePageRepository TemplatePageRepository, ITemplateBackgroundImagesRepository TemplateBackgroundImagesRepository
+            , ITemplateObjectRepository TemplateObjectRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -67,6 +76,12 @@ namespace MPC.Implementation.WebStoreServices
             this._myCompanyService = companyService;
             this._smartFormService = smartformService;
             this._ProductCategoryItemRepository = ProductCategoryItemRepository;
+            this._ItemSectionRepository = ItemSectionRepository;
+            this._ItemSectionCostCentreRepository = ItemSectionCostCentreRepository;
+            this._TemplateRepository = TemplateRepository;
+            this._TemplatePageRepository = TemplatePageRepository;
+            this._TemplateBackgroundImagesRepository = TemplateBackgroundImagesRepository;
+            this._TemplateObjectRepository = TemplateObjectRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -84,7 +99,177 @@ namespace MPC.Implementation.WebStoreServices
         }
         public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID)
         {
-            return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID,OrganisationID);
+           // return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID,OrganisationID);
+            try
+            {
+                Template clonedTemplate = null;
+
+                ItemSection tblItemSectionCloned = new ItemSection();
+
+                ItemAttachment Attacments = new ItemAttachment();
+
+                SectionCostcentre tblISectionCostCenteresCloned = new SectionCostcentre();
+
+                Item newItem = new Item();
+
+
+                Item ActualItem = _ItemRepository.GetActualItemToClone(itemID);
+                //******************new item*********************
+                newItem = _ItemRepository.Clone<Item>(ActualItem);
+
+                newItem.ItemId = 0;
+
+                newItem.IsPublished = false;
+
+                newItem.IsEnabled = false;
+
+                newItem.EstimateId = OrderID;
+
+                newItem.StatusId = (short)ItemStatuses.ShoppingCart; //tblStatuses.StatusID; //shopping cart
+
+                newItem.Qty1 = 0; //qty
+
+                newItem.Qty1BaseCharge1 = 0; //productSelection.PriceTotal + productSelection.AddonTotal; //item price
+
+                newItem.Qty1Tax1Value = 0; // say vat
+
+                newItem.Qty1NetTotal = 0;
+
+                newItem.Qty1GrossTotal = 0;
+
+                newItem.ProductType = 0;
+
+                newItem.InvoiceId = null;
+
+                newItem.EstimateProductionTime = ActualItem.EstimateProductionTime;
+
+                newItem.DefaultItemTax = ActualItem.DefaultItemTax;
+
+                newItem.ProductType = ActualItem.ProductType;
+
+                newItem.DesignerCategoryId = ActualItem.DesignerCategoryId;
+                if (isCopyProduct)
+                {
+                    newItem.IsOrderedItem = true;
+                    newItem.Qty1 = ActualItem.Qty1; //qty
+
+                    newItem.Qty1BaseCharge1 = ActualItem.Qty1BaseCharge1;
+                    //productSelection.PriceTotal + productSelection.AddonTotal; //item price
+
+                    newItem.Qty1Tax1Value = ActualItem.Qty1Tax1Value; // say vat
+
+                    newItem.Qty1NetTotal = ActualItem.Qty1NetTotal;
+
+                    newItem.Qty1GrossTotal = ActualItem.Qty1GrossTotal;
+                    newItem.ProductType = ActualItem.ProductType;
+                    newItem.ProductName = ActualItem.ProductName + "- Copy";
+                }
+                else
+                {
+                    newItem.IsOrderedItem = false;
+                    if (!isSavedDesign)  // in case of save designs ref item 
+                        newItem.RefItemId = (int)itemID;
+                    else
+                        newItem.RefItemId = ActualItem.RefItemId;
+                }
+
+
+
+                // Default Mark up rate will be always 0 ...
+                // when updating clone item we are getting markups from organisation ask sir naveed to change needed here also 
+                //Markup markup = (from c in db.Markups
+                //                 where c.MarkUpId == 1 && c.MarkUpRate == 0
+                //                 select c).FirstOrDefault();
+
+                //if (markup.MarkUpId != null)
+                //    newItem.Qty1MarkUpId1 = (int)markup.MarkUpId;  //markup id
+                //newItem.Qty1MarkUp1Value = markup.MarkUpRate;
+                _ItemRepository.Add(newItem);
+                _ItemRepository.SaveChanges();
+               // db.Items.Add(newItem); //dbcontext added
+
+                //*****************Existing item Sections and cost Centeres*********************************
+                foreach (ItemSection tblItemSection in ActualItem.ItemSections.ToList())
+                {
+                    tblItemSectionCloned = Clone<ItemSection>(tblItemSection);
+                    tblItemSectionCloned.ItemSectionId = 0;
+                    tblItemSectionCloned.ItemId = newItem.ItemId;
+                    _ItemSectionRepository.Add(tblItemSectionCloned);
+                    _ItemSectionRepository.SaveChanges();
+                    //db.ItemSections.Add(tblItemSectionCloned); //ContextAdded
+
+                    //*****************Section Cost Centeres*********************************
+                    if (tblItemSection.SectionCostcentres.Count > 0)
+                    {
+                        foreach (SectionCostcentre tblSectCostCenter in tblItemSection.SectionCostcentres.ToList())
+                        {
+                            tblISectionCostCenteresCloned = Clone<SectionCostcentre>(tblSectCostCenter);
+                            tblISectionCostCenteresCloned.SectionCostcentreId = 0;
+                            tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
+                            _ItemSectionCostCentreRepository.Add(tblISectionCostCenteresCloned);
+                            //db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
+                        }
+                        _ItemSectionCostCentreRepository.SaveChanges();
+                    }
+
+                }
+                //Copy Template if it does exists
+
+                if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
+                {
+                    clonedTemplate = new Template();
+                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct)
+                    {
+                        long result = _TemplateRepository.CloneTemplateByTemplateID(newItem.TemplateId.Value); //db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
+
+                        long? clonedTemplateID = result;
+                        clonedTemplate = _TemplateRepository.Find((int)clonedTemplateID);//  db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
+
+                        var oCutomer = _CompanyRepository.Find(CustomerID); //db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
+                        clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
+                        if (oCutomer != null)
+                        {
+                            clonedTemplate.TempString = oCutomer.WatermarkText;
+                            clonedTemplate.isWatermarkText = oCutomer.isTextWatermark;
+                            if (oCutomer.isTextWatermark == false)
+                            {
+                                clonedTemplate.TempString = HttpContext.Current.Server.MapPath("~/" + oCutomer.WatermarkText);
+                            }
+
+                        }
+                        _TemplateRepository.SaveChanges();
+                        // here 
+
+                        //  VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
+                    }
+
+                }
+
+                //db.SaveChanges();
+                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct))
+                {
+                    newItem.TemplateId = clonedTemplate.ProductId;
+                    TemplateID = clonedTemplate.ProductId;
+
+                    CopyTemplatePaths(clonedTemplate, OrganisationID);
+                    _TemplateRepository.SaveChanges();
+                }
+
+              //  SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
+                // additional addon required the newly inserted cloneditem
+                newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
+                _ItemRepository.SaveChanges();
+                //else
+                //    throw 
+
+                return newItem;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
         }
 
         public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId, long OrganisationId)
@@ -1438,5 +1623,195 @@ namespace MPC.Implementation.WebStoreServices
                 throw e;
             }
         }
+
+        #region PrivateFunctions
+        public T Clone<T>(T source)
+        {
+            try
+            {
+                //db.Configuration.LazyLoadingEnabled = false;
+                object item = Activator.CreateInstance(typeof(T));
+                List<PropertyInfo> itemPropertyInfoCollection = source.GetType().GetProperties().ToList<PropertyInfo>();
+                foreach (PropertyInfo propInfo in itemPropertyInfoCollection)
+                {
+                    if (propInfo.CanRead &&
+                        (propInfo.PropertyType.IsValueType || propInfo.PropertyType.FullName == "System.String"))
+                    {
+                        PropertyInfo newProp = item.GetType().GetProperty(propInfo.Name);
+                        if (newProp != null && newProp.CanWrite)
+                        {
+                            object va = propInfo.GetValue(source, null);
+                            newProp.SetValue(item, va, null);
+                        }
+                    }
+                }
+
+                return (T)item;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int CopyTemplatePaths(Template clonedTemplate, long OrganisationID)
+        {
+            int result = 0;
+
+            try
+            {
+                result = (int)clonedTemplate.ProductId;
+
+                //  string BasePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/");
+                string drURL =
+                    System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" +
+                                                                  OrganisationID.ToString() + "/Templates/");
+                //result = dbContext.sp_cloneTemplate(ProductID, SubmittedBy, SubmittedByName).First().Value;
+
+                string targetFolder = drURL + result.ToString();
+                if (!System.IO.Directory.Exists(targetFolder))
+                {
+                    System.IO.Directory.CreateDirectory(targetFolder);
+                }
+
+
+                //copy the background PDF Templates
+                //Templates oTemplate = db.Templates.Where(g => g.ProductID == result).Single();
+                Template oTemplate = clonedTemplate;
+
+                //copy the background of pages
+                List<TemplatePage> TemplatePages = _TemplatePageRepository.GetTemplatePages(result);
+                foreach (TemplatePage oTemplatePage in TemplatePages)
+                {
+
+                    if (oTemplatePage.BackGroundType == 1 || oTemplatePage.BackGroundType == 3)
+                    {
+                        //copy side 1
+                        if (oTemplatePage.BackGroundType == 1) //additional background copy function
+                        {
+                            string oldproductid = oTemplatePage.BackgroundFileName.Substring(0,
+                                oTemplatePage.BackgroundFileName.IndexOf("/"));
+                            if (File.Exists(drURL + oldproductid + "/" + "templatImgBk" + oTemplatePage.PageNo + ".jpg"))
+                            {
+
+
+                                File.Copy(
+                                    Path.Combine(drURL,
+                                        oldproductid + "/" + "templatImgBk" + oTemplatePage.PageNo + ".jpg"),
+                                    drURL + result.ToString() + "/" + "templatImgBk" + oTemplatePage.PageNo + ".jpg");
+
+                            }
+                        }
+                        if (File.Exists(drURL + oTemplatePage.BackgroundFileName))
+                        {
+                            File.Copy(drURL + oTemplatePage.BackgroundFileName,
+                                drURL + result.ToString() + "/" +
+                                oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"),
+                                    oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")), true);
+                            oTemplatePage.BackgroundFileName = result.ToString() + "/" +
+                                                               oTemplatePage.BackgroundFileName.Substring(
+                                                                   oTemplatePage.BackgroundFileName.IndexOf("/"),
+                                                                   oTemplatePage.BackgroundFileName.Length -
+                                                                   oTemplatePage.BackgroundFileName.IndexOf("/"));
+                        }
+
+
+                    }
+                }
+
+
+                //skip concatinating the path if its a placeholder, cuz place holder is kept in a different path and doesnt need to be copied.
+
+                if (oTemplate.TemplateObjects != null)
+                {
+                    oTemplate.TemplateObjects.Where(
+                        tempObject => tempObject.ObjectType == 3 && tempObject.IsQuickText != true)
+                        .ToList()
+                        .ForEach(item =>
+                        {
+
+                            string filepath =
+                                item.ContentString.Substring(
+                                    item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() +
+                                                               "/Templates/") +
+                                    ("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length,
+                                    item.ContentString.Length -
+                                    ((item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() +
+                                                                 "/Templates/") + "/Designer/Organisation" +
+                                      OrganisationID.ToString() + "/Templates/").Length));
+                            item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" +
+                                                 result.ToString() +
+                                                 filepath.Substring(filepath.IndexOf("/"),
+                                                     filepath.Length - filepath.IndexOf("/"));
+
+                        });
+                }
+
+                //foreach (var item in dbContext.TemplateObjects.Where(g => g.ProductID == result && g.ObjectType == 3))
+                //{
+                //    string filepath = item.ContentString.Substring(item.ContentString.IndexOf("DesignEngine/Designer/Products/") + "DesignEngine/Designer/Products/".Length, item.ContentString.Length - (item.ContentString.IndexOf("DesignEngine/Designer/Products/") + "DesignEngine/Designer/Products/".Length));
+                //    item.ContentString = "DesignEngine/Designer/Products/" + result.ToString() + filepath.Substring(filepath.IndexOf("/"), filepath.Length - filepath.IndexOf("/"));
+                //}
+
+                //
+
+                //copy the background images
+
+
+
+                //var backimgs = dbContext.TemplateBackgroundImages.Where(g => g.ProductID == result);
+                if (oTemplate.TemplateBackgroundImages != null)
+                {
+                    oTemplate.TemplateBackgroundImages.ToList().ForEach(item =>
+                    {
+
+                        string filePath = drURL + item.ImageName;
+                        string filename;
+
+                        string ext = Path.GetExtension(item.ImageName);
+
+                        // generate thumbnail 
+                        if (!ext.Contains("svg"))
+                        {
+                            string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
+                            string destPath = results[0] + "_thumb" + ext;
+                            string ThumbPath = drURL + destPath;
+                            FileInfo oFileThumb = new FileInfo(ThumbPath);
+                            if (oFileThumb.Exists)
+                            {
+                                string oThumbName = oFileThumb.Name;
+                                oFileThumb.CopyTo(drURL + result.ToString() + "/" + oThumbName, true);
+                            }
+                            //  objSvc.GenerateThumbNail(sourcePath, destPath, 98);
+                        }
+
+
+                        FileInfo oFile = new FileInfo(filePath);
+
+                        if (oFile.Exists)
+                        {
+                            filename = oFile.Name;
+                            item.ImageName = result.ToString() + "/" +
+                                             oFile.CopyTo(drURL + result.ToString() + "/" + filename, true).Name;
+                        }
+
+
+                    });
+                }
+
+                _TemplatePageRepository.SaveChanges();
+                _TemplateObjectRepository.SaveChanges(); 
+                _TemplateBackgroundImagesRepository.SaveChanges();
+              
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Copy Template Paths", ex);
+                //AppCommon.LogException(ex);
+                //throw ex;
+            }
+
+            return result;
+        }
+        #endregion
     }
 }

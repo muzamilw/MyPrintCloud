@@ -2757,53 +2757,6 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         oTemplateFont.Add(returnLocalFont(objFont));
                     }
-                    //if (ChangeQuickText)
-                    //{
-                    //    var objQuickText = GetContactQuickTextFields(CompanyID, ContactID);//CustomerID,ContacTid)
-                    //    foreach (var obj in oTemplateObjects)
-                    //    {
-                    //        if (obj.Name == "AddressLine1")
-                    //        {
-                    //            obj.ContentString = objQuickText.Address1.ToString();
-                    //        }
-                    //        else if (obj.Name == "CompanyName")
-                    //        {
-                    //            obj.ContentString = objQuickText.Company.ToString();
-                    //        }
-                    //        else if (obj.Name == "CompanyMessage")
-                    //        {
-                    //            obj.ContentString = objQuickText.CompanyMessage.ToString();
-                    //        }
-                    //        else if (obj.Name == "Email")
-                    //        {
-                    //            obj.ContentString = objQuickText.Email.ToString();
-                    //        }
-                    //        else if (obj.Name == "Fax")
-                    //        {
-                    //            obj.ContentString = objQuickText.Fax.ToString();
-                    //        }
-                    //        else if (obj.Name == "Name")
-                    //        {
-                    //            obj.ContentString = objQuickText.Name.ToString();
-                    //        }
-                    //        else if (obj.Name == "Phone")
-                    //        {
-                    //            obj.ContentString = objQuickText.MobileNumber.ToString();
-                    //        }
-                    //        else if (obj.Name == "Title")
-                    //        {
-                    //            obj.ContentString = objQuickText.Title.ToString();
-                    //        }
-                    //        else if (obj.Name == "Website")
-                    //        {
-                    //            obj.ContentString = objQuickText.Website.ToString();
-                    //        }
-
-
-                    //    }
-                    //}
-                   
-                    //List<tbl_cmsDefaultSettings> records = pageMgr.GetAllDefaultSettings();
                     Company objCompany = _companyRepository.GetStoreById(CompanyID);
                     if (objCompany != null)
                     {
@@ -2891,13 +2844,6 @@ namespace MPC.Implementation.WebStoreServices
 
         public string GenerateProof(DesignerPostSettings objSettings, double bleedAreaSize)
         {
-           // StreamReader reader = new StreamReader(data);
-        //    string res = reader.ReadToEnd();
-        //    reader.Close();
-         //   reader.Dispose();
-
-          //  Settings objSettings = JsonConvert.DeserializeObject<Settings>(data);
-            //List<TemplateObjects> lstTemplatesObjects = JsonConvert.DeserializeObject<List<TemplateObjects>>(res);
             bleedAreaSize = _templateRepository.getOrganisationBleedArea(objSettings.organisationId);
             List<TemplateObject> lstTemplatesObjects = objSettings.objects;
             return SaveTemplate(lstTemplatesObjects, objSettings.objPages, objSettings.organisationId, objSettings.printCropMarks, objSettings.printWaterMarks, objSettings.isRoundCornerrs,bleedAreaSize,objSettings.isMultiPageProduct);
@@ -2946,66 +2892,47 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-
+        // get conversion ratio of mm to current system unit and unit name (1.0__inch)
         public string GetConvertedSizeWithUnits(long productId, long organisationID, long itemID)
         {
 
             double h = Math.Round(Convert.ToDouble(1), 0);
             string unit = "mm";
-        //    double w = Math.Round(Convert.ToDouble(1), 0);
             double height = h;
-         //   double width = w;
             double scaledHeight = h;
-         //   double scaledWidth = w;
             double resultDimentions = h; // current height or width 
             var organisation = _organisationRepository.GetOrganizatiobByID(organisationID);
             var item = _itemRepository.GetItemByIdDesigner(itemID);
-            //  string resultDisplaySize = "";
             if (item != null)
             {
                 scaledHeight = Convert.ToDouble(item.Scalar);
-            //    scaledWidth = Convert.ToDouble(item.Scalar);
                 if (scaledHeight == 0)
                 {
                     scaledHeight = 1;
                 }
-              //  if (scaledWidth == 0)
-              //  {
-                  //  scaledWidth = 1;
-               // }
             }
 
 
             if (organisation.SystemLengthUnit == 1)
             {
                 scaledHeight *= height;
-               // scaledWidth *= width;
                 resultDimentions =  scaledHeight;
-               
             }
             else if (organisation.SystemLengthUnit == 2)
             {
                 height = _templateRepository.ConvertLength(Convert.ToDouble(1), MPC.Models.Common.LengthUnit.Mm, MPC.Models.Common.LengthUnit.Cm);
-               // width = _templateRepository.ConvertLength(Convert.ToDouble(widthInMM),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Cm);
                 height = Math.Round(height, 3);
-               // width = Math.Round(width, 3);
                 scaledHeight *= height;
-              //  scaledWidth *= width;
                 resultDimentions =scaledHeight;
                 unit = "cm";
-                //  resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h cm";
             }
             else if (organisation.SystemLengthUnit == 3)
             {
                 height = _templateRepository.ConvertLength(Convert.ToDouble(1),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Inch);
-               // width = _templateRepository.ConvertLength(Convert.ToDouble(widthInMM),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Inch);
                 height = Math.Round(height, 3);
-              //  width = Math.Round(width, 3);
                 scaledHeight *= height;
-               // scaledWidth *= width;
                 resultDimentions =  scaledHeight ;
                 unit = "inch";
-                // resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h inch";
             }
 
 
