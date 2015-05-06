@@ -75,7 +75,8 @@ namespace MPC.Repository.Repositories
                 ReportparamResponse reportpar = new ReportparamResponse();
                 reportpar.param = item;
                if(item.ControlType == 1){
-                  // string query = "select * from "+ item.ComboTableName +""
+                   string query = "select * from " + item.ComboTableName + item.CriteriaFieldName;
+                  // var result = db.Database.SqlQuery(query);
                }
                 
             }

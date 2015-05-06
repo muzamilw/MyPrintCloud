@@ -49,10 +49,21 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             { Id: 2, Text: 'Multiple Options' },
             { Id: 3, Text: 'Yes/No' }
             ]),
-
-            CalculateCostType = ko.observableArray([
-            { Id: 'perunit', Text: 'Per Unit' },
-            { Id: 'perpack', Text: 'Per Package' }
+            QuestionVariableType = ko.observableArray([
+            { Id: 1, Text: 'General' },
+            { Id: 2, Text: 'Multiple Options' },
+            { Id: 3, Text: 'Yes/No' }
+            ]),
+            RowscolCountList = ko.observableArray([
+            //{ Id: 1, Text: '1' },
+            { Id: 2, Text: '2' },
+            { Id: 3, Text: '3' },
+            { Id: 4, Text: '4' },
+            { Id: 5, Text: '5' },
+            { Id: 6, Text: '6' },
+            { Id: 7, Text: '7' },
+            { Id: 8, Text: '8' },
+            { Id: 9, Text: '9' }
             ]),
 
             variablesTreePrent = ko.observableArray([
@@ -97,8 +108,14 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     if (questionVariableNodes().length > 0) {
                         if (showQuestionVariableChildList() == 1) {
                             showQuestionVariableChildList(0);
+                            $("#idQuestionsVariable").removeClass("fa-chevron-circle-down");
+                            $("#idQuestionsVariable").addClass("fa-chevron-circle-right");
+                            
                         } else {
                             showQuestionVariableChildList(1);
+                            $("#idQuestionsVariable").addClass("fa-chevron-circle-down");
+                            $("#idQuestionsVariable").removeClass("fa-chevron-circle-right");
+                            
                         }
 
                     } else {
@@ -112,6 +129,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                                     questionVariableNodes.push(ques);
                                 });
                                 showQuestionVariableChildList(1);
+                                $("#idQuestionsVariable").addClass("fa-chevron-circle-down");
+                                $("#idQuestionsVariable").removeClass("fa-chevron-circle-right");
                                 view.showAddEditQuestionMenu();
 
                             },
@@ -127,12 +146,18 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             getMatricesVariableTreeChildItems = function (Selecteddata) {
                 if (matrixVariableNodes().length > 0) {
                     if (showMatricesVariableChildList() == 1) {
+                        
+                        $("#idMatricesVariable").removeClass("fa-chevron-circle-down");
+                        $("#idMatricesVariable").addClass("fa-chevron-circle-right");
                         showMatricesVariableChildList(0);
                     } else {
                         showMatricesVariableChildList(1);
+                        $("#idMatricesVariable").addClass("fa-chevron-circle-down");
+                        $("#idMatricesVariable").removeClass("fa-chevron-circle-right");
                     }
 
                 } else {
+                    
                     dataservice.GetTreeListById({
                         id: 5,
                     }, {
@@ -143,6 +168,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                                 matrixVariableNodes.push(ques);
                             });
                             showMatricesVariableChildList(1);
+                            $("#idMatricesVariable").addClass("fa-chevron-circle-down");
+                            $("#idMatricesVariable").removeClass("fa-chevron-circle-right");
                               view.showAddEditMatrixMenu();
 
                         },
@@ -239,11 +266,18 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 if ($(event.target).closest('li').children('ol').children('li').length > 0) {
                     if ($(event.target).closest('li').children('ol').is(':hidden')) {
                         $(event.target).closest('li').children('ol').show();
+                        $("#idVariablesByType").addClass("fa-chevron-circle-down");
+                        $("#idVariablesByType").removeClass("fa-chevron-circle-right");
                     } else {
                         $(event.target).closest('li').children('ol').hide();
+                        $("#idVariablesByType").removeClass("fa-chevron-circle-down");
+                        $("#idVariablesByType").addClass("fa-chevron-circle-right");
+                        
                     }
                     return;
+                    
                 }
+
                 if (id == 2) {
                     dataservice.GetTreeListById({
                         id: id,
@@ -255,10 +289,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             variableVariableNodes.valueHasMutated();
 
                             _.each(variableVariableNodes(), function (variable) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv' + '> <div class="dd-handle-list" data-bind="click: $root.getVariablesByType"><i class="fa fa-bars"></i></div><div class="dd-handle"><span>' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv' + '> <div class="dd-handle-list" data-bind="click: $root.getVariablesByType"><i id="idVariableschildByType"  class="fa fa-chevron-circle-right drop-icon"></i></div><div class="dd-handle"><span>' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + variable.CategoryId + "vv")[0]);
                             });
-
+                            $("#idVariablesByType").addClass("fa-chevron-circle-down");
+                            $("#idVariablesByType").removeClass("fa-chevron-circle-right");
                         },
                         error: function () {
                             toastr.error("Failed to load variables tree data.");
@@ -277,7 +312,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             resourceVariableNodes.valueHasMutated();
 
                             _.each(resourceVariableNodes(), function (users) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + users.UserName + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + users.UserName + '<input type="hidden" id="str" value="' + users.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + users.UserName + '> <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + users.UserName + '<input type="hidden" id="str" value="' + users.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + users.UserName)[0]);
                             });
 
@@ -317,7 +352,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             ko.utils.arrayPushAll(lookupVariableNodes(), data.LookupVariables);
                             lookupVariableNodes.valueHasMutated();
                             _.each(lookupVariableNodes(), function (lookup) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + lookup.MethodId + 'lum' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + lookup.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + lookup.MethodId + 'lum' + '> <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span >' + lookup.Name + '</span><div class="nested-links"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + lookup.MethodId + "lum")[0]);
                             });
                         },
@@ -375,11 +410,18 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 if ($(event.target).closest('li').children('ol').length > 0) {
                     if ($(event.target).closest('li').children('ol').is(':hidden')) {
                         $(event.target).closest('li').children('ol').show();
+                        
+                        $("#idVariableschildByType").addClass("fa-chevron-circle-down");
+                        $("#idVariableschildByType").removeClass("fa-chevron-circle-right");
                     } else {
                         $(event.target).closest('li').children('ol').hide();
+                        $("#idVariableschildByType").removeClass("fa-chevron-circle-down");
+                        $("#idVariableschildByType").addClass("fa-chevron-circle-right");
                     }
                     return;
                 }
+                $("#idVariableschildByType").addClass("fa-chevron-circle-down");
+                $("#idVariableschildByType").removeClass("fa-chevron-circle-right");
                 _.each(variableVariableNodes(), function (cc) {
                     var sid = id.substring(0, id.length - 2);
                     if (cc.CategoryId == sid) {
@@ -927,7 +969,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             setDataForNewCostCenter = function (newcostcenter) {
                 newcostcenter.costPerUnitQuantity('0');
                 newcostcenter.unitQuantity('0');
-                newcostcenter.name('New Cost Center');
+                newcostcenter.name('Enter Cost Center name');
                 newcostcenter.pricePerUnitQuantity('0');
                 newcostcenter.perHourPrice('0');
                 newcostcenter.setupCost('0');
@@ -951,6 +993,16 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 newcostcenter.isQtyVariable('1');
                 newcostcenter.isTimeVariable('1');
                 newcostcenter.isCalculationMethodEnable(true);
+                if (CostCenterType == "141") {
+                    newcostcenter.type(141);
+                    
+
+                } else if (CostCenterType == "142") {
+                    newcostcenter.type(142);
+                }
+
+               
+
             },
             createWorkInstruction = function () {
                 var wi = new model.NewCostCenterInstruction();
@@ -1183,8 +1235,18 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 view = specifiedView;
                 ko.applyBindings(view.viewModel, view.bindingRoot);
                 pager(pagination.Pagination({ PageSize: 10 }, costCentersList, getCostCenters));
-                getCostCenters();
-
+              
+                    
+                if (CostCenterType == "141") {
+                    $("#createNewCostCenterId").html("Add Pre Press Cost Center")
+                    $("#idcostcentertypename").html("Pre Press Cost Centers")
+                    
+                        
+                } else if (CostCenterType == "142") {
+                    $("#createNewCostCenterId").html("Add Post Press Cost Center")
+                    $("#idcostcentertypename").html("Pre Post Cost Centers")
+                }
+                    getCostCenters();
                 // getCostCentersBaseData();
             };
 
@@ -1270,9 +1332,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 DeleteMatrixVariable: DeleteMatrixVariable,
                 SelectedStockVariable: SelectedStockVariable,
                 openStockItemDialog: openStockItemDialog,
-                CalculateCostType: CalculateCostType,
+                //CalculateCostType: CalculateCostType,
                 variableDropdownList: variableDropdownList,
-                AddtoInputControl: AddtoInputControl
+                AddtoInputControl: AddtoInputControl,
+                RowscolCountList: RowscolCountList
                 
             };
         })()

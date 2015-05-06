@@ -289,3 +289,49 @@ div#spinner {
 .selectedReport{
             background: none repeat scroll 0 0 #E5E5ED!important;
         }
+
+
+.ThoumbnailCostCenter{
+    color: lightgray;
+  font-size: 0.875em;
+  margin-top: 43px;
+  padding-left: 25px;
+}
+
+.label-radio {
+    padding-left: 2px;
+}
+
+    .label-radio label {
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        padding-left: 30px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+    }
+
+input[type="radio"] {
+    line-height: normal;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+
+.label-radio input {
+    background: none repeat scroll 0 0 #ffffff;
+    
+    border: 1px solid #e7ebee;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    content: "";
+    display: inline-block;
+    height: 20px;
+    left: 0;
+    margin-right: 10px;
+    position: absolute;
+    width: 20px;
+}

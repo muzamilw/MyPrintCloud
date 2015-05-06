@@ -18,9 +18,9 @@
                   
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Cost Centers</h1>
+                    <h1 id="idcostcentertypename" class="pull-left">Cost Centers</h1>
                     <div class="pull-right top-page-ui">
-                        <a class="btn btn-primary" data-bind="click:createCostCenter">
+                        <a class="btn btn-primary" id="createNewCostCenterId" data-bind="click:createCostCenter">
                             Add Cost Center
                         </a>
                     </div>
@@ -36,7 +36,6 @@
                                         <tr id="ccList" class="span12">
                                             <th class="col-lg-3"><span>Name</span></th>
                                             <th class="col-lg-4"><span>Description</span></th>
-                                            <th class="col-lg-2"><span>Type</span></th>
                                             <th class="col-lg-1"><span>Calculation</span></th>
                                             <th class="col-lg-2">&nbsp;</th>
                                         </tr>
@@ -77,7 +76,7 @@
                     <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
                 </td>
                 <td data-bind="text: description"></td>
-                <td data-bind="text: type"></td>
+                @*<td data-bind="text: type"></td>*@
                 <td>
                     <!-- ko if: calculationMethodType() == 1 -->
                     <span class="label label-success">Fixed</span>
@@ -133,16 +132,24 @@
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
-        require(["costcenter/costcenter.view", "common/confirmation.view", "common/stockItem.view"]);
-        var CostCenterType = 0;
+           require(["costcenter/costcenter.view", "common/confirmation.view", "common/stockItem.view"]);
+           var CostCenterType = 0;
+           var costcennterTypeId = 0;
         $(function () {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');
             $('#liCostCenters').addClass('active');
         });
-
+       
   
     </script>
 
 
 }
+<script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
+<script>
+    $(document).ready(function () {
+        CostCenterType = Request.QueryString("Type").toString();
+       
+    });
+</script>
