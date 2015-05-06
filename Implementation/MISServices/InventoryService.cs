@@ -103,7 +103,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public SupplierBaseResponse GetSupplierBaseData()
         {
-
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
             return new SupplierBaseResponse
             {
                 CompanyTypes = companyTypeRepository.GetAll(),
@@ -113,6 +113,8 @@ namespace MPC.Implementation.MISServices
                 Flags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.Suppliers)),
                 PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.CustomerPriceMatrix)),
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty
+
             };
         }
         /// <summary>
@@ -159,7 +161,7 @@ namespace MPC.Implementation.MISServices
                 //    }
                 //}
             }
-        
+
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
         }
 
@@ -338,7 +340,7 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
-            
+
             //find missing items
             List<StockCostAndPrice> missingStockCostAndPriceListItems = new List<StockCostAndPrice>();
             foreach (StockCostAndPrice dbversionStockCostAndPriceItem in stockItemDbVersion.StockCostAndPrices)
@@ -419,7 +421,7 @@ namespace MPC.Implementation.MISServices
         {
             company.CreationDate = DateTime.Now;
             company.OrganisationId = companyRepository.OrganisationId;
-            company.IsCustomer = (short) CustomerTypes.Suppliers;
+            company.IsCustomer = (short)CustomerTypes.Suppliers;
 
             if (company.Addresses != null)
             {
