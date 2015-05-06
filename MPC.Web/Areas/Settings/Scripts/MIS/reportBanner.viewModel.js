@@ -73,18 +73,18 @@ define("reportBanner/reportBanner.viewModel",
                           },
 
                       checkStoreBannerUpload = function (store) {
-                          if (SelectedReportNote() != null || SelectedReportNote() != undefined && (SelectedReportNote().estimateBannerBytes() != null)) {
-                              //confirmation.messageText("Are you sure you want to discard banners uploaded for previous store?");
-                              //confirmation.afterProceed(function () {
-                              //    getBannerByStoreId(store);
+                          if ((SelectedReportNote().estimateBannerBytes() != null) || (SelectOrderReportNote().orderBannerBytes() != null) || (SelectedInvoiceReportNote().invoiceBannerBytes() != null) || (SelectedPurchaseOrderReportNote().purchaseBannerBytes() != null) || (SelectedDeliveryReportNote().deliveryBannerBytes() != null)) {
+                              confirmation.messageText("Are you sure you want to discard banners uploaded for previous store?");
+                              confirmation.afterProceed(function () {
+                                  getBannerByStoreId(store);
 
-                              //});
-                              //confirmation.afterCancel(function () {
-                              //    return;
-                              //});
-                              //confirmation.show();
-                              //return;
-                              getBannerByStoreId(store);
+                              });
+                              confirmation.afterCancel(function () {
+                                  return;
+                              });
+                              confirmation.show();
+                              return;
+                            //  getBannerByStoreId(store);
                           }
                           else
                           {
