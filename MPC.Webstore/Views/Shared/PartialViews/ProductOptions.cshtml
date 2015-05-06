@@ -1206,7 +1206,7 @@
 
                         var actualPrice = selectedCheckBox.ActualPrice;
 
-                        if (selectedCheckBox.Type == 2) {
+                        @*if (selectedCheckBox.Type == 2) {
                             var ActualPriceIncludeVat = 0;
                             if (isRanged) {
                                 var quantityOrdered = $("#rangedQuantityOrdered").val();
@@ -1231,7 +1231,7 @@
 
                             checkedPriceTotal = checkedPriceTotal + parseFloat(ActualPriceIncludeVat);
 
-                        } else if (selectedCheckBox.Type == 4) { // gets the value from the label
+                        } else if (selectedCheckBox.Type == 4) {*@ // gets the value from the label
                             if ($(val).next().next().children(':first').text() == "") {
 
                             } else {
@@ -1246,10 +1246,10 @@
                             }
 
 
-                        } else {
-                            checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
+                        //} else {
+                        //    checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
 
-                        }
+                        //}
 
                         selectedAddonsList = selectedAddonsList + JSON.stringify(selectedCheckBox, null, 2);
 
@@ -1311,7 +1311,7 @@
                     //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
                     var actualPrice = selectedCheckBox.ActualPrice;
 
-                    if (selectedCheckBox.Type == 2) {
+                    @*if (selectedCheckBox.Type == 2) {
 
                         actualPrice = (orderedQuantity * actualPrice) + selectedCheckBox.SetupCost;
 
@@ -1327,7 +1327,7 @@
                         if (selectedCheckBox.isChecked == true) {
                             $(val).click();
                         }
-                    } else if (selectedCheckBox.Type == 4) {
+                    } else if (selectedCheckBox.Type == 4) {*@
                         if (selectedCheckBox.isChecked == true) {
                             $(val).next().next().html('<label>' + "@ViewBag.Currency" + selectedCheckBox.ActualPrice + '</label>' + '<a onclick="PromptForValues(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ', 1);" >Modify</a> ');
                             $(val).click();
@@ -1336,12 +1336,12 @@
 
                         $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
 
-                    }
-                    else{
-                        if (selectedCheckBox.isChecked == true) {
-                            $(val).click();
-                        }
-                    }
+                    //}
+                    //else{
+                    //    if (selectedCheckBox.isChecked == true) {
+                    //        $(val).click();
+                    //    }
+                    //}
                 }
             });
 
