@@ -606,7 +606,7 @@ define("order/order.viewModel",
                     openStockItemDialog = function () {
                         stockDialog.show(function (stockItem) {
                             selectedSection().selectStock(stockItem);
-                        }, stockCategory.paper, false);
+                        }, stockCategory.paper, false, currencySymbol());
                     },
                     // Open Stock Item Dialog For Adding product
                     openStockItemDialogForAddingProduct = function () {
@@ -614,7 +614,7 @@ define("order/order.viewModel",
                         isAddProductForSectionCostCenter(false);
                         stockDialog.show(function (stockItem) {
                             createNewInventoryProduct(stockItem);
-                        }, stockCategory.paper, false);
+                        }, stockCategory.paper, false, currencySymbol());
                     },
                     // Open Stock Item Dialog For Adding Stock
                     openStockItemDialogForAddingStock = function () {
@@ -1612,7 +1612,7 @@ define("order/order.viewModel",
                     },
 
                     getCostCentersForProduct = function () {
-                        addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId(), false);
+                        addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId(), false, currencySymbol());
                     },
                     //onAddCostCenterCallback = function () {
 
@@ -1820,7 +1820,7 @@ define("order/order.viewModel",
                     selectedProductQuanity = ko.observable(),
 
                     //Total Product Price
-                    totalProductPrice = ko.observable(0),
+                    totalProductPrice = ko.observable(0).extend({ numberInput: ist.numberFormat }),
 
                     //Filtered Item Price matrix List
                     filteredItemPriceMatrixList = ko.observableArray([]),

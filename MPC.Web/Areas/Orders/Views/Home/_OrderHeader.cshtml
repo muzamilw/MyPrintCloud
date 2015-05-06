@@ -63,6 +63,7 @@
 
             </div>
             <div id="popoveraddress" style="display:none;">
+                <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().address1!=='' && $root.selectedAddress().address1!== undefined-->
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <label class="control-label tooltip-float">&nbsp;</label>
@@ -73,6 +74,8 @@
                         </div>
                     </div>
                 </div>
+                <!--/ko-->
+                <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().telephone1!=='' && $root.selectedAddress().telephone1!== undefined-->
                 <div class="form-group" style="margin-top: -20px;">
                     <div class="col-lg-4 text-right">
                         <label class="control-label tooltip-float">&nbsp;</label>
@@ -83,6 +86,8 @@
                         </div>
                     </div>
                 </div>
+                <!--/ko-->
+                <!-- ko if: $root.selectedCompanyContact()!==undefined && $root.selectedCompanyContact().email !=='' && $root.selectedCompanyContact().email !== undefined -->
                 <div class="form-group" style="margin-top: -20px;">
                     <div class="col-lg-4 text-right">
                         <label class="control-label tooltip-float">&nbsp;</label>
@@ -93,6 +98,7 @@
                         </div>
                     </div>
                 </div>
+                <!--/ko-->
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
@@ -288,7 +294,8 @@
                             <label class="control-label text-right tooltip-float">Gross Total:</label>
                         </div>
                         <div class="col-lg-4" style="margin-top:5px">
-                            <span data-bind="text: $root.currencySymbol() + $root.grossTotal()" style="font-weight: bold; font-size:20px;"></span>
+                            <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
+                            <span data-bind="text: $root.grossTotal()" style="font-weight: bold; font-size:20px;"></span>
                         </div>
                     </div>
                 </div>
@@ -330,8 +337,9 @@
             <td>
                 <span style="font-size:20px;" data-bind="text: qty1"></span>
             </td>
-            <td>
-                <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+            <td style=" text-align: right;">
+                <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
+                <span style="font-size:20px;" data-bind="text: qty1GrossTotal()"></span>
             </td>
             @*<td class="text-right">
                 <a href="#" class="table-link" data-bind="click: $root.editItem">
@@ -356,8 +364,9 @@
                 <span style="font-size:20px;" data-bind="text: productName"></span>
             </td>
 
-            <td>
-                <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+            <td style=" text-align: right;">
+                <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
+                <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
             </td>
 
         </tr>

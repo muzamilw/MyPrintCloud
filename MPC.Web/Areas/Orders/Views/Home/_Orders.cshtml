@@ -162,7 +162,8 @@
             </td>
 
             <td style="text-align: right">
-                <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() +estimateTotal():''"></span>
+                <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() :''"></span>
+                <span data-bind="numberInput:estimateTotal()!==undefined ? estimateTotal():''"></span>
             </td>
 
         </tr>
@@ -199,7 +200,8 @@
                 <span data-bind="text: status"></span>
             </td>
             <td style="text-align: right">
-                <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() +estimateTotal():''"></span>
+                <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() :''"></span>
+                <span data-bind="numberInput:estimateTotal()!==undefined ? estimateTotal():''"></span>
             </td>
 
         </tr>
