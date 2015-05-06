@@ -2491,6 +2491,9 @@ define("order/order.viewModel",
                                 return 0.00;
                             }
                         },
+                        updateSectionFromCostCenterCalculation = function (section) {
+
+                        },
                         downloadArtwork = function () {
                             isLoadingOrders(true);
                             dataservice.downloadOrderArtwork({

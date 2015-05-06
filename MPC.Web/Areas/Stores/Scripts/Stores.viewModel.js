@@ -841,7 +841,12 @@ define("stores/stores.viewModel",
                                 success: function (data) {
                                     if (data) {
                                         //companyTerritoryPager().totalCount(companyTerritoryPager().totalCount() - 1);
+                                        var storeGotChanges = selectedStore().hasChanges();
                                         selectedStore().companyTerritories.remove(companyTerritory);
+                                        if (!storeGotChanges) {
+                                            selectedStore().reset();
+                                        }
+                                        
                                         toastr.success("Deleted Successfully");
                                         isLoadingStores(false);
                                         //Updating Drop downs
@@ -964,6 +969,7 @@ define("stores/stores.viewModel",
 
 
                     if (selectedStore().companyId() > 0) {
+                        var storeGotChanges = selectedStore().hasChanges();
                         selectedCompanyTerritory().companyId(selectedStore().companyId());
                         territory.CompanyId = selectedStore().companyId();
                         dataservice.saveCompanyTerritory(
@@ -989,6 +995,9 @@ define("stores/stores.viewModel",
                                                 }
 
                                             });
+                                        }
+                                        if (!storeGotChanges) {
+                                            selectedStore().reset();
                                         }
                                         toastr.success("Saved Successfully");
                                         view.hideCompanyTerritoryDialog();
@@ -2040,7 +2049,12 @@ define("stores/stores.viewModel",
                                     }, {
                                         success: function (data) {
                                             if (data) {
+                                                var storeGotChanges = selectedStore().hasChanges();
                                                 selectedStore().addresses.remove(address);
+                                                if (!storeGotChanges) {
+                                                    selectedStore().reset();
+                                                }
+                                                
                                                 toastr.success("Deleted Successfully");
                                                 isLoadingStores(false);
                                                 //Updating Drop downs
@@ -2129,6 +2143,7 @@ define("stores/stores.viewModel",
                 if (doBeforeSaveAddress()) {
                     //#region Company Is Editting Case
                     if (selectedStore().companyId() > 0) {
+                        var storeGotChanges = selectedStore().hasChanges();
                         selectedAddress().companyId(selectedStore().companyId());
 
                         var address = selectedAddress().convertToServerData();
@@ -2200,7 +2215,9 @@ define("stores/stores.viewModel",
                                         bussinessAddresses.push(savedAddress);
                                         shippingAddresses.push(savedAddress);
                                         allCompanyAddressesList.push(savedAddress);
-
+                                        if (!storeGotChanges) {
+                                            selectedStore().reset();
+                                        }
                                         searchAddress();
                                         toastr.success("Saved Successfully");
                                     }
@@ -2883,7 +2900,11 @@ define("stores/stores.viewModel",
                             }, {
                                 success: function (data) {
                                     if (data) {
+                                        var storeGotChanges = selectedStore().hasChanges();
                                         selectedStore().users.remove(companyContact);
+                                        if (!storeGotChanges) {
+                                            selectedStore().reset();
+                                        }
                                         toastr.success("Deleted Successfully");
                                         isLoadingStores(false);
                                     } else {
@@ -2958,7 +2979,7 @@ define("stores/stores.viewModel",
                 if (doBeforeSaveCompanyContact()) {
                     //#region Editting Company Case companyid > 0
                     if (selectedStore().companyId() > 0) {
-
+                        var storeGotChanges = selectedStore().hasChanges();
                         selectedCompanyContact().companyId(selectedStore().companyId());
                         var companyContact = selectedCompanyContact().convertToServerData();
                         _.each(selectedCompanyContact().companyContactVariables(), function (contactVariable) {
@@ -2998,6 +3019,9 @@ define("stores/stores.viewModel",
                                                     user.roleName(savedCompanyContact.roleName());
                                                 }
                                             });
+                                        }
+                                        if (!storeGotChanges) {
+                                            selectedStore().reset();
                                         }
                                         //contactCompanyPager().addTotalCount();
                                         toastr.success("Saved Successfully");
