@@ -42,7 +42,7 @@
             <td data-bind="text:paymentDescription"></td>
             <td><span data-bind="visible:formattedPaymentDate()!==undefined">Paid on </span><span data-bind="dateString:paymentDate,datePattern: 'DD/MM/YYYY'"></span></td>
             <td data-bind="text:paymentMethodName"></td>
-            <td><span data-bind="visible:amount()!==undefined,text:$root.currencySymbol,"></span><span data-bind="text:amount"></span></td>
+            <td><span data-bind="visible:amount()!==undefined,text:$root.currencySymbol,"></span><span data-bind="numberInput:amount"></span></td>
             @*<td class="text-right">
                 <a href="" class="table-link" data-bind="">
                     <span class="fa-stack">

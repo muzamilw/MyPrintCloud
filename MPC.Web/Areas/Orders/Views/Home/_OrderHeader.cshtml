@@ -16,46 +16,40 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-                    @* ReSharper disable UnknownCssClass *@
-                    <label class="control-label tooltip-float">Customer</label>
-
+                   
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <label class="control-label" id="txtCompany" style="font-size: 18px; margin-top: -5px;" data-bind="text: companyName, validationOnElement: companyId"></label>
-
+                        @*<label class="control-label" id="txtCompany" style="font-size: 18px;" data-bind="text: companyName, validationOnElement: companyId"></label>*@
+                        <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                     </div>
                 </div>
-                <div class="col-lg-1">
-                    <div>
-                        <button style="padding-left: 6px;" data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined) " href="#" class="btn btn-primary pull-right">
-                            <i class="fa fa-lg"></i>&nbsp;....
-                        </button>
-                    </div>
+                <div class="col-lg-1" style="padding-top:10px;">
+                    <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined) " href="#" class="btn btn-primary pull-right">
+                        <i class="fa fa-user"></i>
+                    </button>
                 </div>
+                
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-
-                    <label class="control-label text-right tooltip-float">Attention</label>
+                   
                 </div>
 
                 <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                    <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: contactId"></select>
+                    <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
                     <span class="help-block text-right"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-
-                    <label class="control-label text-right tooltip-float">Address Name</label>
+                    
                 </div>
                 <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                    <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: addressId"></select>
+                    <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                     <span class="help-block text-right"></span>
                 </div>
-                <div class="col-lg-1">
-
+                <div class="col-lg-1" data-bind="if: $root.isCompanyBaseDataLoaded">
                     <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
                         <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                     </a>
@@ -63,6 +57,7 @@
 
             </div>
             <div id="popoveraddress" style="display:none;">
+                <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().address1!=='' && $root.selectedAddress().address1!== undefined-->
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <label class="control-label tooltip-float">&nbsp;</label>
@@ -73,6 +68,8 @@
                         </div>
                     </div>
                 </div>
+                <!--/ko-->
+                <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().telephone1!=='' && $root.selectedAddress().telephone1!== undefined-->
                 <div class="form-group" style="margin-top: -20px;">
                     <div class="col-lg-4 text-right">
                         <label class="control-label tooltip-float">&nbsp;</label>
@@ -83,6 +80,8 @@
                         </div>
                     </div>
                 </div>
+                <!--/ko-->
+                <!-- ko if: $root.selectedCompanyContact()!==undefined && $root.selectedCompanyContact().email !=='' && $root.selectedCompanyContact().email !== undefined -->
                 <div class="form-group" style="margin-top: -20px;">
                     <div class="col-lg-4 text-right">
                         <label class="control-label tooltip-float">&nbsp;</label>
@@ -93,35 +92,25 @@
                         </div>
                     </div>
                 </div>
+                <!--/ko-->
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-
-                    <label style=" margin-top: 16px;"class="control-label tooltip-float">Order Title</label>
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" style="height: 60px;font-size: 20px; font-weight: bold;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Order Title" class="form-control" id="EstimateTitle" />
+                        <input type="text" style="height: 60px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Order Title" class="form-control font24px" id="EstimateTitle" />
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
-                <div class="col-lg-7 text-right">
-                    <div class="col-lg-7">
-                        <label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>
-                    </div>
-                    <div class="col-lg-5 text-left">
-                        <label class="control-label" style="border:none" id="code" data-bind="text: orderCode"></label>
-                    </div>
+                <div class="col-lg-4 text-right" style="padding-top:10px;">
+                    <label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>
                 </div>
-                <div class="col-lg-5">
-                    <div class="col-lg-8 text-left">
-                        <div>
-
-                        </div>
-                    </div>
+                <div class="col-lg-6">
+                    <input type="text" style="height: 60px;" data-bind="value: orderCode" readonly class="form-control font24px" id="code" />
                 </div>
 
             </div>
@@ -129,64 +118,51 @@
 
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-                    <label class="control-label text-right tooltip-float">Order Flag</label>
+                    @*<label class="control-label text-right tooltip-float">Order Flag</label>*@
                 </div>
 
                 <div class="col-lg-6">
-                    <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
+                    <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
                     <span class="help-block text-right"></span>
                 </div>
 
             </div>
-            <div class="form-group">
-                <div class="col-lg-7 text-right">
-                    <div class="col-lg-7">
-                        <label class="control-label text-right tooltip-float">Credit Approved</label>
-                    </div>
-                    <div class="col-lg-5 text-left">
+            <div>
+                <div class="row" style="margin-top: -15px;">
+                    <div class=" col-lg-4 text-right">
+                    <label class="control-label text-right tooltip-float">Credit Approved</label>
+                </div>
+                    <div class="col-lg-6 text-left" style="margin-bottom: -8px;">
                         <ul style="list-style: none; border:none" class="form-control">
                             <li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isCreditApproved, 'product-has-nofeature' : !isCreditApproved() }">
                             </li>
                         </ul>
                     </div>
-                </div>
-                <br />
-                <div class="col-lg-7 text-right" style="margin-top:-10px">
-                    <div class="col-lg-7">
+                </div>                 
+                <div class="row">
+                    <div class="col-lg-4 text-right" style="margin-top:0px">
                         <label class="control-label text-right tooltip-float">Purchase Order No.</label>
                     </div>
-                    <div class="col-lg-5 text-left">
+                    <div class="col-lg-6 text-left">
                         <ul style="list-style: none; border:none" class="form-control">
                             <li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isOfficialOrder, 'product-has-nofeature' : !isOfficialOrder() }">
                             </li>
-
                         </ul>
                     </div>
                 </div>
-            </div>
+                
+            </div>           
 
-            <div class="form-group" style="margin-top:-20px">
-                <div class="col-lg-4 text-right">
+            <div class="form-group" style="margin-top:0px">
+                <div class="col-lg-4 text-right" style="padding-top: 10px;">
 
                     <label class="control-label text-right tooltip-float">Order Date</label>
                 </div>
                 <div class="col-lg-6">
-
-                    <input type="text" class="form-control" id="orderDate" data-bind="datepicker: orderDate">
+                    @*<input type="text" style="height: 60px;" data-bind="datepicker: orderDate" class="form-control font24px" id="EstimateTitle" />*@
+                    <input type="text" style="height: 60px;" class="form-control font24px" id="orderDate" data-bind="datepicker: orderDate">
                 </div>
             </div>
-
-            @*<div class="form-group" style="margin-top:-17px">
-                    <div class="col-lg-4 text-right">
-
-                        <label class="control-label text-right tooltip-float">First Shipping Date</label>
-                    </div>
-                    <div class="col-lg-6">
-
-                        <input type="text" class="form-control" id="datepickerFinishDDate" data-bind="datepicker: finishDeliveryDate">
-
-                    </div>
-                </div>*@
         </div>
 
 
@@ -196,11 +172,11 @@
             <div class="form-group">
                 <div class="col-lg-2 text-right">
 
-                    <label class="control-label tooltip-float">Order Header</label>
+                    @*<label class="control-label tooltip-float">Order Header</label>*@
                 </div>
                 <div class="col-lg-9">
                     <div>
-                        <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                        <textarea class="form-control" placeholder="Enter order opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
                     </div>
                 </div>
             </div>
@@ -224,7 +200,7 @@
                                         <tr>
                                             <th class="col-lg-5"><span></span></th>
                                             <th class="col-lg-3"><span>Qty</span></th>
-                                            <th class="col-lg-3"><span>Gross Total</span></th>
+                                            <th class="col-lg-3"><span>Price inc. Tax</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -260,15 +236,16 @@
                 <div class="col-lg-9">
                     <div style="background-color:gainsboro; border-radius:3px">
                         <header class="main-box-header clearfix">
-                            <div style="float:left;"><span style="font-size:24px">Shipping Options</span></div>
+                            <div style="float:left;"><span style="font-size:24px">Shipping Charge</span></div>
                         </header>
                         <div class="main-box-body clearfix">
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="col-lg-8"><span></span></th>
-                                            <th class="col-lg-3"><span>Gross Total</span></th>
+                                            <th class="col-lg-5"><span></span></th>
+                                            <th class="col-lg-3"><span></span></th>
+                                            <th class="col-lg-3"><span>Price inc. Tax</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -280,7 +257,7 @@
                         </div>
                     </div>
                     <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
-                        <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charges</button>
+                        <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
                     </div>
 
                     <div class="col-lg-5 form-group" style="margin-top:10px">
@@ -288,7 +265,8 @@
                             <label class="control-label text-right tooltip-float">Gross Total:</label>
                         </div>
                         <div class="col-lg-4" style="margin-top:5px">
-                            <span data-bind="text: $root.currencySymbol() + $root.grossTotal()" style="font-weight: bold; font-size:20px;"></span>
+                            <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
+                            <span data-bind="text: $root.grossTotal()" style="font-weight: bold; font-size:20px;"></span>
                         </div>
                     </div>
                 </div>
@@ -300,11 +278,11 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <div class="col-lg-2 text-right">
-                    <label class="control-label tooltip-float">Order Footer</label>
+                    @*<label class="control-label tooltip-float">Order Footer</label>*@
                 </div>
                 <div class="col-lg-9">
                     <div>
-                        <textarea class="form-control" placeholder="Enter Order Footer" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>
+                        <textarea class="form-control" placeholder="Enter order closing paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>
                     </div>
                 </div>
             </div>
@@ -315,7 +293,7 @@
                     </label>
                 </div>
                 <div class="col-lg-3">
-                    <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsCaption: 'Select...', value: orderReportSignedBy"></select>
+                    <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsCaption: 'Select a system user', value: orderReportSignedBy"></select>
                 </div>
             </div>
         </div>
@@ -330,8 +308,9 @@
             <td>
                 <span style="font-size:20px;" data-bind="text: qty1"></span>
             </td>
-            <td>
-                <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+            <td style=" text-align: right;">
+                <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
+                <span style="font-size:20px;" data-bind="text: qty1GrossTotal()"></span>
             </td>
             @*<td class="text-right">
                 <a href="#" class="table-link" data-bind="click: $root.editItem">
@@ -354,10 +333,10 @@
         <tr>
             <td>
                 <span style="font-size:20px;" data-bind="text: productName"></span>
-            </td>
-
-            <td>
-                <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+            </td>                
+            <td style=" text-align: right;">
+                <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
+                <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
             </td>
 
         </tr>

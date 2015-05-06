@@ -24,7 +24,7 @@
 
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 <div class="col-lg-3 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Credit Limit" data-original-title="" title="">
@@ -36,67 +36,51 @@
                 <div class="col-lg-6">
                     <div class="input-group">
                         <span class="input-group-addon" data-bind="text:$root.currencySymbol"></span>
-                        <input type="text" class="form-control text-right" id="Estimateitle" data-bind="value: creditLimitComputed, enable: isCreditApproved">
+                        <input type="text" class="form-control text-right" id="Estimateitle" data-bind="numberValue: creditLimitForJob, enable: isCreditApproved">
                     </div>
                 </div>
-            </div>
+            </div>*@
 
             <div class="form-group">
                 <div class="col-lg-3 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
+                    @*<div class="bs-example-tooltips tooltip-float-width">
 
                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set By" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
-                    </div>
-
-
-
+                    </div>*@
                     <label class="control-label tooltip-float">Set By</label>
 
                 </div>
                 <div class="col-lg-6">
                     <div>
                         <input type="text" class="form-control" id="CreditLimtSetBy" data-bind="value: creditLimitSetBy, enable: isCreditApproved" />
-
-
                     </div>
-
                 </div>
             </div>
 
 
             <div class="form-group">
                 <div class="col-lg-3 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-
+                    @*<div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set On" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
-                    </div>
-
-
-
+                    </div>*@
                     <label class="control-label tooltip-float">On</label>
-
                 </div>
                 <div class="col-lg-6">
                     <div>
                         <input type="text" class="form-control" id="datepickerOnCreditApprove" data-bind="datepicker: creditLimitSetOnDateTime, enable: isCreditApproved">
-
-
                     </div>
-
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-lg-3 text-right">
-
                     <label class="control-label text-right">Proceed without Credit Check</label>
-                    <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    @*<span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
                 </div>
 
                 <div class="col-lg-6">
@@ -114,24 +98,17 @@
 
             <div class="form-group">
                 <div class="col-lg-3 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-
+                    @*<div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set By" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
-                    </div>
-
-
-
+                    </div>*@
                     <label class="control-label tooltip-float">Set By</label>
-
                 </div>
                 <div class="col-lg-6">
                     <div>
                         <input type="text" class="form-control" id="CreditCheckWoSetBy" data-bind="value: allowJobWoCreditCheckSetBy, enable: isJobAllowedWoCreditCheck" />
-
-
+                        
                     </div>
 
                 </div>
@@ -139,26 +116,17 @@
 
             <div class="form-group">
                 <div class="col-lg-3 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-
+                    @*<div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set On" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
-                    </div>
-
-
-
+                    </div>*@
                     <label class="control-label tooltip-float">On</label>
-
                 </div>
                 <div class="col-lg-6">
                     <div>
                         <input type="text" class="form-control" id="datepickerOnCreditApprove2" data-bind="datepicker: allowJobWoCreditCheckSetOnDateTime, enable: isJobAllowedWoCreditCheck">
-
-
                     </div>
-
                 </div>
             </div>
         </div>
@@ -168,9 +136,8 @@
         <div class="col-lg-9">
             <div class="form-group">
                 <div class="col-lg-3 text-right">
-
                     <label class="control-label text-right">Official Order received from customer</label>
-                    <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    @*<span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
                 </div>
 
                 <div class="col-lg-6">
@@ -188,75 +155,47 @@
 
             <div class="form-group">
                 <div class="col-lg-3 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-
+                    @*<div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Customer PO Ref Number" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
-                    </div>
-
-
-
+                    </div>*@
                     <label class="control-label tooltip-float">Customer PO Ref</label>
-
                 </div>
                 <div class="col-lg-6">
                     <div>
                         <input type="text" class="form-control" id="customerPoRef" data-bind="value: customerPo, enable: isOfficialOrder" />
-
-
                     </div>
-
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-lg-3 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-
+                    @*<div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set By" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
-                    </div>
-
-
-
+                    </div>*@
                     <label class="control-label tooltip-float">Set By</label>
-
                 </div>
                 <div class="col-lg-6">
                     <div>
                         <input type="text" class="form-control" id="officialOrderSetBy" data-bind="value: officialOrderSetBy, enable: isOfficialOrder" />
-
-
                     </div>
-
                 </div>
             </div>
-
-
             <div class="form-group">
                 <div class="col-lg-3 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-                        @* ReSharper restore UnknownCssClass *@
+                    @*<div class="bs-example-tooltips tooltip-float-width">                        
                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set On" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
-                    </div>
-
-
-
+                    </div>*@
                     <label class="control-label tooltip-float">On</label>
-
                 </div>
                 <div class="col-lg-6">
                     <div>
                         <input type="text" class="form-control" id="datepickerOnOfficialOrders" data-bind="datepicker: officialOrderSetOnDateTime, enable: isOfficialOrder">
-
-
                     </div>
 
                 </div>
