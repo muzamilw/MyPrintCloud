@@ -1,4 +1,7 @@
-﻿#storesBinding .selectedSection,
+﻿#storesBinding .cursorShape {
+  cursor: pointer;
+}
+#storesBinding .selectedSection,
 #storesBinding .selectedEmailVariable {
   background: yellow;
 }
