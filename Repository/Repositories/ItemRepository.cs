@@ -1355,7 +1355,8 @@ namespace MPC.Repository.Repositories
                     Qty1Charge = addOn.ActualPrice,
                     Qty1NetTotal = addOn.Qty1NetTotal,
                     Qty1WorkInstructions = addOn.CostCentreDescription,
-                    Qty2WorkInstructions = addOn.CostCentreJsonData
+                    Qty2WorkInstructions = addOn.CostCentreJsonData,
+                    Name = addOn.AddOnName
                 };
 
                 return tblISectionCostCenteres;
@@ -2232,7 +2233,7 @@ namespace MPC.Repository.Repositories
                         sectionCC.Qty1MarkUpID = 1;
                         sectionCC.Qty1Charge = itemPrice;
                         sectionCC.Qty1NetTotal = itemPrice;
-
+                        
                         isNewSectionCostCenter = true;
                     }
 
@@ -2242,6 +2243,7 @@ namespace MPC.Repository.Repositories
                         var oCostCentre = db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
                         if (oCostCentre != null)
                         {
+                            sectionCC.Name = oCostCentre.Name;
                             sectionCC.CostCentreId = oCostCentre.CostCentreId;
                             sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
                             FirstItemSection.SectionCostcentres.Add(sectionCC);
