@@ -45,7 +45,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Flag Color
                 flagColor = ko.observable(specifiedFlagColor || undefined),
                 // Estimate Total
-                estimateTotal = ko.observable(0),
+                estimateTotal = ko.observable(0).extend({ numberInput: ist.numberFormat }),
                 // Flag Id
                 sectionFlagId = ko.observable(specifiedSectionFlagId || undefined).extend({ required: true }),
                 // Order Code
@@ -97,27 +97,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sourceId = ko.observable(specifiedSourceId || undefined),
                 // Credit Limit For Job
                 creditLimitForJob = ko.observable(specifiedCreditLimitForJob || undefined),
-                // Credit Limit Computed 
-                 creditLimitComputed = ko.computed({
-                     read: function () {
-                         if (creditLimitForJob()) {
-                             var val = parseFloat(creditLimitForJob());
-                             if (!isNaN(val)) {
-                                 var calc = (val.toFixed(2));
-                                 creditLimitForJob(calc);
-                                 return calc;
-                             } else {
-                                 return creditLimitForJob();
-                             }
-                         }
-                         else {
-                             return '';
-                         }
-                     },
-                     write: function (value) {
-                         creditLimitForJob(value);
-                     }
-                 }),
+               
                 // Credit Limit Set By
                 creditLimitSetBy = ko.observable(specifiedCreditLimitSetBy || undefined),
                 // Credit Limit Set on Date Time
@@ -239,7 +219,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     salesPersonId: salesPersonId,
                     sourceId: sourceId,
                     creditLimitForJob: creditLimitForJob,
-                    creditLimitComputed: creditLimitComputed,
                     creditLimitSetBy: creditLimitSetBy,
                     creditLimitSetOnDateTime: creditLimitSetOnDateTime,
                     isJobAllowedWoCreditCheck: isJobAllowedWoCreditCheck,
@@ -346,7 +325,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 salesPersonId: salesPersonId,
                 sourceId: sourceId,
                 creditLimitForJob: creditLimitForJob,
-                creditLimitComputed: creditLimitComputed,
                 creditLimitSetBy: creditLimitSetBy,
                 creditLimitSetOnDateTime: creditLimitSetOnDateTime,
                 isJobAllowedWoCreditCheck: isJobAllowedWoCreditCheck,
@@ -1370,28 +1348,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Order Id
                 orderId = ko.observable(specifiedOrderId),
                 //Amount
-                amount = ko.observable(specifiedAmount).extend({ number: true }),
-                 // Amount Computed 
-                 amountComputed = ko.computed({
-                     read: function () {
-                         if (amount()) {
-                             var val = parseFloat(amount());
-                             if (!isNaN(val)) {
-                                 var calc = (val.toFixed(2));
-                                 amount(calc);
-                                 return calc;
-                             } else {
-                                 return amount();
-                             }
-                         }
-                         else {
-                             return '';
-                         }
-                     },
-                     write: function (value) {
-                         amount(value);
-                     }
-                 }),
+                amount = ko.observable(specifiedAmount).extend({ numberInput: ist.numberFormat }),
+               
                 //Payment Date
                 paymentDate = ko.observable(specifiedPaymentDate ? moment(specifiedPaymentDate).toDate() : undefined),
                 // Payment Method Id
@@ -1458,7 +1416,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 customerId: customerId,
                 orderId: orderId,
                 amount: amount,
-                amountComputed: amountComputed,
                 paymentDate: paymentDate,
                 paymentMethodId: paymentMethodId,
                 paymentMethodName: paymentMethodName,
@@ -1485,7 +1442,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Quantity
                 quantity = ko.observable(specifiedQuantity).extend({ number: true, required: true }),
                 // Price
-                price = ko.observable(specifiedPrice),
+                price = ko.observable(specifiedPrice).extend({ numberInput: ist.numberFormat }),
                 //Deliver Not Raised Flag
                 deliveryNoteRaised = ko.observable(specifiedDeliveryNoteRaised !== undefined ? specifiedDeliveryNoteRaised : false),
                 // Deliver Date
@@ -1994,7 +1951,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Cost Centre Type
                 costCentreType = ko.observable(specifiedCostCentreType || undefined),
                 // Total Price
-                totalPrice = ko.observable(specifiedTotalPrice || undefined),
+                totalPrice = ko.observable(specifiedTotalPrice || undefined).extend({ numberInput: ist.numberFormat }),
                 // Cost Centre Id - On Change
                 costCentreId = ko.computed({
                     read: function () {

@@ -606,7 +606,7 @@ define("order/order.viewModel",
                     openStockItemDialog = function () {
                         stockDialog.show(function (stockItem) {
                             selectedSection().selectStock(stockItem);
-                        }, stockCategory.paper, false);
+                        }, stockCategory.paper, false, currencySymbol());
                     },
                     // Open Stock Item Dialog For Adding product
                     openStockItemDialogForAddingProduct = function () {
@@ -614,7 +614,7 @@ define("order/order.viewModel",
                         isAddProductForSectionCostCenter(false);
                         stockDialog.show(function (stockItem) {
                             createNewInventoryProduct(stockItem);
-                        }, stockCategory.paper, false);
+                        }, stockCategory.paper, false, currencySymbol());
                     },
                     // Open Stock Item Dialog For Adding Stock
                     openStockItemDialogForAddingStock = function () {
@@ -1612,7 +1612,7 @@ define("order/order.viewModel",
                     },
 
                     getCostCentersForProduct = function () {
-                        addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId(), false);
+                        addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId(), false, currencySymbol());
                     },
                     //onAddCostCenterCallback = function () {
 
@@ -1820,7 +1820,7 @@ define("order/order.viewModel",
                     selectedProductQuanity = ko.observable(),
 
                     //Total Product Price
-                    totalProductPrice = ko.observable(0),
+                    totalProductPrice = ko.observable(0).extend({ numberInput: ist.numberFormat }),
 
                     //Filtered Item Price matrix List
                     filteredItemPriceMatrixList = ko.observableArray([]),
@@ -2431,11 +2431,26 @@ define("order/order.viewModel",
                             dataservice.getUpdatedSystemCostCenters(currSec, {
                                 success: function (data) {
                                     if (data != null) {
-                                        selectedSection(model.ItemSection.Create(data));
+                                        //selectedSection(model.ItemSection.Create(data));
+                                        
+                                        // Map Section Cost Centres if Any
+                                        if (data.SectionCostcentres && data.SectionCostcentres.length > 0) {
+                                            selectedSection().sectionCostCentres.removeAll();
+                                            var sectionCostcentres = [];
+
+                                            _.each(data.SectionCostcentres, function (sectionCostCentre) {
+                                                sectionCostcentres.push(model.SectionCostCentre.Create(sectionCostCentre));
+                                            });
+
+                                            // Push to Original Item
+                                            ko.utils.arrayPushAll(selectedSection().sectionCostCentres(), sectionCostcentres);
+                                            selectedSection().sectionCostCentres.valueHasMutated();
+                                        }
+                                        
                                         hideEstimateRunWizard();
                                         _.each(userCostCenters(), function (item) {
                                             if (item.isSelected()) {
-                                                var sectionCostCenterItem = model.SectionCostCentre();
+                                                var sectionCostCenterItem = model.SectionCostCentre.Create({});
                                                 sectionCostCenterItem.id(item.id());
                                                 sectionCostCenterItem.name(item.name());
                                                 selectedSection().sectionCostCentres.push(sectionCostCenterItem);
@@ -2475,6 +2490,9 @@ define("order/order.viewModel",
                             else {
                                 return 0.00;
                             }
+                        },
+                        updateSectionFromCostCenterCalculation = function (section) {
+
                         },
                         downloadArtwork = function () {
                             isLoadingOrders(true);

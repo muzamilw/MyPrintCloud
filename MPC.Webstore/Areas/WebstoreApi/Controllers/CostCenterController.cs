@@ -64,7 +64,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 try
                 {
 
-                    string OrganizationName = "Test";
+                    string OrganizationName = "PinkCards";
                     AppDomainSetup _AppDomainSetup = new AppDomainSetup();
 
 
@@ -81,6 +81,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     //Me._AppDomain.InitializeLifetimeService()
 
                     List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+
+                    List<InputQueueItem> CostCentreInputQueue = new List<InputQueueItem>();
 
 
                     //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
@@ -166,8 +168,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
 
-
-
+                    //CostCentreInputQueue.Add(new InputQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, oCostCentre.CostCentreId, oCostCentre.Type, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+                    
                     _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
                     _oRemoteObject = (ICostCentreLoader)_oLocalObject;
 

@@ -432,6 +432,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ReportparamMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
@@ -549,6 +550,9 @@
     <Compile Include="Areas\Api\Models\ReportCategoryRequestModel.cs" />
     <Compile Include="Areas\Api\Models\ReportManagerResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ReportNote.cs" />
+    <Compile Include="Areas\Api\Models\Reportparam.cs" />
+    <Compile Include="Areas\Api\Models\ReportparamComboCollection.cs" />
+    <Compile Include="Areas\Api\Models\ReportparamResponse.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
@@ -2081,6 +2085,7 @@
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\ReportBanner.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\RegionalSettings.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
