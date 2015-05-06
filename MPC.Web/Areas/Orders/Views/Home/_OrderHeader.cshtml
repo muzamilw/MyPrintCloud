@@ -16,17 +16,18 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-                    @* ReSharper disable UnknownCssClass *@
-                    @*<label class="control-label tooltip-float">Customer</label>*@
-                    <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined) " href="#" class="btn btn-primary pull-right">
-                        <i class="fa fa-user"></i> 
-                    </button>
+                   
                 </div>
                 <div class="col-lg-6">
                     <div>
                         @*<label class="control-label" id="txtCompany" style="font-size: 18px;" data-bind="text: companyName, validationOnElement: companyId"></label>*@
                         <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                     </div>
+                </div>
+                <div class="col-lg-1" style="padding-top:10px;">
+                    <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined) " href="#" class="btn btn-primary pull-right">
+                        <i class="fa fa-user"></i>
+                    </button>
                 </div>
                 
             </div>
@@ -105,20 +106,11 @@
         </div>
         <div class="col-lg-6">
             <div class="form-group">
-                <div class="col-lg-7 text-right">
-                    <div class="col-lg-7">
-                        <label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>
-                    </div>
-                    <div class="col-lg-5 text-left">
-                        <label class="control-label" style="border:none" id="code" data-bind="text: orderCode"></label>
-                    </div>
+                <div class="col-lg-4 text-right" style="padding-top:10px;">
+                    <label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>
                 </div>
-                <div class="col-lg-5">
-                    <div class="col-lg-8 text-left">
-                        <div>
-
-                        </div>
-                    </div>
+                <div class="col-lg-6">
+                    <input type="text" style="height: 60px;" data-bind="value: orderCode" readonly class="form-control font24px" id="code" />
                 </div>
 
             </div>
@@ -135,41 +127,40 @@
                 </div>
 
             </div>
-            <div class="form-group">
-                <div class="col-lg-7 text-right">
-                    <div class="col-lg-7">
-                        <label class="control-label text-right tooltip-float">Credit Approved</label>
-                    </div>
-                    <div class="col-lg-5 text-left">
+            <div>
+                <div class="row" style="margin-top: -15px;">
+                    <div class=" col-lg-4 text-right">
+                    <label class="control-label text-right tooltip-float">Credit Approved</label>
+                </div>
+                    <div class="col-lg-6 text-left" style="margin-bottom: -8px;">
                         <ul style="list-style: none; border:none" class="form-control">
                             <li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isCreditApproved, 'product-has-nofeature' : !isCreditApproved() }">
                             </li>
                         </ul>
                     </div>
-                </div>
-                <br />
-                <div class="col-lg-7 text-right" style="margin-top:-10px">
-                    <div class="col-lg-7">
+                </div>                 
+                <div class="row">
+                    <div class="col-lg-4 text-right" style="margin-top:0px">
                         <label class="control-label text-right tooltip-float">Purchase Order No.</label>
                     </div>
-                    <div class="col-lg-5 text-left">
+                    <div class="col-lg-6 text-left">
                         <ul style="list-style: none; border:none" class="form-control">
                             <li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isOfficialOrder, 'product-has-nofeature' : !isOfficialOrder() }">
                             </li>
-
                         </ul>
                     </div>
                 </div>
-            </div>
+                
+            </div>           
 
-            <div class="form-group" style="margin-top:-20px">
-                <div class="col-lg-4 text-right">
+            <div class="form-group" style="margin-top:0px">
+                <div class="col-lg-4 text-right" style="padding-top: 10px;">
 
                     <label class="control-label text-right tooltip-float">Order Date</label>
                 </div>
                 <div class="col-lg-6">
-
-                    <input type="text" class="form-control" id="orderDate" data-bind="datepicker: orderDate">
+                    @*<input type="text" style="height: 60px;" data-bind="datepicker: orderDate" class="form-control font24px" id="EstimateTitle" />*@
+                    <input type="text" style="height: 60px;" class="form-control font24px" id="orderDate" data-bind="datepicker: orderDate">
                 </div>
             </div>
         </div>
@@ -245,7 +236,7 @@
                 <div class="col-lg-9">
                     <div style="background-color:gainsboro; border-radius:3px">
                         <header class="main-box-header clearfix">
-                            <div style="float:left;"><span style="font-size:24px">Shipping Options</span></div>
+                            <div style="float:left;"><span style="font-size:24px">Shipping Charge</span></div>
                         </header>
                         <div class="main-box-body clearfix">
                             <div class="table-responsive">
@@ -266,7 +257,7 @@
                         </div>
                     </div>
                     <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
-                        <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charges</button>
+                        <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
                     </div>
 
                     <div class="col-lg-3 form-group" style="margin-top:10px">
