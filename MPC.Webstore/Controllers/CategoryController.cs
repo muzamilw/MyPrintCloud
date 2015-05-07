@@ -101,6 +101,14 @@ namespace MPC.Webstore.Controllers
                 //  pnlAllProductTopLevel.Visible = true;
                 if (productList != null && productList.Count > 0)
                 {
+                    if (_webstoreAuthorizationChecker.loginContactID() > 0)
+                    {
+                        ViewBag.IsUserLogin = 1;
+                    }
+                    else
+                    {
+                        ViewBag.IsUserLogin = 0;
+                    }
 
                     foreach (var product in productList)
                     {
@@ -284,15 +292,7 @@ namespace MPC.Webstore.Controllers
                         else
                         {
                             ViewData["PriceMatrix"] = null;
-                            if (_webstoreAuthorizationChecker.isUserLoggedIn())
-                            {
-                                ViewBag.IsUserLogin = true;
-                            }
-                            else
-                            {
-                                ViewBag.IsUserLogin = false;
-                            }
-
+                           
                         }
                     }
 

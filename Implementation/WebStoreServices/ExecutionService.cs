@@ -139,7 +139,7 @@ namespace MPC.Implementation.WebStoreServices
                     MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
                     CostCentreQuestion ovariable = obj.LoadQuestion(Convert.ToInt32(QuestionID));
 
-                    QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, 0, 0, ovariable.AnswerCollection);
+                    QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type == null ? (short)0 : ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, 0, 0, ovariable.AnswerCollection);
 
                     if (QuestionQueue != null)
                     {
@@ -799,7 +799,7 @@ namespace MPC.Implementation.WebStoreServices
 	            ItemSection oItemSection = (ItemSection)oParamsArray[8];
 	            int CurrentQuantity = Convert.ToInt32(oParamsArray[5]);
 	            int MultipleQutantities = Convert.ToInt32(oParamsArray[4]);
-	            InputQueue InputQueue = (InputQueue)oParamsArray[7];
+	            InputQueue InputQueue = oParamsArray[7] as InputQueue;
                 double dblReturn = 0;
 
 	        try 
@@ -941,7 +941,7 @@ namespace MPC.Implementation.WebStoreServices
                 else if (ExecutionMode == CostCentreExecutionMode.PromptMode) 
                 {
 			        //populate the question in the executionQueue
-
+                    
 			        InputQueue.addItem(InputID, Question, CostCentreID, ItemType, InputType, Question, Value);
 			        //
 			        return 1;
