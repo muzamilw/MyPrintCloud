@@ -181,8 +181,8 @@
                                                     <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <textarea class="form-control" id="txtNotes" rows="5" data-bind="value: notes"></textarea>
-                                                    <span class="help-block text-right"></span>
+                                                    <textarea class="form-control notes" id="txtNotes" rows="5" data-bind="value: notes"></textarea>
+                                                    
                                                 </div>
                                             </div>
 
@@ -481,24 +481,33 @@
                                 <div class="tab-pane fade" id="tab-products">
                                     <div class="col-lg-3" data-bind="with: $root.selectedStore">
                                         <div class="clearfix">
-                                            <header class="main-box-header clearfix">
-                                                <h2>Store's Product Categories</h2>
-                                                <a data-bind="click: $root.onCreateNewProductCategory" class="btn btn-primary pull-right">
-                                                    Add Product Category
-                                                </a>
+                                            <header>
+                                                <div calss="text-left">
+                                                    <h2>Product Categories</h2>
+                                                </div>
+                                               
+                                                <div calss="text-right" style="padding-right: 5px;">
+                                                    <a data-bind="click: $root.onCreateNewProductCategory" class="btn btn-primary pull-right">
+                                                        Add Product Category
+                                                    </a>
+                                                </div>
+                                               
                                             </header>
-                                            <div style="padding-right: 5px;" id="nestable2">
-                                                <ol class="dd-list">
-                                                    <!-- ko template: { name: 'itemProductCategoriesTemplate' , foreach: $root.selectedStore().productCategories } -->
-                                                    <!-- /ko -->
-                                                </ol>
-                                            </div>
+                                            
+                                        </div>
+                                        <div style="padding-right: 5px; padding-top:15px;" id="nestable2">
+                                            <ol class="dd-list">
+                                                <!-- ko template: { name: 'itemProductCategoriesTemplate' , foreach: $root.selectedStore().productCategories } -->
+                                                <!-- /ko -->
+                                            </ol>
                                         </div>
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="clearfix">
-                                            <header class="main-box-header clearfix">
-                                                <h2>Products</h2>
+                                            <header>
+                                                <div calss="text-left" style="margin-left:17px;">
+                                                    <h2>Products</h2>
+                                                </div>                                                
                                             </header>
                                             <!-- ko stopBinding: true -->
                                             <div id="productBindingSection" class="main-box-body clearfix">

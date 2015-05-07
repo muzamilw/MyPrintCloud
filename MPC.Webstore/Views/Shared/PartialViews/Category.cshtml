@@ -114,7 +114,7 @@
                                             @if (item.ProductType == (int)ProductType.MarketingBrief)
                                             {
 
-                                                RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId;
+                                                RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId + "/" + Model.ProductCategoryId;
 
                                             }
                                             else if (item.ProductType == (int)ProductType.PrintProduct)
@@ -163,11 +163,11 @@
                                             else
                                             {
 
-                                                if (item.isMarketingBrief == true) // check if item is marekting breif..??
+                                                if (item.ProductType == (int)ProductType.MarketingBrief) // check if item is marekting breif..??
                                                 {
-                                                    if (ViewBag.IsUserLogin == true) // check if user login or not ??
+                                                    if (ViewBag.IsUserLogin == 1) // check if user login or not ??
                                                     {
-                                                        <a id="hlProductDetail" href="/MarketingBrief/@item.ProductName/@item.ItemId" onclick="ShowLoader();">
+                                                        <a id="hlProductDetail" href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -182,7 +182,7 @@
                                                         string ProductName = "'" + item.ProductName + "'";
                                                         string itemID = "'" + item.ItemId + "'";
 
-                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId');">
+                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -218,7 +218,7 @@
                                         </div>
 
                                         @{
-                                if (item.isMarketingBrief == null || item.isMarketingBrief == false)
+                                if (item.ProductType != (int)ProductType.MarketingBrief)
                                 {
                                     string stockLabel = string.Empty;
                                     string quantity = string.Empty;
@@ -299,16 +299,16 @@
                                             @if (item.ProductType == (int)ProductType.MarketingBrief)
                                             {
 
-                                                if (ViewBag.IsUserLogin == true) // check if user login or not ??
+                                                if (ViewBag.IsUserLogin == 1) // check if user login or not ??
                                                 {
                                             
-                                                 <a href="/MarketingBrief/@item.ProductName/@item.ItemId" onclick="ShowLoader();">
+                                                 <a href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
                                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId))" class="place-inquiry-button rounded_corners" />
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId');">
+                                                    <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
                                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId))" class="place-inquiry-button rounded_corners" />
                                                     </a>
 
