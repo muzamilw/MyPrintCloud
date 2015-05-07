@@ -300,3 +300,22 @@ div#spinner {
 a.reportAnchor a:hover{
     text-decoration: underline;
 }
+
+.btn-yellow {
+    background-color: #FFFFAA;
+    border-color: #FFFF7F;
+}
+
+    .btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow.active, .open .dropdown-toggle.btn-yellow {
+        background-color: #FFFF7F;
+    }
+
+    .bigcheckbox {
+  float: left;
+  margin: 0px !important;
+  width: 20px;
+  height: 20px;
+}
+    .notes{
+        background-color:#FCFBB6;
+    }
