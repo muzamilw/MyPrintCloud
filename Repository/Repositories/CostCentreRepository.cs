@@ -865,6 +865,7 @@ namespace MPC.Repository.Repositories
         public CostCenterBaseResponse GetBaseData()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            List<Currency> list = db.Currencies.ToList();
             db.Configuration.LazyLoadingEnabled = false;
             var types = db.CostCentreTypes.Where(c => c.OrganisationId == this.OrganisationId).ToList();
             var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();

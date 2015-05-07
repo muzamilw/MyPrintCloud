@@ -105,40 +105,40 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             ]),
 
             getQuestionsVariableTreeChildItems = function (Selecteddata) {
-                    if (questionVariableNodes().length > 0) {
-                        if (showQuestionVariableChildList() == 1) {
-                            showQuestionVariableChildList(0);
-                            $("#idQuestionsVariable").removeClass("fa-chevron-circle-down");
-                            $("#idQuestionsVariable").addClass("fa-chevron-circle-right");
-                            
-                        } else {
+                if (questionVariableNodes().length > 0) {
+                    if (showQuestionVariableChildList() == 1) {
+                        showQuestionVariableChildList(0);
+                        $("#idQuestionsVariable").removeClass("fa-chevron-circle-down");
+                        $("#idQuestionsVariable").addClass("fa-chevron-circle-right");
+
+                    } else {
+                        showQuestionVariableChildList(1);
+                        $("#idQuestionsVariable").addClass("fa-chevron-circle-down");
+                        $("#idQuestionsVariable").removeClass("fa-chevron-circle-right");
+
+                    }
+
+                } else {
+                    dataservice.GetTreeListById({
+                        id: 4,
+                    }, {
+                        success: function (data) {
+                            questionVariableNodes.removeAll();
+                            _.each(data.QuestionVariables, function (item) {
+                                var ques = model.QuestionVariable(item);
+                                questionVariableNodes.push(ques);
+                            });
                             showQuestionVariableChildList(1);
                             $("#idQuestionsVariable").addClass("fa-chevron-circle-down");
                             $("#idQuestionsVariable").removeClass("fa-chevron-circle-right");
-                            
+                            view.showAddEditQuestionMenu();
+
+                        },
+                        error: function () {
+                            toastr.error("Failed to load variables tree data.");
                         }
-
-                    } else {
-                        dataservice.GetTreeListById({
-                            id: 4,
-                        }, {
-                            success: function (data) {
-                                questionVariableNodes.removeAll();
-                                _.each(data.QuestionVariables, function (item) {
-                                    var ques = model.QuestionVariable(item);
-                                    questionVariableNodes.push(ques);
-                                });
-                                showQuestionVariableChildList(1);
-                                $("#idQuestionsVariable").addClass("fa-chevron-circle-down");
-                                $("#idQuestionsVariable").removeClass("fa-chevron-circle-right");
-                                view.showAddEditQuestionMenu();
-
-                            },
-                            error: function () {
-                                toastr.error("Failed to load variables tree data.");
-                            }
-                        });
-                    }
+                    });
+                }
 
 
             },
@@ -146,7 +146,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             getMatricesVariableTreeChildItems = function (Selecteddata) {
                 if (matrixVariableNodes().length > 0) {
                     if (showMatricesVariableChildList() == 1) {
-                        
+
                         $("#idMatricesVariable").removeClass("fa-chevron-circle-down");
                         $("#idMatricesVariable").addClass("fa-chevron-circle-right");
                         showMatricesVariableChildList(0);
@@ -157,7 +157,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     }
 
                 } else {
-                    
+
                     dataservice.GetTreeListById({
                         id: 5,
                     }, {
@@ -170,7 +170,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             showMatricesVariableChildList(1);
                             $("#idMatricesVariable").addClass("fa-chevron-circle-down");
                             $("#idMatricesVariable").removeClass("fa-chevron-circle-right");
-                              view.showAddEditMatrixMenu();
+                            view.showAddEditMatrixMenu();
 
                         },
                         error: function () {
@@ -186,16 +186,16 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
                     oMatrix = matrixVariableNodes.filter(function (item) { return item.MatrixId() === Id })[0];
                 }
-                if (oMatrix != null && oMatrix != undefined){
+                if (oMatrix != null && oMatrix != undefined) {
                     dataservice.getCostCentreAnswerList({
                         MatrixId: oMatrix.MatrixId(),
                     }, {
                         success: function (data) {
-                          
+
                             SelectedMatrixVariable(model.MatrixVariableClientMapper(oMatrix, data));
                             SelectedMatrixVariable().reset();
-                            
-                          
+
+
                         },
                         error: function (response) {
                             toastr.error("Failed to Load . Error: " + response);
@@ -206,7 +206,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 view.showCostCentreMatrixDialog();
             },
             addMatrixVariable = function () {
-                
+
                 SelectedMatrixVariable(model.MatrixVariableClientMapper());
                 view.showCostCentreMatrixDialog();
                 SelectedMatrixVariable().reset();
@@ -259,7 +259,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                 });
 
-  
+
             }
             getVariableTreeChildListItems = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
@@ -272,10 +272,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         $(event.target).closest('li').children('ol').hide();
                         $("#idVariablesByType").removeClass("fa-chevron-circle-down");
                         $("#idVariablesByType").addClass("fa-chevron-circle-right");
-                        
+
                     }
                     return;
-                    
+
                 }
 
                 if (id == 2) {
@@ -410,7 +410,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 if ($(event.target).closest('li').children('ol').length > 0) {
                     if ($(event.target).closest('li').children('ol').is(':hidden')) {
                         $(event.target).closest('li').children('ol').show();
-                        
+
                         $("#idVariableschildByType").addClass("fa-chevron-circle-down");
                         $("#idVariableschildByType").removeClass("fa-chevron-circle-right");
                     } else {
@@ -434,32 +434,32 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 });
             },
             saveMatrixVariable = function (oMatrix) {
-                 dataservice.saveVariable(model.MatrixVariableServerMapper(oMatrix),
-                {
-                    success: function (data) {
-                        if (oMatrix.MatrixId() > 0) {
-                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].RowsCount(oMatrix.RowsCount());
-                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].ColumnsCount(oMatrix.ColumnsCount());
-                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Name(oMatrix.Name());
-                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Description(oMatrix.Description());
+                dataservice.saveVariable(model.MatrixVariableServerMapper(oMatrix),
+               {
+                   success: function (data) {
+                       if (oMatrix.MatrixId() > 0) {
+                           matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].RowsCount(oMatrix.RowsCount());
+                           matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].ColumnsCount(oMatrix.ColumnsCount());
+                           matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Name(oMatrix.Name());
+                           matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Description(oMatrix.Description());
 
-                        } else {
-                            matrixVariableNodes.push(model.matrixVariable(data));
-                        }
-                    
+                       } else {
+                           matrixVariableNodes.push(model.matrixVariable(data));
+                       }
 
-                        toastr.success("successfully saved.");
-                        view.hideCostCentreMatrixDialog();
-                        SelectedMatrixVariable().reset();
+
+                       toastr.success("successfully saved.");
+                       view.hideCostCentreMatrixDialog();
+                       SelectedMatrixVariable().reset();
                        // view.hidecostcentrequestiondialog();
-                    },
-                    error: function (response) {
-                        toastr.error("failed to save Matrix" + response);
-                    }
-                });
-                 
+                   },
+                   error: function (response) {
+                       toastr.error("failed to save Matrix" + response);
+                   }
+               });
 
-             }
+
+            }
             UpdateMartix = function (oMatrix) {
                 $("#WarningRowColUpdate").html("");
                 if (SelectedMatrixVariable().MatrixDetailVariableList().length > 0) {
@@ -506,8 +506,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         for (var j = 0; j < SelectedMatrixVariable().ColumnsCount() ; j++) {
                             var row = model.MatrixDetailClientMapper();
                             if (i == 0 && j == 0) {
-                              row.Id(-1);
-                            } 
+                                row.Id(-1);
+                            }
                             rowsTem.push(row);
 
                         }
@@ -515,12 +515,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                     }
                 }
-                
 
 
 
 
-                
+
+
             }
             saveQuestionVariable = function (oQuestion) {
 
@@ -570,7 +570,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     return {
                         row: source.$parent,
                         widget: source.$data,
-                        html: source.$data.VariableString().replace(/&quot;/g, '"') 
+                        html: source.$data.VariableString().replace(/&quot;/g, '"')
                     };
                 }
                 return {};
@@ -824,7 +824,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     success: function (data) {
                         costCentersList.removeAll();
                         if (data != null) {
-                            
+
                             _.each(data.CostCenters, function (item) {
                                 var module = model.costCenterListView.Create(item);
                                 costCentersList.push(module);
@@ -842,16 +842,15 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             //Do Before Save
             doBeforeSave = function () {
                 var flag = true;
-                
-                if (selectedCostCenter().type() == 11)
-                {
+
+                if (selectedCostCenter().type() == 11) {
 
                 }
                 else if (selectedCostCenter().calculationMethodType() == '2') {
                     if (selectedCostCenter().isTimeVariable() == '2') {
                         if (selectedCostCenter().timeQuestionString() == null || selectedCostCenter().timeQuestionString() == undefined || selectedCostCenter().timeQuestionString().length == 0) {
                             errorList.push({ name: "Enter a Valid Question for Number of Hours.", element: selectedCostCenter().timeQuestionString.domElement });
-                           
+
                             flag = false;
                         }
                     }
@@ -870,7 +869,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 }
                 return flag;
             },
-            
+
             //Save Cost Center
             saveCostCenter = function (callback) {
                 errorList.removeAll();
@@ -923,8 +922,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             closeCostCenterDetail();
                             //  getCostCenters();
                             toastr.success("Successfully saved.");
-                        }else
-                        {
+                        } else {
                             toastr.error("Formula String is not valid.");
                         }
                     },
@@ -952,6 +950,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 // getVariablesTree();
                 showCostCenterDetail();
                 sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
+                $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
             },
             createDeliveryCostCenter = function () {
                 errorList.removeAll();
@@ -961,6 +960,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 cc.type('11');
                 cc.calculationMethodType('1');
                 selectedCostCenter(cc);
+                $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
                 getCostCentersBaseData();
                 // getVariablesTree();
                 showCostCenterDetail();
@@ -995,13 +995,15 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 newcostcenter.isCalculationMethodEnable(true);
                 if (CostCenterType == "141") {
                     newcostcenter.type(141);
-                    
+
 
                 } else if (CostCenterType == "142") {
                     newcostcenter.type(142);
                 }
 
+                
                
+
 
             },
             createWorkInstruction = function () {
@@ -1017,7 +1019,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 var wic = new model.NewInstructionChoice();
                 selectedChoice(wic);
                 selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == oWorkInstruction.instructionId() })[0].workInstructionChoices.splice(0, 0, wic);
-               // selectedInstruction().workInstructionChoices.splice(0, 0, wic);
+                // selectedInstruction().workInstructionChoices.splice(0, 0, wic);
             },
             deleteWorkInstructionChoice = function (choice) {
                 selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == choice.instructionId() })[0].workInstructionChoices.remove(choice);
@@ -1039,6 +1041,14 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             selectedCostCenter(model.costCenterClientMapper(data));
                             selectedCostCenter().reset();
                             showCostCenterDetail();
+
+                            $('#idCostcenterimage')
+	                            .load(function () { })
+	                            .error(function () {
+	                                $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
+	                            });
+
+
                         }
                     },
                     error: function (response) {
@@ -1144,6 +1154,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         deliveryCarriers.valueHasMutated();
                         if (oCostCenter != undefined) {
                             getCostCenterById(oCostCenter);
+                            
                         }
                         CurrencySymbol(data.CurrencySymbol);
 
@@ -1201,7 +1212,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 }
                 if (selectedVariableString() === 'txtQuotedLabourCost') {
                     $("#txtQuotedLabourCost").val($("#txtQuotedLabourCost").val() + icoVal);
-                   // selectedCostCenter().strPriceLabourUnParsed(selectedCostCenter().strPriceLabourUnParsed() + icoVal);
+                    // selectedCostCenter().strPriceLabourUnParsed(selectedCostCenter().strPriceLabourUnParsed() + icoVal);
                 }
                 if (selectedVariableString() === 'txtLabourActualCost') {
                     selectedCostCenter().strActualCostLabourUnParsed(selectedCostCenter().strActualCostLabourUnParsed() + icoVal);
@@ -1217,38 +1228,38 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 if (selectedCostCenter().isEditLabourQuote()) {
                     var t = $("#txtQuotedLabourCost").val() + SelectedStockVariable().VariableString().replace(/&quot;/g, '"');
                     $("#txtQuotedLabourCost").val(t);
-                    
+
                 }
                 view.hideCostCentreStockDialog();
             }
-             openStockItemDialog = function (stockCategoryId) {
-                 stockDialog.show(function (stockItem) {
-                     SelectedStockVariable(model.StockItemVariable(stockItem));
-                     getvariableListItem();
-                     view.showCostCentreStockDialog();
-                    
-                 }, null, true);
-             },
+            openStockItemDialog = function (stockCategoryId) {
+                stockDialog.show(function (stockItem) {
+                    SelectedStockVariable(model.StockItemVariable(stockItem));
+                    getvariableListItem();
+                    view.showCostCentreStockDialog();
+
+                }, null, true);
+            },
             // #region Observables
             // Initialize the view model
-            initialize = function (specifiedView) {
-                view = specifiedView;
-                ko.applyBindings(view.viewModel, view.bindingRoot);
-                pager(pagination.Pagination({ PageSize: 10 }, costCentersList, getCostCenters));
-              
-                    
-                if (CostCenterType == "141") {
-                    $("#createNewCostCenterId").html("Add Pre Press Cost Center")
-                    $("#idcostcentertypename").html("Pre Press Cost Centers")
-                    
-                        
-                } else if (CostCenterType == "142") {
-                    $("#createNewCostCenterId").html("Add Post Press Cost Center")
-                    $("#idcostcentertypename").html("Pre Post Cost Centers")
-                }
-                    getCostCenters();
-                // getCostCentersBaseData();
-            };
+           initialize = function (specifiedView) {
+               view = specifiedView;
+               ko.applyBindings(view.viewModel, view.bindingRoot);
+               pager(pagination.Pagination({ PageSize: 10 }, costCentersList, getCostCenters));
+
+
+               if (CostCenterType == "141") {
+                   $("#createNewCostCenterId").html("Add Pre Press Cost Center")
+                   $("#idcostcentertypename").html("Pre Press Cost Centers")
+
+
+               } else if (CostCenterType == "142") {
+                   $("#createNewCostCenterId").html("Add Post Press Cost Center")
+                   $("#idcostcentertypename").html("Pre Post Cost Centers")
+               }
+               getCostCenters();
+               // getCostCentersBaseData();
+           };
 
             return {
                 // Observables
@@ -1258,10 +1269,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 deleteCostCenter: deleteCostCenter,
                 onDeleteCostCenter: onDeleteCostCenter,
                 sortOn: sortOn,
-                gotoElement:gotoElement,
+                gotoElement: gotoElement,
                 sortIsAsc: sortIsAsc,
                 pager: pager,
-                errorList:errorList,
+                errorList: errorList,
                 templateToUse: templateToUse,
                 makeEditable: makeEditable,
                 getCostCenters: getCostCenters,
@@ -1306,10 +1317,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 selectedVariableString: selectedVariableString,
                 iconClick: iconClick,
                 questionVariableNodes: questionVariableNodes,
-                matrixVariableNodes:matrixVariableNodes,
+                matrixVariableNodes: matrixVariableNodes,
                 createDeliveryCostCenter: createDeliveryCostCenter,
                 SelectedQuestionVariable: SelectedQuestionVariable,
-                SelectedMatrixVariable:SelectedMatrixVariable,
+                SelectedMatrixVariable: SelectedMatrixVariable,
                 AddAnswerofQuestionVariable: AddAnswerofQuestionVariable,
                 QuestionVariableType: QuestionVariableType,
                 saveQuestionVariable: saveQuestionVariable,
@@ -1336,7 +1347,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 variableDropdownList: variableDropdownList,
                 AddtoInputControl: AddtoInputControl,
                 RowscolCountList: RowscolCountList
-                
+
             };
         })()
     };
