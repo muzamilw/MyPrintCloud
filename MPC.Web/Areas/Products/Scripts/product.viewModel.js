@@ -55,6 +55,7 @@ define("product/product.viewModel",
                     currencyUnit = ko.observable(),
                     // Length Unit fOr Organisation 
                     lengthUnit = ko.observable(),
+                    weightUnit = ko.observable(),
                     // Selected Region Id
                     selectedRegionId = ko.observable(),
                     // Selected Category Type Id
@@ -987,6 +988,7 @@ define("product/product.viewModel",
                                 categoryTypes.removeAll();
                                 paperSizes.removeAll();
                                 lengthUnit(undefined);
+                                weightUnit(undefined);
                                 currencyUnit(undefined);
                                 if (data) {
                                     mapCostCentres(data.CostCentres);
@@ -1018,7 +1020,7 @@ define("product/product.viewModel",
                                     // Map Units
                                     lengthUnit(data.LengthUnit || undefined);
                                     currencyUnit(data.CurrencyUnit || undefined);
-
+                                    weightUnit(data.WeightUnit || undefined);
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
                                     itemStateTaxConstructorParams.states = states();
@@ -1410,7 +1412,8 @@ define("product/product.viewModel",
                     // For Store
                     initializeForStore: initializeForStore,
                     categorySelectedEventHandler: categorySelectedEventHandler,
-                    smartForms: smartForms
+                    smartForms: smartForms,
+                    weightUnit: weightUnit
                     // For Store
                     // Utility Methods
 

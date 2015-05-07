@@ -51,5 +51,6 @@ namespace MPC.MIS.Areas.Api.Models
         /// Currency Unit 
         /// </summary>
         public string CurrencyUnit { get; set; }
+        public string WeightUnit { get; set; }
     }
 }

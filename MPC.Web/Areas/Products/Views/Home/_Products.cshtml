@@ -78,36 +78,36 @@
             </div>
         </div>
     </div>
+    <div class="pull-right">
+        <div class="pull-right spanfilterlbl" data-bind="">
+            <a class=" pagerLeftIcon " data-bind="click: pager().previousPage">
+                <i class="fa fa-chevron-left"></i>
+            </a>
+            <a class="pagerRightIcon" data-bind="click: pager().nextPage">
+                <i class="fa fa-chevron-right"></i>
+            </a>
+        </div>
+        <span class="pull-right spanfilterlbl">of <span data-bind="text: pager().totalPages"></span></span>
+        <form data-bind="submit: function(){ }">
+            <div class="pull-right col-xs-3">
+                <input type="text" class="form-control" data-bind="value: currentPageCustom, valueUpdate: 'keyup'" />
+            </div>
+        </form>
+        <span class="pull-right spanfilterlbl">Page</span>
 
+    </div>
     @* Filter Template *@
     <script id="productFilterTemplate" type="text/html">
         <div class="filter-body">
             <form data-bind="submit: filterProducts">
-                <div class="filter-block pull-left">
-                    <div class="form-group pull-left">
+                <div class="filter-block pull-right">
+                    <div class="form-group pull-right">
                         <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
                         <i class="fa fa-search search-icon" data-bind="click: filterProducts"></i>
                     </div>
                 </div>
             </form>
-            <div class="pull-right">
-                <div class="pull-right spanfilterlbl" data-bind="">
-                    <a class=" pagerLeftIcon " data-bind="click: pager().previousPage">
-                        <i class="fa fa-chevron-left"></i>
-                    </a>
-                    <a class="pagerRightIcon" data-bind="click: pager().nextPage">
-                        <i class="fa fa-chevron-right"></i>
-                    </a>
-                </div>
-                <span class="pull-right spanfilterlbl">of <span data-bind="text: pager().totalPages"></span></span>
-                <form data-bind="submit: function(){ }">
-                    <div class="pull-right col-xs-3">
-                        <input type="text" class="form-control" data-bind="value: currentPageCustom, valueUpdate: 'keyup'" />
-                    </div>
-                </form>
-                <span class="pull-right spanfilterlbl">Page</span>
-
-            </div>
+            
             <div class="clearfix">
             </div>
         </div>
@@ -120,10 +120,9 @@
                 <div class="PDTC_TL FI_TL" data-bind="click: $root.editProduct">
                     <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
                 </div>
-                <div class="productIcons">
-                    <!-- ko template: { name: 'productActionTemplate' } -->
-                    <!-- /ko -->
-                </div>
+                @*<div class="productIcons">
+                   
+                </div>*@
             </div>
             <div class="productText">
                 <span data-bind="text: productNameForGrid, attr:{ title: productName }"></span>
@@ -131,17 +130,25 @@
             <div class="">
                 <span data-bind="text: 'Starting From $' + miniPrice()"></span>
             </div>
+            <div style="margin-top:10px;">
+                <!-- ko template: { name: 'productActionTemplate' } -->
+                <!-- /ko -->
+            </div>
         </div>
     </script>
 
     @* Action Template *@
     <script id="productActionTemplate" type="text/html">
-        <a href="#" class="table-link" title="Copy" data-bind="click: $root.onCloneProduct">
-            Copy
-        </a>
-        <a href="#" class="table-link" title="Design" data-bind="click: $root.editTemplate, visible: ((isFinishedGoodsUi() === '1') && templateId() && (templateTypeUi() !== '3'))">
-            Design
-        </a>
+        <button type="button" style="width:50px;" class="btn btn-info" title="Edit Product" data-bind="click: $root.editProduct">
+           <span style="font-size:10px;">Edit</span> 
+        </button>
+        <button type="button" style="width:50px;" class="btn btn-warning" title="Copy Product" data-bind="click: $root.onCloneProduct">
+            <span style="font-size:10px;">Copy</span> 
+        </button>
+        <button type="button" style="width:50px;" class="btn btn-yellow" title="Design Template" data-bind="click: $root.editTemplate, visible: ((isFinishedGoodsUi() === '1') && templateId() && (templateTypeUi() !== '3'))">
+            <span style="font-size:10px;">Design</span> 
+        </button>
+        
     </script>
 
     @* List View Template *@
