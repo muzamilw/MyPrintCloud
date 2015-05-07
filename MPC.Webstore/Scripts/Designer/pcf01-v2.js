@@ -90,6 +90,7 @@ function a0(fontName, fontFileName) {
     } else {
         html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".eot" + '); src: url(' + path + fontFileName + ".eot?#iefix" + ') format(" embedded-opentype"), url(' + path + fontFileName + ".woff" + ') format("woff"),  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
     }
+    console.log(fontName);
     $('head').append(html);
 }
 
@@ -333,8 +334,10 @@ function c2_01(OPT) {
 
             }
             if (OPT.type == "path-group") {
-                //IT.textStyles = OPT.toDataURL();
-            }
+                //IT.textStyles = OPT.toDataURL(); 
+                
+            } //console.log(IT.ContentString + " " + OPT.type);
+           // console.log(OPT.toSVG());
             if (OPT.textAlign == "left")
                 IT.Allignment = 1;
             else if (OPT.textAlign == "center")
