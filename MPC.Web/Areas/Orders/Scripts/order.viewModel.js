@@ -231,7 +231,6 @@ define("order/order.viewModel",
                         return hasChanges || productChanges || sectionHasChanges;
                     }),
                     // #endregion
-
                     // #region Utility Functions
                     // Create New Order
                     createOrder = function () {
@@ -282,14 +281,18 @@ define("order/order.viewModel",
                                 isSectionDetailVisible(false);
                                 isItemDetailVisible(false);
                                 var orderIdFromDashboard = $('#OrderId').val();
-                                if (orderIdFromDashboard != 0) {
+                                if (orderIdFromDashboard != 0 && !isEstimateScreen()) {
                                     getOrders();
                                 }
+                                
                             });
                             confirmation.show();
                             return;
                         }
-
+                        var orderIdFromDashboardTemp = $('#OrderId').val();
+                        if (orderIdFromDashboardTemp != 0 && !isEstimateScreen()) {
+                            getOrders();
+                        }
                         closeOrderEditor();
                     },
                     // Close Editor
@@ -1049,7 +1052,12 @@ define("order/order.viewModel",
                     //get Orders Of Current Screen
                     getOrdersOfCurrentScreen = function () {
                         pager().reset();
-                        getOrders(currentScreen());
+                        if (!isEstimateScreen()) {
+                            getOrders(currentScreen());
+                        } else {
+                            getEstimates(currentScreen());
+                        }
+                       
                     },
                     //Get Order Tab Changed Event
                     getOrdersOnTabChange = function (currentTab) {
@@ -1800,11 +1808,10 @@ define("order/order.viewModel",
                     //#endregion
                     //#region INITIALIZE
 
-                //Initialize method to call in every screen
+                    //Initialize method to call in every screen
                     initializeScreen = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
-
 
                         categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
                         costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCentersForProduct));
@@ -1815,7 +1822,7 @@ define("order/order.viewModel",
                         // On Dropdown filter selection change get orders
                         subscribeDropdownFilterChange();
                     },
-                // Initialize the view model
+                    // Initialize the view model
                     initialize = function (specifiedView) {
                         initializeScreen(specifiedView);
                         pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
@@ -1827,14 +1834,14 @@ define("order/order.viewModel",
                             getOrders();
                         }
                     },
-                //Initialize Estimate
+                    //Initialize Estimate
                     initializeEstimate = function (specifiedView) {
                         initializeScreen(specifiedView);
                         pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
                         isEstimateScreen(true);
                         getEstimates();
                     };
-                //#endregion
+                    //#endregion
                 return {
                     // #region Observables
                     selectedOrder: selectedOrder,
