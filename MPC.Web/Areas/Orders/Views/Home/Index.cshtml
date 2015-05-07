@@ -24,14 +24,12 @@
                     </div>
                     @Html.Partial("_Orders")
                     @Html.Partial("_OrderDetail")
-                   
-
+                    
                 </div>
             </div>
         </div>
     </div>
-    @Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantityForStockItem.cshtml")
-
+   
 </div>
 
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
@@ -46,14 +44,12 @@
 
     <script>
         require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view",
-            "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view"]);
+            "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
 
         $(function () {
             $('#liorderprocessing').addClass('active');
             $('.bs-example-tooltips a').popover();
         });
-
-
 
     </script>
 }

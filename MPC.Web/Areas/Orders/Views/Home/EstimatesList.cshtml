@@ -193,11 +193,15 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_AddCostCenters.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")
 
 @section Scripts{
 <script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
     <script>
-        require(["order/estimate.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view"]);
+      
+        require(["order/estimate.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view",
+        "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
         $(function ()
         {
             $('#liestimating').addClass('active');
@@ -219,5 +223,5 @@
                 }
             }
         });
-</script>
+    </script>
 }             
