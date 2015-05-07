@@ -69,6 +69,10 @@ namespace MPC.Repository.Repositories
             return db.Markups.Where(m => m.MarkUpId == ID).Select(e => e.MarkUpName).FirstOrDefault();
         }
 
+        public List<Markup> GetMarkups()
+        {
+           return db.Markups.Where(c => c.OrganisationId == OrganisationId).ToList();
+        }
         #endregion
     }
 }
