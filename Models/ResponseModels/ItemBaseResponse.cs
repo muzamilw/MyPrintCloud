@@ -53,5 +53,6 @@ namespace MPC.Models.ResponseModels
         /// Currency Unit 
         /// </summary>
         public string CurrencyUnit { get; set; }
+        public string WeightUnit { get; set; }
     }
 }

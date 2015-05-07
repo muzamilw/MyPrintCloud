@@ -71,11 +71,11 @@ define("order/order.view",
                 },
                // Show Cost Centers Quantity the dialog
                 showCostCentersQuantityDialog = function () {
-                    $("#costCentersQuanityForStockItem").modal("show");
+                    $("#orderCostCentersQuanity").modal("show");
                 },
                // Hide Cost Centers Quantity the dialog
                 hideCostCentersQuantityDialog = function () {
-                    $("#costCentersQuanityForStockItem").modal("hide");
+                    $("#orderCostCentersQuanity").modal("hide");
                 },
                 setOrderState = function (state, isFromEstimate) {
                     orderstate(state);
@@ -117,14 +117,7 @@ define("order/order.view",
                             });
                     });
                 },
-                // Show Sheet Plan Image the dialog
-                showSheetPlanImageDialog = function () {
-                    $("#sheetPlanModal").modal("show");
-                },
-                // Show Sheet Plan Image the dialog
-                hideSheetPlanImageDialog = function () {
-                    $("#sheetPlanModal").modal("show");
-                },
+               
                 // Show section Cost Center Dialog Model
                 showSectionCostCenterDialogModel = function () {
                     $("#sectionCostCenterDialogModel").modal("show");
@@ -149,24 +142,6 @@ define("order/order.view",
                 //Hide Order Pre Payment Modal
                 hideOrderPrePaymentModal = function () {
                     $("#orderPrePaymentModal").modal('hide');
-                },
-                //Show Estimate Run Wizard Modal
-                showEstimateRunWizard = function () {
-                    $("#estimateRunWizard").modal('show');
-                },
-                //Hide Estimate Run Wizard Modal
-                hideEstimateRunWizard = function () {
-                    $("#estimateRunWizard").modal('hide');
-                },
-
-                // Show Inks Dialog
-                showInksDialog = function () {
-                    $("#inkDialogModel").modal("show");
-                    initializeLabelPopovers();
-                },
-                // Hide Inks Dialog
-                hideInksDialog = function () {
-                    $("#inkDialogModel").modal("hide");
                 },
                 // Show Order Status Progress To Job Dialog
                 showOrderStatusProgressToJobDialog = function () {
@@ -215,16 +190,10 @@ define("order/order.view",
                 hideOrderPrePaymentModal: hideOrderPrePaymentModal,
                 setOrderState: setOrderState,
                 orderstate: orderstate,
-                showSheetPlanImageDialog: showSheetPlanImageDialog,
-                hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 //showInventoryItemDialog: showInventoryItemDialog,
                 hideInventoryItemDialog: hideInventoryItemDialog,
-                showEstimateRunWizard: showEstimateRunWizard,
-                hideEstimateRunWizard: hideEstimateRunWizard,
                 showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
-                showInksDialog: showInksDialog,
-                hideInksDialog: hideInksDialog,
                 showOrderStatusProgressToJobDialog: showOrderStatusProgressToJobDialog,
                 hideOrderStatusProgressToJobDialog:hideOrderStatusProgressToJobDialog
             };

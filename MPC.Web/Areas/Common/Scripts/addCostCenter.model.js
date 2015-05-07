@@ -11,8 +11,8 @@
             quantity2 = ko.observable(specifiedquantity2),
             quantity3 = ko.observable(specifiedquantity3),
             description = ko.observable(specifiedDes),
-            setupCost = ko.observable(specifiedSetupcost),
-            pricePerUnitQuantity = ko.observable(specifiedPpq),
+            setupCost = ko.observable(specifiedSetupcost).extend({ numberInput: ist.numberFormat }),
+            pricePerUnitQuantity = ko.observable(specifiedPpq).extend({ numberInput: ist.numberFormat }),
             errors = ko.validation.group({
 
             }),

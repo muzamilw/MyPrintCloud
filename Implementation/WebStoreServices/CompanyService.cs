@@ -429,11 +429,11 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        public SystemUser GetSystemUserById(long SystemUserId)
+        public SystemUser GetSystemUserById(Guid SystemUserId)
         {
             try
             {
-                return _systemUserRepository.GetSalesManagerById(SystemUserId);
+                return _systemUserRepository.GetUserrById(SystemUserId);
 
             }
             catch (Exception ex)

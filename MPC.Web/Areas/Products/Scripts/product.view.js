@@ -1,4 +1,5 @@
 ﻿/*
+/*
     View for the Product. Used to keep the viewmodel clear of UI related logic
 */
 define("product/product.view",
@@ -174,7 +175,7 @@ define("product/product.view",
 
                     var childCategoryHtml = '<ol class="dd-list"> ' +
                         '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
-                        '<div class="dd-handle-list" data-bind="click: $root.toggleChildCategories"><i class="fa fa-bars"></i></div>' +
+                        '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
                         '<div class="dd-handle">' +
                         '<span>' + category.name + '</span>' +
                         '<div class="nested-links"> ' +

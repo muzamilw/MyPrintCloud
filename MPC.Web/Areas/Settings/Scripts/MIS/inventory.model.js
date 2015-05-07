@@ -26,7 +26,7 @@
             //category + Sub Category Name
             fullCategoryName = ko.observable(specifiedFullCategoryName),
             // Per pack Cost within current date
-            packCostPrice = ko.observable(specifiedFullCategoryName),
+            packCostPrice = ko.observable(specifiedFullCategoryName || 0).extend({ numberInput: ist.numberFormat }),
             ///Supplier Company Name
             supplierCompanyName = ko.observable(specifiedSupplierCompanyName),
             convertToServerData = function () {
@@ -420,7 +420,7 @@
     InventoryListView.Create = function (source) {
         var obj= new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
                               source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region);
-        obj.packCostPrice(source.PackCostPrice || '');
+        obj.packCostPrice(source.PackCostPrice);
         return obj;
     };
 

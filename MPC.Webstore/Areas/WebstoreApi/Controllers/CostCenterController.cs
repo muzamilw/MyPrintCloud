@@ -64,7 +64,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 try
                 {
 
-                    string OrganizationName = "Test";
+                    string OrganizationName = "PinkCards";
                     AppDomainSetup _AppDomainSetup = new AppDomainSetup();
 
 
@@ -81,6 +81,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     //Me._AppDomain.InitializeLifetimeService()
 
                     List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+
+                    
 
 
                     //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
@@ -137,7 +139,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     //CurrentQuantity
                     _CostCentreParamsArray[6] = new List<StockQueueItem>();
                     //StockQueue
-                    _CostCentreParamsArray[7] = new List<InputQueueItem>();
+                    _CostCentreParamsArray[7] = new InputQueue();
                     //InputQueue
 
                     if (parameter3 == "null" || parameter3 == null)
@@ -166,12 +168,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
 
-
-
+                    
+                    
                     _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
                     _oRemoteObject = (ICostCentreLoader)_oLocalObject;
 
-                    CostCentreCostResult oResult = null;
+                    CostCentrePriceResult oResult = null;
 
                     if (parameter4 == "Modify")
                     {
@@ -184,7 +186,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         {
                             return Request.CreateResponse(HttpStatusCode.OK, 131);
                         }
-                        oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+                        oResult = _oRemoteObject.returnPrice(ref _CostCentreParamsArray);
 
                     }
 
@@ -195,7 +197,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
                         GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
 
-                        double actualPrice = oResult.TotalCost;
+                        double actualPrice = oResult.TotalPrice;
 
                         if (actualPrice < oCostCentre.MinimumCost && oCostCentre.MinimumCost != 0)
                         {
