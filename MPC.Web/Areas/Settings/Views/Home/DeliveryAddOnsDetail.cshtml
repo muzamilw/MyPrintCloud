@@ -44,7 +44,7 @@
                                             <div class="form-group ">
                                                 <div class="col-lg-5 text-right">
 
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -53,18 +53,19 @@
                                                     </div>
 
 
-                                                    <label for="txtEmail" class="control-label text-right tooltip-float">Name</label>
+                                                    <label for="txtEmail" class="control-label text-right tooltip-float">Name</label>*@
 
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtEmail" data-bind="value: name, validationTooltip: name">
+                                                    <input type="text" class="form-control font24px height60" id="txtEmail" placeholder="Enter Shipping Cost Center name" data-bind="value: name, validationTooltip: name">
                                                 </div>
                                             </div>
+                                         
                                             <div class="form-group ">
                                                 <div class="col-lg-5 text-right">
 
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -73,33 +74,12 @@
                                                     </div>
 
 
-                                                    <label for="txtFName" class="control-label text-right tooltip-float">Internal Description</label>
+                                                    <label for="txtLName" class="control-label text-right tooltip-float">Webstore Description</label>*@
 
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <textarea class="form-control" id="txtInternalDesc" placeholder="Enter Internal Description" rows="5" data-bind="value: description"></textarea>
-                                                    
-                                                </div>
-                                            </div>
-                                            <div class="form-group ">
-                                                <div class="col-lg-5 text-right">
-
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-
-                                                    </div>
-
-
-                                                    <label for="txtLName" class="control-label text-right tooltip-float">Webstore Description</label>
-
-                                                </div>
-
-                                                <div class="col-lg-7">
-                                                    <textarea class="form-control" id="txtWebDesc" placeholder="Enter Internal Description" rows="5" data-bind="value: webStoreDesc"></textarea>
+                                                    <textarea class="form-control" id="txtWebDesc" placeholder="Enter Web Store Description" rows="5" data-bind="value: webStoreDesc"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -114,7 +94,7 @@
                                                     </div>
 
 
-                                                    <label for="ddCarrier" class="control-label text-right tooltip-float">Send & Calculate Delivery Via</label>
+                                                    <label for="ddCarrier" class="control-label text-right tooltip-float">Send & Calculate Shipping Via</label>
 
                                                 </div>
 
@@ -274,7 +254,27 @@
                                                 </div>*@
 
                                             </div>
-                                            
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtFName" class="control-label text-right tooltip-float">Internal Description</label>*@
+
+                                                </div>
+
+                                                <div class="col-lg-7">
+                                                    <textarea class="form-control" id="txtInternalDesc" placeholder="Notes" rows="5" data-bind="value: description"></textarea>
+
+                                                </div>
+                                            </div>
                                             <div class="form-group">
 
                                                 <div class="col-lg-5 text-right">
