@@ -103,12 +103,6 @@ define("order/order.dataservice", function () {
                         type: 'GET'
                     });
                     // Define request to get Print Plan for section screen
-                    amplify.request.define('getPTV', 'ajax', {
-                        url: ist.siteUrl + '/Api/DrawPtv',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
-                    // Define request to get Print Plan for section screen
                     amplify.request.define('getPTVCalculation', 'ajax', {
                         url: ist.siteUrl + '/Api/PtvCalculation',
                         dataType: 'json',
@@ -266,16 +260,7 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
-            // get Stock items
-            getPTV = function(params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getPTV',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: params
-                });
-            },
+           
             getBestPress = function(params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -331,7 +316,6 @@ define("order/order.dataservice", function () {
             getInventoriesList: getInventoriesList,
             getItemsDetailsByItemId: getItemsDetailsByItemId,
             deleteOrder: deleteOrder,
-            getPTV: getPTV,
             getBestPress: getBestPress,
             getPTVCalculation: getPTVCalculation,
             getUpdatedSystemCostCenters: getUpdatedSystemCostCenters,

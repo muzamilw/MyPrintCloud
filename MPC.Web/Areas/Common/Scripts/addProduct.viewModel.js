@@ -38,11 +38,11 @@ define("common/addProduct.viewModel",
                     currencySymbol = ko.observable(),
                     saveSectionCostCenterForproduct = null,
                     createItemFromOrder = null,
-                   companyIdFromOrder = null,
+                    companyIdFromOrder = null,
                     searchFilter = ko.observable(),
 
                     // Show
-                show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem) {
+                    show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem) {
                     orderId = oId;
                     currencySymbol(currencySym);
                     afterAddCostCenter = afterAddCostCenterCallback;
@@ -146,11 +146,11 @@ define("common/addProduct.viewModel",
                         createNewRetailStoreProduct();
                         onCloseProductFromRetailStore();
                     },
-                      onCloseProductFromRetailStore = function () {
+                    onCloseProductFromRetailStore = function () {
                           view.hideProductFromRetailStoreModal();
                       },
-                     //req: In retail store case add selected addons as cost centers of new creating product
-                            //and make new cost center of name 'Web order Cost Center' in any case
+                    //req: In retail store case add selected addons as cost centers of new creating product
+                    //and make new cost center of name 'Web order Cost Center' in any case
                     addSelectedAddOnsAsCostCenters = function (newItem) {
                         var sectionCostCenter = model.SectionCostCentre.Create({});
                         var counter = 0;
@@ -169,7 +169,7 @@ define("common/addProduct.viewModel",
                         return newItem;
                     },
 
-                     getStockCostCenterId = function (type) {
+                    getStockCostCenterId = function (type) {
                          var costCentreId;
                          _.each(costCentresFromOrders, function (costCenter) {
                              if (costCenter.Type == type) {
@@ -178,7 +178,7 @@ define("common/addProduct.viewModel",
                          });
                          return costCentreId;
                      },
-                           getPrice = function (listElementNumber, count) {
+                    getPrice = function (listElementNumber, count) {
                                if (count == 1) {
                                    return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType1();
                                }
@@ -214,8 +214,8 @@ define("common/addProduct.viewModel",
                                }
                                // ReSharper disable once NotAllPathsReturnValue
                            },
-                      //On Product From Retail Store update Item price matrix table and Add on Table 
-                            updateViewOnStockOptionChange = ko.computed(function () {
+                    //On Product From Retail Store update Item price matrix table and Add on Table 
+                    updateViewOnStockOptionChange = ko.computed(function () {
                                 if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
                                     return;
                                 }
@@ -231,7 +231,7 @@ define("common/addProduct.viewModel",
                             }),
                     //Calculate Total Price
                     // ReSharper disable once UnusedLocals
-                        calculateTotalPrice = ko.computed(function () {
+                    calculateTotalPrice = ko.computed(function () {
                             //selecteditem().itemStockOptions()[0].itemAddonCostCentres()
                             //selectedStockOption().itemAddonCostCentres()
                             var totalPrice = 0;
@@ -271,10 +271,7 @@ define("common/addProduct.viewModel",
                                 }
                                 totalProductPrice(totalPrice);
                             }
-                        })
-
-
-                ;
+                        });
                 return {
                     //Arrays
                     onSaveRetailStoreProduct: onSaveRetailStoreProduct,

@@ -539,16 +539,24 @@ namespace MPC.Implementation.MISServices
                        SystemUsers = systemUserRepository.GetAll(),
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
                        PaymentMethods = paymentMethodRepository.GetAll(),
-                       Markups = _markupRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
                        StockCategories = stockCategoryRepository.GetAll(),
                       // ChartOfAccounts = chartOfAccountRepository.GetAll(),
-                       PaperSizes = paperSizeRepository.GetAll(),
-                       InkPlateSides = inkPlateSideRepository.GetAll(),
-                       Inks = stockItemRepository.GetStockItemOfCategoryInk(),
-                       InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem()
                    };
+        }
+
+        public ItemDetailBaseResponse GetBaseDataForItemDetails()
+        {
+            return new ItemDetailBaseResponse
+            {
+                Markups = _markupRepository.GetAll(),
+                PaperSizes = paperSizeRepository.GetAll(),
+                InkPlateSides = inkPlateSideRepository.GetAll(),
+                Inks = stockItemRepository.GetStockItemOfCategoryInk(),
+                InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
+            };
+            
         }
 
         /// <summary>
