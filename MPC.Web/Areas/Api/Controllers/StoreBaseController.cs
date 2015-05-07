@@ -13,8 +13,15 @@ using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.Models.DomainModels;
 using MPC.WebBase.Mvc;
 using Newtonsoft.Json;
+using Address = MPC.MIS.Areas.Api.Models.Address;
+using CompanyContactRole = MPC.MIS.Areas.Api.Models.CompanyContactRole;
+using CompanyTerritory = MPC.MIS.Areas.Api.Models.CompanyTerritory;
+using EmailEvent = MPC.MIS.Areas.Api.Models.EmailEvent;
+using PaymentMethod = MPC.MIS.Areas.Api.Models.PaymentMethod;
+using Widget = MPC.MIS.Areas.Api.Models.Widget;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -124,7 +131,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 PriceFlags = result.PriceFlags != null ? result.PriceFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
                 OrganisationId = result.OrganisationId,
                 CorporateStoreNameWebConfigValue = corporateStoreName,
-                RetailStoreNameWebConfigValue = retailStoreName
+                RetailStoreNameWebConfigValue = retailStoreName,
+                CurrencySymbol = result.Currency
             };
         }
         #endregion

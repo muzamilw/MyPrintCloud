@@ -28,7 +28,7 @@ define("dashboard.viewModel",
                 // Canceled Orders Count
                 canceledOrdersCount = ko.observable(0),
                  // Total Earnings
-                totalEarning = ko.observable(undefined),
+                totalEarning = ko.observable(undefined).extend({ numberInput: ist.numberFormat }),
                  // Live Stores
                 liveStoresCount = ko.observable(0),
                 //Order Search String

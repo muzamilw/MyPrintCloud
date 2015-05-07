@@ -26,6 +26,7 @@ define("paperSheet/paperSheet.viewModel",
                     editorViewModel = new ist.ViewModel(model.PaperSheet),
                     //Selected Paper Sheet
                     selectedPaperSheet = editorViewModel.itemForEditing,
+                    selectedPaperSheetForDelete = ko.observable(),
                     //Length Unit
                     lengthUnit = ko.observable(),
                     //Organisation culure
@@ -45,6 +46,7 @@ define("paperSheet/paperSheet.viewModel",
                     },
                     //On Edit Click Of Paper Sheet
                     onEditItem = function (item) {
+                        selectedPaperSheetForDelete(item);
                         editorViewModel.selectItem(item);
                         openEditDialog();
                     },
@@ -55,8 +57,9 @@ define("paperSheet/paperSheet.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    paperSheets.remove(paperSheet);
-                                    toastr.success(" Deleted Successfully !");
+                                    paperSheets.remove(selectedPaperSheetForDelete());
+                                    view.hidePaperSheetDialog();
+                                    toastr.success("Successfully archive!");
                                 }
                             },
                             error: function (response) {
@@ -80,7 +83,7 @@ define("paperSheet/paperSheet.viewModel",
                         isLoadingPaperSheet(true);
                         dataservice.getPaperSheets({
                             SearchString: searchFilter(),
-                            Region:orgCulture(),
+                            Region: orgCulture(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
@@ -103,7 +106,7 @@ define("paperSheet/paperSheet.viewModel",
                             }
                         });
                     },
-                    getPaperSheetsByFilter = function() {
+                    getPaperSheetsByFilter = function () {
                         pager().reset();
                         getPaperSheets();
                     },
@@ -249,7 +252,7 @@ define("paperSheet/paperSheet.viewModel",
                     getBaseData: getBaseData,
                     onClosePaperSheet: onClosePaperSheet,
                     initialize: initialize,
-                    getPaperSheetsByFilter:getPaperSheetsByFilter,
+                    getPaperSheetsByFilter: getPaperSheetsByFilter,
                     orgCulture: orgCulture
                 };
             })()

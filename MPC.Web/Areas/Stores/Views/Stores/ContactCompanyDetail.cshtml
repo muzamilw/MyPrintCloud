@@ -2300,61 +2300,64 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </span>
             </a>
         </script>
-        <script id="itemCompanyContactTemplate" type="text/html">
-            <tr style="cursor: pointer" data-bind="click: $root.onEditCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact }">
-                <td style="width: 20%; max-width: 20%;">
-                    <div class="img col-xs-2">
-                        <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
-                    </div>
-                    <div class="details col-lg-1">
-                        <a href="#" class="store-user-link" data-bind="text: firstName"></a>
-                        <a href="#" class="store-user-link storeSubText" data-bind="text: email"></a>
-                        @*<div class="name">
+    <script id="itemCompanyContactTemplate" type="text/html">
+        <tr style="cursor: pointer" data-bind="click: $root.onEditCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact }">
+            <td style="width: 20%; max-width: 20%;">
+                <div class="img col-xs-2">
+                    <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
+                </div>
+                <div class="details col-lg-1">
+                    <a href="#" class="store-user-link" data-bind="text: firstName"></a>
+                    <a href="#" class="store-user-link storeSubText" data-bind="text: email"></a>
+                    @*<div class="name">
                         <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
                     </div>
                     <div class="time online" data-bind="text: email">
                     </div>*@
-                    </div>
-                </td>
-                <td style="width: 10%; max-width: 10%;">
-                    <div class="type">
-                        <!--ko if: roleName() == "Administrator" -->
-                        <span class="label label-primary" data-bind="text: roleName "></span>
-                        <!-- /ko -->
-                        <!--ko if: roleName() == "Manager" -->
-                        <span class="label label-success" data-bind="text: roleName "></span>
-                        <!-- /ko -->
-                        <!--ko if: roleName() == "User" -->
-                        <span class="label label-info" data-bind="text: roleName "></span>
-                        <!-- /ko -->
+                </div>
+            </td>
+            <td style="width: 10%; max-width: 10%;">
+                <div class="type">
+                    <!--ko if: roleName() == "Administrator" -->
+                    <span class="label label-primary" data-bind="text: roleName "></span>
+                    <!-- /ko -->
+                    <!--ko if: roleName() == "Manager" -->
+                    <span class="label label-success" data-bind="text: roleName "></span>
+                    <!-- /ko -->
+                    <!--ko if: roleName() == "User" -->
+                    <span class="label label-info" data-bind="text: roleName "></span>
+                    <!-- /ko -->
 
-                    </div>
-                </td>
-                @*
+                </div>
+            </td>
+            @*
             <td data-bind="text: firstName "></td>
             <td data-bind="text: contactRoleId"></td>*@
-                <td style="width: 10%; max-width: 10%;">
-                    <div class="type">
-                        <span class="label" data-bind="text: isWebAccess() == true ? 'Yes' : 'No' , css: { 'label-success': (isWebAccess() == true),'label-danger': (isWebAccess() != true)}"></span>   @*class="label label-danger"*@
-                    </div>
-                </td>
+            <td style="width: 10%; max-width: 10%;">
+                <div class="type">
+                    <span class="label" data-bind="text: isWebAccess() == true ? 'Yes' : 'No' , css: { 'label-success': (isWebAccess() == true),'label-danger': (isWebAccess() != true)}"></span>   @*class="label label-danger"*@
+                </div>
+            </td>
 
-                <td style="width: 10%; max-width: 10%;">
-                    <div class="type">
-                        <span class="label" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No', css: { 'label-success': (isPlaceOrder() == true),'label-danger': (isPlaceOrder() != true)}"></span>
-                    </div>
-                </td>
-                <td style="width: 10%; max-width: 10%;">
-                    <div class="type">
-                        <span class="label" data-bind="text: canUserPlaceOrderWithoutApproval() != true ? 'Yes' : 'No', css: { 'label-success': (canUserPlaceOrderWithoutApproval() != true),'label-danger': (canUserPlaceOrderWithoutApproval() == true)}"></span>
-                    </div>
-                </td>
-                <td style="width: 10%; max-width: 10%;">
-                    <div class="type">
-                        <span class="label" data-bind="text: isPricingshown() == true ? 'Yes' : 'No', css: { 'label-success': (isPricingshown() == true),'label-danger': (isPricingshown() != true)}"></span>
-                    </div>
-                </td>
-                <td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
+            <td style="width: 10%; max-width: 10%;">
+                <div class="type">
+                    <span class="label" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No', css: { 'label-success': (isPlaceOrder() == true),'label-danger': (isPlaceOrder() != true)}"></span>
+                </div>
+            </td>
+            <td style="width: 10%; max-width: 10%;">
+                <div class="type">
+                    <span class="label" data-bind="text: canUserPlaceOrderWithoutApproval() != true ? 'Yes' : 'No', css: { 'label-success': (canUserPlaceOrderWithoutApproval() != true),'label-danger': (canUserPlaceOrderWithoutApproval() == true)}"></span>
+                </div>
+            </td>
+            <td style="width: 10%; max-width: 10%;">
+                <div class="type">
+                    <span class="label" data-bind="text: isPricingshown() == true ? 'Yes' : 'No', css: { 'label-success': (isPricingshown() == true),'label-danger': (isPricingshown() != true)}"></span>
+                </div>
+            </td>
+            <td style="width: 10%; max-width: 10%; text-align: right" >
+                <span style="text-align:right" data-bind="text: $root.currencySymbol"></span>
+                <span style="text-align:right" data-bind="numberInput: creditLimit() != null ? creditLimit:' '"></span>
+            </td>
                 @*<td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
                 <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->

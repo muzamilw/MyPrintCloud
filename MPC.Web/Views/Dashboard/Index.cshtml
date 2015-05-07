@@ -250,13 +250,10 @@
                                                 </span>
                                                 <table>
                                                     <tr>
+                                                       
                                                         <td>
-                                                            <span class="dashboardcounters23">
-                                                                $&nbsp;
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span class="dashboardcounters23" data-bind="text: $root.totalEarning">
+                                                            <span class="dashboardcounters23">$</span>
+                                                            <span class="dashboardcounters23" data-bind="numberInput: $root.totalEarning">
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -484,7 +481,10 @@
                 <td data-bind="text: orderCode"></td>
                 <td> <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
                 <td> <span class="label label-success" data-bind="text: status, style: { background: flagColor }"></span></td>  @*fields mapping required*@
-                <td data-bind="text: estimateTotal() == undefined ? '$ 0' : '$ ' + estimateTotal()"></td>  @*fields mapping required*@
+                <td >
+                    <span style="text-align: right" data-bind="text: '$'"></span>
+                    <span style="text-align: right" data-bind="numberInput: estimateTotal() == undefined ? '' :  estimateTotal()"></span>
+                </td>  @*fields mapping required*@
             </tr>
         </script>
     </div>

@@ -2473,7 +2473,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isApprover = ko.observable(specifiedIsApprover),
             isWebAccess = ko.observable(specifiedisWebAccess),
             isPlaceOrder = ko.observable(specifiedisPlaceOrder),
-            creditLimit = ko.observable(specifiedCreditLimit), //.extend({ number: true }),
+            creditLimit = ko.observable(specifiedCreditLimit).extend({ numberInput: ist.numberFormat }), //.extend({ number: true }),
             isArchived = ko.observable(specifiedisArchived),
             contactRoleId = ko.observable(specifiedContactRoleId),
             territoryId = ko.observable(specifiedTerritoryId),
