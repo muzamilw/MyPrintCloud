@@ -1111,6 +1111,7 @@
     <Content Include="Content\Images\loaders\horizontal\058.gif" />
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
+    <Content Include="Content\Images\OrderSectionCover.png" />
     <Content Include="Content\Images\Ptv\back-down.gif" />
     <Content Include="Content\Images\Ptv\back-downP.gif" />
     <Content Include="Content\Images\Ptv\back-up.gif" />
