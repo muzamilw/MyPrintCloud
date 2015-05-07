@@ -22,11 +22,11 @@ define("common/addCostCenter.view",
                 },
                 // Show Add Cost Center the dialog
                 showDialog = function () {
-                    $("#costCenters").modal("show");
+                    $("#costCentersMain").modal("show");
                 },
                 // Hide Add Cost Center the dialog
                 hideDialog = function () {
-                    $("#costCenters").modal("hide");
+                    $("#costCentersMain").modal("hide");
                 };
             
             return {

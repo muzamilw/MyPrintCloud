@@ -49,6 +49,8 @@ define("stores/stores.viewModel",
                     orderCount = ko.observable(0),
                     //Sort On
                     sortOn = ko.observable(1),
+                    // currency Symbol
+                    currencySymbol = ko.observable(),
                     //Sort In Ascending
                     sortIsAsc = ko.observable(true),
                     //Pager
@@ -3260,7 +3262,7 @@ define("stores/stores.viewModel",
                     event.target.classList.remove("fa-chevron-circle-down");
                     event.target.classList.add("fa-chevron-circle-right");
                 }
-            }
+            },
                 //Get Category Child List Items
                 getCategoryChildListItems = function (dataRecieved, event) {
                     changeIcon(event);
@@ -4456,6 +4458,7 @@ define("stores/stores.viewModel",
                     }, {
                         success: function (data) {
                             if (data != null) {
+                                currencySymbol(data.CurrencySymbol);
                                 systemUsers.removeAll();
                                 systemVariablesForSmartForms.removeAll();
                                 addressCompanyTerritoriesFilter.removeAll();
@@ -6518,7 +6521,8 @@ define("stores/stores.viewModel",
                     selectTheme: selectTheme,
                     selectedThemeName: selectedThemeName,
                     onDeleteMedia: onDeleteMedia,
-                    defaultSortBy: defaultSortBy
+                    defaultSortBy: defaultSortBy,
+                    currencySymbol: currencySymbol
                 };
                 //#endregion
             })()

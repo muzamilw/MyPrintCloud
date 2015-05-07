@@ -78,7 +78,10 @@ define("common/addCostCenter.viewModel",
                     // On Select Cost Center
                     onSelectCostCenter = function (costCenter) {
                         selectedCostCentre(costCenter);
-                        view.showCostCentersQuantityDialog();
+                        if (afterAddCostCenter && typeof afterAddCostCenter === "function") {
+                            afterAddCostCenter(selectedCostCentre());
+                        }
+                        hideCostCentreDialog();
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
