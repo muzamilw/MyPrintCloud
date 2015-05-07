@@ -22,11 +22,6 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public IEnumerable<PipeLineSource> PipeLineSources { get; set; }
 
-
-        /// <summary>
-        /// List of Markups
-        /// </summary>
-        public IEnumerable<Markup> Markups { get; set; }
         
         /// <summary>
         /// Payment Methods
@@ -48,24 +43,6 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public IEnumerable<ChartOfAccount> ChartOfAccounts { get; set; }
 
-        /// <summary>
-        /// Paper Sizes
-        /// </summary>
-        public IEnumerable<PaperSizeDropDown> PaperSizes { get; set; }
-
-        /// <summary>
-        /// Ink Plate Sides
-        /// </summary>
-        public IEnumerable<InkPlateSide> InkPlateSides { get; set; }
-        /// <summary>
-        /// Stock items Lists of Stock category type 2(Inks)
-        /// </summary>
-        public IEnumerable<StockItemForDropDown> Inks { get; set; }
-
-        /// <summary>
-        /// Ink Coverage Group
-        /// </summary>
-        public IEnumerable<InkCoverageGroup> InkCoverageGroup { get; set; }
         /// <summary>
         /// Cost Centers
         /// </summary>
