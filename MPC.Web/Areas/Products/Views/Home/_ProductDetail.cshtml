@@ -601,9 +601,9 @@
                                                 <table class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th style="text-align:center;"><a href="#"><span>RANGE of Clicks</span></a></th>
-                                                            <th style="text-align:center;"><a href="#"><span> Price per Click</span></a></th>
-                                                            <th style="text-align:center;"><a href="#"><span>Setup Charge</span></a></th>
+                                                            <th style="text-align:center;"><span>RANGE of Clicks</span></th>
+                                                            <th style="text-align:center;"><span> Price per Click</span></th>
+                                                            <th style="text-align:center;"><span>Setup Charge</span></th>
                                                             <th>&nbsp;</th>
                                                         </tr>
                                                     </thead>
@@ -1116,9 +1116,9 @@
                                                             <table class="table table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th style="text-align:center;"><a href="#"><span>Country</span></a></th>
-                                                                        <th style="text-align:center;"><a href="#"><span> State</span></a></th>
-                                                                        <th style="text-align:center;"><a href="#"><span>Tax</span></a></th>
+                                                                        <th style="text-align:center;"><span>Country</span></th>
+                                                                        <th style="text-align:center;"><span> State</span></th>
+                                                                        <th style="text-align:center;"><span>Tax</span></th>
                                                                         <th>&nbsp;</th>
                                                                     </tr>
                                                                 </thead>
@@ -2109,9 +2109,9 @@
                                                 <table class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th style="width:175px;"><a href="#"><span>Page Name</span></a></th>
-                                                            <th><a href="#"><span>Height</span></a></th>
-                                                            <th><a href="#"><span>Width</span></a></th>
+                                                            <th style="width:175px;"><span>Page Name</span></th>
+                                                            <th><span>Height</span></th>
+                                                            <th><span>Width</span></th>
 
                                                             <th style="text-align:center;"><span>Move Page</span></th>
                                                             <th style="width: 114px;"></th>
@@ -2509,9 +2509,9 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th><a href="#"><span>Cost Center Name</span></a></th>
-                                    <th><a href="#"><span>Cost Center Type</span></a></th>
-                                    <th><a href="#"><span>Is Mandatory</span></a></th>
+                                    <th><span>Cost Center Name</span></th>
+                                    <th><span>Cost Center Type</span></th>
+                                    <th><span>Is Mandatory</span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -2527,9 +2527,9 @@
 
     @* Item Addon Cost Centre Template *@
     <script id="itemAddonCostCentreTemplate" type="text/html">
-        <tr>
+        <tr style="cursor: pointer;" data-bind="click: $parents[1].onEditItemCostCentre.bind($parent, $parent, $data)">
             <td>
-                <a style="cursor: pointer;" data-bind="text: costCentreName, click: $parents[1].onEditItemCostCentre.bind($parent, $parent, $data)"></a>
+                <a href="#" data-bind="text: costCentreName, click: undefined"></a>
             </td>
             <td data-bind="text: costCentreType"></td>
             <td>
