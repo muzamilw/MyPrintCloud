@@ -327,6 +327,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemDetailBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -525,6 +526,7 @@
     <Compile Include="Areas\Api\Models\InvoiceListResponseModel.cs" />
     <Compile Include="Areas\Api\Models\InvoicesListModel.cs" />
     <Compile Include="Areas\Api\Models\ItemAttachment.cs" />
+    <Compile Include="Areas\Api\Models\ItemDetailBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
@@ -863,6 +865,10 @@
     <Content Include="Areas\Common\Scripts\addCostCenter.model.js" />
     <Content Include="Areas\Common\Scripts\addCostCenter.view.js" />
     <Content Include="Areas\Common\Scripts\addCostCenter.viewModel.js" />
+    <Content Include="Areas\Common\Scripts\itemDetail.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\itemDetail.model.js" />
+    <Content Include="Areas\Common\Scripts\itemDetail.view.js" />
+    <Content Include="Areas\Common\Scripts\itemDetail.viewModel.js" />
     <Content Include="Areas\Common\Scripts\reportManager.dataservice.js" />
     <Content Include="Areas\Common\Scripts\reportManager.model.js" />
     <Content Include="Areas\Common\Scripts\reportManager.view.js" />
@@ -2085,7 +2091,9 @@
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\ReportBanner.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_ItemDetail.cshtml" />
     <Content Include="Areas\Settings\Views\Home\RegionalSettings.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_OrderCostCenterQuantity.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3209,7 +3217,6 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Estimate\EstimateDetail.cshtml" />
     <Content Include="Views\Estimate\EstimatesList.cshtml" />
-    <Content Include="Views\Estimate\ItemDetail.cshtml" />
     <Content Include="Views\Estimate\SectionDetail.cshtml" />
     <Content Include="Views\Home\LoginFull.cshtml" />
     <Content Include="Views\Order\OrderDetail.cshtml" />
@@ -3289,6 +3296,7 @@
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
+    <Folder Include="Areas\Api\Views\ItemDetailBase\" />
     <Folder Include="Areas\Api\Views\LookupMethod\" />
     <Folder Include="Areas\Api\Views\Machine\" />
     <Folder Include="Areas\Api\Views\OrderRetailStoreDetail\" />

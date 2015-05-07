@@ -449,6 +449,7 @@
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
+    <Compile Include="ResponseModels\ItemDetailBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemForItemJobStatus.cs" />
     <Compile Include="ResponseModels\LookupMethodListResponse.cs" />
     <Compile Include="ResponseModels\LookupMethodResponse.cs" />
