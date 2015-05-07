@@ -77,18 +77,6 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to get Items By CompanyId
-                    amplify.request.define('getItemsByCompanyId', 'ajax', {
-                        url: ist.siteUrl + '/Api/OrderRetailStore',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
-                    // Define request to get Items Details By Item Id
-                    amplify.request.define('getItemsDetailsByItemId', 'ajax', {
-                        url: ist.siteUrl + '/Api/OrderRetailStoreDetail',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
                     // Define request to get cost centers By CompanyId
                     amplify.request.define('getCostCentersByCompanyId', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyCostCenters',
@@ -102,26 +90,7 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to get Print Plan for section screen
-                    amplify.request.define('getPTVCalculation', 'ajax', {
-                        url: ist.siteUrl + '/Api/PtvCalculation',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
-                    // Define request to get Best Press list for section screen with run wizard button
-                    amplify.request.define('getBestPress', 'ajax', {
-                        url: ist.siteUrl + '/Api/BestPress',
-                        dataType: 'json',
-                        contentType: 'application/json;charset=utf-8',
-                        type: 'POST'
-                    });
-                    // Define request to update system cost centers for current section screen with wizard finish button
-                    amplify.request.define('getUpdatedSystemCostCenters', 'ajax', {
-                        url: ist.siteUrl + '/Api/ItemSection',
-                        dataType: 'json',
-                        decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'POST'
-                    });
+                    
                     // Define request to Download Artwork of the order
                     amplify.request.define('downloadOrderArtwork', 'ajax', {
                         url: ist.siteUrl + '/Api/DownloadArtwork',
@@ -220,61 +189,11 @@ define("order/order.dataservice", function () {
                     data: param
                 });
             },
-            // get Store by id
-            getItemsByCompanyId = function(params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getItemsByCompanyId',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: params
-                });
-            },
-            // get Items Detail by id
-            getItemsDetailsByItemId = function(params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getItemsDetailsByItemId',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: params
-                });
-            },
             // get Stock items
             getInventoriesList = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getInventoriesList',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: params
-                });
-            },
-            // get PTV Calculation
-            getPTVCalculation = function(params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getPTVCalculation',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: params
-                });
-            },
-           
-            getBestPress = function(params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getBestPress',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: JSON.stringify(params)
-                    
-                });
-            },
-            getUpdatedSystemCostCenters = function(params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getUpdatedSystemCostCenters',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -310,15 +229,9 @@ define("order/order.dataservice", function () {
             getBaseData: getBaseData,
             cloneOrder: cloneOrder,
             getBaseDataForCompany: getBaseDataForCompany,
-            getItemsByCompanyId: getItemsByCompanyId,
             getCostCenters: getCostCenters,
-           
             getInventoriesList: getInventoriesList,
-            getItemsDetailsByItemId: getItemsDetailsByItemId,
             deleteOrder: deleteOrder,
-            getBestPress: getBestPress,
-            getPTVCalculation: getPTVCalculation,
-            getUpdatedSystemCostCenters: getUpdatedSystemCostCenters,
             downloadOrderArtwork: downloadOrderArtwork
         };
     })();

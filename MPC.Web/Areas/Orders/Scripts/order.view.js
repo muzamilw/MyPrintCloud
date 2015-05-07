@@ -143,16 +143,6 @@ define("order/order.view",
                 hideOrderPrePaymentModal = function () {
                     $("#orderPrePaymentModal").modal('hide');
                 },
-                //Show Estimate Run Wizard Modal
-                showEstimateRunWizard = function () {
-                    $("#estimateRunWizard").modal('show');
-                },
-                //Hide Estimate Run Wizard Modal
-                hideEstimateRunWizard = function () {
-                    $("#estimateRunWizard").modal('hide');
-                },
-
-                
                 // Show Order Status Progress To Job Dialog
                 showOrderStatusProgressToJobDialog = function () {
                     $("#orderStatusProgressToJobModal").modal("show");
@@ -202,8 +192,6 @@ define("order/order.view",
                 orderstate: orderstate,
                 //showInventoryItemDialog: showInventoryItemDialog,
                 hideInventoryItemDialog: hideInventoryItemDialog,
-                showEstimateRunWizard: showEstimateRunWizard,
-                hideEstimateRunWizard: hideEstimateRunWizard,
                 showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
                 showOrderStatusProgressToJobDialog: showOrderStatusProgressToJobDialog,

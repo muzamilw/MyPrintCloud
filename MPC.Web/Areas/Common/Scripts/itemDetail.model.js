@@ -2,7 +2,7 @@
     var
         // #region Item Entity
         // ReSharper disable once InconsistentNaming
-        Item = function(specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode,
+        Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode,
             specifiedJobDescriptionTitle1, specifiedJobDescription1, specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3,
             specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
             specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6, specifiedJobDescriptionTitle7, specifiedJobDescription7,
@@ -65,7 +65,7 @@
                 qty1NetTotal = ko.observable(specifiedQty1NetTotal || 0),
                 // Qty1 NetTotal Computed 
                 qty1NetTotalComputed = ko.computed({
-                    read: function() {
+                    read: function () {
                         if (qty1NetTotal()) {
                             var val = parseFloat(qty1NetTotal());
                             if (!isNaN(val)) {
@@ -80,7 +80,7 @@
                             return 0.00;
                         }
                     },
-                    write: function(value) {
+                    write: function (value) {
                         qty1NetTotal(value);
                     }
                 }),
@@ -109,13 +109,13 @@
                 // Product Categories
                 productCategories = ko.observableArray(specifiedProductCategories || []),
                 // Product Categories Ui
-                productCategoriesUi = ko.computed(function() {
+                productCategoriesUi = ko.computed(function () {
                     if (!productCategories || productCategories().length === 0) {
                         return "";
                     }
 
                     var categories = "";
-                    productCategories.each(function(category, index) {
+                    productCategories.each(function (category, index) {
                         var pcname = category;
                         if (index < productCategoryItems().length - 1) {
                             pcname = pcname + " || ";
@@ -137,7 +137,7 @@
                 qty2NetTotal = ko.observable(specifiedQty2NetTotal || 0),
                 // Qty2 NetTotal Computed 
                 qty2NetTotalComputed = ko.computed({
-                    read: function() {
+                    read: function () {
                         if (qty2NetTotal()) {
                             var val = parseFloat(qty2NetTotal());
                             if (!isNaN(val)) {
@@ -152,14 +152,14 @@
                             return 0.00;
                         }
                     },
-                    write: function(value) {
+                    write: function (value) {
                         qty2NetTotal(value);
                     }
                 }),
                 qty3NetTotal = ko.observable(specifiedQty3NetTotal || 0),
                 // Qty3 NetTotal Computed 
                 qty3NetTotalComputed = ko.computed({
-                    read: function() {
+                    read: function () {
                         if (qty3NetTotal()) {
                             var val = parseFloat(qty3NetTotal());
                             if (!isNaN(val)) {
@@ -174,7 +174,7 @@
                             return 0.00;
                         }
                     },
-                    write: function(value) {
+                    write: function (value) {
                         qty3NetTotal(value);
                     }
                 }),
@@ -201,28 +201,28 @@
                     productName: productName
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0 &&
-                        itemSections.filter(function(itemSection) {
+                        itemSections.filter(function (itemSection) {
                             return !itemSection.isValid();
                         }).length === 0;
                 }),
                 // Show All Error Messages
-                showAllErrors = function() {
+                showAllErrors = function () {
                     // Show Item Errors
                     errors.showAllMessages();
                     // Show Item Section Errors
-                    var itemSectionErrors = itemSections.filter(function(itemSection) {
+                    var itemSectionErrors = itemSections.filter(function (itemSection) {
                         return !itemSection.isValid();
                     });
                     if (itemSectionErrors.length > 0) {
-                        _.each(itemSectionErrors, function(itemSection) {
+                        _.each(itemSectionErrors, function (itemSection) {
                             itemSection.errors.showAllMessages();
                         });
                     }
                 },
                 // Set Validation Summary
-                setValidationSummary = function() {
+                setValidationSummary = function () {
 
                 },
                 // True if the product has been changed
@@ -255,30 +255,30 @@
                     itemSections: itemSections
                 }),
                 // Item Section Changes
-                itemSectionHasChanges = ko.computed(function() {
-                    return itemSections.find(function(itemSection) {
+                itemSectionHasChanges = ko.computed(function () {
+                    return itemSections.find(function (itemSection) {
                         return itemSection.hasChanges();
                     }) != null;
                 }),
                 // Item Attachment Changes
-                itemAttachmentHasChanges = ko.computed(function() {
-                    return itemAttachments.find(function(itemAttachment) {
+                itemAttachmentHasChanges = ko.computed(function () {
+                    return itemAttachments.find(function (itemAttachment) {
                         return itemAttachment.hasChanges();
                     }) != null;
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty() || itemSectionHasChanges() || itemAttachmentHasChanges();
                 }),
                 // Reset
-                reset = function() {
-                    itemSections.each(function(itemSection) {
+                reset = function () {
+                    itemSections.each(function (itemSection) {
                         return itemSection.reset();
                     });
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     // id() < 0 ? id(0) : id();
                     return {
                         ItemId: id(),
@@ -315,8 +315,9 @@
                         Qty1Tax1Value: qty1Tax1Value(),
                         Qty1GrossTotal: qty1GrossTotal(),
                         Qty1NetTotal: qty1NetTotal(),
+                        Qty1: qty1(),
                         Tax1: tax1(),
-                        ItemSections: itemSections.map(function(itemSection, index) {
+                        ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
                             if (id() <= 0) {
@@ -403,7 +404,7 @@
         },
         //#endregion
         //#region Item Section Entity
-        ItemSection = function(specifiedId, specifiedSectionNo, specifiedSectionName, specifiedSectionSizeId, specifiedItemSizeId, specifiedIsSectionSizeCustom,
+        ItemSection = function (specifiedId, specifiedSectionNo, specifiedSectionName, specifiedSectionSizeId, specifiedItemSizeId, specifiedIsSectionSizeCustom,
             specifiedSectionSizeHeight, specifiedSectionSizeWidth, specifiedIsItemSizeCustom, specifiedItemSizeHeight, specifiedItemSizeWidth,
             specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedGuillotineId, specifiedQty1, specifiedQty2,
             specifiedQty3, specifiedQty1Profit, specifiedQty2Profit, specifiedQty3Profit, specifiedBaseCharge1, specifiedBaseCharge2, specifiedBaseCharge3,
@@ -485,10 +486,10 @@
                 (specifiedIsWorknTurn !== null || specifiedIsWorknTurn !== undefined ? (!specifiedIsWorknTurn ? 1 : 3) : 1)),
                 // Double Or Work n Turn
                 doubleWorknTurn = ko.computed({
-                    read: function() {
+                    read: function () {
                         return '' + doubleOrWorknTurn();
                     },
-                    write: function(value) {
+                    write: function (value) {
                         if (!value || value === doubleOrWorknTurn()) {
                             return;
                         }
@@ -515,7 +516,7 @@
                 // PrintViewLayoutLandscape
                 printViewLayoutLandscape = ko.observable(specifiedPrintViewLayoutLandscape || 0),
                 // Number Up
-                numberUp = ko.computed(function() {
+                numberUp = ko.computed(function () {
                     if (printViewLayoutPortrait() >= printViewLayoutLandscape()) {
                         printViewLayout(0);
                         return printViewLayoutPortrait();
@@ -539,7 +540,7 @@
                 isFirstTrim = ko.observable(specifiedFirstTrim || false),
                 isSecondTrim = ko.observable(specifiedSecondTrim || false),
                 // Select Stock Item
-                selectStock = function(stockItem) {
+                selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
                         return;
                     }
@@ -548,7 +549,7 @@
                     stockItemName(stockItem.name);
                 },
                 // Select Press
-                selectPress = function(press) {
+                selectPress = function (press) {
                     if (!press || pressId() === press.id) {
                         return;
                     }
@@ -557,13 +558,13 @@
                     pressName(press.name);
                 },
                 // Swap Section Height and Width
-                swapSectionHeightWidth = function() {
+                swapSectionHeightWidth = function () {
                     var sectionHeight = sectionSizeHeight();
                     sectionSizeHeight(sectionSizeWidth());
                     sectionSizeWidth(sectionHeight);
                 },
                 // Swap Item Size Height and Width
-                swapItemHeightWidth = function() {
+                swapItemHeightWidth = function () {
                     var itemHeight = itemSizeHeight();
                     itemSizeHeight(itemSizeWidth());
                     itemSizeWidth(itemHeight);
@@ -576,7 +577,7 @@
                     numberUp: numberUp
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 // True if the Item Section has been changed
@@ -608,15 +609,15 @@
                     isSecondTrim: isSecondTrim
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function(isNewSection) {
+                convertToServerData = function (isNewSection) {
                     return {
                         ItemSectionId: id(),
                         SectionName: name(),
@@ -655,14 +656,14 @@
                         Side2Inks: side2Inks(),
                         IsFirstTrim: isFirstTrim(),
                         IsSecondTrim: isSecondTrim(),
-                        SectionCostcentres: sectionCostCentres.map(function(scc) {
+                        SectionCostcentres: sectionCostCentres.map(function (scc) {
                             var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {
                                 sectionCc.ItemSectionId = 0;
                             }
                             return sectionCc;
                         }),
-                        SectionInkCoverages: sectionInkCoverageList.map(function(sic) {
+                        SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
                             var inkCoverage = sic.convertToServerData();
                             if (isNewSection) {
                                 inkCoverage.SectionId = 0;
@@ -734,7 +735,7 @@
         //#endregion
         //#region Section Cost Centre Entity
         // ReSharper disable InconsistentNaming
-        SectionCostCentre = function(specifiedId, specifiedName, specifiedCostCentreId, specifiedCostCentreType, specifiedOrder, specifiedIsDirectCost,
+        SectionCostCentre = function (specifiedId, specifiedName, specifiedCostCentreId, specifiedCostCentreType, specifiedOrder, specifiedIsDirectCost,
             specifiedIsOptionalExtra, specifiedIsPurchaseOrderRaised, specifiedStatus, specifiedQty1Charge, specifiedQty2Charge, specifiedQty3Charge,
             specifiedQty1MarkUpID, specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedQty1MarkUpValue, specifiedQty2MarkUpValue, specifiedQty3MarkUpValue,
             specifiedQty1NetTotal, specifiedQty2NetTotal, specifiedQty3NetTotal, specifiedQty1, specifiedQty2, specifiedQty3, specifiedCostCentreName,
@@ -814,7 +815,7 @@
 
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 // True if the Item Section has been changed
@@ -823,15 +824,15 @@
 
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function(isNewSectionCostCenter) {
+                convertToServerData = function (isNewSectionCostCenter) {
                     return {
                         ItemSectionId: itemSectionId(),
                         SectionCostcentreId: id(),
@@ -852,7 +853,7 @@
                         Qty1MarkUpValue: qty1MarkUpValue(),
                         Qty2MarkUpValue: qty2MarkUpValue(),
                         Qty3MarkUpValue: qty3MarkUpValue(),
-                        SectionCostCentreDetails: sectionCostCentreDetails.map(function(scc) {
+                        SectionCostCentreDetails: sectionCostCentreDetails.map(function (scc) {
                             var sectionCc = scc.convertToServerData();
                             if (isNewSectionCostCenter) {
                                 sectionCc.SectionCostCentreId = 0;
@@ -907,7 +908,7 @@
         },
         //#endregion
         //#region Section Cost Center Detail
-        SectionCostCenterDetail = function(
+        SectionCostCenterDetail = function (
             specifiedSectionCostCentreDetailId, specifiedSectionCostCentreId, specifiedStockId, specifiedSupplierId, specifiedQty1, specifiedQty2,
             specifiedQty3, specifiedCostPrice, specifiedActualQtyUsed, specifiedStockName, specifiedSupplier
         ) {
@@ -928,7 +929,7 @@
 
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 dirtyFlag = new ko.dirtyFlag({
@@ -944,15 +945,15 @@
                     supplier: supplier
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         //            
                         SectionCostCentreDetailId: sectionCostCentreDetailId(),
@@ -991,7 +992,7 @@
         //#endregion
         //#region Item Attachment Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemAttachment = function(specifiedId, specifiedfileTitle, specifiedcompanyId, specifiedfileName, specifiedfolderPath) {
+        ItemAttachment = function (specifiedId, specifiedfileTitle, specifiedcompanyId, specifiedfileName, specifiedfolderPath) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -1012,7 +1013,7 @@
 
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                     // ReSharper disable InconsistentNaming
                 }),
@@ -1026,15 +1027,15 @@
                     folderPath: folderPath
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         ItemAttachmentId: id(),
                         FileTitle: fileTitle(),
@@ -1064,7 +1065,7 @@
         //#endregion
         //#region Item Stock Option Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemStockOption = function(specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
+        ItemStockOption = function (specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
             specifiedOptionSequence, specifiedItemId, callbacks) {
             // ReSharper restore InconsistentNaming
             var // Unique key
@@ -1094,14 +1095,14 @@
                 // Added ItemAddonCostCentre Counter
                 itemAddonCostCentreCounter = -1,
                 // On Add ItemAddonCostCentre
-                onAddItemAddonCostCentre = function() {
+                onAddItemAddonCostCentre = function () {
                     activeItemAddonCostCentre(ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }, callbacks));
                 },
-                onEditItemAddonCostCentre = function(itemAddonCostCentre) {
+                onEditItemAddonCostCentre = function (itemAddonCostCentre) {
                     activeItemAddonCostCentre(itemAddonCostCentre);
                 },
                 // Save ItemAddonCostCentre
-                saveItemAddonCostCentre = function() {
+                saveItemAddonCostCentre = function () {
                     if (activeItemAddonCostCentre().id() === 0) { // Add
                         activeItemAddonCostCentre().id(itemAddonCostCentreCounter);
                         addItemAddonCostCentre(activeItemAddonCostCentre());
@@ -1110,15 +1111,15 @@
                     }
                 },
                 // Add Item Addon Cost Center
-                addItemAddonCostCentre = function(itemAddonCostCentre) {
+                addItemAddonCostCentre = function (itemAddonCostCentre) {
                     itemAddonCostCentres.splice(0, 0, itemAddonCostCentre);
                 },
                 // Remove ItemAddon Cost Centre
-                removeItemAddonCostCentre = function(itemAddonCostCentre) {
+                removeItemAddonCostCentre = function (itemAddonCostCentre) {
                     itemAddonCostCentres.remove(itemAddonCostCentre);
                 },
                 // Select Stock Item
-                selectStock = function(stockItem) {
+                selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
                         return;
                     }
@@ -1129,7 +1130,7 @@
                     label(stockItem.name);
                 },
                 // On Select File
-                onSelectImage = function(file, data) {
+                onSelectImage = function (file, data) {
                     image(data);
                     fileSource(data);
                     fileName(file.name);
@@ -1139,8 +1140,8 @@
                     label: label
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
-                    return errors().length === 0 && itemAddonCostCentres.filter(function(itemAddonCostCentre) {
+                isValid = ko.computed(function () {
+                    return errors().length === 0 && itemAddonCostCentres.filter(function (itemAddonCostCentre) {
                         return !itemAddonCostCentre.isValid();
                     }).length === 0;
                 }),
@@ -1153,21 +1154,21 @@
                     itemAddonCostCentres: itemAddonCostCentres
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
-                    return dirtyFlag.isDirty() || itemAddonCostCentres.find(function(itemAddonCostCentre) {
+                hasChanges = ko.computed(function () {
+                    return dirtyFlag.isDirty() || itemAddonCostCentres.find(function (itemAddonCostCentre) {
                         return itemAddonCostCentre.hasChanges();
                     }) != null;
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     // Reset Item Addon Cost Centres State to Un-Modified
-                    itemAddonCostCentres.each(function(itemAddonCostCentre) {
+                    itemAddonCostCentres.each(function (itemAddonCostCentre) {
                         return itemAddonCostCentre.reset();
                     });
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         ItemStockOptionId: id(),
                         StockLabel: label(),
@@ -1176,7 +1177,7 @@
                         FileSource: fileSource(),
                         FileName: fileName(),
                         OptionSequence: optionSequence(),
-                        ItemAddOnCostCentres: itemAddonCostCentres.map(function(itemAddonCostCentre) {
+                        ItemAddOnCostCentres: itemAddonCostCentres.map(function (itemAddonCostCentre) {
                             return itemAddonCostCentre.convertToServerData();
                         })
                     };
@@ -1213,7 +1214,7 @@
         //#endregion
         //#region Item Price Matrix Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemPriceMatrix = function(specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
+        ItemPriceMatrix = function (specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
             specifiedPricePaperType3, specifiedPriceStockType4, specifiedPriceStockType5, specifiedPriceStockType6, specifiedPriceStockType7, specifiedPriceStockType8,
             specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedSupplierSequence, specifiedItemId) {
             // ReSharper restore InconsistentNaming
@@ -1234,7 +1235,7 @@
                 // Price Paper Type1
                 pricePaperType1 = ko.observable(specifiedPricePaperType1 || 0),
                 // Price Paper Type1 Ui
-                pricePaperType1Ui = ko.computed(function() {
+                pricePaperType1Ui = ko.computed(function () {
                     if (!pricePaperType1()) {
                         return '$ 0.00';
                     }
@@ -1244,7 +1245,7 @@
                 // Price Paper Type2
                 pricePaperType2 = ko.observable(specifiedPricePaperType2 || 0),
                 // Price Paper Type2 Ui
-                pricePaperType2Ui = ko.computed(function() {
+                pricePaperType2Ui = ko.computed(function () {
                     if (!pricePaperType2()) {
                         return '$ 0.00';
                     }
@@ -1254,7 +1255,7 @@
                 // Price Paper Type3
                 pricePaperType3 = ko.observable(specifiedPricePaperType3 || 0),
                 // Price Paper Type3 Ui
-                pricePaperType3Ui = ko.computed(function() {
+                pricePaperType3Ui = ko.computed(function () {
                     if (!pricePaperType3()) {
                         return '$ 0.00';
                     }
@@ -1264,7 +1265,7 @@
                 // Price Stock Type4
                 priceStockType4 = ko.observable(specifiedPriceStockType4 || 0),
                 // Price Stock Type4 Ui
-                priceStockType4Ui = ko.computed(function() {
+                priceStockType4Ui = ko.computed(function () {
                     if (!priceStockType4()) {
                         return '$ 0.00';
                     }
@@ -1274,7 +1275,7 @@
                 // Price Stock Type5
                 priceStockType5 = ko.observable(specifiedPriceStockType5 || 0),
                 // Price Stock Type5 Ui
-                priceStockType5Ui = ko.computed(function() {
+                priceStockType5Ui = ko.computed(function () {
                     if (!priceStockType5()) {
                         return '$ 0.00';
                     }
@@ -1284,7 +1285,7 @@
                 // Price Stock Type6
                 priceStockType6 = ko.observable(specifiedPriceStockType6 || 0),
                 // Price Stock Type6 Ui
-                priceStockType6Ui = ko.computed(function() {
+                priceStockType6Ui = ko.computed(function () {
                     if (!priceStockType6()) {
                         return '$ 0.00';
                     }
@@ -1294,7 +1295,7 @@
                 // Price Stock Type7
                 priceStockType7 = ko.observable(specifiedPriceStockType7 || 0),
                 // Price Stock Type7 Ui
-                priceStockType7Ui = ko.computed(function() {
+                priceStockType7Ui = ko.computed(function () {
                     if (!priceStockType7()) {
                         return '$ 0.00';
                     }
@@ -1304,7 +1305,7 @@
                 // Price Stock Type8
                 priceStockType8 = ko.observable(specifiedPriceStockType8 || 0),
                 // Price Stock Type8 Ui
-                priceStockType8Ui = ko.computed(function() {
+                priceStockType8Ui = ko.computed(function () {
                     if (!priceStockType8()) {
                         return '$ 0.00';
                     }
@@ -1314,7 +1315,7 @@
                 // Price Stock Type9
                 priceStockType9 = ko.observable(specifiedPriceStockType9 || 0),
                 // Price Stock Type9 Ui
-                priceStockType9Ui = ko.computed(function() {
+                priceStockType9Ui = ko.computed(function () {
                     if (!priceStockType4()) {
                         return '$ 0.00';
                     }
@@ -1324,7 +1325,7 @@
                 // Price Stock Type10
                 priceStockType10 = ko.observable(specifiedPriceStockType10 || 0),
                 // Price Stock Type10 Ui
-                priceStockType10Ui = ko.computed(function() {
+                priceStockType10Ui = ko.computed(function () {
                     if (!priceStockType10()) {
                         return '$ 0.00';
                     }
@@ -1334,7 +1335,7 @@
                 // Price Stock Type11
                 priceStockType11 = ko.observable(specifiedPriceStockType11 || 0),
                 // Price Stock Type11 Ui
-                priceStockType11Ui = ko.computed(function() {
+                priceStockType11Ui = ko.computed(function () {
                     if (!priceStockType11()) {
                         return '$ 0.00';
                     }
@@ -1348,7 +1349,7 @@
 
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 // True if the Item Vdp Price has been changed
@@ -1373,15 +1374,15 @@
                     priceStockType11: priceStockType11
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         PriceMatrixId: id(),
                         ItemId: itemId(),
@@ -1448,7 +1449,7 @@
         //#endregion
         //#region Item Addon Cost Centre Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemAddonCostCentre = function(specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
+        ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
             specifiedCostCentreType, specifiedTotalPrice, callbacks) {
             // ReSharper restore InconsistentNaming
             var // self reference
@@ -1464,13 +1465,13 @@
                 // Cost Centre Type
                 costCentreType = ko.observable(specifiedCostCentreType || undefined),
                 // Total Price
-                totalPrice = ko.observable(specifiedTotalPrice || undefined),
+                totalPrice = ko.observable(specifiedTotalPrice || undefined).extend({ numberInput: ist.numberFormat }),
                 // Cost Centre Id - On Change
                 costCentreId = ko.computed({
-                    read: function() {
+                    read: function () {
                         return internalCostCentreId();
                     },
-                    write: function(value) {
+                    write: function (value) {
                         if (!value || value === internalCostCentreId()) {
                             return;
                         }
@@ -1491,7 +1492,7 @@
 
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 // True if the Item Vdp Price has been changed
@@ -1501,15 +1502,15 @@
                     costCentreId: costCentreId
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         ProductAddOnId: id(),
                         IsMandatory: isMandatory(),
@@ -1607,76 +1608,76 @@
             };
             return self;
         },
-    //#endregion
+        //#endregion
         //#region Section Ink Coverage Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        SectionInkCoverage = function(specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
-        // ReSharper restore InconsistentNaming
-        var // Unique key
-            id = ko.observable(specifiedId),
-            // section Id
-            sectionId = ko.observable(specifiedSectionId),
-            // ink Order
-            inkOrder = ko.observable(specifiedInkOrder),
-            //Ink Id
-            inkId = ko.observable(specifiedInkId),
-            // Coverage Group Id
-            coverageGroupId = ko.observable(specifiedCoverageGroupId),
-            //Side
-            side = ko.observable(specifiedSide),
-            // Errors
-            errors = ko.validation.group({
+        SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+            // ReSharper restore InconsistentNaming
+            var // Unique key
+                id = ko.observable(specifiedId),
+                // section Id
+                sectionId = ko.observable(specifiedSectionId),
+                // ink Order
+                inkOrder = ko.observable(specifiedInkOrder),
+                //Ink Id
+                inkId = ko.observable(specifiedInkId),
+                // Coverage Group Id
+                coverageGroupId = ko.observable(specifiedCoverageGroupId),
+                //Side
+                side = ko.observable(specifiedSide),
+                // Errors
+                errors = ko.validation.group({
 
-            }),
-            // Is Valid
-            isValid = ko.computed(function() {
-                return errors().length === 0;
-                // ReSharper disable InconsistentNaming
-            }),
-            dirtyFlag = new ko.dirtyFlag({
-                // ReSharper restore InconsistentNaming
+                }),
+                // Is Valid
+                isValid = ko.computed(function () {
+                    return errors().length === 0;
+                    // ReSharper disable InconsistentNaming
+                }),
+                dirtyFlag = new ko.dirtyFlag({
+                    // ReSharper restore InconsistentNaming
+                    id: id,
+                    sectionId: sectionId,
+                    inkOrder: inkOrder,
+                    inkId: inkId,
+                    coverageGroupId: coverageGroupId,
+                    side: side
+                }),
+                // Has Changes
+                hasChanges = ko.computed(function () {
+                    return dirtyFlag.isDirty();
+                }),
+                // Reset
+                reset = function () {
+                    dirtyFlag.reset();
+                },
+                // Convert To Server Data
+                convertToServerData = function () {
+                    return {
+                        Id: id(),
+                        SectionId: sectionId(),
+                        InkOrder: inkOrder(),
+                        InkId: inkId(),
+                        CoverageGroupId: coverageGroupId(),
+                        Side: side()
+                    };
+                };
+
+            return {
                 id: id,
                 sectionId: sectionId,
                 inkOrder: inkOrder,
                 inkId: inkId,
                 coverageGroupId: coverageGroupId,
-                side: side
-            }),
-            // Has Changes
-            hasChanges = ko.computed(function() {
-                return dirtyFlag.isDirty();
-            }),
-            // Reset
-            reset = function() {
-                dirtyFlag.reset();
-            },
-            // Convert To Server Data
-            convertToServerData = function() {
-                return {
-                    Id: id(),
-                    SectionId: sectionId(),
-                    InkOrder: inkOrder(),
-                    InkId: inkId(),
-                    CoverageGroupId: coverageGroupId(),
-                    Side: side()
-                };
+                side: side,
+                errors: errors,
+                isValid: isValid,
+                dirtyFlag: dirtyFlag,
+                hasChanges: hasChanges,
+                reset: reset,
+                convertToServerData: convertToServerData
             };
-
-        return {
-            id: id,
-            sectionId: sectionId,
-            inkOrder: inkOrder,
-            inkId: inkId,
-            coverageGroupId: coverageGroupId,
-            side: side,
-            errors: errors,
-            isValid: isValid,
-            dirtyFlag: dirtyFlag,
-            hasChanges: hasChanges,
-            reset: reset,
-            convertToServerData: convertToServerData
-        };
-    },
+        },
         //#endregion
         //#region Ink Plate Side Entity
         // ReSharper disable InconsistentNaming
@@ -1690,9 +1691,9 @@
                 plateInkSide2: specifiedPlateInkSide2
             };
         },
-    //#endregion
+        //#endregion
         //#region Paper Size Entity
-        PaperSize = function(specifiedId, specifiedName, specifiedHeight, specifiedWidth) {
+        PaperSize = function (specifiedId, specifiedName, specifiedHeight, specifiedWidth) {
             // ReSharper restore InconsistentNaming
             return {
                 id: specifiedId,
@@ -1700,14 +1701,59 @@
                 height: specifiedHeight,
                 width: specifiedWidth
             };
-        };
+        },
         //#endregion
+
+        // #region __________________  BEST PRESS   ______________________
+        // Best Press Entity        
+// ReSharper disable InconsistentNaming
+        BestPress = function (specifiedMachineID, specifiedMachineName, specifiedQty1Cost, specifiedQty1RunTime, specifiedQty2Cost, specifiedQty2RunTime,
+// ReSharper restore InconsistentNaming
+            specifiedQty3Cost, specifiedQty3RunTime, specifiedisSelected) {
+            return {
+                id: specifiedMachineID,
+                machineName: specifiedMachineName,
+                qty1Cost: specifiedQty1Cost,
+                qty1RunTime: specifiedQty1RunTime,
+                qty2Cost: specifiedQty2Cost,
+                qty2RunTime: specifiedQty2RunTime,
+                qty3Cost: specifiedQty3Cost,
+                qty3RunTime: specifiedQty3RunTime,
+                isSelected: specifiedisSelected,
+            };
+        },
+        // #endregion __________________   BEST PRESS    ______________________
+
+        // #region __________________  User Cost Center For Run Wizard  ______________________
+
+        // User Cost Center Entity        
+// ReSharper disable InconsistentNaming
+        UserCostCenter = function (specifiedCostCentreId, specifiedName) {
+            // ReSharper restore InconsistentNaming
+            var // Unique key
+                id = ko.observable(specifiedCostCentreId),
+                name = ko.observable(specifiedName),
+                isSelected = ko.observable(false),
+                // Convert To Server Data
+                convertToServerData = function () {
+                    return {
+                        SectionCostcentreId: id(),
+                    };
+                };
+            return {
+                id: id,
+                name: name,
+                isSelected: isSelected,
+                convertToServerData: convertToServerData
+            };
+        };
+    // #endregion __________________   User Cost Center    ______________________
 
     //#region ---
     //#endregion
 
     //#region Item Factory
-        Item.Create = function (source) {
+    Item.Create = function (source) {
         var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode,
             source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
@@ -1748,159 +1794,172 @@
         item.reset();
 
         return item;
-        };
+    };
     //#endregion
     //#region Item Section Factory
-        ItemSection.Create = function (source) {
-            var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
-                source.IsSectionSizeCustom, source.SectionSizeHeight, source.SectionSizeWidth, source.IsItemSizeCustom, source.ItemSizeHeight,
-                source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.GuillotineId, source.Qty1,
-                source.Qty2, source.Qty3, source.Qty1Profit, source.Qty2Profit, source.Qty3Profit, source.BaseCharge1, source.BaseCharge2,
-                source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
-                source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks,
-                source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim);
+    ItemSection.Create = function (source) {
+        var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
+            source.IsSectionSizeCustom, source.SectionSizeHeight, source.SectionSizeWidth, source.IsItemSizeCustom, source.ItemSizeHeight,
+            source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.GuillotineId, source.Qty1,
+            source.Qty2, source.Qty3, source.Qty1Profit, source.Qty2Profit, source.Qty3Profit, source.BaseCharge1, source.BaseCharge2,
+            source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
+            source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks,
+            source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim);
 
-            // Map Section Cost Centres if Any
-            if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
-                var sectionCostcentres = [];
+        // Map Section Cost Centres if Any
+        if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
+            var sectionCostcentres = [];
 
-                _.each(source.SectionCostcentres, function (sectionCostCentre) {
-                    sectionCostcentres.push(SectionCostCentre.Create(sectionCostCentre));
-                });
+            _.each(source.SectionCostcentres, function (sectionCostCentre) {
+                sectionCostcentres.push(SectionCostCentre.Create(sectionCostCentre));
+            });
 
-                // Push to Original Item
-                ko.utils.arrayPushAll(itemSection.sectionCostCentres(), sectionCostcentres);
-                itemSection.sectionCostCentres.valueHasMutated();
-            }
-            // Map Section Ink Coverage if Any
-            if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
-                var sectioninkcoverages = [];
+            // Push to Original Item
+            ko.utils.arrayPushAll(itemSection.sectionCostCentres(), sectionCostcentres);
+            itemSection.sectionCostCentres.valueHasMutated();
+        }
+        // Map Section Ink Coverage if Any
+        if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
+            var sectioninkcoverages = [];
 
-                _.each(source.SectionInkCoverages, function (sectionink) {
-                    sectioninkcoverages.push(SectionInkCoverage.Create(sectionink));
-                });
+            _.each(source.SectionInkCoverages, function (sectionink) {
+                sectioninkcoverages.push(SectionInkCoverage.Create(sectionink));
+            });
 
-                // Push to Original Item
-                ko.utils.arrayPushAll(itemSection.sectionInkCoverageList(), sectioninkcoverages);
-                itemSection.sectionInkCoverageList.valueHasMutated();
-            }
+            // Push to Original Item
+            ko.utils.arrayPushAll(itemSection.sectionInkCoverageList(), sectioninkcoverages);
+            itemSection.sectionInkCoverageList.valueHasMutated();
+        }
 
-            return itemSection;
-        };
+        return itemSection;
+    };
     //#endregion
     //#regionSection Cost Centre Factory
-        SectionCostCentre.Create = function (source) {
-            var sectionCostCentre = new SectionCostCentre(source.SectionCostcentreId, source.Name, source.CostCentreId, source.CostCentreType, source.Order,
-                source.IsDirectCost, source.IsOptionalExtra, source.IsPurchaseOrderRaised, source.Status, source.Qty1Charge, source.Qty2Charge, source.Qty3Charge,
-                source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
-                source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
-                source.ItemSectionId, source.Qty1WorkInstructions, source.Qty2WorkInstructions, source.Qty3WorkInstructions,
-                source.Qty1EstimatedStockCost, source.Qty2EstimatedStockCost, source.Qty3EstimatedStockCost);
+    SectionCostCentre.Create = function (source) {
+        var sectionCostCentre = new SectionCostCentre(source.SectionCostcentreId, source.Name, source.CostCentreId, source.CostCentreType, source.Order,
+            source.IsDirectCost, source.IsOptionalExtra, source.IsPurchaseOrderRaised, source.Status, source.Qty1Charge, source.Qty2Charge, source.Qty3Charge,
+            source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
+            source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
+            source.ItemSectionId, source.Qty1WorkInstructions, source.Qty2WorkInstructions, source.Qty3WorkInstructions,
+            source.Qty1EstimatedStockCost, source.Qty2EstimatedStockCost, source.Qty3EstimatedStockCost);
 
-            // Map Section Cost Centre Details if Any
-            if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
-                var sectionCostcentresDetails = [];
+        // Map Section Cost Centre Details if Any
+        if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
+            var sectionCostcentresDetails = [];
 
-                _.each(source.SectionCostCentreDetails, function (sectionCostCentreDetail) {
-                    sectionCostcentresDetails.push(SectionCostCenterDetail.Create(sectionCostCentreDetail));
-                });
+            _.each(source.SectionCostCentreDetails, function (sectionCostCentreDetail) {
+                sectionCostcentresDetails.push(SectionCostCenterDetail.Create(sectionCostCentreDetail));
+            });
 
-                // Push to Original Item
-                ko.utils.arrayPushAll(sectionCostCentre.sectionCostCentreDetails(), sectionCostcentresDetails);
-                sectionCostCentre.sectionCostCentreDetails.valueHasMutated();
-            }
+            // Push to Original Item
+            ko.utils.arrayPushAll(sectionCostCentre.sectionCostCentreDetails(), sectionCostcentresDetails);
+            sectionCostCentre.sectionCostCentreDetails.valueHasMutated();
+        }
 
-            // Map Section Cost Resources if Any
-            if (source.SectionCostCentreResources && source.SectionCostCentreResources.length > 0) {
+        // Map Section Cost Resources if Any
+        if (source.SectionCostCentreResources && source.SectionCostCentreResources.length > 0) {
 
-            }
+        }
 
-            return sectionCostCentre;
-        };
+        return sectionCostCentre;
+    };
     //#endregion
     //#region Section Cost Centre Detail Factory
-        SectionCostCenterDetail.Create = function (source) {
+    SectionCostCenterDetail.Create = function (source) {
 
-            var sectionCostCenterDetail = new SectionCostCenterDetail(source.SectionCostCentreDetailId, source.SectionCostCentreId, source.StockId, source.SupplierId, source.Qty1,
-                source.Qty2, source.Qty3, source.CostPrice, source.ActualQtyUsed, source.StockName, source.Supplier);
+        var sectionCostCenterDetail = new SectionCostCenterDetail(source.SectionCostCentreDetailId, source.SectionCostCentreId, source.StockId, source.SupplierId, source.Qty1,
+            source.Qty2, source.Qty3, source.CostPrice, source.ActualQtyUsed, source.StockName, source.Supplier);
 
-            return sectionCostCenterDetail;
-        };
+        return sectionCostCenterDetail;
+    };
     //#endregion
     //#region Item Attachment Factory
     // ReSharper disable once InconsistentNaming
-        ItemAttachment.Create = function (source) {
-            return new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath);
-        };
+    ItemAttachment.Create = function (source) {
+        return new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath);
+    };
     //#endregion
     //#region Item Stock Option Factory
-        ItemStockOption.Create = function (source, callbacks) {
-            var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
-                source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks);
+    ItemStockOption.Create = function (source, callbacks) {
+        var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
+            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks);
 
-            // If Item Addon CostCentres exists then add
-            if (source.ItemAddOnCostCentres) {
-                var itemAddonCostCentres = [];
+        // If Item Addon CostCentres exists then add
+        if (source.ItemAddOnCostCentres) {
+            var itemAddonCostCentres = [];
 
-                _.each(source.ItemAddOnCostCentres, function (itemAddonCostCenter) {
-                    itemAddonCostCentres.push(ItemAddonCostCentre.Create(itemAddonCostCenter, callbacks));
-                });
+            _.each(source.ItemAddOnCostCentres, function (itemAddonCostCenter) {
+                itemAddonCostCentres.push(ItemAddonCostCentre.Create(itemAddonCostCenter, callbacks));
+            });
 
-                // Push to Original Item
-                ko.utils.arrayPushAll(itemStockOption.itemAddonCostCentres(), itemAddonCostCentres);
-                itemStockOption.itemAddonCostCentres.valueHasMutated();
-            }
+            // Push to Original Item
+            ko.utils.arrayPushAll(itemStockOption.itemAddonCostCentres(), itemAddonCostCentres);
+            itemStockOption.itemAddonCostCentres.valueHasMutated();
+        }
 
-            // Reset State to Un-Modified
-            itemStockOption.reset();
+        // Reset State to Un-Modified
+        itemStockOption.reset();
 
-            return itemStockOption;
-        };
+        return itemStockOption;
+    };
     //#endregion
     //#region Item Price Matrix Factory
-        ItemPriceMatrix.Create = function (source) {
-            return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangeFrom, source.QtyRangeTo, source.PricePaperType1, source.PricePaperType2,
-                source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
-                source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId);
-        };
+    ItemPriceMatrix.Create = function (source) {
+        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangeFrom, source.QtyRangeTo, source.PricePaperType1, source.PricePaperType2,
+            source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
+            source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId);
+    };
     //#endregion
     //#region Item Addon Cost Centre Factory
-        ItemAddonCostCentre.Create = function (source, callbacks) {
-            return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-                source.CostCentreTypeName, source.TotalPrice, callbacks);
-        };
+    ItemAddonCostCentre.Create = function (source, callbacks) {
+        return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
+            source.CostCentreTypeName, source.TotalPrice, callbacks);
+    };
     //#endregion
     //#region Cost Center Factory
-        costCentre.Create = function (source) {
-            var cost = new costCentre(
-                source.CostCentreId,
-                source.Name,
-                source.Description,
-                source.SetupCost,
-                source.PricePerUnitQuantity
-                );
-            return cost;
-        };
+    costCentre.Create = function (source) {
+        var cost = new costCentre(
+            source.CostCentreId,
+            source.Name,
+            source.Description,
+            source.SetupCost,
+            source.PricePerUnitQuantity
+            );
+        return cost;
+    };
     //#endregion
     //#region Section Ink Coverage Factory
-        SectionInkCoverage.Create = function (source) {
-            return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side);
-        };
+    SectionInkCoverage.Create = function (source) {
+        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side);
+    };
     //#endregion
     //#region Paper Size Factory
-        PaperSize.Create = function (source) {
-            return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width);
-        };
+    PaperSize.Create = function (source) {
+        return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width);
+    };
     //#endregion
     //#region Ink Plate Side Factory
-        InkPlateSide.Create = function (source) {
-            return new InkPlateSide(source.PlateInkId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
-        };
+    InkPlateSide.Create = function (source) {
+        return new InkPlateSide(source.PlateInkId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
+    };
     //#endregion
+
+    //#region Best Press
+    // User Cost Center Factory
+    UserCostCenter.Create = function (source) {
+        return new UserCostCenter(source.CostCentreId, source.Name);
+    };
+    // Best Press Factory
+    BestPress.Create = function (source) {
+        return new BestPress(source.MachineID, source.MachineName, source.Qty1Cost, source.Qty1RunTime, source.Qty2Cost, source.Qty2RunTime, source.Qty3Cost,
+            source.Qty3RunTime, source.isSelected);
+    };
+    //#endregion
+
     //#region ---
     //#endregion
-    
-        return {
+
+    return {
         //#region Return
         Item: Item,
         ItemSection: ItemSection,
@@ -1913,7 +1972,11 @@
         costCentre: costCentre,
         SectionInkCoverage: SectionInkCoverage,
         PaperSize: PaperSize,
-        InkPlateSide: InkPlateSide
+        InkPlateSide: InkPlateSide,
+        // Best Press
+        BestPress: BestPress,
+        // User Cost Center
+        UserCostCenter: UserCostCenter
         //#endregion
     };
 });

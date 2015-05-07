@@ -46,6 +46,14 @@ define("common/itemDetail.view",
                 hideSectionCostCenterDialogModel = function () {
                     $("#sectionCostCenterDialogModel").modal("show");
                 },
+                //Show Estimate Run Wizard Modal
+                showEstimateRunWizard = function () {
+                    $("#estimateRunWizard").modal('show');
+                },
+                //Hide Estimate Run Wizard Modal
+                hideEstimateRunWizard = function () {
+                    $("#estimateRunWizard").modal('hide');
+                },
                 // Go To Element with Validation Errors
                 gotoElement = function (element) {
                     var tab = $(element).closest(".tab-pane");
@@ -92,6 +100,8 @@ define("common/itemDetail.view",
                 showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
                 gotoElement: gotoElement,
+                showEstimateRunWizard: showEstimateRunWizard,
+                hideEstimateRunWizard: hideEstimateRunWizard,
                 initializeLabelPopovers: initializeLabelPopovers
             };
         })(itemDetailViewModel);

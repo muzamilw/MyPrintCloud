@@ -569,7 +569,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 telephone1: specifiedTelephone1 || ""
             };
         },
-                totalPrice = ko.observable(specifiedTotalPrice || undefined).extend({ numberInput: ist.numberFormat }),
+                
 
         // Company Contact Entity
         CompanyContact = function (specifiedId, specifiedName, specifiedEmail) {
@@ -749,56 +749,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     };
     // #endregion __________________   I N V E N T O R Y    ______________________
 
-    // #region __________________  BEST PRESS   ______________________
-    // Best Press Entity        
-    BestPress = function (specifiedMachineID, specifiedMachineName, specifiedQty1Cost, specifiedQty1RunTime, specifiedQty2Cost, specifiedQty2RunTime,
-        specifiedQty3Cost, specifiedQty3RunTime, specifiedisSelected) {
-        return {
-            id: specifiedMachineID,
-            machineName: specifiedMachineName,
-            qty1Cost: specifiedQty1Cost,
-            qty1RunTime: specifiedQty1RunTime,
-            qty2Cost: specifiedQty2Cost,
-            qty2RunTime: specifiedQty2RunTime,
-            qty3Cost: specifiedQty3Cost,
-            qty3RunTime: specifiedQty3RunTime,
-            isSelected: specifiedisSelected,
-        };
-    },
-    // #endregion __________________   BEST PRESS    ______________________
-
-    // #region __________________  User Cost Center For Run Wizard  ______________________
-
-    // User Cost Center Entity        
-    UserCostCenter = function (specifiedCostCentreId, specifiedName) {
-        var // Unique key
-        id = ko.observable(specifiedCostCentreId),
-            name = ko.observable(specifiedName),
-            isSelected = ko.observable(false),
-             // Convert To Server Data
-                convertToServerData = function () {
-                    return {
-                        SectionCostcentreId: id(),
-                    };
-                };
-        return {
-            id: id,
-            name: name,
-            isSelected: isSelected,
-            convertToServerData: convertToServerData
-        };
-    },
-    // #endregion __________________   User Cost Center    ______________________
-
-    // User Cost Center Factory
-    UserCostCenter.Create = function (source) {
-        return new UserCostCenter(source.CostCentreId, source.Name);
-    };
-    // Best Press Factory
-    BestPress.Create = function (source) {
-        return new BestPress(source.MachineID, source.MachineName, source.Qty1Cost, source.Qty1RunTime, source.Qty2Cost, source.Qty2RunTime, source.Qty3Cost,
-            source.Qty3RunTime, source.isSelected);
-    };
+    
     // Section Flag Factory
     SectionFlag.Create = function (source) {
         return new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagColor);
@@ -856,10 +807,6 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         // Inventory
         Inventory: Inventory,
         // Shipping Information Constructor
-        ShippingInformation: ShippingInformation,
-        // Best Press
-        BestPress: BestPress,
-        // User Cost Center
-        UserCostCenter: UserCostCenter,
+        ShippingInformation: ShippingInformation
     };
 });

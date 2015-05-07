@@ -49,10 +49,6 @@ define("order/order.viewModel",
                     selectedCompany = ko.observable(),
                     // Errors List
                     errorList = ko.observableArray([]),
-                    // Best PressL ist
-                    bestPressList = ko.observableArray([]),
-                    // User Cost Center List For Run Wizard
-                    userCostCenters = ko.observableArray([]),
                     // Selected Cost Center List For Run Wizard
                     selectedCostCenters = ko.observableArray([]),
                     // Stock Category 
@@ -136,8 +132,6 @@ define("order/order.viewModel",
                     selectedMarkup3 = ko.observable(0),
                     // Selected Category Id
                     selectedCategoryId = ko.observable(),
-                    //selected Best Press From Wizard
-                    selectedBestPressFromWizard = ko.observable(),
                     //Is Estimate Screen
                     isEstimateScreen = ko.observable(false),
                     // Inventory SearchFilter
@@ -506,8 +500,6 @@ define("order/order.viewModel",
                             return order.id() === id;
                         });
                     },
-                    
-                        }, stockCategory.paper, false, currencySymbol());
                     // Open Stock Item Dialog For Adding product
                     openStockItemDialogForAddingProduct = function () {
                         isAddProductFromInventory(true);
@@ -516,13 +508,12 @@ define("order/order.viewModel",
                             createNewInventoryProduct(stockItem);
                         }, stockCategory.paper, false, currencySymbol());
                     },
-                    
-
                     // Edit Section
                     editSection = function (item) {
                         sectionHeader("SECTION - " + item.sectionNo());
                         selectedSection(item);
                         openSectionDetail();
+
                     },
                     // Open Section Detail
                     openSectionDetail = function () {
@@ -1721,140 +1712,7 @@ define("order/order.viewModel",
                         
                     
                         
-                        getBestPress = function () {
-                            showEstimateRunWizard();
-                            isLoadingOrders(true);
-                            bestPressList.removeAll();
-                            userCostCenters.removeAll();
-                            selectedBestPressFromWizard(undefined);
-                            dataservice.getBestPress(selectedSection().convertToServerData(), {
-                                success: function (data) {
-                                    if (data != null) {
-                                        mapBestPressList(data.PressList);
-                                        mapUserCostCentersList(data.UserCostCenters);
-                                    }
-                                    isLoadingOrders(false);
-                                },
-                                error: function (response) {
-                                    isLoadingOrders(false);
-                                    toastr.error("Error: Failed to Load Best Press List." + response, "", ist.toastrOptions);
-                                }
-                            });
-                        },
                         
-                    // Map Best Press List
-                        mapBestPressList = function (data) {
-                            var list = [];
-                            _.each(data, function (item) {
-                                list.push(BestPress.Create(item));
-                            });
-
-                            // Push to Original Array
-                            ko.utils.arrayPushAll(bestPressList(), list);
-                            bestPressList.valueHasMutated();
-                            if (selectedSection().pressId() !== undefined) {
-                                var bestPress = _.find(bestPressList(), function (item) {
-                                    // var id = item.id;
-                                    return item.id === selectedSection().pressId();
-                                });
-                                if (bestPress) {
-                                    selectedBestPressFromWizard(bestPress);
-                                } else {
-                                    if (bestPressList().length > 0) {
-                                        selectedBestPressFromWizard(bestPressList()[0]);
-                                    }
-                                }
-                            } else {
-                                if (bestPressList().length > 0) {
-                                    selectedBestPressFromWizard(bestPressList()[0]);
-                                }
-                            }
-
-                        },
-                    // Map User Cost Centers
-                        mapUserCostCentersList = function (data) {
-                            var list = [];
-                            _.each(data, function (item) {
-                                list.push(UserCostCenter.Create(item));
-                            });
-
-                            // Push to Original Array
-                            ko.utils.arrayPushAll(userCostCenters(), list);
-                            userCostCenters.valueHasMutated();
-                        },
-                        getSectionSystemCostCenters = function () {
-                            if (!selectedBestPressFromWizard()) {
-                                return;
-                            }
-
-                            isLoadingOrders(true);
-                           
-
-                            var currSec = selectedSection().convertToServerData();
-                            currSec.PressId = selectedBestPressFromWizard().id;
-                            dataservice.getUpdatedSystemCostCenters(currSec, {
-                                success: function (data) {
-                                    if (data != null) {
-                                        //selectedSection(model.ItemSection.Create(data));
-                                        
-                                        // Map Section Cost Centres if Any
-                                        if (data.SectionCostcentres && data.SectionCostcentres.length > 0) {
-                                            selectedSection().sectionCostCentres.removeAll();
-                                            var sectionCostcentres = [];
-
-                                            _.each(data.SectionCostcentres, function (sectionCostCentre) {
-                                                sectionCostcentres.push(itemModel.SectionCostCentre.Create(sectionCostCentre));
-                                            });
-
-                                            // Push to Original Item
-                                            ko.utils.arrayPushAll(selectedSection().sectionCostCentres(), sectionCostcentres);
-                                            selectedSection().sectionCostCentres.valueHasMutated();
-                                        }
-                                        
-                                        hideEstimateRunWizard();
-                                        _.each(userCostCenters(), function (item) {
-                                            if (item.isSelected()) {
-                                                var sectionCostCenterItem = itemModel.SectionCostCentre.Create({});
-                                                sectionCostCenterItem.id(item.id());
-                                                sectionCostCenterItem.name(item.name());
-                                                selectedSection().sectionCostCentres.push(sectionCostCenterItem);
-                                            }
-                                        });
-
-
-                                        var charge1 = setDecimalPlaceValue(selectedSection().baseCharge1());
-                                        var charge2 = setDecimalPlaceValue(selectedSection().baseCharge2());
-                                        var charge3 = setDecimalPlaceValue(selectedSection().baseCharge3());
-                                        baseCharge1Total(charge1);
-                                        baseCharge2Total(charge2);
-                                        baseCharge3Total(charge3);
-
-                                    }
-                                    isLoadingOrders(false);
-                                },
-                                error: function (response) {
-                                    isLoadingOrders(false);
-                                    toastr.error("Error: Failed to Load System Cost Centers." + response);
-                                }
-                            });
-                        },
-                        setDecimalPlaceValue = function (chargevalue) {
-                            if (chargevalue) {
-                                var val = parseFloat(chargevalue);
-                                var calc;
-                                if (!isNaN(val)) {
-                                    calc = (val.toFixed(2));                                    
-                                    return calc;
-                                }
-                                else {
-                                    calc = 0.00;
-                                    return calc;
-                                }
-                            }
-                            else {
-                                return 0.00;
-                            }
-                        },
                         updateSectionFromCostCenterCalculation = function (section) {
 
                         },
@@ -1881,21 +1739,7 @@ define("order/order.viewModel",
                         templateToUseDeliverySchedule = function (deliverySchedule) {
                             return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
                         },
-                        selectBestPressFromWizard = function (bestPress) {
-                            selectedBestPressFromWizard(bestPress);
-                            selectedSection().pressId(bestPress.id);
-                        },
-                        clickOnWizardOk = function () {
-                            getSectionSystemCostCenters();
-                        },
-                    //Show Estimate Run Wizard
-                        showEstimateRunWizard = function () {
-                            view.showEstimateRunWizard();
-                        },
-                    //Hide Estimate Run Wizard
-                        hideEstimateRunWizard = function () {
-                            view.hideEstimateRunWizard();
-                        },
+                        
                     // Delete Delivery Schedule
                         onDeleteDeliveryScheduleItem = function (deliverySchedule) {
                             if (selectedDeliverySchedule().deliveryNoteRaised()) {
@@ -2124,17 +1968,10 @@ define("order/order.viewModel",
                     selectedDeliverySchedule: selectedDeliverySchedule,
                     templateToUseDeliverySchedule: templateToUseDeliverySchedule,
                     onRaised: onRaised,
-                    getBestPress: getBestPress,
                     onDeleteDeliveryScheduleItem: onDeleteDeliveryScheduleItem,
                     //#endregion
                     //#region Section Detail
                     paperSizes: paperSizes,
-                    getSectionSystemCostCenters: getSectionSystemCostCenters,
-                    bestPressList: bestPressList,
-                    userCostCenters: userCostCenters,
-                    selectBestPressFromWizard: selectBestPressFromWizard,
-                    selectedBestPressFromWizard: selectedBestPressFromWizard,
-                    clickOnWizardOk: clickOnWizardOk,
                     downloadArtwork: downloadArtwork,
                     //#endregion
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
