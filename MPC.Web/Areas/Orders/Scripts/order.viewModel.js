@@ -1187,7 +1187,6 @@ define("order/order.viewModel",
                         if (selectedOrder().companyId() === undefined) {
                             toastr.error("Please select customer.");
                         } else {
-                             
                                 var companyId = 0;
                                 if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3 && selectedCompany().storeId !== null) {
                                     companyId = selectedCompany().storeId;
