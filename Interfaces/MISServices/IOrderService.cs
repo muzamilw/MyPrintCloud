@@ -35,6 +35,11 @@ namespace MPC.Interfaces.MISServices
         /// Get base data for order
         /// </summary>
         OrderBaseResponse GetBaseData();
+        /// <summary>
+        /// Base Data For item Details
+        /// </summary>
+        /// <returns></returns>
+        ItemDetailBaseResponse GetBaseDataForItemDetails();
 
         /// <summary>
         /// Get base data for Specified Company

@@ -8,7 +8,7 @@ namespace MPC.Interfaces.MISServices
 {
     public interface ISystemUserService
     {
-        bool Update(System.Guid Id, string Email, string FullName);
+        bool Update(System.Guid Id, string Email, string FullName, int OrganizationId);
         bool Add(System.Guid Id, string Email, string FullName, int OrganizationId);
     }
 }

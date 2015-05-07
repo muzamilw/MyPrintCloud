@@ -73,7 +73,7 @@ namespace MPC.Webstore.Controllers
 
                 string StoreName = string.Empty;
 
-                SystemUser salesManager = _myCompanyService.GetSystemUserById(Convert.ToInt64(StoreBaseResopnse.Company.SalesAndOrderManagerId1));
+                SystemUser salesManager = _myCompanyService.GetSystemUserById(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
                 StoreName = StoreBaseResopnse.StoreDetaultAddress.AddressName;
 

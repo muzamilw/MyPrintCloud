@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Delivery Cost Centers";
+    ViewBag.Title = "Shipping Cost Centers";
 }
 @section leftmenue {
 
@@ -13,10 +13,11 @@
                   
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Delivery Cost Centers</h1>
+                    <h1 class="pull-left">Shipping Cost Centers</h1>
                     <div class="pull-right top-page-ui">
+                        <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left: 15px;">Close</a>
                         <a class="btn btn-primary" data-bind="click: $root.createDeliveryCostCenter">
-                            Add Delivery Cost Center
+                            Add Shipping Cost Center
                         </a>
                     </div>
                 </div>
@@ -31,7 +32,7 @@
                                         <tr id="ccList" class="span12">
                                             <th class="col-lg-3"><span>Name</span></th>
                                             <th class="col-lg-4"><span>Description</span></th>
-                                            <th class="col-lg-2"><span>Type</span></th>
+                                          
                                             
                                             <th class="col-lg-2">&nbsp;</th>
                                         </tr>
@@ -72,7 +73,7 @@
                     <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
                 </td>
                 <td data-bind="text: description"></td>
-                <td data-bind="text: type"></td>
+                @*<td data-bind="text: type"></td>*@
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
@@ -117,6 +118,6 @@
             $('#limissettings').addClass('active');
             $('#liDeliveryCostCenters').addClass('active');
         });
-
+       
     </script>
 }

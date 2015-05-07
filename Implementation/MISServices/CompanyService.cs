@@ -3181,6 +3181,7 @@ namespace MPC.Implementation.MISServices
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
         {
+            var organisation = organisationRepository.Find( fieldVariableRepository.OrganisationId);
             return new CompanyBaseResponse
             {
                 SystemUsers = systemUserRepository.GetAll(),
@@ -3196,7 +3197,9 @@ namespace MPC.Implementation.MISServices
                 CostCentres = costCentreRepository.GetAllDeliveryCostCentersForStore(),
                 SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
                 PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CustomerPriceMatrix),
-                OrganisationId = fieldVariableRepository.OrganisationId
+                OrganisationId = fieldVariableRepository.OrganisationId,
+                Currency = (organisation != null && organisation.Currency != null) ? organisation.Currency.CurrencySymbol :
+                string.Empty,
             };
 
         }
