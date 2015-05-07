@@ -378,12 +378,7 @@
 
                                     </tr>
                                 </script>
-
-                                @*@Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")*@
-                                @*@Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")
-                                @Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")
-                                @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")*@
-
+                                
                             </div>
                         </div>
                     </div>
@@ -392,10 +387,12 @@
         </div>
     </div>
 </div>
-@Html.Partial("_OrderItemDetail")
-@Html.Partial("Company/_SelectCompany")
 @Html.Partial("~/Areas/Orders/Views/Home/_AddEditPrePayment.cshtml")
-@Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
+@Html.Partial("~/Areas/Orders/Views/Shared/_OrderCostCenterQuantity.cshtml")
+@Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
+<!-- ko stopBinding: true -->
+@Html.Partial("~/Areas/Common/Views/Shared/_ItemDetail.cshtml")
+<!--/ko-->
 <script type="text/javascript">
 
     function addAddress() {

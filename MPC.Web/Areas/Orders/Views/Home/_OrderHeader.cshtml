@@ -57,6 +57,7 @@
 
             </div>
             <div id="popoveraddress" style="display:none;">
+                <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().address1!=='' && $root.selectedAddress().address1!== undefined-->
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <label class="control-label tooltip-float">&nbsp;</label>
@@ -67,6 +68,8 @@
                         </div>
                     </div>
                 </div>
+                <!--/ko-->
+                <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().telephone1!=='' && $root.selectedAddress().telephone1!== undefined-->
                 <div class="form-group" style="margin-top: -20px;">
                     <div class="col-lg-4 text-right">
                         <label class="control-label tooltip-float">&nbsp;</label>
@@ -77,6 +80,8 @@
                         </div>
                     </div>
                 </div>
+                <!--/ko-->
+                <!-- ko if: $root.selectedCompanyContact()!==undefined && $root.selectedCompanyContact().email !=='' && $root.selectedCompanyContact().email !== undefined -->
                 <div class="form-group" style="margin-top: -20px;">
                     <div class="col-lg-4 text-right">
                         <label class="control-label tooltip-float">&nbsp;</label>
@@ -87,6 +92,7 @@
                         </div>
                     </div>
                 </div>
+                <!--/ko-->
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
@@ -254,12 +260,13 @@
                         <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
                     </div>
 
-                    <div class="col-lg-3 form-group" style="margin-top:10px">
-                        <div class="col-lg-8 text-right" style=" margin-left: 18px;">
+                    <div class="col-lg-5 form-group" style="margin-top:10px">
+                        <div class="col-lg-7 text-right" style=" margin-left: 18px;">
                             <label class="control-label text-right tooltip-float">Gross Total:</label>
                         </div>
-                        <div class="col-lg-2" style="margin-top:5px">
-                            <span data-bind="text: $root.currencySymbol() + $root.grossTotal()" style="font-weight: bold; font-size:20px;"></span>
+                        <div class="col-lg-4" style="margin-top:5px">
+                            <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
+                            <span data-bind="text: $root.grossTotal()" style="font-weight: bold; font-size:20px;"></span>
                         </div>
                     </div>
                 </div>
@@ -301,8 +308,9 @@
             <td>
                 <span style="font-size:20px;" data-bind="text: qty1"></span>
             </td>
-            <td>
-                <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+            <td style=" text-align: right;">
+                <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
+                <span style="font-size:20px;" data-bind="text: qty1GrossTotal()"></span>
             </td>
             @*<td class="text-right">
                 <a href="#" class="table-link" data-bind="click: $root.editItem">
@@ -325,20 +333,15 @@
         <tr>
             <td>
                 <span style="font-size:20px;" data-bind="text: productName"></span>
-            </td>
-            <td>
-                
-            </td>
-            <td>
-                <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+            </td>                
+            <td style=" text-align: right;">
+                <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
+                <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
             </td>
 
         </tr>
     </script>
-    @*@Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")*@
-    @*@Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")*@
-    @*@Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")*@
-    @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")
+    @Html.Partial("~/Areas/Orders/Views/Shared/_OrderCostCenterQuantity.cshtml")
     @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
 
 </div>

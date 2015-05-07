@@ -293,12 +293,33 @@ div#spinner {
             background: none repeat scroll 0 0 #E5E5ED!important;
         }
 
+
+
+.ThoumbnailCostCenter{
+    color: lightgray;
+  font-size: 0.875em;
+  margin-top: 43px;
+  padding-left: 25px;
+}
 .selectedRow{
             background: none repeat scroll 0 0 #E5E5ED!important;
         }
 
 a.reportAnchor a:hover{
     text-decoration: underline;
+}
+
+
+
+.selectedRow{
+            background: none repeat scroll 0 0 #E5E5ED!important;
+        }
+
+a.reportAnchor a:hover{
+    text-decoration: underline;
+}
+.height60{
+    height:60px;
 }
 
 .btn-yellow {

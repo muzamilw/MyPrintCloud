@@ -157,7 +157,7 @@ define("product/product.viewModel",
                         onFlagChange: function (flagId, itemId) {
                             getItemPriceMatricesForItemByFlag(flagId, itemId);
                         },
-                        onPreBuiltTemplateSelected: function() {
+                        onPreBuiltTemplateSelected: function () {
                             selectPreBuiltTemplate();
                         },
                         onSelectPressItem: function () {
@@ -195,7 +195,7 @@ define("product/product.viewModel",
                         getItemById(data.id(), openProductEditor);
                     },
                     // Select Designer Category for Product
-                    selectDesignerCategoryForProduct = function() {
+                    selectDesignerCategoryForProduct = function () {
                         // Get Designer Category From list
                         if (selectedProduct().templateTypeUi() !== '3' || !selectedProduct().designerCategoryId()) {
                             return;
@@ -216,20 +216,20 @@ define("product/product.viewModel",
                         view.showBasicDetailsTab();
                         // Show Details
                         isProductDetailsVisible(true);
-                        
+
                         // WIre up tab shown event
                         view.wireUpTabShownEvent();
-                        
+
                         // Wire Up Navigation Control - If has Changes and user navigates to another page
-                        shared.initialize(selectedProduct, function(navigateCallback) {
+                        shared.initialize(selectedProduct, function (navigateCallback) {
                             onSaveProduct(null, null, navigateCallback);
                         });
-                        
+
                         // Initialize Label Popovers
                         view.initializeLabelPopovers();
                     },
                     // Initialize Product Category Dialog
-                    initializeProductCategoryDialog = function() {
+                    initializeProductCategoryDialog = function () {
                         // Set Product Category true/false for popup
                         productCategories.each(function (productCategory) {
                             var productCategoryItem = selectedProduct().productCategoryItems.find(function (pci) {
@@ -243,7 +243,7 @@ define("product/product.viewModel",
                                 productCategory.isSelected(false);
                             }
                         });
-                        
+
                         // Update Input Checked States in Bindings
                         view.updateInputCheckedStates();
                     },
@@ -341,7 +341,7 @@ define("product/product.viewModel",
                     },
                     // Open Stock Item Dialog
                     openStockItemDialog = function (stockCategoryId) {
-                        stockDialog.show(function(stockItem) {
+                        stockDialog.show(function (stockItem) {
                             selectedProduct().onSelectStockItem(stockItem);
                         }, stockCategoryId, false);
                     },
@@ -358,7 +358,7 @@ define("product/product.viewModel",
                         searchPressItems();
                     },
                     // Reset Press Dialog Filter
-                    resetPressDialogFilter = function() {
+                    resetPressDialogFilter = function () {
                         // Reset Text 
                         pressDialogFilter(undefined);
                     },
@@ -378,7 +378,7 @@ define("product/product.viewModel",
                         openSignatureDialog();
                     },
                     // Open Signature Dialog
-                    openSignatureDialog = function() {
+                    openSignatureDialog = function () {
                         view.showSignatureDialog();
                     },
                     // Close Signature Dialog
@@ -416,7 +416,7 @@ define("product/product.viewModel",
                     },
                     // open Product Category Dialog
                     openProductCategoryDialog = function () {
-                        getProductCategories(selectedCompany(), function() {
+                        getProductCategories(selectedCompany(), function () {
                             initializeProductCategoryDialog();
                             view.showProductCategoryDialog();
                         });
@@ -425,13 +425,24 @@ define("product/product.viewModel",
                     closeProductCategoryDialog = function () {
                         view.hideProductCategoryDialog();
                     },
+                     changeIcon = function (event) {
+                         if (event.target.classList.contains("fa-chevron-circle-right")) {
+                             event.target.classList.remove("fa-chevron-circle-right");
+                             event.target.classList.add("fa-chevron-circle-down");
+                         } else {
+                             event.target.classList.remove("fa-chevron-circle-down");
+                             event.target.classList.add("fa-chevron-circle-right");
+                         }
+                     },
                     // Toggle Child Categories
                     toggleChildCategories = function (data, event) {
                         // If Child Categories exist then don't send call
+                        changeIcon(event);
                         if (view.toggleChildCategories(event)) {
                             return;
                         }
                         var categoryId = view.getCategoryIdFromElement(event);
+
                         getChildCategories(categoryId, event);
                     },
                     // Update Product Categories to Selected Product
@@ -450,7 +461,7 @@ define("product/product.viewModel",
                         if (!productCategory) {
                             return false;
                         }
-                        
+
                         if ($(event.target).is(':checked')) {
                             productCategory.isSelected(true);
                         }
@@ -462,7 +473,7 @@ define("product/product.viewModel",
                     },
                     // Open Phrase Library
                     openPhraseLibrary = function () {
-                        phraseLibrary.show(function(phrase) {
+                        phraseLibrary.show(function (phrase) {
                             updateJobDescription(phrase);
                         });
                     },
@@ -496,9 +507,9 @@ define("product/product.viewModel",
                         }
                     },
                     // ON Pre-Build Template Option Selected 
-                    selectPreBuiltTemplate = function() {
+                    selectPreBuiltTemplate = function () {
                         confirmation.messageText("Do you want to keep existing Template Objects?");
-                        confirmation.afterProceed(function() {
+                        confirmation.afterProceed(function () {
                             selectedProduct().templateTypeMode(2);
                         });
                         confirmation.afterCancel(function () {
@@ -507,17 +518,17 @@ define("product/product.viewModel",
                         confirmation.show();
                     },
                     // Get Designer Category by Id
-                    getDesignerCategoryById = function(categoryId) {
+                    getDesignerCategoryById = function (categoryId) {
                         return _.find(availableCategoriesForTemplate(), function (category) {
                             return category.id === categoryId;
                         });
                     },
                     // Can Edit Template From Editor
-                    canEditTemplate = function(product) {
+                    canEditTemplate = function (product) {
                         if (!product) {
                             return false;
                         }
-                        
+
                         return ((product.isFinishedGoodsUi() === '1') && (product.template() && product.template().id()) &&
                             (product.templateTypeUi() !== '3'));
                     },
@@ -526,16 +537,16 @@ define("product/product.viewModel",
                         if (!selectedProduct()) {
                             return false;
                         }
-                        
+
                         return ((selectedProduct().isFinishedGoodsUi() === '1') && (selectedProduct().template() && selectedProduct().template().id()) &&
                             (selectedProduct().templateTypeUi() !== '3'));
                     }),
                     // Edit Template
-                    editTemplate = function(product) {
+                    editTemplate = function (product) {
                         view.editTemplate(product);
                     },
                     // On Delete Product
-                    onDeleteProduct = function() {
+                    onDeleteProduct = function () {
                         confirmation.afterProceed(function () {
                             deleteProduct(selectedProduct().id());
                         });
@@ -549,9 +560,9 @@ define("product/product.viewModel",
                         pager(new pagination.Pagination({ PageSize: 8 }, products, getItems));
 
                         itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate));
-                        
+
                         pressDialogPager(new pagination.Pagination({ PageSize: 5 }, pressItems, getPressItems));
-                        
+
                         if (!isOnStoreScreen) {
                             // Get Base Data
                             getBaseData();
@@ -559,29 +570,29 @@ define("product/product.viewModel",
                             // Get Items
                             getItems();
                         }
-                        
+
                         // Set Open From Flag to false - so that popup don't show until button gets clicked
                         phraseLibrary.isOpenFromPhraseLibrary(false);
-                        
+
                         // Subscribe Designer Category Selection
-                        selectedDesignerCategory.subscribe(function(value) {
+                        selectedDesignerCategory.subscribe(function (value) {
                             if (!selectedProduct()) {
                                 return;
                             }
-                            
+
                             if (value === selectedProduct().designerCategoryId()) {
                                 return;
                             }
 
                             selectedProduct().designerCategoryId(value);
-                            
+
                             // Get Designer Category From list
                             var designerCategory = getDesignerCategoryById(value);
 
                             if (!designerCategory) {
                                 return;
                             }
-                            
+
                             // Set Zoom Factor and Scalar default
                             selectedProduct().zoomFactor(designerCategory.zoomFactor);
                             selectedProduct().scalar(designerCategory.scalarFactor);
@@ -598,12 +609,12 @@ define("product/product.viewModel",
                             selectedCategory(category);
                             // Filter Items on This Category
                             resetFilter(true);
-                        }    
+                        }
                     },
                     // Is Product Section Initialized
                     isProductSectionInitialized = false,
                     // Initialize the view model from Store
-                    initializeForStore = function(companyId) {
+                    initializeForStore = function (companyId) {
                         if (selectedCompany() !== companyId) {
                             selectedCompany(companyId);
                             // Reset Designer load flag, to load smart forms list for this company
@@ -624,7 +635,7 @@ define("product/product.viewModel",
 
                         // Get Base Data
                         getBaseData();
-                        
+
                         // Get Items for Store
                         resetFilter();
                     },
@@ -706,13 +717,13 @@ define("product/product.viewModel",
                             return;
                         }
 
-                        var callback =  closeProductEditor;
+                        var callback = closeProductEditor;
                         saveProduct(callback, navigateCallback);
                     },
                     // Prompt for Designer
-                    promptForDesigner = function(product) {
+                    promptForDesigner = function (product) {
                         confirmation.messageText("Do you want to open designer?");
-                        confirmation.afterProceed(function() {
+                        confirmation.afterProceed(function () {
                             editTemplate(product);
                         });
                         confirmation.afterCancel();
@@ -878,7 +889,7 @@ define("product/product.viewModel",
                         selectedProduct().setItemPriceMatrices(itemPriceMatrices);
                     },
                     // Get Item From list by id
-                    getItemByIdLocal = function(id) {
+                    getItemByIdLocal = function (id) {
                         return products.find(function (item) {
                             return item.id() === id;
                         });
@@ -899,10 +910,10 @@ define("product/product.viewModel",
 
                         // Update Company Id
                         selectedProduct().companyId(data.CompanyId);
-                        
+
                         // Update Organisation Id
                         selectedProduct().organisationId(data.OrganisationId);
-                        
+
                         if (canEditTemplate(selectedProduct())) {
                             var newCallback = callback;
                             callback = function () {
@@ -916,7 +927,7 @@ define("product/product.viewModel",
 
                         // Add to top of list
                         products.splice(0, 0, selectedProduct());
-                        
+
                         // Return Callback
                         return callback;
                     },
@@ -953,7 +964,7 @@ define("product/product.viewModel",
                                 };
                             }
                         }
-                        
+
                         // Return Callback
                         return callback;
                     },
@@ -964,7 +975,7 @@ define("product/product.viewModel",
                         if (isBaseDataLoaded) {
                             return;
                         }
-                        
+
                         dataservice.getBaseDataForProduct({
                             success: function (data) {
                                 costCentres.removeAll();
@@ -993,19 +1004,19 @@ define("product/product.viewModel",
 
                                     // Map Suppliers
                                     mapSuppliers(data.Suppliers);
-                                    
+
                                     // Map Product Categories
                                     mapDesignerCategories(data.TemplateCategories);
-                                    
+
                                     // Map Category Regions
                                     mapCategoryRegions(data.CategoryRegions);
-                                    
+
                                     // Map Category Types
                                     mapCategoryTypes(data.CategoryTypes);
-                                    
+
                                     // Map Paper Sizes
                                     mapPaperSizes(data.PaperSizes);
-                                    
+
                                     // Map Units
                                     lengthUnit(data.LengthUnit || undefined);
                                     currencyUnit(data.CurrencyUnit || undefined);
@@ -1031,7 +1042,7 @@ define("product/product.viewModel",
                             selectDesignerCategoryForProduct();
                             return;
                         }
-                        
+
                         dataservice.getBaseDataForDesignerCategory({ id: selectedCompany() || 0 }, {
                             success: function (data) {
                                 templateCategories.removeAll();
@@ -1047,13 +1058,13 @@ define("product/product.viewModel",
 
                                     // Map Category Types
                                     mapCategoryTypes(data.CategoryTypes);
-                                    
+
                                     // Map Smart Forms
                                     mapSmartForms(data.SmartForms);
                                 }
 
                                 isDesignerCategoryBaseDataLoaded(true);
-                                
+
                                 // Set Designer Category if Active Product has Template Type = 3
                                 // Update Category Region, Type and Designer Category
                                 selectDesignerCategoryForProduct();
@@ -1070,7 +1081,7 @@ define("product/product.viewModel",
                         if (selectedCompany()) {
                             product.CompanyId = selectedCompany();
                         }
-                        
+
                         dataservice.saveItem(product, {
                             success: function (data) {
                                 if (!selectedProduct().id()) {
@@ -1087,7 +1098,7 @@ define("product/product.viewModel",
                                 if (callback && typeof callback === "function") {
                                     callback();
                                 }
-                                
+
                                 if (navigateCallback && typeof navigateCallback === "function") {
                                     navigateCallback();
                                 }
@@ -1106,7 +1117,7 @@ define("product/product.viewModel",
                                     // Add to top of list
                                     products.splice(0, 0, newItem);
                                     selectedProduct(newItem);
-                                    
+
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
@@ -1241,40 +1252,42 @@ define("product/product.viewModel",
                             }
                         });
                     },
+
                     // Get Category Child List Items
-                    getChildCategories = function (id, event) {
-                        dataservice.getProductCategoryChildsForProduct({
-                            id: id,
-                        }, {
-                            success: function (data) {
-                                if (data.ProductCategories != null) {
-                                    // Update Product Category Items
-                                    selectedProduct().updateProductCategoryItems(productCategories());
+                getChildCategories = function (id, event) {
 
-                                    _.each(data.ProductCategories, function (productCategory) {
-                                        productCategory.ParentCategoryId = id;
-                                        var category = model.ProductCategory.Create(productCategory);
-                                        if (selectedProduct()) {
-                                            var productCategoryItem = selectedProduct().productCategoryItems.find(function (pCatItem) {
-                                                return pCatItem.categoryId() === category.id;
-                                            });
+                    dataservice.getProductCategoryChildsForProduct({
+                        id: id,
+                    }, {
+                        success: function (data) {
+                            if (data.ProductCategories != null) {
+                                // Update Product Category Items
+                                selectedProduct().updateProductCategoryItems(productCategories());
 
-                                            if (productCategoryItem) {
-                                                category.isSelected(productCategoryItem.isSelected());
-                                            }
+                                _.each(data.ProductCategories, function (productCategory) {
+                                    productCategory.ParentCategoryId = id;
+                                    var category = model.ProductCategory.Create(productCategory);
+                                    if (selectedProduct()) {
+                                        var productCategoryItem = selectedProduct().productCategoryItems.find(function (pCatItem) {
+                                            return pCatItem.categoryId() === category.id;
+                                        });
+
+                                        if (productCategoryItem) {
+                                            category.isSelected(productCategoryItem.isSelected());
                                         }
-                                        productCategories.push(category);
-                                        view.appendChildCategory(event, category);
-                                        initializeProductCategoryDialog();
-                                    });
-                                }
-                            },
-                            error: function (response) {
-                                isLoadingStores(false);
-                                toastr.error("Error: Failed To load Categories " + response);
+                                    }
+                                    productCategories.push(category);
+                                    view.appendChildCategory(event, category);
+                                    initializeProductCategoryDialog();
+                                });
                             }
-                        });
-                    },
+                        },
+                        error: function (response) {
+                            isLoadingStores(false);
+                            toastr.error("Error: Failed To load Categories " + response);
+                        }
+                    });
+                },
                     // Get Product Categories
                     getProductCategories = function (id, callback) {
                         dataservice.getProductCategories({

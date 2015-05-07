@@ -17,7 +17,7 @@ namespace MPC.Implementation.MISServices
 
         #region Constructor
 
-        public PaperSheetService(IPaperSizeRepository paperSheetRepository,IOrganisationRepository organisationRepository)
+        public PaperSheetService(IPaperSizeRepository paperSheetRepository, IOrganisationRepository organisationRepository)
         {
             this.paperSheetRepository = paperSheetRepository;
             this.organisationRepository = organisationRepository;
@@ -65,7 +65,8 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public bool Delete(int paperSheetId)
         {
-            paperSheetRepository.Delete(GetPaperSheetById(paperSheetId));
+            PaperSize paperSize = GetPaperSheetById(paperSheetId);
+            paperSize.IsArchived = true;
             paperSheetRepository.SaveChanges();
             return true;
         }
@@ -81,7 +82,7 @@ namespace MPC.Implementation.MISServices
             return new PaperSheetBaseResponse
             {
                 LengthUnit = organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
-                Culture = organisation.GlobalLanguage!=null ? organisation.GlobalLanguage.culture : string.Empty
+                Culture = organisation.GlobalLanguage != null ? organisation.GlobalLanguage.culture : string.Empty
             };
         }
         #endregion

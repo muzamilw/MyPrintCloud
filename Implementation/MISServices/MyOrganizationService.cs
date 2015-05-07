@@ -84,6 +84,21 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Load My Organization Base data
+        /// </summary>
+        public MyOrganizationBaseResponse GetRegionalSettingBaseData()
+        {
+            return new MyOrganizationBaseResponse
+            {
+                //ChartOfAccounts = chartOfAccountRepository.GetAll(),
+  
+                Currencies = currencyRepository.GetAll(),
+                LengthUnits = lengthUnitRepository.GetAll(),
+                WeightUnits = weightUnitRepository.GetAll(),
+             
+            };
+        }
+        /// <summary>
         ///  Find Organisation Detail By Organisation ID
         /// </summary>
         public Organisation GetOrganisationDetail()
@@ -440,6 +455,7 @@ namespace MPC.Implementation.MISServices
         public List<LanguageEditor> ReadResourceFileByLanguageId(long organisationId, long lanuageId)
         {
             List<LanguageEditor> languageEditors = new List<LanguageEditor>();
+            // get organisation object --> organisation.languageid
             GlobalLanguage globalLanguage = globalLanguageRepository.Find(lanuageId);
             string sResxPath = null;
             if (globalLanguage != null)
@@ -650,6 +666,14 @@ namespace MPC.Implementation.MISServices
                 throw ex;
             }
         }
+
+
+        public IEnumerable<Markup> GetMarkups()
+        {
+            return markupRepository.GetAll();
+        }
+
+
         #endregion
 
 

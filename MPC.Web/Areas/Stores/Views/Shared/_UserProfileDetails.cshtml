@@ -686,9 +686,8 @@
                                                 <div class="form-group " style="margin-left: -113px;">
                                                     <div class="col-lg-6">
                                                         <div class="input-group">
-                                                            <span class="input-group-addon">$</span>
-                                                            <input type="text" class="form-control" name="credit limit" id="txtCreditLimit" data-bind="value: creditLimit">
-                                                            <span class="input-group-addon">.00</span>
+                                                            <span class="input-group-addon" data-bind="text: $root.currencySymbol"></span>
+                                                            <input type="text" class="form-control" name="credit limit" id="txtCreditLimit" data-bind="numberValue: creditLimit">
                                                         </div>
                                                     </div>
                                                 </div>

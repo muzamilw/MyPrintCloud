@@ -36,6 +36,21 @@ define("myOrganization/myOrganization.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+
+         
+
+                    //amplify.request.define('getMarkups', 'ajax', {
+                    //    url: ist.siteUrl + '/Api/MyOrganization',
+                    //    dataType: 'json',
+                    //    type: 'GET'
+                    //});
+
+                    //amplify.request.define('getRegionalSettings', 'ajax', {
+                    //    url: ist.siteUrl + '/Api/MyOrganizationBase',
+                    //    dataType: 'json',
+                    //    type: 'GET'
+                    //});
+
                     isInitialized = true;
                 }
             },
@@ -67,6 +82,26 @@ define("myOrganization/myOrganization.dataservice", function () {
                     data: params
                 });
             },
+            // // Get Markups
+            //getMarkups = function (params, callbacks) {
+            //    initialize();
+            //    return amplify.request({
+            //        resourceId: 'getMarkups',
+            //        success: callbacks.success,
+            //        error: callbacks.error,
+            //        data: params
+            //    });
+            //},
+            //// Get Regional Settings
+            //getRegionalSettings = function (params, callbacks) {
+            //    initialize();
+            //    return amplify.request({
+            //        resourceId: 'getRegionalSettings',
+            //        success: callbacks.success,
+            //        error: callbacks.error,
+            //        data: params
+            //    });
+            //},
             // Save My Organization
             saveMyOrganization = function (param, callbacks) {
                 initialize();
@@ -82,7 +117,9 @@ define("myOrganization/myOrganization.dataservice", function () {
             getMyOrganizationBase: getMyOrganizationBase,
             getMyOrganizationDetail: getMyOrganizationDetail,
             saveMyOrganization: saveMyOrganization,
-            getResourceFileByLanguageId: getResourceFileByLanguageId,
+            getResourceFileByLanguageId: getResourceFileByLanguageId
+            //getMarkups: getMarkups,
+            //getRegionalSettings: getRegionalSettings
         };
     })();
 

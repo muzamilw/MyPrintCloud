@@ -25,7 +25,7 @@
                                 &nbsp;
                             </div>
                             <div class="form-group pull-right">
-                                <form data-bind="submit:$root.getItemsByCompanyId">
+                                <form data-bind="submit: $root.getItemsByCompanyId">
                                     <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
                                     <i class="fa fa-search search-icon" data-bind="click:$root.getItemsByCompanyId"></i>
                                 </form>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-                    <div class="main-box-body clearfix" style="max-height: 318px; overflow-y: auto">
+                    <div class="main-box-body clearfix" style="max-height: 265px; min-height: 265px;overflow-y: auto">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="col-lg-5 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection2">
-                    <div class="form-group" style="margin-left: 0px; margin-right: 0px;  max-height: 318px; overflow-y: auto">
+                    <div class="form-group" style="margin-left: 0px; margin-right: 0px;  max-height: 318px; min-height: 318px;overflow-y: auto">
 
                         <h4 class="modal-title">Add Cost Center</h4>
                         <hr />
@@ -84,7 +84,7 @@
                                             <th class="col-lg-3">Quantity From</th>
                                             <th class="col-lg-3">Quantity To</th>
                                             <!--/ko-->
-                                            <th class="col-lg-6" data-bind="text: $root.selectedStockOptionName"></th>
+                                            <th style="text-align: right"class="col-lg-6" data-bind="text: $root.selectedStockOptionName"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -95,7 +95,8 @@
                             </div>
                         </div>
                         <!-- ko if: $root.selectedStockOption().itemAddonCostCentres().length >= 1 -->
-                        <div id="AddOnHeading " class="col-lg-4 text-right">Add Ons</div>
+                        <h4 class="modal-title">Add Ons</h4>
+                        <hr />
                         <div class="main-box-body clearfix">
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover">
@@ -127,7 +128,12 @@
                         <div class=" col-lg-5"><select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity"></select></div>
                         <!-- /ko -->
                         <!-- /ko -->
-                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float"> <span data-bind="text:$root.currencySymbol()+ $root.totalProductPrice()"></span> </label></div>
+                        <div class=" col-lg-4 text-right " style=" padding-right: 0;">
+                            <label class="control-label tooltip-float">
+                                <span data-bind="text:$root.currencySymbol()"></span>
+                                <span data-bind="numberInput:$root.totalProductPrice"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -149,7 +155,10 @@
     <tr>
         <td> <input type="checkbox" data-bind="checked: isSelected" /></td>
         <td data-bind="text: costCentreName"></td>
-        <td data-bind="text: $root.currencySymbol()+totalPrice()"></td>
+        <td style="text-align: right">
+            <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+            <span style="text-align: right" data-bind="numberInput: totalPrice"></span>
+        </td>
     </tr>
 </script>
 <script id="itemPriceMatrixTemplate" type="text/html">
@@ -164,39 +173,73 @@
         <td data-bind="text: qtyRangedTo"></td>
         <!--/ko-->
         <!-- ko if: $root.selectedStockOptionSequenceNumber() == 1 -->
-        <td data-bind="text:  $root.currencySymbol()+pricePaperType1()"></td>
+        <td style="text-align: right">
+            <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+            <span style="text-align: right" data-bind="numberInput: pricePaperType1"></span>
+        </td>
         <!--/ko-->
         <!-- ko if: $root.selectedStockOptionSequenceNumber() == 2 -->
-        <td data-bind="text:  $root.currencySymbol()+pricePaperType2()"></td>
+
+        <td style="text-align: right">
+            <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+            <span style="text-align: right" data-bind="numberInput: pricePaperType2"></span>
+        </td>
         <!--/ko-->
         <!-- ko if: $root.selectedStockOptionSequenceNumber() == 3 -->
-        <td data-bind="text:  $root.currencySymbol()+pricePaperType3()"></td>
+        <td style="text-align: right">
+            <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+            <span style="text-align: right" data-bind="numberInput: pricePaperType3"></span>
+        </td>
         <!--/ko-->
         <!-- ko if: $root.selectedStockOptionSequenceNumber() == 4 -->
-        <td data-bind="text:  $root.currencySymbol()+pricePaperType4()"></td>
+        <td style="text-align: right">
+            <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+            <span style="text-align: right" data-bind="numberInput: pricePaperType4"></span>
+        </td>
         <!--/ko-->
         <!-- ko if: $root.selectedStockOptionSequenceNumber() == 5 -->
-        <td data-bind="text:  $root.currencySymbol()+pricePaperType5()"></td>
-        <!--/ko-->
-        <!-- ko if: $root.selectedStockOptionSequenceNumber() == 6 -->
-        <td data-bind="text:  $root.currencySymbol()+pricePaperType6()"></td>
-        <!--/ko-->
-        <!-- ko if: $root.selectedStockOptionSequenceNumber() == 7 -->
-        <td data-bind="text:  $root.currencySymbol()+pricePaperType7()"></td>
-        <!--/ko-->
-        <!-- ko if: $root.selectedStockOptionSequenceNumber() == 8 -->
-        <td data-bind="text: pricePaperType8()+ $root.currencySymbol()"></td>
-        <!--/ko-->
-        <!-- ko if: $root.selectedStockOptionSequenceNumber() == 9 -->
-        <td data-bind="text: pricePaperType9()+ $root.currencySymbol()"></td>
-        <!--/ko-->
-        <!-- ko if: $root.selectedStockOptionSequenceNumber() == 10 -->
-        <td data-bind="text: pricePaperType10()+ $root.currencySymbol()"></td>
-        <!--/ko-->
-        <!-- ko if: $root.selectedStockOptionSequenceNumber() == 11 -->
-        <td data-bind="text: pricePaperType11()+ $root.currencySymbol()"></td>
-        <!--/ko-->
-        @*<td data-bind="text: productCode"></td>*@
-    </tr>
+        <td style ="text-align: right">
+            <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+            <span style="text-align: right" data-bind="numberInput: pricePaperType5"></span>
+            </td>
+            <!--/ko-->
+            <!-- ko if: $root.selectedStockOptionSequenceNumber() == 6 -->
+            <td style="text-align: right">
+                <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+                <span style="text-align: right" data-bind="numberInput: pricePaperType6"></span>
+            </td>
+            <!--/ko-->
+            <!-- ko if: $root.selectedStockOptionSequenceNumber() == 7 -->
+            <td style="text-align: right">
+                <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+                <span style="text-align: right" data-bind="numberInput: pricePaperType7"></span>
+            </td>
+            <!--/ko-->
+            <!-- ko if: $root.selectedStockOptionSequenceNumber() == 8 -->
+            <td style="text-align: right">
+                <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+                <span style="text-align: right" data-bind="numberInput: pricePaperType8"></span>
+            </td>
+            <!--/ko-->
+            <!-- ko if: $root.selectedStockOptionSequenceNumber() == 9 -->
+            <td style="text-align: right">
+                <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+                <span style="text-align: right" data-bind="numberInput: pricePaperType9"></span>
+            </td>
+            <!--/ko-->
+            <!-- ko if: $root.selectedStockOptionSequenceNumber() == 10 -->
+            <td style="text-align: right">
+                <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+                <span style="text-align: right" data-bind="numberInput: pricePaperType10"></span>
+            </td>
+            <!--/ko-->
+            <!-- ko if: $root.selectedStockOptionSequenceNumber() == 11 -->
+            <td style="text-align: right">
+                <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
+                <span style="text-align: right" data-bind="numberInput: pricePaperType11"></span>
+            </td>
+            <!--/ko-->
+            @*<td data-bind="text: productCode"></td>*@
+</tr>
     <!--/ko-->
 </script>

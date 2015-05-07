@@ -155,7 +155,6 @@
                                 </div>
                             </div>
                         }
-                        @*..*@
                         @if (Model.ProductType == (int)ProductType.NonPrintProduct)
                         {
                             if (ViewBag.TemplateID == 0)
@@ -179,23 +178,24 @@
 
                             }
                         }
-                        else
+                        else if (Model.ProductType == (int)ProductType.MarketingBrief)
                         {
-                            //if (ViewBag.isAllowBackOrder)
-                            //{
-                            <a href="@ViewBag.btnUploadDesignPath" onclick="ShowLoader();">
-                                <input id="btnUploadDesign" value="Add to Cart" type="button"
-                                       class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
-                            </a>
+                            if (ViewBag.IsUserLogin == 1) // check if user login or not ??
+                            {
+                                <a href="/MarketingBrief/@Model.ProductName/@Model.ItemId/@ViewBag.hfCategoryId" onclick="ShowLoader();">
+                                    <input id="btnBrief" value="Submit Inquiry" type="button"
+                                           class="MB_SendINqBtn rounded_corners5 padding0imp" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Model.ProductName','@Model.ItemId','@ViewBag.hfCategoryId');">
+                                    
+                                    <input id="btnBrief" value="Submit Inquiry" type="button"
+                                           class="MB_SendINqBtn rounded_corners5 padding0imp" />
+                                </a>
+                            }
 
-                            @*}
-                                else
-                                {
-                                    <button id="btnUploadDesign" value="Upload files"
-                                            class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="return UploadDesign('@ViewBag.btnUploadDesignPath'); ">
-                                        @Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.WBStoreId))
-                                    </button>
-                                }*@
                         }
 
 
@@ -412,7 +412,7 @@
                          class="float_left_simple rounded_corners cntwidthProductDetailOnlinePrice cntBackgorndPD cntProductDetailWidth">
 
                         <div class="prodWhiteBack">
-                            @if (ViewBag.IsShowPrices == true)
+                            @if (ViewBag.IsShowPrices == true && Model.ProductType != (int)ProductType.MarketingBrief)
                             {
                                 <div id="PricingTblDiv">
                                     <table width="100%">

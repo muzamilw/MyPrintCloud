@@ -258,6 +258,9 @@
 #myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
   width: 20%;
 }
+#storesBinding .cursorShape {
+  cursor: pointer;
+}
 #storesBinding .selectedSection,
 #storesBinding .selectedEmailVariable {
   background: yellow;
