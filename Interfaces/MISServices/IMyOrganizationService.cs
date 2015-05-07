@@ -15,6 +15,10 @@ namespace MPC.Interfaces.MISServices
         MyOrganizationBaseResponse GetBaseData();
 
         /// <summary>
+        /// Load My Organization Base data for Regional Settings
+        /// </summary>
+        MyOrganizationBaseResponse GetRegionalSettingBaseData();
+        /// <summary>
         /// Get Organisation Detail 
         /// </summary>
         Organisation GetOrganisationDetail();
@@ -40,6 +44,7 @@ namespace MPC.Interfaces.MISServices
 
         bool DeleteOrganisation(long OrganisationID);
 
+        IEnumerable<Markup> GetMarkups();
 
     }
 }
