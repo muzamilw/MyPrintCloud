@@ -13,6 +13,8 @@ define("common/addCostCenter.viewModel",
                     costCentres = ko.observableArray([]),
                     // Company Id
                     selectedCompanyId = ko.observable(),
+                    // Curency 
+                    currencySmb = ko.observable(),
                     // Cost Center Dialog Filter
                     costCenterDialogFilter = ko.observable(),
                     // Active Cost Center
@@ -57,7 +59,8 @@ define("common/addCostCenter.viewModel",
 
                     },
                     // Show
-                    show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag) {
+                    show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency) {
+                        currencySmb(currency);
                         isAddProductForSectionCostCenter(false);
                         isAddProductFromInventory(false);
                         isDisplayCostCenterQuantityDialog(false);
@@ -164,7 +167,8 @@ define("common/addCostCenter.viewModel",
                     isAddProductForSectionCostCenter: isAddProductForSectionCostCenter,
                     isCostCenterDialogForShipping: isCostCenterDialogForShipping,
                     onSaveProductCostCenter: onSaveProductCostCenter,
-                    selectedCostCentre: selectedCostCentre
+                    selectedCostCentre: selectedCostCentre,
+                    currencySmb: currencySmb
                 };
             })()
         };

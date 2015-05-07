@@ -6,7 +6,7 @@ namespace MPC.Interfaces.Repository
     public interface ISystemUserRepository : IBaseRepository<SystemUser, long>
     {
         IEnumerable<SystemUser> GetAll();
-        SystemUser GetSalesManagerById(long SytemUserId);
+        SystemUser GetUserrById(System.Guid SytemUserId);
 
         List<SystemUser> GetSystemUSersByOrganisationID(long OrganisationID);
         bool Update(System.Guid Id, string Email, string FullName);

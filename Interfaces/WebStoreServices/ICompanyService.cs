@@ -52,7 +52,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         void UpdateUserPassword(int userId, string pass);
 
-        SystemUser GetSystemUserById(long SystemUserId);
+        SystemUser GetSystemUserById(Guid SystemUserId);
 
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
         List<ProductCategory> GetAllParentCorporateCatalog(int customerId);

@@ -734,7 +734,7 @@
                 // Supplier Sequence
                 supplierSequence = ko.observable(specifiedSupplierSequence || undefined),
                 // Price Paper Type1
-                pricePaperType1 = ko.observable(specifiedPricePaperType1 || 0),
+                pricePaperType1 = ko.observable(specifiedPricePaperType1 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Paper Type1 Ui
                 pricePaperType1Ui = ko.computed(function() {
                     if (!pricePaperType1()) {
@@ -744,7 +744,7 @@
                     return '$ ' + pricePaperType1();
                 }),
                 // Price Paper Type2
-                pricePaperType2 = ko.observable(specifiedPricePaperType2 || 0),
+                pricePaperType2 = ko.observable(specifiedPricePaperType2 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Paper Type2 Ui
                 pricePaperType2Ui = ko.computed(function() {
                     if (!pricePaperType2()) {
@@ -754,7 +754,7 @@
                     return '$ ' + pricePaperType2();
                 }),
                 // Price Paper Type3
-                pricePaperType3 = ko.observable(specifiedPricePaperType3 || 0),
+                pricePaperType3 = ko.observable(specifiedPricePaperType3 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Paper Type3 Ui
                 pricePaperType3Ui = ko.computed(function() {
                     if (!pricePaperType3()) {
@@ -764,7 +764,7 @@
                     return '$ ' + pricePaperType3();
                 }),
                 // Price Stock Type4
-                priceStockType4 = ko.observable(specifiedPriceStockType4 || 0),
+                priceStockType4 = ko.observable(specifiedPriceStockType4 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Stock Type4 Ui
                 priceStockType4Ui = ko.computed(function() {
                     if (!priceStockType4()) {
@@ -774,7 +774,7 @@
                     return '$ ' + priceStockType4();
                 }),
                 // Price Stock Type5
-                priceStockType5 = ko.observable(specifiedPriceStockType5 || 0),
+                priceStockType5 = ko.observable(specifiedPriceStockType5 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Stock Type5 Ui
                 priceStockType5Ui = ko.computed(function() {
                     if (!priceStockType5()) {
@@ -784,7 +784,7 @@
                     return '$ ' + priceStockType5();
                 }),
                 // Price Stock Type6
-                priceStockType6 = ko.observable(specifiedPriceStockType6 || 0),
+                priceStockType6 = ko.observable(specifiedPriceStockType6 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Stock Type6 Ui
                 priceStockType6Ui = ko.computed(function() {
                     if (!priceStockType6()) {
@@ -794,7 +794,7 @@
                     return '$ ' + priceStockType6();
                 }),
                 // Price Stock Type7
-                priceStockType7 = ko.observable(specifiedPriceStockType7 || 0),
+                priceStockType7 = ko.observable(specifiedPriceStockType7 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Stock Type7 Ui
                 priceStockType7Ui = ko.computed(function() {
                     if (!priceStockType7()) {
@@ -804,7 +804,7 @@
                     return '$ ' + priceStockType7();
                 }),
                 // Price Stock Type8
-                priceStockType8 = ko.observable(specifiedPriceStockType8 || 0),
+                priceStockType8 = ko.observable(specifiedPriceStockType8 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Stock Type8 Ui
                 priceStockType8Ui = ko.computed(function() {
                     if (!priceStockType8()) {
@@ -814,7 +814,7 @@
                     return '$ ' + priceStockType8();
                 }),
                 // Price Stock Type9
-                priceStockType9 = ko.observable(specifiedPriceStockType9 || 0),
+                priceStockType9 = ko.observable(specifiedPriceStockType9 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Stock Type9 Ui
                 priceStockType9Ui = ko.computed(function() {
                     if (!priceStockType4()) {
@@ -824,7 +824,7 @@
                     return '$ ' + priceStockType9();
                 }),
                 // Price Stock Type10
-                priceStockType10 = ko.observable(specifiedPriceStockType10 || 0),
+                priceStockType10 = ko.observable(specifiedPriceStockType10 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Stock Type10 Ui
                 priceStockType10Ui = ko.computed(function() {
                     if (!priceStockType10()) {
@@ -834,7 +834,7 @@
                     return '$ ' + priceStockType10();
                 }),
                 // Price Stock Type11
-                priceStockType11 = ko.observable(specifiedPriceStockType11 || 0),
+                priceStockType11 = ko.observable(specifiedPriceStockType11 || 0).extend({ numberInput: ist.numberFormat }),
                 // Price Stock Type11 Ui
                 priceStockType11Ui = ko.computed(function() {
                     if (!priceStockType11()) {
@@ -1110,7 +1110,7 @@
                 // Cost Centre Type
                 costCentreType = ko.observable(specifiedCostCentreType || undefined),
                 // Total Price
-                totalPrice = ko.observable(specifiedTotalPrice || undefined),
+                totalPrice = ko.observable(specifiedTotalPrice || undefined).extend({ numberInput: ist.numberFormat }),
                 // Cost Centre Id - On Change
                 costCentreId = ko.computed({
                     read: function() {

@@ -174,6 +174,15 @@ namespace MPC.Interfaces.Repository
         /// <param name="itemID"></param>
         /// <returns></returns>
         List<ItemAttachment> GetItemAttactchments(long itemID);
+
+        /// <summary>
+        /// returns the item , item section and section cost centre
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        Item GetActualItemToClone(long itemID);
+
+        T Clone<T>(T source);
     }
 
 }

@@ -63,7 +63,7 @@
                     <input type="text" class="form-control" data-bind="datepicker: deliveryDate" />
                 </div>
             </td>
-            <td style="width: 114px;padding-top: 7px"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="text: price"></span> </td>
+            <td style="width: 114px;padding-top: 7px"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="numberInput: price"></span> </td>
             <td style="padding-top: 7px;">
                 <div class="checkbox-nice">
                     <input type="checkbox" disabled data-bind="checked: deliveryNoteRaised,attr: { id: 'deliveryNoteRaised' + $index() }">

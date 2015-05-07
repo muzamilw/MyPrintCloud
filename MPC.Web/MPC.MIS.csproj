@@ -2092,6 +2092,7 @@
     <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\ReportBanner.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_ItemDetail.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\RegionalSettings.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_OrderCostCenterQuantity.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>

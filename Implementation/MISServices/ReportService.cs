@@ -160,6 +160,7 @@ namespace MPC.Implementation.MISServices
             List<ReportNote> notes = new List<ReportNote>();
             foreach(var rptNote in reportNotes)
             {
+            
                 rptNote.ReportBanner = SaveReportNoteImage(rptNote);
                 notes.Add(rptNote);
             }
@@ -179,13 +180,13 @@ namespace MPC.Implementation.MISServices
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/" + organisationRepository.OrganisationId + "/" + rptNote.Id);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + organisationRepository.OrganisationId + "/" + rptNote.CompanyId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\EstimateReportBanner.png";
+                string savePath = directoryPath + "\\Estimate.png";
                 File.WriteAllBytes(savePath, data);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
@@ -193,17 +194,17 @@ namespace MPC.Implementation.MISServices
             }
             if (rptNote.OrderBannerBytes != null)
             {
-                string base64 = rptNote.EstimateBannerBytes.Substring(rptNote.EstimateBannerBytes.IndexOf(',') + 1);
+                string base64 = rptNote.OrderBannerBytes.Substring(rptNote.OrderBannerBytes.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/" + organisationRepository.OrganisationId + "/" + rptNote.Id);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + organisationRepository.OrganisationId + "/" + rptNote.CompanyId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\OrderReportBanner.png";
+                string savePath = directoryPath + "\\Order.png";
                 File.WriteAllBytes(savePath, data);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
@@ -211,17 +212,17 @@ namespace MPC.Implementation.MISServices
             }
             if (rptNote.InvoiceBannerBytes != null)
             {
-                string base64 = rptNote.EstimateBannerBytes.Substring(rptNote.EstimateBannerBytes.IndexOf(',') + 1);
+                string base64 = rptNote.InvoiceBannerBytes.Substring(rptNote.InvoiceBannerBytes.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/" + organisationRepository.OrganisationId + "/" + rptNote.Id);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + organisationRepository.OrganisationId + "/" + rptNote.CompanyId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\InvoiceReportBanner.png";
+                string savePath = directoryPath + "\\Invoice.png";
                 File.WriteAllBytes(savePath, data);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
@@ -229,17 +230,17 @@ namespace MPC.Implementation.MISServices
             }
             if (rptNote.PurchaseBannerBytes != null)
             {
-                string base64 = rptNote.EstimateBannerBytes.Substring(rptNote.EstimateBannerBytes.IndexOf(',') + 1);
+                string base64 = rptNote.PurchaseBannerBytes.Substring(rptNote.PurchaseBannerBytes.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/" + organisationRepository.OrganisationId + "/" + rptNote.Id);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + organisationRepository.OrganisationId + "/" + rptNote.CompanyId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\PurchaseReportBanner.png";
+                string savePath = directoryPath + "\\Purchase.png";
                 File.WriteAllBytes(savePath, data);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
@@ -247,17 +248,17 @@ namespace MPC.Implementation.MISServices
             }
             if (rptNote.DeliveryBannerBytes != null)
             {
-                string base64 = rptNote.EstimateBannerBytes.Substring(rptNote.EstimateBannerBytes.IndexOf(',') + 1);
+                string base64 = rptNote.DeliveryBannerBytes.Substring(rptNote.DeliveryBannerBytes.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/" + organisationRepository.OrganisationId + "/" + rptNote.Id);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + organisationRepository.OrganisationId + "/" + rptNote.CompanyId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\DeliveryNoteReportBanner.png";
+                string savePath = directoryPath + "\\Delivery.png";
                 File.WriteAllBytes(savePath, data);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);

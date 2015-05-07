@@ -2572,11 +2572,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var // Unique key
             id = ko.observable(specifiedId || 0),
             // Quantity
-            quantity = ko.observable(specifiedQuantity || 0),
+            quantity = ko.observable(specifiedQuantity || 0).extend({ number: true }),
             // Qty Ranged From
-            qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || 0),
+            qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || 0).extend({ number: true }),
             // Qty Ranged To
-            qtyRangedTo = ko.observable(specifiedQtyRangedTo || 0),
+            qtyRangedTo = ko.observable(specifiedQtyRangedTo || 0).extend({ number: true }),
             // Flag Id
             flagId = ko.observable(specifiedFlagId || undefined),
             // Supplier Id

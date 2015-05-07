@@ -507,13 +507,14 @@ define("order/order.viewModel",
                         });
                     },
                     
+                        }, stockCategory.paper, false, currencySymbol());
                     // Open Stock Item Dialog For Adding product
                     openStockItemDialogForAddingProduct = function () {
                         isAddProductFromInventory(true);
                         isAddProductForSectionCostCenter(false);
                         stockDialog.show(function (stockItem) {
                             createNewInventoryProduct(stockItem);
-                        }, stockCategory.paper, false);
+                        }, stockCategory.paper, false, currencySymbol());
                     },
                     
 
@@ -1262,7 +1263,7 @@ define("order/order.viewModel",
                     },
 
                     getCostCentersForProduct = function () {
-                        addCostCenterVM.show(afterSelectCostCenter, selectedOrder().companyId(), false);
+                        addCostCenterVM.show(afterSelectCostCenter, selectedOrder().companyId(), false, currencySymbol());
                     },
                     //onAddCostCenterCallback = function () {
 
@@ -1369,7 +1370,7 @@ define("order/order.viewModel",
                     selectedProductQuanity = ko.observable(),
 
                     //Total Product Price
-                    totalProductPrice = ko.observable(0),
+                    totalProductPrice = ko.observable(0).extend({ numberInput: ist.numberFormat }),
 
                     //Filtered Item Price matrix List
                     filteredItemPriceMatrixList = ko.observableArray([]),
@@ -1853,6 +1854,9 @@ define("order/order.viewModel",
                             else {
                                 return 0.00;
                             }
+                        },
+                        updateSectionFromCostCenterCalculation = function (section) {
+
                         },
                         downloadArtwork = function () {
                             isLoadingOrders(true);
