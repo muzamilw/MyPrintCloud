@@ -12,6 +12,8 @@ define("myOrganization/myOrganization.viewModel",
                     view,
                     // Active
                     selectedMyOrganization = ko.observable(),
+
+                    
                     //Counter
                     idCounter = ko.observable(-1),
                     //Active markup
@@ -70,18 +72,125 @@ define("myOrganization/myOrganization.viewModel",
                     sortIsAscHg = ko.observable(true),
                     // Pagination
                     pager = ko.observable(),
+
+                    // visiblity of organisation / regional settings /  markups and language editor
+                    isOrganisationVisible = ko.observable(false),
+
+                    isMarkupVisible = ko.observable(false),
+
+                    isRegionalSettingVisible = ko.observable(false),
+
+                    isLanguageEditorVisible = ko.observable(false),
+
+                    // for specifice name of screan
+                    HeadingName = ko.observable()
                     // #region Utility Functions
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         selectedMyOrganization(new model.CompanySites());
+                        
+                       
+                        if(page == "O")
+                        {
+                           
+                            HeadingName("Organization Detail");
+                            isOrganisationVisible(true);
+                        }
+                        else if(page == "R")
+                        {
+                            //getRegionalSettings();
+                            HeadingName("Regional Settings");
+                            isRegionalSettingVisible(true);
+                        }
+                        else if(page == "L")
+                        {
+                            HeadingName("Edit Regional Languages");
+                            isLanguageEditorVisible(true);
+                        }
+                        else if(page == "M")
+                        {
+                            //getMarkupsList();
+                            HeadingName("Markups");
+                            isMarkupVisible(true);
+                        }
+                       
                         getBase();
                         view.initializeForm();
                     },
+                    //getMarkupsList
+                    //getMarkupsList = function(callback)
+                    //{
+                    //    dataservice.getMarkups({IsMarkup:true},{
+                    //        success: function (data) {
+                    //            //Markups
+                    //            markups.removeAll();
+                    //            var markupList = [];
+                    //            _.each(data, function (item) {
+                    //                var markup = new model.MarkupClientMapper(item);
+                    //                markupList.push(markup);
+                    //            });
+                    //            ko.utils.arrayPushAll(markups(), markupList);
+                    //            markups.valueHasMutated();
+                    //            //Mark up for drop down
+                    //            markupsForDropDown.removeAll();
+                    //            ko.utils.arrayPushAll(markupsForDropDown(), data);
+                    //            markupsForDropDown.valueHasMutated();
+                    //            //Filtered Markups
+                    //            filteredMarkups.removeAll();
+                    //            ko.utils.arrayPushAll(filteredMarkups(), markups());
+                    //            filteredMarkups.valueHasMutated();
+
+                    //            getMyOrganizationById();
+                               
+                    //        },
+                    //        error: function () {
+                    //            view.initializeLabelPopovers();
+                    //            toastr.error(ist.resourceText.loadBaseDataFailedMsg);
+                                
+                    //        }
+
+                    //    });
+                    //},
+
+
+                    // get regional settings
+                     //getRegionalSettings = function (callback) {
+                     //    dataservice.getRegionalSettings({ isRegional: true }, {
+                     //        success: function (data) {
+
+                     //            //Currency
+                     //            currencySymbols.removeAll();
+                     //            ko.utils.arrayPushAll(currencySymbols(), data.Currencies);
+                     //            currencySymbols.valueHasMutated();
+
+                     //           // unit Lengths
+                     //            unitLengths.removeAll();
+                     //            ko.utils.arrayPushAll(unitLengths(), data.LengthUnits);
+                     //            unitLengths.valueHasMutated();
+                     //          //  unit Weights
+                     //            unitWeights.removeAll();
+                     //            ko.utils.arrayPushAll(unitWeights(), data.WeightUnits);
+                     //            unitWeights.valueHasMutated();
+
+
+                     //            getMyOrganizationById();
+
+                     //        },
+                     //        error: function () {
+                     //            view.initializeLabelPopovers();
+                     //            toastr.error(ist.resourceText.loadBaseDataFailedMsg);
+
+                     //        }
+
+                     //    });
+                     //},
                     //Get Base
                     getBase = function (callBack) {
+                      //  isLoadingMyOrganization(true);
                         dataservice.getMyOrganizationBase({
+                           
                             success: function (data) {
                                 //Currency
                                 currencySymbols.removeAll();
@@ -134,18 +243,23 @@ define("myOrganization/myOrganization.viewModel",
                                 filteredMarkups.removeAll();
                                 ko.utils.arrayPushAll(filteredMarkups(), markups());
                                 filteredMarkups.valueHasMutated();
-                                //Filtered Markups
+                              //  Filtered Markups
                                 filteredNominalCodes.removeAll();
                                 ko.utils.arrayPushAll(filteredNominalCodes(), chartOfAccounts());
                                 filteredNominalCodes.valueHasMutated();
 
+                             
                                 getMyOrganizationById();
-
+                                
+                                
+                               
                                 if (callBack && typeof callBack === 'function') {
                                     callBack();
                                 }
+                                
                             },
                             error: function () {
+                                
                                 view.initializeLabelPopovers();
                                 toastr.error(ist.resourceText.loadBaseDataFailedMsg);
                             }
@@ -277,15 +391,20 @@ define("myOrganization/myOrganization.viewModel",
                     },
                     //Get Organization By Id
                     getMyOrganizationById = function () {
-                        isLoadingMyOrganization(true);
+                       isLoadingMyOrganization(true);
                         dataservice.getMyOrganizationDetail({
                             success: function (data) {
+                               
                                 filteredStates.removeAll();
                                 var org = model.CompanySitesClientMapper(data);
-                                _.each(data.LanguageEditors, function (item) {
-                                    org.languageEditors.push(model.LanguageEditor.Create(item));
-                                });
-
+                                if (isLanguageEditorVisible() == true)
+                                {
+                                    _.each(data.LanguageEditors, function (item) {
+                                        org.languageEditors.push(model.LanguageEditor.Create(item));
+                                    });
+                                }
+                            
+                                
                                 selectedMyOrganization(org);
                                 selectedMyOrganization().reset();
 
@@ -301,19 +420,24 @@ define("myOrganization/myOrganization.viewModel",
                                 toastr.error(ist.resourceText.loadAddChargeDetailFailedMsg);
                             }
                         });
+                       
                     },
                     // Save My Organization
                     onSaveMyOrganization = function (callback) {
                         errorList.removeAll();
-                        //Selected Markup update in markup list
-                        if (selectedMarkup() !== undefined) {
-                            _.each(markups(), function (item) {
-                                if ((item.id() === selectedMarkup().id())) {
-                                    item.name(selectedMarkup().name());
-                                    item.rate(selectedMarkup().rate());
-                                }
-                            });
-                        }
+
+                       
+                            //Selected Markup update in markup list
+                            if (selectedMarkup() !== undefined) {
+                                _.each(markups(), function (item) {
+                                    if ((item.id() === selectedMarkup().id())) {
+                                        item.name(selectedMarkup().name());
+                                        item.rate(selectedMarkup().rate());
+                                    }
+                                });
+                            }
+                        
+                       
                         //Selected Markup update in Chart Of Accounts list
                         if (selectedChartOfAccounts() !== undefined) {
                             _.each(chartOfAccounts(), function (item) {
@@ -346,6 +470,7 @@ define("myOrganization/myOrganization.viewModel",
                             if (selectedMyOrganization().email.error != null) {
                                 errorList.push({ name: selectedMyOrganization().email.domElement.name, element: selectedMyOrganization().email.domElement });
                             }
+
                             if (selectedMyOrganization().markupId.error != null) {
                                 errorList.push({ name: "Markup", element: selectedMyOrganization().markupId.domElement });
                             }
@@ -628,6 +753,14 @@ define("myOrganization/myOrganization.viewModel",
                     // Utility Methods
                     initialize: initialize,
                     pager: pager,
+                    isOrganisationVisible: isOrganisationVisible,
+                    isMarkupVisible: isMarkupVisible,
+
+                    isRegionalSettingVisible: isRegionalSettingVisible,
+
+                    isLanguageEditorVisible: isLanguageEditorVisible,
+
+                    HeadingName: HeadingName,
                     // Utility Methods
                     onSaveMyOrganization: onSaveMyOrganization,
                     templateToUseMarkup: templateToUseMarkup,
