@@ -71,9 +71,13 @@
             <span style="font-size: 0.875em; color: lightgray;" data-bind="text: description"></span>
         </td>
         <td>
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="text: '$'+pricePerUnitQuantity()+'/unit'"></span>
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput: pricePerUnitQuantity()"></span>
+            <span style="font-size: 0.875em; color: lightgray;" >/unit</span>
             <br />
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'Setup Cost $'+ setupCost()"></span>
+            <span style="font-size: 0.875em; color: lightgray;">Setup Cost </span>
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput:setupCost"></span>
         </td>
     </tr>
 </script>

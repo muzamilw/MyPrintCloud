@@ -2653,7 +2653,7 @@
         <tr>
             <td data-bind="visible: $parent.isQtyRangedUi() === '2'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="form-control" data-bind="value: quantity" />
+                <input type="text" class="form-control" data-bind="value: quantity, validationTooltip: quantity" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: quantity"></span>
@@ -2661,7 +2661,7 @@
             </td>
             <td data-bind="visible: $parent.isQtyRangedUi() === '1'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="form-control" data-bind="value: qtyRangedFrom" />
+                <input type="text" class="form-control" data-bind="value: qtyRangedFrom, validationTooltip: qtyRangedFrom" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: qtyRangedFrom"></span>
@@ -2669,7 +2669,7 @@
             </td>
             <td data-bind="visible: $parent.isQtyRangedUi() === '1'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="form-control" data-bind="value: qtyRangedTo" />
+                <input type="text" class="form-control" data-bind="value: qtyRangedTo, validationTooltip: qtyRangedTo" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: qtyRangedTo"></span>
@@ -2677,57 +2677,90 @@
             </td>
             <!-- ko with: $parent.stockOptionSequence1 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.pricePaperType1" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.pricePaperType1" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence2 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.pricePaperType2" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.pricePaperType2" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence3 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.pricePaperType3" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.pricePaperType3" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence4 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.priceStockType4" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType4" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence5 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.priceStockType5" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType5" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence6 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.priceStockType6" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType7" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence7 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.priceStockType7" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType7" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence8 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.priceStockType8" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType8" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence9 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.priceStockType9" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType9" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence10 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.priceStockType10" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType10" />
+                </div>
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence11 -->
             <td>
-                <input type="text" class="form-control" data-bind="value: $parent.priceStockType11" />
+                <div class="input-group">
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
+                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType11" />
+                </div>
             </td>
             <!-- /ko -->
         </tr>

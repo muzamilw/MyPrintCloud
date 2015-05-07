@@ -4,6 +4,7 @@ var ist = {
     datePattern: "DD/MM/YY",
     shortDatePattern: "dd-M-yy",
     customShortDatePattern: "dd-mm-yy",
+    customDatePattern: "DD-MMM-YYYY",
     timePattern: "HH:mm",
     hourPattern: "HH",
     minutePattern: "mm",
@@ -415,7 +416,7 @@ require(["ko", "knockout-validation"], function (ko) {
             var options = allBindingsAccessor().datepickerOptions || {};
             // ReSharper restore DuplicatingLocalDeclaration
             $(element).datepicker(options);
-            $(element).datepicker("option", "dateFormat", options.dateFormat || ist.customShortDatePattern);
+            $(element).datepicker("option", "dateFormat", ist.shortDatePattern);
             $(element).datepicker("option", "changeMonth", true);
             $(element).datepicker("option", "changeYear", true);
             //handle the field changing
@@ -458,7 +459,9 @@ require(["ko", "knockout-validation"], function (ko) {
             var options = allBindingsAccessor().datepickerOptions || {};
             // ReSharper restore DuplicatingLocalDeclaration
             $(element).datetimepicker(options);
-            $(element).datetimepicker("option", "dateFormat", options.dateFormat || ist.customShortDatePattern);
+            $(element).datetimepicker("option", "dateFormat", ist.shortDatePattern);
+            $(element).datepicker("option", "changeMonth", true);
+            $(element).datepicker("option", "changeYear", true);
             //handle the field changing
             ko.utils.registerEventHandler(element, "change", function () {
                 var observable = valueAccessor();
@@ -608,7 +611,7 @@ require(["ko", "knockout-validation"], function (ko) {
             var valueUnwrapped = ko.utils.unwrapObservable(value);
             var pattern = allBindings.datePattern || ist.datePattern;
             if (valueUnwrapped !== undefined && valueUnwrapped !== null) {
-                $(element).text(moment(valueUnwrapped).format(pattern));
+                $(element).text(moment(valueUnwrapped).format(ist.customDatePattern));
             }
             else {
                 $(element).text("");

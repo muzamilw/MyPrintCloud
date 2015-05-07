@@ -279,20 +279,114 @@ namespace MPC.Repository.Repositories
 
         public List<ReportNote> GetReportNoteByCompanyId(long CompanyId)
         {
-            return db.ReportNotes.Where(c => c.CompanyId == CompanyId).ToList();
+            List<ReportNote> reportNotes = new List<ReportNote>();
+            reportNotes = db.ReportNotes.Where(c => c.CompanyId == CompanyId).ToList();
+
+            //long CompanyId = db.Companies.Where(c => )
+
+            if (reportNotes == null || reportNotes.Count == 0)
+            {
+                reportNotes = CreateDummyReportNotesRecord(CompanyId);
+            }
+
+            return reportNotes;
         }
         public void UpdateReportNotes(List<ReportNote> reportNotes)
         {
-            foreach(var rpt in reportNotes)
+        
+            if (reportNotes != null && reportNotes.Count > 0)
             {
-                if(rpt != null)
-                {
-                    db.ReportNotes.Add(rpt);
-                }
-
+               foreach(var rpt in reportNotes)
+               {
+                   ReportNote reportNote = db.ReportNotes.Where(c => c.Id == rpt.Id).FirstOrDefault();
+                   if(reportNote != null)
+                   {
+                       if (!string.IsNullOrEmpty(rpt.ReportBanner))
+                         reportNote.ReportBanner = rpt.ReportBanner;
+                   }
+               }
+               db.SaveChanges();
             }
-            db.SaveChanges();
 
+           
+
+        }
+
+        public List<ReportNote> CreateDummyReportNotesRecord(long CompanyId)
+        {
+            List<ReportNote> lstReportNotes = new List<ReportNote>();
+            ReportNote objReportNoteEstimate = new ReportNote();
+
+            objReportNoteEstimate.CompanyId = CompanyId;
+            objReportNoteEstimate.isDefault = true;
+            objReportNoteEstimate.OrganisationId = OrganisationId;
+            objReportNoteEstimate.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNoteEstimate.ReportCategoryId = 3;
+            objReportNoteEstimate.SystemSiteId = 1;
+            objReportNoteEstimate.UserId = 1;
+            
+            db.ReportNotes.Add(objReportNoteEstimate);
+
+
+            ReportNote objReportNoteOrder = new ReportNote();
+
+            objReportNoteOrder.CompanyId = CompanyId;
+            objReportNoteOrder.isDefault = true;
+            objReportNoteOrder.OrganisationId = OrganisationId;
+            objReportNoteOrder.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNoteOrder.ReportCategoryId = 12;
+            objReportNoteOrder.SystemSiteId = 1;
+            objReportNoteOrder.UserId = 1;
+            db.ReportNotes.Add(objReportNoteOrder);
+
+            ReportNote objReportNoteInvoice = new ReportNote();
+
+            objReportNoteInvoice.CompanyId = CompanyId;
+            objReportNoteInvoice.isDefault = true;
+            objReportNoteInvoice.OrganisationId = OrganisationId;
+            objReportNoteInvoice.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNoteInvoice.ReportCategoryId = 13;
+            objReportNoteInvoice.SystemSiteId = 1;
+            objReportNoteInvoice.UserId = 1;
+            db.ReportNotes.Add(objReportNoteInvoice);
+
+
+            // for purchases
+            ReportNote objReportNotePurchase = new ReportNote();
+
+            objReportNotePurchase.CompanyId = CompanyId;
+            objReportNotePurchase.isDefault = true;
+            objReportNotePurchase.OrganisationId = OrganisationId;
+            objReportNotePurchase.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNotePurchase.ReportCategoryId = 5;
+            objReportNotePurchase.SystemSiteId = 1;
+            objReportNotePurchase.UserId = 1;
+            db.ReportNotes.Add(objReportNotePurchase);
+
+
+            // for delivery
+            ReportNote objReportNoteDelivery = new ReportNote();
+
+            objReportNoteDelivery.CompanyId = CompanyId;
+            objReportNoteDelivery.isDefault = true;
+            objReportNoteDelivery.OrganisationId = OrganisationId;
+            objReportNoteDelivery.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNoteDelivery.ReportCategoryId = 6;
+            objReportNoteDelivery.SystemSiteId = 1;
+            objReportNoteDelivery.UserId = 1;
+            db.ReportNotes.Add(objReportNoteDelivery);
+
+
+
+
+            db.SaveChanges();
+            lstReportNotes.Add(objReportNoteEstimate);
+            lstReportNotes.Add(objReportNoteOrder);
+            lstReportNotes.Add(objReportNoteInvoice);
+            lstReportNotes.Add(objReportNotePurchase);
+            lstReportNotes.Add(objReportNoteDelivery);
+
+            return lstReportNotes;  
         }
        // GetReportsByOrganisationID
     }

@@ -24,6 +24,7 @@ namespace MPC.Repository.Repositories
 	{
 		#region privte
 		#region Private
+        private readonly IOrganisationRepository organisationRepository;
 		private readonly Dictionary<CostCentersColumns, Func<CostCentre, object>> OrderByClause = new Dictionary<CostCentersColumns, Func<CostCentre, object>>
 					{
 						{CostCentersColumns.Name, d => d.Name},
@@ -38,10 +39,10 @@ namespace MPC.Repository.Repositories
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public CostCentreRepository(IUnityContainer container)
+        public CostCentreRepository(IUnityContainer container, IOrganisationRepository organisationRepository)
 			: base(container)
 		{
-
+            this.organisationRepository = organisationRepository;
 		}
 
 		/// <summary>
@@ -863,6 +864,7 @@ namespace MPC.Repository.Repositories
 
         public CostCenterBaseResponse GetBaseData()
         {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
             db.Configuration.LazyLoadingEnabled = false;
             var types = db.CostCentreTypes.Where(c => c.OrganisationId == this.OrganisationId).ToList();
             var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
@@ -877,7 +879,8 @@ namespace MPC.Repository.Repositories
                 NominalCodes = nominalCodes,
                 Markups = markups,
                 CostCentreVariables = ccVariables,
-                DeliveryCarriers = carriers
+                DeliveryCarriers = carriers,
+                CurrencySymbol = organisation == null ? null : organisation.Currency==null? null: organisation.Currency.CurrencySymbol
             };
         }
 		#endregion

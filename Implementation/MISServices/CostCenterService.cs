@@ -101,20 +101,40 @@ namespace MPC.Implementation.MISServices
 
         public CostCentre Add(CostCentre costcenter)
         {
-            Organisation org = _organisationRepository.GetOrganizatiobByID();
-            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
-            // _costCenterRepository.Add(costcenter);
-            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, true);
+            costcenter.ThumbnailImageURL = SaveCostCenterImage(costcenter);
+            if(costcenter.Type == (int)CostCenterTypes.Delivery)
+            {
+                costcenter.IsParsed = true;
+                costcenter.TypeName = "Delivery";
+                _costCenterRepository.InsertCostCentre(costcenter);                
+            }
+            else
+            {
+                Organisation org = _organisationRepository.GetOrganizatiobByID();
+                string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+                // _costCenterRepository.Add(costcenter);
+                SaveCostCentre(costcenter, org.OrganisationId, sOrgName, true);
+            }
+           
             return costcenter;
         }
 
         public CostCentre Update(CostCentre costcenter)
         {
-            Organisation org = _organisationRepository.GetOrganizatiobByID();
-            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
             costcenter.ThumbnailImageURL = SaveCostCenterImage(costcenter);
             _costCenterRepository.Update(costcenter);
-            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);            
+            if (costcenter.Type == (int)CostCenterTypes.Delivery)
+            {
+                costcenter.IsParsed = true;
+                _costCenterRepository.UpdateCostCentre(costcenter);
+            }
+            else
+            {
+                Organisation org = _organisationRepository.GetOrganizatiobByID();
+                string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+                SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);  
+            }
+                      
             return costcenter;
         }
         public bool Delete(long costcenterId)
@@ -966,7 +986,10 @@ namespace MPC.Implementation.MISServices
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/CostCentres/" + _costCenterRepository.OrganisationId + "/" + costcenter.CostCentreId);
+                long costCenterId = costcenter.CostCentreId == 0 ? this.GetMaxCostCentreID() : costcenter.CostCentreId;
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/CostCentres/" + _costCenterRepository.OrganisationId + "/" + costCenterId);
+
+                
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
