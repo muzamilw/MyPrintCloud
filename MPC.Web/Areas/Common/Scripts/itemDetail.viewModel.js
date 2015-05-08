@@ -1089,6 +1089,7 @@ define("common/itemDetail.viewModel",
                             selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
                         }
                     },
+
                     //#endregion
                     //Initialize
                     initialize = function (specifiedView) {

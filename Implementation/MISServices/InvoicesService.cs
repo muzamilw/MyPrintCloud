@@ -16,6 +16,7 @@ namespace MPC.Implementation.MISServices
          #region Private
 
         private readonly IInvoiceRepository invoiceRepository;
+        private readonly ICostCentreRepository CostCentreRepository;
 
 
         #endregion
@@ -23,10 +24,12 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Constructor
         /// </summary>
-        public InvoicesService(IInvoiceRepository invoiceRepository)
+        public InvoicesService(IInvoiceRepository invoiceRepository, ICostCentreRepository costCentreRepository)
         {
             this.invoiceRepository = invoiceRepository;
+            CostCentreRepository = costCentreRepository;
         }
+
         #endregion
         #region Public
         /// <summary>
@@ -42,8 +45,16 @@ namespace MPC.Implementation.MISServices
             return invoiceRepository.SearchInvoices(request);
         }
         public InvoiceBaseResponse GetInvoiceBaseResponse ()
+            
         {
-            return invoiceRepository.GetInvoiceBaseResponse();
+            var response = invoiceRepository.GetInvoiceBaseResponse();
+            return  new InvoiceBaseResponse
+            {
+                SystemUsers = response.SystemUsers,
+                SectionFlags = response.SectionFlags,
+                CurrencySymbol = response.CurrencySymbol,
+                CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem()
+            };
         }
 
         public Invoice GetInvoiceById(long Id)
