@@ -71,7 +71,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xs-2" style="margin-top:20px;margin-bottom:20px;padding-top:20px;border-radius:3px">
-                                                <button class="btn btn-success">Add Section</button>
+                                                <button class="btn btn-success" data-bind="click:$root.createNewItemSection">Add Section</button>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -158,35 +158,36 @@
                                         <div class="col-lg-2">
                                             <input type="text" class="form-control txtBox-contentAlignRight" data-bind="disable:taxRateIsDisabled,value:tax1" />
                                         </div>
-                                        <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty1Tax1Value"></span></label>
+                                        <div class="col-lg-8">
+                                            <div class="col-xs-3 txtBox-contentAlignRight">
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty1Tax1Value"></span></label>
+                                            </div>
+                                            <div class="col-xs-2  txtBox-contentAlignRight">
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty2Tax1Value"></span></label>
+                                            </div>
+                                            <div class="col-xs-2 txtBox-contentAlignRight">
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty3Tax1Value"></span></label>
+                                            </div>
                                         </div>
-                                        <div class="col-xs-2  txtBox-contentAlignRight">
-                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty2Tax1Value"></span></label>
-                                        </div>
-                                        <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty3Tax1Value"></span></label>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            &nbsp;
-                                        </div>
+
                                     </div>
                                     <div class="form-group">
                                         <div class="col-lg-4">
                                             <label class="control-label tooltip-float" style="font-weight:bold">Gross</label>
                                         </div>
-                                        <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty1GrossTotal"></span></label>
+                                        <div class="col-lg-8">
+                                            <div class="col-xs-3 txtBox-contentAlignRight">
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty1GrossTotal"></span></label>
+                                            </div>
+                                            <div class="col-xs-2 txtBox-contentAlignRight">
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty2GrossTotal"></span></label>
+                                            </div>
+                                            <div class="col-xs-2 txtBox-contentAlignRight">
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty3GrossTotal"></span></label>
+                                            </div>
                                         </div>
-                                        <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty2GrossTotal"></span></label>
-                                        </div>
-                                        <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty3GrossTotal"></span></label>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            &nbsp;
-                                        </div>
+
+
                                     </div>
                                     <div class="form-group">
                                         <div class="col-lg-2">

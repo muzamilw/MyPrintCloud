@@ -500,6 +500,7 @@ namespace MPC.Implementation.MISServices
                                          CreateItem = CreateItem,
                                          DeleteItem = DeleteItem,
                                          CreateItemSection = CreateItemSection,
+                                         DeleteItemSection = DeleteItemSection,
                                          CreateSectionCostCentre = CreateSectionCostCentre,
                                          DeleteSectionCostCenter = DeleteSectionCostCentre,
                                          CreateItemAttachment = CreateItemAttachment,
