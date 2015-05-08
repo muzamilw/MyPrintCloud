@@ -767,17 +767,21 @@ define("order/order.viewModel",
                     //Product From Cost Center
                     createNewCostCenterProduct = function () {
                         view.hideCostCentersQuantityDialog();
-                       // selectedCostCentre(costCenter);
+                        //selectedCostCentre(costCenter);
                         var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
                         selectedProduct(item);
                         item.productName(selectedCostCentre().name());
                         item.qty1(selectedCostCentre().quantity1());
                         item.qty1NetTotal(selectedCostCentre().setupCost());
+                        //Req: Item Product code is set to '2', so while editting item's section is non mandatory
+                        item.productType(2);
 
                         var itemSection = itemModel.ItemSection.Create({});
                         itemSection.qty1(selectedCostCentre().quantity1());
                         itemSection.qty2(selectedCostCentre().quantity2());
                         itemSection.qty3(selectedCostCentre().quantity3());
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
 
                         var sectionCostCenter = itemModel.SectionCostCentre.Create({});
                         sectionCostCenter.qty1(selectedCostCentre().quantity1());
@@ -1216,7 +1220,8 @@ define("order/order.viewModel",
                         } else {
                             companyId = selectedOrder().companyId();
                         }
-                        addCostCenterVM.show(createNewCostCenterProduct, companyId, true);
+                        //addCostCenterVM.show(createNewCostCenterProduct, companyId, true);
+                        addCostCenterVM.show(afterSelectCostCenter, companyId, true);
                     },
                     onAddCostCenterForProduct = function () {
                         getCostCentersForProduct();
@@ -1304,11 +1309,16 @@ define("order/order.viewModel",
                         var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
                         item.productName(inventoryStockItemToCreate().name);
                         item.qty1(selectedCostCentre().quantity1());
+                        //Req: Item Product type is set to '2', so while editting item's section is non mandatory
+                        item.productType(2);
+
                         selectedProduct(item);
                         var itemSection = itemModel.ItemSection.Create({});
                         itemSection.qty1(selectedCostCentre().quantity1());
                         itemSection.qty2(selectedCostCentre().quantity2());
                         itemSection.qty3(selectedCostCentre().quantity3());
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
 
                         var sectionCostCenter = itemModel.SectionCostCentre.Create({});
                         sectionCostCenter.qty1(selectedCostCentre().quantity1());

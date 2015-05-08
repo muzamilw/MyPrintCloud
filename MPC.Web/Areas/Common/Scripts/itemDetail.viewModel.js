@@ -167,6 +167,7 @@ define("common/itemDetail.viewModel",
                         selectedProduct(selectedProductParam);
                         selectedOrder(selectedOrderParam);
                         selectedSection(selectedProduct().itemSections()[0]);
+                        //selectedSection().productType(selectedProduct().productType());
                         closeItemDetailSection = closeItemDetailParam;
                         subscribeSectionChanges();
                     },
