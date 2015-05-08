@@ -3,8 +3,8 @@
 */
 define("common/itemDetail.viewModel",
     ["jquery", "amplify", "ko", "common/itemDetail.dataservice", "common/itemDetail.model", "common/confirmation.viewModel", "common/pagination"
-        , "common/sharedNavigation.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVM) {
+        , "common/sharedNavigation.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/phraseLibrary.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVM, phraseLibrary) {
         var ist = window.ist || {};
         ist.itemDetail = {
             viewModel: (function () {
@@ -1103,7 +1103,38 @@ define("common/itemDetail.viewModel",
                 closeSectionDetailEditor = function () {
                     showSectionDetail(false);
                 },
-                counter = 0,
+                    // Open Phrase Library
+                    openPhraseLibrary = function () {
+                        phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.show(function (phrase) {
+                            updateJobDescription(phrase);
+                        });
+                    },
+
+                    // Update Job Description
+                    updateJobDescription = function (phrase) {
+                        if (!phrase) {
+                            return;
+                        }
+
+                        // Set Phrase to selected Job Description
+                        if (selectedJobDescription() === 'txtDescription1') {
+                            selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription2') {
+                            selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription3') {
+                            selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription4') {
+                            selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription5') {
+                            selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription6') {
+                            selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription7') {
+                            selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
+                        }
+                    },
+                     counter = 0,
                 // Create new Item Section
                 createNewItemSection = function () {
                     var itemSection = model.ItemSection();
@@ -1113,6 +1144,7 @@ define("common/itemDetail.viewModel",
                     selectedSection(itemSection);
                     showSectionDetail(true);
                 },
+
                 //#endregion
                 //Initialize
                 initialize = function (specifiedView) {
@@ -1190,7 +1222,9 @@ define("common/itemDetail.viewModel",
                     showSectionDetail: showSectionDetail,
                     showSectionDetailEditor: showSectionDetailEditor,
                     closeSectionDetailEditor: closeSectionDetailEditor,
-                    createNewItemSection: createNewItemSection
+                    createNewItemSection: createNewItemSection,
+                    closeSectionDetailEditor:closeSectionDetailEditor,
+                    openPhraseLibrary: openPhraseLibrary
 
                     //#endregion
                 };
