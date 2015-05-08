@@ -784,9 +784,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [HttpPost]
         public void DeleteArtworkAttachment(long AttachmentId)
         {
-
             _ItemService.DeleteItemAttachment(AttachmentId);
-
         }
       public class JasonResponseObject
           {
