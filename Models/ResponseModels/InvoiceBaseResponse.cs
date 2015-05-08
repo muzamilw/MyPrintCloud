@@ -20,6 +20,10 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<SystemUser> SystemUsers { get; set; }
 
         /// <summary>
+        /// Cost Centers
+        /// </summary>
+        public IEnumerable<CostCentre> CostCenters { get; set; }
+        /// <summary>
         /// Currency Symbol
         /// </summary>
         public string CurrencySymbol { get; set; }
