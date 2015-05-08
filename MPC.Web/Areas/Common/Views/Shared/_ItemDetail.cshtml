@@ -566,6 +566,16 @@
     @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
 </div>
 
+<script id="orderItemAttachmentTemplate" type="text/html">
+    <li class="col-md-2 col-sm-3 col-xs-6">
+        <div class="photo-box image-link" style="padding-top: 0; ">
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()===undefined,attr: { src: '@Url.Content("~/")' + folderPath() }" alt="" />
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()!==undefined,attr: { src: fileSourcePath }" />
+        </div>
+        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
+    </li>
+</script>
+
 <script id="sectionItemTemplate" type="text/html">
     <li class="col-md-2 col-sm-2 col-xs-6">
         <div>
