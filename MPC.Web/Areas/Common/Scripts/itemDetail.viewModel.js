@@ -13,6 +13,7 @@ define("common/itemDetail.viewModel",
                     view,
                     //#region Observables
                     showItemDetailsSection = ko.observable(false),
+                    showSectionDetail = ko.observable(false),
                     selectedProduct = ko.observable(model.Item.Create({})),
                     // Best PressL ist
                     bestPressList = ko.observableArray([]),
@@ -161,14 +162,16 @@ define("common/itemDetail.viewModel",
                     },
                     //Show Item Detail
                     showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam) {
+                        showSectionDetail(false);
                         showItemDetailsSection(true);
                         selectedProduct(selectedProductParam);
                         selectedOrder(selectedOrderParam);
                         selectedSection(selectedProduct().itemSections()[0]);
+                        //selectedSection().productType(selectedProduct().productType());
                         closeItemDetailSection = closeItemDetailParam;
                         subscribeSectionChanges();
                     },
-                    closeItemDetail = function() {
+                    closeItemDetail = function () {
                         showItemDetailsSection(false);
                         closeItemDetailSection();
                     },
@@ -176,7 +179,7 @@ define("common/itemDetail.viewModel",
                     selectJobDescription = function (jobDescription, e) {
                         selectedJobDescription(e.currentTarget.id);
                     },
-                   
+
                     updateSectionInkCoverageLists = function (side1Count, side2Count) {
                         if (getSide1Count() != side1Count) {
                             //If List is less then dropDown (Plate Ink)
@@ -287,7 +290,7 @@ define("common/itemDetail.viewModel",
                         if (selectedSection().itemSizeHeight() == null || selectedSection().itemSizeWidth() == null || selectedSection().sectionSizeHeight() == null || selectedSection().sectionSizeWidth() == null) {
                             return;
                         }
-                       
+
                         var orient = selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape() ? 0 : 1;
                         dataservice.getPTV({
                             orientation: orient,
@@ -345,7 +348,7 @@ define("common/itemDetail.viewModel",
                     addSection = function () {
                         // Open Product Selector Dialog
                     },
-                    
+
                     // Close Section Detail
                     closeSectionDetail = function () {
                         sectionHeader('');
@@ -583,7 +586,7 @@ define("common/itemDetail.viewModel",
                     getBaseData = function () {
                         dataservice.getBaseData({
                             success: function (data) {
-                                
+
                                 inks.removeAll();
                                 if (data.Inks) {
                                     ko.utils.arrayPushAll(inks(), data.Inks);
@@ -611,7 +614,7 @@ define("common/itemDetail.viewModel",
                                 if (data.InkPlateSides) {
                                     mapList(inkPlateSides, data.InkPlateSides, model.InkPlateSide);
                                 }
-                               
+
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -620,7 +623,7 @@ define("common/itemDetail.viewModel",
                             }
                         });
                     },
-                  
+
                     // Calculates Section Charges 
                     calculateSectionChargeTotal = ko.computed(function () {
                         baseCharge1Total(0);
@@ -1048,6 +1051,13 @@ define("common/itemDetail.viewModel",
                         selectedSection(selectedSectionParam);
 
                     },
+                    showSectionDetailEditor = function (section) {
+                        selectedSection(section);
+                        showSectionDetail(true);
+                    },
+                    closeSectionDetailEditor = function () {
+                        showSectionDetail(false);
+                    },
                     //#endregion
                     //Initialize
                     initialize = function (specifiedView) {
@@ -1057,7 +1067,7 @@ define("common/itemDetail.viewModel",
                         subscribeSectionChanges();
                         //pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
                     };
-               
+
                 return {
 
                     //#region Observables
@@ -1121,7 +1131,10 @@ define("common/itemDetail.viewModel",
                     userCostCenters: userCostCenters,
                     selectBestPressFromWizard: selectBestPressFromWizard,
                     selectedBestPressFromWizard: selectedBestPressFromWizard,
-                    clickOnWizardOk: clickOnWizardOk
+                    clickOnWizardOk: clickOnWizardOk,
+                    showSectionDetail: showSectionDetail,
+                    showSectionDetailEditor: showSectionDetailEditor,
+                    closeSectionDetailEditor:closeSectionDetailEditor
 
                     //#endregion
                 };
