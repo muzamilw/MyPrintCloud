@@ -674,7 +674,22 @@ namespace MPC.Models.ModelMappers
             InitializeItemSections(target);
 
             UpdateOrAddItemSections(source, target, actions);
+            DeleteItemSections(source, target, actions);
+        }
 
+        /// <summary>
+        /// Delete Sections no longer needed
+        /// </summary>
+        private static void DeleteItemSections(Item source, Item target, OrderMapperActions actions)
+        {
+            List<ItemSection> linesToBeRemoved = target.ItemSections.Where(
+                ii => !IsNewItemSection(ii) && source.ItemSections.All(section => section.ItemSectionId != ii.ItemSectionId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemSections.Remove(line);
+                actions.DeleteItemSection(line);
+            });
         }
 
         #endregion Item Section
