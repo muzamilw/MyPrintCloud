@@ -15,7 +15,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 Description = source.Description,
                 Type = source.CostCentreType.TypeName,
-                CalculationMethodType = source.CalculationMethodType
+                CalculationMethodType = source.CalculationMethodType,
+                IsDisabled = source.IsDisabled
             };
         }
     }
