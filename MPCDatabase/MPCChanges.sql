@@ -3693,16 +3693,16 @@ GO
 
 /*  Execution Date: 08/05/2015  update costcenter types */
 
-SET identity_insert [MPCLive].[dbo].[CostCentreType] ON
+SET identity_insert CostCentreType ON
 
-insert into [MPCLive].[dbo].[CostCentreType] ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (2, 'Pre Press', 1,1,null)
-insert into [MPCLive].[dbo].[CostCentreType] ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (3, 'Post Press', 1,1,null)
-insert into [MPCLive].[dbo].[CostCentreType] ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (4, 'Delivery', 1,1,null)
-insert into [MPCLive].[dbo].[CostCentreType] ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (5, 'Web Order Cost Center', 1,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (2, 'Pre Press', 1,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (3, 'Post Press', 1,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (4, 'Delivery', 1,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (5, 'Web Order Cost Center', 1,1,null)
 
-SET identity_insert [MPCLive].[dbo].[CostCentreType] OFF
+SET identity_insert CostCentreType OFF
 
-Update [MPCLive].[dbo].[CostCentre] set Type = 2
+Update CostCentre set Type = 2
 
-delete [MPCLive].[dbo].[CostCentreType] 
+delete CostCentreType
   where TypeId not in (1,2,3,4,5)
