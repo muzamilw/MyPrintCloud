@@ -720,14 +720,18 @@
                                             <div class="col-lg-9" style="margin-bottom:10px;" data-bind="visible: itemProductDetail().isPrintItemUi() === '1'">
                                                 <div id="mainDivSections">
                                                     <!-- ko foreach: itemSections -->
-                                                    <div class="col-md-3">
-                                                        <input type="text" id="detailSectionName" class="form-control" data-bind="value: name, validationToolTip: name, validationOnElement: name">
+                                                    <div class="col-lg-3">
+                                                        <div class="rows">
+                                                            <div class="col-md-2">
+                                                                <img src="~/Content/Images/Page.png" alt="Signature" style="position:relative; margin-left: -18px;" />
+                                                                <textarea rows="10" id="detailSectionName" class="form-control imgtext" data-bind="value: name, validationToolTip: name, validationOnElement: name"></textarea>
+                                                                <br /><a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary" style="margin-left: -8px;">
+                                                                        <i class="fa fa-lg"></i>&nbsp;Modify</a>
+                                                            </div>
+                                                        </div>
+                                                        
                                                     </div>
-                                                    <div class="col-md-1">
-                                                        <a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary pull-right">
-                                                            <i class="fa fa-lg"></i>&nbsp;....
-                                                        </a>
-                                                    </div>
+                                                    
                                                     <!-- /ko -->
                                                 </div>
                                             </div>
