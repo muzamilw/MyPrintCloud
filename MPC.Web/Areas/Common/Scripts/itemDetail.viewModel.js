@@ -661,6 +661,9 @@ define("common/itemDetail.viewModel",
                                 baseCharge2Total(parseFloat(baseCharge2Total()) + parseFloat(item.qty2NetTotal()));
                                 baseCharge3Total(parseFloat(baseCharge3Total()) + parseFloat(item.qty3NetTotal()));
                             });
+                            selectedSection().qty1NetTotal(baseCharge1Total());
+                            selectedSection().qty2NetTotal(baseCharge2Total());
+                            selectedSection().qty3NetTotal(baseCharge3Total());
                         }
 
                         if (selectedSection() !== undefined && selectedSection().similarSections != undefined && selectedSection().similarSections() !== undefined) {
@@ -728,6 +731,9 @@ define("common/itemDetail.viewModel",
                         baseCharge1Total(newBaseCharge1Totaol);
                         baseCharge2Total((baseCharge2Total() !== undefined ? baseCharge2Total() : 0) * parseFloat(selectedSection().similarSections()));
                         baseCharge3Total((baseCharge3Total() !== undefined ? baseCharge3Total() : 0) * parseFloat(selectedSection().similarSections()));
+                        //selectedSection().qty1NetTotal(baseCharge1Total());
+                        //selectedSection().qty2NetTotal(baseCharge2Total());
+                        //selectedSection().qty3NetTotal(baseCharge3Total());
                         q1NetTotal();
                         q2NetTotal();
                         q3NetTotal();

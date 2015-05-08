@@ -410,7 +410,8 @@
             specifiedQty3, specifiedQty1Profit, specifiedQty2Profit, specifiedQty3Profit, specifiedBaseCharge1, specifiedBaseCharge2, specifiedBaseCharge3,
             specifiedIncludeGutter, specifiedFilmId, specifiedIsPaperSupplied, specifiedSide1PlateQty, specifiedSide2PlateQty, specifiedIsPlateSupplied,
             specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn, specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedPlateInkId,
-            specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait, specifiedFirstTrim, specifiedSecondTrim) {
+            specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait, specifiedFirstTrim, specifiedSecondTrim, specifiedQty1MarkUpID,
+            specifiedQty2MarkUpID, specifiedQty3MarkUpID) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -457,11 +458,11 @@
                 // Qty3Profit Width
                 qty3Profit = ko.observable(specifiedQty3Profit || 0),
                 // Base Charge1
-                baseCharge1 = ko.observable((specifiedBaseCharge1 != null || specifiedBaseCharge1 != undefined) ? specifiedBaseCharge1.toFixed(2) : 0),
+                baseCharge1 = ko.observable(specifiedBaseCharge1 || 0).extend({ numberInput: ist.numberFormat }),
                 // Base Charge2
-                baseCharge2 = ko.observable(specifiedBaseCharge2 || 0),
+                baseCharge2 = ko.observable(specifiedBaseCharge2 || 0).extend({ numberInput: ist.numberFormat }),
                 // Base Charge3
-                baseCharge3 = ko.observable(specifiedBaseCharge3 || 0),
+                baseCharge3 = ko.observable(specifiedBaseCharge3 || 0).extend({ numberInput: ist.numberFormat }),
                 // Include Gutter
                 includeGutter = ko.observable(specifiedIncludeGutter || undefined),
                 // FilmId
@@ -539,6 +540,9 @@
                 sectionInkCoverageList = ko.observableArray([]),
                 isFirstTrim = ko.observable(specifiedFirstTrim || false),
                 isSecondTrim = ko.observable(specifiedSecondTrim || false),
+                qty1MarkUpId = ko.observable(specifiedQty1MarkUpID || undefined),
+                qty2MarkUpId = ko.observable(specifiedQty2MarkUpID || undefined),
+                qty3MarkUpId = ko.observable(specifiedQty3MarkUpID || undefined),
                 // Select Stock Item
                 selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
@@ -656,6 +660,9 @@
                         Side2Inks: side2Inks(),
                         IsFirstTrim: isFirstTrim(),
                         IsSecondTrim: isSecondTrim(),
+                        Qty1MarkUpID: qty1MarkUpId(),
+                        Qty2MarkUpID: qty2MarkUpId(),
+                        Qty3MarkUpID: qty3MarkUpId(),
                         SectionCostcentres: sectionCostCentres.map(function (scc) {
                             var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {
@@ -724,6 +731,9 @@
                 swapItemHeightWidth: swapItemHeightWidth,
                 side1Inks: side1Inks,
                 side2Inks: side2Inks,
+                qty1MarkUpId: qty1MarkUpId,
+                qty2MarkUpId: qty2MarkUpId,
+                qty3MarkUpId: qty3MarkUpId,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -1804,7 +1814,7 @@
             source.Qty2, source.Qty3, source.Qty1Profit, source.Qty2Profit, source.Qty3Profit, source.BaseCharge1, source.BaseCharge2,
             source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
             source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks,
-            source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim);
+            source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim, source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
