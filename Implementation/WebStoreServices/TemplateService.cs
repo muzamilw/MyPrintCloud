@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
 using WebSupergoo.ABCpdf8;
 
@@ -938,7 +939,7 @@ namespace MPC.Implementation.WebStoreServices
 
         private void GetSVGAndDraw(ref Doc oPdf, TemplateObject oObject, string logoPath, int PageNo)
         {
-
+            logoPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content");
             XImage oImg = new XImage();
             Bitmap img = null;
             try
@@ -952,17 +953,17 @@ namespace MPC.Implementation.WebStoreServices
                 bFileExists = System.IO.File.Exists(FilePath);
                 if (bFileExists)
                 {
-                    DesignerSvgParser.MaximumSize = new Size(Convert.ToInt32(oObject.MaxWidth), Convert.ToInt32(oObject.MaxHeight));
-                    img = DesignerSvgParser.GetBitmapFromSVG(FilePath, oObject.ColorHex);
-                    if (oObject.Opacity != null)
-                    {
-                        // float opacity =float.Parse( oObject.Tint.ToString()) /100;
-                        if (oObject.Opacity != 1)
-                        {
-                            img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
-                        }
-                    }
-                    oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
+                    //DesignerSvgParser.MaximumSize = new Size(Convert.ToInt32(oObject.MaxWidth), Convert.ToInt32(oObject.MaxHeight));
+                    //img = DesignerSvgParser.GetBitmapFromSVG(FilePath, oObject.ColorHex);
+                    //if (oObject.Opacity != null)
+                    //{
+                    //    // float opacity =float.Parse( oObject.Tint.ToString()) /100;
+                    //    if (oObject.Opacity != 1)
+                    //    {
+                    //        img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
+                    //    }
+                    //}
+                    //oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
 
                     var posY = oObject.PositionY + oObject.MaxHeight;
 
@@ -977,13 +978,14 @@ namespace MPC.Implementation.WebStoreServices
                             oPdf.Transform.Rotate(360 - oObject.RotationAngle.Value, oObject.PositionX.Value + oObject.MaxWidth.Value / 2, oPdf.MediaBox.Height - posY.Value + oObject.MaxHeight.Value / 2);
                         }
                     }
-                    int id = oPdf.AddImageObject(oImg, true);
-                    //if (oObject.Tint != null)
-                    //{
-                    //    ImageLayer im = (ImageLayer)oPdf.ObjectSoup[id];
-
-                    //    im.PixMap.SetAlpha(Convert.ToInt32(( oObject.Tint) * 2.5));
-                    //}
+                    ////int id = oPdf.AddImageObject(oImg, true);
+                    ////oPdf.Transform.Reset();
+                    //oPdf.HtmlOptions.HideBackground = true;
+                    //oPdf.HtmlOptions.Engine = EngineType.Gecko;
+                    //string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/MPC_Content" + oObject.ContentString;
+                    ////int id = oPdf.AddImageUrl(URl);
+                    //string html = File.ReadAllText(FilePath);
+                    //oPdf.AddImageHtml(html);
                     oPdf.Transform.Reset();
                 }
             }
@@ -1381,7 +1383,14 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             if (objObjects.ClippedInfo == null)
                             {
-                                LoadImage(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                if (objObjects.ContentString.Contains(".svg") && !objObjects.ContentString.Contains("{{"))
+                                {
+                                    GetSVGAndDraw(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                }
+                                else
+                                {
+                                    LoadImage(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                }
                             }
                             else
                             {
@@ -1729,11 +1738,12 @@ namespace MPC.Implementation.WebStoreServices
                             doc.SetInfo(doc.Page, "/ArtBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(ArtBoxSize)).ToString());
 
                         }
-                        //if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
-                        //{
-                        //    BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
-                        //    doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
-                        //}
+                       
+                        if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
+                        {
+                            BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
+                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
+                        }
                         if (bleedareaSize != 0)
                         {
 

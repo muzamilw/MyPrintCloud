@@ -28,7 +28,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(cc => cc.CreateFromDropDown()) :
                 new List<PaperSizeDropDown>(),
                 LengthUnit = source.LengthUnit,
-                CurrencyUnit = source.CurrencyUnit
+                CurrencyUnit = source.CurrencyUnit,
+                WeightUnit = source.WeightUnit
             };
         }
         

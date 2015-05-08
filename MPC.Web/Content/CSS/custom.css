@@ -321,3 +321,22 @@ a.reportAnchor a:hover{
 .height60{
     height:60px;
 }
+
+.btn-yellow {
+    background-color: #FFFFAA;
+    border-color: #FFFF7F;
+}
+
+    .btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow.active, .open .dropdown-toggle.btn-yellow {
+        background-color: #FFFF7F;
+    }
+
+    .bigcheckbox {
+  float: left;
+  margin: 0px !important;
+  width: 20px;
+  height: 20px;
+}
+    .notes{
+        background-color:#FCFBB6;
+    }
