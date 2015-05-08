@@ -34,11 +34,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string CurrencySymbol { get; set; }
 
         /// <summary>
-        /// Stock Categories
-        /// </summary>
-        public IEnumerable<StockCategoryDropDown> StockCategories { get; set; }
-
-        /// <summary>
         /// Chart Of Accounts
         /// </summary>
         public IEnumerable<ChartOfAccount> ChartOfAccounts { get; set; }
