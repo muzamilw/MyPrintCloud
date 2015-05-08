@@ -304,7 +304,7 @@
                                     <label class="control-label tooltip-float" style="font-size:12px;">Components like this</label>
                                 </div>
                                 <div class="col-lg-1">
-                                    <input type="text" class="form-control" data-bind="value: similarSections" id="qty3" />
+                                    <input type="text" class="form-control" data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue" id="qty3" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -358,13 +358,13 @@
                 <a href="#" data-bind="text: name, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
             </td>
             <td class="col-xs-2 text-right">
-                <a href="#" data-bind="text: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
+                <a href="#" data-bind="numberInput: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
             </td>
             <td class="col-xs-2 text-right">
-                <a href="#" data-bind="text: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
+                <a href="#" data-bind="numberInput: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
             </td>
             <td class="col-xs-2 text-right">
-                <a href="#" data-bind="text: qty3NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 3)}"></a>
+                <a href="#" data-bind="numberInput: qty3NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 3)}"></a>
             </td>
             <td class="col-xs-2"></td>
         </tr>
