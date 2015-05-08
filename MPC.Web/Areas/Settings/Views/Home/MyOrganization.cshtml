@@ -407,44 +407,44 @@
         {
             page = Request.QueryString("status").toString();
 
-            if (page != null)
-            {
-                if (page == 'regional')
-                {
-                    $("#organization-details").removeClass("in active");
-                    $("#tab-ORGDetail").removeClass("in active");
+            //if (page != null)
+            //{
+            //    if (page == 'regional')
+            //    {
+            //        $("#organization-details").removeClass("in active");
+            //        $("#tab-ORGDetail").removeClass("in active");
 
-                    $("#regional-settings").addClass("in active");
-                    $("#tab-RegionalSettings").addClass("in active");
+            //        $("#regional-settings").addClass("in active");
+            //        $("#tab-RegionalSettings").addClass("in active");
 
-                    $("#language-editor").removeClass("in active");
-                    $("#tab-languageeditor").removeClass("in active");
-                }
-                else if(page == 'language')
-                {
+            //        $("#language-editor").removeClass("in active");
+            //        $("#tab-languageeditor").removeClass("in active");
+            //    }
+            //    else if(page == 'language')
+            //    {
 
-                    $("#organization-details").removeClass("in active");
-                    $("#tab-ORGDetail").removeClass("in active");
+            //        $("#organization-details").removeClass("in active");
+            //        $("#tab-ORGDetail").removeClass("in active");
 
-                    $("#regional-settings").removeClass("in active");
-                    $("#tab-RegionalSettings").removeClass("in active");
+            //        $("#regional-settings").removeClass("in active");
+            //        $("#tab-RegionalSettings").removeClass("in active");
 
-                    $("#language-editor").addClass("in active");
-                    $("#tab-languageeditor").addClass("in active");
+            //        $("#language-editor").addClass("in active");
+            //        $("#tab-languageeditor").addClass("in active");
 
-                }
-                else 
-                {
-                    $("#organization-details").addClass("in active");
-                    $("#tab-ORGDetail").addClass("in active");
+            //    }
+            //    else 
+            //    {
+            //        $("#organization-details").addClass("in active");
+            //        $("#tab-ORGDetail").addClass("in active");
 
-                    $("#regional-settings").removeClass("in active");
-                    $("#tab-RegionalSettings").removeClass("in active");
+            //        $("#regional-settings").removeClass("in active");
+            //        $("#tab-RegionalSettings").removeClass("in active");
 
-                    $("#language-editor").removeClass("in active");
-                    $("#tab-languageeditor").removeClass("in active");
-                }
-            }
+            //        $("#language-editor").removeClass("in active");
+            //        $("#tab-languageeditor").removeClass("in active");
+            //    }
+            //}
         
         });
     </script>

@@ -3681,3 +3681,12 @@ GO
 EXEC sp_rename 'ItemStockUpdateHistory', 'StockItemHistory'
 
 GO
+
+/* Execution Date: 08/05/2015 */
+
+GO
+
+alter table costcentre
+alter Column isDisabled bit not null
+
+GO

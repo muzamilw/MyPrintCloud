@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -386,40 +386,6 @@ define("order/order.viewModel",
                         selectedOrder().items.remove(item);
                     },
                    
-                    // Select Job Description
-                    selectJobDescription = function (jobDescription, e) {
-                        selectedJobDescription(e.currentTarget.id);
-                    },
-                    // Open Phrase Library
-                    openPhraseLibrary = function () {
-                        phraseLibrary.isOpenFromPhraseLibrary(false);
-                        phraseLibrary.show(function (phrase) {
-                            updateJobDescription(phrase);
-                        });
-                    },
-                    // Update Job Description
-                    updateJobDescription = function (phrase) {
-                        if (!phrase) {
-                            return;
-                        }
-
-                        // Set Phrase to selected Job Description
-                        if (selectedJobDescription() === 'txtDescription1') {
-                            selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription2') {
-                            selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription3') {
-                            selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription4') {
-                            selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription5') {
-                            selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription6') {
-                            selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription7') {
-                            selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
-                        }
-                    },
                     // Map List
                     mapList = function (observableList, data, factory) {
                         var list = [];
@@ -767,17 +733,21 @@ define("order/order.viewModel",
                     //Product From Cost Center
                     createNewCostCenterProduct = function () {
                         view.hideCostCentersQuantityDialog();
-                       // selectedCostCentre(costCenter);
+                        //selectedCostCentre(costCenter);
                         var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
                         selectedProduct(item);
                         item.productName(selectedCostCentre().name());
                         item.qty1(selectedCostCentre().quantity1());
                         item.qty1NetTotal(selectedCostCentre().setupCost());
+                        //Req: Item Product code is set to '2', so while editting item's section is non mandatory
+                        item.productType(2);
 
                         var itemSection = itemModel.ItemSection.Create({});
                         itemSection.qty1(selectedCostCentre().quantity1());
                         itemSection.qty2(selectedCostCentre().quantity2());
                         itemSection.qty3(selectedCostCentre().quantity3());
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
 
                         var sectionCostCenter = itemModel.SectionCostCentre.Create({});
                         sectionCostCenter.qty1(selectedCostCentre().quantity1());
@@ -1216,7 +1186,8 @@ define("order/order.viewModel",
                         } else {
                             companyId = selectedOrder().companyId();
                         }
-                        addCostCenterVM.show(createNewCostCenterProduct, companyId, true);
+                        //addCostCenterVM.show(createNewCostCenterProduct, companyId, true);
+                        addCostCenterVM.show(afterSelectCostCenter, companyId, true);
                     },
                     onAddCostCenterForProduct = function () {
                         getCostCentersForProduct();
@@ -1304,11 +1275,16 @@ define("order/order.viewModel",
                         var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
                         item.productName(inventoryStockItemToCreate().name);
                         item.qty1(selectedCostCentre().quantity1());
+                        //Req: Item Product type is set to '2', so while editting item's section is non mandatory
+                        item.productType(2);
+
                         selectedProduct(item);
                         var itemSection = itemModel.ItemSection.Create({});
                         itemSection.qty1(selectedCostCentre().quantity1());
                         itemSection.qty2(selectedCostCentre().quantity2());
                         itemSection.qty3(selectedCostCentre().quantity3());
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
 
                         var sectionCostCenter = itemModel.SectionCostCentre.Create({});
                         sectionCostCenter.qty1(selectedCostCentre().quantity1());
@@ -1885,8 +1861,6 @@ define("order/order.viewModel",
                     editItem: editItem,
                     saveProduct: saveProduct,
                     deleteProduct: deleteProduct,
-                    selectJobDescription: selectJobDescription,
-                    openPhraseLibrary: openPhraseLibrary,
                     currentScreen: currentScreen,
                     orderType: orderType,
                     orderTypeFilter: orderTypeFilter,
