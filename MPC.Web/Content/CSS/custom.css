@@ -323,12 +323,14 @@ a.reportAnchor a:hover{
 }
 
 .btn-yellow {
-    background-color: #FFFFAA;
-    border-color: #FFFF7F;
+    background-color: #FFFF00;
+    border-color: #FFD400;
+    color:#FFFFFF;
 }
 
     .btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow.active, .open .dropdown-toggle.btn-yellow {
-        background-color: #FFFF7F;
+        background-color: #FFD400;
+        color:#FFFFFF;
     }
 
     .bigcheckbox {
@@ -340,3 +342,13 @@ a.reportAnchor a:hover{
     .notes{
         background-color:#FCFBB6;
     }
+
+    
+.imgtext { 
+   position: absolute; 
+   top: 61px; 
+   left: 5px; 
+   background: transparent;
+  border: none;
+  width:160px;
+}

@@ -571,7 +571,8 @@
   clear: both;
 }
 #storesBinding #tab-products .dd-handle-list {
-  height: 90%;
+  /*height: 90%;*/
+  top:6px;
   overflow: hidden;
 }
 #storesBinding #tab-products .dd-handle {

@@ -63,7 +63,7 @@ var spinnerVisibleCounter = 0;
 // Show Busy Indicator
 function showProgress() {
     ++spinnerVisibleCounter;
-    if (spinnerVisibleCounter > 0 && $("div#spinner")[0].style.display === "none") {
+    if (spinnerVisibleCounter > 0) {
         $.blockUI({ message: "" });
         $("div#spinner").fadeIn("fast");
     }

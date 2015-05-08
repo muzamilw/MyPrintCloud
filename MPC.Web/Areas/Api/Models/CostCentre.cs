@@ -54,7 +54,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string strActualCostMaterialUnParsed { get; set; }
         public string strTimeParsed { get; set; }
         public string strTimeUnParsed { get; set; }
-        public short IsDisabled { get; set; }
+        public bool IsDisabled { get; set; }
         public short IsDirectCost { get; set; }
         public int SetupSpoilage { get; set; }
         public double RunningSpoilage { get; set; }
