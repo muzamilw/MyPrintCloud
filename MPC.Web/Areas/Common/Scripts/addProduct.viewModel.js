@@ -145,6 +145,7 @@ define("common/addProduct.viewModel",
                         newItem.id(counterForItem());
                         newItem.qty1NetTotal(totalProductPrice());
                         newItem = addSelectedAddOnsAsCostCenters(newItem);
+                        newItem.productType(1);
                         afterAddCostCenter(newItem);
                     },
                     onSaveRetailStoreProduct = function () {

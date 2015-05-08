@@ -2,7 +2,7 @@
     var
         // #region Item Entity
         // ReSharper disable once InconsistentNaming
-        Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode,
+        Item = function (specifiedId, specifiedName, specifiedCode,specifiedProductType, specifiedProductName, specifiedProductCode,
             specifiedJobDescriptionTitle1, specifiedJobDescription1, specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3,
             specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
             specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6, specifiedJobDescriptionTitle7, specifiedJobDescription7,
@@ -23,6 +23,8 @@
                 productName = ko.observable(specifiedProductName || undefined).extend({ required: true }),
                 // Product Code
                 productCode = ko.observable(specifiedProductCode || undefined).extend({ required: true }),
+                //Product Type
+                productType = ko.observable(specifiedProductType || undefined),
                 // job description title1
                 jobDescriptionTitle1 = ko.observable(specifiedJobDescriptionTitle1 || undefined),
                 // job description title2
@@ -232,6 +234,7 @@
                     code: code,
                     productName: productName,
                     productCode: productCode,
+                    productType: productType,
                     itemAttachments: itemAttachments,
                     jobDescriptionTitle1: jobDescriptionTitle1,
                     jobDescriptionTitle2: jobDescriptionTitle2,
@@ -284,6 +287,7 @@
                         ItemId: id(),
                         ItemCode: code(),
                         ProductCode: productCode(),
+                        ProductType: productType(),
                         ProductName: productName(),
                         JobDescriptionTitle1: jobDescriptionTitle1(),
                         JobDescriptionTitle2: jobDescriptionTitle2(),
@@ -336,6 +340,7 @@
                 code: code,
                 productName: productName,
                 productCode: productCode,
+                productType: productType,
                 itemAttachments: itemAttachments,
                 jobDescriptionTitle1: jobDescriptionTitle1,
                 jobDescriptionTitle2: jobDescriptionTitle2,
@@ -411,18 +416,20 @@
             specifiedIncludeGutter, specifiedFilmId, specifiedIsPaperSupplied, specifiedSide1PlateQty, specifiedSide2PlateQty, specifiedIsPlateSupplied,
             specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn, specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedPlateInkId,
             specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait, specifiedFirstTrim, specifiedSecondTrim, specifiedQty1MarkUpID,
-            specifiedQty2MarkUpID, specifiedQty3MarkUpID) {
+            specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedProductType) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
+                //Product Type
+                productType = ko.observable(specifiedProductType),
                 // name
-                name = ko.observable(specifiedSectionName || undefined).extend({ required: true }),
+                name = ko.observable(specifiedSectionName || undefined).extend({ required: { onlyIf: function () { return productType() != 2; }}}),
                 // Stock Item Id
-                stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: true }),
+                stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Stock Item Name
                 stockItemName = ko.observable(specifiedStockItemName || undefined),
                 // Press Id
-                pressId = ko.observable(specifiedPressId || undefined).extend({ required: true }),
+                pressId = ko.observable(specifiedPressId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Press Name
                 pressName = ko.observable(specifiedPressName || undefined),
                 // section size id
@@ -610,7 +617,8 @@
                     isPaperSupplied: isPaperSupplied(),
                     qty3: qty3,
                     isFirstTrim: isFirstTrim,
-                    isSecondTrim: isSecondTrim
+                    isSecondTrim: isSecondTrim,
+                    productType: productType
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -732,6 +740,7 @@
                 side1Inks: side1Inks,
                 side2Inks: side2Inks,
                 qty1MarkUpId: qty1MarkUpId,
+                productType: productType,
                 qty2MarkUpId: qty2MarkUpId,
                 qty3MarkUpId: qty3MarkUpId,
                 errors: errors,
@@ -1713,13 +1722,12 @@
             };
         },
         //#endregion
-
-        // #region __________________  BEST PRESS   ______________________
+        // #region Best Press Entity
         // Best Press Entity        
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         BestPress = function (specifiedMachineID, specifiedMachineName, specifiedQty1Cost, specifiedQty1RunTime, specifiedQty2Cost, specifiedQty2RunTime,
-// ReSharper restore InconsistentNaming
-            specifiedQty3Cost, specifiedQty3RunTime, specifiedisSelected) {
+        // ReSharper restore InconsistentNaming
+        specifiedQty3Cost, specifiedQty3RunTime, specifiedisSelected) {
             return {
                 id: specifiedMachineID,
                 machineName: specifiedMachineName,
@@ -1732,12 +1740,11 @@
                 isSelected: specifiedisSelected,
             };
         },
-        // #endregion __________________   BEST PRESS    ______________________
-
-        // #region __________________  User Cost Center For Run Wizard  ______________________
+        // #endregion
+        // #region User Cost Center For Run Wizard Entity
 
         // User Cost Center Entity        
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         UserCostCenter = function (specifiedCostCentreId, specifiedName) {
             // ReSharper restore InconsistentNaming
             var // Unique key
@@ -1757,14 +1764,14 @@
                 convertToServerData: convertToServerData
             };
         };
-    // #endregion __________________   User Cost Center    ______________________
+        // #endregion
 
     //#region ---
     //#endregion
 
     //#region Item Factory
     Item.Create = function (source) {
-        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode,
+        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductType, source.ProductName, source.ProductCode,
             source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
@@ -1779,6 +1786,9 @@
             var itemSections = [];
 
             _.each(source.ItemSections, function (itemSection) {
+                //if (source.ProductType != null) {
+                    itemSection.ProductType = source.ProductType;
+                //}
                 itemSections.push(ItemSection.Create(itemSection));
             });
 
@@ -1814,7 +1824,7 @@
             source.Qty2, source.Qty3, source.Qty1Profit, source.Qty2Profit, source.Qty3Profit, source.BaseCharge1, source.BaseCharge2,
             source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
             source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks,
-            source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim, source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID);
+            source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim, source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.ProductType);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
@@ -1953,16 +1963,16 @@
         return new InkPlateSide(source.PlateInkId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
     };
     //#endregion
-
-    //#region Best Press
-    // User Cost Center Factory
-    UserCostCenter.Create = function (source) {
-        return new UserCostCenter(source.CostCentreId, source.Name);
-    };
+    //#region Best Press Factory
     // Best Press Factory
     BestPress.Create = function (source) {
         return new BestPress(source.MachineID, source.MachineName, source.Qty1Cost, source.Qty1RunTime, source.Qty2Cost, source.Qty2RunTime, source.Qty3Cost,
             source.Qty3RunTime, source.isSelected);
+    };
+    //#endregion
+    //#region User Cost Center Factory
+    UserCostCenter.Create = function (source) {
+        return new UserCostCenter(source.CostCentreId, source.Name);
     };
     //#endregion
 

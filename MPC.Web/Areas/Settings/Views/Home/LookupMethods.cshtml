@@ -53,9 +53,13 @@
         </div>
         <div class="row" id="prefixesdata" style="float:right;">
             <div class="input-group">
+                <a href="~/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;">Close</a>
                 <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" data-bind="click: $root.saveLookup, css: { 'btn-warning': hasChanges }, enable: $root.hasChanges" id="saveBtn">Save</button>
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Add Lookup <span class="caret"></span></button>
+               
                 <ul class="dropdown-menu">
+                    
+
                     <li><a data-bind="click: function(){ AddLookup('1');}">Click Charge</a></li>
                     <li><a data-bind="click: function(){ AddLookup('3');}">Speed Weight</a></li>
                     <li><a data-bind="click: function(){ AddLookup('4');}">Per Hour</a></li>
@@ -70,8 +74,10 @@
         <div class="col-lg-12 main-box clearfix col-padding">
             <div class="main-box-body">
                 <div class=" form-horizontal col-padding" style="padding-top:40px;padding-bottom:40px; ">
+                    <h2>Configure press calculations used when estimating based on speed, paper weights and color units.</h2>
+                    <br />
                     <div class="col-md-3" style="width:auto;">
-
+                       
                         @*Div For TreeView*@
                         <div style="display:inline;position:relative;">
                             <ol class="dd-list">
