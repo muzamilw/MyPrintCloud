@@ -763,11 +763,11 @@ namespace MPC.Repository.Repositories
             Expression<Func<CostCentre, bool>> query;
             if (request.CostCenterType != 0)
             {
-                query = oCostCenter => oCostCenter.Type == request.CostCenterType && oCostCenter.IsDisabled != 1 && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => oCostCenter.Type == request.CostCenterType  && oCostCenter.OrganisationId == OrganisationId;
             }
             else
             {
-                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled != 1 && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.OrganisationId == OrganisationId;
             }
 			var rowCount = DbSet.Count(query);
 			var costCenters = request.IsAsc

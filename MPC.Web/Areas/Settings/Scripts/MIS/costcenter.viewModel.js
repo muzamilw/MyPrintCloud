@@ -959,6 +959,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 cc.minimumCost('0');
                 cc.type('11');
                 cc.calculationMethodType('1');
+                cc.name('Enter Cost Center name');
                 selectedCostCenter(cc);
                 $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
                 getCostCentersBaseData();
