@@ -12,14 +12,11 @@
                         <br />
                         <div class="table-responsive">
                             <table class="table" id="phrase-section-table">
-                                <thead>
-                                    <tr>
-                                        <th><span>Module</span></th>
-                                    </tr>
-                                </thead>
+                               
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td style="border:none;">
+                                            <span style="font-family:Arial;font-size:12px;">MODULE</span>
                                             <div class="category" id="nestable2">
                                                 <ol class="dd-list" id="child-phrase">
                                                     <!-- ko template: { name: 'sectionIemTemplate', foreach: $root.sections }-->
@@ -53,7 +50,7 @@
                                 <tbody id="tbody-phrase-records">
                                     <tr style="text-align:center;" id="phrase-null-span">
                                         <td>
-                                            <span>No Phrases Exist for Headers</span>
+                                            <span>No Phrases Exist</span>
                                         </td>
                                     </tr>
                                     <!-- ko template: { name: $root.templateToUse , foreach: $root.phrases } -->
