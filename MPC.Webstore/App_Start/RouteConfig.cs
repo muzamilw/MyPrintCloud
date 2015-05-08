@@ -236,8 +236,8 @@ namespace MPC.Webstore
              );
             routes.MapRoute(
              "MarketingBrief",
-             "MarketingBrief/{ProductName}/{ItemID}",
-             new { controller = "Home", action = "Index", ProductName = UrlParameter.Optional, ItemID = UrlParameter.Optional }
+             "MarketingBrief/{ProductName}/{ItemID}/{CategoryId}",
+             new { controller = "Home", action = "Index", ProductName = UrlParameter.Optional, ItemID = UrlParameter.Optional, CategoryId = UrlParameter.Optional }
                );
 
             routes.MapRoute(

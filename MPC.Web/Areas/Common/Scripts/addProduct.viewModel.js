@@ -20,6 +20,8 @@ define("common/addProduct.viewModel",
                     selectedStockOptionSequenceNumber = ko.observable(),
                     //SelectedStockOption
                     selectedStockOption = ko.observable(),
+                    //Selected Product
+                    selectedProductFromStore = ko.observable(),
                     // Active Cost Center
                     selectedCostCentre = ko.observable(),
                     //Selected Stock Item
@@ -38,22 +40,25 @@ define("common/addProduct.viewModel",
                     currencySymbol = ko.observable(),
                     saveSectionCostCenterForproduct = null,
                     createItemFromOrder = null,
-                   companyIdFromOrder = null,
+                    companyIdFromOrder = null,
                     searchFilter = ko.observable(),
 
                     // Show
-                show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem) {
-                    orderId = oId;
-                    currencySymbol(currencySym);
-                    afterAddCostCenter = afterAddCostCenterCallback;
-                    costCentresFromOrders = costCentresBaseData;
-                    view.showProductFromRetailStoreModal();
-                    companyIdFromOrder = companyId;
-                    saveSectionCostCenterForproduct = saveSectionCostCenter;
-                    createItemFromOrder = createItem;
-                    getItemsByCompanyId();
+                    show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem) {
+                        resetFields();
+                        orderId = oId;
+                        currencySymbol(currencySym);
+                        afterAddCostCenter = afterAddCostCenterCallback;
+                        costCentresFromOrders = costCentresBaseData;
+                        view.showProductFromRetailStoreModal();
+                        companyIdFromOrder = companyId;
+                        saveSectionCostCenterForproduct = saveSectionCostCenter;
+                        createItemFromOrder = createItem;
+                        getItemsByCompanyId();
+                    },
+                resetFields = function() {
+                    searchFilter(undefined);
                 },
-
                     // On Select fcosCost Center
                     onSelectCostCenter = function (costCenter) {
                         selectedCostCentre(costCenter);
@@ -96,7 +101,7 @@ define("common/addProduct.viewModel",
                     //Update Items Data On Item Selection
                     //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
                     updateItemsDataOnItemSelection = function (item) {
-                        //var v = item;
+                        selectedProductFromStore(item);
                         dataservice.getItemsDetailsByItemId({
                             itemId: item.id()
                         }, {
@@ -113,7 +118,7 @@ define("common/addProduct.viewModel",
                                     _.each(data.ItemPriceMatrices, function (itemPriceMatrix) {
                                         var itemToBePushed = new model.ItemPriceMatrix.Create(itemPriceMatrix);
                                         item.itemPriceMatrices.push(itemToBePushed);
-                                        if (item.isQtyRanged() == 2) {
+                                        if (item.isQtyRanged() == 2 && itemToBePushed.quantity() !== 0) {
                                             productQuantitiesList.push(itemToBePushed.quantity());
                                         }
                                     });
@@ -140,17 +145,18 @@ define("common/addProduct.viewModel",
                         newItem.id(counterForItem());
                         newItem.qty1NetTotal(totalProductPrice());
                         newItem = addSelectedAddOnsAsCostCenters(newItem);
+                        newItem.productType(1);
                         afterAddCostCenter(newItem);
                     },
                     onSaveRetailStoreProduct = function () {
                         createNewRetailStoreProduct();
                         onCloseProductFromRetailStore();
                     },
-                      onCloseProductFromRetailStore = function () {
-                          view.hideProductFromRetailStoreModal();
-                      },
-                     //req: In retail store case add selected addons as cost centers of new creating product
-                            //and make new cost center of name 'Web order Cost Center' in any case
+                    onCloseProductFromRetailStore = function () {
+                        view.hideProductFromRetailStoreModal();
+                    },
+                    //req: In retail store case add selected addons as cost centers of new creating product
+                    //and make new cost center of name 'Web order Cost Center' in any case
                     addSelectedAddOnsAsCostCenters = function (newItem) {
                         var sectionCostCenter = model.SectionCostCentre.Create({});
                         var counter = 0;
@@ -169,112 +175,109 @@ define("common/addProduct.viewModel",
                         return newItem;
                     },
 
-                     getStockCostCenterId = function (type) {
-                         var costCentreId;
-                         _.each(costCentresFromOrders, function (costCenter) {
-                             if (costCenter.Type == type) {
-                                 costCentreId = costCenter.CostCentreId;
-                             }
-                         });
-                         return costCentreId;
-                     },
-                           getPrice = function (listElementNumber, count) {
-                               if (count == 1) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType1();
-                               }
-                               else if (count == 2) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType2();
-                               }
-                               else if (count == 3) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType3();
-                               }
-                               else if (count == 4) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType4();
-                               }
-                               else if (count == 5) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType5();
-                               }
-                               else if (count == 6) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType6();
-                               }
-                               else if (count == 7) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType7();
-                               }
-                               else if (count == 8) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType8();
-                               }
-                               else if (count == 9) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType9();
-                               }
-                               else if (count == 10) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType10();
-                               }
-                               else if (count == 11) {
-                                   return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
-                               }
-                               // ReSharper disable once NotAllPathsReturnValue
-                           },
-                      //On Product From Retail Store update Item price matrix table and Add on Table 
-                            updateViewOnStockOptionChange = ko.computed(function () {
-                                if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
-                                    return;
-                                }
-                                var count = 0;
-                                _.each(selecteditem().itemStockOptions(), function (itemStockOption) {
-                                    count = count + 1;
-                                    if (itemStockOption.id() == selectedStockItem()) {
-                                        selectedStockOptionName(itemStockOption.label());
-                                        selectedStockOptionSequenceNumber(count);
-                                        selectedStockOption(itemStockOption);
-                                    }
-                                });
-                            }),
+                    getStockCostCenterId = function (type) {
+                        var costCentreId;
+                        _.each(costCentresFromOrders, function (costCenter) {
+                            if (costCenter.Type == type) {
+                                costCentreId = costCenter.CostCentreId;
+                            }
+                        });
+                        return costCentreId;
+                    },
+                    getPrice = function (listElementNumber, count) {
+                        if (count == 1) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType1();
+                        }
+                        else if (count == 2) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType2();
+                        }
+                        else if (count == 3) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType3();
+                        }
+                        else if (count == 4) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType4();
+                        }
+                        else if (count == 5) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType5();
+                        }
+                        else if (count == 6) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType6();
+                        }
+                        else if (count == 7) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType7();
+                        }
+                        else if (count == 8) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType8();
+                        }
+                        else if (count == 9) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType9();
+                        }
+                        else if (count == 10) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType10();
+                        }
+                        else if (count == 11) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
+                        }
+                        // ReSharper disable once NotAllPathsReturnValue
+                    },
+                    //On Product From Retail Store update Item price matrix table and Add on Table 
+                    updateViewOnStockOptionChange = ko.computed(function () {
+                        if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
+                            return;
+                        }
+                        var count = 0;
+                        _.each(selecteditem().itemStockOptions(), function (itemStockOption) {
+                            count = count + 1;
+                            if (itemStockOption.id() == selectedStockItem()) {
+                                selectedStockOptionName(itemStockOption.label());
+                                selectedStockOptionSequenceNumber(count);
+                                selectedStockOption(itemStockOption);
+                            }
+                        });
+                    }),
                     //Calculate Total Price
                     // ReSharper disable once UnusedLocals
-                        calculateTotalPrice = ko.computed(function () {
-                            //selecteditem().itemStockOptions()[0].itemAddonCostCentres()
-                            //selectedStockOption().itemAddonCostCentres()
-                            var totalPrice = 0;
-                            var counter = 0;
-                            if (selecteditem() != undefined && selecteditem().isQtyRanged() == 2) {
-                                _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
-                                    counter = counter + 1;
-                                    if (priceMatrix.quantity() == selectedProductQuanity()) {
-                                        totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
+                    calculateTotalPrice = ko.computed(function () {
+                        //selecteditem().itemStockOptions()[0].itemAddonCostCentres()
+                        //selectedStockOption().itemAddonCostCentres()
+                        var totalPrice = 0;
+                        var counter = 0;
+                        if (selecteditem() != undefined && selecteditem().isQtyRanged() == 2) {
+                            _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
+                                counter = counter + 1;
+                                if (priceMatrix.quantity() == selectedProductQuanity()) {
+                                    totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
+                                }
+                            });
+                            if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
+                                _.each(selectedStockOption().itemAddonCostCentres(), function (stockOption) {
+                                    if (stockOption.isSelected()) {
+                                        totalPrice = totalPrice + stockOption.totalPrice();
                                     }
                                 });
-                                if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
-                                    _.each(selectedStockOption().itemAddonCostCentres(), function (stockOption) {
-                                        if (stockOption.isSelected()) {
-                                            totalPrice = totalPrice + stockOption.totalPrice();
-                                        }
-                                    });
-                                }
-                                totalProductPrice(totalPrice);
                             }
-                            else if (selecteditem() != undefined && selecteditem().isQtyRanged() == 1) {
-                                //totalPrice = parseInt(selectedProductQuanity());
-                                //var qtyInLimit = false;
-                                counter = 0;
-                                _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
-                                    counter = counter + 1;
-                                    if (priceMatrix.qtyRangedFrom() <= parseInt(selectedProductQuanity()) && priceMatrix.qtyRangedTo() >= parseInt(selectedProductQuanity())) {
-                                        totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
+                            totalProductPrice(totalPrice);
+                        }
+                        else if (selecteditem() != undefined && selecteditem().isQtyRanged() == 1) {
+                            //totalPrice = parseInt(selectedProductQuanity());
+                            //var qtyInLimit = false;
+                            counter = 0;
+                            _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
+                                counter = counter + 1;
+                                if (priceMatrix.qtyRangedFrom() <= parseInt(selectedProductQuanity()) && priceMatrix.qtyRangedTo() >= parseInt(selectedProductQuanity())) {
+                                    totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
+                                }
+                            });
+                            if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
+                                _.each(selectedStockOption().itemAddonCostCentres(), function (stockOption) {
+                                    if (stockOption.isSelected()) {
+                                        totalPrice = totalPrice + stockOption.totalPrice();
                                     }
                                 });
-                                if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
-                                    _.each(selectedStockOption().itemAddonCostCentres(), function (stockOption) {
-                                        if (stockOption.isSelected()) {
-                                            totalPrice = totalPrice + stockOption.totalPrice();
-                                        }
-                                    });
-                                }
-                                totalProductPrice(totalPrice);
                             }
-                        })
-
-
-                ;
+                            totalProductPrice(totalPrice);
+                        }
+                    });
                 return {
                     //Arrays
                     onSaveRetailStoreProduct: onSaveRetailStoreProduct,
@@ -297,7 +300,8 @@ define("common/addProduct.viewModel",
                     currencySymbol: currencySymbol,
                     updateViewOnStockOptionChange: updateViewOnStockOptionChange,
                     searchFilter: searchFilter,
-                    getItemsByCompanyId: getItemsByCompanyId
+                    getItemsByCompanyId: getItemsByCompanyId,
+                    selectedProductFromStore: selectedProductFromStore
                 };
             })()
         };

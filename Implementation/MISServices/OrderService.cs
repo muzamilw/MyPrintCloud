@@ -500,6 +500,7 @@ namespace MPC.Implementation.MISServices
                                          CreateItem = CreateItem,
                                          DeleteItem = DeleteItem,
                                          CreateItemSection = CreateItemSection,
+                                         DeleteItemSection = DeleteItemSection,
                                          CreateSectionCostCentre = CreateSectionCostCentre,
                                          DeleteSectionCostCenter = DeleteSectionCostCentre,
                                          CreateItemAttachment = CreateItemAttachment,
@@ -539,16 +540,23 @@ namespace MPC.Implementation.MISServices
                        SystemUsers = systemUserRepository.GetAll(),
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
                        PaymentMethods = paymentMethodRepository.GetAll(),
-                       Markups = _markupRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
-                       StockCategories = stockCategoryRepository.GetAll(),
                       // ChartOfAccounts = chartOfAccountRepository.GetAll(),
-                       PaperSizes = paperSizeRepository.GetAll(),
-                       InkPlateSides = inkPlateSideRepository.GetAll(),
-                       Inks = stockItemRepository.GetStockItemOfCategoryInk(),
-                       InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem()
                    };
+        }
+
+        public ItemDetailBaseResponse GetBaseDataForItemDetails()
+        {
+            return new ItemDetailBaseResponse
+            {
+                Markups = _markupRepository.GetAll(),
+                PaperSizes = paperSizeRepository.GetAll(),
+                InkPlateSides = inkPlateSideRepository.GetAll(),
+                Inks = stockItemRepository.GetStockItemOfCategoryInk(),
+                InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
+            };
+            
         }
 
         /// <summary>
@@ -964,7 +972,7 @@ namespace MPC.Implementation.MISServices
                                 isaddcropMark = true;
                             }
 
-                            templateRepository.regeneratePDFs(TemplateID, OrganisationId, isaddcropMark, mutlipageMode, drawBleedArea, bleedsize);
+                            orderRepository.regeneratePDFs(TemplateID, OrganisationId, isaddcropMark, mutlipageMode, drawBleedArea, bleedsize);
                             //LocalTemplateDesigner.TemplateSvcSPClient oLocSvc = new LocalTemplateDesigner.TemplateSvcSPClient();b
                             //oLocSvc.regeneratePDFs(TemplateID, isaddcropMark, drawBleedArea, mutlipageMode);
 

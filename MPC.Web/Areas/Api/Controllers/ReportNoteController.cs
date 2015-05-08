@@ -11,6 +11,8 @@ using MPC.WebBase.Mvc;
 using MPC.MIS.Areas.Api.ModelMappers;
 using System.Web;
 using MPC.Models.ResponseModels;
+using MPC.ExceptionHandling;
+using MPC.Models.RequestModels;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -53,6 +55,32 @@ namespace MPC.MIS.Areas.Api.Controllers
             return reportService.GetReportNoteByCompanyID(CompanyID).Select(c => c.CreateFrom());
 
         }
+
+        [ApiException]
+        [CompressFilterAttribute]
+        public void Post(ReportNoteRequestModel reportNotes)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                     reportService.Update(reportNotes.ReportsBanners);
+                   
+
+                }
+                catch (Exception exception)
+                {
+                    throw new MPCException(exception.Message, 0);
+                }
+
+            }
+            else
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+           
+        }
+
         #endregion
     }
 }

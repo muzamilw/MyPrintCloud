@@ -90,6 +90,7 @@ function a0(fontName, fontFileName) {
     } else {
         html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".eot" + '); src: url(' + path + fontFileName + ".eot?#iefix" + ') format(" embedded-opentype"), url(' + path + fontFileName + ".woff" + ') format("woff"),  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
     }
+    console.log(fontName);
     $('head').append(html);
 }
 
@@ -231,6 +232,7 @@ function c0(cCanvas, TOC) {
     TOL.IsEditable = TOC.IsEditable;
     TOL.IsTextEditable = TOC.IsTextEditable;
     TOL.AutoShrinkText = TOC.AutoShrinkText;
+    TOL.hasInlineFontStyle = TOC.hasInlineFontStyle;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
     TOL.IsUnderlinedText = TOC.IsUnderlinedText;
@@ -332,8 +334,10 @@ function c2_01(OPT) {
 
             }
             if (OPT.type == "path-group") {
-                //IT.textStyles = OPT.toDataURL();
-            }
+                //IT.textStyles = OPT.toDataURL(); 
+                
+            } //console.log(IT.ContentString + " " + OPT.type);
+           // console.log(OPT.toSVG());
             if (OPT.textAlign == "left")
                 IT.Allignment = 1;
             else if (OPT.textAlign == "center")
@@ -376,6 +380,7 @@ function c2_01(OPT) {
             IT.IsOverlayObject = OPT.IsOverlayObject;
             IT.IsTextEditable = OPT.IsTextEditable;
             IT.AutoShrinkText = OPT.AutoShrinkText;
+            IT.hasInlineFontStyle = OPT.hasInlineFontStyle;
             IT.IsHidden = OPT.IsHidden;
             IT.IsEditable = OPT.IsEditable;
             return;
@@ -438,6 +443,7 @@ function c8(cCanvas, CO) {
     COL.IsOverlayObject = CO.IsOverlayObject;
     COL.IsTextEditable = CO.IsTextEditable;
     COL.AutoShrinkText = CO.AutoShrinkText;
+    COL.hasInlineFontStyle = CO.hasInlineFontStyle;
     COL.IsHidden = CO.IsHidden;
     COL.IsEditable = CO.IsEditable;
     COL.selectable = objectsSelectable;
@@ -481,6 +487,7 @@ function c9(cCanvas, RO) {
     ROL.IsOverlayObject = RO.IsOverlayObject;
     ROL.IsTextEditable = RO.IsTextEditable;
     ROL.AutoShrinkText = RO.AutoShrinkText;
+    ROL.hasInlineFontStyle = RO.hasInlineFontStyle;
     ROL.IsHidden = RO.IsHidden;
     ROL.IsEditable = RO.IsEditable;
     ROL.setOpacity(RO.Opacity);
@@ -528,6 +535,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.IsEditable = IO.IsEditable;
         loadedObject.IsTextEditable = IO.IsTextEditable;
         loadedObject.AutoShrinkText = IO.AutoShrinkText;
+        loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
         loadedObject.setOpacity(IO.Opacity);
         loadedObject.selectable = objectsSelectable;
         if (IO.IsPositionLocked == true) {
@@ -585,6 +593,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.IsEditable = IO.IsEditable;
         loadedObject.IsTextEditable = IO.IsTextEditable;
         loadedObject.AutoShrinkText = IO.AutoShrinkText;
+        loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
         if (IO.IsPositionLocked == true) {
             loadedObject.lockMovementX = true;
             loadedObject.lockMovementY = true;
@@ -643,6 +652,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.IsEditable = IO.IsEditable;
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;
+        IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
         IOL.ImageClippedInfo = IO.ClippedInfo;
         IOL.selectable = objectsSelectable;
         IOL.setOpacity(IO.Opacity);
@@ -1338,8 +1348,8 @@ function fu02UI() {
                 k12(fz);
             },
             stop: function (event, ui) {
-                var fz = $('#BtnFontSize').val();
-                k12(fz);
+                var fz = $('#BtnFontSize').val(); 
+                k12Update(fz);
             }
         });
         $("#txtLineHeight").spinner({
@@ -1384,6 +1394,11 @@ function fu02UI() {
             change: k5,
             stop: k5
         });
+    }
+
+    if (IsCalledFrom != 3)
+    {
+        $("#Homebtn").css("display", "none");
     }
     if (IsCalledFrom == 3 || IsCalledFrom == 4) {
         $(".previewBtnContainer").css("display", "none");
@@ -2752,7 +2767,62 @@ function k12(fz) {
         $("#BtnFontSizeRetail").val(k13(D1AO.get('fontSize')));
     }
 }
+function k12Update(fz) {
+    var pt = k14(fz);
+    var D1AO = canvas.getActiveObject();
+    if (parseFloat(pt)) {
+        if (pt <= 400) {
+            var fontSize = parseFloat(pt);
+            fontSize = fontSize.toFixed(2);
+            fontSize = parseFloat(fontSize);
 
+            if (D1AO) {
+                if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
+                    if (D1AO.hasInlineFontStyle == true && !D1AO.isEditing)
+                    {
+                        $("#layer").css("background-color", "rgb(112, 114, 119)");
+                        CustomeAlertBoxDesigner("Inline font size applied. Are you sure you want to override existing inline font styles? ", "k12CallBack(" + fontSize + ")");
+                    } else {
+                        setActiveStyle("font-Size", fontSize)
+                        canvas.renderAll();
+                    }
+                   
+                }
+            }
+        } else {
+            alert("Please enter valid font size!");
+            $("#BtnFontSizeRetail").val(k13(D1AO.get('fontSize')));
+        }
+    } else {
+        alert("Please enter valid font size!");
+        $("#BtnFontSizeRetail").val(k13(D1AO.get('fontSize')));
+    }
+}
+function k12CallBack(fontSize) {
+    $("#layer").css("background-color", "transparent");
+    document.getElementById("layer").style.display = "none";
+    document.getElementById("innerLayer").style.display = "none";
+
+    var D1A0 = canvas.getActiveObject();
+    if (D1A0 && (D1A0.type === 'text' || D1A0.type === 'i-text'))
+    {
+        if (D1A0.customStyles != null)
+        {
+            for (var line in D1A0.customStyles) {
+                for (var prop in D1A0.customStyles[line]) {
+                    if (prop == "font-Size")
+                    {
+                        delete D1A0.customStyles[line][prop];
+                    }
+                 }
+            }
+            D1A0.hasInlineFontStyle = false;
+            setActiveStyle("font-Size", fontSize)
+            canvas.renderAll();
+        }
+        
+    }
+}
 function k13(e) {
     if (parseFloat(e)) {
         var ez = parseFloat(e);
@@ -3549,6 +3619,7 @@ function k31(cCanvas, IO) {
         IOL.IsOverlayObject = IO.IsOverlayObject;
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;
+        IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
         IOL.IsHidden = IO.IsHidden;
         IOL.IsEditable = IO.IsEditable;
         IOL.selectable = objectsSelectable;

@@ -48,8 +48,10 @@ define("common/stockItem.viewModel",
                         // Reset Category
                         stockDialogCatFilter(undefined);
                     },
+                     currency = ko.observable(),
                     // Show
-                    show = function (afterSelectCallback, stockCategoryId, isStockCategoryFilterVisible) {
+                    show = function (afterSelectCallback, stockCategoryId, isStockCategoryFilterVisible, currencySmb) {
+                        currency(currencySmb);
                         resetStockItems();
                         view.showDialog();
                         if (stockCategoryId) {
@@ -144,7 +146,8 @@ define("common/stockItem.viewModel",
                     onSelectStockItem: onSelectStockItem,
                     initialize: initialize,
                     categories:categories,
-                    show: show
+                    show: show,
+                    currency: currency
                 };
             })()
         };

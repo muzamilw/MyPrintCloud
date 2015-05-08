@@ -649,6 +649,10 @@ namespace MPC.Models.Common
 
             try
             {
+                if (list == null) 
+                {
+                    list = new List<InputQueueItem>();
+                }
                 //add the item if count is zero
                 if (list.Count == 0)
                 {

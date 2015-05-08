@@ -62,6 +62,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Export.Excel.v7.dll</HintPath>
     </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Html.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Export.Html.v7.dll</HintPath>
+    </Reference>
     <Reference Include="GrapeCity.ActiveReports.Export.Pdf.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Export.Pdf.v7.dll</HintPath>
@@ -323,6 +327,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemDetailBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -428,6 +433,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ReportparamMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
@@ -520,6 +526,7 @@
     <Compile Include="Areas\Api\Models\InvoiceListResponseModel.cs" />
     <Compile Include="Areas\Api\Models\InvoicesListModel.cs" />
     <Compile Include="Areas\Api\Models\ItemAttachment.cs" />
+    <Compile Include="Areas\Api\Models\ItemDetailBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
@@ -545,6 +552,9 @@
     <Compile Include="Areas\Api\Models\ReportCategoryRequestModel.cs" />
     <Compile Include="Areas\Api\Models\ReportManagerResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ReportNote.cs" />
+    <Compile Include="Areas\Api\Models\Reportparam.cs" />
+    <Compile Include="Areas\Api\Models\ReportparamComboCollection.cs" />
+    <Compile Include="Areas\Api\Models\ReportparamResponse.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
@@ -855,6 +865,10 @@
     <Content Include="Areas\Common\Scripts\addCostCenter.model.js" />
     <Content Include="Areas\Common\Scripts\addCostCenter.view.js" />
     <Content Include="Areas\Common\Scripts\addCostCenter.viewModel.js" />
+    <Content Include="Areas\Common\Scripts\itemDetail.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\itemDetail.model.js" />
+    <Content Include="Areas\Common\Scripts\itemDetail.view.js" />
+    <Content Include="Areas\Common\Scripts\itemDetail.viewModel.js" />
     <Content Include="Areas\Common\Scripts\reportManager.dataservice.js" />
     <Content Include="Areas\Common\Scripts\reportManager.model.js" />
     <Content Include="Areas\Common\Scripts\reportManager.view.js" />
@@ -1097,12 +1111,14 @@
     <Content Include="Content\Images\loaders\horizontal\058.gif" />
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
+    <Content Include="Content\Images\OrderSectionCover.png" />
     <Content Include="Content\Images\Ptv\back-down.gif" />
     <Content Include="Content\Images\Ptv\back-downP.gif" />
     <Content Include="Content\Images\Ptv\back-up.gif" />
     <Content Include="Content\Images\Ptv\back-upP.gif" />
     <Content Include="Content\Images\Ptv\back-upW.gif" />
     <Content Include="Content\Images\Ptv\dotTexture.gif" />
+    <Content Include="Content\Images\down-arrow.jpg" />
     <Content Include="Content\Images\Ptv\front-down.gif" />
     <Content Include="Content\Images\Ptv\front-downP.gif" />
     <Content Include="Content\Images\Ptv\front-up.gif" />
@@ -2077,6 +2093,13 @@
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\ReportBanner.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_RegionalSettings.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_ItemDetail.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_LanguageEditor.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_Markups.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_OrderCostCenterQuantity.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_OrganisationDetail.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\test.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -2159,6 +2182,8 @@
     <Content Include="Scripts\moment-with-langs.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\numeral\numeral.js" />
+    <Content Include="Scripts\numeral\numeral.min.js" />
     <Content Include="Scripts\Plugins\charts\flot\excanvas.min.js" />
     <Content Include="Scripts\Plugins\charts\flot\index.html" />
     <Content Include="Scripts\Plugins\charts\flot\jquery.flot.grow.js" />
@@ -3198,7 +3223,6 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Estimate\EstimateDetail.cshtml" />
     <Content Include="Views\Estimate\EstimatesList.cshtml" />
-    <Content Include="Views\Estimate\ItemDetail.cshtml" />
     <Content Include="Views\Estimate\SectionDetail.cshtml" />
     <Content Include="Views\Home\LoginFull.cshtml" />
     <Content Include="Views\Order\OrderDetail.cshtml" />
@@ -3278,6 +3302,7 @@
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
+    <Folder Include="Areas\Api\Views\ItemDetailBase\" />
     <Folder Include="Areas\Api\Views\LookupMethod\" />
     <Folder Include="Areas\Api\Views\Machine\" />
     <Folder Include="Areas\Api\Views\OrderRetailStoreDetail\" />

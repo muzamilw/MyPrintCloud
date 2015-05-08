@@ -16,6 +16,11 @@ namespace MPC.Models.ModelMappers
         public Func<ItemSection> CreateItemSection { get; set; }
 
         /// <summary>
+        /// Action to Delete Item Section
+        /// </summary>
+        public Action<ItemSection> DeleteItemSection { get; set; }
+
+        /// <summary>
         /// Action to create a Section Cost Center
         /// </summary>
         public Func<SectionCostcentre> CreateSectionCostCentre { get; set; }

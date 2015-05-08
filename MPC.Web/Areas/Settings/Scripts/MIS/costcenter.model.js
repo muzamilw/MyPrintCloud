@@ -154,12 +154,12 @@
         errors = ko.validation.group({
             name: name,
             type: type,
-            setupCost: setupCost,
-            pricePerUnitQuantity: pricePerUnitQuantity,
-            minimumCost: minimumCost,
-            perHourPrice: perHourPrice,
-            timeQuestionString: timeQuestionString,
-            quantityQuestionString: quantityQuestionString
+            setupCost: setupCost
+           // pricePerUnitQuantity: pricePerUnitQuantity,
+          //  minimumCost: minimumCost,
+           // perHourPrice: perHourPrice,
+           // timeQuestionString: timeQuestionString,
+            //quantiQuestionString
         }),
         isValid = ko.computed(function () {
             return errors().length === 0 ? true : false;;
@@ -452,11 +452,11 @@
         return ccInstruction;
     };
     NewCostCenterInstruction = function () {
-        var cci = new costCenterInstruction(0, 'New Instruction', '1', 0);
+        var cci = new costCenterInstruction(0, 'Type the Question that will be prompted to the user', '1', 0);
         return cci;
     };
     NewInstructionChoice = function () {
-        var cic = new costCenterInstructionChoice(0, 'New Choice', 0);
+        var cic = new costCenterInstructionChoice(0, 'Type the answer', 0);
         return cic;
     };
     costCenterInstructionChoice = function (specifiedChoiceId, specifiedChoice, specifiedInstructionId) {

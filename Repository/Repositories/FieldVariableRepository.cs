@@ -112,6 +112,16 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null).ToList();
         }
+
+        /// <summary>
+        /// Get system variables and company variables
+        /// </summary>
+        /// <param name="companyID"></param>
+        /// <returns></returns>
+        public List<FieldVariable> GetSystemAndCompanyVariables(long companyID)
+        {
+            return db.FieldVariables.Where(g=>g.IsSystem == true || g.CompanyId == companyID).ToList();
+        }
         #endregion
     }
 }

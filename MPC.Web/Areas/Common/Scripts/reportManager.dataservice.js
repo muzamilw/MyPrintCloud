@@ -14,12 +14,17 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    amplify.request.define('getreportparamsbyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/ReportManager',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     amplify.request.define('getreportcategories', 'ajax', {
                         url: ist.siteUrl + '/Api/ReportManager',
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                    
 
                     isInitialized = true;
                 }
@@ -45,11 +50,20 @@
                     error: callbacks.error,
                 });
             };
-        
+        getreportparamsbyId = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getreportparamsbyId',
+                data: params,
+                success: callbacks.success,
+                error: callbacks.error,
+            });
+        };
 
         return {
             getreports: getreports,
-            getreportcategories: getreportcategories
+            getreportcategories: getreportcategories,
+            getreportparamsbyId: getreportparamsbyId
            
         };
     })();

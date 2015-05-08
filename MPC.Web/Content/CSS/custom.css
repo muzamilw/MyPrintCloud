@@ -285,7 +285,70 @@ div#spinner {
       font-size:23px;
       font-weight:600;
   } 
+  .font24px{
+      font-size:24px;
+  }
   
 .selectedReport{
             background: none repeat scroll 0 0 #E5E5ED!important;
         }
+
+
+
+.ThoumbnailCostCenter{
+    color: lightgray;
+  font-size: 0.875em;
+  margin-top: 43px;
+  padding-left: 25px;
+}
+.selectedRow{
+            background: none repeat scroll 0 0 #E5E5ED!important;
+        }
+
+a.reportAnchor a:hover{
+    text-decoration: underline;
+}
+
+
+
+.selectedRow{
+            background: none repeat scroll 0 0 #E5E5ED!important;
+        }
+
+a.reportAnchor a:hover{
+    text-decoration: underline;
+}
+.height60{
+    height:60px;
+}
+
+.btn-yellow {
+    background-color: #FFFF00;
+    border-color: #FFD400;
+    color:#FFFFFF;
+}
+
+    .btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow.active, .open .dropdown-toggle.btn-yellow {
+        background-color: #FFD400;
+        color:#FFFFFF;
+    }
+
+    .bigcheckbox {
+  float: left;
+  margin: 0px !important;
+  width: 20px;
+  height: 20px;
+}
+    .notes{
+        background-color:#FCFBB6;
+    }
+
+    
+.imgtext { 
+   position: absolute; 
+   top: 61px; 
+   left: 5px; 
+   background: transparent;
+  border: none;
+  width:160px;
+}

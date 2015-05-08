@@ -41,7 +41,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Flag Color
             flagColor = ko.observable(specifiedFlagColor || undefined),
              // Estimate Total
-            estimateTotal = ko.observable(undefined),
+            estimateTotal = ko.observable(undefined).extend({ numberInput: ist.numberFormat }),
             // Flag Id
             sectionFlagId = ko.observable(specifiedSectionFlagId || undefined),
             // Order Code

@@ -33,7 +33,7 @@
                         <div class="tab-pane fade in active" id="tab-All">
                             <div class="main-box-body main-box clearfix">
                                 <div class="table-responsive">
-                                    <table id="OrderListtbl" class="table user-list">
+                                    <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th class="col-lg-1"><span>&nbsp;</span></th>
@@ -134,7 +134,7 @@
     </script>
     @* List View Template *@
     <script id="orderListViewTemplate" type="text/html">
-        <tr>
+        <tr data-bind=" click: $root.editOrder" style="cursor: pointer">
             <td>
                 <!-- ko if: isDirectSale()==true -->
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/forwardicon.png")" alt="" />
@@ -144,7 +144,7 @@
                 <!-- /ko -->
             </td>
             <td>
-                <a data-bind="text: companyName, click: $root.editOrder" style="cursor:pointer;" class="user-link"></a>
+                <a href="#" data-bind="text: companyName, click: undefined" style="cursor:pointer;" class="user-link"></a>
                 <span class="user-subhead">
                     <span data-bind="text: name"></span>
                     <span data-bind="text: ' '"></span>
@@ -162,12 +162,13 @@
             </td>
 
             <td style="text-align: right">
-                <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() +estimateTotal():''"></span>
+                <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() :''"></span>
+                <span data-bind="numberInput:estimateTotal()!==undefined ? estimateTotal():''"></span>
             </td>
 
         </tr>
     </script>
-    
+
     <script id="allOrderListViewTemplate" type="text/html">
         <tr data-bind=" click: $root.editOrder" style="cursor: pointer">
             <td>
@@ -179,7 +180,7 @@
                 <!-- /ko -->
             </td>
             <td>
-                <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
+                <a href="#" data-bind="text: companyName, click: undefined" style="cursor:pointer;" class="user-link"></a>
                 <span class="user-subhead">
                     <span data-bind="text: name"></span>
                     <span data-bind="text: ' '"></span>
@@ -199,7 +200,8 @@
                 <span data-bind="text: status"></span>
             </td>
             <td style="text-align: right">
-                <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() +estimateTotal():''"></span>
+                <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() :''"></span>
+                <span data-bind="numberInput:estimateTotal()!==undefined ? estimateTotal():''"></span>
             </td>
 
         </tr>
@@ -234,21 +236,18 @@
             <!-- /ko -->
         </div>
     </script>
-    
-    
+
+
 </div>
 
 
 <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
 <script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
 <script>
-    $(document).ready(function ()
-    {
+    $(document).ready(function () {
         var page = Request.QueryString("to");
-        if (page != null)
-        {
-            if (page == 'ord')
-            {
+        if (page != null) {
+            if (page == 'ord') {
                 $("#all-orders").removeClass("active");
                 $("#tab-All").removeClass("active");
 
@@ -261,8 +260,7 @@
                 $("#pending-orders").addClass("active");
                 $("#tab-PendingOrders").addClass("active");
             }
-            else if (page == 'prd')
-            {
+            else if (page == 'prd') {
                 $("#all-orders").removeClass("active");
                 $("#tab-All").removeClass("active");
 
@@ -275,8 +273,7 @@
                 $("#in-production").addClass("active");
                 $("#tab-InProduction").addClass("active");
             }
-            else if(page == 'com')
-            {
+            else if (page == 'com') {
                 $("#all-orders").removeClass("active");
                 $("#tab-All").removeClass("active");
 

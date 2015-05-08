@@ -80,8 +80,8 @@ namespace MPC.Repository.Repositories
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<PaperSize, bool>> query =
                 paperSize =>
-                    (isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified
-                    && paperSize.OrganisationId==OrganisationId && paperSize.Region==request.Region);
+                    ((isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified)
+                    && paperSize.OrganisationId == OrganisationId && paperSize.Region == request.Region && (paperSize.IsArchived == false || paperSize.IsArchived == null));
 
             var rowCount = DbSet.Count(query);
             var paperSheets = request.IsAsc
@@ -107,11 +107,11 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                
+
 
                 return db.PaperSizes.Where(o => o.OrganisationId == OrganisationID).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -120,12 +120,12 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                foreach(var size in sizes)
+                foreach (var size in sizes)
                 {
                     size.OrganisationId = OrganisationID;
                     db.PaperSizes.Add(size);
                 }
-              
+
             }
             catch (Exception ex)
             {
@@ -139,7 +139,7 @@ namespace MPC.Repository.Repositories
             {
                 return db.PaperSizes.Where(c => c.PaperSizeId == PSSID).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }

@@ -114,12 +114,12 @@ define("itemJobStatus/itemJobStatus.viewModel",
                         });
                     },
                     //#region Utility funntions
-                    needAssigningTotal = ko.observable(0),
-                    inStudioTotal = ko.observable(0),
-                    inPrintTotal = ko.observable(0),
-                    inPostPressTotal = ko.observable(0),
-                    inReadyForShippingTotal = ko.observable(0),
-                    inInvoiceAndShippedTotal = ko.observable(0),
+                    needAssigningTotal = ko.observable(0).extend({ numberInput: ist.numberFormat }),
+                    inStudioTotal = ko.observable(0).extend({ numberInput: ist.numberFormat }),
+                    inPrintTotal = ko.observable(0).extend({ numberInput: ist.numberFormat }),
+                    inPostPressTotal = ko.observable(0).extend({ numberInput: ist.numberFormat }),
+                    inReadyForShippingTotal = ko.observable(0).extend({ numberInput: ist.numberFormat }),
+                    inInvoiceAndShippedTotal = ko.observable(0).extend({ numberInput: ist.numberFormat }),
 
                     calculateTotal = ko.computed(function () {
                         needAssigningTotal(0);

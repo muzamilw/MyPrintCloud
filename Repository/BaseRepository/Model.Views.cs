@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets51CF3A6BF70F61A648C14553BE2105AA747028D6C8CC3DD22C6D633D2CB20DD5))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsD947BCAD82EC76741185371C62877A1F0B3BB69AC807D8E076676D97372D7F63))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets51CF3A6BF70F61A648C14553BE2105AA747028D6C8CC3DD22C6D633D2CB20DD5 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsD947BCAD82EC76741185371C62877A1F0B3BB69AC807D8E076676D97372D7F63 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets51CF3A6BF70F61A648C14553BE2105AA747028D6C8CC3DD22C6D633D2CB20DD5()
+        public ViewsForBaseEntitySetsD947BCAD82EC76741185371C62877A1F0B3BB69AC807D8E076676D97372D7F63()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "0a003228eae00a74b7b93659b5948e0d17e3b3a83a0d88bd66b168d5cb9da6f3";
-            this.HashOverAllExtentViews = "25f809ff0311f473eac3db7eb05ca9c9e79032250050c2db749d148d74bad6aa";
-            this.ViewCount = 332;
+            this.HashOverMappingClosure = "830631c1295c0bbc73a5833682fd590a15946a9bb82334028df107cd6b46f74b";
+            this.HashOverAllExtentViews = "2515208fb7e12327a136ff2bc8b06832940b5e9b2eac3fabb8792f9cd5f1a527";
+            this.ViewCount = 334;
         }
         
         /// <Summary>
@@ -1364,6 +1364,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 331))
             {
                 return GetView331();
+            }
+            if ((index == 332))
+            {
+                return GetView332();
+            }
+            if ((index == 333))
+            {
+                return GetView333();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -12820,6 +12828,68 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("           T.UserNotes AS OrderReportView_UserNotes, \r\n            True AS _from");
             viewString.Append("0\r\n        FROM DomainModelsStoreContainer.vw_OrderReport AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.OrderReportViews", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.Reportparam
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView332()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Reportparam", "\r\n    SELECT VALUE -- Constructing Reportparam\r\n        [DomainModels.Store.Repor" +
+                    "tparam](T1.Reportparam_ParmId, T1.Reportparam_ParmName, T1.Reportparam_Caption1," +
+                    " T1.Reportparam_ReportId, T1.Reportparam_ControlType, T1.Reportparam_ComboTableN" +
+                    "ame, T1.Reportparam_ComboIDFieldName, T1.Reportparam_ComboTextFieldName, T1.Repo" +
+                    "rtparam_CriteriaFieldName, T1.Reportparam_OrderByFieldName, T1.Reportparam_SameA" +
+                    "sPArmId, T1.Reportparam_Caption2, T1.Reportparam_Operator, T1.Reportparam_Logica" +
+                    "lOperator, T1.Reportparam_DefaultValue1, T1.Reportparam_DefaultValue2, T1.Report" +
+                    "param_MinValue, T1.Reportparam_MaxValue, T1.Reportparam_FilterType, T1.Reportpar" +
+                    "am_SortOrder)\r\n    FROM (\r\n        SELECT \r\n            T.ParmId AS Reportparam_" +
+                    "ParmId, \r\n            T.ParmName AS Reportparam_ParmName, \r\n            T.Captio" +
+                    "n1 AS Reportparam_Caption1, \r\n            T.ReportId AS Reportparam_ReportId, \r\n" +
+                    "            T.ControlType AS Reportparam_ControlType, \r\n            T.ComboTable" +
+                    "Name AS Reportparam_ComboTableName, \r\n            T.ComboIDFieldName AS Reportpa" +
+                    "ram_ComboIDFieldName, \r\n            T.ComboTextFieldName AS Reportparam_ComboTex" +
+                    "tFieldName, \r\n            T.CriteriaFieldName AS Reportparam_CriteriaFieldName, " +
+                    "\r\n            T.OrderByFieldName AS Reportparam_OrderByFieldName, \r\n            " +
+                    "T.SameAsPArmId AS Reportparam_SameAsPArmId, \r\n            T.Caption2 AS Reportpa" +
+                    "ram_Caption2, \r\n            T.Operator AS Reportparam_Operator, \r\n            T." +
+                    "LogicalOperator AS Reportparam_LogicalOperator, \r\n            T.DefaultValue1 AS" +
+                    " Reportparam_DefaultValue1, \r\n            T.DefaultValue2 AS Reportparam_Default" +
+                    "Value2, \r\n            T.MinValue AS Reportparam_MinValue, \r\n            T.MaxVal" +
+                    "ue AS Reportparam_MaxValue, \r\n            T.FilterType AS Reportparam_FilterType" +
+                    ", \r\n            T.SortOrder AS Reportparam_SortOrder, \r\n            True AS _fro" +
+                    "m0\r\n        FROM BaseDbContext.Reportparams AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.Reportparams
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView333()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Reportparams", "\r\n    SELECT VALUE -- Constructing Reportparams\r\n        [DomainModels.Reportpara" +
+                    "m](T1.Reportparam_ParmId, T1.Reportparam_ParmName, T1.Reportparam_Caption1, T1.R" +
+                    "eportparam_ReportId, T1.Reportparam_ControlType, T1.Reportparam_ComboTableName, " +
+                    "T1.Reportparam_ComboIDFieldName, T1.Reportparam_ComboTextFieldName, T1.Reportpar" +
+                    "am_CriteriaFieldName, T1.Reportparam_OrderByFieldName, T1.Reportparam_SameAsPArm" +
+                    "Id, T1.Reportparam_Caption2, T1.Reportparam_Operator, T1.Reportparam_LogicalOper" +
+                    "ator, T1.Reportparam_DefaultValue1, T1.Reportparam_DefaultValue2, T1.Reportparam" +
+                    "_MinValue, T1.Reportparam_MaxValue, T1.Reportparam_FilterType, T1.Reportparam_So" +
+                    "rtOrder)\r\n    FROM (\r\n        SELECT \r\n            T.ParmId AS Reportparam_ParmI" +
+                    "d, \r\n            T.ParmName AS Reportparam_ParmName, \r\n            T.Caption1 AS" +
+                    " Reportparam_Caption1, \r\n            T.ReportId AS Reportparam_ReportId, \r\n     " +
+                    "       T.ControlType AS Reportparam_ControlType, \r\n            T.ComboTableName " +
+                    "AS Reportparam_ComboTableName, \r\n            T.ComboIDFieldName AS Reportparam_C" +
+                    "omboIDFieldName, \r\n            T.ComboTextFieldName AS Reportparam_ComboTextFiel" +
+                    "dName, \r\n            T.CriteriaFieldName AS Reportparam_CriteriaFieldName, \r\n   " +
+                    "         T.OrderByFieldName AS Reportparam_OrderByFieldName, \r\n            T.Sam" +
+                    "eAsPArmId AS Reportparam_SameAsPArmId, \r\n            T.Caption2 AS Reportparam_C" +
+                    "aption2, \r\n            T.Operator AS Reportparam_Operator, \r\n            T.Logic" +
+                    "alOperator AS Reportparam_LogicalOperator, \r\n            T.DefaultValue1 AS Repo" +
+                    "rtparam_DefaultValue1, \r\n            T.DefaultValue2 AS Reportparam_DefaultValue" +
+                    "2, \r\n            T.MinValue AS Reportparam_MinValue, \r\n            T.MaxValue AS" +
+                    " Reportparam_MaxValue, \r\n            T.FilterType AS Reportparam_FilterType, \r\n " +
+                    "           T.SortOrder AS Reportparam_SortOrder, \r\n            True AS _from0\r\n " +
+                    "       FROM DomainModelsStoreContainer.Reportparam AS T\r\n    ) AS T1");
         }
     }
 }

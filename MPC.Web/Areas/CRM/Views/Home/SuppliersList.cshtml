@@ -67,14 +67,14 @@
                                         <div class="main-box no-header clearfix">
                                             <div class="main-box-body clearfix">
                                                 <div class="table-responsive">
-                                                    <table class="table user-list">
+                                                    <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
                                                                 @*<th><span>Company</span></th>
-                                                                    <th><span>Created</span></th>
-                                                                    <th class="text-center"><span>Status</span></th>
-                                                                    <th><span>Email</span></th>
-                                                                    <th>&nbsp;</th>*@
+                    <th><span>Created</span></th>
+                    <th class="text-center"><span>Status</span></th>
+                    <th><span>Email</span></th>
+                    <th>&nbsp;</th>*@
 
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Company</span></th>
@@ -124,10 +124,10 @@
 <script id="itemSupplierTemplate" type="text/html">
     <tr data-bind=" click: $root.onEditItem, css: { selectedRow: $data === $root.selectedSupplier}" style="cursor: pointer">
         <td>
-            <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+            <img style="width: 70%; max-width: 70%;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
         </td>
         <td>
-            <a href="#" class="user-link" data-bind="text: name"></a>
+            <a href="#" class="store-user-link" data-bind="text: name"></a>
             <span class="user-subhead" data-bind="text:defaultContact"></span>
         </td>
         <td data-bind="dateString: createdDate, datePattern: 'DD/MM/YYYY'"></td>

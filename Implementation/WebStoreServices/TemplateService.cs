@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
 using WebSupergoo.ABCpdf8;
 
@@ -938,7 +939,7 @@ namespace MPC.Implementation.WebStoreServices
 
         private void GetSVGAndDraw(ref Doc oPdf, TemplateObject oObject, string logoPath, int PageNo)
         {
-
+            logoPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content");
             XImage oImg = new XImage();
             Bitmap img = null;
             try
@@ -952,17 +953,17 @@ namespace MPC.Implementation.WebStoreServices
                 bFileExists = System.IO.File.Exists(FilePath);
                 if (bFileExists)
                 {
-                    DesignerSvgParser.MaximumSize = new Size(Convert.ToInt32(oObject.MaxWidth), Convert.ToInt32(oObject.MaxHeight));
-                    img = DesignerSvgParser.GetBitmapFromSVG(FilePath, oObject.ColorHex);
-                    if (oObject.Opacity != null)
-                    {
-                        // float opacity =float.Parse( oObject.Tint.ToString()) /100;
-                        if (oObject.Opacity != 1)
-                        {
-                            img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
-                        }
-                    }
-                    oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
+                    //DesignerSvgParser.MaximumSize = new Size(Convert.ToInt32(oObject.MaxWidth), Convert.ToInt32(oObject.MaxHeight));
+                    //img = DesignerSvgParser.GetBitmapFromSVG(FilePath, oObject.ColorHex);
+                    //if (oObject.Opacity != null)
+                    //{
+                    //    // float opacity =float.Parse( oObject.Tint.ToString()) /100;
+                    //    if (oObject.Opacity != 1)
+                    //    {
+                    //        img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
+                    //    }
+                    //}
+                    //oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
 
                     var posY = oObject.PositionY + oObject.MaxHeight;
 
@@ -977,13 +978,14 @@ namespace MPC.Implementation.WebStoreServices
                             oPdf.Transform.Rotate(360 - oObject.RotationAngle.Value, oObject.PositionX.Value + oObject.MaxWidth.Value / 2, oPdf.MediaBox.Height - posY.Value + oObject.MaxHeight.Value / 2);
                         }
                     }
-                    int id = oPdf.AddImageObject(oImg, true);
-                    //if (oObject.Tint != null)
-                    //{
-                    //    ImageLayer im = (ImageLayer)oPdf.ObjectSoup[id];
-
-                    //    im.PixMap.SetAlpha(Convert.ToInt32(( oObject.Tint) * 2.5));
-                    //}
+                    ////int id = oPdf.AddImageObject(oImg, true);
+                    ////oPdf.Transform.Reset();
+                    //oPdf.HtmlOptions.HideBackground = true;
+                    //oPdf.HtmlOptions.Engine = EngineType.Gecko;
+                    //string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/MPC_Content" + oObject.ContentString;
+                    ////int id = oPdf.AddImageUrl(URl);
+                    //string html = File.ReadAllText(FilePath);
+                    //oPdf.AddImageHtml(html);
                     oPdf.Transform.Reset();
                 }
             }
@@ -1381,7 +1383,14 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             if (objObjects.ClippedInfo == null)
                             {
-                                LoadImage(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                if (objObjects.ContentString.Contains(".svg") && !objObjects.ContentString.Contains("{{"))
+                                {
+                                    GetSVGAndDraw(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                }
+                                else
+                                {
+                                    LoadImage(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                }
                             }
                             else
                             {
@@ -1729,11 +1738,12 @@ namespace MPC.Implementation.WebStoreServices
                             doc.SetInfo(doc.Page, "/ArtBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(ArtBoxSize)).ToString());
 
                         }
-                        //if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
-                        //{
-                        //    BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
-                        //    doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
-                        //}
+                       
+                        if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
+                        {
+                            BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
+                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
+                        }
                         if (bleedareaSize != 0)
                         {
 
@@ -2757,53 +2767,6 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         oTemplateFont.Add(returnLocalFont(objFont));
                     }
-                    //if (ChangeQuickText)
-                    //{
-                    //    var objQuickText = GetContactQuickTextFields(CompanyID, ContactID);//CustomerID,ContacTid)
-                    //    foreach (var obj in oTemplateObjects)
-                    //    {
-                    //        if (obj.Name == "AddressLine1")
-                    //        {
-                    //            obj.ContentString = objQuickText.Address1.ToString();
-                    //        }
-                    //        else if (obj.Name == "CompanyName")
-                    //        {
-                    //            obj.ContentString = objQuickText.Company.ToString();
-                    //        }
-                    //        else if (obj.Name == "CompanyMessage")
-                    //        {
-                    //            obj.ContentString = objQuickText.CompanyMessage.ToString();
-                    //        }
-                    //        else if (obj.Name == "Email")
-                    //        {
-                    //            obj.ContentString = objQuickText.Email.ToString();
-                    //        }
-                    //        else if (obj.Name == "Fax")
-                    //        {
-                    //            obj.ContentString = objQuickText.Fax.ToString();
-                    //        }
-                    //        else if (obj.Name == "Name")
-                    //        {
-                    //            obj.ContentString = objQuickText.Name.ToString();
-                    //        }
-                    //        else if (obj.Name == "Phone")
-                    //        {
-                    //            obj.ContentString = objQuickText.MobileNumber.ToString();
-                    //        }
-                    //        else if (obj.Name == "Title")
-                    //        {
-                    //            obj.ContentString = objQuickText.Title.ToString();
-                    //        }
-                    //        else if (obj.Name == "Website")
-                    //        {
-                    //            obj.ContentString = objQuickText.Website.ToString();
-                    //        }
-
-
-                    //    }
-                    //}
-                   
-                    //List<tbl_cmsDefaultSettings> records = pageMgr.GetAllDefaultSettings();
                     Company objCompany = _companyRepository.GetStoreById(CompanyID);
                     if (objCompany != null)
                     {
@@ -2891,13 +2854,6 @@ namespace MPC.Implementation.WebStoreServices
 
         public string GenerateProof(DesignerPostSettings objSettings, double bleedAreaSize)
         {
-           // StreamReader reader = new StreamReader(data);
-        //    string res = reader.ReadToEnd();
-        //    reader.Close();
-         //   reader.Dispose();
-
-          //  Settings objSettings = JsonConvert.DeserializeObject<Settings>(data);
-            //List<TemplateObjects> lstTemplatesObjects = JsonConvert.DeserializeObject<List<TemplateObjects>>(res);
             bleedAreaSize = _templateRepository.getOrganisationBleedArea(objSettings.organisationId);
             List<TemplateObject> lstTemplatesObjects = objSettings.objects;
             return SaveTemplate(lstTemplatesObjects, objSettings.objPages, objSettings.organisationId, objSettings.printCropMarks, objSettings.printWaterMarks, objSettings.isRoundCornerrs,bleedAreaSize,objSettings.isMultiPageProduct);
@@ -2946,66 +2902,47 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-
+        // get conversion ratio of mm to current system unit and unit name (1.0__inch)
         public string GetConvertedSizeWithUnits(long productId, long organisationID, long itemID)
         {
 
             double h = Math.Round(Convert.ToDouble(1), 0);
             string unit = "mm";
-        //    double w = Math.Round(Convert.ToDouble(1), 0);
             double height = h;
-         //   double width = w;
             double scaledHeight = h;
-         //   double scaledWidth = w;
             double resultDimentions = h; // current height or width 
             var organisation = _organisationRepository.GetOrganizatiobByID(organisationID);
             var item = _itemRepository.GetItemByIdDesigner(itemID);
-            //  string resultDisplaySize = "";
             if (item != null)
             {
                 scaledHeight = Convert.ToDouble(item.Scalar);
-            //    scaledWidth = Convert.ToDouble(item.Scalar);
                 if (scaledHeight == 0)
                 {
                     scaledHeight = 1;
                 }
-              //  if (scaledWidth == 0)
-              //  {
-                  //  scaledWidth = 1;
-               // }
             }
 
 
             if (organisation.SystemLengthUnit == 1)
             {
                 scaledHeight *= height;
-               // scaledWidth *= width;
                 resultDimentions =  scaledHeight;
-               
             }
             else if (organisation.SystemLengthUnit == 2)
             {
                 height = _templateRepository.ConvertLength(Convert.ToDouble(1), MPC.Models.Common.LengthUnit.Mm, MPC.Models.Common.LengthUnit.Cm);
-               // width = _templateRepository.ConvertLength(Convert.ToDouble(widthInMM),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Cm);
                 height = Math.Round(height, 3);
-               // width = Math.Round(width, 3);
                 scaledHeight *= height;
-              //  scaledWidth *= width;
                 resultDimentions =scaledHeight;
                 unit = "cm";
-                //  resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h cm";
             }
             else if (organisation.SystemLengthUnit == 3)
             {
                 height = _templateRepository.ConvertLength(Convert.ToDouble(1),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Inch);
-               // width = _templateRepository.ConvertLength(Convert.ToDouble(widthInMM),  MPC.Models.Common.LengthUnit.Mm,  MPC.Models.Common.LengthUnit.Inch);
                 height = Math.Round(height, 3);
-              //  width = Math.Round(width, 3);
                 scaledHeight *= height;
-               // scaledWidth *= width;
                 resultDimentions =  scaledHeight ;
                 unit = "inch";
-                // resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h inch";
             }
 
 

@@ -74,5 +74,10 @@ namespace MPC.MIS.Areas.Api.Models
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
 
         public IEnumerable<SectionFlagDropDown> PriceFlags { get; set; }
+
+        /// <summary>
+        /// Currency Symbol
+        /// </summary>
+        public string CurrencySymbol { get; set; }
     }
 }

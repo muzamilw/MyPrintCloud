@@ -1,9 +1,11 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function(ko) {
-    var ReportNote = function (specifiedId, specifiedHeadNote, specifiedFootNote, AdvertitorialNote, specifiedCategoryId, specifiedReportBanner, specifiedTitle, specifiedEstimateBannerBytes,specifiedOrderBannerBytes, specifiedInvoiceBannerBytes, specifiedPurchaseBannerBytes, specifiedeliveryBannerBytes) {
+    var ReportNote = function (specifiedId,specifiedCompanyId,specifiedOrganisationId, specifiedHeadNote, specifiedFootNote, AdvertitorialNote, specifiedCategoryId, specifiedReportBanner, specifiedTitle, specifiedEstimateBannerBytes,specifiedOrderBannerBytes, specifiedInvoiceBannerBytes, specifiedPurchaseBannerBytes, specifiedeliveryBannerBytes) {
 
         var
             self,
             id = ko.observable(specifiedId || 0),
+            companyId = ko.observable(specifiedCompanyId || 0),
+            organisationid = ko.observable(specifiedOrganisationId || 0),
             headNote = ko.observable(specifiedHeadNote),
             footnote = ko.observable(specifiedFootNote),
             advertitorialNote = ko.observable(AdvertitorialNote),
@@ -24,7 +26,8 @@
                 return errors().length === 0 ? true : false;;
             }),
             dirtyFlag = new ko.dirtyFlag({
-                reportBanner: reportBanner
+                reportBanner: reportBanner,
+                estimateBannerBytes: estimateBannerBytes
                 
             }),
             hasChanges = ko.computed(function() {
@@ -33,25 +36,29 @@
             
             reset = function() {
                 dirtyFlag.reset();
-            };
+            },
         convertToServerData = function () {
             return {
                 Id: id(),
+                companyId: companyId(),
+                organisationid: organisationid(),
                 HeadNotes: headNote(),
                 AdvertitorialNotes: advertitorialNote(),
                 ReportCategoryId: categoryId(),
                 ReportBanner: reportBanner(),
-                ReportTitle: title(),
+                ReportTitle: title(),   
                 FootNote: footnote(),
                 EstimateBannerBytes: estimateBannerBytes(),
-                orderBannerBytes : orderBannerBytes(),
-                invoiceBannerBytes : invoiceBannerBytes(),
-                purchaseBannerBytes: purchaseBannerBytes(),
-                deliveryBannerBytes: deliveryBannerBytes()
+                OrderBannerBytes: orderBannerBytes(),
+                InvoiceBannerBytes: invoiceBannerBytes(),
+                PurchaseBannerBytes: purchaseBannerBytes(),
+                DeliveryBannerBytes: deliveryBannerBytes()
             };
         };
         self = {
             id: id,
+            companyId: companyId,
+            organisationid: organisationid,
             headNote: headNote,
             footnote: footnote,
             advertitorialNote: advertitorialNote,
@@ -63,6 +70,7 @@
             invoiceBannerBytes : invoiceBannerBytes,
             purchaseBannerBytes: purchaseBannerBytes,
             deliveryBannerBytes: deliveryBannerBytes,
+            convertToServerData:convertToServerData,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -73,7 +81,7 @@
     };
 
     ReportNote.Create = function (source) {
-        var reprotNote = new ReportNote(source.Id, source.HeadNotes, source.FootNotes, source.AdvertitorialNotes, source.ReportCategoryId, source.ReportBanner, source.ReportTitle, source.EstimateBannerBytes, source.OrderBannerBytes, source.InvoiceBannerBytes, source.PurchaseBannerBytes, source.DeliveryBannerBytes);
+        var reprotNote = new ReportNote(source.Id,source.CompanyId,source.OrganisationId, source.HeadNotes, source.FootNotes, source.AdvertitorialNotes, source.ReportCategoryId, source.ReportBanner, source.ReportTitle, source.EstimateBannerBytes, source.OrderBannerBytes, source.InvoiceBannerBytes, source.PurchaseBannerBytes, source.DeliveryBannerBytes);
             
         
 

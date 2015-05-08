@@ -39,9 +39,9 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(systemUser => systemUser.OrganizationId == OrganisationId && systemUser.IsAccountDisabled == 0).ToList();
         }
-        public SystemUser GetSalesManagerById(long SytemUserId)
+        public SystemUser GetUserrById(System.Guid SytemUserId)
         {
-            return db.SystemUsers.FirstOrDefault();
+            return db.SystemUsers.Where(g => g.SystemUserId == SytemUserId).SingleOrDefault();
             //db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
         }
         public bool Add(System.Guid Id, string Email, string FullName, int OrganizationId)

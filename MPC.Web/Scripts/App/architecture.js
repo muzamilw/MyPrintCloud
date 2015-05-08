@@ -4,6 +4,7 @@ var ist = {
     datePattern: "DD/MM/YY",
     shortDatePattern: "dd-M-yy",
     customShortDatePattern: "dd-mm-yy",
+    customDatePattern: "DD-MMM-YYYY",
     timePattern: "HH:mm",
     hourPattern: "HH",
     minutePattern: "mm",
@@ -16,7 +17,6 @@ var ist = {
         MPCGeneralException: 'MPCGeneralException',
         UnspecifiedException: 'UnspecifiedException'
     },
-
     //verify if the string is a valid json
     verifyValidJSON: function (str) {
         try {
@@ -52,7 +52,9 @@ var ist = {
             x1 = x1.replace(rgx, '$1' + ',' + '$2');
         }
         return x1 + x2;
-    }
+    },
+    numberFormat: "0,0.00",
+    ordinalFormat: "0"
 };
 
 // Busy Indicator
@@ -61,7 +63,7 @@ var spinnerVisibleCounter = 0;
 // Show Busy Indicator
 function showProgress() {
     ++spinnerVisibleCounter;
-    if (spinnerVisibleCounter > 0 && $("div#spinner")[0].style.display === "none") {
+    if (spinnerVisibleCounter > 0) {
         $.blockUI({ message: "" });
         $("div#spinner").fadeIn("fast");
     }
@@ -414,7 +416,7 @@ require(["ko", "knockout-validation"], function (ko) {
             var options = allBindingsAccessor().datepickerOptions || {};
             // ReSharper restore DuplicatingLocalDeclaration
             $(element).datepicker(options);
-            $(element).datepicker("option", "dateFormat", options.dateFormat || ist.customShortDatePattern);
+            $(element).datepicker("option", "dateFormat", ist.shortDatePattern);
             $(element).datepicker("option", "changeMonth", true);
             $(element).datepicker("option", "changeYear", true);
             //handle the field changing
@@ -457,7 +459,9 @@ require(["ko", "knockout-validation"], function (ko) {
             var options = allBindingsAccessor().datepickerOptions || {};
             // ReSharper restore DuplicatingLocalDeclaration
             $(element).datetimepicker(options);
-            $(element).datetimepicker("option", "dateFormat", options.dateFormat || ist.customShortDatePattern);
+            $(element).datetimepicker("option", "dateFormat", ist.shortDatePattern);
+            $(element).datepicker("option", "changeMonth", true);
+            $(element).datepicker("option", "changeYear", true);
             //handle the field changing
             ko.utils.registerEventHandler(element, "change", function () {
                 var observable = valueAccessor();
@@ -607,7 +611,7 @@ require(["ko", "knockout-validation"], function (ko) {
             var valueUnwrapped = ko.utils.unwrapObservable(value);
             var pattern = allBindings.datePattern || ist.datePattern;
             if (valueUnwrapped !== undefined && valueUnwrapped !== null) {
-                $(element).text(moment(valueUnwrapped).format(pattern));
+                $(element).text(moment(valueUnwrapped).format(ist.customDatePattern));
             }
             else {
                 $(element).text("");
@@ -650,6 +654,87 @@ require(["ko", "knockout-validation"], function (ko) {
             var value = ko.utils.unwrapObservable(valueAccessor());
             value = value.replace(/:0/g, ':00');
             $element.tooltip({ title: value, html: true }); //, delay: { show: 10000, hide: 10000 }
+        }
+    };
+
+    // Forcing Input to be Numeric
+    ko.extenders.numberInput = function (target) {
+        //create a writeable computed observable to intercept writes to our observable
+        var result = ko.computed({
+            read: function () {
+                return target();
+            },
+            write: function (newValue) {
+                var current = target(),
+                    valueToWrite = newValue === null || newValue === undefined ? null : numeral().unformat("" + newValue);
+
+                //only write if it changed
+                if (valueToWrite !== current) {
+                    target(valueToWrite);
+                } else {
+                    //if the rounded value is the same, but a different value was written, force a notification for the current field
+                    if (newValue !== current) {
+                        target.notifySubscribers(valueToWrite);
+                    }
+                }
+            }
+        });
+
+        //initialize with current value to make sure it is rounded appropriately
+        result(target());
+
+        //return the new computed observable
+        return result;
+    };
+
+    // number formatting setting the text property of an element
+    ko.bindingHandlers.numberInput = {
+        update: function (element, valueAccessor, allBindingsAccessor) {
+            var value = valueAccessor(),
+                allBindings = allBindingsAccessor();
+            var valueUnwrapped = ko.utils.unwrapObservable(value);
+            var pattern = allBindings.format || ist.numberFormat;
+            if (valueUnwrapped !== undefined && valueUnwrapped !== null) {
+                var formattedValue = numeral(valueUnwrapped).format(pattern);
+                $(element).text(formattedValue);
+            }
+            else {
+                $(element).text("");
+            }
+
+        }
+    };
+    // number formatting for input fields
+    ko.bindingHandlers.numberValue = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            var underlyingObservable = valueAccessor(),
+                allBindings = allBindingsAccessor(),
+                pattern = allBindings.numberFormat || ist.numberFormat;
+
+            var interceptor = ko.computed({
+                read: function () {
+                    if (underlyingObservable() === null || underlyingObservable() === undefined || underlyingObservable() === "") {
+                        return "";
+                    }
+                    // ReSharper disable InconsistentNaming
+                    return new numeral(underlyingObservable()).format(pattern);
+                    // ReSharper restore InconsistentNaming
+                },
+
+                write: function (newValue) {
+                    var current = underlyingObservable(),
+                        valueToWrite = newValue === null || newValue === undefined || newValue === "" ? null : numeral().unformat("" + newValue);
+
+                    if (valueToWrite !== current) {
+                        underlyingObservable(valueToWrite);
+                    } else {
+                        if (newValue !== current.toString())
+                            underlyingObservable.valueHasMutated();
+                    }
+                }
+            });
+
+            ko.applyBindingsToNode(element, { value: interceptor });
         }
     };
 

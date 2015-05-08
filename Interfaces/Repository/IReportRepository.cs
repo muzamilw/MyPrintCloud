@@ -1,4 +1,5 @@
 ﻿using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MPC.Interfaces.Repository
 {
-    public interface IReportRepository
+    public interface IReportRepository : IBaseRepository<Report, long>
     {
         List<Report> GetReportsByOrganisationID(long OrganisationID);
 
@@ -29,5 +30,10 @@ namespace MPC.Interfaces.Repository
         List<usp_EstimateReport_Result> getEstimateReportResult(long OrganisationID, long EstimateID);
 
         List<usp_InvoiceReport_Result> getInvoiceReportResult(long OrganisationID, long InvoiceID);
+
+        void UpdateReportNotes(List<ReportNote> reportNotes);
+        List<ReportparamResponse> getParamsById(long Id);
+
+
     }
 }

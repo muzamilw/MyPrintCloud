@@ -3,11 +3,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">Report Management</h4>
+                <h4 class="modal-title" id="myModalLabel">Report(s)</h4>
             </div>
             <div class="col-lg-12 main-box clearfix col-padding">
+                <div class="validationSummaryContainer" style="text-align: center;">
+                    <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0" style="display: none; text-decoration: none; ">Report not selected!</a>
+                
+                </div>
                 <div class="main-box-body">
-                    <div class=" form-horizontal col-padding" style="padding-top:40px;padding-bottom:40px; ">
+                    
+                    <div class=" form-horizontal col-padding" style="padding-top:30px;padding-bottom:40px; ">
+                        <h5>Please select a report below to execute</h5>
                         <div class="col-md-3" style="width:auto;border-right: 1px solid #e5e5e5;margin-right: 50px;">
 
 
@@ -20,37 +26,38 @@
                         </div>
                         <div style="display:inline;width:50% !important;" class="col-md-8">
                             <div class="treeviewClickCharge-partial">
-                                <div class="form-group">
-                                    <div class="col-lg-6 text-right">
+                                <div class="form-group" data-bind="visible:IsExternalReport">
+                                    <div class="col-lg-6 text-right" >
                                         <label class="control-label text-right tooltip-float">Title: </label>
                                     </div>
-                                    <div class="col-lg-5">
-                                        <span> NA</span>
+                                    <div class="col-lg-5" style="margin-top: 4px;">
+                                        <span data-bind="text:selectedItemTitle"></span>
 
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" data-bind="visible:IsExternalReport">
                                     <div class="col-lg-6 text-right">
                                         <label class="control-label text-right tooltip-float">Code: </label>
                                     </div>
-                                    <div class="col-lg-5">
-                                        <span> NA</span>
+                                    <div class="col-lg-5" style="margin-top: 4px;">
+                                        <span data-bind="text:selectedItemCode"> </span>
 
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" data-bind="visible:IsExternalReport">
                                     <div class="col-lg-6 text-right">
                                         <label class="control-label text-right tooltip-float">Name: </label>
                                     </div>
-                                    <div class="col-lg-5">
-                                        <span> NA</span>
+                                    <div class="col-lg-5" style="margin-top: 4px;">
+                                        <span data-bind="text:selectedItemName"> </span>
 
                                     </div>
                                 </div>
+
                                 <div class="form-group">
 
                                     <div>
-                                        <span> Output To:</span>
+                                        <span>Report output to :</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -113,6 +120,38 @@
         </div>
     </div>
 </div>
+
+<div id="idReportParams" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 902px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Report Parameters</h4>
+            </div>
+            <!--ko if:ControlType()== 1-->
+            <select id="ddlbCostCenterType" class="form-control" data-bind="options: $root.costCenterTypes, optionsText: 'TypeName', optionsValue: 'TypeId',value:calculationMethodType, enable :isCalculationMethodEnable"></select>
+            
+            <!--/ko-->
+            <!--ko if:ControlType()== 2-->
+            DatePicker
+            <!--/ko-->
+            <!--ko if:ControlType()== 3-->
+            TextBox
+            <!--/ko-->
+
+            <!--ko if:ControlType()== 4-->
+            ExternalID
+            <!--/ko-->
+            <!--ko if:ControlType()== 5-->
+            CheckBox
+            <!--/ko-->
+            <!--ko if:ControlType()== 6-->
+            EmptyString
+            <!--/ko-->
+
+        </div>
+    </div>
+</div>
+
 <script id="reportCategoriesTemplate" type="text/html">
     <li class="dd-item dd-item-list" id="treeviewClickCharge">
         @*<div class="dd-handle-list"><i class="fa fa-bars"></i></div>
@@ -129,7 +168,7 @@
     <ol class="dd-list my-navigator" id="treeviewClickCharge">
         <li class="dd-item dd-item-list my-navigator">
             <div class="dd-handle-list my-navigator"><i class="fa fa-bars"></i></div>
-            <a class="my-navigator"> <div class="dd-handle" data-bind="text:Name, click:$root.SelectReportById, attr:{id:ReportId}"></div></a>
+            <a class="my-navigator"> <div class="dd-handle" style="cursor: pointer;" data-bind="text:Name, click:$root.SelectReportById, attr:{id:ReportId}"></div></a>
         </li>
     </ol>
 

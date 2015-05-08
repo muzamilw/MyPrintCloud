@@ -24,6 +24,7 @@ namespace MPC.Repository.Repositories
 	{
 		#region privte
 		#region Private
+        private readonly IOrganisationRepository organisationRepository;
 		private readonly Dictionary<CostCentersColumns, Func<CostCentre, object>> OrderByClause = new Dictionary<CostCentersColumns, Func<CostCentre, object>>
 					{
 						{CostCentersColumns.Name, d => d.Name},
@@ -38,10 +39,10 @@ namespace MPC.Repository.Repositories
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public CostCentreRepository(IUnityContainer container)
+        public CostCentreRepository(IUnityContainer container, IOrganisationRepository organisationRepository)
 			: base(container)
 		{
-
+            this.organisationRepository = organisationRepository;
 		}
 
 		/// <summary>
@@ -64,7 +65,7 @@ namespace MPC.Repository.Repositories
 		/// </summary>
 		public IEnumerable<CostCentre> GetAllNonSystemCostCentres()
 		{			
-            return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != (int)CostCenterTypes.SystemCostCentres && costcentre.IsDisabled != 1 && costcentre.Type != (int)CostCenterTypes.Delivery && costcentre.Type != (int)CostCenterTypes.WebOrder)
+            return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != (int)CostCenterTypes.SystemCostCentres && costcentre.IsDisabled != true && costcentre.Type != (int)CostCenterTypes.Delivery && costcentre.Type != (int)CostCenterTypes.WebOrder)
                 .OrderBy(costcentre => costcentre.Name).ToList();
 		}
 		/// <summary>
@@ -762,11 +763,11 @@ namespace MPC.Repository.Repositories
             Expression<Func<CostCentre, bool>> query;
             if (request.CostCenterType != 0)
             {
-                query = oCostCenter => oCostCenter.Type == request.CostCenterType && oCostCenter.IsDisabled != 1 && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => oCostCenter.Type == request.CostCenterType && oCostCenter.IsDisabled != true && oCostCenter.OrganisationId == OrganisationId;
             }
             else
             {
-                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled != 1 && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled != true && oCostCenter.OrganisationId == OrganisationId;
             }
 			var rowCount = DbSet.Count(query);
 			var costCenters = request.IsAsc
@@ -824,7 +825,7 @@ namespace MPC.Repository.Repositories
                 {
                     foreach (var cc in ccTypes)
                     {
-                        cc.CostCentres = db.CostCentres.Where(cv => cv.Type == cc.TypeId && cv.OrganisationId == this.OrganisationId && cv.IsDisabled != (short)1).ToList();
+                        cc.CostCentres = db.CostCentres.Where(cv => cv.Type == cc.TypeId && cv.OrganisationId == this.OrganisationId && cv.IsDisabled != true).ToList();
                     }
                     oResponse.CostCenterVariables = ccTypes;
                 }
@@ -863,6 +864,8 @@ namespace MPC.Repository.Repositories
 
         public CostCenterBaseResponse GetBaseData()
         {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            List<Currency> list = db.Currencies.ToList();
             db.Configuration.LazyLoadingEnabled = false;
             var types = db.CostCentreTypes.Where(c => c.OrganisationId == this.OrganisationId).ToList();
             var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
@@ -877,7 +880,8 @@ namespace MPC.Repository.Repositories
                 NominalCodes = nominalCodes,
                 Markups = markups,
                 CostCentreVariables = ccVariables,
-                DeliveryCarriers = carriers
+                DeliveryCarriers = carriers,
+                CurrencySymbol = organisation == null ? null : organisation.Currency==null? null: organisation.Currency.CurrencySymbol
             };
         }
 		#endregion
@@ -1006,7 +1010,7 @@ namespace MPC.Repository.Repositories
 
 
 			var query = from tblCostCenter in db.CostCentres
-						where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
+						where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == false
 						orderby tblCostCenter.MinimumCost
 						select tblCostCenter;
 

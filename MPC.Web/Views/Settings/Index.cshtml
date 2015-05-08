@@ -29,15 +29,23 @@
         <div class="main-box no-header clearfix">
             
             <div class="col-lg-12">
+                <div class="col-lg-12">
+                    <h2>
+                        These settings apply across all Stores, Products and Invoicing
+                        <br />
+                        Go to Stores to configure specific Themes, Products and Templates
+                    </h2>
+                    <br />
+                </div>
                 <div class="col-md-4">
                     <div class="col-lg-12 MainDivContentsColor ParentDivTopBorder" style="margin-bottom:50px;">
                         <div class="MainDivContentsColor parentdiv ChilddivMargin">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-cog header-icons"></i>
+                                <i class="fa fa-cloud header-icons"></i>
                             </div>
-                            <div class="col-lg-10 divalignment">
-                                <span style="font-weight:bold;">CLOUD STETTING</span>
+                            <div class="col-lg-8">
+                                <span style="font-weight:bold;">CLOUD SETTING</span>
                             </div>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
@@ -45,89 +53,77 @@
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-home childicons"></i>
                             </div>
-                            <a href="~/Settings/Home/MyOrganization" title="My Organization">
-                                <div class="col-lg-10 divalignment" style="margin-bottom:15px;">
+                            <a href="~/Settings/Home/MyOrganization?status=O">
+                                <div class="col-lg-10" style="padding-bottom:20px;">
                                     My Organization
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Configure currency, country, cards and billing accounts verification etc</span>
+                                    <span style="font-size:12px;color:gray;">Set your company’s name, address and logo for internal reports</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-cog childicons"></i>
+                                <i class="fa fa-globe childicons"></i>
                             </div>
-                            <a href="" title="Regional Settings">
+                            <a href="~/Settings/Home/MyOrganization?status=R">
                                 <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
                                     Regional Settings
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Change the appearence of your invoices</span>
+                                    <span style="font-size:12px;color:gray;">Configure the currency, units if lengths and weights</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-italic childicons"></i>
                             </div>
-                            <a href="" title="Language Editor">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Language Editor
+                            <a href="~/Settings/Home/MyOrganization?status=L">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
+                                    Language Editor 
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Configure the daily report and committed revenue behavior</span>
+                                    <span style="font-size:12px;color:gray;">Localize text labels used on webstores and MIS Dashboard with your language preferences</span>
                                 </div>
                             </a>
                         </div>
+                        
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-usd childicons"></i>
-                            </div>
-                            <a href="" title="Taxes">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Taxes
-                                    <br />
-                                    <span style="font-size:12px;color:gray;">Configure the tax settings</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-hdd childicons"></i>
                             </div>
-                            <a href="" title="Default Markups">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
+                            <a href="~/Settings/Home/MyOrganization?status=M">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
                                     Default Markups
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Configure how to handle payment features during renewals</span>
+                                    <span style="font-size:12px;color:gray;">Set default markup values applied when estimating</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-flag childicons"></i>
                             </div>
-                            <a href="~/Settings/MIS/SectionFlags" title="Section Flags">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
+                            <a href="~/Settings/MIS/SectionFlags">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
                                     Section Flags
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Request Custom Fields to be added to your charge bee</span>
+                                    <span style="font-size:12px;color:gray;">Create and set colors for Flags used to categorize customers, orders, stock types etc…</span>
                                 </div>
                             </a> 
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-saved childicons"></i>
                             </div>
-                            <a href="~/Settings/MIS/InventoryCategory" title="Inventory Categories">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
+                            <a href="~/Settings/MIS/InventoryCategory">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
                                     Inventory Categories
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Manage Inventory Category</span>
+                                    <span style="font-size:12px;color:gray;">Create your own Inventory categories for Raw Materials</span>
                                 </div>
                             </a>
                         </div>
@@ -135,91 +131,44 @@
                     </div>
                     <div class="col-lg-12 MainDivContentsColor ParentDivTopBorder" style="margin-bottom:50px;">
                         <div class="MainDivContentsColor parentdiv ChilddivMargin">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-send header-icons"></i>
                             </div>
-                            <div class="col-lg-10 divalignment">
+                            <div class="col-lg-10">
                                 <span style="font-weight:bold;">MIGRATION REQUEST</span>
                             </div>
                         </div>
+                        
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-import childicons"></i>
-                            </div>
-                            <a href="" title="Request Data Import">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Request Data Import
-                                    <br />
-                                    <span style="font-size:12px;color:gray;">Submit a request to import your exsisting subscribers into ChargeBee </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-tasks childicons"></i>
                             </div>
-                            <a href="~/Home/PageUnAvailable" title="Archive / Unarchive">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Archive / Unarchive
+                            <a>
+                                <div class="col-lg-10" style="padding-bottom:15px;">
+                                    Archive / Un Archive
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Select and copy required configurations from TEST to LIVE site</span>
+                                    <span style="font-size:12px;color:gray;">Hide Products, Product Categories Orders, Inventory items throughout the system without permanently deleting them</span>
+                                    <br />
+                                    <br />
+                                    <span style="color:#2D6893;margin-top:10px;">Coming Soon</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-send childicons"></i>
+                                <i class="fa fa-plane childicons"></i>
                             </div>
-                            <a href="~/Home/PageUnAvailable" title="Import / Export Data">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Import / Export Data
+                            <a>
+                                <div class="col-lg-10" style="padding-bottom:15px;">
+                                    Import / Export Data 
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Select and copy required configurations from TEST to LIVE site</span>
-                                </div>
-                            </a>
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="col-lg-12 MainDivContentsColor ParentDivTopBorder">
-                        <div class="MainDivContentsColor parentdiv ChilddivMargin">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-cog header-icons"></i>
-                            </div>
-                            <div class="col-lg-10 divalignment">
-                                <span style="font-weight:bold;">ACCOUNT SETTINGS</span>
-                            </div>
-                        </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-th-list childicons"></i>
-                            </div>
-                            <a href="" title="Account Detail">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Account Detail
+                                    <span style="font-size:12px;color:gray;">Import export CSV files for Customers, Contacts, Inventory (Raw Materials such as paper)</span>
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Manage your ChargeBee account and payment information</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-user childicons"></i>
-                            </div>
-                            <a href="" title="System Users">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    System Users
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Invite and manage users in ChargeBee site</span>
+                                    <span style="color:#2D6893;margin-top:10px;">Coming Soon</span>
                                 </div>
                             </a>
                         </div>
@@ -228,333 +177,248 @@
                 <div class="col-md-4">
                     <div class="col-lg-12 MainDivContentsColor ParentDivTopBorder" style="margin-bottom:50px;">
                         <div class="MainDivContentsColor parentdiv ChilddivMargin">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-envelope header-icons"></i>
-                            </div>
-                            <div class="col-lg-10 divalignment">
-                                <span style="font-weight:bold;">EMAIL NOTIFICATION</span>
-                            </div>
-                        </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-bullhorn childicons"></i>
-                            </div>
-                            <a href="" title="System Emails, Info and Alerts">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    System Emails, Info and Alerts
-                                    <br />
-                                    <span style="font-size:12px;color:gray;">Manage the Information and Warning messages that are shown on customer portal </span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 MainDivContentsColor ParentDivTopBorder" style="margin-bottom:50px;">
-                        <div class="MainDivContentsColor parentdiv ChilddivMargin">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-print header-icons"></i>
                             </div>
-                            <div class="col-lg-10 divalignment">
+                            <div class="col-lg-10">
                                 <span style="font-weight:bold;">PRESSES AND PLOTTERS</span>
                             </div>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-file childicons"></i>
                             </div>
-                            <a href="~/Settings/MIS/PaperSheet" title="Paper Sizes">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Paper Sizes
+                            <a href="~/Settings/MIS/PaperSheet">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
+                                    Sheet Sizes 
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Select and copy required configurations from TEST to LIVE site </span>
+                                    <span style="font-size:12px;color:gray;">Create and set sheets sizes widths and lengths</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-list-alt childicons"></i>
+                                <i class="fa fa-print childicons"></i>
                             </div>
-                            <a href="~/Settings/Home/MachinesList" title="Presses and Plotters and Guillotines">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
+                            <a href="~/Settings/Home/MachinesList">
+                                <div class="col-lg-10" style="padding-bottom:20px;">
                                     Presses and Plotters and Guillotines
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Manage your Site API Key(s) </span>
+                                    <span style="font-size:12px;color:gray;min-height:50px;">Configure sheet (or roll) fed Digital and Litho presses and plotters. Set guillotines throat intake and cutting speeds</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-plus childicons"></i>
                             </div>
-                            <a href="" title="Press calulation methods">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Press calulation methods
+                            <a href="~/Settings/Home/LookupMethods">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
+                                    Press calculation methods
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Configure the webbook URL you will be use to listen </span>
+                                    <span style="font-size:12px;color:gray;">Configure press calculations used when estimating based on speed, paper weights and color units</span>
                                 </div>
                             </a>
                         </div>
                     </div>
                     <div class="col-lg-12 MainDivContentsColor ParentDivTopBorder" style="margin-bottom:50px;">
                         <div class="MainDivContentsColor parentdiv ChilddivMargin">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;
                                 <i class="glyphicon glyphicon-usd header-icons"></i>
                             </div>
-                            <div class="col-lg-10 divalignment">
+                            <div class="col-lg-10">
                                 <span style="font-weight:bold;">COST CENTERS</span>
                             </div>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-gbp childicons"></i>
+                                <i class="fa fa-money childicons"></i>
                             </div>
-                            <a href="~/Settings/MIS/CostCenters" title="Pre Press Cost Centers">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
+                            <a href="~/Settings/MIS/CostCenters?Type=141">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
                                     Pre Press Cost Centers
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Select and copy required configurations from TEST to LIVE site </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-gbp childicons"></i>
-                            </div>
-                            <a href="" title="Post Press Cost Centers">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Post Press Cost Centers
-                                    <br />
-                                    <span style="font-size:12px;color:gray;">Manage your Site API Key(s) </span>
+                                    <span style="font-size:12px;color:gray;">Create Pre-Press and Refining Options using run time quantities, prompting questions used when estimating</span>
                                 </div>
                             </a>
                         </div>
 
+                        <div class="childdiv ChilddivMargin childdivcolor">
+                            <div class="col-lg-2">
+                                &nbsp;&nbsp;
+                                <i class="fa fa-money childicons"></i>
+                            </div>
+                            <a href="~/Settings/MIS/CostCenters?Type=142">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
+                                    Post Press Cost Centers
+                                    <br />
+                                    <span style="font-size:12px;color:gray;">Create Post-Press, Bindery and Refining Options using run time quantities, prompting questions used when estimating</span>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                     <div class="col-lg-12 MainDivContentsColor ParentDivTopBorder" style="margin-bottom:50px;">
                         <div class="MainDivContentsColor parentdiv ChilddivMargin">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-plane header-icons"></i>
                             </div>
-                            <div class="col-lg-10 divalignment">
+                            <div class="col-lg-10">
                                 <span style="font-weight:bold;">SHIPPING</span>
                             </div>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-usd childicons"></i>
+                                <i class="fa fa-car childicons"></i>
                             </div>
-                            <a href="~/Settings/Home/DeliveryCostCentres" title="Shipping Cost Centers">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
+                            <a href="~/Settings/Home/DeliveryCostCentres">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
                                     Shipping Cost Centers
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Sync your ChargeBee Subscription to your MallChimp Mailing List </span>
+                                    <span style="font-size:12px;color:gray;">Create and configure internal Shipping options used on web stores and estimating</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-road childicons"></i>
                             </div>
-                            <a href="~/Settings/Home/DeliveryCarrier" title="Shipping Carriers">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
+                            <a href="~/Settings/Home/DeliveryCarrier">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
                                     Shipping Carriers
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Sync your ChargeBee Subscription to your Salessforce account</span>
+                                    <span style="font-size:12px;color:gray;">Sync your MyPRINTCloud Subscription to your shipping suppliers</span>
                                 </div>
                             </a>
                         </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-map-marker childicons"></i>
-                            </div>
-                            <a href="" title="Ship Station">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Ship Station
-                                    <br />
-                                    <span style="font-size:12px;color:gray;">Export your charge Bee invoices as online into ShipStation to your eCommerce shipping needs </span>
-                                </div>
-                            </a>
-                        </div>
+                       
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="col-lg-12 MainDivContentsColor ParentDivTopBorder" style="margin-bottom:50px;">
                         <div class="MainDivContentsColor parentdiv ChilddivMargin">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-th header-icons"></i>
                             </div>
-                            <div class="col-lg-10 divalignment">
+                            <div class="col-lg-10">
                                 <span style="font-weight:bold;">REPORTS LAYOUTS</span>
                             </div>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-pencil childicons"></i>
+                                <i class="fa fa-pencil-square-o childicons"></i>
                             </div>
-                            <a href="" title="Customize Invoice">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Customize Invoice
+                            <a href="~/Settings/MIS/ReportBanner">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
+                                    Customize Invoices, Estimates etc…
                                     <br />
-                                    <span style="font-size:12px;color:gray;">A Collection of ready to use themes for your hosted pages</span>
+                                    <span style="font-size:12px;color:gray;">Personalize your transactional reports with banner images</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-pencil childicons"></i>
-                            </div>
-                            <a href="" title="Customize Estimate">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Customize Estimate
-                                    <br />
-                                    <span style="font-size:12px;color:gray;">Personalize your hosted page apperarence with mobile compatible themes</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-sort-by-order childicons"></i>
                             </div>
-                            <a href="~/Settings/MIS/Prefixes" title="Start Numbers">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Start Numbers
+                            <a href="~/Settings/MIS/Prefixes">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
+                                    Start Numbers 
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Configure how to handle payment features during renewals</span>
+                                    <span style="font-size:12px;color:gray;">Set Starting numbers used on Invoices, estimates etc…</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-random childicons"></i>
-                            </div>
-                            <a href="~/Home/PageUnAvailable" title="Management Reports">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Management Reports
-                                    <br />
-                                    <span style="font-size:12px;color:gray;">Configure text for titles, description and labelsConfigure how to handle payment features during renewals</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-book childicons"></i>
                             </div>
-                            <a href="~/Settings/Home/PhraseLibrary" title="Phrase Library">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
+                            <a href="~/Settings/Home/PhraseLibrary">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
                                     Phrase Library
                                     <br />
                                     <span style="font-size:12px;color:gray;">Configure text for titles, description and labels</span>
                                 </div>
                             </a>
                         </div>
-
-
                     </div>
                     <div class="col-lg-12 MainDivContentsColor ParentDivTopBorder">
                         <div class="MainDivContentsColor parentdiv ChilddivMargin">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-resize-small header-icons"></i>
                             </div>
-                            <div class="col-lg-10 divalignment">
+                            <div class="col-lg-10">
                                 <span style="font-weight:bold;">THIRD PARTY INTEGRATION</span>
+
                             </div>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-cog childicons"></i>
                             </div>
-                            <a href="" title="Mailchimp (SMTP Setting)">
+                            <a>
                                 <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Mailchimp (SMTP Setting)
+                                    SMTP Setting 
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Sync your ChargeBee Subscription to your MallChimp Mailing List</span>
+                                    <span style="font-size:12px;color:gray;">Sync your MyPRINTCloud Subscription to your MallChimp Mailing List</span>
+                                    <br />
+                                    <br />
+                                    <span style="color:#2D6893;margin-top:10px;">Coming Soon</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-tags childicons"></i>
                             </div>
-                            <a href="" title="Sales Force">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
+                            <a>
+                                <div class="col-lg-10" style="padding-bottom:15px;">
                                     Sales Force
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Sync your ChargeBee Subscription to your Salessforce account</span>
+                                    <span style="font-size:12px;color:gray;">Sync your MyPRINTCloud Subscription to your Salesforce account</span>
+                                    <br />
+                                    <br />
+                                    <span style="color:#2D6893;margin-top:10px;">Coming Soon</span>
                                 </div>
                             </a>
                         </div>
                         <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
+                            <div class="col-lg-2">
                                 &nbsp;&nbsp;
                                 <i class="glyphicon glyphicon-transfer childicons"></i>
                             </div>
-                            <a href="~/Settings/MIS/SalesPipeLine" title="Sales Pipeline">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Sales Pipeline
+                            <a href="~/Settings/MIS/SalesPipeLine">
+                                <div class="col-lg-10" style="padding-bottom:15px;">
+                                    Sales Pipeline 
                                     <br />
-                                    <span style="font-size:12px;color:gray;">Configure payment gateway details</span>
+                                    <span style="font-size:12px;color:gray;">Set sale targets for your Account Managers</span>
                                 </div>
                             </a>
                         </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-record childicons"></i>
-                            </div>
-                            <a href="" title="Google Analysis">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Google Analysis
-                                    <br />
-                                    <span style="font-size:12px;color:gray;">Configure google analytic and Typekit for your hosted pages</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="childdiv ChilddivMargin childdivcolor">
-                            <div class="col-lg-2 divalignment">
-                                &nbsp;&nbsp;
-                                <i class="fa fa-dashboard childicons"></i>
-                            </div>
-                            <a href="" title="Refersion">
-                                <div class="col-lg-10 divalignment" style="padding-bottom:15px;">
-                                    Refersion
-                                    <br />
-                                    <span style="font-size:12px;color:gray;">Referral and affiliate management program</span>
-                                </div>
-                            </a>
-                        </div>
-
-
+                        
                     </div>
                 </div>
             </div>
 
         </div>
-    @*Ending Main Contents Div*@
     </div>
-
-@*Ending Main Div*@   
+@*Ending Main Contents Div*@
 </div>
+
 </div>
 
 <script>
@@ -571,12 +435,6 @@
 </script>
 
 <style>
-    .divalignment
-    {
-        float:left;
-        display:inline;
-        
-    }
     .MainDivContentsColor
     {
         background-color:#FBFCFB;
@@ -592,11 +450,11 @@
     }
     .parentdiv
     {
-        height:50px;
+        min-height:50px;
     }
     .childdiv
     {
-        min-height:110px;  
+        min-height:160px;  
         border-bottom:1px solid #e0e0e0;
     }
     .childdiv:hover
@@ -622,5 +480,4 @@
     {
         color:lightgray;
     }
-
 </style>

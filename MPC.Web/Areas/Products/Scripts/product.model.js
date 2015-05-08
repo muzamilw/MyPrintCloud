@@ -469,7 +469,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemSections = ko.observableArray([]),
             // Can Add Item Section
             canAddItemSection = ko.computed(function() {
-                return itemProductDetail().isPrintItemUi() === '1' || itemSections().length < 5;
+                return itemProductDetail().isPrintItemUi() === '1' && itemSections().length < 5;
             }),
             // Can Remove Item Section
             canRemoveItemSection = ko.computed(function () {
@@ -490,7 +490,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 if (itemProductDetail().isPrintItemUi() === '1') {
                     if (itemSections().length === 0 && !id()) {
                         // There shouldn be atleast one section in case of print
-                        itemSections.push(ItemSection.Create({ ItemId: id() }));
+                        itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Cover Sheet" }));
                     }
                 }
                 
@@ -1025,7 +1025,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Add Item Section
             addItemSection = function () {
-                itemSections.push(ItemSection.Create({ ItemId: id() }));
+                itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Text Sheet" }));
             },
             // On Select File
             onSelectImage = function (file, data, fileType) {
@@ -2572,11 +2572,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var // Unique key
             id = ko.observable(specifiedId || 0),
             // Quantity
-            quantity = ko.observable(specifiedQuantity || 0),
+            quantity = ko.observable(specifiedQuantity || 0).extend({ number: true }),
             // Qty Ranged From
-            qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || 0),
+            qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || 0).extend({ number: true }),
             // Qty Ranged To
-            qtyRangedTo = ko.observable(specifiedQtyRangedTo || 0),
+            qtyRangedTo = ko.observable(specifiedQtyRangedTo || 0).extend({ number: true }),
             // Flag Id
             flagId = ko.observable(specifiedFlagId || undefined),
             // Supplier Id

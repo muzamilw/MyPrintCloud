@@ -44,7 +44,7 @@ namespace MPC.Webstore.Controllers
         
         }
         // GET: Default
-        public ActionResult Index(string ProductName,int CategoryID,long ItemID,int TemplateID,string TemplateName,string UploadDesign)
+        public ActionResult Index(string ProductName,long CategoryID,long ItemID,int TemplateID,string TemplateName,string UploadDesign)
         {
             try
             {
@@ -102,19 +102,20 @@ namespace MPC.Webstore.Controllers
                         loadfinishedGoodsImages(ItemRecord, ItemID,ItemRecord.ImagePath);
                     }
 
-                    ViewBag.hfCategoryId = CategoryID;
+                    
                     if (CategoryID == 0)
                     {
+                        CategoryID = _IItemService.GetCategoryIdByItemId(ItemRecord.ItemId);
                         ViewBag.CategoryName = _IItemService.GetCategoryNameById(0, ItemRecord.ItemId);
-                        ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + _IItemService.GetCategoryIdByItemId(ItemRecord.ItemId);
+                        ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + CategoryID;
                     }
                     else 
                     {
                         ViewBag.CategoryName = _IItemService.GetCategoryNameById(CategoryID, 0);
                         ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + CategoryID;
                     }
-                   
-                    
+
+                    ViewBag.hfCategoryId = CategoryID;
                    // SetPageMEtaTitle(ItemRecord.ProductName, ItemRecord.MetaDescription, ItemRecord.MetaKeywords, ItemRecord.MetaTitle,StoreBaseResopnse);
 
                     string CurrentProductCategoryName = string.Empty;
@@ -229,6 +230,14 @@ namespace MPC.Webstore.Controllers
 
                 }
                 ViewBag.Currency = StoreBaseResopnse.Currency;
+                if (_myClaimHelper.loginContactID() > 0)
+                {
+                    ViewBag.IsUserLogin = 1;
+                }
+                else
+                {
+                    ViewBag.IsUserLogin = 0;
+                }
                 return View("PartialViews/ProductDetail", ItemRecord);
             }
             catch(Exception ex)

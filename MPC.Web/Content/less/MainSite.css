@@ -106,6 +106,11 @@
   color: red;
 }
 /* Validation Summary */
+/* Selected Row Highlight */
+.selectedRow {
+  background: lightgray !important;
+}
+/* */
 /* Common Styles */
 #productBinding .activeView {
   background-color: #ff7e47;
@@ -252,6 +257,9 @@
 }
 #myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
   width: 20%;
+}
+#storesBinding .cursorShape {
+  cursor: pointer;
 }
 #storesBinding .selectedSection,
 #storesBinding .selectedEmailVariable {
@@ -563,7 +571,8 @@
   clear: both;
 }
 #storesBinding #tab-products .dd-handle-list {
-  height: 90%;
+  /*height: 90%;*/
+  top:6px;
   overflow: hidden;
 }
 #storesBinding #tab-products .dd-handle {
