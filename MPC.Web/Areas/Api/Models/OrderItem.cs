@@ -113,6 +113,7 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? JobActualCompletionDateTime { get; set; }
         public bool? IsJobCostingDone { get; set; }
         public string ProductName { get; set; }
+        public int? ProductType { get; set; }
         public string ProductCode { get; set; }
         public long? CompanyId { get; set; }
         public int? NominalCodeId { get; set; }

@@ -399,9 +399,11 @@ define("myOrganization/myOrganization.viewModel",
                                 var org = model.CompanySitesClientMapper(data);
                                 if (isLanguageEditorVisible() == true)
                                 {
+                                   // isLoadingMyOrganization(true);
                                     _.each(data.LanguageEditors, function (item) {
                                         org.languageEditors.push(model.LanguageEditor.Create(item));
                                     });
+                                   // isLoadingMyOrganization(false);
                                 }
                             
                                 
