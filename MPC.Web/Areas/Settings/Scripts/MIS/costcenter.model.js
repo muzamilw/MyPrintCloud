@@ -585,7 +585,12 @@
         oCostCenter.strActualCostMaterialUnParsed(source.strActualCostMaterialUnParsed === undefined || source.strActualCostMaterialUnParsed === null ? '' : source.strActualCostMaterialUnParsed);
         oCostCenter.strTimeParsed(source.strTimeParsed);
         oCostCenter.strTimeUnParsed(source.strTimeUnParsed === undefined || source.strTimeUnParsed === null ? 'EstimatedTime = 0' : source.strTimeUnParsed);
-        oCostCenter.isDisabled(source.IsDisabled);
+        if (source.IsDisabled) {
+            oCostCenter.isDisabled(false);
+        } else {
+            oCostCenter.isDisabled(true);
+        }
+        
         oCostCenter.isDirectCost(source.IsDirectCost);
         oCostCenter.setupSpoilage(source.SetupSpoilage);
         oCostCenter.runningSpoilage(source.RunningSpoilage);
@@ -738,7 +743,12 @@
         result.strActualCostMaterialUnParsed = source.strActualCostMaterialUnParsed();
         result.strTimeParsed = source.strTimeParsed();
         result.strTimeUnParsed = source.strTimeUnParsed();
-        result.IsDisabled = source.isDisabled();
+        if (source.isDisabled()) {
+            result.IsDisabled= false
+        } else {
+            result.IsDisabled = true;
+        }
+        //result.IsDisabled = source.isDisabled();
         result.IsDirectCost = source.isDirectCost();
         result.SetupSpoilage = source.setupSpoilage();
         result.RunningSpoilage = source.runningSpoilage();

@@ -70,6 +70,7 @@ define("common/itemDetail.viewModel",
                     closeItemDetailSection = null,
                     //#endregion  
                      isSectionCostCenterDialogOpen = ko.observable(false),
+                    isSectionVisible = ko.observable(false),
                     //#region Utility Functions
                     sectionCostCenterQty1Charge = ko.computed({
                         read: function () {
@@ -347,6 +348,9 @@ define("common/itemDetail.viewModel",
                             calculateSectionBaseCharge1();
                         }
                     }),
+                      sectionVisibilityHandler = function () {
+                          isSectionVisible(!isSectionVisible());
+                      },
                     onSaveStockitemForSectionCostCenter = function () {
                         var containsStockItem = false;
                         _.each(selectedSection().sectionCostCentres(), function (costCenter) {
@@ -773,7 +777,7 @@ define("common/itemDetail.viewModel",
 
                         }
                     },
-                    isOpenItemSection = ko.observable(false);
+                    isOpenItemSection = ko.observable(false),
                 calculateQty1NetTotalForItem = ko.computed({
                     read: function () {
                         if (!selectedProduct()) {
@@ -1492,6 +1496,26 @@ define("common/itemDetail.viewModel",
                     },
 
                 //#endregion
+                    itemAttachmentFileLoadedCallback = function (file, data) {
+                        //Flag check, whether file is already exist in media libray
+                        var flag = true;
+
+                        _.each(selectedProduct().itemAttachments(), function (item) {
+                            if (item.fileSourcePath() === data && item.fileName() === file.name) {
+                                flag = false;
+                            }
+                        });
+
+                        if (flag) {
+                            var attachment = model.ItemAttachment.Create({});
+                            attachment.id(undefined);
+                            attachment.fileSourcePath(data);
+                            attachment.fileName(file.name);
+                            attachment.companyId(selectedOrder().companyId());
+                            attachment.itemId(selectedProduct().id());
+                            selectedProduct().itemAttachments.push(attachment);
+                        }
+                    },
                 //Initialize
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -1515,6 +1539,8 @@ define("common/itemDetail.viewModel",
                     inkCoverageGroup: inkCoverageGroup,
                     inks: inks,
                     availableInkPlateSides: availableInkPlateSides,
+                    sectionVisibilityHandler: sectionVisibilityHandler,
+
                     availableInkPalteChange: availableInkPalteChange,
                     side1Image: side1Image,
                     side2Image: side2Image,
@@ -1529,6 +1555,7 @@ define("common/itemDetail.viewModel",
                     selectedOrder: selectedOrder,
                     selectedQty: selectedQty,
                     currencySymbol: currencySymbol,
+                    isSectionVisible:isSectionVisible,
                     //#endregion
 
                     //#region Utility Functions
@@ -1579,7 +1606,8 @@ define("common/itemDetail.viewModel",
                     calculateQty1NetTotalForItem: calculateQty1NetTotalForItem,
                     calculateQty2NetTotalForItem: calculateQty2NetTotalForItem,
                     calculateQty3NetTotalForItem: calculateQty3NetTotalForItem,
-                    deleteSection:deleteSection
+                    itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
+                    deleteSection: deleteSection
                     //#endregion
                 };
             })()
