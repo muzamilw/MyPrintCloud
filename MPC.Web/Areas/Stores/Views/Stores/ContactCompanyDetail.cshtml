@@ -528,21 +528,25 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="tab-products">
-                                    <div class="col-lg-3" data-bind="with: $root.selectedStore">
+                                    <div class="col-lg-5" data-bind="with: $root.selectedStore">
                                         <div class="clearfix">
                                             <header>
-                                                <div calss="text-left">
-                                                    <h2>Product Categories</h2>
-                                                </div>
-                                               
-                                                <div calss="text-right" style="padding-right: 5px;">
+                                                <h2>
+                                                    Product Categories
                                                     <a data-bind="click: $root.onCreateNewProductCategory" class="btn btn-primary pull-right">
                                                         Add New Product Category
                                                     </a>
+                                                </h2>
+                                                @*<div class="text-left">
+                                                    
                                                 </div>
-                                               
+
+                                                <div class="text-right" style="padding-right: 5px;">
+                                                    
+                                                </div>*@
+
                                             </header>
-                                            
+
                                         </div>
                                         <div style="padding-right: 5px; padding-top:15px;" id="nestable2">
                                             <ol class="dd-list">
@@ -551,10 +555,10 @@
                                             </ol>
                                         </div>
                                     </div>
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-7">
                                         <div class="clearfix">
                                             <header>
-                                                <div calss="text-left" style="margin-left:17px;">
+                                                <div class="text-left" style="margin-left:17px;">
                                                     <h2>Products</h2>
                                                 </div>                                                
                                             </header>
@@ -2487,7 +2491,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 <div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.getCategoryChildListItems"></i></div>
                 <div class="dd-handle col-sm-12">
                     <span data-bind="text: categoryName" class="col-sm-10 cursorShape"></span>
-                    <div class="nested-links col-sm-2">
+                    <div class="nested-links">
                         <a data-bind="click: $root.onEditProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil cursorShape"></i></a>
                     </div>
                 </div>
