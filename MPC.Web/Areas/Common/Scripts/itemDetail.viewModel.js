@@ -409,7 +409,6 @@ define("common/itemDetail.viewModel",
                         selectedSection(selectedProduct().itemSections()[0]);
                         //selectedSection().productType(selectedProduct().productType());
                         closeItemDetailSection = closeItemDetailParam;
-                        subscribeSectionChanges();
                     },
                     closeItemDetail = function () {
                         showItemDetailsSection(false);
@@ -1441,6 +1440,7 @@ define("common/itemDetail.viewModel",
                     showSectionDetailEditor = function (section) {
                         errorList.removeAll();
                         selectedSection(section);
+                        subscribeSectionChanges();
                         showSectionDetail(true);
                     },
                     closeSectionDetailEditor = function () {
@@ -1487,11 +1487,12 @@ define("common/itemDetail.viewModel",
                          counter = 0,
                 // Create new Item Section
                     createNewItemSection = function () {
-                        var itemSection = model.ItemSection();
+                        var itemSection = model.ItemSection.Create({ ItemId: selectedProduct().id() });
                         counter = counter - 1;
                         itemSection.id(counter);
                         selectedProduct().itemSections.push(itemSection);
                         selectedSection(itemSection);
+                        subscribeSectionChanges();
                         showSectionDetail(true);
                     },
 
@@ -1521,7 +1522,6 @@ define("common/itemDetail.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBaseData();
-                        subscribeSectionChanges();
                         //pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
                     };
 
