@@ -3706,3 +3706,32 @@ Update CostCentre set Type = 2
 
 delete CostCentreType
   where TypeId not in (1,2,3,4,5)
+
+/* Execution Date:  11/05/2105 */
+
+alter table SectionInkCoverage
+drop constraint FK_SectionInkCoverage_ItemSection
+
+alter table SectionInkCoverage
+add constraint FK_SectionInkCoverage_ItemSection
+foreign key (SectionId)
+references ItemSection (ItemSectionId)
+on delete cascade
+
+alter table SectionCostcentre
+drop constraint FK_tbl_section_costcentres_tbl_item_sections
+
+alter table SectionCostcentre
+add constraint FK_SectionCostcentre_ItemSection
+foreign key (ItemSectionId)
+references ItemSection (ItemSectionId)
+on delete cascade
+
+alter table SectionCostCentreDetail
+drop constraint FK_tbl_section_costcentre_detail_tbl_section_costcentres
+
+alter table SectionCostCentreDetail
+add constraint FK_SectionCostCentreDetail_SectionCostcentre
+foreign key (SectionCostCentreId)
+references SectionCostcentre (SectionCostCentreId)
+on delete cascade
