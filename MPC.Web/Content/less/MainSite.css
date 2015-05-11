@@ -571,8 +571,7 @@
   clear: both;
 }
 #storesBinding #tab-products .dd-handle-list {
-  /*height: 90%;*/
-  top:6px;
+  height: 90%;
   overflow: hidden;
 }
 #storesBinding #tab-products .dd-handle {
@@ -776,6 +775,14 @@
 }
 #stockItemRight {
   float: right;
+}
+.productDialogEmptyHeight {
+  min-height: 350px;
+  max-height: 350px;
+}
+.productDialogNonEmptyHeight {
+  min-height: 318px;
+  max-height: 318px;
 }
 #companySelectorDialog .modal-dialog {
   width: 838px;

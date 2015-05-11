@@ -760,14 +760,15 @@ namespace MPC.Repository.Repositories
 		{
 			int fromRow = (request.PageNo - 1) * request.PageSize;
 			int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<CostCentre, bool>> query;
             if (request.CostCenterType != 0)
             {
-                query = oCostCenter => oCostCenter.Type == request.CostCenterType && oCostCenter.IsDisabled != true && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => (!isStringSpecified || oCostCenter.Name.Contains(request.SearchString) || oCostCenter.Description.Contains(request.SearchString)) && oCostCenter.Type == request.CostCenterType && oCostCenter.OrganisationId == OrganisationId;
             }
             else
             {
-                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled != true && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => (!isStringSpecified || oCostCenter.Name.Contains(request.SearchString)) && oCostCenter.Type != 1 && oCostCenter.OrganisationId == OrganisationId;
             }
 			var rowCount = DbSet.Count(query);
 			var costCenters = request.IsAsc
@@ -867,7 +868,7 @@ namespace MPC.Repository.Repositories
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
             List<Currency> list = db.Currencies.ToList();
             db.Configuration.LazyLoadingEnabled = false;
-            var types = db.CostCentreTypes.Where(c => c.OrganisationId == this.OrganisationId).ToList();
+            var types = db.CostCentreTypes ;// .Where(c => c.OrganisationId == this.OrganisationId).ToList();
             var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
             var nominalCodes = db.ChartOfAccounts.Where(u => u.SystemSiteId == this.OrganisationId).ToList();
             var ccVariables = db.CostCentreVariables.Where(c => c.SystemSiteId == this.OrganisationId).ToList();

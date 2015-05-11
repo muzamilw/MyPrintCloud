@@ -180,12 +180,12 @@
                         qty3NetTotal(value);
                     }
                 }),
-                qty1Tax1Value = ko.observable(specifiedQty1Tax1Value || 0),
-                qty2Tax1Value = ko.observable(specifiedQty2Tax1Value || 0),
-                qty3Tax1Value = ko.observable(specifiedQty3Tax1Value || 0),
-                qty1GrossTotal = ko.observable(specifiedQty1GrossTotal || 0),
-                qty2GrossTotal = ko.observable(specifiedQty2GrossTotal || 0),
-                qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || 0),
+                qty1Tax1Value = ko.observable(specifiedQty1Tax1Value || 0).extend({ numberInput: ist.numberFormat }),
+                qty2Tax1Value = ko.observable(specifiedQty2Tax1Value || 0).extend({ numberInput: ist.numberFormat }),
+                qty3Tax1Value = ko.observable(specifiedQty3Tax1Value || 0).extend({ numberInput: ist.numberFormat }),
+                qty1GrossTotal = ko.observable(specifiedQty1GrossTotal || 0).extend({ numberInput: ist.numberFormat }),
+                qty2GrossTotal = ko.observable(specifiedQty2GrossTotal || 0).extend({ numberInput: ist.numberFormat }),
+                qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || 0).extend({ numberInput: ist.numberFormat }),
                 tax1 = ko.observable(specifiedTax1 || undefined),
                 taxRateIsDisabled = ko.observable(false),
                 // Item Type
@@ -806,11 +806,11 @@
                 // Qty3
                 qty3 = ko.observable(specifiedQty3 || undefined),
                 // Qty1 Profit
-                qty1NetTotal = ko.observable(specifiedQty1NetTotal != null ? specifiedQty1NetTotal.toFixed(2) : 0 || undefined),
+                qty1NetTotal = ko.observable(specifiedQty1NetTotal != null ? specifiedQty1NetTotal.toFixed(2) : 0 || undefined).extend({ numberInput: ist.numberFormat }),
                 // Qty2NetTotal
-                qty2NetTotal = ko.observable(specifiedQty2NetTotal != null ? specifiedQty2NetTotal.toFixed(2) : 0 || undefined),
+                qty2NetTotal = ko.observable(specifiedQty2NetTotal != null ? specifiedQty2NetTotal.toFixed(2) : 0 || undefined).extend({ numberInput: ist.numberFormat }),
                 // Qty3NetTotal
-                qty3NetTotal = ko.observable(specifiedQty3NetTotal != null ? specifiedQty3NetTotal.toFixed(2) : 0 || undefined),
+                qty3NetTotal = ko.observable(specifiedQty3NetTotal != null ? specifiedQty3NetTotal.toFixed(2) : 0 || undefined).extend({ numberInput: ist.numberFormat }),
                 // Item Section Id
                 itemSectionId = ko.observable(specifiedItemSectionId || undefined),
                 //Qty 1 Work Instructions
