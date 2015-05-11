@@ -42,6 +42,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InkPlateSides = source.InkPlateSides != null ? source.InkPlateSides.Select(s => s.CreateFromDropDown()).ToList() : new List<InkPlateSide>(),
                 Inks = source.Inks != null ? source.Inks.Select(x => x.CreateFromDropDown()).ToList() : new List<StockItemForDropDown>(),
                 InkCoverageGroup = source.InkCoverageGroups != null ? source.InkCoverageGroups.Select(x => x.CreateFrom()).ToList() : new List<InkCoverageGroup>(),
+                CurrencySymbol = source.CurrencySymbol
             };
         }
 
