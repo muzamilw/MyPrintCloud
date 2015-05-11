@@ -1,12 +1,14 @@
-﻿<div class="modal-content" id="phraseLibraryDialog">
-    <div class="modal-header">
+﻿<div class="modal-content" style="background-color:#FFFFFF;border-radius:5px;" id="phraseLibraryDialog">
+    <div class="modal-header" id="child-dialog-title">
         <h4 class="modal-title">Edit Phrase Library</h4>
     </div>
     <div class="col-lg-12">
         <div class="col-lg-12 clearfix">
+            <h3 id="description-phraselibrary" style="border-bottom:none;">Configure text for titles, description and labels</h3>
             <div class="col-lg-5" style="margin-top:44px;">
                 <br />
                 <div class="table-responsive">
+                    
                     <table class="table" id="phrase-section-table">
                         <thead>
                             <tr>
@@ -129,6 +131,8 @@
     </tr>
 </script>
 
+<script src="~/Scripts/jquery.form.js"></script>
+<script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
 <script>
     $(document).ready(function ()
     {
@@ -147,7 +151,34 @@
             $("#phrase-null-span").hide();
             setTimeout(Countingphraserows, 1000);
         });
+
+        page = Request.QueryString("status").toString();
+
+        if (page != null)
+        {
+            if (page == 'phraselibrary')
+            {
+                $("#child-dialog-title").hide();
+                
+                $("#phraseLibraryDialog").addClass("main-box-body clearfix");
+                $("#phraseLibraryDialog").removeClass("modal-content");
+
+                $("#description-phraselibrary").show();
+            }
+            else if(page == 'null')
+            {
+                $("#child-dialog-title").show();
+
+                $("#phraseLibraryDialog").removeClass("main-box-body clearfix");
+                $("#phraseLibraryDialog").addClass("modal-content");
+                $("#description-phraselibrary").hide();
+
+            }
+           
+        }
     });
+
+    
 
     function Countingphraserows()
     {
