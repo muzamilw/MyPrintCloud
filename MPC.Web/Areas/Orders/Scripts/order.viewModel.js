@@ -245,6 +245,7 @@ define("order/order.viewModel",
                     // Edit Order
                     editOrder = function (data) {
                         getOrderById(data.id(), openOrderEditor);
+                        errorList.removeAll();
                         $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
                     },
                     // Open Editor
@@ -1117,7 +1118,8 @@ define("order/order.viewModel",
                                 addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
                         }
                         addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
-                        },
+                    },
+                    
                     //},
                     //addItemFromRetailStore = function (newItem) {
                     //    selectedProduct(newItem);
@@ -1431,6 +1433,23 @@ define("order/order.viewModel",
                         //#endregion
                     },
                     //#endregion
+                    //#region Add Blank Print Product
+                    onCreateNewBlankPrintProduct = function() {
+                        var newItem = itemModel.Item.Create({});
+                        //Req: Item Product code is set to '1', so while editting item's section is mandatory
+                        newItem.productType(1);
+                        newItem.productName("Blank Sheet");
+                        newItem.qty1(0);
+                        newItem.qty1GrossTotal(0);
+
+                        var itemSection = itemModel.ItemSection.Create({});
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
+                        newItem.itemSections.push(itemSection);
+                        selectedOrder().items.splice(0, 0, newItem);
+                    },
+                    //#endregion
+
                     //#region Pre Payment
                     // Flag for to show Add Title In Pre Payment Dialog
                         flagForToShowAddTitle = ko.observable(true),
@@ -1906,6 +1925,7 @@ define("order/order.viewModel",
                     downloadArtwork: downloadArtwork,
                     //#endregion
                     //#region Utility Functions
+                    onCreateNewBlankPrintProduct: onCreateNewBlankPrintProduct,
                     grossTotal: grossTotal,
                     onOrderStatusChange: onOrderStatusChange,
                     selectedItemForProgressToJobWizard: selectedItemForProgressToJobWizard,

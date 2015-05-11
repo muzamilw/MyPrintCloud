@@ -27,5 +27,11 @@ namespace MPC.Models.ResponseModels
         /// Ink Coverage Groups
         /// </summary>
         public IEnumerable<InkCoverageGroup> InkCoverageGroups { get; set; }
+
+        /// <summary>
+        /// Currency Symbol
+        /// </summary>
+
+        public string CurrencySymbol { get; set; }
     }
 }
