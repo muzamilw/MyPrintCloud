@@ -59,19 +59,20 @@
                         <hr />
                         <div class="filter-body" id="filter">
                             <div class="filter-block pull-right">
-                                <div class="pull-left spanfilterlbl">
+                                @*<div class="pull-left spanfilterlbl">
                                     <label style="margin-right: 35px">Select Stock</label>
-                                </div>
+                                </div>*@
                                 <div class="form-group pull-right">
                                     <!--ko if: $root.selecteditem()!=undefined -->
-                                    <select class="form-control col-lg-4" data-bind="options:$root.selecteditem().itemStockOptions,optionsText:'label',optionsValue:'id', value: $root.selectedStockItem"></select>
+                                    <select class="form-control col-lg-4" data-bind="options:$root.selecteditem().itemStockOptions,optionsText:'label',optionsValue:'id', value: $root.selectedStockItem, optionsCaption: 'Select Stock'"></select>
                                     <!--/ko-->
+                                    
                                 </div>
                             </div>
                             <div class="clearfix">
                             </div>
                         </div>
-                        <!--ko if: $root.selecteditem()!=undefined -->
+                        <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined-->
                         <div class="main-box-body clearfix">
                             <div class="table-responsive">
                                 <table class="table">
@@ -84,7 +85,8 @@
                                             <th class="col-lg-3">Quantity From</th>
                                             <th class="col-lg-3">Quantity To</th>
                                             <!--/ko-->
-                                            <th style="text-align: right"class="col-lg-6" data-bind="text: $root.selectedStockOptionName"></th>
+                                            <th style="text-align: right"class="col-lg-7 " data-bind="text: $root.selectedStockOptionName"></th>
+                                            <th class="col-lg-1"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,7 +96,7 @@
                                 </table>
                             </div>
                         </div>
-                        <!-- ko if: $root.selectedStockOption().itemAddonCostCentres().length >= 1 -->
+                        <!-- ko if: $root.selectedStockOption() != undefined && $root.selectedStockOption().itemAddonCostCentres().length >= 1 -->
                         <h4 class="modal-title">Add Ons</h4>
                         <hr />
                         <div class="main-box-body clearfix">
@@ -102,9 +104,10 @@
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="col-lg-2"></th>
+                                            <th class="col-lg-1"></th>
                                             <th class="col-lg-5">Cost Center</th>
-                                            <th class="col-lg-5">Total</th>
+                                            <th class="col-lg-7 text-right">Total</th>
+                                            <th class="col-lg-1"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,22 +121,24 @@
                         <!--/ko-->
                     </div>
                     <div class="form-group col-lg-12">
-                        <!--ko if: $root.selecteditem()!=undefined -->
+                        <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
                         <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
                         <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Enter Quantity</label></div>
                         <div class=" col-lg-5"><input type="text" class="form-control" data-bind="value: $root.selectedProductQuanity" /></div>
                         <!-- /ko -->
                         <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
-                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Select Quantity</label></div>
-                        <div class=" col-lg-5"><select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity"></select></div>
+                        @*<div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Select Quantity</label></div>*@
+                        <div class=" col-lg-5"><select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity, optionsCaption: 'Select Quantity'"></select></div>
                         <!-- /ko -->
                         <!-- /ko -->
-                        <div class=" col-lg-4 text-right " style=" padding-right: 0;">
+                        <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
+                        <div class=" col-lg-7 text-right " style=" padding-right: 21px;">
                             <label class="control-label tooltip-float">
                                 <span data-bind="text:$root.currencySymbol()"></span>
                                 <span data-bind="numberInput:$root.totalProductPrice"></span>
                             </label>
                         </div>
+                        <!-- /ko -->
                     </div>
                 </div>
             </div>
