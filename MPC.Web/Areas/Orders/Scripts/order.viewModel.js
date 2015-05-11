@@ -970,27 +970,6 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    itemAttachmentFileLoadedCallback = function (file, data) {
-                        //Flag check, whether file is already exist in media libray
-                        var flag = true;
-
-                        _.each(selectedProduct().itemAttachments(), function (item) {
-                            if (item.fileSourcePath() === data && item.fileName() === file.name) {
-                                flag = false;
-                            }
-                        });
-
-                        if (flag) {
-                            var attachment = itemModel.ItemAttachment.Create({});
-                            attachment.id(undefined);
-                            attachment.fileSourcePath(data);
-                            attachment.fileName(file.name);
-                            attachment.companyId(selectedOrder().companyId());
-                            attachment.itemId(selectedProduct().id());
-                            selectedProduct().itemAttachments.push(attachment);
-
-                        }
-                    },
                     //get Orders Of Current Screen
                     getOrdersOfCurrentScreen = function () {
                         pager().reset();
@@ -1927,7 +1906,6 @@ define("order/order.viewModel",
                     downloadArtwork: downloadArtwork,
                     //#endregion
                     //#region Utility Functions
-                    itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
                     grossTotal: grossTotal,
                     onOrderStatusChange: onOrderStatusChange,
                     selectedItemForProgressToJobWizard: selectedItemForProgressToJobWizard,
