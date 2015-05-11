@@ -1119,13 +1119,14 @@
     <Content Include="Content\Images\Ptv\back-upP.gif" />
     <Content Include="Content\Images\Ptv\back-upW.gif" />
     <Content Include="Content\Images\Ptv\dotTexture.gif" />
-    <Content Include="Content\Images\down-arrow.jpg" />
+    <Content Include="Content\Images\OrderSection-down-arrow.jpg" />
     <Content Include="Content\Images\Ptv\front-down.gif" />
     <Content Include="Content\Images\Ptv\front-downP.gif" />
     <Content Include="Content\Images\Ptv\front-up.gif" />
     <Content Include="Content\Images\Ptv\front-upP.gif" />
     <Content Include="Content\Images\Ptv\imgLongSide.gif" />
     <Content Include="Content\Images\Ptv\imgShortSide.gif" />
+    <Content Include="Content\Images\OrderSection-right-arrow.jpg" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\Inventory.css">
       <DependentUpon>Inventory.less</DependentUpon>
@@ -2101,6 +2102,7 @@
     <Content Include="Areas\Orders\Views\Shared\_OrderCostCenterQuantity.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_OrganisationDetail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\test.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_PhraseLibrary.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

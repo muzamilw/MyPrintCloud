@@ -29,5 +29,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public IEnumerable<InkCoverageGroup> InkCoverageGroup { get; set; }
 
+        /// <summary>
+        /// Currency Symbol
+        /// </summary>
+
+        public string CurrencySymbol { get; set; }
+
     }
 }

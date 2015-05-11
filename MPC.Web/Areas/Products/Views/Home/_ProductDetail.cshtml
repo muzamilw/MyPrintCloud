@@ -2607,10 +2607,10 @@
     @* Header Price Matrix Template *@
     <script id="headerPriceMatrixTemplate" type="text/html">
         <tr>
-            <th id="Qty" data-bind="visible: isQtyRangedUi() === '2'"><span>Qty</span></th>
+            <th id="Qty" class="col-lg-1" data-bind="visible: isQtyRangedUi() === '2'"><span>Qty</span></th>
             <!-- ko if: isQtyRangedUi() === '1' -->
-            <th id="QtyRangeFrom"><span>Qty From</span></th>
-            <th id="QtyRangeTo"><span>Qty To</span></th>
+            <th id="QtyRangeFrom" class="col-lg-1"><span>Qty From</span></th>
+            <th id="QtyRangeTo" class="col-lg-1"><span>Qty To</span></th>
             <!-- /ko -->
             <!-- ko with: stockOptionSequence1 -->
             <th class="paperStockType"><span data-bind="text: label"></span></th>

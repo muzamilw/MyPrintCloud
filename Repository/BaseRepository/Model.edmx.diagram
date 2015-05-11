@@ -77,8 +77,6 @@
         <EntityTypeShape EntityType="DomainModels.SystemEmail" Width="1.5" PointX="18.375" PointY="9.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" />
         <AssociationConnector Association="DomainModels.FK_tbl_items_tbl_Statuses" />
-        <AssociationConnector Association="DomainModels.FK_tbl_section_costcentres_tbl_item_sections" />
-        <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_section_costcentres" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_resources_tbl_section_costcentres" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" />
         <EntityTypeShape EntityType="DomainModels.Estimate" Width="1.5" PointX="21.375" PointY="8.25" />
@@ -300,7 +298,6 @@
         <EntityTypeShape EntityType="DomainModels.InkPlateSide" Width="1.5" PointX="40.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.SectionInkCoverage" Width="1.5" PointX="40.375" PointY="3.75" />
         <AssociationConnector Association="DomainModels.FK_Estimate_SectionFlag" />
-        <AssociationConnector Association="DomainModels.FK_SectionInkCoverage_ItemSection" />
         <EntityTypeShape EntityType="DomainModels.JobCardReportView" Width="1.5" PointX="41.375" PointY="41.875" />
         <EntityTypeShape EntityType="DomainModels.OrderReportView" Width="1.5" PointX="38.375" PointY="43.875" />
         <AssociationConnector Association="DomainModels.FK_TemplateColorStyle_Company" />
@@ -312,6 +309,9 @@
         <AssociationConnector Association="DomainModels.FK_ShippingInformation_Address" />
         <AssociationConnector Association="DomainModels.FK_ShippingInformation_Items" />
         <EntityTypeShape EntityType="DomainModels.Reportparam" Width="1.5" PointX="40.375" PointY="22.875" />
+        <AssociationConnector Association="DomainModels.FK_SectionCostcentre_ItemSection" />
+        <AssociationConnector Association="DomainModels.FK_SectionInkCoverage_ItemSection" />
+        <AssociationConnector Association="DomainModels.FK_SectionCostCentreDetail_SectionCostcentre" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

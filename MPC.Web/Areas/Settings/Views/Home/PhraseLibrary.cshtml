@@ -6,13 +6,18 @@
 
 }
 
-@Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
+
+@Html.Partial("~/Areas/Common/Views/Shared/_PhraseLibrary.cshtml")
 
 
 @section Scripts{
     <script>
-        require(["common/phraseLibrary.view"], function() {
-            ist.phraseLibrary.viewModel.show();
-        });
+        //require(["common/phraselibrary.view"], function() {
+        //    ist.phraselibrary.viewmodel.getallsections();
+        //});
+        require(["common/phraseLibrary.view"]);
+
     </script>
+
+
 }
