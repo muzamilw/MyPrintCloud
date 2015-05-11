@@ -16,7 +16,12 @@ namespace MPC.MIS.Areas.Api.Models
         /// System Users
         /// </summary>
         public IEnumerable<SystemUserDropDown> SystemUsers { get; set; }
-                
+
+        /// <summary>
+        /// Cost Centers
+        /// </summary>
+        public IEnumerable<CostCentre> CostCenters { get; set; }
+
         /// <summary>
         /// Currency Symbol
         /// </summary>

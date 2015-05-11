@@ -146,6 +146,7 @@ define("order/order.viewModel",
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
+                     
                     // Page Header 
                     pageHeader = ko.computed(function () {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
@@ -166,7 +167,8 @@ define("order/order.viewModel",
                     defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
                     //Inventory Stock Item To Create
                     inventoryStockItemToCreate = ko.observable(),
-                    
+                    // #endregion
+                    // #region Utility Functions
                     // Selected Address
                     selectedAddress = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
@@ -230,8 +232,8 @@ define("order/order.viewModel",
 
                         return hasChanges || productChanges || sectionHasChanges;
                     }),
-                    // #endregion
-                    // #region Utility Functions
+                   
+                    
                     // Create New Order
                     createOrder = function () {
                         selectedOrder(model.Estimate.Create({}));
@@ -811,28 +813,7 @@ define("order/order.viewModel",
                                     ko.utils.arrayPushAll(paymentMethods(), data.PaymentMethods);
                                     paymentMethods.valueHasMutated();
                                 }
-                                inks.removeAll();//
-                                if (data.Inks) {
-                                    ko.utils.arrayPushAll(inks(), data.Inks);
-                                    inks.valueHasMutated();
-                                }
-                                inkCoverageGroup.removeAll();//
-                                if (data.InkCoverageGroup) {
-                                    ko.utils.arrayPushAll(inkCoverageGroup(), data.InkCoverageGroup);
-                                    inkCoverageGroup.valueHasMutated();
-                                }
-                                markups.removeAll();//
-                                if (data.Markups) {
-                                    _.each(data.Markups, function (item) {
-                                        markups.push(item);
-                                    });
-                                }
-                                categories.removeAll();
-                                if (data.StockCategories) {
-                                    _.each(data.StockCategories, function (item) {
-                                        categories.push(item);
-                                    });
-                                }
+                               
                                 nominalCodes.removeAll();
                                 if (data.ChartOfAccounts) {
                                     _.each(data.ChartOfAccounts, function (item) {
@@ -840,15 +821,6 @@ define("order/order.viewModel",
                                     });
                                 }
 
-                                // Paper Sizes
-                                if (data.PaperSizes) {//
-                                    mapList(paperSizes, data.PaperSizes, model.PaperSize);
-                                }
-
-                                // Ink Plate Sides
-                                if (data.InkPlateSides) {//
-                                    mapList(inkPlateSides, data.InkPlateSides, model.InkPlateSide);
-                                }
                                 costCentresBaseData.removeAll();//
                                 if (data.CostCenters) {
                                     ko.utils.arrayPushAll(costCentresBaseData(), data.CostCenters);
@@ -1954,6 +1926,7 @@ define("order/order.viewModel",
                     paperSizes: paperSizes,
                     downloadArtwork: downloadArtwork,
                     //#endregion
+                    //#region Utility Functions
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
                     grossTotal: grossTotal,
                     onOrderStatusChange: onOrderStatusChange,
@@ -1965,6 +1938,7 @@ define("order/order.viewModel",
                     createitemForRetailStoreProduct: createitemForRetailStoreProduct,
                     editSection: editSection,
                     createNewCostCenterProduct: createNewCostCenterProduct
+                    //#endregion
                 };
             })()
         };

@@ -12,6 +12,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string Description { get; set; }
         public string Type { get; set; }
         public int CalculationMethodType { get; set; }
-
+        public bool IsDisabled { get; set; }
     }
 }
