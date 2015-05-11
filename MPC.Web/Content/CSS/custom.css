@@ -360,3 +360,10 @@ a.reportAnchor a:hover{
     bottom:20px;
     position:absolute;
 }
+
+.group-header-Shortdescription {
+  padding-left: 8px;
+  font-size: 0.8em;
+  margin-top: -5px;
+  margin-bottom: 20px;
+}
