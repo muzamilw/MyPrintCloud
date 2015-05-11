@@ -17,7 +17,7 @@
                     <div class="pull-right top-page-ui">
                         <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left: 15px;">Close</a>
                         <a class="btn btn-primary" data-bind="click: $root.createDeliveryCostCenter">
-                            Add Shipping Cost Center
+                            New Shipping Cost Center
                         </a>
                     </div>
                 </div>
@@ -27,13 +27,15 @@
                     <div class="main-box no-header clearfix">
                         <div class="main-box-body clearfix">
                             <div class="table-responsive">
+                                <h2>Create and configure internal Shipping options used on web stores and estimating</h2>
+                                <br />
                                 <table class="table user-list">
                                     <thead>
                                         <tr id="ccList" class="span12">
                                             <th class="col-lg-3"><span>Name</span></th>
                                             <th class="col-lg-4"><span>Description</span></th>
                                           
-                                            
+                                            <th class="col-lg-4"><span>Status</span></th>
                                             <th class="col-lg-2">&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -45,7 +47,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="pagerDiv">
+                    <div id="pagerDiv" style="float:right">
                         <!-- ko with: pager -->
                         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                         <!-- /ko -->
@@ -73,6 +75,16 @@
                     <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
                 </td>
                 <td data-bind="text: description"></td>
+                <td>
+                    <!-- ko if: isDisabled() -->
+                    <span class="label label-danger">No</span>
+
+                    <!-- /ko -->
+                    <!-- ko if: isDisabled() == false -->
+                    <span class="label label-success">Yes</span>
+                    <!-- /ko -->
+
+                </td>
                 @*<td data-bind="text: type"></td>*@
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
@@ -112,7 +124,7 @@
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
         require(["costcenter/costcenter.view", "common/confirmation.view"]);
-        var CostCenterType = 11;
+        var CostCenterType = 4;
         $(function () {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');

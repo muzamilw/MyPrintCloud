@@ -810,11 +810,15 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 });
                 confirmation.show();
             },
+            getCostCenterByFilter = function () {
+                pager().reset();
+                getCostCenters();
+            },
             getCostCenters = function () {
                 isLoadingCostCenter(true);
 
                 dataservice.getCostCentersList({
-                    CostCenterFilterText: searchFilter(),
+                    SearchString : searchFilter(),
                     PageSize: pager().pageSize(),
                     PageNo: pager().currentPage(),
                     SortBy: sortOn(),
@@ -843,7 +847,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             doBeforeSave = function () {
                 var flag = true;
 
-                if (selectedCostCenter().type() == 11) {
+                if (selectedCostCenter().type() == 4) {
 
                 }
                 else if (selectedCostCenter().calculationMethodType() == '2') {
@@ -957,8 +961,9 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 var cc = new model.CostCenter();
                 cc.setupCost('0');
                 cc.minimumCost('0');
-                cc.type('11');
+                cc.type('4');
                 cc.calculationMethodType('1');
+                cc.name('Enter Cost Center name');
                 selectedCostCenter(cc);
                 $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
                 getCostCentersBaseData();
@@ -993,12 +998,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 newcostcenter.isQtyVariable('1');
                 newcostcenter.isTimeVariable('1');
                 newcostcenter.isCalculationMethodEnable(true);
-                if (CostCenterType == "141") {
-                    newcostcenter.type(141);
+                if (CostCenterType == "2") {
+                    newcostcenter.type(2);
 
 
-                } else if (CostCenterType == "142") {
-                    newcostcenter.type(142);
+                } else if (CostCenterType == "3") {
+                    newcostcenter.type(3);
                 }
 
                 
@@ -1248,13 +1253,13 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                pager(pagination.Pagination({ PageSize: 10 }, costCentersList, getCostCenters));
 
 
-               if (CostCenterType == "141") {
-                   $("#createNewCostCenterId").html("Add Pre Press Cost Center")
+               if (CostCenterType == "2") {
+                   $("#createNewCostCenterId").html("New Pre Press Cost Center")
                    $("#idcostcentertypename").html("Pre Press Cost Centers")
 
 
-               } else if (CostCenterType == "142") {
-                   $("#createNewCostCenterId").html("Add Post Press Cost Center")
+               } else if (CostCenterType == "3") {
+                   $("#createNewCostCenterId").html("New Post Press Cost Center")
                    $("#idcostcentertypename").html("Pre Post Cost Centers")
                }
                getCostCenters();
@@ -1346,7 +1351,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 //CalculateCostType: CalculateCostType,
                 variableDropdownList: variableDropdownList,
                 AddtoInputControl: AddtoInputControl,
-                RowscolCountList: RowscolCountList
+                RowscolCountList: RowscolCountList,
+                getCostCenterByFilter: getCostCenterByFilter
 
             };
         })()

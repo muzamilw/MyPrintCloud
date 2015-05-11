@@ -734,7 +734,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="strActualCostMaterialUnParsed" Type="text" />
           <Property Name="strTimeParsed" Type="text" />
           <Property Name="strTimeUnParsed" Type="text" />
-          <Property Name="IsDisabled" Type="smallint" Nullable="false" />
+          <Property Name="IsDisabled" Type="bit" Nullable="false" />
           <Property Name="IsDirectCost" Type="smallint" Nullable="false" />
           <Property Name="SetupSpoilage" Type="int" Nullable="false" />
           <Property Name="RunningSpoilage" Type="float" Nullable="false" />
@@ -4676,6 +4676,34 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SectionCostcentre_ItemSection">
+          <End Role="ItemSection" Type="Self.ItemSection" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SectionCostcentre" Type="Self.SectionCostcentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemSection">
+              <PropertyRef Name="ItemSectionId" />
+            </Principal>
+            <Dependent Role="SectionCostcentre">
+              <PropertyRef Name="ItemSectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SectionCostCentreDetail_SectionCostcentre">
+          <End Role="SectionCostcentre" Type="Self.SectionCostcentre" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SectionCostCentreDetail" Type="Self.SectionCostCentreDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionCostcentre">
+              <PropertyRef Name="SectionCostcentreId" />
+            </Principal>
+            <Dependent Role="SectionCostCentreDetail">
+              <PropertyRef Name="SectionCostCentreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_sectionId">
           <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
           <End Role="PhraseField" Type="Self.PhraseField" Multiplicity="*" />
@@ -4689,7 +4717,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SectionInkCoverage_ItemSection">
-          <End Role="ItemSection" Type="Self.ItemSection" Multiplicity="0..1" />
+          <End Role="ItemSection" Type="Self.ItemSection" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="SectionInkCoverage" Type="Self.SectionInkCoverage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ItemSection">
@@ -5444,18 +5474,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbl_section_costcentre_detail_tbl_section_costcentres">
-          <End Role="SectionCostcentre" Type="Self.SectionCostcentre" Multiplicity="0..1" />
-          <End Role="SectionCostCentreDetail" Type="Self.SectionCostCentreDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SectionCostcentre">
-              <PropertyRef Name="SectionCostcentreId" />
-            </Principal>
-            <Dependent Role="SectionCostCentreDetail">
-              <PropertyRef Name="SectionCostCentreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tbl_section_costcentre_detail_tbl_stockitems">
           <End Role="StockItem" Type="Self.StockItem" Multiplicity="0..1" />
           <End Role="SectionCostCentreDetail" Type="Self.SectionCostCentreDetail" Multiplicity="*" />
@@ -5489,20 +5507,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="SectionCostcentre">
               <PropertyRef Name="CostCentreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_section_costcentres_tbl_item_sections">
-          <End Role="ItemSection" Type="Self.ItemSection" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="SectionCostcentre" Type="Self.SectionCostcentre" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ItemSection">
-              <PropertyRef Name="ItemSectionId" />
-            </Principal>
-            <Dependent Role="SectionCostcentre">
-              <PropertyRef Name="ItemSectionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6407,6 +6411,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Company" EntitySet="Company" />
             <End Role="RaveReview" EntitySet="RaveReview" />
           </AssociationSet>
+          <AssociationSet Name="FK_SectionCostcentre_ItemSection" Association="Self.FK_SectionCostcentre_ItemSection">
+            <End Role="ItemSection" EntitySet="ItemSection" />
+            <End Role="SectionCostcentre" EntitySet="SectionCostcentre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SectionCostCentreDetail_SectionCostcentre" Association="Self.FK_SectionCostCentreDetail_SectionCostcentre">
+            <End Role="SectionCostcentre" EntitySet="SectionCostcentre" />
+            <End Role="SectionCostCentreDetail" EntitySet="SectionCostCentreDetail" />
+          </AssociationSet>
           <AssociationSet Name="fk_sectionId" Association="Self.fk_sectionId">
             <End Role="Section" EntitySet="Section" />
             <End Role="PhraseField" EntitySet="PhraseField" />
@@ -6659,10 +6671,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="ReportCategory" EntitySet="ReportCategory" />
             <End Role="Report" EntitySet="Report" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_section_costcentre_detail_tbl_section_costcentres" Association="Self.FK_tbl_section_costcentre_detail_tbl_section_costcentres">
-            <End Role="SectionCostcentre" EntitySet="SectionCostcentre" />
-            <End Role="SectionCostCentreDetail" EntitySet="SectionCostCentreDetail" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbl_section_costcentre_detail_tbl_stockitems" Association="Self.FK_tbl_section_costcentre_detail_tbl_stockitems">
             <End Role="StockItem" EntitySet="StockItem" />
             <End Role="SectionCostCentreDetail" EntitySet="SectionCostCentreDetail" />
@@ -6673,10 +6681,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </AssociationSet>
           <AssociationSet Name="FK_tbl_section_costcentres_tbl_costcentres" Association="Self.FK_tbl_section_costcentres_tbl_costcentres">
             <End Role="CostCentre" EntitySet="CostCentre" />
-            <End Role="SectionCostcentre" EntitySet="SectionCostcentre" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_section_costcentres_tbl_item_sections" Association="Self.FK_tbl_section_costcentres_tbl_item_sections">
-            <End Role="ItemSection" EntitySet="ItemSection" />
             <End Role="SectionCostcentre" EntitySet="SectionCostcentre" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_section_flags_tbl_sections" Association="Self.FK_tbl_section_flags_tbl_sections">
@@ -6892,14 +6896,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_items_tbl_Statuses" Association="DomainModels.FK_tbl_items_tbl_Statuses">
             <End Role="Status" EntitySet="Status" />
             <End Role="Item" EntitySet="Items" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_section_costcentres_tbl_item_sections" Association="DomainModels.FK_tbl_section_costcentres_tbl_item_sections">
-            <End Role="ItemSection" EntitySet="ItemSections" />
-            <End Role="SectionCostcentre" EntitySet="SectionCostcentres" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_section_costcentre_detail_tbl_section_costcentres" Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_section_costcentres">
-            <End Role="SectionCostcentre" EntitySet="SectionCostcentres" />
-            <End Role="SectionCostCentreDetail" EntitySet="SectionCostCentreDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_section_costcentre_resources_tbl_section_costcentres" Association="DomainModels.FK_tbl_section_costcentre_resources_tbl_section_costcentres">
             <End Role="SectionCostcentre" EntitySet="SectionCostcentres" />
@@ -7495,10 +7491,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="SectionFlag" EntitySet="SectionFlags" />
             <End Role="Estimate" EntitySet="Estimates" />
           </AssociationSet>
-          <AssociationSet Name="FK_SectionInkCoverage_ItemSection" Association="DomainModels.FK_SectionInkCoverage_ItemSection">
-            <End Role="ItemSection" EntitySet="ItemSections" />
-            <End Role="SectionInkCoverage" EntitySet="SectionInkCoverages" />
-          </AssociationSet>
           <EntitySet Name="JobCardReportViews" EntityType="DomainModels.JobCardReportView" />
           <EntitySet Name="OrderReportViews" EntityType="DomainModels.OrderReportView" />
           <AssociationSet Name="FK_TemplateColorStyle_Company" Association="DomainModels.FK_TemplateColorStyle_Company">
@@ -7553,6 +7545,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="ShippingInformation" EntitySet="ShippingInformations" />
           </AssociationSet>
           <EntitySet Name="Reportparams" EntityType="DomainModels.Reportparam" />
+          <AssociationSet Name="FK_SectionCostcentre_ItemSection" Association="DomainModels.FK_SectionCostcentre_ItemSection">
+            <End Role="ItemSection" EntitySet="ItemSections" />
+            <End Role="SectionCostcentre" EntitySet="SectionCostcentres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SectionInkCoverage_ItemSection" Association="DomainModels.FK_SectionInkCoverage_ItemSection">
+            <End Role="ItemSection" EntitySet="ItemSections" />
+            <End Role="SectionInkCoverage" EntitySet="SectionInkCoverages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SectionCostCentreDetail_SectionCostcentre" Association="DomainModels.FK_SectionCostCentreDetail_SectionCostcentre">
+            <End Role="SectionCostcentre" EntitySet="SectionCostcentres" />
+            <End Role="SectionCostCentreDetail" EntitySet="SectionCostCentreDetails" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8546,7 +8550,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="strActualCostMaterialUnParsed" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="strTimeParsed" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="strTimeUnParsed" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsDisabled" Type="Int16" Nullable="false" />
+          <Property Name="IsDisabled" Type="Boolean" Nullable="false" />
           <Property Name="IsDirectCost" Type="Int16" Nullable="false" />
           <Property Name="SetupSpoilage" Type="Int32" Nullable="false" />
           <Property Name="RunningSpoilage" Type="Double" Nullable="false" />
@@ -9141,9 +9145,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="PlateInkId" Type="Int32" />
           <Property Name="SimilarSections" Type="Int32" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_item_sections_tbl_items" FromRole="ItemSection" ToRole="Item" />
-          <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_tbl_section_costcentres_tbl_item_sections" FromRole="ItemSection" ToRole="SectionCostcentre" />
           <NavigationProperty Name="Machine" Relationship="DomainModels.FK_ItemSection_Machine" FromRole="ItemSection" ToRole="Machine" />
           <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="ItemSection" ToRole="StockItem" />
+          <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_SectionCostcentre_ItemSection" FromRole="ItemSection" ToRole="SectionCostcentre" />
           <NavigationProperty Name="SectionInkCoverages" Relationship="DomainModels.FK_SectionInkCoverage_ItemSection" FromRole="ItemSection" ToRole="SectionInkCoverage" />
         </EntityType>
         <EntityType Name="ItemStockControl">
@@ -9443,9 +9447,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="SetupCost" Type="Double" />
           <Property Name="PricePerUnitQty" Type="Double" />
           <NavigationProperty Name="CostCentre" Relationship="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" FromRole="SectionCostcentre" ToRole="CostCentre" />
-          <NavigationProperty Name="ItemSection" Relationship="DomainModels.FK_tbl_section_costcentres_tbl_item_sections" FromRole="SectionCostcentre" ToRole="ItemSection" />
-          <NavigationProperty Name="SectionCostCentreDetails" Relationship="DomainModels.FK_tbl_section_costcentre_detail_tbl_section_costcentres" FromRole="SectionCostcentre" ToRole="SectionCostCentreDetail" />
           <NavigationProperty Name="SectionCostCentreResources" Relationship="DomainModels.FK_tbl_section_costcentre_resources_tbl_section_costcentres" FromRole="SectionCostcentre" ToRole="SectionCostCentreResource" />
+          <NavigationProperty Name="ItemSection" Relationship="DomainModels.FK_SectionCostcentre_ItemSection" FromRole="SectionCostcentre" ToRole="ItemSection" />
+          <NavigationProperty Name="SectionCostCentreDetails" Relationship="DomainModels.FK_SectionCostCentreDetail_SectionCostcentre" FromRole="SectionCostcentre" ToRole="SectionCostCentreDetail" />
         </EntityType>
         <EntityType Name="SectionCostCentreDetail">
           <Key>
@@ -9462,8 +9466,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ActualQtyUsed" Type="Int32" />
           <Property Name="StockName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Supplier" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SectionCostcentre" Relationship="DomainModels.FK_tbl_section_costcentre_detail_tbl_section_costcentres" FromRole="SectionCostCentreDetail" ToRole="SectionCostcentre" />
           <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" FromRole="SectionCostCentreDetail" ToRole="StockItem" />
+          <NavigationProperty Name="SectionCostcentre" Relationship="DomainModels.FK_SectionCostCentreDetail_SectionCostcentre" FromRole="SectionCostCentreDetail" ToRole="SectionCostcentre" />
         </EntityType>
         <EntityType Name="SectionCostCentreResource">
           <Key>
@@ -9536,32 +9540,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="Item">
               <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_section_costcentres_tbl_item_sections">
-          <End Type="DomainModels.ItemSection" Role="ItemSection" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="DomainModels.SectionCostcentre" Role="SectionCostcentre" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ItemSection">
-              <PropertyRef Name="ItemSectionId" />
-            </Principal>
-            <Dependent Role="SectionCostcentre">
-              <PropertyRef Name="ItemSectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_section_costcentre_detail_tbl_section_costcentres">
-          <End Type="DomainModels.SectionCostcentre" Role="SectionCostcentre" Multiplicity="0..1" />
-          <End Type="DomainModels.SectionCostCentreDetail" Role="SectionCostCentreDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SectionCostcentre">
-              <PropertyRef Name="SectionCostcentreId" />
-            </Principal>
-            <Dependent Role="SectionCostCentreDetail">
-              <PropertyRef Name="SectionCostCentreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -13222,18 +13200,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SectionInkCoverage_ItemSection">
-          <End Type="DomainModels.ItemSection" Role="ItemSection" Multiplicity="0..1" />
-          <End Type="DomainModels.SectionInkCoverage" Role="SectionInkCoverage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ItemSection">
-              <PropertyRef Name="ItemSectionId" />
-            </Principal>
-            <Dependent Role="SectionInkCoverage">
-              <PropertyRef Name="SectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="JobCardReportView">
           <Key>
             <PropertyRef Name="EstimateId" />
@@ -13874,6 +13840,48 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="FilterType" Type="Int32" />
           <Property Name="SortOrder" Type="Int32" />
         </EntityType>
+        <Association Name="FK_SectionCostcentre_ItemSection">
+          <End Type="DomainModels.ItemSection" Role="ItemSection" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.SectionCostcentre" Role="SectionCostcentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemSection">
+              <PropertyRef Name="ItemSectionId" />
+            </Principal>
+            <Dependent Role="SectionCostcentre">
+              <PropertyRef Name="ItemSectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SectionInkCoverage_ItemSection">
+          <End Type="DomainModels.ItemSection" Role="ItemSection" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.SectionInkCoverage" Role="SectionInkCoverage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemSection">
+              <PropertyRef Name="ItemSectionId" />
+            </Principal>
+            <Dependent Role="SectionInkCoverage">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SectionCostCentreDetail_SectionCostcentre">
+          <End Type="DomainModels.SectionCostcentre" Role="SectionCostcentre" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.SectionCostCentreDetail" Role="SectionCostCentreDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionCostcentre">
+              <PropertyRef Name="SectionCostcentreId" />
+            </Principal>
+            <Dependent Role="SectionCostCentreDetail">
+              <PropertyRef Name="SectionCostCentreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

@@ -776,6 +776,14 @@
 #stockItemRight {
   float: right;
 }
+.productDialogEmptyHeight {
+  min-height: 350px;
+  max-height: 350px;
+}
+.productDialogNonEmptyHeight {
+  min-height: 318px;
+  max-height: 318px;
+}
 #companySelectorDialog .modal-dialog {
   width: 838px;
 }

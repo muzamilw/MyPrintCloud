@@ -59,6 +59,7 @@
                             <ul class="nav nav-tabs">
                                 <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
                                 <li><a href="#tab-widgets" data-toggle="tab">Themes & Settings</a></li>
+                                <li><a href="#tab-featuredProducts" data-toggle="tab">Featured Products</a></li>
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
                                 <li><a href="#tab-territory" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Users & Addresses</a></li>
                                 <!--ko if: $root.selectedStore() != undefined && $root.selectedStore().companyId()!== undefined -->
@@ -67,7 +68,7 @@
                                 <li><a href="#tab-mailseries" data-toggle="tab">Emails</a></li>
                                 <li><a href="#tab-approvalPolicies" data-toggle="tab">Store Workflow</a></li>
                                 <li><a href="#tab-pageeditor" data-toggle="tab">Store Layout</a></li>
-                                <li><a href="#tab-DelvAddOns" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Delivery Add Ons</a></li>
+                                <li><a href="#tab-DelvAddOns" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Shipping Options</a></li>
                                 <li><a href="#tab-specialoffer" data-toggle="tab">Discount & Loyalty Points</a></li>
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">Color Palette</a></li>
                                 <li><a href="#tab-VariableDef" data-toggle="tab">Custom CRM Fields</a></li>
@@ -77,7 +78,7 @@
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Store Details</h3>
+                                        
                                         <p class="group-header-description">Manage the basic details of your store in this section.</p>
                                         <div class="col-lg-9">
                                             <div class="form-group form-group-closer" id="form-group-closer">
@@ -90,7 +91,8 @@
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Store Name</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
+                                                    <input type="text" style="height:60px;" name="Store Name" class="form-control height60 font24px" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
+
                                                     <span class="help-block text-right">&nbsp;</span>
                                                 </div>
                                             </div>
@@ -116,7 +118,7 @@
                                                             <label for="optionsRadiosCorporate">
                                                                 Corporate
                                                             </label>
-                                                            <span class="help-block text-right">The Store Type determines how a store will be accessed</span>
+                                                            <span class="help-block text-right"></span>
                                                         </div>
                                                     </div>
 
@@ -134,61 +136,64 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
-                                                    <span class="help-block text-right">The Store's web access code creates a unique URL for this store</span>
+                                                    <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
                                             @*<div class="form-group">
-                                                    <div class="col-lg-3 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
+                <div class="col-lg-3 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
 
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="http://pinkcards.com" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
+                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="http://pinkcards.com" data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
 
-                                                        </div>
-                                                        <label for="txtWebsiteURL" class="control-label text-right tooltip-float">Website Domain(s)</label>
+                    </div>
+                    <label for="txtWebsiteURL" class="control-label text-right tooltip-float">Website Domain(s)</label>
 
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea id="WebUrl" class="form-control" data-bind="value: url"></textarea>
-                                                        <span class="help-block text-right">You can have multiple domains point to your store enter each domain in new line.</span>
-                                                    </div>
-                                                </div>*@
+                </div>
+                <div class="col-lg-6">
+                    <textarea id="WebUrl" class="form-control" data-bind="value: url"></textarea>
+                    <span class="help-block text-right">You can have multiple domains point to your store enter each domain in new line.</span>
+                </div>
+            </div>*@
                                             <div class="form-group form-group-closer">
                                                 <div class="col-lg-3 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default Phone Number displayed on main page" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-                                                    <label class="control-label tooltip-float" for="maskedPhone">Phone</label>
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
+                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default Phone Number displayed on main page" data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+                    <label class="control-label tooltip-float" for="maskedPhone">Phone</label>*@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus"><i class="fa fa-phone"></i></span>
                                                         <input type="text" class="form-control" id="maskedPhone" data-bind="value: phoneNo">
                                                     </div>
-                                                    <span class="help-block text-right">This phone number is displayed on the store for quick contact</span>
+                                                    <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-closer">
+
+                                            <div class="form-group" style="margin-bottom:25px;">
                                                 <div class="col-lg-3 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Internal Use Only for CRM Notes" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-                                                    <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
+                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Internal Use Only for CRM Notes" data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+                    <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>*@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <textarea class="form-control notes" id="txtNotes" rows="5" data-bind="value: notes"></textarea>
-                                                    
+
                                                 </div>
                                             </div>
 
+                                        </div>
 
+                                      
                                             @*Start*@
-                                            <div class="form-group">
+                                            @*<div class="form-group">
                                                 <h3 class="group-header">Assign domain names to this store</h3>
                                                 <div class="col-lg-9">
                                                     <button class="btn btn-primary pull-right" data-bind="click: $root.createCompanyDomainItem, enable:($root.selectedStore().companyDomains().length != 0)">Add New Domain</button>
@@ -208,7 +213,9 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>*@
+
+
                                             @*<div class="col-md-6 form-horizontal">
                                                     <div class="form-group">
                                                         <label class="control-label h5 col-sm-6"><b>Company Domain</b></label>
@@ -235,13 +242,13 @@
                                                     <br />
                                                 </div>*@
                                             @*End*@
-                                        </div>
+                                       
                                         <div class="col-lg-3 col-md-4 col-sm-4">
-                                            <div class="main-box clearfix">
-                                                <header class="main-box-header clearfix">
+                                            <div>
+                                                @*<header class="main-box-header clearfix">
                                                     <h2><label data-bind="text: name"></label></h2>
-                                                </header>
-                                                <div class="main-box-body clearfix">
+                                                </header>*@
+                                                <div class="main-box-body">
                                                     <div class="profile-status">
                                                     </div>
                                                     <img width="150" data-bind="visible:storeImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
@@ -266,21 +273,61 @@
                                                     </div>
                                                     <div class="profile-since" data-bind="value: accountOpenDate">
                                                     </div>
-                                                    <div class="profile-details">
+                                                    @*<div class="profile-details">
                                                         <ul class="fa-ul">
                                                             <li style="margin-left: -19px"><i class="fa-li fa fa-truck"></i>New orders in last 5 days:<span data-bind="text:$root.orderCount"></span> </li>
                                                             <li style="margin-left: -19px"><i class="fa-li fa fa-users"></i>New users in last 5 days:<span data-bind="text:$root.userCount"></span> </li>
                                                         </ul>
-                                                    </div>
+                                                    </div>*@
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Account and tax settings for this store</h3>
+                                        <div class="form-group">
 
+                                          
+                                                <div class="col-lg-2">
+
+                                                </div>
+                                                <div class="col-lg-10" style="padding-left: 35px;">
+                                                    <div style="background-color:gainsboro; border-radius:3px">
+                                                        <header class="main-box-header clearfix">
+                                                            <div style="float:left;"><span style="font-size:24px">Assign domain names to this store</span></div>
+                                                        </header>
+                                                        <div class="main-box-body clearfix">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th><span>Domain Name</span></th>
+
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <!-- ko template: { name: $root.templateToUseCompanyDomain , foreach: companyDomains() } -->
+                                                                        <!-- /ko -->
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                        <button class="btn btn-primary" data-bind="click: $root.createCompanyDomainItem, enable:($root.selectedStore().companyDomains().length != 0)">Add New Domain</button>
+                                                    </div>
+
+                                                </div>
+
+
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Account and tax settings for this store</h3>
+                                        <p class="group-header-description">Account and tax settings for this store.</p>
                                         <div class="col-lg-9">
-                                            <div class="form-group form-group-closer">
+                                            @*<div class="form-group form-group-closer">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Date when your customers account was opened with your business *optional*" data-original-title="" title="">
@@ -292,7 +339,7 @@
                                                 <div class="col-lg-6">
                                                     <label class="control-label" data-bind="dateString: accountOpenDate, datePattern: 'DD/MM/YYYY HH:mm'"></label>
                                                 </div>
-                                            </div>
+                                            </div>*@
                                             <div class="form-group form-group-closer">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -320,7 +367,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter Tax Registration Number" data-bind="value: avatRegNumber">
-                                                    <span class="help-block text-right">Tax registration number</span>
+                                                    <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
                                             <div class="form-group form-group-closer">
@@ -334,10 +381,10 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter Tax Reference Number" data-bind="value: avatRegReference">
-                                                    <span class="help-block text-right">Tax reference number</span>
+                                                    <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-closer">
+                                            @*<div class="form-group form-group-closer">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Each flag has its own price matrix, so select flag for the prices to be available on webstore." data-original-title="" title="">
@@ -348,16 +395,18 @@
                                                 </div>
                                                 <div class="col-lg-6">
 
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.priceFlags,optionsText:'FlagName',optionsValue:'SectionFlagId', value: $root.selectedStore().priceFlagId"></select>   @*,value: $root.selectedClaimFilterListitem*@
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.priceFlags,optionsText:'FlagName',optionsValue:'SectionFlagId', value: $root.selectedStore().priceFlagId"></select>  
                                                     <span class="help-block text-right">&nbsp;</span>
 
                                                 </div>
-                                            </div>
+                                            </div>*@
 
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Store's Social Login Integration Settings</h3>
+                                        <h3 class="group-header" style="margin-top:20px;">
+                                            Store's Social Login Integration Settings
+                                        </h3>
                                         <p class="group-header-description">Enter information below to enable Social Login feature on your store. Users can login into your store using Facebook, Twitter and Linked Accounts. Only available for Retail stores.</p>
                                         <div class="col-lg-9">
 
@@ -488,7 +537,7 @@
                                                
                                                 <div calss="text-right" style="padding-right: 5px;">
                                                     <a data-bind="click: $root.onCreateNewProductCategory" class="btn btn-primary pull-right">
-                                                        Add Product Category
+                                                        Add New Product Category
                                                     </a>
                                                 </div>
                                                
@@ -536,7 +585,7 @@
                                                 </div>
                                                 <!--/ko-->
                                                 <div class="filter-block">
-                                                    <div class="filter-block pull-right col-xs-5">
+                                                    <div class="filter-block pull-right col-xs-5" style="  margin-right: -10px; margin-top: -2px">
                                                         <form data-bind="submit:$root.searchCompanyContactByFilter ">
                                                             <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
                                                                 <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
@@ -579,7 +628,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <footer class="main-box-header pull-right">
+                                            <footer class="main-box-header pull-right" style="  margin-right: -10px;">
                                                 <div id="pagerDivUsers">
                                                     <!-- ko with: $root.contactCompanyPager -->
                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -600,7 +649,7 @@
                                                 </div>
                                                 <!--/ko-->
                                                 <div class="filter-block">
-                                                    <div class="filter-block pull-right col-xs-5">
+                                                    <div class="filter-block pull-right col-xs-5" style="margin-right: -10px;margin-top: -2px">
                                                         <form data-bind="submit:$root.searchAddressByFilter ">
                                                             <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
                                                                 <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
@@ -637,8 +686,8 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <footer class="main-box-header pull-right">
-                                                <div id="pagerDivAddress">
+                                            <footer class="main-box-header pull-right" style="margin-right: -10px">
+                                                <div id="pagerDivAddress" >
                                                     <!-- ko with: $root.addressPager -->
                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                     <!-- /ko -->
@@ -648,11 +697,11 @@
                                     </div>
                                     <!--ko if: type() != 4-->
                                     <div class="col-lg-12">
-                                        <h3 class="group-header">Store's Corporate Hierarchy Address Territories</h3>
+                                        <h3 class="group-header">Corporate Store Territories & Departments</h3>
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block">
-                                                    <div class="filter-block pull-right col-xs-5">
+                                                    <div class="filter-block pull-right col-xs-5" style="margin-right: -10px;">
                                                         <form data-bind="submit:$root.searchCompanyTerritoryByFilter ">
                                                             <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
                                                                 <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
@@ -683,7 +732,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <footer class="main-box-header pull-right">
+                                            <footer class="main-box-header pull-right" style="margin-right: -10px">
                                                 <div id="pagerDiv">
                                                     <!-- ko with: $root.companyTerritoryPager -->
                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -787,9 +836,10 @@
                                 <div class="tab-pane fade" id="tab-widgets" data-bind="with: $root.selectedStore">
                                     <div class="col-md-12 form-horizontal">
                                         <h3 class="group-header">Store Theme</h3>
-                                        <div class="col-md-9">
-                                            <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                        <p class="group-header-description">Store Theme.</p>
+                                        <div class="col-md-12">
+                                            @*<div class="form-group">
+                                                <div classs="col-lg-2 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Current Theme" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -797,23 +847,23 @@
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Current Theme</label>
                                                 </div>
-                                                <div class="col-lg-5">
+                                                <div classs="col-lg-4">
                                                     <label class="control-label text-right tooltip-float pull-left" data-bind="text:currentThemeName"></label>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <div class="btn btn-primary">Restore to original version</div>
+                                                    <div class="btn btn-primary">Reset to original version</div>
                                                 </div>
-                                            </div>
+                                            </div>*@
                                             <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-lg-3 text-right" style="width:19%;">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Available Themes" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Available Themes</label>
+                                                    <label class="control-label text-right tooltip-float">Current Theme</label>
                                                 </div>
-                                                <div class="col-lg-5">
+                                                <div class="col-lg-4" style="width:38%;">
                                                     <!-- ko if: $root.themes().length > 0 -->
                                                     @*<select class="form-control" data-bind="options: $root.themes,optionsCaption:'Select Theme', optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>*@
                                                     <div class="form-control" id="ops_theme_dropdown">
@@ -828,24 +878,28 @@
                                                     </div>
                                                     <!-- /ko -->
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-2">
                                                     <div class="btn btn-primary" data-bind="click:$root.onApplyTheme,visible:$root.selectedStore().companyId()!==undefined">Apply Selected Theme</div>
+                                                </div>
+                                                <div class="col-lg-3" style="width:17%;">
+                                                    <div class="btn btn-primary">Reset to original version</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-horizontal">
                                         <h3 class="group-header">Store background Image</h3>
+                                        <p class="group-header-description">Upload store background. Background Image is applied using CSS.</p>
                                         <div class="col-md-9">
                                             <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload a background image used behind the home page of the Webstore, default size is 2149 x 713 pixels and the best format is  a 72dpi PNG format, other sizes can be utilized, remember to consider mobile and tablet device use." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float col-lg-10"> Upload store background. Background Image is applied using CSS.</label>
-                                                    <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels), Note: Background image is applied on store using CSS style class "bodycolor" available in Store's CSS </label>
+                                                    <label class="control-label text-right tooltip-float col-lg-10">Background Image.</label>
+                                                    <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels) </label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <img width="400" height="300" data-bind="visible:storeBackgroudImageImageSource()===undefined,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
@@ -861,73 +915,19 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-horizontal">
-                                        <h3 class="group-header">Store's home page and contact us page settings</h3>
-                                        <div class="col-md-12">
+                                        <h3 class="group-header">Contact us page settings</h3>
+                                        <p class="group-header-description">Contact us page settings.</p>
+                                        <div class="col-md-9">
 
+                                          
                                             <div class="form-group">
-                                                <div class="col-lg-6 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Featured Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure featured productcs widget is available on home page in page layout." data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Select Featured products</label>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="col-xs-6">
-                                                        @*<input type="text" data-bind="visible:false,validationOnElement: $root.productError" />*@
-                                                        <a id="A1" href="#" class="btn btn-primary" style="vertical-align: top;width:38%;" data-bind="click:$root.openItemsForWidgetsDialogFromFeatured,validationOnElement: $root.productError">
-                                                            <i class="fa fa-lg"></i>&nbsp;....
-                                                        </a>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-lg-6 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Popular Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure most popular productcs widget is available on home page in page layout." data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Select Most Popular products</label>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="col-xs-6">
-                                                        <a id="A2" href="#" data-bind="click:$root.openItemsForWidgetsDialogFromPopular" class="btn btn-primary" style="vertical-align: top;width:38%;">
-                                                            <i class="fa fa-lg"></i>&nbsp;....
-                                                        </a>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-lg-6 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer; border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Special Offer Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure special productcs widget is available on home page in page layout." data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Select Special products</label>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="col-xs-6">
-                                                        <a id="A3" href="#" class="btn btn-primary" data-bind="click:$root.openItemsForWidgetsDialogFromSpecial" style="vertical-align: top;width:38%;">
-                                                            <i class="fa fa-lg"></i>&nbsp;....
-                                                        </a>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Show your Google map location on the Contact Us Page.  Choose from entering your ideal locations or using your default organizational default address, or upload your own map." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Type of map to be displayed on contact Us page</label>
+                                                    <label class="control-label text-right tooltip-float">Map Options</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
@@ -989,10 +989,11 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-horizontal">
-                                        <h3 class="group-header">Store's images used in banners, background, store logo, css etc)</h3>
+                                        <h3 class="group-header">Media Library images used throughout the store</h3>
+                                        <p class="group-header-description">Media Library images used throughout the store.</p>
                                         <div class="col-md-9">
                                             <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Bulk upload icons, thumbnails, logos and image files required to be used within a store, prevents you from having to upload 1 image at a time when creating new products." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -1003,7 +1004,7 @@
                                                 <div class="col-lg-6">
                                                     <div class="col-lg-1">
                                                         <div class="fileUpload btn btn-primary">
-                                                            <span>....</span>
+                                                            <span>Upload Multiple Files</span>
                                                             <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
@@ -1064,7 +1065,7 @@
                                                     </div>
                                                     <div class="col-lg-2">
                                                         <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
-                                                            Add Banner
+                                                            Add New Banner
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1244,6 +1245,75 @@
                                     <div class="clearfix">
                                         &nbsp;
                                     </div>
+                                </div>
+                                
+                                <div class="tab-pane fade" data-bind="with: $root.selectedStore" id="tab-featuredProducts">
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Featured Products</h3>
+                                        <p class="group-header-Shortdescription">Featured Products.</p>
+                                        <div class="col-lg-9">
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Featured Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure featured productcs widget is available on home page in page layout." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Select Featured products</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="col-xs-6">
+                                                        @*<input type="text" data-bind="visible:false,validationOnElement: $root.productError" />*@
+                                                        <a id="A1" href="#" class="btn btn-primary" style="vertical-align: top;width:38%;" data-bind="click:$root.openItemsForWidgetsDialogFromFeatured,validationOnElement: $root.productError">
+                                                            <i class="fa fa-lg"></i>&nbsp;....
+                                                        </a>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Popular Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure most popular productcs widget is available on home page in page layout." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Select Popular products</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="col-xs-6">
+                                                        <a id="A2" href="#" data-bind="click:$root.openItemsForWidgetsDialogFromPopular" class="btn btn-primary" style="vertical-align: top;width:38%;">
+                                                            <i class="fa fa-lg"></i>&nbsp;....
+                                                        </a>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer; border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Special Offer Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure special productcs widget is available on home page in page layout." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Select Special products</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="col-xs-6">
+                                                        <a id="A3" href="#" class="btn btn-primary" data-bind="click:$root.openItemsForWidgetsDialogFromSpecial" style="vertical-align: top;width:38%;">
+                                                            <i class="fa fa-lg"></i>&nbsp;....
+                                                        </a>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="tab-pane fade" id="tab-SEO" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12 form-horizontal">
@@ -2316,18 +2386,18 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
     <script id="itemCompanyContactTemplate" type="text/html">
         <tr style="cursor: pointer" data-bind="click: $root.onEditCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact }">
-            <td style="width: 20%; max-width: 20%;">
+            <td style="width: 20%; max-width: 20%; padding-top: 35px;">
                 <div class="img col-xs-2">
                     <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
                 </div>
-                <div class="details col-lg-1">
-                    <a href="#" class="store-user-link" data-bind="text: firstName"></a>
+                <div class="col-xs-10">
+                    <a href="#" class="store-user-link" data-bind="text: firstName()+' '+lastName()"></a>
                     <a href="#" class="store-user-link storeSubText" data-bind="text: email"></a>
                     @*<div class="name">
-                        <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
-                    </div>
-                    <div class="time online" data-bind="text: email">
-                    </div>*@
+                <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
+            </div>
+            <div class="time online" data-bind="text: email">
+            </div>*@
                 </div>
             </td>
             <td style="width: 10%; max-width: 10%;">
@@ -2632,6 +2702,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <a href="#" class="table-link danger" data-bind="click : $root.onDeleteMedia">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
+                
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
             </span>
         </a>
