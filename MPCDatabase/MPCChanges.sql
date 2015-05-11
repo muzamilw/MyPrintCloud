@@ -3695,10 +3695,10 @@ GO
 
 SET identity_insert CostCentreType ON
 
-insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (2, 'Pre Press', 1,1,null)
-insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (3, 'Post Press', 1,1,null)
-insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (4, 'Delivery', 1,1,null)
-insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (5, 'Web Order Cost Center', 1,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (2, 'Pre Press', 0,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (3, 'Post Press', 0,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (4, 'Delivery', 0,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (5, 'Web Order Cost Center', 0,1,null)
 
 SET identity_insert CostCentreType OFF
 

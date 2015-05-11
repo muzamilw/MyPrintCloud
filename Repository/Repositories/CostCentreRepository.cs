@@ -868,7 +868,7 @@ namespace MPC.Repository.Repositories
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
             List<Currency> list = db.Currencies.ToList();
             db.Configuration.LazyLoadingEnabled = false;
-            var types = db.CostCentreTypes ;// .Where(c => c.OrganisationId == this.OrganisationId).ToList();
+            var types = db.CostCentreTypes.Where(c => c.TypeId == 2 || c.TypeId ==3).ToList();
             var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
             var nominalCodes = db.ChartOfAccounts.Where(u => u.SystemSiteId == this.OrganisationId).ToList();
             var ccVariables = db.CostCentreVariables.Where(c => c.SystemSiteId == this.OrganisationId).ToList();
