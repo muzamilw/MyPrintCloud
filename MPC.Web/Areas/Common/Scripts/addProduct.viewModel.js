@@ -145,6 +145,7 @@ define("common/addProduct.viewModel",
                         newItem.id(counterForItem());
                         newItem.qty1NetTotal(totalProductPrice());
                         newItem = addSelectedAddOnsAsCostCenters(newItem);
+                        newItem.productType(1);
                         afterAddCostCenter(newItem);
                     },
                     onSaveRetailStoreProduct = function () {
@@ -225,6 +226,9 @@ define("common/addProduct.viewModel",
                             return;
                         }
                         var count = 0;
+                        selectedStockOptionName(undefined);
+                        selectedStockOption(undefined);
+                        selectedStockOptionSequenceNumber(count);
                         _.each(selecteditem().itemStockOptions(), function (itemStockOption) {
                             count = count + 1;
                             if (itemStockOption.id() == selectedStockItem()) {

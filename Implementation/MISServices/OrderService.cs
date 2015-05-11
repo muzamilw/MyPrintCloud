@@ -500,6 +500,7 @@ namespace MPC.Implementation.MISServices
                                          CreateItem = CreateItem,
                                          DeleteItem = DeleteItem,
                                          CreateItemSection = CreateItemSection,
+                                         DeleteItemSection = DeleteItemSection,
                                          CreateSectionCostCentre = CreateSectionCostCentre,
                                          DeleteSectionCostCenter = DeleteSectionCostCentre,
                                          CreateItemAttachment = CreateItemAttachment,
@@ -540,7 +541,6 @@ namespace MPC.Implementation.MISServices
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
                        PaymentMethods = paymentMethodRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
-                       StockCategories = stockCategoryRepository.GetAll(),
                       // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem()
                    };

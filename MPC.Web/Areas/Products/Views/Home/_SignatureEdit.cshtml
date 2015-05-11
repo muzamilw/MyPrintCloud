@@ -1,5 +1,5 @@
 ﻿<div class="modal fade my-modal" id="signatureEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div style="width:70%;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -7,151 +7,296 @@
             </div>
             <div class="col-lg-12 outerDiv-Padding form-horizontal" data-bind="with: activeItemSection">
 
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Section Name" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Section Name" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label tooltip-float">Component Name</label>
                         </div>
-
-                        <label class="control-label text-right tooltip-float">Section Name</label>
-
-                    </div>
-
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control" placeholder="Enter Section Name" data-bind="value: name">
-                        <span class="help-block text-right"></span>
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Press Name" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
+                        <div class="col-lg-4" style="padding-left:15px;">
+                            <input type="text" class="form-control font24px" style="height: 60px;" id="ItemTitle" data-bind="value: name, validationTooltip: name" />
                         </div>
+                        <div class="col-lg-5">
+                            <div class="radio col-xs-4" style="margin-left:25px">
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1">
+                                <label for="optionsRadios1">
+                                    Single Sided
+                                </label>
+                            </div>
+                            <div class="radio col-xs-4" style="margin-left:-35px">
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
+                                <label for="optionsRadios2">
+                                    Double Sided
+                                </label>
+                            </div>
+                            <div class="radio col-xs-4" style="margin-left:-28px">
+                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="3">
+                                <label for="optionsRadios3">
+                                    Work n turn
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Stock for Signature" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
 
-                        <label class="control-label text-right tooltip-float">Press</label>
-
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control StockPres-Style" id="txtPress" placeholder="Press Name" data-bind="value: pressName, enable: false">
-                        <a href="#" data-bind="click: $root.openPressDialog" class="btn btn-primary pull-right">
-                            <i class="fa fa-lg"></i>&nbsp;....
-                        </a>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Stock Name" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label class="control-label text-right tooltip-float">Stock</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control StockPres-Style" placeholder="Stock Name" data-bind="value: stockItemName, enable: false">
-
-                        <a href="#" data-bind="click: $parent.chooseStockItemForSection" class="btn btn-primary pull-right">
-                            <i class="fa fa-lg"></i>&nbsp;....
-                        </a>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Section Size" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label class="control-label text-right tooltip-float">Section Size</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionSizeId"></select>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Page Sheet Size" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label class="control-label text-right tooltip-float">Page Sheet Size</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: itemSizeId"></select>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Section Size Custom" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label class="control-label text-right tooltip-float">Is Section Size Custom</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="onoffswitch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSectionSizeCustom" data-bind="checked: isSectionSizeCustom">
-                            <label class="onoffswitch-label" for="switchSectionSizeCustom">
-                                <div class="onoffswitch-inner"></div>
-                                <div class="onoffswitch-switch"></div>
-                            </label>
-                        </div>
-                        <span class="help-block text-right"></span>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="col-lg-3">
-                            <input type="text" class="form-control" data-bind="value: sectionSizeHeight, visible: isSectionSizeCustom">
+                            <label class="control-label tooltip-float">Stock</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" data-bind="value: sectionSizeWidth, visible: isSectionSizeCustom">
+                            <input type="text" style="width:100%;" data-bind="value: stockItemName, validationTooltip: stockItemId, enable: false, validationOnElement: stockItemName" class="form-control OpenStockPopup-Class" id="txtStock">
                         </div>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Page Size Custom" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        <div class="col-lg-1">
+                            <a data-bind="click: $parent.chooseStockItemForSection" href="#" class="btn btn-primary pull-right">
+                                <i class="fa fa-lg"></i>&nbsp;....
                             </a>
                         </div>
-                        <label class="control-label text-right tooltip-float">Is Page Size Custom</label>
+                        <div class="col-lg-2">
+                            <div class="checkbox-nice">
+                                <input type="checkbox" id="checkbox-1" />
+                                <label for="checkbox-1">
+                                    Supplied
+                                </label>
+                            </div>
+                        </div>
+                        
                     </div>
-                    <div class="col-lg-3">
-                        <div class="onoffswitch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchItemSizeCustom" data-bind="checked: isItemSizeCustom">
-                            <label class="onoffswitch-label" for="switchItemSizeCustom">
-                                <div class="onoffswitch-inner"></div>
-                                <div class="onoffswitch-switch"></div>
-                            </label>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Customer for Estimate" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label tooltip-float">Sheet Size</label>
                         </div>
-                        <span class="help-block text-right"></span>
+                        <div class="col-lg-4">
+                            <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionSizeId, enable: !isSectionSizeCustom()"></select>
+                        </div>
+                        <div class="col-lg-1">
+                            <div class="checkbox-nice">
+                                <input type="checkbox" id="checkbox-5" checked="checked" data-bind="checked: isSectionSizeCustom" />
+                                <label for="checkbox-5">
+                                    Custom
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" data-bind="value: sectionSizeHeight, enable: isSectionSizeCustom" id="qty11" />
+                                <span class="help-block" style="margin-left:30%;">Height</span>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <button data-bind="enable: isSectionSizeCustom" class="btn btn-primary btn-Toggle">
+                                    <i class="fa fa-lg"></i>&nbsp;< >
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" data-bind="value: sectionSizeWidth, enable: isSectionSizeCustom" id="qty31" />
+                                <span class="help-block" style="margin-left:30%;">Width</span>
+                            </div>
+                        </div>
+                       
                     </div>
-                    <div class="col-lg-6">
-                        <div class="col-lg-3">
-                            <input type="text" class="form-control" data-bind="value: itemSizeHeight, visible: isItemSizeCustom">
+
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Customer for Order" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+
+                            <label class="control-label tooltip-float">Item Size</label>
                         </div>
-                        <div class="col-lg-3">
-                            <input type="text" class="form-control" data-bind="value: itemSizeWidth, visible: isItemSizeCustom">
+                        <div class="col-lg-4">
+                            <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: itemSizeId, enable: !isItemSizeCustom()" style="width: 100%"></select>
                         </div>
-                        <span class="help-block text-right"></span>
+                        <div class="col-lg-1">
+                            <div class="checkbox-nice">
+                                <input type="checkbox" id="checkbox-4" data-bind="checked: isItemSizeCustom" />
+                                <label for="checkbox-4">
+                                    Custom
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" data-bind="value: itemSizeHeight, enable: isItemSizeCustom" id="qty11" />
+                                <span class="help-block" style="margin-left:30%;">Height</span>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <button data-bind="enable: isItemSizeCustom" class="btn btn-primary btn-Toggle">
+                                    <i class="fa fa-lg"></i>&nbsp;< >
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" data-bind="value: itemSizeWidth, enable: isItemSizeCustom" id="qty31" />
+                                <span class="help-block" style="margin-left:30%;">Width</span>
+
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
+
+
+
+
+
+                @*<div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Section Name" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+
+                            </div>
+
+                            <label class="control-label text-right tooltip-float">Section Name</label>
+
+                        </div>
+
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" placeholder="Enter Section Name" data-bind="value: name">
+                            <span class="help-block text-right"></span>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Press Name" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+
+                            </div>
+
+                            <label class="control-label text-right tooltip-float">Press</label>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control StockPres-Style" id="txtPress" placeholder="Press Name" data-bind="value: pressName, enable: false">
+                            <a href="#" data-bind="click: $root.openPressDialog" class="btn btn-primary pull-right">
+                                <i class="fa fa-lg"></i>&nbsp;....
+                            </a>
+                            <span class="help-block text-right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Stock Name" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float">Stock</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control StockPres-Style" placeholder="Stock Name" data-bind="value: stockItemName, enable: false">
+
+                            <a href="#" data-bind="click: $parent.chooseStockItemForSection" class="btn btn-primary pull-right">
+                                <i class="fa fa-lg"></i>&nbsp;....
+                            </a>
+                            <span class="help-block text-right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Section Size" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float">Section Size</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionSizeId"></select>
+                            <span class="help-block text-right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Page Sheet Size" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float">Page Sheet Size</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: itemSizeId"></select>
+                            <span class="help-block text-right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Section Size Custom" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float">Is Section Size Custom</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSectionSizeCustom" data-bind="checked: isSectionSizeCustom">
+                                <label class="onoffswitch-label" for="switchSectionSizeCustom">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                            <span class="help-block text-right"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" data-bind="value: sectionSizeHeight, visible: isSectionSizeCustom">
+                            </div>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" data-bind="value: sectionSizeWidth, visible: isSectionSizeCustom">
+                            </div>
+                            <span class="help-block text-right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Page Size Custom" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float">Is Page Size Custom</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchItemSizeCustom" data-bind="checked: isItemSizeCustom">
+                                <label class="onoffswitch-label" for="switchItemSizeCustom">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                            <span class="help-block text-right"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" data-bind="value: itemSizeHeight, visible: isItemSizeCustom">
+                            </div>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" data-bind="value: itemSizeWidth, visible: isItemSizeCustom">
+                            </div>
+                            <span class="help-block text-right"></span>
+                        </div>
+                    </div>*@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="row" id="prefixesdata">
-                            <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left: 15px;">Close</a>
+                            <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;">Close</a>
                             <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn" data-bind="click: $root.onSavePrefixes, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                             <div class="col-lg-12 main-box clearfix" style="padding-left:0px;">
                                 <div class="main-box-body" style="padding:0px;">
@@ -47,6 +47,9 @@
                                     <div class="tab-content">
                                         <div class="tab-pane fade active in" id="tab-SalesTarget">
                                             <div class="main-box-body clearfix">
+                                                <br />
+                                                <h2>Set sale targets for your Account Managers</h2>
+                                              
                                                 <div class="col-md-12 form-horizontal">
                                                     <h3>Sales Target</h3>
                                                 </div>
@@ -377,6 +380,8 @@
                                         <div id="tab-PipelineDeduction" class="tab-pane fade">
 
                                             <div class="main-box-body clearfix">
+                                                <br />
+                                                <h2>Set sale targets for your Account Managers</h2>
                                                 <div class="col-md-12 form-horizontal">
                                                     <h3>PipeLine Deduction</h3>
                                                 </div>
@@ -484,6 +489,8 @@
                                         <div id="tab-INQSource" class="tab-pane fade">
 
                                             <div class="main-box-body clearfix">
+                                                <br />
+                                                <h2>Set sale targets for your Account Managers</h2>
                                                 <div class="col-md-12 form-horizontal">
                                                     <h3>PipeLine Source</h3>
                                                 </div>
@@ -615,6 +622,8 @@
                                         <div id="tab-PipeLineProducts" class="tab-pane fade">
 
                                             <div class="main-box-body clearfix">
+                                                <br />
+                                                <h2>Set sale targets for your Account Managers</h2>
                                                 <div class="col-md-12 form-horizontal">
                                                     <h3>PipeLine Products</h3>
                                                 </div>
@@ -762,6 +771,8 @@
                                         <div id="tab-SuccessPercentage" class="tab-pane fade">
 
                                             <div class="main-box-body clearfix">
+                                                <br />
+                                                <h2>Set sale targets for your Account Managers</h2>
                                                 <div class="col-md-12 form-horizontal">
                                                     <h3>Success Chances</h3>
                                                 </div>
@@ -979,6 +990,8 @@
                                         <div id="tab-ActivityTypes" class="tab-pane fade">
 
                                             <div class="main-box-body clearfix">
+                                                <br />
+                                                <h2>Set sale targets for your Account Managers</h2>
                                                 <div class="col-md-12 form-horizontal">
                                                     <h3>Activity Types</h3>
                                                 </div>
@@ -1182,6 +1195,8 @@
                                         <div id="tab-CompanyTypes" class="tab-pane fade">
 
                                             <div class="main-box-body clearfix">
+                                                <br />
+                                                <h2>Set sale targets for your Account Managers</h2>
                                                 <div class="col-md-12 form-horizontal">
                                                     <h3>Company Types</h3>
                                                 </div>
@@ -1335,4 +1350,15 @@
                     $('#liprefixes').addClass('active');
                 });
 </script>
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            var spinner = $("div#spinner");
+            spinner.stop();
+            spinner.fadeOut("fast");
+            $.unblockUI(spinner);
+        }, 1000);
+    });
+</script>
+
 }

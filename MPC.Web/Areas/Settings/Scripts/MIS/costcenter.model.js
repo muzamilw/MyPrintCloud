@@ -155,10 +155,10 @@
             name: name,
             type: type,
             setupCost: setupCost
-           // pricePerUnitQuantity: pricePerUnitQuantity,
-          //  minimumCost: minimumCost,
-           // perHourPrice: perHourPrice,
-           // timeQuestionString: timeQuestionString,
+            // pricePerUnitQuantity: pricePerUnitQuantity,
+            //  minimumCost: minimumCost,
+            // perHourPrice: perHourPrice,
+            // timeQuestionString: timeQuestionString,
             //quantiQuestionString
         }),
         isValid = ko.computed(function () {
@@ -218,6 +218,7 @@
             estimateProductionTime: estimateProductionTime,
             costcentreImageName: costcentreImageName,
             isTimeVariable: isTimeVariable,
+            isDisabled:isDisabled,
             //isTimePrompt: isTimePrompt
             isQtyVariable: isQtyVariable
             //isQtyPrompt: isQtyPrompt
@@ -354,7 +355,7 @@
         return self;
     };
 
-    costCenterListView = function (specifiedCostCentreId, specifiedName, specifiedDescription, specifiedType, specifiedCalType
+    costCenterListView = function (specifiedCostCentreId, specifiedName, specifiedDescription, specifiedType, specifiedCalType, specifiedStatus
                             ) {
         var
             self,
@@ -367,17 +368,18 @@
             //Type
             type = ko.observable(specifiedType),
             calculationMethodType = ko.observable(specifiedCalType),
-
-            convertToServerData = function () {
-                return {
-                    CostCentreId: costCenterId(),
-                }
-            };
+            isDisabled = ko.observable(specifiedStatus),
+        convertToServerData = function () {
+            return {
+                CostCentreId: costCenterId(),
+            }
+        };
         self = {
             costCenterId: costCenterId,
             name: name,
             description: description,
             type: type,
+            isDisabled: isDisabled,
             calculationMethodType: calculationMethodType,
             convertToServerData: convertToServerData,
         };
@@ -385,7 +387,7 @@
     };
 
     costCenterListView.Create = function (source) {
-        return new costCenterListView(source.CostCentreId, source.Name, source.Description, source.Type, source.CalculationMethodType);
+        return new costCenterListView(source.CostCentreId, source.Name, source.Description, source.Type, source.CalculationMethodType, source.IsDisabled);
     };
     //Cost Center Instructions for Client
     costCenterInstruction = function (specifiedInstructionId, specifiedInstruction, specifiedcostCenterOption, specifiedCostCentreId) {
@@ -874,9 +876,9 @@
             CompanyId = ko.observable(),
             SystemSiteId = ko.observable(),
             VariableString = ko.computed(function () {
-                   return "{question, ID=&quot;" + Id() + "&quot;,caption=&quot;" + QuestionString() + "&quot;}";
+                return "{question, ID=&quot;" + Id() + "&quot;,caption=&quot;" + QuestionString() + "&quot;}";
 
-               }, this),
+            }, this),
             QuestionVariableMCQsAnswer = ko.observableArray([])
         }
 
@@ -887,14 +889,14 @@
            return errors().length === 0;
        }),
        dirtyFlag = new ko.dirtyFlag({
-            Id :Id,
-            QuestionString :QuestionString,
-            Type :Type,
-            DefaultAnswer :DefaultAnswer,
-            CompanyId :CompanyId,
-            SystemSiteId :SystemSiteId,
-            VariableString :VariableString,
-            QuestionVariableMCQsAnswer:QuestionVariableMCQsAnswer
+           Id :Id,
+           QuestionString :QuestionString,
+           Type :Type,
+           DefaultAnswer :DefaultAnswer,
+           CompanyId :CompanyId,
+           SystemSiteId :SystemSiteId,
+           VariableString :VariableString,
+           QuestionVariableMCQsAnswer:QuestionVariableMCQsAnswer
 
        }),
         // Has Changes
@@ -954,7 +956,7 @@
             QuestionVariable.CompanyId = source.CompanyId();
             QuestionVariable.SystemSiteId = source.SystemSiteId();
             QuestionVariable.VariableString = source.VariableString();
-         }
+        }
         var QuestionVariableMCQs = [];
         if (source.QuestionVariableMCQsAnswer() != undefined) {
             _.each(source.QuestionVariableMCQsAnswer(), function (item) {
@@ -1103,9 +1105,9 @@
            return errors().length === 0;
        }),
        dirtyFlag = new ko.dirtyFlag({
-            Id : Id,
-            MatrixId: MatrixId,
-            Value: Value
+           Id : Id,
+           MatrixId: MatrixId,
+           Value: Value
 
        }),
         // Has Changes
@@ -1235,56 +1237,56 @@
 
     var StockItemVariable = function (item) {
         var self
-            if (item != null && item != undefined) {
-                Id = ko.observable(item.id()),
-                StockName = ko.observable(item.name())
-            } else {
-                Id = ko.observable(),
-                StockName = ko.observable()
-            }
+        if (item != null && item != undefined) {
+            Id = ko.observable(item.id()),
+            StockName = ko.observable(item.name())
+        } else {
+            Id = ko.observable(),
+            StockName = ko.observable()
+        }
            
-            CostType = ko.observable(),
-            quantityValue = ko.observable(),
-            QuantityType = ko.observable(),
-            variableValue = ko.observable(),
-            questionValue = ko.observable(),
-            // SystemVariable = ko.observable(),
-           // QuantityQuestion = ko.observable(),
-          Value = ko.computed(function () {
-              if (QuantityType() == "qty") {
-                  return quantityValue();
-              }else if (QuantityType() == "variable") {
-                  return variableValue();
-              }else if (QuantityType() == "question") {
-                  return questionValue();
-              } else {
-                  return 0;
-              }
+        CostType = ko.observable(),
+        quantityValue = ko.observable(),
+        QuantityType = ko.observable(),
+        variableValue = ko.observable(),
+        questionValue = ko.observable(),
+        // SystemVariable = ko.observable(),
+        // QuantityQuestion = ko.observable(),
+      Value = ko.computed(function () {
+          if (QuantityType() == "qty") {
+              return quantityValue();
+          }else if (QuantityType() == "variable") {
+              return variableValue();
+          }else if (QuantityType() == "question") {
+              return questionValue();
+          } else {
+              return 0;
+          }
                
-          }, this),
-            VariableString = ko.computed(function () {
-                return "{stock, ID=&quot;" + Id() + "&quot;,name=&quot;" + StockName() + "&quot;,type=&quot;" + CostType() + "&quot;,qtytype=&quot;" + QuantityType() + "&quot;,value=&quot;" + Value() + "&quot;}";
-            }, this),
+      }, this),
+        VariableString = ko.computed(function () {
+            return "{stock, ID=&quot;" + Id() + "&quot;,name=&quot;" + StockName() + "&quot;,type=&quot;" + CostType() + "&quot;,qtytype=&quot;" + QuantityType() + "&quot;,value=&quot;" + Value() + "&quot;}";
+        }, this),
            
    
-        errors = ko.validation.group({
-        }),
+    errors = ko.validation.group({
+    }),
         // Is Valid
-       isValid = ko.computed(function () {
-           return errors().length === 0;
-       }),
-       dirtyFlag = new ko.dirtyFlag({
+   isValid = ko.computed(function () {
+       return errors().length === 0;
+   }),
+   dirtyFlag = new ko.dirtyFlag({
          
 
-       }),
+   }),
         // Has Changes
-       hasChanges = ko.computed(function () {
-           return dirtyFlag.isDirty();
-       }),
+   hasChanges = ko.computed(function () {
+       return dirtyFlag.isDirty();
+   }),
         // Reset
-       reset = function () {
-           dirtyFlag.reset();
-       };
+   reset = function () {
+       dirtyFlag.reset();
+   };
 
         self = {
             Id: Id,
@@ -1296,7 +1298,7 @@
             questionValue: questionValue,
             Value: Value,
             VariableString:VariableString,
-           // SystemVariable: SystemVariable,
+            // SystemVariable: SystemVariable,
             //QuantityQuestion:QuantityQuestion,
             errors: errors,
             isValid: isValid,
