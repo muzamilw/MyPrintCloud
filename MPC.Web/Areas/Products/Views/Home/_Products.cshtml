@@ -13,7 +13,7 @@
         </div>
         <div class="pull-right">
             <button id="open-wizard" data-bind="click: createProduct, enable: !pageHasErrors()" class="btn btn-primary pull-right">
-                Add Product
+                Add New Product
             </button>
         </div>
     </div>
@@ -78,7 +78,12 @@
             </div>
         </div>
     </div>
-    <div class="pull-right">
+    <div id="pagerDiv" class="pull-right">
+        <!-- ko with: pager -->
+        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+        <!-- /ko -->
+    </div>
+    @*<div class="pull-right">
         <div class="pull-right spanfilterlbl" data-bind="">
             <a class=" pagerLeftIcon " data-bind="click: pager().previousPage">
                 <i class="fa fa-chevron-left"></i>
@@ -95,7 +100,7 @@
         </form>
         <span class="pull-right spanfilterlbl">Page</span>
 
-    </div>
+    </div>*@
     @* Filter Template *@
     <script id="productFilterTemplate" type="text/html">
         <div class="filter-body">
