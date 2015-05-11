@@ -352,3 +352,10 @@ a.reportAnchor a:hover{
   border: none;
   width:160px;
 }
+
+.group-header-Shortdescription {
+  padding-left: 8px;
+  font-size: 0.8em;
+  margin-top: -5px;
+  margin-bottom: 20px;
+}
