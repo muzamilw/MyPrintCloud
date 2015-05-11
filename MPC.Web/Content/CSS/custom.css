@@ -299,7 +299,7 @@ div#spinner {
     color: lightgray;
   font-size: 0.875em;
   margin-top: 43px;
-  padding-left: 25px;
+  
 }
 .selectedRow{
             background: none repeat scroll 0 0 #E5E5ED!important;
@@ -323,13 +323,13 @@ a.reportAnchor a:hover{
 }
 
 .btn-yellow {
-    background-color: #FFFF00;
+    background-color: #FFAA00;
     border-color: #FFD400;
     color:#FFFFFF;
 }
 
     .btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow.active, .open .dropdown-toggle.btn-yellow {
-        background-color: #FFD400;
+        background-color: #FF7F00;
         color:#FFFFFF;
     }
 
@@ -347,8 +347,16 @@ a.reportAnchor a:hover{
 .imgtext { 
    position: absolute; 
    top: 61px; 
-   left: 5px; 
+   left: 1px; 
    background: transparent;
   border: none;
-  width:160px;
+  width:120px;
+}
+.margintop10{
+    margin-top:10px;
+}
+.signaturemodify{
+    margin-left:15px;
+    bottom:20px;
+    position:absolute;
 }
