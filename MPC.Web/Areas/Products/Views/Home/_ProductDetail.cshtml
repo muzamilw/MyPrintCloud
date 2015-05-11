@@ -177,10 +177,10 @@
                                                 <div class="profile-since">
 
                                                 </div>*@
-                                                <div>
+                                                <div class="margintop10">
                                                     <ul class="fa-ul">
-                                                        <li><i class="fa-li fa fa-cloud"></i>Published on Web Store: <i class="fa" data-bind="css:{ 'fa-check': isPublished, 'fa-times': !isPublished() }"></i>  </li>
-                                                        <li><i class="fa-li fa fa-archive"></i>Enabled in MIS: <i class="fa" data-bind="css:{ 'fa-check': isEnabled, 'fa-times': !isEnabled() }"></i></li>
+                                                        <li><i class="fa" data-bind="css:{ 'fa-check': isPublished, 'fa-times': !isPublished() }"></i> Published on Web Store </li>
+                                                        <li><i class="fa" data-bind="css:{ 'fa-check': isEnabled, 'fa-times': !isEnabled() }"></i> Enabled in MIS </li>
 
                                                     </ul>
                                                 </div>
@@ -724,9 +724,10 @@
                                                         <div class="rows">
                                                             <div class="col-md-2">
                                                                 <img src="~/Content/Images/Page.png" alt="Signature" style="position:relative; margin-left: -18px;" />
-                                                                <textarea rows="10" id="detailSectionName" class="form-control imgtext" data-bind="value: name, validationToolTip: name, validationOnElement: name"></textarea>
-                                                                <br /><a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary" style="margin-left: -8px;">
-                                                                        <i class="fa fa-lg"></i>&nbsp;Modify</a>
+                                                                <textarea rows="3" id="detailSectionName" class="form-control imgtext" data-bind="value: name, validationToolTip: name, validationOnElement: name"></textarea>
+                                                                <a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary signaturemodify">
+                                                                    <i class="fa fa-lg"></i>&nbsp;Modify
+                                                                </a>
                                                             </div>
                                                         </div>
                                                         
