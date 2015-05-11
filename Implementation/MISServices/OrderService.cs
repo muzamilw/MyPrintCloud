@@ -330,9 +330,9 @@ namespace MPC.Implementation.MISServices
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
             IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository, IInkPlateSideRepository inkPlateSideRepository, IStockItemRepository stockItemRepository, IInkCoverageGroupRepository inkCoverageGroupRepository,
             ICompanyRepository companyRepository, IPrefixRepository prefixRepository, IPrePaymentRepository prePaymentRepository,
-            IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository, 
-            IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository, 
-            IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository, 
+            IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository,
+            IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository,
+            IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
             ISectionCostCentreDetailRepository sectionCostCentreDetailRepository)
         {
@@ -528,7 +528,7 @@ namespace MPC.Implementation.MISServices
             // Return 
             return order;
         }
-        
+
         /// <summary>
         /// Get base data for order
         /// </summary>
@@ -541,13 +541,15 @@ namespace MPC.Implementation.MISServices
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
                        PaymentMethods = paymentMethodRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
-                      // ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                       // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem()
                    };
         }
 
         public ItemDetailBaseResponse GetBaseDataForItemDetails()
         {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+
             return new ItemDetailBaseResponse
             {
                 Markups = _markupRepository.GetAll(),
@@ -555,8 +557,9 @@ namespace MPC.Implementation.MISServices
                 InkPlateSides = inkPlateSideRepository.GetAll(),
                 Inks = stockItemRepository.GetStockItemOfCategoryInk(),
                 InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
+                CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty
             };
-            
+
         }
 
         /// <summary>
@@ -707,14 +710,14 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
-       
+
 
         #region Download Artwork
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-           return GenerateOrderArtworkArchive(OrderID, sZipName);
-           // return ExportPDF(520, 0, ReportType.Internal, 0, string.Empty);
+            return GenerateOrderArtworkArchive(OrderID, sZipName);
+            // return ExportPDF(520, 0, ReportType.Internal, 0, string.Empty);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
@@ -740,13 +743,13 @@ namespace MPC.Implementation.MISServices
 
             try
             {
-               
+
                 //filter the items which are of type delivery i.e. itemtype = 2
                 List<Item> ItemsList = itemRepository.GetItemsWithAttachmentsByOrderID(OrderID);
                 Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
 
 
-                if(oOrder.Company != null)
+                if (oOrder.Company != null)
                 {
                     if (oOrder.Company.IsCustomer == 3)
                     {
@@ -757,18 +760,18 @@ namespace MPC.Implementation.MISServices
                     }
                     else
                     {
-                       Company  store = companyRepository.GetStoreById(oOrder.Company.StoreId ?? 0);
-                       if (store != null)
-                       {
-                           IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
-                           IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
-                           IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
-                           MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
-                       }
+                        Company store = companyRepository.GetStoreById(oOrder.Company.StoreId ?? 0);
+                        if (store != null)
+                        {
+                            IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
+                            IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
+                            IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
+                            MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
+                        }
                     }
 
                 }
-              
+
                 if (!IncludeOrderReport && !IncludeJobCardReport && !IncludeOrderXML && !MakeArtWorkProductionReady)
                 {
                     IncludeOrderReport = true;
@@ -777,7 +780,7 @@ namespace MPC.Implementation.MISServices
                 //making the artwork production ready and regenerating template PDFs
                 if (MakeArtWorkProductionReady)
                 {
-                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder,OrganisationId);
+                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder, OrganisationId);
 
                 }
 
@@ -849,7 +852,7 @@ namespace MPC.Implementation.MISServices
                             //job card report
                             if (IncludeJobCardReport)
                             {
-                                string sJCReportPath = ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID,string.Empty);
+                                string sJCReportPath = ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID, string.Empty);
                                 if (System.IO.File.Exists(sJCReportPath))
                                 {
                                     ZipEntry jcr = zip.AddFile(sJCReportPath, ZipfolderName);
@@ -864,7 +867,7 @@ namespace MPC.Implementation.MISServices
                         //order report
                         if (IncludeOrderReport)
                         {
-                            string sOrderReportPath = ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID,string.Empty);
+                            string sOrderReportPath = ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID, string.Empty);
                             if (System.IO.File.Exists(sOrderReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderReportPath, "");
@@ -915,14 +918,14 @@ namespace MPC.Implementation.MISServices
             return builder.ToString();
         }
 
-        public bool MakeOrderArtworkProductionReady(Estimate oOrder,long OrganisationId)
+        public bool MakeOrderArtworkProductionReady(Estimate oOrder, long OrganisationId)
         {
             try
             {
                 string sOrderID = oOrder.EstimateId.ToString();
                 string sProductionFolderPath = "MPC_Content/Artworks/" + OrganisationId + "/Production";
                 string sCustomerID = oOrder.CompanyId.ToString();
-                return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder,OrganisationId);
+                return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder, OrganisationId);
 
             }
             catch (Exception ex)
@@ -1118,7 +1121,7 @@ namespace MPC.Implementation.MISServices
                                                 System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress, true);
                                                 System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress2, true);
                                             }
-                                           
+
 
                                             if (item.hasOverlayObjects == true)
                                             {
@@ -1178,9 +1181,9 @@ namespace MPC.Implementation.MISServices
                                             hasOverlayPdf = true;
                                     }
 
-                                  //  index = index + 1;
+                                    //  index = index + 1;
                                     //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
-                                   
+
                                     foreach (var attachment in oPage1Attachment)
                                     {
                                         if (attachment != null)
@@ -1236,7 +1239,7 @@ namespace MPC.Implementation.MISServices
                                             //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
                                         }
                                     }
-                                   
+
 
 
                                 }
@@ -1303,9 +1306,9 @@ namespace MPC.Implementation.MISServices
 
                                     }
                                 }
-                                
 
-                               
+
+
                             }
                         }
                         else // case of uplaod images
@@ -1365,7 +1368,7 @@ namespace MPC.Implementation.MISServices
             {
                 return false;
             }
-          
+
         }
 
         public string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime OrderCreationDate)
@@ -1389,12 +1392,12 @@ namespace MPC.Implementation.MISServices
             return FileName;
         }
 
-        public string ExportPDF(int iReportID, long iRecordID,ReportType type, long OrderID,string CriteriaParam)
+        public string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam)
         {
             string sFilePath = string.Empty;
             try
             {
-                 long OrganisationID = 0;
+                long OrganisationID = 0;
                 Organisation org = organisationRepository.GetOrganizatiobByID();
                 if (org != null)
                 {
@@ -1420,13 +1423,13 @@ namespace MPC.Implementation.MISServices
                         List<usp_JobCardReport_Result> rptSource = ReportRepository.getJobCardReportResult(OrganisationID, OrderID, iRecordID);
                         currReport.DataSource = rptSource;
                     }
-                    else if(type == ReportType.Order)
+                    else if (type == ReportType.Order)
                     {
                         sFileName = iRecordID + "OrderReport.pdf";
                         List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
                         currReport.DataSource = rptOrderSource;
                     }
-                    else if(type == ReportType.Estimate)
+                    else if (type == ReportType.Estimate)
                     {
                         sFileName = iRecordID + "EstimateReport.pdf";
                         List<usp_EstimateReport_Result> rptEstimateSource = ReportRepository.getEstimateReportResult(OrganisationID, OrderID);
@@ -1438,12 +1441,12 @@ namespace MPC.Implementation.MISServices
                         List<usp_InvoiceReport_Result> rptInvoiceSource = ReportRepository.getInvoiceReportResult(OrganisationID, OrderID);
                         currReport.DataSource = rptInvoiceSource;
                     }
-                    else if(type == ReportType.Internal)
+                    else if (type == ReportType.Internal)
                     {
                         string ReportDataSource = string.Empty;
                         string ReportTemplate = string.Empty;
 
-                        sFileName =  "OrderReport.pdf";
+                        sFileName = "OrderReport.pdf";
                         DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
                         currReport.DataSource = dataSourceList;
                     }
@@ -1473,17 +1476,17 @@ namespace MPC.Implementation.MISServices
             return sFilePath;
         }
 
-        
+
 
         public string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat)
         {
             string sFilePath = string.Empty;
             bool isCorporate = false;
             string CurrencySymbol = string.Empty;
-          
+
             try
             {
-            
+
                 long OrganisationID = 0;
                 Organisation org = organisationRepository.GetOrganizatiobByID();
                 if (org != null)
@@ -1722,7 +1725,7 @@ namespace MPC.Implementation.MISServices
                     XCompanyTemp.SetAttributeNode(WebUrlAttr);
 
 
-                 
+
 
                     XmlAttribute AccBalAttr = XDoc.CreateAttribute("AccountBalance");
                     if (orderEntity.Company.AccountBalance != null)
@@ -2883,7 +2886,7 @@ namespace MPC.Implementation.MISServices
         #endregion
 
 
-       
+
 
 
     }

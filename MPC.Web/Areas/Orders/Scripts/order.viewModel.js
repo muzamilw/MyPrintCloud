@@ -245,6 +245,7 @@ define("order/order.viewModel",
                     // Edit Order
                     editOrder = function (data) {
                         getOrderById(data.id(), openOrderEditor);
+                        errorList.removeAll();
                         $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
                     },
                     // Open Editor
