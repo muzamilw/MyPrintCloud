@@ -741,10 +741,10 @@ define("common/itemDetail.viewModel",
                                 selectedSection().baseCharge1(parseFloat(markupValue) + parseFloat(selectedSection().baseCharge1()));
                             }
 
-                        } 
+                        }
                     },
-                    
-                
+
+
                 // On Change Quantity 2 Markup
                 onChangeQty2MarkUpId = function () { //qtyMarkup
                     calculateSectionBaseCharge2();
@@ -775,11 +775,11 @@ define("common/itemDetail.viewModel",
                                 selectedSection().baseCharge3(parseFloat(markupValue) + parseFloat(selectedSection().baseCharge3()));
                             }
 
-                        } 
+                        }
                     },
-                    isOpenItemSection = ko.observable(false);
+                    isOpenItemSection = ko.observable(false),
                 calculateQty1NetTotalForItem = ko.computed({
-                    read: function() {
+                    read: function () {
                         if (!selectedProduct()) {
                             return 0;
                         }
@@ -792,7 +792,7 @@ define("common/itemDetail.viewModel",
                         selectedProduct().qty1NetTotal(value);
                         qty1GrossTotalForItem();
                     }
-                    
+
                 }),
                 calculateQty2NetTotalForItem = ko.computed({
                     read: function () {
@@ -826,7 +826,7 @@ define("common/itemDetail.viewModel",
                     }
 
                 }),
-                qty1NetTotalForItem = function() {
+                qty1NetTotalForItem = function () {
                     if (selectedSection() !== undefined) {
                         baseCharge1TotalForItem = 0;
                         _.each(selectedProduct().itemSections(), function (itemSection) {
@@ -865,7 +865,7 @@ define("common/itemDetail.viewModel",
                         qty3GrossTotalForItem();
                     }
                 },
-                qty1GrossTotalForItem = function() {
+                qty1GrossTotalForItem = function () {
                     var qty1NetTotal = parseFloat((selectedProduct().qty1NetTotal() !== undefined && selectedProduct().qty1NetTotal() !== null) ? selectedProduct().qty1NetTotal() : 0).toFixed(2);
                     var tax = selectedProduct().tax1() !== undefined ? selectedProduct().tax1() : 0;
                     if (selectedProduct().tax1() !== undefined && selectedProduct().tax1() !== null && selectedProduct().tax1() !== "") {
@@ -957,7 +957,7 @@ define("common/itemDetail.viewModel",
                                 if (data.InkPlateSides) {
                                     mapList(inkPlateSides, data.InkPlateSides, model.InkPlateSide);
                                 }
-
+                                currencySymbol(data.CurrencySymbol);
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -972,7 +972,7 @@ define("common/itemDetail.viewModel",
                         baseCharge1Total(0);
 
                         if (selectedSection() !== undefined && selectedSection().sectionCostCentres().length > 0) {
-                            _.each(selectedSection().sectionCostCentres(), function(item) {
+                            _.each(selectedSection().sectionCostCentres(), function (item) {
                                 if (item.qty1NetTotal() === undefined || item.qty1NetTotal() === "" || item.qty1NetTotal() === null || isNaN(item.qty1NetTotal())) {
                                     item.qty1NetTotal(0);
                                 }
@@ -991,13 +991,13 @@ define("common/itemDetail.viewModel",
                         if (selectedSection()) {
                             qty1NetTotalForItem();
                         }
-                        
+
 
                     },
                 // Calculates Section Charges 
                     calculateSectionBaseCharge2 = function () {
                         baseCharge2Total(0);
-                        
+
                         if (selectedSection() !== undefined && selectedSection().sectionCostCentres().length > 0) {
                             _.each(selectedSection().sectionCostCentres(), function (item) {
                                 if (item.qty2NetTotal() === undefined || item.qty2NetTotal() === "" || item.qty2NetTotal() === null || isNaN(item.qty2NetTotal())) {
@@ -1112,9 +1112,9 @@ define("common/itemDetail.viewModel",
                             calculateSectionBaseCharge2();
                             calculateSectionBaseCharge3();
                         }
-                        
+
                     }),
-                    calculateBaseCharge1BySimilarSection = function() {
+                    calculateBaseCharge1BySimilarSection = function () {
                         var newBaseCharge1Totaol = (selectedSection().baseCharge1() !== undefined ? selectedSection().baseCharge1() : 0) * parseFloat(selectedSection().similarSections());
                         selectedSection().baseCharge1(newBaseCharge1Totaol);
                         q1NetTotal();
@@ -1439,10 +1439,17 @@ define("common/itemDetail.viewModel",
 
                     },
                     showSectionDetailEditor = function (section) {
+                        errorList.removeAll();
                         selectedSection(section);
                         showSectionDetail(true);
                     },
                     closeSectionDetailEditor = function () {
+                        showSectionDetail(false);
+                        selectedSection(undefined);
+                    },
+                // Remove Item Section
+                    deleteSection = function (section) {
+                        selectedProduct().itemSections.remove(section);
                         showSectionDetail(false);
                         selectedSection(undefined);
                     },
@@ -1489,6 +1496,26 @@ define("common/itemDetail.viewModel",
                     },
 
                 //#endregion
+                    itemAttachmentFileLoadedCallback = function (file, data) {
+                        //Flag check, whether file is already exist in media libray
+                        var flag = true;
+
+                        _.each(selectedProduct().itemAttachments(), function (item) {
+                            if (item.fileSourcePath() === data && item.fileName() === file.name) {
+                                flag = false;
+                            }
+                        });
+
+                        if (flag) {
+                            var attachment = model.ItemAttachment.Create({});
+                            attachment.id(undefined);
+                            attachment.fileSourcePath(data);
+                            attachment.fileName(file.name);
+                            attachment.companyId(selectedOrder().companyId());
+                            attachment.itemId(selectedProduct().id());
+                            selectedProduct().itemAttachments.push(attachment);
+                        }
+                    },
                 //Initialize
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -1578,7 +1605,9 @@ define("common/itemDetail.viewModel",
                     calculateBaseChargeBasedOnSimilarSectionsValue: calculateBaseChargeBasedOnSimilarSectionsValue,
                     calculateQty1NetTotalForItem: calculateQty1NetTotalForItem,
                     calculateQty2NetTotalForItem: calculateQty2NetTotalForItem,
-                    calculateQty3NetTotalForItem: calculateQty3NetTotalForItem
+                    calculateQty3NetTotalForItem: calculateQty3NetTotalForItem,
+                    itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
+                    deleteSection: deleteSection
                     //#endregion
                 };
             })()

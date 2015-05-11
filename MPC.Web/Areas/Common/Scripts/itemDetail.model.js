@@ -2,7 +2,7 @@
     var
         // #region Item Entity
         // ReSharper disable once InconsistentNaming
-        Item = function (specifiedId, specifiedName, specifiedCode,specifiedProductType, specifiedProductName, specifiedProductCode,
+        Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductType, specifiedProductName, specifiedProductCode,
             specifiedJobDescriptionTitle1, specifiedJobDescription1, specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3,
             specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
             specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6, specifiedJobDescriptionTitle7, specifiedJobDescription7,
@@ -423,7 +423,7 @@
                 //Product Type
                 productType = ko.observable(specifiedProductType),
                 // name
-                name = ko.observable(specifiedSectionName || undefined).extend({ required: { onlyIf: function () { return productType() != 2; }}}),
+                name = ko.observable(specifiedSectionName || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Stock Item Id
                 stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Stock Item Name
@@ -806,11 +806,11 @@
                 // Qty3
                 qty3 = ko.observable(specifiedQty3 || undefined),
                 // Qty1 Profit
-                qty1NetTotal = ko.observable(specifiedQty1NetTotal != null ? specifiedQty1NetTotal.toFixed(2) : 0 || undefined).extend({ numberInput: ist.numberFormat }),
+                qty1NetTotal = ko.observable(specifiedQty1NetTotal || 0).extend({ numberInput: ist.numberFormat }),
                 // Qty2NetTotal
-                qty2NetTotal = ko.observable(specifiedQty2NetTotal != null ? specifiedQty2NetTotal.toFixed(2) : 0 || undefined).extend({ numberInput: ist.numberFormat }),
+                qty2NetTotal = ko.observable(specifiedQty2NetTotal || 0).extend({ numberInput: ist.numberFormat }),
                 // Qty3NetTotal
-                qty3NetTotal = ko.observable(specifiedQty3NetTotal != null ? specifiedQty3NetTotal.toFixed(2) : 0 || undefined).extend({ numberInput: ist.numberFormat }),
+                qty3NetTotal = ko.observable(specifiedQty3NetTotal || 0).extend({ numberInput: ist.numberFormat }),
                 // Item Section Id
                 itemSectionId = ko.observable(specifiedItemSectionId || undefined),
                 //Qty 1 Work Instructions
@@ -1764,7 +1764,7 @@
                 convertToServerData: convertToServerData
             };
         };
-        // #endregion
+    // #endregion
 
     //#region ---
     //#endregion
@@ -1787,7 +1787,7 @@
 
             _.each(source.ItemSections, function (itemSection) {
                 //if (source.ProductType != null) {
-                    itemSection.ProductType = source.ProductType;
+                itemSection.ProductType = source.ProductType;
                 //}
                 itemSections.push(ItemSection.Create(itemSection));
             });
