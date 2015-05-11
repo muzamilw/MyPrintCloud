@@ -362,7 +362,7 @@ define("order/order.viewModel",
                                 item.taxRateIsDisabled(true);
                             }
                         }
-                    }
+                    },
 
                 vatList = ko.observableArray([
                     {
