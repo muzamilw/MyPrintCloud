@@ -70,6 +70,7 @@ define("common/itemDetail.viewModel",
                     closeItemDetailSection = null,
                     //#endregion  
                      isSectionCostCenterDialogOpen = ko.observable(false),
+                    isSectionVisible = ko.observable(false),
                     //#region Utility Functions
                     sectionCostCenterQty1Charge = ko.computed({
                         read: function () {
@@ -347,6 +348,9 @@ define("common/itemDetail.viewModel",
                             calculateSectionBaseCharge1();
                         }
                     }),
+                      sectionVisibilityHandler = function () {
+                          isSectionVisible(!isSectionVisible());
+                      },
                     onSaveStockitemForSectionCostCenter = function () {
                         var containsStockItem = false;
                         _.each(selectedSection().sectionCostCentres(), function (costCenter) {
@@ -1535,6 +1539,8 @@ define("common/itemDetail.viewModel",
                     inkCoverageGroup: inkCoverageGroup,
                     inks: inks,
                     availableInkPlateSides: availableInkPlateSides,
+                    sectionVisibilityHandler: sectionVisibilityHandler,
+
                     availableInkPalteChange: availableInkPalteChange,
                     side1Image: side1Image,
                     side2Image: side2Image,
@@ -1549,6 +1555,7 @@ define("common/itemDetail.viewModel",
                     selectedOrder: selectedOrder,
                     selectedQty: selectedQty,
                     currencySymbol: currencySymbol,
+                    isSectionVisible:isSectionVisible,
                     //#endregion
 
                     //#region Utility Functions

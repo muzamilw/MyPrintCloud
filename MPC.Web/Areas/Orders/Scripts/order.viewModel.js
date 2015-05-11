@@ -169,6 +169,7 @@ define("order/order.viewModel",
                     inventoryStockItemToCreate = ko.observable(),
                     // #endregion
                     // #region Utility Functions
+                    
                     // Selected Address
                     selectedAddress = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
