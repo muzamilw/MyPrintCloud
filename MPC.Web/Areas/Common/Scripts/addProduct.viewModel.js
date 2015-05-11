@@ -69,7 +69,7 @@ define("common/addProduct.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                     },
-
+                    
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
 
