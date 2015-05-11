@@ -319,6 +319,22 @@ define("invoice/invoice.viewModel",
 
                         return newItem;
                     },
+                    //#region Add Blank Print Product
+                    onCreateNewBlankPrintProduct = function () {
+                        var newItem = itemModel.Item.Create({});
+                        //Req: Item Product code is set to '1', so while editting item's section is mandatory
+                        newItem.productType(1);
+                        newItem.productName("Blank Sheet");
+                        newItem.qty1(0);
+                        newItem.qty1GrossTotal(0);
+
+                        var itemSection = itemModel.ItemSection.Create({});
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
+                        newItem.itemSections.push(itemSection);
+                        selectedInvoice().invoiceDetailItems.splice(0, 0, newItem);
+                    },
+                    //#endregion
                     //#endregion
                     
                     // #region ServiceCalls
@@ -631,6 +647,7 @@ define("invoice/invoice.viewModel",
                     //#endregion
 
                     //#region Utility Functions
+                    onCreateNewBlankPrintProduct: onCreateNewBlankPrintProduct,
                     getInvoicesOfCurrentScreen: getInvoicesOfCurrentScreen,
                     filterText: filterText,
                     orderType: orderType,

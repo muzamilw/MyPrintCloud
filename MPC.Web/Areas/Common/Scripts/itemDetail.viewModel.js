@@ -773,7 +773,7 @@ define("common/itemDetail.viewModel",
 
                         }
                     },
-                    isOpenItemSection = ko.observable(false);
+                    isOpenItemSection = ko.observable(false),
                 calculateQty1NetTotalForItem = ko.computed({
                     read: function () {
                         if (!selectedProduct()) {
@@ -1492,6 +1492,26 @@ define("common/itemDetail.viewModel",
                     },
 
                 //#endregion
+                    itemAttachmentFileLoadedCallback = function (file, data) {
+                        //Flag check, whether file is already exist in media libray
+                        var flag = true;
+
+                        _.each(selectedProduct().itemAttachments(), function (item) {
+                            if (item.fileSourcePath() === data && item.fileName() === file.name) {
+                                flag = false;
+                            }
+                        });
+
+                        if (flag) {
+                            var attachment = model.ItemAttachment.Create({});
+                            attachment.id(undefined);
+                            attachment.fileSourcePath(data);
+                            attachment.fileName(file.name);
+                            attachment.companyId(selectedOrder().companyId());
+                            attachment.itemId(selectedProduct().id());
+                            selectedProduct().itemAttachments.push(attachment);
+                        }
+                    },
                 //Initialize
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -1579,7 +1599,8 @@ define("common/itemDetail.viewModel",
                     calculateQty1NetTotalForItem: calculateQty1NetTotalForItem,
                     calculateQty2NetTotalForItem: calculateQty2NetTotalForItem,
                     calculateQty3NetTotalForItem: calculateQty3NetTotalForItem,
-                    deleteSection:deleteSection
+                    itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
+                    deleteSection: deleteSection
                     //#endregion
                 };
             })()
