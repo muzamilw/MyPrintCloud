@@ -490,10 +490,8 @@ namespace MPC.Implementation.MISServices
                 {
                     //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
                     IsCompiled = false;
-                    if (!costcenter.IsParsed)
-                    {
                         throw new Exception("Error Compiling Costcentre", ex);
-                    }
+                   
                     
 
                 }
