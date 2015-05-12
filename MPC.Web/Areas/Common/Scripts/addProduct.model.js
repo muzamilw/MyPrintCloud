@@ -717,7 +717,7 @@
         // Item Price Matrix Entity
         ItemPriceMatrix = function(specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
             specifiedPricePaperType3, specifiedPriceStockType4, specifiedPriceStockType5, specifiedPriceStockType6, specifiedPriceStockType7, specifiedPriceStockType8,
-            specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedSupplierSequence, specifiedItemId) {
+            specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedSupplierSequence, specifiedItemId, specifiedProductItemTax, specifiedCompanyTaxRate) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -845,6 +845,107 @@
                 }),
                 // Item Id
                 itemId = ko.observable(specifiedItemId || 0),
+                productItemTax = ko.observable(specifiedProductItemTax),
+                companyTaxRate = ko.observable(specifiedCompanyTaxRate),
+                pricePaperType1WithTax = ko.computed(function() {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return pricePaperType1() + (pricePaperType1() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return pricePaperType1() + (pricePaperType1() * (companyTaxRate() / 100));
+                    }
+                    return pricePaperType1();
+                }),
+                pricePaperType2WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return pricePaperType2() + (pricePaperType2() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return pricePaperType2() + (pricePaperType2() * (companyTaxRate() / 100));
+                    }
+                    return pricePaperType2();
+                }),
+                pricePaperType3WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return pricePaperType3() + (pricePaperType3() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return pricePaperType3() + (pricePaperType3() * (companyTaxRate() / 100));
+                    }
+                    return pricePaperType3();
+                }),
+                priceStockType4WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return priceStockType4() + (priceStockType4() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return priceStockType4() + (priceStockType4() * (companyTaxRate() / 100));
+                    }
+                    return priceStockType4();
+                }),
+                priceStockType5WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return priceStockType5() + (priceStockType5() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return priceStockType5() + (priceStockType5() * (companyTaxRate() / 100));
+                    }
+                    return priceStockType5();
+                }),
+                priceStockType6WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return priceStockType6() + (priceStockType6() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return priceStockType6() + (priceStockType6() * (companyTaxRate() / 100));
+                    }
+                    return priceStockType6();
+                }),
+                priceStockType7WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return priceStockType7() + (priceStockType7() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return priceStockType7() + (priceStockType7() * (companyTaxRate() / 100));
+                    }
+                    return priceStockType7();
+                }),
+                priceStockType8WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return priceStockType8() + (priceStockType8() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return priceStockType8() + (priceStockType8() * (companyTaxRate() / 100));
+                    }
+                    return priceStockType8();
+                }),
+                priceStockType9WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return priceStockType9() + (priceStockType9() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return priceStockType9() + (priceStockType9() * (companyTaxRate() / 100));
+                    }
+                    return priceStockType9();
+                }),
+                priceStockType10WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return priceStockType10() + (priceStockType10() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return priceStockType10() + (priceStockType10() * (companyTaxRate() / 100));
+                    }
+                    return priceStockType10();
+                }),
+                priceStockType11WithTax = ko.computed(function () {
+                    if (productItemTax() != undefined && productItemTax() != null) {
+                        return priceStockType11() + (priceStockType11() * (productItemTax() / 100));
+                    }
+                    else if (companyTaxRate() != undefined && companyTaxRate() != null) {
+                        return priceStockType11() + (priceStockType11() * (companyTaxRate() / 100));
+                    }
+                    return priceStockType11();
+                }),
                 // Errors
                 errors = ko.validation.group({                    
                     
@@ -938,6 +1039,17 @@
                 priceStockType9Ui: priceStockType9Ui,
                 priceStockType10Ui: priceStockType10Ui,
                 priceStockType11Ui: priceStockType11Ui,
+                pricePaperType1WithTax: pricePaperType1WithTax,
+                pricePaperType2WithTax: pricePaperType2WithTax,
+                pricePaperType3WithTax: pricePaperType3WithTax,
+                priceStockType4WithTax: priceStockType4WithTax,
+                priceStockType5WithTax: priceStockType5WithTax,
+                priceStockType6WithTax: priceStockType6WithTax,
+                priceStockType7WithTax: priceStockType7WithTax,
+                priceStockType8WithTax: priceStockType8WithTax,
+                priceStockType9WithTax: priceStockType9WithTax,
+                priceStockType10WithTax: priceStockType10WithTax,
+                priceStockType11WithTax: priceStockType11WithTax,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -1095,7 +1207,7 @@
         },
         // Item Addon Cost Centre Entity
         ItemAddonCostCentre = function(specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
-            specifiedCostCentreType, specifiedTotalPrice, callbacks) {
+            specifiedCostCentreType, specifiedTotalPrice, callbacks, specifiedProductItemTax, specifiedCompanyTaxRate) {
             // ReSharper restore InconsistentNaming
             var // self reference
                 self,
@@ -1111,6 +1223,16 @@
                 costCentreType = ko.observable(specifiedCostCentreType || undefined),
                 // Total Price
                 totalPrice = ko.observable(specifiedTotalPrice || undefined).extend({ numberInput: ist.numberFormat }),
+                 // Total Price With tax
+                totalPriceWithTax = ko.computed(function () {
+                    if (specifiedProductItemTax != undefined && specifiedProductItemTax != null) {
+                        return totalPrice() + (totalPrice() * (specifiedProductItemTax / 100));
+                    }
+                    else if (specifiedCompanyTaxRate != undefined && specifiedCompanyTaxRate  != null) {
+                        return totalPrice() + (totalPrice() * (specifiedCompanyTaxRate / 100));
+                    }
+                    return totalPrice();
+                }),
                 // Cost Centre Id - On Change
                 costCentreId = ko.computed({
                     read: function() {
@@ -1170,6 +1292,7 @@
                 costCentreName: costCentreName,
                 costCentreType: costCentreType,
                 totalPrice: totalPrice,
+                totalPriceWithTax: totalPriceWithTax,
                 isMandatory: isMandatory,
                 isSelected: isSelected,
                 errors: errors,
@@ -1482,13 +1605,15 @@
     // Item Stock Option Factory
    ItemStockOption.Create = function (source, callbacks) {
        var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
-           source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks);
+           source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks, source.ProductItemTax, source.CompanyTaxRate);
 
        // If Item Addon CostCentres exists then add
        if (source.ItemAddOnCostCentres) {
            var itemAddonCostCentres = [];
 
            _.each(source.ItemAddOnCostCentres, function (itemAddonCostCenter) {
+               itemAddonCostCenter.ProductItemTax = source.ProductItemTax;
+               itemAddonCostCenter.CompanyTaxRate = source.CompanyTaxRate;
                itemAddonCostCentres.push(ItemAddonCostCentre.Create(itemAddonCostCenter, callbacks));
            });
 
@@ -1545,7 +1670,7 @@
    ItemPriceMatrix.Create = function (source) {
        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangeFrom, source.QtyRangeTo, source.PricePaperType1, source.PricePaperType2,
            source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
-           source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId);
+           source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId, source.ProductItemTax, source.CompanyTaxRate);
    };
     // Section Cost Centre Factory
     SectionCostCentre.Create = function(source) {
@@ -1579,7 +1704,7 @@
     // Item Addon Cost Centre Factory
    ItemAddonCostCentre.Create = function (source, callbacks) {
        return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-           source.CostCentreTypeName, source.TotalPrice, callbacks);
+           source.CostCentreTypeName, source.TotalPrice, callbacks, source.ProductItemTax, source.CompanyTaxRate);
    };
     // Section Cost Centre Factory
    SectionCostCenterDetail.Create = function (source) {

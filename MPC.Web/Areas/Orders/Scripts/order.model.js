@@ -27,7 +27,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Code
                 code = ko.observable(specifiedCode || undefined),
                 // Is From Estimate
-                isFromEstimate = ko.computed(function () {
+                isFromEstimate = ko.computed(function() {
                     return code() !== null && code() !== undefined && code() !== "";
                 }),
                 // Company Id
@@ -37,7 +37,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Number Of items
                 numberOfItems = ko.observable(specifiedNumberOfItems || 0),
                 // Number of Items UI
-                noOfItemsUi = ko.computed(function () {
+                noOfItemsUi = ko.computed(function() {
                     return "( " + numberOfItems() + " ) Items";
                 }),
                 // Creation Date
@@ -60,7 +60,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 isDirectSale = ko.observable(((specifiedIsDirectSale !== null && specifiedIsDirectSale !== undefined &&
                     specifiedIsDirectSale === true) || !id()) ? true : false),
                 // Is Direct Sale Ui
-                isDirectSaleUi = ko.computed(function () {
+                isDirectSaleUi = ko.computed(function() {
                     return isDirectSale() ? "Direct Order" : "Online Order";
                 }),
                 // Is Official Order
@@ -97,7 +97,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 sourceId = ko.observable(specifiedSourceId || undefined),
                 // Credit Limit For Job
                 creditLimitForJob = ko.observable(specifiedCreditLimitForJob || undefined),
-               
+
                 // Credit Limit Set By
                 creditLimitSetBy = ko.observable(specifiedCreditLimitSetBy || undefined),
                 // Credit Limit Set on Date Time
@@ -117,6 +117,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : undefined),
                 // Foot Notes
                 footNotes = ko.observable(specifiedFootNotes || undefined),
+                //Tax Rate
+                taxRate = ko.observable(undefined),
                 // Items
                 items = ko.observableArray([]),
                 // Delivery Items
@@ -228,6 +230,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     officialOrderSetBy: officialOrderSetBy,
                     officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                     footNotes: footNotes,
+                    taxRate: taxRate,
                     sectionFlagId: sectionFlagId,
                     statusId: statusId
                     //estimateTotal: estimateTotal
@@ -260,6 +263,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         FinishDeliveryDate: finishDeliveryDate() ? moment(finishDeliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
                         HeadNotes: headNotes(),
                         FootNotes: footNotes(),
+                        TaxRate: taxRate(),
                         ArtworkByDate: artworkByDate() ? moment(artworkByDate()).format(ist.utcFormat) + 'Z' : undefined,
                         DataByDate: dataByDate() ? moment(dataByDate()).format(ist.utcFormat) + 'Z' : undefined,
                         PaperByDate: paperByDate() ? moment(paperByDate()).format(ist.utcFormat) + 'Z' : undefined,
@@ -314,6 +318,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 finishDeliveryDate: finishDeliveryDate,
                 headNotes: headNotes,
                 footNotes: footNotes,
+                taxRate: taxRate,
                 artworkByDate: artworkByDate,
                 dataByDate: dataByDate,
                 paperByDate: paperByDate,

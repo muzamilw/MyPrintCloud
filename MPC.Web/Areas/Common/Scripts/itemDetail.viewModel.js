@@ -741,10 +741,10 @@ define("common/itemDetail.viewModel",
                     },
 
 
-                // On Change Quantity 2 Markup
-                onChangeQty2MarkUpId = function () { //qtyMarkup
-                    calculateSectionBaseCharge2();
-                },
+                    // On Change Quantity 2 Markup
+                    onChangeQty2MarkUpId = function () { //qtyMarkup
+                        calculateSectionBaseCharge2();
+                    },
                     q2NetTotal = function () {
                         if (selectedSection().qty2MarkUpId() !== undefined) {
                             var markup = _.find(markups(), function (item) {
@@ -757,7 +757,7 @@ define("common/itemDetail.viewModel",
 
                         }
                     },
-                // On Change Quantity 3 Markup
+                    // On Change Quantity 3 Markup
                     onChangeQty3MarkUpId = function () { //qtyMarkup
                         calculateSectionBaseCharge3();
                     },
@@ -773,55 +773,55 @@ define("common/itemDetail.viewModel",
 
                         }
                     },
-                    isOpenItemSection = ko.observable(false);
-                calculateQty1NetTotalForItem = ko.computed({
-                    read: function () {
-                        if (!selectedProduct()) {
-                            return 0;
+                    isOpenItemSection = ko.observable(false),
+                    calculateQty1NetTotalForItem = ko.computed({
+                        read: function () {
+                            if (!selectedProduct()) {
+                                return 0;
+                            }
+                            return selectedProduct().qty1NetTotal();
+                        },
+                        write: function (value) {
+                            if ((value === undefined || value === null) || value === selectedProduct().qty1NetTotal()) {
+                                return;
+                            }
+                            selectedProduct().qty1NetTotal(value);
+                            qty1GrossTotalForItem();
                         }
-                        return selectedProduct().qty1NetTotal();
-                    },
-                    write: function (value) {
-                        if ((value === undefined || value === null) || value === selectedProduct().qty1NetTotal()) {
-                            return;
-                        }
-                        selectedProduct().qty1NetTotal(value);
-                        qty1GrossTotalForItem();
-                    }
 
-                }),
-                calculateQty2NetTotalForItem = ko.computed({
-                    read: function () {
-                        if (!selectedProduct()) {
-                            return 0;
+                    }),
+                    calculateQty2NetTotalForItem = ko.computed({
+                        read: function () {
+                            if (!selectedProduct()) {
+                                return 0;
+                            }
+                            return selectedProduct().qty2NetTotal();
+                        },
+                        write: function (value) {
+                            if ((value === undefined || value === null) || value === selectedProduct().qty2NetTotal()) {
+                                return;
+                            }
+                            selectedProduct().qty2NetTotal(value);
+                            qty2GrossTotalForItem();
                         }
-                        return selectedProduct().qty2NetTotal();
-                    },
-                    write: function (value) {
-                        if ((value === undefined || value === null) || value === selectedProduct().qty2NetTotal()) {
-                            return;
-                        }
-                        selectedProduct().qty2NetTotal(value);
-                        qty2GrossTotalForItem();
-                    }
 
-                }),
-                calculateQty3NetTotalForItem = ko.computed({
-                    read: function () {
-                        if (!selectedProduct()) {
-                            return 0;
+                    }),
+                    calculateQty3NetTotalForItem = ko.computed({
+                        read: function () {
+                            if (!selectedProduct()) {
+                                return 0;
+                            }
+                            return selectedProduct().qty3NetTotal();
+                        },
+                        write: function (value) {
+                            if ((value === undefined || value === null) || value === selectedProduct().qty3NetTotal()) {
+                                return;
+                            }
+                            selectedProduct().qty3NetTotal(value);
+                            qty3GrossTotalForItem();
                         }
-                        return selectedProduct().qty3NetTotal();
-                    },
-                    write: function (value) {
-                        if ((value === undefined || value === null) || value === selectedProduct().qty3NetTotal()) {
-                            return;
-                        }
-                        selectedProduct().qty3NetTotal(value);
-                        qty3GrossTotalForItem();
-                    }
 
-                }),
+                    }),
                 qty1NetTotalForItem = function () {
                     if (selectedSection() !== undefined) {
                         baseCharge1TotalForItem = 0;
@@ -1458,29 +1458,29 @@ define("common/itemDetail.viewModel",
                         },
 
                 // Update Job Description
-                        updateJobDescription = function (phrase) {
-                            if (!phrase) {
-                                return;
-                            }
+                updateJobDescription = function (phrase) {
+                    if (!phrase) {
+                        return;
+                    }
 
-                            // Set Phrase to selected Job Description
-                            if (selectedJobDescription() === 'txtDescription1') {
-                                selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
-                            } else if (selectedJobDescription() === 'txtDescription2') {
-                                selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
-                            } else if (selectedJobDescription() === 'txtDescription3') {
-                                selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
-                            } else if (selectedJobDescription() === 'txtDescription4') {
-                                selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
-                            } else if (selectedJobDescription() === 'txtDescription5') {
-                                selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
-                            } else if (selectedJobDescription() === 'txtDescription6') {
-                                selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
-                            } else if (selectedJobDescription() === 'txtDescription7') {
-                                selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
-                            }
-                        },
-                         counter = 0,
+                    // Set Phrase to selected Job Description
+                    if (selectedJobDescription() === 'txtDescription1') {
+                        selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription2') {
+                        selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription3') {
+                        selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription4') {
+                        selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription5') {
+                        selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription6') {
+                        selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription7') {
+                        selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
+                    }
+                },
+                    counter = 0,
                 // Create new Item Section
                     createNewItemSection = function () {
                         var itemSection = model.ItemSection();
@@ -1492,7 +1492,7 @@ define("common/itemDetail.viewModel",
                     },
 
                 //#endregion
-                //Initialize
+                    //Initialize
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);

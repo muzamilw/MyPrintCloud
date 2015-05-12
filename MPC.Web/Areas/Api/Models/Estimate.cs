@@ -95,6 +95,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string XeroAccessCode { get; set; }
         public int? ItemsCount { get; set; }
         public string Status { get; set; }
+        public double? CompanyTaxRate { get; set; }
         public IEnumerable<OrderItem> Items { get; set; }
         public IEnumerable<PrePayment> PrePayments { get; set; }
         public IEnumerable<ShippingInformation> ShippingInformations { get; set; }

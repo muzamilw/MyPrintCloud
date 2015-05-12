@@ -327,6 +327,7 @@ define("order/order.viewModel",
 
                         selectedOrder().companyId(company.id);
                         selectedOrder().companyName(company.name);
+                        selectedOrder().taxRate(company.taxRate);
                         selectedCompany(company);
 
                         // Get Company Address and Contacts
@@ -476,9 +477,19 @@ define("order/order.viewModel",
                     openStockItemDialogForAddingProduct = function () {
                         isAddProductFromInventory(true);
                         isAddProductForSectionCostCenter(false);
-                        stockDialog.show(function (stockItem) {
-                            createNewInventoryProduct(stockItem);
-                        }, stockCategory.paper, false, currencySymbol());
+                        if (selectedOrder().companyId() === undefined) {
+                            toastr.error("Please select customer.");
+                        } else {
+                            var companyTaxRate = 0;
+                            if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3 && selectedCompany().storeId !== null) {
+                                companyTaxRate = selectedCompany().taxRate;
+                            } else {
+                                companyTaxRate = selectedOrder().taxRate();
+                            }
+                            stockDialog.show(function (stockItem) {
+                                createNewInventoryProduct(stockItem);
+                            }, stockCategory.paper, false, currencySymbol(), companyTaxRate);
+                        }
                     },
                     // Edit Section
                     editSection = function (item) {
@@ -1050,6 +1061,7 @@ define("order/order.viewModel",
                             success: function (data) {
                                 if (data) {
                                     selectedOrder(model.Estimate.Create(data));
+                                    selectedOrder().taxRate(data.CompanyTaxRate);
                                     _.each(data.PrePayments, function (item) {
                                         selectedOrder().prePayments.push(model.PrePayment.Create(item));
                                     });
@@ -1127,18 +1139,22 @@ define("order/order.viewModel",
 
                     },
                     onCreateNewProductFromRetailStore = function () {
+                        
                         if (selectedOrder().companyId() === undefined) {
                             toastr.error("Please select customer.");
                         } else {
-                                var companyId = 0;
+                            var companyId = 0;
+                            var companyTaxRate = 0;
                                 if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3 && selectedCompany().storeId !== null) {
                                     companyId = selectedCompany().storeId;
+                                    companyTaxRate = selectedCompany().taxRate;
                                 } else {
                                     companyId = selectedOrder().companyId();
+                                    companyTaxRate = selectedOrder().taxRate();
                                 }
-                                addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
+                                addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct, companyTaxRate);
                         }
-                        addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
+                        //addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
                     },
                     
                     //},
