@@ -142,7 +142,7 @@
                                                         <label class="control-label"><b>Net Total</b></label>
                                                     </div>
                                                     <div class="col-lg-1">
-                                                        <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
+                                                        ( <label class="control-label" data-bind=" text:$root.currencySymbol"></label> )
                                                     </div>
                                                     <div class="col-xs-2">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="numberValue:$root.calculateQty1NetTotalForItem" />
@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-lg-2">
-                                            <label class="control-label tooltip-float">Tax</label>
+                                            <label class="control-label tooltip-float">Tax ( % )</label>
                                         </div>
                                         <div class="col-lg-2">
                                             <input type="text" class="form-control txtBox-contentAlignRight" data-bind="disable:taxRateIsDisabled,value:tax1" />
