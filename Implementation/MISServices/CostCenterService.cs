@@ -490,9 +490,9 @@ namespace MPC.Implementation.MISServices
                 {
                     //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
                     IsCompiled = false;
-                        throw new Exception("Error Compiling Costcentre", ex);
-                   
-                    
+                        //throw new Exception("Error Compiling Costcentre", ex.ToString());
+
+                    throw ex;
 
                 }
                 finally
@@ -819,7 +819,7 @@ namespace MPC.Implementation.MISServices
                     result = null;
                     Source = null;
                     co = null;
-                    throw new Exception("Compilation Errors : " + errorString + "<br><br> Output :");
+                    throw new Exception("There are syntax errors in Cost Center Charge String. Please review Cost Center charge string. <br><br>Error Details : " + errorString + "<br><br> Output :");
                 }
                 else
                 {
