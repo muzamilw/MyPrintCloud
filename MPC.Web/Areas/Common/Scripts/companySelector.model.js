@@ -3,7 +3,7 @@
 
     // Company Entity
 // ReSharper disable InconsistentNaming
-    Company = function (specifiedId, specifiedName, specifiedURL, specifiedCreationDate, specifiedStoreId, specifiedIsCustomer) {
+    Company = function (specifiedId, specifiedName, specifiedURL, specifiedCreationDate, specifiedStoreId, specifiedIsCustomer, specifiedTaxRate) {
         // ReSharper restore InconsistentNaming
         
         return {
@@ -12,13 +12,14 @@
             url: specifiedURL,
             creationDate: specifiedCreationDate ? moment(specifiedCreationDate).toDate() : undefined,
             storeId: specifiedStoreId,
-            isCustomer: specifiedIsCustomer
+            isCustomer: specifiedIsCustomer,
+            taxRate: specifiedTaxRate
         };
     };
 
     // Company Factory
     Company.Create = function (source) {
-        return new Company(source.CompanyId, source.Name, source.URL, source.CreationDate, source.StoreId, source.IsCustomer);
+        return new Company(source.CompanyId, source.Name, source.URL, source.CreationDate, source.StoreId, source.IsCustomer, source.TaxRate);
     };
 
 
