@@ -19,7 +19,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Company Name</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Company Name</label>
 
                 </div>
 
@@ -40,7 +40,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Addres Line 1</label>*@
+                    <label for="txtcompanyname" class="control-label text-right tooltip-float">addres line 1</label>
 
                 </div>
 
@@ -60,7 +60,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Addres Line 2</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Addres Line 2</label>
 
                 </div>
 
@@ -81,7 +81,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">City</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">City</label>
 
                 </div>
 
@@ -103,7 +103,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Country</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Country</label>
 
                 </div>
 
@@ -123,7 +123,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">State</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">State</label>
 
                 </div>
 
@@ -143,7 +143,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Post Code</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Post Code</label>
 
                 </div>
 
@@ -163,7 +163,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Main Tel</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Main Tel</label>
 
                 </div>
 
@@ -183,7 +183,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Fax</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Fax</label>
 
                 </div>
 
@@ -203,7 +203,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Email</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Email</label>
 
                 </div>
 
@@ -223,7 +223,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Mobile</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Mobile</label>
 
                 </div>
 
@@ -243,7 +243,7 @@
                         </a>
 
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Web Site URL</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Web Site URL</label>
 
                 </div>
 
@@ -261,13 +261,19 @@
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
                     </div>*@
-                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Company Logo</label>*@
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Company Logo</label>
                 </div>
 
                 <div class="col-lg-8">
                     <div class="col-lg-6" style="padding-left:0px;">
                         <div>
-                            <img id="orgImage" src="" alt="" style="width:310px;height:200px;" data-bind="attr:{ src: orgnizationImage }," />
+                            <!-- ko if: orgnizationImage() -->
+                            <img id="orgImage" alt="" src="" style="width:320px;height:200px;" data-bind="attr:{ src: orgnizationImage() }" />
+                            <!-- /ko -->
+                            <!-- ko ifnot: orgnizationImage() -->
+                            <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:310px;height:310px;" />
+                            <!-- /ko -->
+
                         </div>
                     </div>
                 </div>
