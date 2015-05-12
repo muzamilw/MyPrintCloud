@@ -83,7 +83,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         double CalculateDiscount(double price, double discountPrecentage);
         long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId,long StoreId, CompanyContact regContact = null);
-        Organisation getOrganisatonByID(int OID);
+        Organisation GetOrganisatonById(long OrganisationId);
         string GetContactMobile(long CID);
 
         CmsPage getPageByID(long PageID);
