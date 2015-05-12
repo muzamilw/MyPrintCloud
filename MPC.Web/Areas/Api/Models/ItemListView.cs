@@ -47,6 +47,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? TemplateId { get; set; }
         public bool? PrintCropMarks { get; set; }
         public bool? DrawWaterMarkTxt { get; set; }
+        public double? DefaultItemTax { get; set; }
         public int? TemplateType { get; set; }
         public byte[] ThumbnailImage { get; set; }
         public string ThumbnailImageSource

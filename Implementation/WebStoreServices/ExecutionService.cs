@@ -941,8 +941,12 @@ namespace MPC.Implementation.WebStoreServices
                 else if (ExecutionMode == CostCentreExecutionMode.PromptMode) 
                 {
 			        //populate the question in the executionQueue
-                    
-			        InputQueue.addItem(InputID, Question, CostCentreID, ItemType, InputType, Question, Value, 0);
+                    double Qty1Val = 0;
+                    if(!string.IsNullOrEmpty(Value))
+                    {
+                        Qty1Val = Convert.ToDouble(Value);
+                    }
+                    InputQueue.addItem(InputID, Question, CostCentreID, ItemType, InputType, Question, Value, Qty1Val);
 			        //
 			        return 1;
 			        //exit normally 
