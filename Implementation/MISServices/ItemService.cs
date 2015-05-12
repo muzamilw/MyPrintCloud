@@ -2064,7 +2064,7 @@ namespace MPC.Implementation.MISServices
             return new ItemBaseResponse
             {
                 CostCentres = costCentreRepository.GetAllNonSystemCostCentres(),
-                SectionFlags = sectionFlagRepository.GetAllForCustomerPriceIndex(),
+                SectionFlags = sectionFlagRepository.GetDefaultSectionFlags(),
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
