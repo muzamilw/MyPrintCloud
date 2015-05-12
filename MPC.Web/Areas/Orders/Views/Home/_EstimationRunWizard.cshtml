@@ -30,11 +30,7 @@
 
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
+                                               
                                                 <label class="control-label tooltip-float">Quantities</label>
                                             </div>
                                             <div class="col-lg-9">
@@ -61,7 +57,7 @@
                                                 <table class="table-run-wizard table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th class="col-lg-3 "><span>Machine Name</span></th>
+                                                            <th class="col-lg-3 "><span>Press</span></th>
                                                             <th class="col-lg-1"><span>Cost</span></th>
                                                             <th class="col-lg-2"><span>Run Time </span></th>
                                                             <th class="col-lg-1"><span>Cost</span></th>
@@ -100,10 +96,10 @@
                                 <div class="tab-pane fade " id="tab-Sections">
                                     <div class="col-lg-12 form-horizontal">
                                         <div class="col-xs-4">
-                                            <label class="control-label">All User Defined Cost Centers</label>
+                                            <label class="control-label">User Defined</label>
                                         </div>
                                         <div class="col-xs-4">
-                                            <label class="control-label ">Applied Cost Center for this Product</label>
+                                            <label class="control-label ">Applied in this section</label>
                                         </div>
                                         <div class="col-xs-4">
                                             <div class="form-group pull-left" style="margin-left: 0px;width: 100%;">
@@ -132,7 +128,7 @@
                                                 <table class="table-run-wizards table-striped table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th style="width:58%"><span>Cost Center Name</span></th>
+                                                            <th style="width:58%">&nbsp;</th>
                                                             <th style="width:55px;">&nbsp;</th>
                                                         </tr>
                                                     </thead>
@@ -150,7 +146,7 @@
                                                 <table class="table-run-wizard table-striped table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th style="width:100%"><span>Cost Center Name</span></th>
+                                                            <th style="width:100%"><span>&nbsp;</span></th>
                                                             @*<th style="width:55px;">&nbsp;</th>*@
                                                         </tr>
                                                     </thead>
@@ -184,7 +180,7 @@
         <td>
             @*<div style="width:87px;">*@
             <div class="col-xs-4" style="width: 66%;">
-                <label class="control-label text-left" data-bind="text:machineName"></label>
+                <label class="control-label text-left" style="text-align: left" data-bind="text:machineName"></label>
             </div>
         </td>
         <td>
