@@ -2101,7 +2101,6 @@
     <Content Include="Areas\Settings\Views\Home\_Markups.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_OrderCostCenterQuantity.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_OrganisationDetail.cshtml" />
-    <Content Include="Areas\Orders\Views\Home\test.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_PhraseLibrary.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
