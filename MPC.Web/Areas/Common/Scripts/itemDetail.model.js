@@ -1728,14 +1728,17 @@
         BestPress = function (specifiedMachineID, specifiedMachineName, specifiedQty1Cost, specifiedQty1RunTime, specifiedQty2Cost, specifiedQty2RunTime,
         // ReSharper restore InconsistentNaming
         specifiedQty3Cost, specifiedQty3RunTime, specifiedisSelected) {
+            var qty1Cost = ko.observable(specifiedQty1Cost || 0).extend({ numberInput: ist.numberFormat });
+            var qty2Cost = ko.observable(specifiedQty2Cost || 0).extend({ numberInput: ist.numberFormat });
+            var qty3Cost = ko.observable(specifiedQty3Cost || 0).extend({ numberInput: ist.numberFormat });
             return {
                 id: specifiedMachineID,
                 machineName: specifiedMachineName,
-                qty1Cost: specifiedQty1Cost,
+                qty1Cost: qty1Cost,
                 qty1RunTime: specifiedQty1RunTime,
-                qty2Cost: specifiedQty2Cost,
+                qty2Cost: qty2Cost,
                 qty2RunTime: specifiedQty2RunTime,
-                qty3Cost: specifiedQty3Cost,
+                qty3Cost: qty3Cost,
                 qty3RunTime: specifiedQty3RunTime,
                 isSelected: specifiedisSelected,
             };
