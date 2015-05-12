@@ -327,7 +327,7 @@
                                                         <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
                                                         <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
                                                     </div>
-                                                    <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
+                                                    <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" style="margin-right: -8px"class="btn btn-primary pull-right">
                                                         Add Address
                                                     </a>
                                                 </div>
@@ -353,7 +353,7 @@
                                             </div>
                                         </div>
                                         <footer class="main-box-header pull-right">
-                                            <div id="pagerDivAddress">
+                                            <div id="pagerDivAddress" style="margin-right: -10px">
                                                 <!-- ko with: $root.addressPager -->
                                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                 <!-- /ko -->
@@ -371,7 +371,7 @@
                                                     <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
                                                     <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
                                                 </div>
-                                                <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary pull-right">
+                                                <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" style="margin-right: -3px"class="btn btn-primary pull-right">
                                                    Add User
                                                 </a>
                                             </div>
@@ -397,7 +397,7 @@
                                             </div>
                                         </div>
                                         <footer class="main-box-header pull-right">
-                                            <div id="pagerDivUsers">
+                                            <div id="pagerDivUsers" style="margin-right: 0px; text-align: right">
                                                 <!-- ko with: $root.contactCompanyPager -->
                                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                 <!-- /ko -->

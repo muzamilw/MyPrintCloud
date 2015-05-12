@@ -151,6 +151,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 status = ko.observable(undefined),
                 // Order signed by
                 orderReportSignedBy = ko.observable(undefined),
+                // Store Id
+                storeId = ko.observable(undefined),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -353,7 +355,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 setValidationSummary: setValidationSummary,
                 convertToServerData: convertToServerData,
                 statusId: statusId,
-                status: status
+                status: status,
+                storeId: storeId
             };
         },
 

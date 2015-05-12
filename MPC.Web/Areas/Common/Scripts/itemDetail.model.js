@@ -540,7 +540,7 @@
                 // Plate Ink Id
                 plateInkId = ko.observable(specifiedPlateInkId || undefined),
                 // SimilarSections
-                similarSections = ko.observable(specifiedSimilarSections || 0),
+                similarSections = ko.observable(specifiedSimilarSections || 1),
                 // Section Cost Centres
                 sectionCostCentres = ko.observableArray([]),
                 // Section Ink Coverage List

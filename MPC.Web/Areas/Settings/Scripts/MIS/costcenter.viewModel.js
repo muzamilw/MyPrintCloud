@@ -289,7 +289,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             variableVariableNodes.valueHasMutated();
 
                             _.each(variableVariableNodes(), function (variable) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv' + '> <div class="dd-handle-list" data-bind="click: $root.getVariablesByType"><i id="idVariableschildByType"  class="fa fa-chevron-circle-right drop-icon"></i></div><div class="dd-handle"><span>' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv' + '> <div class="dd-handle-list" data-bind="click: $root.getVariablesByType"><i id="idVariableschildByType"  class="fa fa-chevron-circle-right drop-icon"></i></div><div class="dd-handle"><span style="cursor: not-allowed;">' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + variable.CategoryId + "vv")[0]);
                             });
                             $("#idVariablesByType").addClass("fa-chevron-circle-down");
@@ -377,7 +377,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         selectedCostCenterType(cc);
                         _.each(cc.CostCentres, function (ccd) {
                             //selectedcc(ccd);
-                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.CostCentreId + 'cc' + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterFixedVariables, css: { selectedRow: $data === $root.selectedcc}""><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccd.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.CostCentreId + 'cc' + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterFixedVariables, css: { selectedRow: $data === $root.selectedcc}""><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span >' + ccd.Name + '</span><div class="nested-links"></div></div></li></ol>');
                             ko.applyBindings(view.viewModel, $("#" + ccd.CostCentreId + "cc")[0]);
                         });
                     }
@@ -397,7 +397,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 _.each(selectedCostCenterType().CostCentres, function (ccv) {
                     if (ccv.CostCentreId == ccid) {
                         _.each(ccv.FixedVariables, function (cfv) {
-                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + cfv.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" data-bind="drag: $root.dragged">' + cfv.Name + '<input type="hidden" id="str" value="' + cfv.VariableString + '" /></span><div class="nested-links"></div></div></li></ol>');
+                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + cfv.Id + '> <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" data-bind="drag: $root.dragged">' + cfv.Name + '<input type="hidden" id="str" value="' + cfv.VariableString + '" /></span><div class="nested-links"></div></div></li></ol>');
                             ko.applyBindings(view.viewModel, $("#" + cfv.Id)[0]);
                         });
                     }
@@ -427,7 +427,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     if (cc.CategoryId == sid) {
                         selectedVariableType(cc);
                         _.each(cc.VariablesList, function (ccd) {
-                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.VarId + 'vvd' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + ccd.Name + '<input type="hidden" id="str" value="' + ccd.FixedVariables + '" /></span><div class="nested-links"></div></div></li></ol>');
+                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.VarId + 'vvd' + '> <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + ccd.Name + '<input type="hidden" id="str" value="' + ccd.FixedVariables + '" /></span><div class="nested-links"></div></div></li></ol>');
                             ko.applyBindings(view.viewModel, $("#" + ccd.VarId + "vvd")[0]);
                         });
                     }
@@ -891,9 +891,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 dataservice.saveNewCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
                     success: function (data) {
                         if (data.IsParsed) {
-                            selectedCostCenter().costCentreId(data.CostCentreId);
-                            costCentersList.splice(0, 0, model.costCenterListView(data.CostCentreId, data.Name, data.WebStoreDesc, data.TypeName, selectedCostCenter().calculationMethodType()));
-                            selectedCostCenter().reset();
+                            if (selectedCostCenter().type() == CostCenterType) {
+                                selectedCostCenter().costCentreId(data.CostCentreId);
+                                costCentersList.splice(0, 0, model.costCenterListView(data.CostCentreId, data.Name, data.WebStoreDesc, data.TypeName, selectedCostCenter().calculationMethodType(), data.IsDisabled));
+
+                            }
+                             selectedCostCenter().reset();
                             closeCostCenterDetail();
                             //  getCostCenters();
                             toastr.success("Successfully saved.");
@@ -916,13 +919,19 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             if (callback && typeof callback === "function") {
                                 callback();
                             }
+                            if (selectedCostCenter().type() != CostCenterType) {
+                                costCentersList.remove(function (item) { return item.costCenterId() == selectedCostCenter().costCentreId() })
 
-                            selectedCostCenter().type(data.TypeName)
-                            selectedCostCenter().reset();
-                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].description(data.WebStoreDesc);
-                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].type(data.TypeName);
-                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].name(selectedCostCenter().name());
-                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].calculationMethodType(selectedCostCenter().calculationMethodType());
+                            } else {
+
+
+                                selectedCostCenter().type(data.TypeName)
+                                selectedCostCenter().reset();
+                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].description(data.WebStoreDesc);
+                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].type(data.TypeName);
+                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].name(selectedCostCenter().name());
+                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].calculationMethodType(selectedCostCenter().calculationMethodType());
+                            }
                             closeCostCenterDetail();
                             //  getCostCenters();
                             toastr.success("Successfully saved.");
@@ -947,12 +956,16 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             createCostCenter = function () {
                 errorList.removeAll();
-                var cc = new model.CostCenter();
-                setDataForNewCostCenter(cc);
-                selectedCostCenter(cc);
                 getCostCentersBaseData();
+                //var cc = new model.CostCenter();
+                //setDataForNewCostCenter(cc);
+                //cc.type(CostCenterType);
+                //selectedCostCenter(cc);
+
+                
                 // getVariablesTree();
                 showCostCenterDetail();
+                //selectedCostCenter().type('3');
                 sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
                 $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
             },
@@ -964,6 +977,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 cc.type('4');
                 cc.calculationMethodType('1');
                 cc.name('Enter Cost Center name');
+                cc.isDisabled(true);
                 selectedCostCenter(cc);
                 $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
                 getCostCentersBaseData();
@@ -998,13 +1012,14 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 newcostcenter.isQtyVariable('1');
                 newcostcenter.isTimeVariable('1');
                 newcostcenter.isCalculationMethodEnable(true);
-                if (CostCenterType == "2") {
-                    newcostcenter.type(2);
+                newcostcenter.type(CostCenterType);
+                //if (CostCenterType == "2") {
+                //    newcostcenter.type('2');
 
 
-                } else if (CostCenterType == "3") {
-                    newcostcenter.type(3);
-                }
+                //} else if (CostCenterType == "3") {
+                //    newcostcenter.type('3');
+                //}
 
                 
                
@@ -1160,6 +1175,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         if (oCostCenter != undefined) {
                             getCostCenterById(oCostCenter);
                             
+                        } else if (selectedCostCenter() == undefined || selectedCostCenter().type() != 4) {
+                            var cc = new model.CostCenter();
+                            setDataForNewCostCenter(cc);
+                            //cc.type(CostCenterType);
+                            selectedCostCenter(cc);
+                            $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
                         }
                         CurrencySymbol(data.CurrencySymbol);
 
@@ -1260,7 +1281,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                } else if (CostCenterType == "3") {
                    $("#createNewCostCenterId").html("New Post Press Cost Center")
-                   $("#idcostcentertypename").html("Pre Post Cost Centers")
+                   $("#idcostcentertypename").html("Post Press Cost Centers")
                }
                getCostCenters();
                // getCostCentersBaseData();
