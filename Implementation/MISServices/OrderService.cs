@@ -716,8 +716,8 @@ namespace MPC.Implementation.MISServices
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-            return GenerateOrderArtworkArchive(OrderID, sZipName);
-            // return ExportPDF(520, 0, ReportType.Internal, 0, string.Empty);
+          //  return GenerateOrderArtworkArchive(OrderID, sZipName);
+            return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
@@ -1426,19 +1426,19 @@ namespace MPC.Implementation.MISServices
                     else if (type == ReportType.Order)
                     {
                         sFileName = iRecordID + "OrderReport.pdf";
-                        List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
+                        List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, iRecordID);
                         currReport.DataSource = rptOrderSource;
                     }
                     else if (type == ReportType.Estimate)
                     {
                         sFileName = iRecordID + "EstimateReport.pdf";
-                        List<usp_EstimateReport_Result> rptEstimateSource = ReportRepository.getEstimateReportResult(OrganisationID, OrderID);
+                        List<usp_EstimateReport_Result> rptEstimateSource = ReportRepository.getEstimateReportResult(OrganisationID, iRecordID);
                         currReport.DataSource = rptEstimateSource;
                     }
                     else if (type == ReportType.Invoice)
                     {
                         sFileName = iRecordID + "InvoiceReport.pdf";
-                        List<usp_InvoiceReport_Result> rptInvoiceSource = ReportRepository.getInvoiceReportResult(OrganisationID, OrderID);
+                        List<usp_InvoiceReport_Result> rptInvoiceSource = ReportRepository.getInvoiceReportResult(OrganisationID, iRecordID);
                         currReport.DataSource = rptInvoiceSource;
                     }
                     else if (type == ReportType.Internal)
