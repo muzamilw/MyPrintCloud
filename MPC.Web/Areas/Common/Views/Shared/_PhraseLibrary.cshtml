@@ -36,11 +36,11 @@
                 <div class="table-responsive">
                     <br />
                     <div class="filter-block pull-right" title="Add Phrase">
-                        <button data-bind="click:$root.addPhrase,visible:$root.isOpenFromPhraseLibrary" class="btn btn-primary">
+                        @*<button data-bind="click:$root.addPhrase,visible:$root.isOpenFromPhraseLibrary" class="btn btn-primary">
                             Add New Phrase
                         </button>
-                        <button type="button" class="btn btn-primary" data-bind="click:$root.savePhraseLibrary,visible:$root.isOpenFromPhraseLibrary">Save</button>
-                        <a href="~/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;">Close</a>
+                        <button type="button" class="btn btn-primary" data-bind="click:$root.savePhraseLibrary,visible:$root.isOpenFromPhraseLibrary">Save</button>*@
+                        <a href="~/Settings" class="btn btn-default" id="phrase-libraryCloseButton"style="float: right;margin-bottom: 10px;visibility:visible;">Close</a>
                     </div>
                    
                     <br />
@@ -163,7 +163,9 @@
                 $("#phraseLibraryDialog").addClass("main-box-body clearfix");
                 $("#phraseLibraryDialog").removeClass("modal-content");
 
-                $("#description-phraselibrary").show();
+                $("#phrase-libraryCloseButton").css("visibility", "hidden");
+
+                
             }
             else if(page == 'null')
             {
@@ -172,10 +174,8 @@
                 $("#phraseLibraryDialog").removeClass("main-box-body clearfix");
                 $("#phraseLibraryDialog").addClass("modal-content");
 
-                $("#description-phraselibrary").hide();
-
+                $("#phrase-libraryCloseButton").css("visibility", "visible");
             }
-           
         }
     });
 
