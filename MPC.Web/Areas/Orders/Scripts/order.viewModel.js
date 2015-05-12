@@ -1770,7 +1770,7 @@ define("order/order.viewModel",
                 // Initialize the view model
                 initialize = function (specifiedView) {
                     initializeScreen(specifiedView);
-                    pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
+                    pager(new pagination.Pagination({ PageSize: 10 }, orders, getOrders));
                     isEstimateScreen(false);
                     var orderIdFromDashboard = $('#OrderId').val();
                     if (orderIdFromDashboard != 0) {
