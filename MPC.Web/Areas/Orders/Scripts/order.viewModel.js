@@ -363,7 +363,7 @@ define("order/order.viewModel",
                                 item.taxRateIsDisabled(true);
                             }
                         }
-                    }
+                    },
 
                 vatList = ko.observableArray([
                     {
@@ -1391,9 +1391,8 @@ define("order/order.viewModel",
                     return newItem;
                 },
                 saveSectionCostCenter = function (newItem, sectionCostCenter, selectedStockOptionParam, selectedProductQuanityParam) {
-                    //var orderNewItem = new model.Item.Create(newItem.convertToServerData());
-                    //newItem = orderNewItem;
                     sectionCostCenter.name('Web Order Cost Center');
+                    var qty1Total = sectionCostCenter.qty1Charge();
                     sectionCostCenter.qty1EstimatedStockCost(0);
                     sectionCostCenter.qty2EstimatedStockCost(0);
                     sectionCostCenter.qty3EstimatedStockCost(0);
@@ -1401,16 +1400,15 @@ define("order/order.viewModel",
                     sectionCostCenter.qty2Charge(0);
                     sectionCostCenter.qty3Charge(0);
                     sectionCostCenter.qty1(selectedProductQuanityParam);
-                    selectedSectionCostCenter(sectionCostCenter);
-                    selectedQty(1);
+                    sectionCostCenter.qty2NetTotal(0);
+                    sectionCostCenter.qty3NetTotal(0);
+                    sectionCostCenter.qty1NetTotal(qty1Total || 0);
 
                     //Item's Quantity
                     newItem.qty1(selectedProductQuanityParam);
                     //Item's Section Quantity
                     newItem.itemSections()[0].qty1(selectedProductQuanityParam);
                     newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
-
-                    itemDetailVm.updateOrderData(selectedOrder(), newItem, selectedSectionCostCenter(), selectedQty(), newItem.itemSections()[0]);
 
                     //#region Add Selected Addons as Cost Centers
                     if (selectedStockOptionParam != undefined && selectedStockOptionParam.itemAddonCostCentres().length > 0) {
@@ -1426,10 +1424,7 @@ define("order/order.viewModel",
                                 sectionCostCenter.qty2Charge(0);
                                 sectionCostCenter.qty3Charge(0);
                                 sectionCostCenter.qty1(1);
-
                                 sectionCostCenter.qty1NetTotal(stockOption.totalPrice());
-                                selectedSectionCostCenter(sectionCostCenter);
-                                selectedQty(1);
                                 newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
                             }
                         });
