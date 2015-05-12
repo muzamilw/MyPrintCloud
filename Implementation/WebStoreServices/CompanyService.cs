@@ -723,11 +723,11 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public Organisation getOrganisatonByID(int OID)
+        public Organisation GetOrganisatonById(long OrganisationId)
         {
             try
             {
-                return _organisationRepository.GetOrganizatiobByID(OID);
+                return _organisationRepository.GetOrganizatiobByID(OrganisationId);
             }
             catch (Exception ex)
             {

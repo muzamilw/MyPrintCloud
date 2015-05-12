@@ -203,6 +203,21 @@ namespace MPC.Webstore.Common
             
             return value;
         }
+
+        public static string specialCharactersEncoderCostCentre(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                value = value.Replace("/", "");
+                value = value.Replace(" ", "");
+                value = value.Replace(";", "");
+                value = value.Replace("&#34;", "");
+                value = value.Replace("&", "");
+                value = value.Replace("+", "");
+            }
+
+            return value;
+        }
         public static string BuildCategoryUrl(string pageName, string CategoryName, string CategoryId)
         {
             string queryString = string.Empty;

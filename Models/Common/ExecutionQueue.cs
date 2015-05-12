@@ -643,7 +643,7 @@ namespace MPC.Models.Common
         // 5 - Hour Question - ID ,  Question, Value, Type
         public List<InputQueueItem> list { get; set; }
         private InputQueueItem _inputQueuItem;
-        public int addItem(string ID, string Name, int CostCentreID, int Itemtype, int ItemInputType, string VisualQuestion, string Value)
+        public int addItem(string ID, string Name, int CostCentreID, int Itemtype, int ItemInputType, string VisualQuestion, string Value, double Qty1Answer)
         {
             bool bAddItem = true;
 
@@ -656,7 +656,7 @@ namespace MPC.Models.Common
                 //add the item if count is zero
                 if (list.Count == 0)
                 {
-                    list.Add(new InputQueueItem(ID, Name, CostCentreID, Itemtype, ItemInputType, VisualQuestion, Value, 0));
+                    list.Add(new InputQueueItem(ID, Name, CostCentreID, Itemtype, ItemInputType, VisualQuestion, Value, Qty1Answer));
                 }
                 else
                 {
@@ -680,7 +680,7 @@ namespace MPC.Models.Common
                     //add the item according to flag situation
                     if (bAddItem == true)
                     {
-                        list.Add(new InputQueueItem(ID, Name, CostCentreID, Itemtype, ItemInputType, VisualQuestion, Value, 0));
+                        list.Add(new InputQueueItem(ID, Name, CostCentreID, Itemtype, ItemInputType, VisualQuestion, Value, Qty1Answer));
                     }
 
                 }

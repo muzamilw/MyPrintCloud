@@ -25,7 +25,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         #region Private
 
         private readonly ICostCentreService _CostCentreService;
-        
+
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
         private readonly IItemService _ItemService;
         private readonly ICompanyService _companyService;
@@ -55,16 +55,20 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         #endregion
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetDateTimeString(string parameter1, string parameter2, string parameter3, string parameter4, List<QuestionQueueItem> parameter5)
+        public HttpResponseMessage ExecuteCostCentre(string CostCentreId, string ClonedItemId, string OrderedQuantity, string CallMode, QuestionAndInputQueues Queues)
         {
-            if ((parameter4 == "Update" && parameter5 != null) || parameter4 != "Update")
+            if ((CallMode == "Update" && Queues != null) || CallMode != "Update")
             {
                 AppDomain _AppDomain = null;
 
                 try
                 {
+                    string CacheKeyName = "CompanyBaseResponse";
+                    ObjectCache cache = MemoryCache.Default;
 
-                    string OrganizationName = "PinkCards";
+                    string OrganizationName = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId].Organisation.OrganisationName;
+                    OrganizationName = Utils.specialCharactersEncoderCostCentre(OrganizationName);
+
                     AppDomainSetup _AppDomainSetup = new AppDomainSetup();
 
 
@@ -82,41 +86,55 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
 
-                    
+
 
 
                     //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
                     CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
                     _CostCentreLaoderFactory.InitializeLifetimeService();
 
-                    if (parameter4 == "New")
+                    if (CallMode == "New")
                     {
-                        if (parameter5 != null)
+                        if (Queues != null)
                         {
                             _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
-                            _CostCentreParamsArray[2] = parameter5;
+                            _CostCentreParamsArray[2] = Queues.QuestionQueues;
+                           // InputQueue inputQueueObj = new InputQueue();
+                           //// inputQueueObj.Items = new List<InputQueueItem>();
+                           // foreach (InputQueueItem obj in Queues.InputQueues)
+                           // {
+                           //     inputQueueObj.Items.Add(obj);
+                           // }
+                           // inputQueueObj.Items.AddRange(Queues.InputQueues);
+                            _CostCentreParamsArray[7] = Queues.InputQueues;
                         }
                         else
                         {
                             _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
                             _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                            _CostCentreParamsArray[7] = new InputQueue();
                         }
                     }
 
-                    if (parameter4 == "addAnother")
+                    if (CallMode == "addAnother")
                     {
-                       
-                            _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
-                            _CostCentreParamsArray[2] = parameter5;
-                       
+
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                        _CostCentreParamsArray[2] = Queues.QuestionQueues;
+                        _CostCentreParamsArray[7] = Queues.InputQueues;
+
                     }
 
-                    if (parameter4 == "Update")
+                    if (CallMode == "Update")
                     {
-                        if (parameter5 != null)
+                        if (Queues != null)
                         {
                             _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
-                            _CostCentreParamsArray[2] = parameter5;
+                            _CostCentreParamsArray[2] = Queues.QuestionQueues;
+                            //InputQueue inputQueueObj = new InputQueue();
+                            ////inputQueueObj.Items = new List<InputQueueItem>();
+                            //inputQueueObj.Items.AddRange(Queues.InputQueues);
+                            _CostCentreParamsArray[7] = Queues.InputQueues;
                         }
                     }
 
@@ -139,18 +157,18 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     //CurrentQuantity
                     _CostCentreParamsArray[6] = new List<StockQueueItem>();
                     //StockQueue
-                    _CostCentreParamsArray[7] = new InputQueue();
+                 
                     //InputQueue
 
-                    if (parameter3 == "null" || parameter3 == null)
+                    if (OrderedQuantity == "null" || OrderedQuantity == null)
                     {
                         // get first item section
-                        _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(parameter2));
+                        _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId));
                     }
                     else
                     {
                         // update quantity in item section and return
-                        _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(parameter2), Convert.ToInt32(parameter3));
+                        _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId), Convert.ToInt32(OrderedQuantity));
                         //first update item section quatity
                         //persist queue
                         // run multiple cost centre
@@ -162,27 +180,51 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     _CostCentreParamsArray[9] = 1;
 
 
-                    CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(parameter1));
+                    CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(CostCentreId));
 
-                    
+
 
                     CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
 
-                    
-                    
+
+
                     _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
                     _oRemoteObject = (ICostCentreLoader)_oLocalObject;
 
                     CostCentrePriceResult oResult = null;
 
-                    if (parameter4 == "Modify")
+                    if (CallMode == "Modify")
                     {
                         _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
-                        _CostCentreParamsArray[2] = parameter5.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                        if (Queues.QuestionQueues != null)
+                        {
+                            _CostCentreParamsArray[2] = Queues.QuestionQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                        }
+                        else 
+                        {
+                            _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                        }
+
+                        if (Queues.InputQueues != null)
+                        {
+                            InputQueue inputQueueObj = new InputQueue();
+                            List<InputQueueItem> Items = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                            foreach (InputQueueItem obj in Items)
+                            {
+                                inputQueueObj.addItem(obj.ID, obj.VisualQuestion, obj.CostCentreID, obj.ItemType, obj.ItemInputType, obj.VisualQuestion, obj.Value, obj.Qty1Answer);
+                            }
+                            _CostCentreParamsArray[7] = inputQueueObj;
+                        }
+                        else
+                        {
+                            _CostCentreParamsArray[7] = new InputQueue();
+                        }
+                        
+                        
                     }
                     else
                     {
-                        if (parameter4 == "Update") // dummy condition
+                        if (CallMode == "Update") // dummy condition
                         {
                             return Request.CreateResponse(HttpStatusCode.OK, 131);
                         }
@@ -190,7 +232,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     }
 
-                    if ((parameter5 != null && parameter4 != "Modify" && parameter4 != "addAnother" && oResult != null) || (parameter5 != null && parameter4 == "Update"))
+                    if ((Queues != null && CallMode != "Modify" && CallMode != "addAnother" && oResult != null) || (Queues != null && CallMode == "Update"))
                     {
 
 
@@ -227,7 +269,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 }
 
             }
-            else 
+            else
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "");
             }
@@ -238,79 +280,79 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [System.Web.Http.HttpGet]
         public HttpResponseMessage GetData(long orderID)
         {
-             double GrandTotal = 0;
-             double Subtotal = 0;
-             double vat = 0;
-             Order order = _orderService.GetOrderAndDetails(orderID);
-             Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
-             Address ShippingAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
-             string CacheKeyName = "CompanyBaseResponse";
-             ObjectCache cache = MemoryCache.Default;
-             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-             CalculateProductDescription(order,out GrandTotal,out Subtotal,out vat);
-             JasonResponseObject obj=new JasonResponseObject();
-             obj.order=order;
-             obj.SubTotal =  @Utils.FormatDecimalValueToTwoDecimal(Subtotal.ToString(), StoreBaseResopnse.Currency);
-             obj.GrossTotal = @Utils.FormatDecimalValueToTwoDecimal(GrandTotal.ToString(), StoreBaseResopnse.Currency);
-             obj.VAT = @Utils.FormatDecimalValueToTwoDecimal(vat.ToString(), StoreBaseResopnse.Currency);
-             obj.DeliveryCostCharges=@Utils.FormatDecimalValueToTwoDecimal(order.DeliveryCost.ToString(), StoreBaseResopnse.Currency);
-             obj.billingAddress= BillingAddress;
-             obj.shippingAddress=ShippingAddress;
-             if (BillingAddress.CountryId!= null && BillingAddress.CountryId >0)
-             {
-                 obj.BillingCountry = _companyService.GetCountryNameById(BillingAddress.CountryId??0);
-             }
-             else
-             {
-                 obj.BillingCountry = string.Empty;
-             }
-             if (BillingAddress.StateId != null && BillingAddress.StateId>0)
-             {
-                 obj.BillingState = _companyService.GetStateNameById(BillingAddress.StateId??0);
-             }
-             else
-             {
-                 obj.BillingState = string.Empty;
-             }
+            double GrandTotal = 0;
+            double Subtotal = 0;
+            double vat = 0;
+            Order order = _orderService.GetOrderAndDetails(orderID);
+            Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
+            Address ShippingAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            CalculateProductDescription(order, out GrandTotal, out Subtotal, out vat);
+            JasonResponseObject obj = new JasonResponseObject();
+            obj.order = order;
+            obj.SubTotal = @Utils.FormatDecimalValueToTwoDecimal(Subtotal.ToString(), StoreBaseResopnse.Currency);
+            obj.GrossTotal = @Utils.FormatDecimalValueToTwoDecimal(GrandTotal.ToString(), StoreBaseResopnse.Currency);
+            obj.VAT = @Utils.FormatDecimalValueToTwoDecimal(vat.ToString(), StoreBaseResopnse.Currency);
+            obj.DeliveryCostCharges = @Utils.FormatDecimalValueToTwoDecimal(order.DeliveryCost.ToString(), StoreBaseResopnse.Currency);
+            obj.billingAddress = BillingAddress;
+            obj.shippingAddress = ShippingAddress;
+            if (BillingAddress.CountryId != null && BillingAddress.CountryId > 0)
+            {
+                obj.BillingCountry = _companyService.GetCountryNameById(BillingAddress.CountryId ?? 0);
+            }
+            else
+            {
+                obj.BillingCountry = string.Empty;
+            }
+            if (BillingAddress.StateId != null && BillingAddress.StateId > 0)
+            {
+                obj.BillingState = _companyService.GetStateNameById(BillingAddress.StateId ?? 0);
+            }
+            else
+            {
+                obj.BillingState = string.Empty;
+            }
 
-             if (ShippingAddress.CountryId != null && ShippingAddress.CountryId>0)
-             {
-                 obj.ShippingCountry = _companyService.GetCountryNameById(ShippingAddress.CountryId??0);
-             }
-             else
-             {
-                 obj.ShippingCountry = string.Empty;
-             }
+            if (ShippingAddress.CountryId != null && ShippingAddress.CountryId > 0)
+            {
+                obj.ShippingCountry = _companyService.GetCountryNameById(ShippingAddress.CountryId ?? 0);
+            }
+            else
+            {
+                obj.ShippingCountry = string.Empty;
+            }
 
-             if (ShippingAddress.StateId != null && ShippingAddress.StateId>0)
-             {
-                 obj.ShippingState = _companyService.GetStateNameById(ShippingAddress.StateId??0);
-             }
-             else
-             {
-                 obj.ShippingState = string.Empty;
-             }
-             obj.CurrencySymbol = StoreBaseResopnse.Currency;
-             obj.OrderDateValue = FormatDateValue(order.OrderDate);
-             obj.DeliveryDateValue = FormatDateValue(order.DeliveryDate);
-             var formatter = new JsonMediaTypeFormatter();
-             var json = formatter.SerializerSettings;
-             json.Formatting = Newtonsoft.Json.Formatting.Indented;
-             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-             return Request.CreateResponse(HttpStatusCode.OK, obj, formatter);
+            if (ShippingAddress.StateId != null && ShippingAddress.StateId > 0)
+            {
+                obj.ShippingState = _companyService.GetStateNameById(ShippingAddress.StateId ?? 0);
+            }
+            else
+            {
+                obj.ShippingState = string.Empty;
+            }
+            obj.CurrencySymbol = StoreBaseResopnse.Currency;
+            obj.OrderDateValue = FormatDateValue(order.OrderDate);
+            obj.DeliveryDateValue = FormatDateValue(order.DeliveryDate);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, obj, formatter);
         }
-        
-                  
-        private void CalculateProductDescription(Order order,out double GrandTotal,out double Subtotal,out double vat)
+
+
+        private void CalculateProductDescription(Order order, out double GrandTotal, out double Subtotal, out double vat)
         {
 
             double Delevery = 0;
             double DeliveryTaxValue = 0;
             double TotalVat = 0;
             double calculate = 0;
-             Subtotal = 0;
-             vat = 0;
-             GrandTotal = 0;
+            Subtotal = 0;
+            vat = 0;
+            GrandTotal = 0;
 
             {
                 //List<tbl_items> items = context.tbl_items.Where(i => i.EstimateID == OrderID).ToList();
@@ -325,7 +367,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     }
                     else
                     {
-                        
+
                         Subtotal = Subtotal + Convert.ToDouble(item.Qty1NetTotal);
                         TotalVat = Convert.ToDouble(item.Qty1GrossTotal) - Convert.ToDouble(item.Qty1NetTotal);
                         calculate = calculate + TotalVat;
@@ -335,14 +377,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 GrandTotal = Subtotal + calculate + DeliveryTaxValue + Delevery;
                 vat = calculate;
-               
-               // ViewBag.GrandTotal = GrandTotal;
-               // ViewBag.SubTotal = Subtotal;
-               // ViewBag.Vat = calculate;
+
+                // ViewBag.GrandTotal = GrandTotal;
+                // ViewBag.SubTotal = Subtotal;
+                // ViewBag.Vat = calculate;
             }
-           
+
         }
-        public  string FormatDateValue(DateTime? dateTimeValue, string formatString = null)
+        public string FormatDateValue(DateTime? dateTimeValue, string formatString = null)
         {
             const string defaultFormat = "MMMM d, yyyy";
 
@@ -366,11 +408,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         public HttpResponseMessage FillAddresses(long AddressId)
         {
             JsonAddressClass obj = new JsonAddressClass();
-            Address Address=_companyService.GetAddressByID(AddressId);
+            Address Address = _companyService.GetAddressByID(AddressId);
             obj.Address = Address;
-            obj.StateId = Address.StateId??0;
-            obj.CountryId = Address.CountryId??0;
-            obj.CompanyID = Address.CompanyId??0;
+            obj.StateId = Address.StateId ?? 0;
+            obj.CountryId = Address.CountryId ?? 0;
+            obj.CompanyID = Address.CompanyId ?? 0;
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -381,9 +423,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [HttpPost]
         public void UploadImage(string FirstName, string LastName, string Email, string JobTitle, string HomeTel1, string Mobile, string FAX, string CompanyName, string quickWebsite, string POBoxAddress, string CorporateUnit, string OfficeTradingName, string ContractorName, string BPayCRN, string ABN, string ACN, string AdditionalField1, string AdditionalField2, string AdditionalField3, string AdditionalField4, string AdditionalField5, bool IsEmailSubscription, bool IsNewsLetterSubscription)
         {
-          // if (HttpContext.Current.Request.Files.AllKeys.Any())
-           // {
-                 //Get the uploaded image from the Files collection
+            // if (HttpContext.Current.Request.Files.AllKeys.Any())
+            // {
+            //Get the uploaded image from the Files collection
             try
             {
                 var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
@@ -447,8 +489,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             {
                 throw ex;
             }
-            }
-        
+        }
+
         private string UpdateImage(HttpPostedFile Request)
         {
             string ImagePath = string.Empty;
@@ -458,10 +500,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 string folderPath = "/mpc_content/Assets" + "/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Contacts/" + contact.ContactId + "";
                 string virtualFolderPth = string.Empty;
 
-               // virtualFolderPth = @Server.MapPath(folderPath);
-              //  virtualFolderPth = Request.MapPath(folderPath);
-              virtualFolderPth=  HttpContext.Current.Server.MapPath(folderPath);
-               /// virtualFolderPth = System.Web.Http.HttpServer.
+                // virtualFolderPth = @Server.MapPath(folderPath);
+                //  virtualFolderPth = Request.MapPath(folderPath);
+                virtualFolderPth = HttpContext.Current.Server.MapPath(folderPath);
+                /// virtualFolderPth = System.Web.Http.HttpServer.
                 if (!System.IO.Directory.Exists(virtualFolderPth))
                 {
                     System.IO.Directory.CreateDirectory(virtualFolderPth);
@@ -511,20 +553,20 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [HttpPost]
         public HttpPostedFile ImageFile()
-        { 
-             HttpPostedFile file=null;
-             if (HttpContext.Current.Request.Files.AllKeys.Any())
-             {
+        {
+            HttpPostedFile file = null;
+            if (HttpContext.Current.Request.Files.AllKeys.Any())
+            {
                 // Get the uploaded image from the Files collection
                 var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
-                if (httpPostedFile!= null)
+                if (httpPostedFile != null)
                 {
-                  file=httpPostedFile;
+                    file = httpPostedFile;
                 }
-        
-              }
-              return file;
-         }
+
+            }
+            return file;
+        }
         [HttpPost]
         public void UpdateDataRequestQuote(string FirstName, string LastName, string Email, string Mobile, string Title, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemDeliveryDate1, string InquiryItemTitle2, string InquiryItemNotes2, string InquiryItemDeliveryDate2, string InquiryItemTitle3, string InquiryItemNotes3, string InquiryItemDeliveryDate3, string hfNoOfRec)
         {
@@ -542,11 +584,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             {
                 NewInqury.ContactId = _webstoreAuthorizationChecker.loginContactID();
                 NewInqury.ContactCompanyId = (int)_webstoreAuthorizationChecker.loginContactCompanyID();
-                
+
             }
             else
             {
-                if (_companyContact.GetContactByEmailID(Email)!=null)
+                if (_companyContact.GetContactByEmailID(Email) != null)
                 {
                     return;
                 }
@@ -600,7 +642,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             int iMaxFileSize = 2097152;
             long result = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
             long InquiryId = result;
-           
+
             if (Request != null)
             {
                 if (HttpContext.Current.Request.ContentLength < iMaxFileSize)
@@ -630,7 +672,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
-                   
+
                     long MID = _companyContact.GetContactIdByRole(_webstoreAuthorizationChecker.loginContactCompanyID(), (int)Roles.Manager);
                     cep.CorporateManagerID = MID;
                     int ManagerID = (int)MID;
@@ -646,8 +688,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 _campaignService.emailBodyGenerator(RegistrationCampaign, cep, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
             }
-        
-        
+
+
         }
 
         private void FillAttachments(long inquiryID)
@@ -665,7 +707,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
                 {
                     //HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
-                    HttpPostedFile postedFile=HttpContext.Current.Request.Files["UploadedFile"+i];
+                    HttpPostedFile postedFile = HttpContext.Current.Request.Files["UploadedFile" + i];
 
                     string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(postedFile.FileName));
 
@@ -676,8 +718,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     inquiryAttachment.InquiryId = Convert.ToInt32(inquiryID);
                     listOfAttachment.Add(inquiryAttachment);
                     //Request.SaveAs(virtualFolderPth + fileName);
-                   // HttpContext.Current.Request.SaveAs(virtualFolderPth + fileName);
-                    string filevirtualpath = virtualFolderPth + "/"+fileName;
+                    // HttpContext.Current.Request.SaveAs(virtualFolderPth + fileName);
+                    string filevirtualpath = virtualFolderPth + "/" + fileName;
                     postedFile.SaveAs(virtualFolderPth + "/" + fileName);
                 }
                 _ItemService.AddInquiryAttachments(listOfAttachment);
@@ -695,7 +737,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
             return inquiry;
         }
-        private List<InquiryItem> FillItems(string InquiryItemDeliveryDate1, string InquiryItemDeliveryDate2, string InquiryItemDeliveryDate3, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemTitle2, string InquiryItemNotes2,string InquiryItemTitle3,string InquiryItemNotes3, int hfNoOfRec)
+        private List<InquiryItem> FillItems(string InquiryItemDeliveryDate1, string InquiryItemDeliveryDate2, string InquiryItemDeliveryDate3, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemTitle2, string InquiryItemNotes2, string InquiryItemTitle3, string InquiryItemNotes3, int hfNoOfRec)
         {
             List<InquiryItem> listOfInquiries = new List<InquiryItem>();
             DateTime requideddate = DateTime.Now;
@@ -706,7 +748,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 {
                     numOfrec = 3;
                 }
-                if (numOfrec==1)
+                if (numOfrec == 1)
                 {
                     InquiryItem item1 = new InquiryItem();
 
@@ -720,7 +762,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     listOfInquiries.Add(item1);
                 }
 
-                if (numOfrec== 2)
+                if (numOfrec == 2)
                 {
                     InquiryItem item1 = new InquiryItem();
 
@@ -746,15 +788,15 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 {
                     InquiryItem item1 = new InquiryItem();
 
-                    item1.Title =InquiryItemTitle1;
-                    item1.Notes =InquiryItemNotes1;
+                    item1.Title = InquiryItemTitle1;
+                    item1.Notes = InquiryItemNotes1;
 
                     item1.DeliveryDate = Convert.ToDateTime(InquiryItemDeliveryDate1, CultureInfo.InvariantCulture);
                     listOfInquiries.Add(item1);
 
                     InquiryItem item2 = new InquiryItem();
 
-                    item2.Title =InquiryItemTitle2;
+                    item2.Title = InquiryItemTitle2;
                     item2.Notes = InquiryItemNotes2;
                     item2.DeliveryDate = Convert.ToDateTime(InquiryItemDeliveryDate2, CultureInfo.InvariantCulture);
 
@@ -779,40 +821,45 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         //public ActionResult Index(RequestQuote Model, HttpPostedFileBase uploadFile, string hfNoOfRec)
         //{
-           
+
         //    return View("PartialViews/RequestQuote", Model);
         //}
-        
+
         [HttpPost]
         public void DeleteArtworkAttachment(long AttachmentId)
         {
             _ItemService.DeleteItemAttachment(AttachmentId);
         }
-      public class JasonResponseObject
-          {
-          public Order order;
-          public Address billingAddress;
-          public Address shippingAddress;
-          public string GrossTotal;
-          public string SubTotal;
-          public string VAT;
-          public string DeliveryCostCharges;
-          public string CurrencySymbol;
-          public string OrderDateValue;
-          public string DeliveryDateValue;
-          public string BillingCountry;
-          public string BillingState;
-          public string ShippingCountry;
-          public string ShippingState;
-         }
+        public class JasonResponseObject
+        {
+            public Order order;
+            public Address billingAddress;
+            public Address shippingAddress;
+            public string GrossTotal;
+            public string SubTotal;
+            public string VAT;
+            public string DeliveryCostCharges;
+            public string CurrencySymbol;
+            public string OrderDateValue;
+            public string DeliveryDateValue;
+            public string BillingCountry;
+            public string BillingState;
+            public string ShippingCountry;
+            public string ShippingState;
+        }
 
-      public class JsonAddressClass
-      {
-         public Address Address;
-         public long StateId;
-         public long CountryId;
-         public long CompanyID;
-      }
+        public class JsonAddressClass
+        {
+            public Address Address;
+            public long StateId;
+            public long CountryId;
+            public long CompanyID;
+        }
+
+        public class QuestionAndInputQueues
+        {
+            public List<QuestionQueueItem> QuestionQueues;
+            public List<InputQueueItem> InputQueues;
+        }
     }
 }
-         

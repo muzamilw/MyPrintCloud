@@ -1490,7 +1490,13 @@ define("common/itemDetail.viewModel",
                         var itemSection = model.ItemSection.Create({ ItemId: selectedProduct().id() });
                         counter = counter - 1;
                         itemSection.id(counter);
-                        selectedProduct().itemSections.push(itemSection);
+                        itemSection.name("Text Sheet");
+                        if (selectedProduct().itemSections().length > 0) {
+                            selectedProduct().itemSections.splice(length - 2, 0, itemSection);
+                        } else {
+                            selectedProduct().itemSections.push(itemSection);
+                        }
+
                         selectedSection(itemSection);
                         subscribeSectionChanges();
                         showSectionDetail(true);
@@ -1555,7 +1561,7 @@ define("common/itemDetail.viewModel",
                     selectedOrder: selectedOrder,
                     selectedQty: selectedQty,
                     currencySymbol: currencySymbol,
-                    isSectionVisible:isSectionVisible,
+                    isSectionVisible: isSectionVisible,
                     //#endregion
 
                     //#region Utility Functions
