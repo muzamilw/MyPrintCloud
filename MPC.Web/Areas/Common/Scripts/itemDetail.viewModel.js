@@ -1449,9 +1449,17 @@ define("common/itemDetail.viewModel",
                     },
                 // Remove Item Section
                     deleteSection = function (section) {
-                        selectedProduct().itemSections.remove(section);
-                        showSectionDetail(false);
-                        selectedSection(undefined);
+                        confirmation.messageText("Are you sure you want to remove section?");
+                        confirmation.afterProceed(function () {
+                            selectedProduct().itemSections.remove(section);
+                            showSectionDetail(false);
+                            selectedSection(undefined);
+                        });
+                        confirmation.afterCancel(function () {
+
+                        });
+                        confirmation.show();
+
                     },
                 // Open Phrase Library
                         openPhraseLibrary = function () {
