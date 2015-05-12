@@ -278,6 +278,7 @@ define("common/phraseLibrary.viewModel",
                  initialize = function (specifiedView) {
                      view = specifiedView;
                      ko.applyBindings(view.viewModel, view.bindingRoot);
+                     getAllSections();
                  };
 
                 return {

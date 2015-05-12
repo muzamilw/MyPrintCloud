@@ -135,7 +135,10 @@
                                         <div class="col-lg-8 form-horizontal" style="background-color:gainsboro;margin-left: 4px;padding-top:20px;border-radius:3px">
                                             <div style="background-color:gainsboro; border-radius:3px">
                                                 <div class="form-group">
-                                                    <div class="col-lg-4" style="padding-right:10px;">
+                                                    <div class="col-lg-3">
+
+                                                    </div>
+                                                    <div class="col-lg-1">
                                                         <span data-bind="text:$root.currencySymbol"></span>
                                                     </div>
                                                     <div class="col-xs-2">
@@ -579,7 +582,8 @@
 <script id="sectionItemTemplate" type="text/html">
     <li class="col-md-2 col-sm-2 col-xs-6">
         <div>
-            <img class="photo-box" style="padding-top: 0px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" />
+            <div style="float: left"><img class="photo-box" style="padding-top: 0px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>
+            <div class="itemSectionName" data-bind=" text:name"></div>
         </div>
         @*<span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>*@
         <div class="btn btn-primary" style="font-size: x-small;margin-left:11px;" data-bind="click:$root.showSectionDetailEditor">
