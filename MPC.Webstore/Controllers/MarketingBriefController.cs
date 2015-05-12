@@ -143,7 +143,7 @@ namespace MPC.Webstore.Controllers
 
             string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
-            Organisation org = _ICompanyService.getOrganisatonByID((int)StoreBaseResopnse.Organisation.OrganisationId);
+            Organisation org = _ICompanyService.GetOrganisatonById(StoreBaseResopnse.Organisation.OrganisationId);
             if (Item != null)
             {
                 MEsg += "Product : " + Item.ProductName + "<br />";
