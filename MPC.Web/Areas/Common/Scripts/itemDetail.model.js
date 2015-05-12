@@ -580,6 +580,9 @@
                     itemSizeHeight(itemSizeWidth());
                     itemSizeWidth(itemHeight);
                 },
+
+                // Add Section icon to show also in list of sections, For Add Section Item set to True
+                 flagForAdd = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -743,6 +746,7 @@
                 productType: productType,
                 qty2MarkUpId: qty2MarkUpId,
                 qty3MarkUpId: qty3MarkUpId,
+                flagForAdd:flagForAdd,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,

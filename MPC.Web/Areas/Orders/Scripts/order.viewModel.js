@@ -169,7 +169,7 @@ define("order/order.viewModel",
                     inventoryStockItemToCreate = ko.observable(),
                     // #endregion
                     // #region Utility Functions
-                    
+
                     // Selected Address
                     selectedAddress = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
@@ -340,6 +340,14 @@ define("order/order.viewModel",
                     // Edit Item
                     editItem = function (item) {
                         itemCodeHeader(item.code());
+                        var itemSection = _.find(item.itemSections(), function (itemSec) {
+                            return itemSec.flagForAdd() === true;
+                        });
+                        if (itemSection === undefined) {
+                            var itemSectionForAddView = itemModel.ItemSection.Create({});
+                            itemSectionForAddView.flagForAdd(true);
+                            item.itemSections.push(itemSectionForAddView);
+                        }
                         selectedProduct(item);
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
@@ -441,6 +449,7 @@ define("order/order.viewModel",
                 },
                 // On Save Order
                 onSaveOrder = function (data, event, navigateCallback) {
+                    removeItemSectionWithAddFlagTrue();
                     if (!doBeforeSave()) {
                         return;
                     }
@@ -448,6 +457,17 @@ define("order/order.viewModel",
                         item.customerId(selectedOrder().companyId());
                     });
                     saveOrder(closeOrderEditor, navigateCallback);
+                },
+
+                removeItemSectionWithAddFlagTrue = function () {
+                    _.each(selectedOrder().items(), function (item) {
+                        _.each(item.itemSections(), function (itemSection) {
+                            if (itemSection.flagForAdd()) {
+                                item.itemSections.remove(itemSection);
+                            }
+                        });
+                    });
+
                 },
                 // Do Before Save
                 doBeforeSave = function () {
@@ -748,6 +768,7 @@ define("order/order.viewModel",
                     item.productType(2);
 
                     var itemSection = itemModel.ItemSection.Create({});
+                    itemSection.name("Text Sheet");
                     itemSection.qty1(selectedCostCentre().quantity1());
                     itemSection.qty2(selectedCostCentre().quantity2());
                     itemSection.qty3(selectedCostCentre().quantity3());
@@ -770,11 +791,12 @@ define("order/order.viewModel",
 
                     selectedSectionCostCenter(sectionCostCenter);
                     selectedQty(1);
-
-
                     itemSection.sectionCostCentres.push(sectionCostCenter);
-                    item.itemSections.push(itemSection);
 
+                    item.itemSections.push(itemSection);
+                    var itemSectionForAddView = itemModel.ItemSection.Create({});
+                    itemSectionForAddView.flagForAdd(true);
+                    item.itemSections.push(itemSectionForAddView);
                     if (isCostCenterDialogForShipping()) {
                         item.itemType(2); // Delivery Item
                         var deliveryItem = _.find(selectedOrder().items(), function (itemWithType2) {
@@ -1128,6 +1150,10 @@ define("order/order.viewModel",
                 //    selectedOrder().items.splice(0, 0, newItem);
                 //},
                 addItemFromRetailStore = function (newItem) {
+                    var itemSectionForAddView = itemModel.ItemSection.Create({});
+                    itemSectionForAddView.flagForAdd(true);
+                    newItem.itemSections.push(itemSectionForAddView);
+
                     selectedProduct(newItem);
                     selectedOrder().items.splice(0, 0, newItem);
                     itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
@@ -1234,6 +1260,7 @@ define("order/order.viewModel",
                     applyProductTax(item);
                     selectedProduct(item);
                     var itemSection = itemModel.ItemSection.Create({});
+                    itemSection.name("Text Sheet");
                     itemSection.qty1(selectedCostCentre().quantity1());
                     itemSection.qty2(selectedCostCentre().quantity2());
                     itemSection.qty3(selectedCostCentre().quantity3());
@@ -1270,6 +1297,10 @@ define("order/order.viewModel",
 
                     itemSection.sectionCostCentres.push(sectionCostCenter);
                     item.itemSections.push(itemSection);
+                    var itemSectionForAddView = itemModel.ItemSection.Create({});
+                    itemSectionForAddView.flagForAdd(true);
+                    item.itemSections.push(itemSectionForAddView);
+
                     view.hideCostCentersQuantityDialog();
                     selectedOrder().items.splice(0, 0, item);
 
@@ -1381,7 +1412,7 @@ define("order/order.viewModel",
 
                 createitemForRetailStoreProduct = function (selectedItem) {
                     if (selectedItem === null || selectedItem === undefined) {
-                        return ;
+                        return;
                     }
                     var item = selectedItem.convertToServerData();
                     //item.EstimateId = orderId;
@@ -1443,10 +1474,15 @@ define("order/order.viewModel",
                         newItem.qty1GrossTotal(0);
 
                         var itemSection = itemModel.ItemSection.Create({});
+                        itemSection.name("Text Sheet");
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                         itemSection.productType(2);
                         newItem.itemSections.push(itemSection);
+                        var itemSectionForAddView = itemModel.ItemSection.Create({});
+                        itemSectionForAddView.flagForAdd(true);
+                        newItem.itemSections.push(itemSectionForAddView);
                         selectedOrder().items.splice(0, 0, newItem);
+
                     },
                 //#endregion
 
