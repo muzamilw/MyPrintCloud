@@ -293,10 +293,12 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
     
 }
 var GlobalQuestionQueueItemsList = null; // question queues of disfferent cost centres will be added to this list 
-var idsToValidate = "";
-function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice) {
+var idsToValidate = ""; // This variable contain ids of text boxes and validate that each text box must have a correct value
+var GlobalInputQueueItemsList = null;
+function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, InputQueueObject, CostCentreType) {
     
     GlobalQuestionQueueItemsList = QuestionQueueItems;
+    GlobalInputQueueItemsList = InputQueueObject;
     var innerHtml = "";
     var Heading = "Please enter the following details of Cost Centre";
     
@@ -397,8 +399,80 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
     }
    
 
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34; ,' + ItemPrice + ');">Continue</button></div></div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34; ,' + ItemPrice + ',' + CostCentreType + ');">Continue</button></div></div></div>';
    
+
+    var bws = getBrowserHeight();
+
+    var shadow = document.getElementById("innerLayer");
+
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 730) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.left = left + "px";
+    document.getElementById("innerLayer").style.top = "0px";
+
+    document.getElementById("innerLayer").style.width = "730px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+
+function ShowInputCostCentrePopup(InputQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, QuestionQueueObject, CostCentreType) {
+
+    GlobalInputQueueItemsList = InputQueueItems;
+    GlobalQuestionQueueItemsList = QuestionQueueObject;
+    var innerHtml = "";
+    var Heading = "Please enter the following details of Cost Centre";
+
+    if (Mode == "New") { // This condition will execute when first time cost centre is prompting for values
+        for (var i = 0; i < InputQueueItems.length; i++) {
+            
+          
+           
+            //if (InputQueueItems[i].ItemType == 1) { // text box
+                if (idsToValidate == "") {
+                    idsToValidate = 'txtBox' + InputQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'txtBox' + InputQueueItems[i].ID;
+                }
+                if (InputQueueItems[i].Value != "") {
+                    innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + InputQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + InputQueueItems[i].ID + ' data-id=' + InputQueueItems[i].ID + ' value=' + parseFloat(InputQueueItems[i].Value) + ' /></div><br/><div class="clearBoth"></div>';
+                } else {
+                    innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + InputQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + InputQueueItems[i].ID + ' data-id=' + InputQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
+                }
+                
+           // }
+        }
+    } else if (Mode == "Modify") { // This condition will execute when cost centre is already prompted and user clicks to modify the values entered
+        Heading = "Edit Cost Centre details";
+        for (var i = 0; i < InputQueueItems.length; i++) {
+            
+            //if (InputQueueItems[i].ItemType == 1) { // text box
+                if (idsToValidate == "") {
+                    idsToValidate = 'txtBox' + InputQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'txtBox' + InputQueueItems[i].ID;
+                }
+                if (InputQueueItems[i].Value != "") {
+                    innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + InputQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + InputQueueItems[i].ID + ' data-id=' + InputQueueItems[i].ID + ' value=' + InputQueueItems[i].Qty1Answer + ' value=' + parseFloat(InputQueueItems[i].Value) + ' /></div><br/><div class="clearBoth"></div>';
+                } else {
+                    innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + InputQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + InputQueueItems[i].ID + ' data-id=' + InputQueueItems[i].ID + ' value=' + InputQueueItems[i].Qty1Answer + ' /></div><br/><div class="clearBoth"></div>';
+                }
+                
+           // }
+        }
+    }
+
+
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34; ,' + ItemPrice + ',' + CostCentreType + ');">Continue</button></div></div></div>';
+
 
     var bws = getBrowserHeight();
 
@@ -454,7 +528,7 @@ function ShowFormulaMatrix(Rows, Columns, matrixIndex) {
         trHtml = "<tr>";
     }
 
-    var container = '  <div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideFormulaPopUp();>&times;</button><h4 class="modal-title left_align">Select Matrix</h4></div><div class="modal-body left_align"><table class="cost-centre-Matrix">' + RowsHtml + '</table></div></div></div>';
+    var container = '  <div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideFormulaPopUp();>&times;</button><h4 class="modal-title left_align">Please select a value from Matrix</h4></div><div class="modal-body left_align"><table class="cost-centre-Matrix">' + RowsHtml + '</table></div></div></div>';
 
     var bws = getBrowserHeight();
 
@@ -486,7 +560,7 @@ function SetMatrixAnswer(Answer, MatrixId)
     document.getElementById("FormulaMatrixLayer").style.display = "none";
 }
 
-function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice) {
+function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice, CostCentreType) {
 
     var arrayOfIds = idsToValidate.split(",");
     
@@ -554,6 +628,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
     } else {
         var desriptionOfCostCentre = "";
         $("#CCErrorMesgContainer").css("display", "none");
+        // Question Queue object items
         $(".CostCentreAnswersQueue").each(function (i, val) {
             if ($(val).attr('data-id') == undefined) {
                 var idofDropDown = $(val).attr('id');
@@ -566,12 +641,28 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                        
                     }
                 });
+
+                $(GlobalInputQueueItemsList).each(function (i, QueueItem) {
+                    if (QueueItem.ID == idOfQuestion) {
+
+                        QueueItem.Qty1Answer = $(idofDropDown + ' option:selected').val();
+
+                    }
+                });
             } else {
                 $(GlobalQuestionQueueItemsList).each(function (i, QueueItem) {
                     if (QueueItem.ID == $(val).attr('data-id')) {
                        
                         QueueItem.Qty1Answer = $(val).val();
                        
+                    }
+                });
+
+                $(GlobalInputQueueItemsList).each(function (i, QueueItem) {
+                    if (QueueItem.ID == $(val).attr('data-id')) {
+
+                        QueueItem.Qty1Answer = $(val).val();
+
                     }
                 });
             }
@@ -582,23 +673,35 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             }
         });
          
-      
         var GlobalQuestionQueueItemsListJsonObject = JSON.stringify(GlobalQuestionQueueItemsList, null, 2);
 
-        
+        var GlobalInputQueueItemsListJsonObject = JSON.stringify(GlobalInputQueueItemsList, null, 2);
+        var jsonObjectsOfGlobalQueue = null;
         if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
 
-            var InputAndQuestionQueues = [GlobalQuestionQueueItemsListJsonObject, ""];
-            $("#costCentreQueueItems").val(InputAndQuestionQueues);
+            var InputAndQuestionQueues = {
+                QuestionQueues: GlobalQuestionQueueItemsList,
+                InputQueues: GlobalInputQueueItemsList
+            }
+            jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
+            $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
 
         } else {
 
-            var InputAndQuestionQueues = $("#costCentreQueueItems").val();
-            InputAndQuestionQueues[0] = InputAndQuestionQueues[0] + GlobalQuestionQueueItemsListJsonObject
-            $("#costCentreQueueItems").val(InputAndQuestionQueues);
+            var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
+            console.log(InputAndQuestionQueues);
+           // InputAndQuestionQueues[0] = InputAndQuestionQueues[0] + GlobalQuestionQueueItemsList;
+           // InputAndQuestionQueues[1] = InputAndQuestionQueues[1] + GlobalInputQueueItemsList;
+           // var jsonObjects = JSON.stringify(InputAndQuestionQueues, null, 2);
+            var InputAndQuestionQueues = {
+                QuestionQueues: GlobalQuestionQueueItemsList,
+                InputQueues: GlobalInputQueueItemsList
+            }
+            jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
+            $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
         }
        
-      
+        console.log("Global Queue from pop up: " + JSON.stringify($("#costCentreQueueItems").val(), null, 2));
         //if (populatedQueuItems != "null") {
         //    populatedQueuItems = populatedQueuItems + GlobalQuestionQueueItemsListJsonObject;
         //    $("#costCentreQueueItems").val(populatedQueuItems);
@@ -609,11 +712,11 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         //}
         
         var to;
-        to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + ClonedItemId + "&parameter3=" + $("#VMQuantityOrdered").val() + "&parameter4=New";
+        to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + ClonedItemId + "&OrderedQuantity=" + $("#VMQuantityOrdered").val() + "&CallMode=New";
         var options = {
             type: "POST",
             url: to,
-            data: GlobalQuestionQueueItemsListJsonObject,
+            data:$("#costCentreQueueItems").val(),
             contentType: "application/json",
             async: true,
             success: function (response) {
@@ -646,7 +749,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                         }
                     }
                     displayTotalPrice(ItemPrice, totalVal);
-                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
+                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptCostCentre(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
                     $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
                 }
                 HideLoader();

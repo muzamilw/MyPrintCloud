@@ -764,11 +764,11 @@ namespace MPC.Repository.Repositories
             Expression<Func<CostCentre, bool>> query;
             if (request.CostCenterType != 0)
             {
-                query = oCostCenter => (!isStringSpecified || oCostCenter.Name.Contains(request.SearchString) || oCostCenter.Description.Contains(request.SearchString)) && oCostCenter.Type == request.CostCenterType && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => (!isStringSpecified || oCostCenter.Name.Contains(request.SearchString) || oCostCenter.WebStoreDesc.Contains(request.SearchString)) && oCostCenter.Type == request.CostCenterType && oCostCenter.OrganisationId == OrganisationId;
             }
             else
             {
-                query = oCostCenter => (!isStringSpecified || oCostCenter.Name.Contains(request.SearchString)) && oCostCenter.Type != 1 && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => (!isStringSpecified || oCostCenter.Name.Contains(request.SearchString)|| oCostCenter.WebStoreDesc.Contains(request.SearchString)) && oCostCenter.Type != 1 && oCostCenter.OrganisationId == OrganisationId;
             }
 			var rowCount = DbSet.Count(query);
 			var costCenters = request.IsAsc
@@ -868,7 +868,7 @@ namespace MPC.Repository.Repositories
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
             List<Currency> list = db.Currencies.ToList();
             db.Configuration.LazyLoadingEnabled = false;
-            var types = db.CostCentreTypes.Where(c => c.OrganisationId == this.OrganisationId).ToList();
+            var types = db.CostCentreTypes.Where(c => c.TypeId == 2 || c.TypeId ==3).ToList();
             var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
             var nominalCodes = db.ChartOfAccounts.Where(u => u.SystemSiteId == this.OrganisationId).ToList();
             var ccVariables = db.CostCentreVariables.Where(c => c.SystemSiteId == this.OrganisationId).ToList();

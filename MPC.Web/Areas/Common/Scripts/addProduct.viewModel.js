@@ -69,7 +69,7 @@ define("common/addProduct.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                     },
-
+                    
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
 
@@ -226,6 +226,9 @@ define("common/addProduct.viewModel",
                             return;
                         }
                         var count = 0;
+                        selectedStockOptionName(undefined);
+                        selectedStockOption(undefined);
+                        selectedStockOptionSequenceNumber(count);
                         _.each(selecteditem().itemStockOptions(), function (itemStockOption) {
                             count = count + 1;
                             if (itemStockOption.id() == selectedStockItem()) {

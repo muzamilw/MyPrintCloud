@@ -135,17 +135,20 @@
                                         <div class="col-lg-8 form-horizontal" style="background-color:gainsboro;margin-left: 4px;padding-top:20px;border-radius:3px">
                                             <div style="background-color:gainsboro; border-radius:3px">
                                                 <div class="form-group">
-                                                    <div class="col-lg-4" style="padding-right:10px;">
+                                                    <div class="col-lg-3">
+
+                                                    </div>
+                                                    <div class="col-lg-1">
                                                         <span data-bind="text:$root.currencySymbol"></span>
                                                     </div>
                                                     <div class="col-xs-2">
-                                                        <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="value:qty1NetTotalComputed" />
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="numberValue:$root.calculateQty1NetTotalForItem" />
                                                     </div>
                                                     <div class="col-xs-2">
-                                                        <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" id="txtQty2" data-bind="value:qty2NetTotalComputed" />
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" id="txtQty2" data-bind="numberValue:$root.calculateQty2NetTotalForItem" />
                                                     </div>
                                                     <div class="col-xs-2">
-                                                        <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="value:qty3NetTotalComputed" />
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="numberValue:$root.calculateQty3NetTotalForItem" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,13 +163,13 @@
                                         </div>
                                         <div class="col-lg-8">
                                             <div class="col-xs-3 txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty1Tax1Value"></span></label>
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1Tax1Value"></span></label>
                                             </div>
                                             <div class="col-xs-2  txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty2Tax1Value"></span></label>
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2Tax1Value"></span></label>
                                             </div>
                                             <div class="col-xs-2 txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty3Tax1Value"></span></label>
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3Tax1Value"></span></label>
                                             </div>
                                         </div>
 
@@ -177,13 +180,13 @@
                                         </div>
                                         <div class="col-lg-8">
                                             <div class="col-xs-3 txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty1GrossTotal"></span></label>
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1GrossTotal"></span></label>
                                             </div>
                                             <div class="col-xs-2 txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty2GrossTotal"></span></label>
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2GrossTotal"></span></label>
                                             </div>
                                             <div class="col-xs-2 txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:qty3GrossTotal"></span></label>
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3GrossTotal"></span></label>
                                             </div>
                                         </div>
 
@@ -579,7 +582,8 @@
 <script id="sectionItemTemplate" type="text/html">
     <li class="col-md-2 col-sm-2 col-xs-6">
         <div>
-            <img class="photo-box" style="padding-top: 0px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" />
+            <div style="float: left"><img class="photo-box" style="padding-top: 0px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>
+            <div class="itemSectionName" data-bind=" text:name"></div>
         </div>
         @*<span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>*@
         <div class="btn btn-primary" style="font-size: x-small;margin-left:11px;" data-bind="click:$root.showSectionDetailEditor">

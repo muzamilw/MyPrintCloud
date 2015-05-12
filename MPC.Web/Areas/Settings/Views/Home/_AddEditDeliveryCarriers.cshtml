@@ -9,7 +9,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add/Edit Delivery Carriers</h4>
+                <h4 class="modal-title">Add/Edit Shipping Carrier</h4>
             </div>
             <div class="col-lg-12 form-horizontal outerDiv-Padding" data-bind="with:$root.selectedCarrier">
                 <div class="form-horizontal clearfix">
@@ -82,8 +82,9 @@
                 </div>
              </div>
             <div class="modal-footer" data-bind="with:selectedCarrier">
-                <button type="button" class="btn btn-default" data-bind="click:$root.onCloseDeliveryCarrier">Close</button>
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onsaveDeliveryCarrier,css: { 'btn-warning': hasChanges } , enable: hasChanges">Save</button>
+                <button type="button" class="btn btn-default" data-bind="click:$root.onCloseDeliveryCarrier">Close</button>
+                
             </div>
         </div>
     </div>
