@@ -192,7 +192,7 @@ namespace MPC.Webstore.Controllers
             CompanyContact contact = new CompanyContact();
             string TwitterScreenName = string.Empty;
             Int64 CompanyID = 0;
-            long OID = 0;
+            long OrganisationId = 0;
             CompanyContact corpContact = new CompanyContact();
             bool isContactCreate = false;
             contact.FirstName = model.FirstName == "First Name" ? "" : model.FirstName;
@@ -210,7 +210,7 @@ namespace MPC.Webstore.Controllers
 
             if (StoreBaseResopnse.Organisation != null)
             {
-                OID = StoreBaseResopnse.Organisation.OrganisationId;
+                OrganisationId = StoreBaseResopnse.Organisation.OrganisationId;
             }
 
 
@@ -225,7 +225,7 @@ namespace MPC.Webstore.Controllers
 
                     MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(CompanyID);
 
-                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email, OID);
+                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email, OrganisationId);
 
                     UserCookieManager.isRegisterClaims = 1;
                     UserCookieManager.WEBContactFirstName = model.FirstName == "First Name" ? "" : model.FirstName;
@@ -255,14 +255,23 @@ namespace MPC.Webstore.Controllers
                         cep.AddressId = 0;
                     }
 
-                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                    if (StoreBaseResopnse.Company.SalesAndOrderManagerId1 == null)
+                    {
+                        throw new Exception("Critcal Error, Store Sales Manager is not selected.", null);
+                    
+                    }
+                    else 
+                    {
+                        SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
 
 
-                    _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                        _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
-                    _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                        _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
 
+                    }
+                    
                     if (OrderId > 0)
                     {
                         UserCookieManager.TemporaryCompanyId = 0;
@@ -314,8 +323,7 @@ namespace MPC.Webstore.Controllers
 
                 _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)StoreBaseResopnse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
-                int OrganisationId = (int)StoreBaseResopnse.Company.OrganisationId;
-                _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)UserCookieManager.WBStoreId, OrganisationId);
+                _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)UserCookieManager.WBStoreId, (int)StoreBaseResopnse.Company.OrganisationId);
                 StoreBaseResopnse = null;
                 ViewBag.Message = "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.";
                 return;

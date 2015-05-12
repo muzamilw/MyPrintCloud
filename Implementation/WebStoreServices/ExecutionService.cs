@@ -810,9 +810,9 @@ namespace MPC.Implementation.WebStoreServices
 			        //here the questions returned asnwer will ahave been loaded in the queue
 			        //retreive the queue answer for this question and use.. :D
 			        //use is simple only cast it in double and return..
-
+                    List<InputQueueItem> InputQueueItem = oParamsArray[7] as List<InputQueueItem>;
 			       // InputQueueItem item = null;
-			        foreach (var item in InputQueue.Items)
+			        foreach (var item in InputQueueItem)
                     {
 				        //matching
 				        if (item.ID == InputID & item.CostCentreID == CostCentreID & item.ItemType == ItemType) 
@@ -942,7 +942,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
 			        //populate the question in the executionQueue
                     
-			        InputQueue.addItem(InputID, Question, CostCentreID, ItemType, InputType, Question, Value);
+			        InputQueue.addItem(InputID, Question, CostCentreID, ItemType, InputType, Question, Value, 0);
 			        //
 			        return 1;
 			        //exit normally 
