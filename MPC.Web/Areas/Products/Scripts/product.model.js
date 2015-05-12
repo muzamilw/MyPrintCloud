@@ -141,6 +141,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
 
                     isFinishedGoods(finishedGoods);
+                    if (finishedGoods !== 1) {
+                        if (template()) {
+                            template().isCreatedManual(undefined);
+                        }
+                    }
                 }
             }),
             // is vdp product
@@ -624,6 +629,41 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 }
             },
+            // Sync Suppliers Price Matrix Quantities with Item Price Quantities 
+            updateQuantitiesForSupplier = function (itemPriceMatrix) {
+                if (!itemPriceMatrix) {
+                    return;
+                }
+                var itemPriceIndex = undefined;
+                if (itemPriceMatricesForCurrentFlag() && itemPriceMatricesForCurrentFlag().length > 0) {
+                    itemPriceIndex = itemPriceMatricesForCurrentFlag().indexOf(itemPriceMatrix);
+                }
+                if (itemPriceIndex === null || itemPriceIndex === undefined) {
+                    return;
+                }
+                if (itemPriceMatricesForSupplierId1() && (itemPriceMatricesForSupplierId1().length > 0 && itemPriceMatricesForSupplierId1().length >= itemPriceIndex)) {
+                    var supplierPriceMatrixItem = itemPriceMatricesForSupplierId1()[itemPriceIndex];
+                    if (supplierPriceMatrixItem) {
+                        updateSupplierQuantity(supplierPriceMatrixItem, itemPriceMatrix);
+                    }
+                }
+                if (itemPriceMatricesForSupplierId2() && (itemPriceMatricesForSupplierId2().length > 0 && itemPriceMatricesForSupplierId2().length >= itemPriceIndex)) {
+                    var supplier2PriceMatrixItem = itemPriceMatricesForSupplierId2()[itemPriceIndex];
+                    if (supplier2PriceMatrixItem) {
+                        updateSupplierQuantity(supplier2PriceMatrixItem, itemPriceMatrix);
+                    }
+                }
+            },
+            // Update supplier quantity
+            updateSupplierQuantity = function (supplierPriceMatrixItem, itemPriceMatrix) {
+                if (isQtyRangedUi() === '2') {
+                    supplierPriceMatrixItem.quantity(itemPriceMatrix.quantity() || 0);
+                }
+                else {
+                    supplierPriceMatrixItem.qtyRangedFrom(itemPriceMatrix.qtyRangedFrom() || 0);
+                    supplierPriceMatrixItem.qtyRangedTo(itemPriceMatrix.qtyRangedTo() || 0);
+                }
+            },
             // Item State Taxes
             itemStateTaxes = ko.observableArray([]),
             // Active Stock Option
@@ -918,7 +958,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                             priceItem.PriceMatrixId = 0;
                             priceItem.FlagId = flagId();
                             priceItem.ItemId = id();
-                            itemPriceMatrixItems.push(ItemPriceMatrix.Create(priceItem));
+                            itemPriceMatrixItems.push(ItemPriceMatrix.Create(priceItem, { onPriceMatrixQuantityChange: updateQuantitiesForSupplier }));
                         });
                         ko.utils.arrayPushAll(itemPriceMatrices(), itemPriceMatrixItems);
                         // Remove Existing ones
@@ -927,7 +967,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                     else { // Add New
                         for (var i = 0; i < 15; i++) {
-                            itemPriceMatrixItems.push(ItemPriceMatrix.Create({ ItemId: id(), FlagId: flagId() }));
+                            itemPriceMatrixItems.push(ItemPriceMatrix.Create({ ItemId: id(), FlagId: flagId() },
+                                { onPriceMatrixQuantityChange: updateQuantitiesForSupplier }));
                         }
                         ko.utils.arrayPushAll(itemPriceMatrices(), itemPriceMatrixItems);
                         itemPriceMatrices.valueHasMutated();
@@ -941,7 +982,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         return itemMatrixItem.id() === itemPriceMatrix.PriceMatrixId;
                     });
                     if (!itemMatrix) {
-                        itemPriceMatrixItems.push(ItemPriceMatrix.Create(itemPriceMatrix));
+                        itemPriceMatrixItems.push(ItemPriceMatrix.Create(itemPriceMatrix, { onPriceMatrixQuantityChange: updateQuantitiesForSupplier }));
                     }
                 });
                 ko.utils.arrayPushAll(itemPriceMatrices(), itemPriceMatrixItems);
@@ -1679,6 +1720,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             itemVdpPriceListHasChanges: itemVdpPriceListHasChanges,
+            updateQuantitiesForSupplier: updateQuantitiesForSupplier,
             reset: reset,
             convertToServerData: convertToServerData
         };
@@ -2567,9 +2609,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Price Matrix Entity
     ItemPriceMatrix = function (specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
         specifiedPricePaperType3, specifiedPriceStockType4, specifiedPriceStockType5, specifiedPriceStockType6, specifiedPriceStockType7, specifiedPriceStockType8,
-        specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedSupplierSequence, specifiedItemId) {
+        specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedSupplierSequence,
+        specifiedItemId, callbacks) {
         // ReSharper restore InconsistentNaming
-        var // Unique key
+        var
+            // Self Reference
+            self,
+            // Unique key
             id = ko.observable(specifiedId || 0),
             // Quantity
             quantity = ko.observable(specifiedQuantity || 0).extend({ number: true }),
@@ -2577,6 +2623,54 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || 0).extend({ number: true }),
             // Qty Ranged To
             qtyRangedTo = ko.observable(specifiedQtyRangedTo || 0).extend({ number: true }),
+            // Qty Change 
+            quantityUi = ko.computed({
+                read: function() {
+                    return quantity();
+                },
+                write: function(value) {
+                    if ((value === null || value === undefined) || value === quantity()) {
+                        return;
+                    }
+
+                    quantity(value);
+                    if (!supplierId() && callbacks && callbacks.onPriceMatrixQuantityChange && typeof callbacks.onPriceMatrixQuantityChange === "function") {
+                        callbacks.onPriceMatrixQuantityChange(self);
+                    }
+                }
+            }),
+            // Qty Ranged From Change 
+            quantityRangedFromUi = ko.computed({
+                read: function () {
+                    return qtyRangedFrom();
+                },
+                write: function (value) {
+                    if ((value === null || value === undefined) || value === qtyRangedFrom()) {
+                        return;
+                    }
+
+                    qtyRangedFrom(value);
+                    if (!supplierId() && callbacks && callbacks.onPriceMatrixQuantityChange && typeof callbacks.onPriceMatrixQuantityChange === "function") {
+                        callbacks.onPriceMatrixQuantityChange(self);
+                    }
+                }
+            }),
+            // Qty Ranged To Change 
+            quantityRangedToUi = ko.computed({
+                read: function () {
+                    return qtyRangedTo();
+                },
+                write: function (value) {
+                    if ((value === null || value === undefined) || value === qtyRangedTo()) {
+                        return;
+                    }
+
+                    qtyRangedTo(value);
+                    if (!supplierId() && callbacks && callbacks.onPriceMatrixQuantityChange && typeof callbacks.onPriceMatrixQuantityChange === "function") {
+                        callbacks.onPriceMatrixQuantityChange(self);
+                    }
+                }
+            }),
             // Flag Id
             flagId = ko.observable(specifiedFlagId || undefined),
             // Supplier Id
@@ -2756,12 +2850,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 };
             };
 
-        return {
+        self = {
             id: id,
             itemId: itemId,
             quantity: quantity,
             qtyRangedFrom: qtyRangedFrom,
             qtyRangedTo: qtyRangedTo,
+            quantityUi: quantityUi,
+            quantityRangedFromUi: quantityRangedFromUi,
+            quantityRangedToUi: quantityRangedToUi,
             flagId: flagId,
             supplierId: supplierId,
             supplierSequence: supplierSequence,
@@ -2794,6 +2891,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             reset: reset,
             convertToServerData: convertToServerData
         };
+
+        return self;
     },
 
     // Item State Tax Entity
@@ -3246,10 +3345,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     // Item Price Matrix Factory
-    ItemPriceMatrix.Create = function (source) {
+    ItemPriceMatrix.Create = function (source, callbacks) {
         return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangeFrom, source.QtyRangeTo, source.PricePaperType1, source.PricePaperType2,
             source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
-            source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId);
+            source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId,
+            callbacks);
     };
 
     // Item Product Detail Factory
@@ -3343,15 +3443,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // If Designer Product then set its Created Manual to undefined
             if (item.templateTypeUi() === "1") {
                 item.template().isCreatedManualUi(true);
-            }
-            else if (item.templateTypeUi() === "2") {
+            } else if (item.templateTypeUi() === "2") {
                 item.template().isCreatedManualUi(false);
-            }
-            else if (item.templateTypeUi() === "3") {
+            } else if (item.templateTypeUi() === "3") {
                 item.template().isCreatedManualUi(undefined);
             }
         }
-
+        
+        // If Not a print product
+        if (item.isFinishedGoods !== 1) {
+            item.template().isCreatedManualUi(undefined);
+        }
+        
         // Map Item Stock Options if any
         if (source.ItemStockOptions && source.ItemStockOptions.length > 0) {
             var itemStockOptions = [];
@@ -3376,7 +3479,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             var itemPriceMatrices = [];
 
             _.each(source.ItemPriceMatrices, function (itemPriceMatrix) {
-                itemPriceMatrices.push(ItemPriceMatrix.Create(itemPriceMatrix));
+                itemPriceMatrices.push(ItemPriceMatrix.Create(itemPriceMatrix, { onPriceMatrixQuantityChange: item.updateQuantitiesForSupplier }));
             });
 
             // Push to Original Item
