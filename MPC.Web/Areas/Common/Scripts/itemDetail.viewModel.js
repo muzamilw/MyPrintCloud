@@ -1486,6 +1486,7 @@ define("common/itemDetail.viewModel",
                         subscribeSectionChanges();
                         showSectionDetail(true);
                     },
+
                     closeSectionDetailEditor = function () {
                         showSectionDetail(false);
                         selectedSection(undefined);
@@ -1563,8 +1564,8 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
                         return;
                     },
-                    onResetButtonClick = function(costCenter) {
-                        confirmation.afterProceed(function() {
+                    onResetButtonClick = function (costCenter) {
+                        confirmation.afterProceed(function () {
                             selectedSectionCostCenter().qty1(selectedSection().qty1());
                         });
                         confirmation.show();
