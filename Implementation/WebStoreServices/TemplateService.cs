@@ -1465,22 +1465,38 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     int FontID = 0;
                     var pFont = FontsList.Where(g => g.FontName == "Arial Black").FirstOrDefault();
+                    //if (pFont != null)
+                    //{
+                    //    string path = "";
+                    //    if (pFont.FontPath == null)
+                    //    {
+                    //        path = "";
+                    //    }
+                    //    else
+                    //    {  // customer fonts 
+
+                    //        path = pFont.FontPath;
+                    //    }
+                    //    if (System.IO.File.Exists(fontPath + path + pFont.FontFile + ".ttf"))
+                    //        FontID = doc.EmbedFont(fontPath + path + pFont.FontFile + ".ttf");
+
+
+                    //}
                     if (pFont != null)
                     {
                         string path = "";
                         if (pFont.FontPath == null)
                         {
-                            path = "";
+                            // mpc designers fonts or system fonts 
+                            path = "Organisation" + OrganisationID + "/WebFonts/";//"PrivateFonts/FontFace/";//+ objFont.FontFile; at the root of MPC_content/Webfont
                         }
                         else
                         {  // customer fonts 
-
                             path = pFont.FontPath;
                         }
                         if (System.IO.File.Exists(fontPath + path + pFont.FontFile + ".ttf"))
                             FontID = doc.EmbedFont(fontPath + path + pFont.FontFile + ".ttf");
                     }
-
                     doc.Font = FontID;
                     double trimboxSizeCuttingLines = 0;
                     if (TrimBoxSize != 5)
@@ -1777,11 +1793,11 @@ namespace MPC.Implementation.WebStoreServices
                             string path = "";
                             if (pFont.FontPath == null)
                             {
-                                path = "";
+                                // mpc designers fonts or system fonts 
+                                path = "Organisation" + OrganisationID + "/WebFonts/";//"PrivateFonts/FontFace/";//+ objFont.FontFile; at the root of MPC_content/Webfont
                             }
                             else
                             {  // customer fonts 
-
                                 path = pFont.FontPath;
                             }
                             if (System.IO.File.Exists(fontPath + path + pFont.FontFile + ".ttf"))
