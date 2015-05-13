@@ -296,7 +296,7 @@ var GlobalQuestionQueueItemsList = null; // question queues of disfferent cost c
 var idsToValidate = ""; // This variable contain ids of text boxes and validate that each text box must have a correct value
 var GlobalInputQueueItemsList = null;
 function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, InputQueueObject, CostCentreType) {
-    
+  //  console.log('enter in ShowCostCentrePopup');
     GlobalQuestionQueueItemsList = QuestionQueueItems;
     GlobalInputQueueItemsList = InputQueueObject;
     var innerHtml = "";
@@ -425,7 +425,7 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
 }
 
 function ShowInputCostCentrePopup(InputQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, QuestionQueueObject, CostCentreType) {
-
+   // console.log('enter in ShowInputCostCentrePopup');
     GlobalInputQueueItemsList = InputQueueItems;
     GlobalQuestionQueueItemsList = QuestionQueueObject;
     var innerHtml = "";
@@ -561,7 +561,7 @@ function SetMatrixAnswer(Answer, MatrixId)
 }
 
 function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice, CostCentreType) {
-
+    //console.log('enter in ValidateCostCentreControl');
     var arrayOfIds = idsToValidate.split(",");
     
     var isDisplyEmptyFieldsMesg = 0;
@@ -678,18 +678,8 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         var GlobalInputQueueItemsListJsonObject = JSON.stringify(GlobalInputQueueItemsList, null, 2);
        
         
-        SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfCostCentre, ItemPrice, Currency);
-        
-        //if (populatedQueuItems != "null") {
-        //    populatedQueuItems = populatedQueuItems + GlobalQuestionQueueItemsListJsonObject;
-        //    $("#costCentreQueueItems").val(populatedQueuItems);
-        //}
-        //else {
-        //    populatedQueuItems = GlobalQuestionQueueItemsListJsonObject;
-        //    $("#costCentreQueueItems").val(populatedQueuItems);
-        //}
-        
-        
+        SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfCostCentre, ItemPrice, Currency, true);
+     
     }
    
     idsToValidate = "";
@@ -1130,7 +1120,11 @@ function CustomeAlertBoxDesigner(msg,callbackFuncName) {
 
 }
 
-function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode) {
+function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode, isPromptAQuestion) {
+
+    //console.log('enter in SetGlobalCostCentreQueue');
+
+    
     var jsonObjectsOfGlobalQueue = null;
     if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
 
@@ -1138,34 +1132,52 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
             QuestionQueues: GlobalQuestionQueueItemsList,
             InputQueues: GlobalInputQueueItemsList
         }
+
         jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
         $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
 
     } else {
-
+        var isUpdated = false;
         var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
-       
-        for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
-            for (var j = 0; j < InputAndQuestionQueues.InputQueues.length; j++) {
-                if (InputAndQuestionQueues.InputQueues[j].CostCenterId == GlobalInputQueueItemsList[i].CostCenterId && InputAndQuestionQueues.InputQueues[j].ID == GlobalInputQueueItemsList[i].ID) {
-                    InputAndQuestionQueues.InputQueues[j].Qty1Answer = GlobalInputQueueItemsList[i].Qty1Answer;
-                    break;
-                } else {
+        if (InputAndQuestionQueues.InputQueues == null) {
+            InputAndQuestionQueues.InputQueues = [];
+            for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
+                InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
+            }
+        } else {
+            for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
+                for (var j = 0; j < InputAndQuestionQueues.InputQueues.length; j++) {
+                    
+                    if (InputAndQuestionQueues.InputQueues[j].CostCentreID == GlobalInputQueueItemsList[i].CostCentreID && InputAndQuestionQueues.InputQueues[j].ID == GlobalInputQueueItemsList[i].ID) {
+                        InputAndQuestionQueues.InputQueues[j].Qty1Answer = GlobalInputQueueItemsList[i].Qty1Answer;
+                        isUpdated = true;
+                        break;
+                    }
+                }
+
+                if (isUpdated == false) {
                     InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
-                    break;
+                    isUpdated = false;
                 }
             }
         }
+      
 
+       
         for (var i = 0; i < GlobalQuestionQueueItemsList.length; i++) {
             for (var j = 0; j < InputAndQuestionQueues.QuestionQueues.length; j++) {
-                if (InputAndQuestionQueues.QuestionQueues[j].CostCenterId == GlobalQuestionQueueItemsList[i].CostCenterId && InputAndQuestionQueues.QuestionQueues[j].ID == GlobalQuestionQueueItemsList[i].ID) {
-                    InputAndQuestionQueues.QuestionQueues[j].Qty1Answer = GlobalQuestionQueueItemsList[i].Qty1Answer;
-                    break;
-                } else {
-                    InputAndQuestionQueues.QuestionQueues.push(GlobalQuestionQueueItemsList[i]);
-                    break;
-                }
+                if (InputAndQuestionQueues.QuestionQueues[j].CostCentreID == GlobalQuestionQueueItemsList[i].CostCentreID && InputAndQuestionQueues.QuestionQueues[j].ID == GlobalQuestionQueueItemsList[i].ID) {
+                  
+                        InputAndQuestionQueues.QuestionQueues[j].Qty1Answer = GlobalQuestionQueueItemsList[i].Qty1Answer;
+                        isUpdated = true;
+                        break;
+                   
+                } 
+            }
+
+            if (isUpdated == false){
+                InputAndQuestionQueues.QuestionQueues.push(GlobalQuestionQueueItemsList[i]);
+                isUpdated = false;
             }
         }
 
@@ -1173,7 +1185,9 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
        
     }
 
-
+    var UpdatedGlobalQueueArray = JSON.parse($("#costCentreQueueItems").val());
+    var CostCentreQueueObjectToSaveInDB = [];
+    //console.log('added from pop page: ' + $("#costCentreQueueItems").val());
     var to;
     to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + ClonedItemId + "&OrderedQuantity=" + $("#VMQuantityOrdered").val() + "&CallMode=New";
     var options = {
@@ -1195,10 +1209,55 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                     if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                         $(updatedAddOns)[i].ActualPrice = response;
                         $(updatedAddOns)[i].Description = desriptionOfQuestion;
-                        $(updatedAddOns)[i].CostCentreJasonData = jsonObjectsOfGlobalQueue;
+                        if (CostCentreType == 4) { // question queue
+                            for (var j = 0; j < UpdatedGlobalQueueArray.QuestionQueues.length; j++) {
+                                if (UpdatedGlobalQueueArray.QuestionQueues[j].CostCentreID == CostCentreId) {
+                                    CostCentreQueueObjectToSaveInDB.push(UpdatedGlobalQueueArray.QuestionQueues[j]);
+                                }
+                            }
+                        } else { // input queue
+                            for (var k = 0; k < UpdatedGlobalQueueArray.InputQueues.length; k++) {
+                               
+                                if (UpdatedGlobalQueueArray.InputQueues[k].CostCentreID == CostCentreId) {
+                                    CostCentreQueueObjectToSaveInDB.push(UpdatedGlobalQueueArray.InputQueues[k]);
+                                }
+                            }
+                        }
+                       // console.log(CostCentreQueueObjectToSaveInDB + CostCentreQueueObjectToSaveInDB.length);
+                        if (CostCentreQueueObjectToSaveInDB.length > 0) {
+                            $(updatedAddOns)[i].CostCentreJasonData = JSON.stringify(CostCentreQueueObjectToSaveInDB, null, 2);
+                        }
+                        
+                        
                         break;
                     }
                 }
+                
+                if (UpdatedGlobalQueueArray.QuestionQueues != null) {
+                    var QuestionQueueDBObject = [];
+                    for (var m = 0; m < UpdatedGlobalQueueArray.QuestionQueues.length; m++) {
+
+                        QuestionQueueDBObject.push(UpdatedGlobalQueueArray.QuestionQueues[m]);
+
+                    }
+
+                    if (QuestionQueueDBObject.length > 0) {
+                        $("#VMJsonAddOnsQuestionQueue").val(JSON.stringify(QuestionQueueDBObject, null, 2));
+                    }
+                }
+                if (UpdatedGlobalQueueArray.InputQueues != null) {
+                    var InputQueueDBObject = [];
+                    for (var n = 0; n < UpdatedGlobalQueueArray.InputQueues.length; n++) {
+
+                        InputQueueDBObject.push(UpdatedGlobalQueueArray.InputQueues[n]);
+
+                    }
+
+                    if (InputQueueDBObject.length > 0) {
+                        $("#VMJsonAddOnsInputQueue").val(JSON.stringify(InputQueueDBObject, null, 2));
+                    }
+                }
+               
 
                 var JsonToReSubmit = [];
 
@@ -1209,8 +1268,12 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                     totalVal = parseFloat(totalVal) + parseFloat($(updatedAddOns)[i].ActualPrice);
                 }
                 displayTotalPrice(ItemPrice, totalVal);
-
-                $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + response + '</label>' + '<a onclick="PromptCostCentre(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
+                if (isPromptAQuestion == true) {
+                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + response + '</label>' + '<a onclick="PromptQuestion(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
+                } else {
+                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + response + '</label>');
+                }
+                $("#VMAddOnrice").val(totalVal);
                 $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
             }
             HideLoader();

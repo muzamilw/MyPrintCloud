@@ -265,7 +265,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     else
                     {
                         if (CallMode == "Update") // dummy condition
-                        {
+                        { // change the condition exe cute all cost centre 
                             return Request.CreateResponse(HttpStatusCode.OK, 131);
                         }
                         oResult = _oRemoteObject.returnPrice(ref _CostCentreParamsArray);

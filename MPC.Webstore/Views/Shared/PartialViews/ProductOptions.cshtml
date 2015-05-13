@@ -359,6 +359,8 @@
                             @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
                             @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
                             @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
+                            @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
+                            @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
                             <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
                         }
 
@@ -1043,7 +1045,7 @@
     }
 
     function displayTotalPrice(itemPrice, addOnPrice) {
-        
+
         itemPrice = parseFloat(itemPrice);
         addOnPrice = parseFloat(addOnPrice);
 
@@ -1080,7 +1082,7 @@
             }
 
         }
-       
+
         TotalItemPrice = itemPrice;
         TotalItemPrice = TotalItemPrice.toFixed(2);
 
@@ -1236,8 +1238,9 @@
 
                     } else {
                         if (isReCalCostCentreOnQuantityChange == true) {
-                            PromptCostCentre(selectedCheckBox.CostCenterId, $(val).attr('id'), selectedCheckBox.Type, 2);
+                            PromptQuestion(selectedCheckBox.CostCenterId, $(val).attr('id'), selectedCheckBox.Type, 2, selectedCheckBox.QuantitySourceType, selectedCheckBox.TimeSourceType);
                             checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
+                            $("#VMAddOnrice").val(checkedPriceTotal);
                         }
                     }
 
@@ -1328,10 +1331,10 @@
                         }
                     } else if (selectedCheckBox.Type == 4) {*@
                 if (selectedCheckBox.isChecked == true) {
-                    $(val).next().next().html('<label>' + "@ViewBag.Currency" + selectedCheckBox.ActualPrice + '</label>' + '<a onclick="PromptCostCentre(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1);" >Modify</a> ');
+                    $(val).next().next().html('<label>' + "@ViewBag.Currency" + selectedCheckBox.ActualPrice + '</label>' + '<a onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
                     $(val).click();
                 }
-                $(val).attr('onclick', 'PromptCostCentre(' + selectedCheckBox.CostCenterId + ', ' + $(val).attr('id') + ',' + selectedCheckBox.Type + ', \"New\");');
+                $(val).attr('onclick', 'PromptQuestion(' + selectedCheckBox.CostCenterId + ', ' + $(val).attr('id') + ',' + selectedCheckBox.Type + ', \"New\",'+ selectedCheckBox.QuantitySourceType +',' + selectedCheckBox.TimeSourceType + ');');
 
                 $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
 
@@ -1448,8 +1451,8 @@
         window.location.href = URL;
     }
 
-    function PromptCostCentre(CostCentreId, ControlId, CostCentreType, Mode) {
-        
+    function PromptQuestion(CostCentreId, ControlId, CostCentreType, Mode, QuantitySourceType, TimeSourceType) {
+       
         var quantityOrdered = $("#VMQuantityOrdered").val() == "" ? null : $("#VMQuantityOrdered").val();
         if ($("#" + ControlId).is(':checked')) {
             if (Mode == 2) {// update
@@ -1497,7 +1500,7 @@
 
                                 }
                                 displayTotalPrice(TotalItemPrice, totalVal);
-                                $("#" + ControlId).next().next().html('<label>' + '@ViewBag.Currency' + response + '</label>' + '<a onclick="PromptCostCentre(' + CostCentreId + ',' + ControlId + ',' + CostCentreType +', 1);" >Modify</a> ');
+                                $("#" + ControlId).next().next().html('<label>' + '@ViewBag.Currency' + response + '</label>' + '<a onclick="PromptQuestion(' + CostCentreId + ',' + ControlId + ',' + CostCentreType +', 1 ,'+ QuantitySourceType +',' + TimeSourceType + ');" > Modify </a> ');
 
                                 $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
                             }
@@ -1533,10 +1536,17 @@
                                     ShowCostCentrePopup(QuestionQueueObjectOnModify, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice, InputQueueObjectOnModify, CostCentreType);
                                 }
                             }
-                        }else{ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
-                            if(InputQueueObjectOnModify.Items.length == 3){ // do not process the queue for prompting values
+                        }else if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                            if(QuantitySourceType == 1){ // do not process the queue for prompting values bcoz it is of variable type as QuantitySourceType = 1
                                 isQueueExistOnModify = true;
-                            }else if(InputQueueObjectOnModify.Items.length == 4){ // process the input queue and prompt for values
+                            }else{ // process the input queue and prompt for values
+                                isQueueExistOnModify = true;
+                                ShowInputCostCentrePopup(InputQueueObjectOnModify.Items, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObjectOnModify, CostCentreType);
+                            }
+                        }else if(CostCentreType == 2){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                            if(TimeSourceType == 1){ // do not process the queue for prompting values bcoz it is of variable type as QuantitySourceType = 1
+                                isQueueExistOnModify = true;
+                            }else{ // process the input queue and prompt for values
                                 isQueueExistOnModify = true;
                                 ShowInputCostCentrePopup(InputQueueObjectOnModify.Items, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObjectOnModify, CostCentreType);
                             }
@@ -1570,12 +1580,21 @@
                                         ShowCostCentrePopup(QuestionQueueObject, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, InputQueueObject.Items, CostCentreType);
                                     }
                                 }
-                            }else{ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                            }else if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
 
-                                if(InputQueueObject.Items.length == 3){ // do not process the queue for prompting values
+                                if(QuantitySourceType == 1){ // do not process the queue for prompting values else execute it as it is of variable type
                                     isQueueExist = true;
-                                    SetGlobalCostCentreQueue(QuestionQueueObject, InputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency");
-                                }else if(InputQueueObject.Items.length == 4){ // process the input queue and prompt for values
+                                    SetGlobalCostCentreQueue(QuestionQueueObject, InputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false);
+                                }else{ // process the input queue and prompt for values
+                                    isQueueExist = true;
+                                    ShowInputCostCentrePopup(InputQueueObject.Items, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObject, CostCentreType);
+                                }
+                            }else if(CostCentreType == 2){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+
+                                if(TimeSourceType == 1){ // do not process the queue for prompting values else execute it as it is of variable type
+                                    isQueueExist = true;
+                                    SetGlobalCostCentreQueue(QuestionQueueObject, InputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false);
+                                }else{ // process the input queue and prompt for values
                                     isQueueExist = true;
                                     ShowInputCostCentrePopup(InputQueueObject.Items, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, QuestionQueueObject, CostCentreType);
                                 }
@@ -1595,11 +1614,11 @@
                         contentType: "application/json",
                         async: true,
                         success: function(response) {
-                            
+
                             // This Section update the global queue List object
                             var AnOtherQuestionQueueObject = response[2];
                             var AnOtherInputQueueObject = response[7];
-                           
+                           // console.log('enter in already one exe: ' + $("#costCentreQueueItems").val());
                             // This section will prompt the cost centre
                             if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
                                 if(AnOtherQuestionQueueObject != null){ // process the question queue and prompt for values
@@ -1611,19 +1630,20 @@
                                             }
                                         }
                                         var data = JSON.parse($("#costCentreQueueItems").val());
-                                  
+
                                         for(var i =0; i < arrayOfQuestionQueueObjects.length;i++)
                                         {
                                             data.QuestionQueues.push( arrayOfQuestionQueueObjects[i]);
                                         }
                                         $("#costCentreQueueItems").val(JSON.stringify(data, null, 2));
+                                      //  console.log('added from landing page when adding question: ' + $("#costCentreQueueItems").val());
                                         ShowCostCentrePopup(arrayOfQuestionQueueObjects, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice,AnOtherInputQueueObject, CostCentreType);
                                     }
                                 }
-                            }else{ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
-                                if(AnOtherInputQueueObject.Items.length == 3){ // do not process the queue for prompting values
-                                    SetGlobalCostCentreQueue(AnOtherQuestionQueueObject, AnOtherInputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency");
-                                }else if(AnOtherInputQueueObject.Items.length == 4){ // process the input queue and prompt for values
+                            }else if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                                if(QuantitySourceType == 1){ // do not process the queue for prompting values
+                                    SetGlobalCostCentreQueue(AnOtherQuestionQueueObject, AnOtherInputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false);
+                                }else{ // process the input queue and prompt for values
                                     var arrayOfInputQueueObjects = [];
                                     for (var i = 0; i < $(AnOtherInputQueueObject.Items).length; i++) {
                                         if ($(AnOtherInputQueueObject.Items)[i].CostCentreID == CostCentreId) {
@@ -1631,12 +1651,33 @@
                                         }
                                     }
                                     var data = JSON.parse($("#costCentreQueueItems").val());
-                                  
+
                                     for(var i =0; i < arrayOfInputQueueObjects.length;i++)
                                     {
                                         data.InputQueues.push( arrayOfInputQueueObjects[i]);
                                     }
                                     $("#costCentreQueueItems").val(JSON.stringify(data, null, 2));
+                                   // console.log('added from landing page when adding input: ' + $("#costCentreQueueItems").val());
+                                    ShowInputCostCentrePopup(arrayOfInputQueueObjects, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, AnOtherQuestionQueueObject, CostCentreType);
+                                }
+                            }else if(CostCentreType == 2){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                                if(TimeSourceType == 1){ // do not process the queue for prompting values
+                                    SetGlobalCostCentreQueue(AnOtherQuestionQueueObject, AnOtherInputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false);
+                                }else{ // process the input queue and prompt for values
+                                    var arrayOfInputQueueObjects = [];
+                                    for (var i = 0; i < $(AnOtherInputQueueObject.Items).length; i++) {
+                                        if ($(AnOtherInputQueueObject.Items)[i].CostCentreID == CostCentreId) {
+                                            arrayOfInputQueueObjects.push($(AnOtherInputQueueObject.Items)[i]);
+                                        }
+                                    }
+                                    var data = JSON.parse($("#costCentreQueueItems").val());
+
+                                    for(var i =0; i < arrayOfInputQueueObjects.length;i++)
+                                    {
+                                        data.InputQueues.push( arrayOfInputQueueObjects[i]);
+                                    }
+                                    $("#costCentreQueueItems").val(JSON.stringify(data, null, 2));
+                                    //console.log('added from landing page when adding input: ' + $("#costCentreQueueItems").val());
                                     ShowInputCostCentrePopup(arrayOfInputQueueObjects, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, AnOtherQuestionQueueObject, CostCentreType);
                                 }
                             }
@@ -1650,6 +1691,21 @@
 
                 }
             }
+        }else{ // remove the added array of cost centre as cost centre is un checked
+            var JsonAllQueueItemArray = JSON.parse($("#costCentreQueueItems").val());
+            if(JsonAllQueueItemArray.QuestionQueues.length > 0){
+          
+                JsonAllQueueItemArray.QuestionQueues = $.grep(JsonAllQueueItemArray.QuestionQueues, function (n, i) {
+                    return (n.CostCentreID != CostCentreId);
+                });
+            }
+            if(JsonAllQueueItemArray.InputQueues.length > 0){
+                JsonAllQueueItemArray.InputQueues = $.grep(JsonAllQueueItemArray.InputQueues, function (n, i) {
+                    return (n.CostCentreID != CostCentreId);
+                });
+              
+            }
+            $("#costCentreQueueItems").val(JSON.stringify(JsonAllQueueItemArray, null, 2));
         }
     }
 
