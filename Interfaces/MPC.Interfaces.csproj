@@ -105,6 +105,7 @@
     <Compile Include="Repository\ICmsTagReporistory.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\ICostCentreAnswerRepository.cs" />
+    <Compile Include="Repository\IDeliveryNoteRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />

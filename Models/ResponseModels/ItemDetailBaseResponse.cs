@@ -38,5 +38,15 @@ namespace MPC.Models.ResponseModels
         /// System Users
         /// </summary>
         public IEnumerable<SystemUser> SystemUsers { get; set; }
+
+        /// <summary>
+        /// Length Unit 
+        /// </summary>
+        public string LengthUnit { get; set; }
+
+        /// <summary>
+        /// Weight Unit
+        /// </summary>
+        public string WeightUnit { get; set; }
     }
 }
