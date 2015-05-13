@@ -188,6 +188,10 @@ define("product/product.viewModel",
                     // Create New Product
                     createProduct = function () {
                         selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
+                        // Set First Section Flag to Item
+                        if (sectionFlags() && sectionFlags().length > 0) {
+                            selectedProduct().flagId(sectionFlags()[0].id);
+                        }
                         openProductEditor();
                     },
                     // Edit Product
@@ -1151,6 +1155,13 @@ define("product/product.viewModel",
                     },
                     // Get Item Price Matrices for Item By Flag
                     getItemPriceMatricesForItemByFlag = function (flagId, itemId) {
+                        // If Item is new then avoid api call to look for existing price matrices
+                        // Against it
+                        if (!itemId) {
+                            // Set Price Matrix to Item against selected Flag
+                            selectedProduct().setItemPriceMatrices();
+                            return;
+                        }
                         dataservice.getItemPriceMatricesForItemByFlagId({
                             FlagId: flagId,
                             ItemId: itemId

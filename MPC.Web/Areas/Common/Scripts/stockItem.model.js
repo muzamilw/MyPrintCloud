@@ -1,9 +1,9 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function () {
-   // #region __________________  I N V E N T O R Y   ______________________
+   // #region Stock Item
 
     // ReSharper disable once InconsistentNaming
     var StockItem = function (specifiedId, specifiedname,
-        specifiedWeight, specifiedPackageQty, specifiedPerQtyQty, specifiedPrice) {
+        specifiedWeight, specifiedPackageQty, specifiedPerQtyQty, specifiedPrice, specifiedCompanyTaxRate) {
 
         return {
             id: specifiedId,
@@ -11,7 +11,8 @@
             itemWeight: specifiedWeight,
             packageQty: specifiedPackageQty,
             perQtyQty: specifiedPerQtyQty,
-            price: specifiedPrice
+            price: specifiedPrice,
+            priceWithTax: specifiedPrice + (specifiedPrice * (specifiedCompanyTaxRate / 100))
         };
     };
 
@@ -22,11 +23,12 @@
             source.ItemWeight,
             source.PackageQty,
             source.perQtyQty || 0,
-            source.PackCostPrice === -9999 ? 0 : source.PackCostPrice
+            source.PackCostPrice === -9999 ? 0 : source.PackCostPrice,
+            source.CompanyTaxRate
             );
         return stockItem;
     };
-    // #endregion __________________   I N V E N T O R Y    ______________________
+    // #endregion
 
     return {
         // StockItem Constructor

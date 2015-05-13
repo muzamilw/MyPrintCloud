@@ -329,9 +329,12 @@ define("order/order.viewModel",
                         selectedOrder().companyId(company.id);
                         selectedOrder().companyName(company.name);
                         selectedCompany(company);
-
+                        if (company.isCustomer !== 3 && company.storeId) {
+                            selectedOrder().storeId(company.storeId);
+                        } 
                         // Get Company Address and Contacts
-                        getBaseForCompany(company.id, (company.storeId === null || company.storeId === undefined) ? 0 : company.storeId);
+                        getBaseForCompany(company.id, (selectedOrder().storeId() === null || selectedOrder().storeId() === undefined) ? company.id :
+                            selectedOrder().storeId());
                     },
                     // Add Item
                     addItem = function () {
@@ -497,9 +500,13 @@ define("order/order.viewModel",
                 openStockItemDialogForAddingProduct = function () {
                     isAddProductFromInventory(true);
                     isAddProductForSectionCostCenter(false);
-                    stockDialog.show(function (stockItem) {
-                        createNewInventoryProduct(stockItem);
-                    }, stockCategory.paper, false, currencySymbol());
+                        if (selectedOrder().companyId() === undefined) {
+                            toastr.error("Please select customer.");
+                        } else {
+                            stockDialog.show(function (stockItem) {
+                                createNewInventoryProduct(stockItem);
+                            }, stockCategory.paper, false, currencySymbol(), selectedCompanyTaxRate());
+                        }
                 },
                 // Edit Section
                 editSection = function (item) {
@@ -774,6 +781,7 @@ define("order/order.viewModel",
                     itemSection.qty3(selectedCostCentre().quantity3());
                     //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                     itemSection.productType(2);
+                    itemSection.baseCharge1(selectedCostCentre().setupCost());
 
                     var sectionCostCenter = itemModel.SectionCostCentre.Create({});
                     sectionCostCenter.qty1(selectedCostCentre().quantity1());
@@ -1053,6 +1061,7 @@ define("order/order.viewModel",
                         success: function (data) {
                             if (data) {
                                 selectedOrder(model.Estimate.Create(data));
+                                //    selectedOrder().taxRate(data.CompanyTaxRate);
                                 _.each(data.PrePayments, function (item) {
                                     selectedOrder().prePayments.push(model.PrePayment.Create(item));
                                 });
@@ -1060,7 +1069,14 @@ define("order/order.viewModel",
 
                                 // Get Base Data For Company
                                 if (data.CompanyId) {
-                                    getBaseForCompany(data.CompanyId, 0);
+                                    var storeId = 0;
+                                    if (data.IsCustomer !== 3 && data.StoreId) {
+                                        storeId = data.StoreId;
+                                        selectedOrder().storeId(storeId);
+                                    } else {
+                                        storeId = data.CompanyId;
+                                    }
+                                    getBaseForCompany(data.CompanyId, storeId);
                                 }
 
                                 // Set Delivey Schedule Item Name
@@ -1130,18 +1146,19 @@ define("order/order.viewModel",
 
                 },
                 onCreateNewProductFromRetailStore = function () {
+                        
                     if (selectedOrder().companyId() === undefined) {
                         toastr.error("Please select customer.");
                     } else {
                         var companyId = 0;
-                        if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3 && selectedCompany().storeId !== null) {
-                            companyId = selectedCompany().storeId;
+                        if (selectedOrder().storeId()) {
+                            companyId = selectedOrder().storeId();
                         } else {
                             companyId = selectedOrder().companyId();
                         }
-                        addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
+                        addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate());
                     }
-                    addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
+                        //addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
                 },
 
                 //},
@@ -1155,6 +1172,7 @@ define("order/order.viewModel",
                     newItem.itemSections.push(itemSectionForAddView);
 
                     selectedProduct(newItem);
+                    //newItem.itemSections()[0].baseCharge1();
                     selectedOrder().items.splice(0, 0, newItem);
                     itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
                 },
@@ -1168,7 +1186,7 @@ define("order/order.viewModel",
                         companyId = selectedOrder().companyId();
                     }
                     //addCostCenterVM.show(createNewCostCenterProduct, companyId, true);
-                    addCostCenterVM.show(afterSelectCostCenter, companyId, true);
+                    addCostCenterVM.show(afterSelectCostCenter, companyId, true, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
                 },
                 onAddCostCenterForProduct = function () {
                     getCostCentersForProduct();
@@ -1213,7 +1231,7 @@ define("order/order.viewModel",
                 },
 
                 getCostCentersForProduct = function () {
-                    addCostCenterVM.show(afterSelectCostCenter, selectedOrder().companyId(), false, currencySymbol());
+                    addCostCenterVM.show(afterSelectCostCenter, selectedOrder().companyId(), false, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
                 },
                 //onAddCostCenterCallback = function () {
 
@@ -1252,18 +1270,21 @@ define("order/order.viewModel",
                  },
                 onSaveProductInventory = function () {
                     var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
-
+                    applyProductTax(item);
                     item.productName(inventoryStockItemToCreate().name);
                     item.qty1(selectedCostCentre().quantity1());
                     //Req: Item Product type is set to '2', so while editting item's section is non mandatory
                     item.productType(2);
-                    applyProductTax(item);
+                    item.qty1NetTotal(inventoryStockItemToCreate().price);
+                    item.qty1GrossTotal(inventoryStockItemToCreate().priceWithTax);
+                    
                     selectedProduct(item);
                     var itemSection = itemModel.ItemSection.Create({});
                     itemSection.name("Text Sheet");
                     itemSection.qty1(selectedCostCentre().quantity1());
                     itemSection.qty2(selectedCostCentre().quantity2());
                     itemSection.qty3(selectedCostCentre().quantity3());
+                    itemSection.baseCharge1(inventoryStockItemToCreate().price);
                     //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                     itemSection.productType(2);
 
@@ -1274,9 +1295,9 @@ define("order/order.viewModel",
                     sectionCostCenter.costCentreId(getStockCostCenterId(139));
                     sectionCostCenter.costCentreName(selectedCostCentre().name());
                     sectionCostCenter.name('Stock(s)');
-                    //sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
-                    //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
-                    //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
+                    sectionCostCenter.qty1NetTotal(inventoryStockItemToCreate().price);
+                    sectionCostCenter.qty2NetTotal(0);
+                    sectionCostCenter.qty2NetTotal(0);
                     sectionCostCenter.qty1EstimatedStockCost(0);
                     sectionCostCenter.qty2EstimatedStockCost(0);
                     sectionCostCenter.qty3EstimatedStockCost(0);
@@ -1305,8 +1326,10 @@ define("order/order.viewModel",
                     selectedOrder().items.splice(0, 0, item);
 
                     selectedSection(itemSection);
+                    
+
                     //this method is calling to update orders list view total prices etc by trigering computed in item's detail view
-                    itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                    //itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
 
                 },
                 onSaveProductCostCenter = function () {
@@ -1439,6 +1462,7 @@ define("order/order.viewModel",
                     newItem.qty1(selectedProductQuanityParam);
                     //Item's Section Quantity
                     newItem.itemSections()[0].qty1(selectedProductQuanityParam);
+                    
                     newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
 
                     //#region Add Selected Addons as Cost Centers
