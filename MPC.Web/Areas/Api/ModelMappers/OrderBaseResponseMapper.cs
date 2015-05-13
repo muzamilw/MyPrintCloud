@@ -45,6 +45,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CurrencySymbol = source.CurrencySymbol,
                 SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(cc => cc.CreateFrom()) :
                 new List<SystemUserDropDown>(),
+                LengthUnit = source.LengthUnit,
+                WeightUnit = source.WeightUnit
             };
         }
 

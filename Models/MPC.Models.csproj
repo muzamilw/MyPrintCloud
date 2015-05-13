@@ -406,6 +406,7 @@
     <Compile Include="RequestModels\FieldVariableRequestModel.cs" />
     <Compile Include="RequestModels\GetCostCentresRequest.cs" />
     <Compile Include="RequestModels\GetInvoicesRequestModel.cs" />
+    <Compile Include="RequestModels\GetDeliveryNoteRequest.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
     <Compile Include="RequestModels\GoodsReceivedNoteRequestModel.cs" />
@@ -445,6 +446,7 @@
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
     <Compile Include="ResponseModels\CrmContactResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
+    <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />

@@ -424,7 +424,30 @@ define("order/order.viewModel",
                         }
                     });
                 },
-
+                // Select Default Address For Company in case of new order
+                setDefaultAddressForCompany = function () {
+                    if (selectedOrder().id() > 0) {
+                        return;
+                    }
+                    var defaultCompanyAddress = companyAddresses.find(function (address) {
+                        return address.isDefault;
+                    });
+                    if (defaultCompanyAddress) {
+                        selectedOrder().addressId(defaultCompanyAddress.id);
+                    }
+                },
+                // Select Default Contact For Company in case of new order
+                setDefaultContactForCompany = function () {
+                    if (selectedOrder().id() > 0) {
+                        return;
+                    }
+                    var defaultContact = companyContacts.find(function (contact) {
+                        return contact.isDefault;
+                    });
+                    if (defaultContact) {
+                        selectedOrder().contactId(defaultContact.id);
+                    }
+                },
                 // Map Orders 
                 mapOrders = function (data) {
                     var ordersList = [];
@@ -1122,9 +1145,11 @@ define("order/order.viewModel",
                                 if (data) {
                                     if (data.CompanyAddresses) {
                                         mapList(companyAddresses, data.CompanyAddresses, model.Address);
+                                        setDefaultAddressForCompany();
                                     }
                                     if (data.CompanyContacts) {
                                         mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
+                                        setDefaultContactForCompany();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
                                 }
