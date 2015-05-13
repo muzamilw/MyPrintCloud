@@ -102,7 +102,10 @@ define("common/itemDetail.viewModel",
                     currencySymbol = ko.observable(''),
                     lengthUnit = ko.observable(),
                     weightUnit = ko.observable(),
+                    loggedInUser = ko.observable(),
                     closeItemDetailSection = null,
+                    //Is Estimate Screen
+                    isEstimateScreen = ko.observable(false),
                     //#endregion  
                      isSectionCostCenterDialogOpen = ko.observable(false),
                     isSectionVisible = ko.observable(false),
@@ -436,12 +439,13 @@ define("common/itemDetail.viewModel",
                         }
                     },
                     //Show Item Detail
-                    showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam) {
+                    showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam, isEstimateScreenFlag) {
                         showSectionDetail(false);
                         showItemDetailsSection(true);
                         selectedProduct(selectedProductParam);
                         selectedOrder(selectedOrderParam);
                         selectedSection(selectedProduct().itemSections()[0]);
+                        isEstimateScreen(isEstimateScreenFlag);
                         //selectedSection().productType(selectedProduct().productType());
                         closeItemDetailSection = closeItemDetailParam;
                     },
@@ -998,6 +1002,7 @@ define("common/itemDetail.viewModel",
                                 currencySymbol(data.CurrencySymbol);
                                 lengthUnit(data.LengthUnit || '');
                                 weightUnit(data.WeightUnit || '');
+                                loggedInUser(data.loggedInUserId || '');
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -1484,6 +1489,7 @@ define("common/itemDetail.viewModel",
                         subscribeSectionChanges();
                         showSectionDetail(true);
                     },
+
                     closeSectionDetailEditor = function () {
                         showSectionDetail(false);
                         selectedSection(undefined);
@@ -1561,8 +1567,8 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
                         return;
                     },
-                    onResetButtonClick = function(costCenter) {
-                        confirmation.afterProceed(function() {
+                    onResetButtonClick = function (costCenter) {
+                        confirmation.afterProceed(function () {
                             selectedSectionCostCenter().qty1(selectedSection().qty1());
                         });
                         confirmation.show();
@@ -1613,7 +1619,7 @@ define("common/itemDetail.viewModel",
                     inks: inks,
                     availableInkPlateSides: availableInkPlateSides,
                     sectionVisibilityHandler: sectionVisibilityHandler,
-
+                    isEstimateScreen: isEstimateScreen,
                     availableInkPalteChange: availableInkPalteChange,
                     side1Image: side1Image,
                     side2Image: side2Image,

@@ -20,6 +20,7 @@
                                             <input type="text" class="form-control" data-bind="value: $root.selectedCostCentre()!=undefined  ? $root.selectedCostCentre().quantity1:''">
                                         </div>
                                     </div>
+                                    <!--ko if: $root.isEstimateScreen != undefined && $root.isEstimateScreen()-->
                                     <div class="form-group">
                                         <div class="col-lg-5 text-right">
                                            
@@ -38,6 +39,7 @@
                                             <input type="text" class="form-control" data-bind="value: $root.selectedCostCentre()!=undefined  ? $root.selectedCostCentre().quantity3:''">
                                         </div>
                                     </div>
+                                    <!--/ko-->
                                     <div class="pull-right">
                                         <!--ko if: !$root.isAddProductFromInventory() -->
                                         <!--ko if: !$root.isAddProductForSectionCostCenter() -->

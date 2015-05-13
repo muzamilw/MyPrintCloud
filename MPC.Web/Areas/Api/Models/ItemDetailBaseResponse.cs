@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -50,5 +51,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public string WeightUnit { get; set; }
 
+        /// <summary>
+        /// Logged In User
+        /// </summary>
+        public Guid LoggedInUser { get; set; }
+        
     }
 }
