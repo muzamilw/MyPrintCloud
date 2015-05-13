@@ -111,7 +111,7 @@ namespace MPC.Implementation.MISServices
             else
             {
                 Organisation org = _organisationRepository.GetOrganizatiobByID();
-                string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+                string sOrgName = specialCharactersEncoderCostCentre(org.OrganisationName);
                 // _costCenterRepository.Add(costcenter);
                 SaveCostCentre(costcenter, org.OrganisationId, sOrgName, true);
             }
@@ -131,7 +131,7 @@ namespace MPC.Implementation.MISServices
             else
             {
                 Organisation org = _organisationRepository.GetOrganizatiobByID();
-                string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+                string sOrgName = specialCharactersEncoderCostCentre(org.OrganisationName);
                 SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);  
             }
                       
@@ -1185,6 +1185,20 @@ namespace MPC.Implementation.MISServices
             };
         }
 
+        public string specialCharactersEncoderCostCentre(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                value = value.Replace("/", "");
+                value = value.Replace(" ", "");
+                value = value.Replace(";", "");
+                value = value.Replace("&#34;", "");
+                value = value.Replace("&", "");
+                value = value.Replace("+", "");
+            }
+
+            return value;
+        }
         #endregion
 
     }
