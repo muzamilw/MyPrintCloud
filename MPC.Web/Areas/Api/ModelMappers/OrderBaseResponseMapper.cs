@@ -28,7 +28,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 new List<PaymentMethod>(),
                 CurrencySymbol = (source.Organisation != null && source.Organisation.Currency != null) ? source.Organisation.Currency.CurrencySymbol :
                 string.Empty,
-                StockCategories = source.StockCategories != null ? source.StockCategories.Select(s => s.CreateFromDropDown()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(s => s.CreateFrom()).ToList() : new List<ChartOfAccount>(),
                 CostCenters = source.CostCenters != null ? source.CostCenters.Select(x=>x.CreateFrom()).ToList(): new List<CostCentre>()
             };
@@ -43,6 +42,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InkPlateSides = source.InkPlateSides != null ? source.InkPlateSides.Select(s => s.CreateFromDropDown()).ToList() : new List<InkPlateSide>(),
                 Inks = source.Inks != null ? source.Inks.Select(x => x.CreateFromDropDown()).ToList() : new List<StockItemForDropDown>(),
                 InkCoverageGroup = source.InkCoverageGroups != null ? source.InkCoverageGroups.Select(x => x.CreateFrom()).ToList() : new List<InkCoverageGroup>(),
+                CurrencySymbol = source.CurrencySymbol
             };
         }
 

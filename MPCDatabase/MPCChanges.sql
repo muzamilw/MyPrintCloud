@@ -3681,3 +3681,55 @@ GO
 EXEC sp_rename 'ItemStockUpdateHistory', 'StockItemHistory'
 
 GO
+
+/* Execution Date: 08/05/2015 */
+
+GO
+
+alter table costcentre
+alter Column isDisabled bit not null
+
+GO
+
+/*  Execution Date: 08/05/2015  update costcenter types */
+
+SET identity_insert CostCentreType ON
+
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (2, 'Pre Press', 0,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (3, 'Post Press', 0,1,null)
+
+SET identity_insert CostCentreType OFF
+
+Update CostCentre set Type = 2
+
+delete CostCentreType
+  where TypeId not in (1,2,3,11,29)
+
+/* Execution Date:  11/05/2105 */
+
+alter table SectionInkCoverage
+drop constraint FK_SectionInkCoverage_ItemSection
+
+alter table SectionInkCoverage
+add constraint FK_SectionInkCoverage_ItemSection
+foreign key (SectionId)
+references ItemSection (ItemSectionId)
+on delete cascade
+
+alter table SectionCostcentre
+drop constraint FK_tbl_section_costcentres_tbl_item_sections
+
+alter table SectionCostcentre
+add constraint FK_SectionCostcentre_ItemSection
+foreign key (ItemSectionId)
+references ItemSection (ItemSectionId)
+on delete cascade
+
+alter table SectionCostCentreDetail
+drop constraint FK_tbl_section_costcentre_detail_tbl_section_costcentres
+
+alter table SectionCostCentreDetail
+add constraint FK_SectionCostCentreDetail_SectionCostcentre
+foreign key (SectionCostCentreId)
+references SectionCostcentre (SectionCostCentreId)
+on delete cascade

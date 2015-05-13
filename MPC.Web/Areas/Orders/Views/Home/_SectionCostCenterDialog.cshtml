@@ -28,7 +28,7 @@
                     <h4 class="modal-title">Work Instructions</h4>
                 </div>
                 <div class="col-lg-6 outerDiv-Padding form-horizontal">
-                    <textarea class="form-control" rows="5" data-bind="text: $root.selectedQty() == 1 ? qty1WorkInstructions() :$root.selectedQty() == 2? qty2WorkInstructions() : qty3WorkInstructions()"></textarea>
+                    <textarea class="form-control" style="font-size: 16px;" rows="5" data-bind="text: $root.selectedQty() == 1 ? qty1WorkInstructions() :$root.selectedQty() == 2? qty2WorkInstructions() : qty3WorkInstructions()"></textarea>
                 </div>
             </div>
             <div class="col-lg-12 outerDiv-Padding form-horizontal">
@@ -102,19 +102,19 @@
                         <div class="col-lg-4 text-right"><label class="text-right">Total Price</label></div>
                         <div class="col-lg-8">
                             <!--ko if:  $root.selectedQty() == 1-->
-                            <input type="text" class="text-right form-control" data-bind="value: qty1Charge " />
+                            <input type="text" class="text-right form-control" data-bind="numberValue: $root.sectionCostCenterQty1Charge " />
                             <!--/ko-->
                             <!--ko if:  $root.selectedQty() == 2-->
-                            <input type="text" class="text-right form-control" data-bind="value: qty2Charge " />
+                            <input type="text" class="text-right form-control" data-bind="numberValue: $root.sectionCostCenterQty2Charge " />
                             <!--/ko-->
                             <!--ko if:  $root.selectedQty() == 3-->
-                            <input type="text" class="text-right form-control" data-bind="value: qty3Charge " />
+                            <input type="text" class="text-right form-control" data-bind="numberValue: $root.sectionCostCenterQty3Charge " />
                             <!--/ko-->
                         </div>
                     </div>
                     <div class="form-group col-lg-12">
                         <div class="col-lg-4 text-right"><label class="text-right">Markup</label></div>
-                        <div class="col-lg-8"><select class="form-control col-lg-4 form-control" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsValue:'MarkUpId', value:$root.selectedQty() == 1 ? qty1MarkUpId :$root.selectedQty() == 2? qty2MarkUpId : qty3MarkUpId  "></select></div>
+                        <div class="col-lg-8"><select class="form-control col-lg-4 form-control" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsValue:'MarkUpId', value:$root.selectedQty() == 1 ? $root.sectionCostCenterQty1MarkUpId :$root.selectedQty() == 2?  $root.sectionCostCenterQty2MarkUpId :  $root.sectionCostCenterQty3MarkUpId  "></select></div>
                     </div>
                     <div class="form-group col-lg-12">
                         <div class="col-lg-4 text-right"><label class="text-right">Markup Value</label></div>
@@ -134,13 +134,13 @@
                         <div class="col-lg-4 text-right"><label class="text-right">Net Total</label></div>
                         <div class="col-lg-8">
                             <!--ko if:  $root.selectedQty() == 1-->
-                            <input type="text" class="text-right form-control" data-bind="value: qty1NetTotal " />
+                            <input type="text" class="text-right form-control" data-bind="numberValue: qty1NetTotal " />
                             <!--/ko-->
                             <!--ko if:  $root.selectedQty() == 2-->
-                            <input type="text" class="text-right form-control" data-bind="value: qty2NetTotal " />
+                            <input type="text" class="text-right form-control" data-bind="numberValue: qty2NetTotal " />
                             <!--/ko-->
                             <!--ko if:  $root.selectedQty() == 3-->
-                            <input type="text" class="text-right form-control" data-bind="value: qty3NetTotal " />
+                            <input type="text" class="text-right form-control" data-bind="numberValue: qty3NetTotal " />
                             <!--/ko-->
                         </div>
                     </div>

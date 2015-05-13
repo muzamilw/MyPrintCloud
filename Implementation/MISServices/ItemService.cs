@@ -2064,13 +2064,14 @@ namespace MPC.Implementation.MISServices
             return new ItemBaseResponse
             {
                 CostCentres = costCentreRepository.GetAllNonSystemCostCentres(),
-                SectionFlags = sectionFlagRepository.GetAllForCustomerPriceIndex(),
+                SectionFlags = sectionFlagRepository.GetDefaultSectionFlags(),
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
                 PaperSizes = paperSizeRepository.GetAll(),
                 LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
-                CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty
+                CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty,
+                WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty
             };
         }
 

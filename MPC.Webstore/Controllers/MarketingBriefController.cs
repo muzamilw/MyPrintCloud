@@ -49,19 +49,25 @@ namespace MPC.Webstore.Controllers
         }
         #endregion
         // GET: MarketingBrief
-        public ActionResult Index(string ProductName, int ItemID)
+        public ActionResult Index(string ProductName, int ItemID, long CategoryId)
         {
-            ViewBag.IsSubmitSuccessfully = false;
-            ViewBag.LabelInquiryBrief = ProductName + " - Marketing Brief";
-
-           
-
-            ViewBag.Email = UserCookieManager.WEBEmail;
+            ViewBag.SuccessMessage = "0";
             string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
             ViewBag.Phone = ContactMobile;
             ProductItem Product = _IItemService.GetItemAndDetailsByItemID(ItemID);
-
+            if (CategoryId == 0)
+            {
+                Product.ProductCategoryName = _IItemService.GetCategoryNameById(0, ItemID);
+                ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
+            }
+            else
+            {
+                Product.ProductCategoryName = _IItemService.GetCategoryNameById(CategoryId, 0);
+                ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
+            }
+            Product.ProductName = ProductName + " - Marketing Brief";
+            Product.ProductCategoryID = CategoryId;
             List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
 
             List<ProductMarketBriefQuestion> QuestionsList = _IItemService.GetMarketingInquiryQuestionsByItemID(ItemID);
@@ -91,13 +97,17 @@ namespace MPC.Webstore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(ProductItem Model)
+        public ActionResult Index(ProductItem Model, string hfInqueryMesg)
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
             List<string> Attachments = null;
+            
 
+            Model.ProductCategoryName = _IItemService.GetCategoryNameById(0, Model.ItemID);
+            ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Model.ProductCategoryName) + "/" + _IItemService.GetCategoryIdByItemId(Model.ItemID);
+           
             if (Request.Files.Count > 0)
             {
                 List<string> filesNamesPaths = new List<string>();
@@ -133,7 +143,7 @@ namespace MPC.Webstore.Controllers
 
             string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
-            Organisation org = _ICompanyService.getOrganisatonByID((int)StoreBaseResopnse.Organisation.OrganisationId);
+            Organisation org = _ICompanyService.GetOrganisatonById(StoreBaseResopnse.Organisation.OrganisationId);
             if (Item != null)
             {
                 MEsg += "Product : " + Item.ProductName + "<br />";
@@ -209,25 +219,17 @@ namespace MPC.Webstore.Controllers
                
             }
 
-            if (Item != null)
-            {
-                if (!string.IsNullOrEmpty(Item.BriefSuccessMessage))
-                {
-                    ViewBag.WlSumMesg = Item.BriefSuccessMessage;//"Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. <br /> <br /> If your brief is not approved, marketing will be in contact with you.";
-                }
-                else
-                {
-                   // ViewBag.WlSumMesg = Common.CommonHtmlExtensions.GetResource("WlSumMesg");
-                    //ViewBag.WlSumMesg = Resources.MyResource.WlSumMesg; // Resources.MyResource.
-                }
-            }
+            //if (Item != null)
+            //{
+               // if (!string.IsNullOrEmpty(Item.BriefSuccessMessage))
+               // {
+                    ViewBag.SuccessMessage = "Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. <br /> <br /> If your brief is not approved, marketing will be in contact with you.";
+               // }
+
+           // }
 
             ViewBag.IsSubmitSuccessfully = true;
-           // lnkReturnLogin.PostBackUrl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/Default.aspx";
-          //  welcomeSummeryMEsg.Style.Add(HtmlTextWriterStyle.Display, "Block");
-
-            //LeftPanel.Visible = false;
-            //RightPanel.Visible = false;
+          
             StoreBaseResopnse = null;
             return View("PartialViews/MarketingBrief",Item);
         }

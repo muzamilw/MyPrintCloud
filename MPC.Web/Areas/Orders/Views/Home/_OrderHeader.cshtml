@@ -198,9 +198,9 @@
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="col-lg-5"><span></span></th>
-                                            <th class="col-lg-3"><span>Qty</span></th>
-                                            <th class="col-lg-3"><span>Price inc. Tax</span></th>
+                                            <th class="col-lg-8"><span></span></th>
+                                            <th class="col-lg-2"><span>Qty</span></th>
+                                            <th class="col-lg-2 text-right"><span>Price inc. Tax</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -214,7 +214,7 @@
                             <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewProductFromRetailStore">Add Product from Store</button>
                         </div>
                         <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                            <button type="button" class="btn btn-primary">Add Blank Print Product</button>
+                            <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewBlankPrintProduct">Add Blank Print Product</button>  
                         </div>
                         <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                             <button type="button" class="btn btn-primary" data-bind="click: $root.openStockItemDialogForAddingProduct">Add Inventory Item</button>
@@ -245,7 +245,7 @@
                                         <tr>
                                             <th class="col-lg-5"><span></span></th>
                                             <th class="col-lg-3"><span></span></th>
-                                            <th class="col-lg-3"><span>Price inc. Tax</span></th>
+                                            <th class="col-lg-3 text-right"><span>Price inc. Tax</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -256,17 +256,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                    <div class="col-lg-6 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
                         <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
                     </div>
 
-                    <div class="col-lg-5 form-group" style="margin-top:10px">
-                        <div class="col-lg-7 text-right" style=" margin-left: 18px;">
+                    <div class="col-lg-6" style="margin-top:10px">
+                        <div class="col-lg-8 text-right">
                             <label class="control-label text-right tooltip-float">Gross Total:</label>
                         </div>
-                        <div class="col-lg-4" style="margin-top:5px">
+                        <div class="col-lg-4 text-right" style="margin-top:5px">
                             <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
-                            <span data-bind="text: $root.grossTotal()" style="font-weight: bold; font-size:20px;"></span>
+                            <span data-bind="numberInput: $root.grossTotal" style="font-weight: bold; font-size:20px;"></span>
                         </div>
                     </div>
                 </div>
@@ -310,7 +310,7 @@
             </td>
             <td style=" text-align: right;">
                 <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
-                <span style="font-size:20px;" data-bind="text: qty1GrossTotal()"></span>
+                <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
             </td>
             @*<td class="text-right">
                 <a href="#" class="table-link" data-bind="click: $root.editItem">
@@ -333,12 +333,12 @@
         <tr>
             <td>
                 <span style="font-size:20px;" data-bind="text: productName"></span>
-            </td>                
+            </td>
+            <td></td>
             <td style=" text-align: right;">
                 <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                 <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
             </td>
-
         </tr>
     </script>
     @Html.Partial("~/Areas/Orders/Views/Shared/_OrderCostCenterQuantity.cshtml")

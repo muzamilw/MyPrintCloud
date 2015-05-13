@@ -1038,6 +1038,7 @@
     <Content Include="Content\Images\colorpicker_select.gif" />
     <Content Include="Content\Images\colorpicker_submit - Copy.png" />
     <Content Include="Content\Images\colorpicker_submit.png" />
+    <Content Include="Content\Images\imageplaceholder.png" />
     <Content Include="Content\Images\loaders\3d\015.gif" />
     <Content Include="Content\Images\loaders\3d\019.gif" />
     <Content Include="Content\Images\loaders\3d\026.gif" />
@@ -1111,18 +1112,21 @@
     <Content Include="Content\Images\loaders\horizontal\058.gif" />
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
+    <Content Include="Content\Images\OrderSectionCover.png" />
     <Content Include="Content\Images\Ptv\back-down.gif" />
     <Content Include="Content\Images\Ptv\back-downP.gif" />
     <Content Include="Content\Images\Ptv\back-up.gif" />
     <Content Include="Content\Images\Ptv\back-upP.gif" />
     <Content Include="Content\Images\Ptv\back-upW.gif" />
     <Content Include="Content\Images\Ptv\dotTexture.gif" />
+    <Content Include="Content\Images\OrderSection-down-arrow.jpg" />
     <Content Include="Content\Images\Ptv\front-down.gif" />
     <Content Include="Content\Images\Ptv\front-downP.gif" />
     <Content Include="Content\Images\Ptv\front-up.gif" />
     <Content Include="Content\Images\Ptv\front-upP.gif" />
     <Content Include="Content\Images\Ptv\imgLongSide.gif" />
     <Content Include="Content\Images\Ptv\imgShortSide.gif" />
+    <Content Include="Content\Images\OrderSection-right-arrow.jpg" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\Inventory.css">
       <DependentUpon>Inventory.less</DependentUpon>
@@ -2097,6 +2101,8 @@
     <Content Include="Areas\Settings\Views\Home\_Markups.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_OrderCostCenterQuantity.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_OrganisationDetail.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_PhraseLibrary.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\test.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

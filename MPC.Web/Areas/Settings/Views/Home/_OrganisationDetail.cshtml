@@ -40,7 +40,7 @@
                         </a>
 
                     </div>*@
-                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Addres Line 1</label>
+                    <label for="txtcompanyname" class="control-label text-right tooltip-float">addres line 1</label>
 
                 </div>
 
@@ -256,18 +256,24 @@
 
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
+                    @*<div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload your company Logo, It will appear on Documents as well as web site, etc., Use a PNG file to maintain transparency across the websore." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-                    </div>
+                    </div>*@
                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Company Logo</label>
                 </div>
 
                 <div class="col-lg-8">
                     <div class="col-lg-6" style="padding-left:0px;">
                         <div>
-                            <img id="orgImage" src="" alt="" style="width:310px;height:200px;" data-bind="attr:{ src: orgnizationImage }," />
+                            <!-- ko if: orgnizationImage() -->
+                            <img id="orgImage" alt="" src="" style="width:320px;height:200px;" data-bind="attr:{ src: orgnizationImage() }" />
+                            <!-- /ko -->
+                            <!-- ko ifnot: orgnizationImage() -->
+                            <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:310px;height:310px;" />
+                            <!-- /ko -->
+
                         </div>
                     </div>
                 </div>

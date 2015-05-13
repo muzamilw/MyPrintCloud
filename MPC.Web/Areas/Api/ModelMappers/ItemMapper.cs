@@ -469,6 +469,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemCode = source.ItemCode,
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
+                ProductType = source.ProductType,
                 JobDescriptionTitle1 = source.JobDescriptionTitle1,
                 JobDescription1 = source.JobDescription1,
                 JobDescriptionTitle2 = source.JobDescriptionTitle2,
@@ -538,6 +539,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemCode = source.ItemCode,
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
+                ProductType = source.ProductType,
                 JobDescriptionTitle1 = source.JobDescriptionTitle1,
                 JobDescription1 = source.JobDescription1,
                 JobDescriptionTitle2 = source.JobDescriptionTitle2,
@@ -607,7 +609,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,
                 MinPrice = source.MinPrice,
-                IsQtyRanged = source.IsQtyRanged
+                IsQtyRanged = source.IsQtyRanged,
+                DefaultItemTax = source.DefaultItemTax
             };
 
             // Load Thumbnail Image
