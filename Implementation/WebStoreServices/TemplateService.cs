@@ -293,6 +293,9 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             oPdf.ColorSpace = oPdf.AddColorSpaceSpot(ooBject.SpotColorName, ooBject.ColorC.ToString() + " " + ooBject.ColorM.ToString() + " " + ooBject.ColorY.ToString() + " " + ooBject.ColorK.ToString());
                             oPdf.Color.Gray = 255;
+                        }else
+                        {
+                            oPdf.Color.String = ooBject.ColorC.ToString() + " " + ooBject.ColorM.ToString() + " " + ooBject.ColorY.ToString() + " " + ooBject.ColorK.ToString();
                         }
                     }
                     else

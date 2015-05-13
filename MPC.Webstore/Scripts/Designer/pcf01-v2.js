@@ -1405,7 +1405,7 @@ function fu02UI() {
 
     if (IsCalledFrom != 3)
     {
-        $("#Homebtn").css("display", "none");
+        //$("#Homebtn").css("display", "none");
     }
     if (IsCalledFrom == 3 || IsCalledFrom == 4) {
         $(".previewBtnContainer").css("display", "none");
