@@ -274,10 +274,10 @@ namespace MPC.Repository.Repositories
                         oVariable.Name = reader.GetString(1);
                         oVariable.RefTableName = reader.GetString(2);
                         oVariable.RefFieldName = reader.IsDBNull(3) == true ? "" : reader.GetString(3);
-                        oVariable.CriteriaFieldName = reader.GetString(4);
-                        oVariable.Criteria = reader.GetString(5);
+                        oVariable.CriteriaFieldName = reader.IsDBNull(4) == true ? "" : reader.GetString(4);
+                        oVariable.Criteria = reader.IsDBNull(5) == true ? "" : reader.GetString(5);
                         oVariable.CategoryId = reader.GetInt32(6);
-                        oVariable.IsCriteriaUsed = reader.GetString(7);
+                        oVariable.IsCriteriaUsed = reader.IsDBNull(7) == true ? "" : reader.GetString(7);
                         oVariable.Type = reader.GetInt16(8);
                         oVariable.PropertyType = reader.GetInt32(9);
                         if (!reader.IsDBNull(10))
