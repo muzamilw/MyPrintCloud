@@ -2,7 +2,7 @@
     var
 
     CostCentre = function (specifiedId, specifiedname,
-          specifiedDes, specifiedSetupcost, specifiedPpq, specifiedquantity1, specifiedquantity2, specifiedquantity3) {
+          specifiedDes, specifiedSetupcost, specifiedPpq, specifiedCompanyTax, specifiedquantity1, specifiedquantity2, specifiedquantity3) {
 
         var self,
             id = ko.observable(specifiedId),
@@ -12,6 +12,12 @@
             quantity3 = ko.observable(specifiedquantity3),
             description = ko.observable(specifiedDes),
             setupCost = ko.observable(specifiedSetupcost).extend({ numberInput: ist.numberFormat }),
+            setupCostWithTax = ko.computed(function () {
+                if (specifiedCompanyTax != undefined && specifiedCompanyTax != null) {
+                    return setupCost() + (setupCost() * (specifiedCompanyTax / 100));
+                }
+                return setupCost();
+            }),
             pricePerUnitQuantity = ko.observable(specifiedPpq).extend({ numberInput: ist.numberFormat }),
             errors = ko.validation.group({
 
@@ -60,6 +66,7 @@
             description: description,
             setupCost: setupCost,
             pricePerUnitQuantity: pricePerUnitQuantity,
+            setupCostWithTax: setupCostWithTax,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -76,7 +83,8 @@
             source.Name,
             source.Description,
             source.SetupCost,
-            source.PricePerUnitQuantity
+            source.PricePerUnitQuantity,
+            source.CompanyTaxRate
             );
         return cost;
     };

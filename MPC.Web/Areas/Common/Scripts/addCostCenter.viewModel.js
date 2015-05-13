@@ -52,6 +52,7 @@ define("common/addCostCenter.viewModel",
                     },
                     // after selection
                     afterAddCostCenter = null,
+                    companyTaxRate = null,
                     // Reset Stock Dialog Filters
                     resetDialogFilters = function () {
                         // Reset Text 
@@ -59,7 +60,7 @@ define("common/addCostCenter.viewModel",
 
                     },
                     // Show
-                    show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency) {
+                    show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency, companyTaxRateParam) {
                         currencySmb(currency);
                         isAddProductForSectionCostCenter(false);
                         isAddProductFromInventory(false);
@@ -68,6 +69,7 @@ define("common/addCostCenter.viewModel",
                         resetCostCenters();
                         view.showDialog();
                         afterAddCostCenter = afterAddCostCenterCallback;
+                        companyTaxRate = companyTaxRateParam;
                         selectedCompanyId(companyId);
                         if (isCostCenterDialogForShipping()) {
                             getCostCenters();
@@ -114,6 +116,7 @@ define("common/addCostCenter.viewModel",
                                      if (data != null) {
                                          costCentres.removeAll();
                                          _.each(data.CostCentres, function (item) {
+                                             item.CompanyTaxRate = companyTaxRate;
                                              var costCentre = new model.CostCentre.Create(item);
                                              costCentres.push(costCentre);
                                          });
@@ -138,6 +141,7 @@ define("common/addCostCenter.viewModel",
                                    if (data != null) {
                                        costCentres.removeAll();
                                        _.each(data.CostCentres, function (item) {
+                                           item.CompanyTaxRate = companyTaxRate;
                                            var costCentre = new model.CostCentre.Create(item);
                                            costCentres.push(costCentre);
                                        });

@@ -676,21 +676,11 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         var GlobalQuestionQueueItemsListJsonObject = JSON.stringify(GlobalQuestionQueueItemsList, null, 2);
 
         var GlobalInputQueueItemsListJsonObject = JSON.stringify(GlobalInputQueueItemsList, null, 2);
-        var jsonObjectsOfGlobalQueue = null;
-        if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
-
-            var InputAndQuestionQueues = {
-                QuestionQueues: GlobalQuestionQueueItemsList,
+       
                 InputQueues: GlobalInputQueueItemsList
             }
             jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
             $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
-
-        } else {
-
-            var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
-            console.log(InputAndQuestionQueues);
-           // InputAndQuestionQueues[0] = InputAndQuestionQueues[0] + GlobalQuestionQueueItemsList;
            // InputAndQuestionQueues[1] = InputAndQuestionQueues[1] + GlobalInputQueueItemsList;
            // var jsonObjects = JSON.stringify(InputAndQuestionQueues, null, 2);
             var InputAndQuestionQueues = {
@@ -699,9 +689,9 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             }
             jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
             $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
-        }
-       
-        console.log("Global Queue from pop up: " + JSON.stringify($("#costCentreQueueItems").val(), null, 2));
+        
+        SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfCostCentre, ItemPrice, Currency);
+        
         //if (populatedQueuItems != "null") {
         //    populatedQueuItems = populatedQueuItems + GlobalQuestionQueueItemsListJsonObject;
         //    $("#costCentreQueueItems").val(populatedQueuItems);
@@ -711,52 +701,6 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         //    $("#costCentreQueueItems").val(populatedQueuItems);
         //}
         
-        var to;
-        to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + ClonedItemId + "&OrderedQuantity=" + $("#VMQuantityOrdered").val() + "&CallMode=New";
-        var options = {
-            type: "POST",
-            url: to,
-            data:$("#costCentreQueueItems").val(),
-            contentType: "application/json",
-            async: true,
-            success: function (response) {
-                
-                ShowLoader();
-                var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
-                if (updatedAddOns != null) {
-
-                    for (var i = 0; i < $(updatedAddOns).length; i++) {
-                        if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
-                            $(updatedAddOns)[i].ActualPrice = response;
-                            $(updatedAddOns)[i].Description = desriptionOfCostCentre;
-                            $(updatedAddOns)[i].CostCentreJasonData = GlobalQuestionQueueItemsListJsonObject;
-                            break;
-                        }
-                    }
-
-                    var JsonToReSubmit = [];
-                    var totalVal = 0;
-                    for (var i = 0; i < $(updatedAddOns).length; i++) {
-                        JsonToReSubmit.push($(updatedAddOns)[i]);
-                        if ($(updatedAddOns)[i].Type == 4) {
-                            totalVal = parseFloat(totalVal) + parseFloat(response);
-                        } else {
-                            var actualP = ($("#VMQuantityOrdered").val() * $(updatedAddOns)[i].ActualPrice) + $(updatedAddOns)[i].SetupCost;
-                            if (actualP < $(updatedAddOns)[i].MinimumCost && $(updatedAddOns)[i].MinimumCost != 0) {
-                                actualP = $(updatedAddOns)[i].MinimumCost;
-                            }
-                            totalVal = parseFloat(totalVal) + parseFloat(actualP);
-                        }
-                    }
-                    displayTotalPrice(ItemPrice, totalVal);
-                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptCostCentre(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
-                    $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
-                }
-                HideLoader();
-            },
-            error: function (msg) { alert("Error occured "); console.log(msg); }
-        };
-        var returnText = $.ajax(options).responseText;
         
     }
    
@@ -1195,5 +1139,97 @@ function CustomeAlertBoxDesigner(msg,callbackFuncName) {
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
+
+}
+
+function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode) {
+    var jsonObjectsOfGlobalQueue = null;
+    if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
+
+        var InputAndQuestionQueues = {
+            QuestionQueues: GlobalQuestionQueueItemsList,
+            InputQueues: GlobalInputQueueItemsList
+        }
+        jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
+        $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
+
+    } else {
+
+        var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
+       
+        for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
+            for (var j = 0; j < InputAndQuestionQueues.InputQueues.length; j++) {
+                if (InputAndQuestionQueues.InputQueues[j].CostCenterId == GlobalInputQueueItemsList[i].CostCenterId && InputAndQuestionQueues.InputQueues[j].ID == GlobalInputQueueItemsList[i].ID) {
+                    InputAndQuestionQueues.InputQueues[j].Qty1Answer = GlobalInputQueueItemsList[i].Qty1Answer;
+                    break;
+                } else {
+                    InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
+                    break;
+                }
+            }
+        }
+
+        for (var i = 0; i < GlobalQuestionQueueItemsList.length; i++) {
+            for (var j = 0; j < InputAndQuestionQueues.QuestionQueues.length; j++) {
+                if (InputAndQuestionQueues.QuestionQueues[j].CostCenterId == GlobalQuestionQueueItemsList[i].CostCenterId && InputAndQuestionQueues.QuestionQueues[j].ID == GlobalQuestionQueueItemsList[i].ID) {
+                    InputAndQuestionQueues.QuestionQueues[j].Qty1Answer = GlobalQuestionQueueItemsList[i].Qty1Answer;
+                    break;
+                } else {
+                    InputAndQuestionQueues.QuestionQueues.push(GlobalQuestionQueueItemsList[i]);
+                    break;
+                }
+            }
+        }
+
+        $("#costCentreQueueItems").val(JSON.stringify(InputAndQuestionQueues, null, 2));
+       
+    }
+
+
+    var to;
+    to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + ClonedItemId + "&OrderedQuantity=" + $("#VMQuantityOrdered").val() + "&CallMode=New";
+    var options = {
+        type: "POST",
+        url: to,
+        data: $("#costCentreQueueItems").val(),
+        contentType: "application/json",
+        async: true,
+        success: function (response) {
+
+            ShowLoader();
+            
+            var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
+            
+            if (updatedAddOns != null) {
+
+                for (var i = 0; i < $(updatedAddOns).length; i++) {
+
+                    if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
+                        $(updatedAddOns)[i].ActualPrice = response;
+                        $(updatedAddOns)[i].Description = desriptionOfQuestion;
+                        $(updatedAddOns)[i].CostCentreJasonData = jsonObjectsOfGlobalQueue;
+                        break;
+                    }
+                }
+
+                var JsonToReSubmit = [];
+
+                var totalVal = 0;
+                // add checked cost centre values to gross total
+                for (var i = 0; i < $(updatedAddOns).length; i++) {
+                    JsonToReSubmit.push($(updatedAddOns)[i]);
+                    totalVal = parseFloat(totalVal) + parseFloat($(updatedAddOns)[i].ActualPrice);
+                }
+                displayTotalPrice(ItemPrice, totalVal);
+
+                $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + response + '</label>' + '<a onclick="PromptCostCentre(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
+                $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
+            }
+            HideLoader();
+        },
+        error: function (msg) { alert("Error occured "); console.log(msg); }
+    };
+    var returnText = $.ajax(options).responseText;
+
 
 }

@@ -540,7 +540,7 @@
                 // Plate Ink Id
                 plateInkId = ko.observable(specifiedPlateInkId || undefined),
                 // SimilarSections
-                similarSections = ko.observable(specifiedSimilarSections || 0),
+                similarSections = ko.observable(specifiedSimilarSections || 1),
                 // Section Cost Centres
                 sectionCostCentres = ko.observableArray([]),
                 // Section Ink Coverage List
@@ -580,6 +580,9 @@
                     itemSizeHeight(itemSizeWidth());
                     itemSizeWidth(itemHeight);
                 },
+
+                // Add Section icon to show also in list of sections, For Add Section Item set to True
+                 flagForAdd = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -743,6 +746,7 @@
                 productType: productType,
                 qty2MarkUpId: qty2MarkUpId,
                 qty3MarkUpId: qty3MarkUpId,
+                flagForAdd:flagForAdd,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -1728,14 +1732,17 @@
         BestPress = function (specifiedMachineID, specifiedMachineName, specifiedQty1Cost, specifiedQty1RunTime, specifiedQty2Cost, specifiedQty2RunTime,
         // ReSharper restore InconsistentNaming
         specifiedQty3Cost, specifiedQty3RunTime, specifiedisSelected) {
+            var qty1Cost = ko.observable(specifiedQty1Cost || 0).extend({ numberInput: ist.numberFormat });
+            var qty2Cost = ko.observable(specifiedQty2Cost || 0).extend({ numberInput: ist.numberFormat });
+            var qty3Cost = ko.observable(specifiedQty3Cost || 0).extend({ numberInput: ist.numberFormat });
             return {
                 id: specifiedMachineID,
                 machineName: specifiedMachineName,
-                qty1Cost: specifiedQty1Cost,
+                qty1Cost: qty1Cost,
                 qty1RunTime: specifiedQty1RunTime,
-                qty2Cost: specifiedQty2Cost,
+                qty2Cost: qty2Cost,
                 qty2RunTime: specifiedQty2RunTime,
-                qty3Cost: specifiedQty3Cost,
+                qty3Cost: qty3Cost,
                 qty3RunTime: specifiedQty3RunTime,
                 isSelected: specifiedisSelected,
             };
