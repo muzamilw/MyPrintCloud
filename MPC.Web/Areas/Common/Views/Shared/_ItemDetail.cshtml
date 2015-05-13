@@ -231,7 +231,7 @@
                                                 <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1"></textarea>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
                                                 </a>
                                             </div>
@@ -307,7 +307,7 @@
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5"></textarea>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
                                                 </a>
                                             </div>
@@ -326,7 +326,7 @@
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6"></textarea>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
                                                 </a>
                                             </div>
@@ -345,7 +345,7 @@
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7"></textarea>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
                                                 </a>
                                             </div>
@@ -584,7 +584,7 @@
     <li class="col-md-2 col-sm-2 col-xs-6">
         <div>
             <div style="float: left"><img class="photo-box" style="padding-top: 0px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>
-            <div style="font-size: small" class="itemSectionName" data-bind=" text:name"></div>
+            <div style="font-size: small" class="itemSectionName" data-bind=" text:name" ></div>
         </div>
         @*<span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>*@
         <div class="btn btn-primary" style="font-size: x-small;margin-left:11px;" data-bind="visible:!flagForAdd(),click:$root.showSectionDetailEditor">

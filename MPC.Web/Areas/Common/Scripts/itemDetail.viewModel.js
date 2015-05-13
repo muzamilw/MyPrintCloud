@@ -1443,6 +1443,7 @@ define("common/itemDetail.viewModel",
                         subscribeSectionChanges();
                         showSectionDetail(true);
                     },
+
                     closeSectionDetailEditor = function () {
                         showSectionDetail(false);
                         selectedSection(undefined);
@@ -1621,7 +1622,8 @@ define("common/itemDetail.viewModel",
                     calculateQty2NetTotalForItem: calculateQty2NetTotalForItem,
                     calculateQty3NetTotalForItem: calculateQty3NetTotalForItem,
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
-                    deleteSection: deleteSection
+                    deleteSection: deleteSection,
+
                     //#endregion
                 };
             })()
