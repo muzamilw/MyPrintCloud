@@ -293,6 +293,9 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             oPdf.ColorSpace = oPdf.AddColorSpaceSpot(ooBject.SpotColorName, ooBject.ColorC.ToString() + " " + ooBject.ColorM.ToString() + " " + ooBject.ColorY.ToString() + " " + ooBject.ColorK.ToString());
                             oPdf.Color.Gray = 255;
+                        }else
+                        {
+                            oPdf.Color.String = ooBject.ColorC.ToString() + " " + ooBject.ColorM.ToString() + " " + ooBject.ColorY.ToString() + " " + ooBject.ColorK.ToString();
                         }
                     }
                     else
@@ -392,9 +395,17 @@ namespace MPC.Implementation.WebStoreServices
                                     // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
                                     pid = "pid ='" + FontID.ToString() + "' ";
                                 }
+                                string lineSpacingString = "";
+                                if (ooBject.LineSpacing != null)
+                                {
+                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * ooBject.FontSize.Value) + " ";
+                                }
+
                                 if (objStyle.fontSize != null)
                                 {
-                                    fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + ">";
+                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize)))) + " ";
+                                    fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + lineSpacingString + ">";
+                                    fontTag += " fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + lineSpacingString + " ";
                                 }
                                 if (objStyle.fontStyle != null)
                                 {

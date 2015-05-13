@@ -3697,15 +3697,13 @@ SET identity_insert CostCentreType ON
 
 insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (2, 'Pre Press', 0,1,null)
 insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (3, 'Post Press', 0,1,null)
-insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (4, 'Delivery', 0,1,null)
-insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (5, 'Web Order Cost Center', 0,1,null)
 
 SET identity_insert CostCentreType OFF
 
 Update CostCentre set Type = 2
 
 delete CostCentreType
-  where TypeId not in (1,2,3,4,5)
+  where TypeId not in (1,2,3,11,29)
 
 /* Execution Date:  11/05/2105 */
 
@@ -3735,3 +3733,44 @@ add constraint FK_SectionCostCentreDetail_SectionCostcentre
 foreign key (SectionCostCentreId)
 references SectionCostcentre (SectionCostCentreId)
 on delete cascade
+
+/* Execution Date: 13/05/2015 */
+
+exec sp_rename 'DeliveryNote.ContactCompanyId', 'CompanyId'
+
+alter table DeliveryNote
+alter Column CompanyId bigint null
+
+update deliveryNote
+set companyId = null
+where companyid not in (select companyid from company)
+
+alter table DeliveryNote
+add constraint FK_DeliveryNote_Company
+foreign key (CompanyId)
+references Company (CompanyId)
+
+alter table DeliveryNote
+drop constraint DF__tbl_deliv__Raise__5D95E53A
+
+alter table DeliveryNote
+alter Column RaisedBy nvarchar(max) null
+
+update deliveryNote
+set RaisedBy = null
+
+alter table DeliveryNote
+alter Column RaisedBy uniqueidentifier null
+
+exec sp_rename 'Inquiry.ContactCompanyId', 'CompanyId'
+
+alter table Inquiry
+alter Column CompanyId bigint null
+
+alter table Inquiry
+add constraint FK_Inquiry_Company
+foreign key (CompanyId)
+references Company (CompanyId)
+
+alter table Inquiry
+drop Column BrokerContactCompanyId

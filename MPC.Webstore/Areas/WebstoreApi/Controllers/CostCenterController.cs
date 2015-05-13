@@ -92,21 +92,34 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
                     CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
                     _CostCentreLaoderFactory.InitializeLifetimeService();
+                    CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(CostCentreId));
 
                     if (CallMode == "New")
                     {
                         if (Queues != null)
                         {
                             _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
-                            _CostCentreParamsArray[2] = Queues.QuestionQueues;
-                           // InputQueue inputQueueObj = new InputQueue();
-                           //// inputQueueObj.Items = new List<InputQueueItem>();
-                           // foreach (InputQueueItem obj in Queues.InputQueues)
-                           // {
-                           //     inputQueueObj.Items.Add(obj);
-                           // }
-                           // inputQueueObj.Items.AddRange(Queues.InputQueues);
-                            _CostCentreParamsArray[7] = Queues.InputQueues;
+                            // if queue contains item of other cost centre then this condition will filter the items of current cost centre
+
+                            if (Queues.QuestionQueues != null)
+                            {
+                                _CostCentreParamsArray[2] = Queues.QuestionQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList(); ;
+                            }
+                            else 
+                            {
+                                _CostCentreParamsArray[2] = Queues.QuestionQueues;
+                            }
+                            
+                         
+                            if (Queues.InputQueues != null) 
+                            {
+                                _CostCentreParamsArray[7] = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                            }
+                            else // else assign null
+                            {
+                                _CostCentreParamsArray[7] = Queues.InputQueues;
+                            }
+                            
                         }
                         else
                         {
@@ -121,8 +134,20 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                         _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
                         _CostCentreParamsArray[2] = Queues.QuestionQueues;
-                        _CostCentreParamsArray[7] = Queues.InputQueues;
-
+                        if (Queues.InputQueues != null)
+                        {
+                            InputQueue inputQueueObj = new InputQueue();
+                            List<InputQueueItem> Items = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                            foreach (InputQueueItem obj in Items)
+                            {
+                                inputQueueObj.addItem(obj.ID, obj.VisualQuestion, obj.CostCentreID, obj.ItemType, obj.ItemInputType, obj.VisualQuestion, obj.Value, obj.Qty1Answer);
+                            }
+                            _CostCentreParamsArray[7] = inputQueueObj;
+                        }
+                        else
+                        {
+                            _CostCentreParamsArray[7] = new InputQueue();
+                        }
                     }
 
                     if (CallMode == "Update")
@@ -130,11 +155,27 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         if (Queues != null)
                         {
                             _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
-                            _CostCentreParamsArray[2] = Queues.QuestionQueues;
-                            //InputQueue inputQueueObj = new InputQueue();
-                            ////inputQueueObj.Items = new List<InputQueueItem>();
-                            //inputQueueObj.Items.AddRange(Queues.InputQueues);
-                            _CostCentreParamsArray[7] = Queues.InputQueues;
+                            // if queue contains item of other cost centre then this condition will filter the items of current cost centre
+
+                            if (Queues.QuestionQueues != null)
+                            {
+                                _CostCentreParamsArray[2] = Queues.QuestionQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList(); ;
+                            }
+                            else
+                            {
+                                _CostCentreParamsArray[2] = Queues.QuestionQueues;
+                            }
+
+
+                            if (Queues.InputQueues != null)
+                            {
+                                _CostCentreParamsArray[7] = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                            }
+                            else // else assign null
+                            {
+                                _CostCentreParamsArray[7] = Queues.InputQueues;
+                            }
+                            
                         }
                     }
 
@@ -180,8 +221,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     _CostCentreParamsArray[9] = 1;
 
 
-                    CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(CostCentreId));
-
+                  
 
 
                     CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
@@ -583,7 +623,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             if (_webstoreAuthorizationChecker.loginContactID() > 0)
             {
                 NewInqury.ContactId = _webstoreAuthorizationChecker.loginContactID();
-                NewInqury.ContactCompanyId = (int)_webstoreAuthorizationChecker.loginContactCompanyID();
+                NewInqury.CompanyId = (int)_webstoreAuthorizationChecker.loginContactCompanyID();
 
             }
             else
@@ -614,7 +654,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     cep.ContactId = NewInqury.ContactId;
 
                     cep.OrganisationId = 1;
-                    cep.AddressId = (int)NewInqury.ContactCompanyId;
+                    cep.AddressId = (int)NewInqury.CompanyId;
                     cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                     cep.StoreId = UserCookieManager.WBStoreId;
 
@@ -622,12 +662,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
-                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
 
                     }
                     else
                     {
-                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
 
                     }
 
@@ -661,7 +701,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 cep.ContactId = NewInqury.ContactId;
 
                 cep.OrganisationId = 1;
-                cep.AddressId = (int)NewInqury.ContactCompanyId;
+                cep.AddressId = (int)NewInqury.CompanyId;
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                 cep.StoreId = UserCookieManager.WBStoreId;
                 Company GetCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
@@ -677,12 +717,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     cep.CorporateManagerID = MID;
                     int ManagerID = (int)MID;
 
-                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
                 }
                 else
                 {
 
-                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
 
                 }
 

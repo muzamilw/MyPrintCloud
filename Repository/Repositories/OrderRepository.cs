@@ -1910,6 +1910,7 @@ namespace MPC.Repository.Repositories
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
             tblOrder.StatusId = (short)orderStatus;
+            tblOrder.Order_Date = DateTime.Now;
             if (ManagerIds != null && ManagerIds.Count > 0) 
             {
                 tblOrder.SalesPersonId = ManagerIds[0];

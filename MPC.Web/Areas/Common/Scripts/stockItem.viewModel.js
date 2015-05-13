@@ -23,6 +23,8 @@ define("common/stockItem.viewModel",
                     isBaseDataLoaded = ko.observable(false),
                     // Pagination For Press Dialog
                     stockDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, stockItems)),
+                    //Company Tax Rate
+                    companyTaxRate = null,
                     // Search Stock Items
                     searchStockItems = function () {
                         stockDialogPager().reset();
@@ -50,10 +52,11 @@ define("common/stockItem.viewModel",
                     },
                      currency = ko.observable(),
                     // Show
-                    show = function (afterSelectCallback, stockCategoryId, isStockCategoryFilterVisible, currencySmb) {
+                    show = function (afterSelectCallback, stockCategoryId, isStockCategoryFilterVisible, currencySmb, companyTaxRateParam) {
                         currency(currencySmb);
                         resetStockItems();
                         view.showDialog();
+                        companyTaxRate = companyTaxRateParam;
                         if (stockCategoryId) {
                             stockDialogCatFilter(stockCategoryId);
                         }
@@ -88,6 +91,7 @@ define("common/stockItem.viewModel",
                     mapStockItems = function (data) {
                         var itemsList = [];
                         _.each(data, function (item) {
+                            item.CompanyTaxRate = companyTaxRate;
                             itemsList.push(model.StockItem.Create(item));
                         });
 
@@ -143,6 +147,7 @@ define("common/stockItem.viewModel",
                     resetStockItems: resetStockItems,
                     stockDialogPager: stockDialogPager,
                     //Utilities
+                    companyTaxRate: companyTaxRate,
                     onSelectStockItem: onSelectStockItem,
                     initialize: initialize,
                     categories:categories,

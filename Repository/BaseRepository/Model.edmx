@@ -989,7 +989,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="DeliveryNoteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="20" />
           <Property Name="DeliveryDate" Type="datetime" />
-          <Property Name="ContactCompanyId" Type="int" />
+          <Property Name="CompanyId" Type="bigint" />
           <Property Name="OrderReff" Type="varchar" MaxLength="50" />
           <Property Name="footnote" Type="varchar" MaxLength="255" />
           <Property Name="Comments" Type="varchar" MaxLength="255" />
@@ -1005,7 +1005,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="SupplierTelNo" Type="varchar" MaxLength="50" />
           <Property Name="CsNo" Type="varchar" MaxLength="50" />
           <Property Name="SupplierURL" Type="varchar" MaxLength="50" />
-          <Property Name="RaisedBy" Type="int" Nullable="false" />
+          <Property Name="RaisedBy" Type="uniqueidentifier" />
           <Property Name="FlagId" Type="int" />
           <Property Name="EstimateId" Type="int" />
           <Property Name="JobId" Type="int" />
@@ -1297,7 +1297,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ContactId" Type="bigint" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="SourceId" Type="int" />
-          <Property Name="ContactCompanyId" Type="int" />
+          <Property Name="CompanyId" Type="bigint" />
           <Property Name="RequireByDate" Type="datetime" />
           <Property Name="SystemUserId" Type="int" />
           <Property Name="Status" Type="int" />
@@ -1305,7 +1305,6 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="FlagId" Type="int" />
           <Property Name="InquiryCode" Type="varchar" MaxLength="100" />
           <Property Name="CreatedBy" Type="int" />
-          <Property Name="BrokerContactCompanyId" Type="int" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="InquiryAttachment">
@@ -4326,6 +4325,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DeliveryNote_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Estimate_SectionFlag">
           <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="1" />
           <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
@@ -4371,6 +4382,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="GoodsReceivedNoteDetail">
               <PropertyRef Name="GoodsreceivedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquiry_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Inquiry" Type="Self.Inquiry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Inquiry">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6295,6 +6318,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyBannerSet" EntitySet="CompanyBannerSet" />
           </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_Company" Association="Self.FK_DeliveryNote_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+          </AssociationSet>
           <AssociationSet Name="FK_Estimate_SectionFlag" Association="Self.FK_Estimate_SectionFlag">
             <End Role="SectionFlag" EntitySet="SectionFlag" />
             <End Role="Estimate" EntitySet="Estimate" />
@@ -6310,6 +6337,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_GoodsreceivedID" Association="Self.FK_GoodsreceivedID">
             <End Role="GoodsReceivedNote" EntitySet="GoodsReceivedNote" />
             <End Role="GoodsReceivedNoteDetail" EntitySet="GoodsReceivedNoteDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquiry_Company" Association="Self.FK_Inquiry_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Inquiry" EntitySet="Inquiry" />
           </AssociationSet>
           <AssociationSet Name="FK_Invoice_Company" Association="Self.FK_Invoice_Company">
             <End Role="Company" EntitySet="Company" />
@@ -7557,6 +7588,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="SectionCostcentre" EntitySet="SectionCostcentres" />
             <End Role="SectionCostCentreDetail" EntitySet="SectionCostCentreDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_Company" Association="DomainModels.FK_DeliveryNote_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquiry_Company" Association="DomainModels.FK_Inquiry_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Inquiry" EntitySet="Inquiries" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -7690,6 +7729,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ActiveBannerSetId" Type="Int64" />
           <Property Name="CurrentThemeId" Type="Int64" />
           <NavigationProperty Name="TemplateColorStyles" Relationship="DomainModels.FK_TemplateColorStyle_Company" FromRole="Company" ToRole="TemplateColorStyle" />
+          <NavigationProperty Name="DeliveryNotes" Relationship="DomainModels.FK_DeliveryNote_Company" FromRole="Company" ToRole="DeliveryNote" />
+          <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_Inquiry_Company" FromRole="Company" ToRole="Inquiry" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -9840,7 +9881,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ContactId" Type="Int64" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="SourceId" Type="Int32" />
-          <Property Name="ContactCompanyId" Type="Int32" />
           <Property Name="RequireByDate" Type="DateTime" Precision="3" />
           <Property Name="SystemUserId" Type="Int32" />
           <Property Name="Status" Type="Int32" />
@@ -9848,11 +9888,12 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="FlagId" Type="Int32" />
           <Property Name="InquiryCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="BrokerContactCompanyId" Type="Int32" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_Inquiry_tbl_contacts" FromRole="Inquiry" ToRole="CompanyContact" />
           <NavigationProperty Name="InquiryAttachments" Relationship="DomainModels.FK_tbl_Inquiry_Attachments_tbl_Inquiry" FromRole="Inquiry" ToRole="InquiryAttachment" />
           <NavigationProperty Name="InquiryItems" Relationship="DomainModels.FK_tbl_Inquiry_Items_tbl_Inquiry" FromRole="Inquiry" ToRole="InquiryItem" />
+          <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Inquiry_Company" FromRole="Inquiry" ToRole="Company" />
         </EntityType>
         <EntityType Name="InquiryAttachment">
           <Key>
@@ -10199,7 +10240,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="DeliveryNoteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-          <Property Name="ContactCompanyId" Type="Int32" />
           <Property Name="OrderReff" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="footnote" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Comments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -10215,7 +10255,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="SupplierTelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CsNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SupplierURL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RaisedBy" Type="Int32" Nullable="false" />
+          <Property Name="RaisedBy" Type="Guid" />
           <Property Name="FlagId" Type="Int32" />
           <Property Name="EstimateId" Type="Int32" />
           <Property Name="JobId" Type="Int32" />
@@ -10228,6 +10268,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsRead" Type="Boolean" />
           <Property Name="IsPrinted" Type="Boolean" />
           <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" FromRole="DeliveryNote" ToRole="DeliveryNoteDetail" />
+          <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_DeliveryNote_Company" FromRole="DeliveryNote" ToRole="Company" />
         </EntityType>
         <EntityType Name="DeliveryNoteDetail">
           <Key>
@@ -13882,6 +13924,30 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DeliveryNote_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.DeliveryNote" Role="DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquiry_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Inquiry" Role="Inquiry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Inquiry">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15590,8 +15656,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Inquiries">
             <EntityTypeMapping TypeName="DomainModels.Inquiry">
               <MappingFragment StoreEntitySet="Inquiry">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="BrokerContactCompanyId" ColumnName="BrokerContactCompanyId" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="InquiryCode" ColumnName="InquiryCode" />
                 <ScalarProperty Name="FlagId" ColumnName="FlagId" />
@@ -15599,7 +15665,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
                 <ScalarProperty Name="RequireByDate" ColumnName="RequireByDate" />
-                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
                 <ScalarProperty Name="SourceId" ColumnName="SourceId" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="ContactId" ColumnName="ContactId" />
@@ -15859,6 +15924,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="DeliveryNotes">
             <EntityTypeMapping TypeName="DomainModels.DeliveryNote">
               <MappingFragment StoreEntitySet="DeliveryNote">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
                 <ScalarProperty Name="IsRead" ColumnName="IsRead" />
                 <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
@@ -15886,7 +15952,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
                 <ScalarProperty Name="footnote" ColumnName="footnote" />
                 <ScalarProperty Name="OrderReff" ColumnName="OrderReff" />
-                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="DeliveryNoteId" ColumnName="DeliveryNoteId" />
