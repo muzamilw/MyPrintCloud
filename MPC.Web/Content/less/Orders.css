@@ -26,6 +26,9 @@
   width: 88px;
   color: #3c9bf6;
 }
+#orderBinding .phraseLibrayLink {
+  padding: 4px 12px;
+}
 #OrderDialogSection1 {
   -moz-box-shadow: 0 0 8px #808080;
   -webkit-box-shadow: 0 0 8px #808080;
