@@ -29,7 +29,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CurrencySymbol = (source.Organisation != null && source.Organisation.Currency != null) ? source.Organisation.Currency.CurrencySymbol :
                 string.Empty,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(s => s.CreateFrom()).ToList() : new List<ChartOfAccount>(),
-                CostCenters = source.CostCenters != null ? source.CostCenters.Select(x=>x.CreateFrom()).ToList(): new List<CostCentre>()
+                CostCenters = source.CostCenters != null ? source.CostCenters.Select(x=>x.CreateFrom()).ToList(): new List<CostCentre>(),
+                LoggedInUser = source.LoggedInUser
             };
         }
 
@@ -46,7 +47,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(cc => cc.CreateFrom()) :
                 new List<SystemUserDropDown>(),
                 LengthUnit = source.LengthUnit,
-                WeightUnit = source.WeightUnit
+                WeightUnit = source.WeightUnit,
+                LoggedInUser = source.LoggedInUser
             };
         }
 

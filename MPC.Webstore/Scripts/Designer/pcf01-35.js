@@ -2949,7 +2949,7 @@ function pcl42_updateVariables(data) {
     });
 }
 function pcl42_UpdateTO() {
-    //alert();
+   
     $.each(TO, function (i, IT) {
         $.each(smartFormData.scopeVariables, function (i, obj) {
             //if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
@@ -2994,9 +2994,9 @@ function pcl42_UpdateTO() {
                     while (IT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(IT, variableTag, obj.Value);
                     while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
-                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value);
+                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value.toUpperCase());
                     while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
-                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value);
+                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value.toLowerCase());
                         // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
               //  }
@@ -3021,10 +3021,10 @@ function pcl42_UpdateTO() {
                         updateTOWithStyles(IT, variableTag,obj.Value);
                     }
                     while (IT.ContentString.indexOf(variableTagUpperCase) != -1) {
-                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value);
+                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value.toUpperCase());
                     }
                     while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
-                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value);
+                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value.toLowerCase());
                     }
 //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
@@ -3035,7 +3035,6 @@ function pcl42_UpdateTO() {
 
 }
 function pcl42_updateTemplate(DT) {
-   // alert();
     if (userVariableData != null) {
         $.each(userVariableData, function (i, vari) {
             if (vari.Value != null) {
@@ -3044,9 +3043,9 @@ function pcl42_updateTemplate(DT) {
                     while (objDT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(objDT, variableTag, vari.Value);
                     while (objDT.ContentString.indexOf(variableTag.toLowerCase()) != -1)
-                        updateTOWithStyles(objDT, variableTag.toLowerCase(), vari.Value);
+                        updateTOWithStyles(objDT, variableTag.toLowerCase(), vari.Value.toLowerCase());
                     while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
-                        updateTOWithStyles(objDT, variableTag.toUpperCase(), vari.Value);
+                        updateTOWithStyles(objDT, variableTag.toUpperCase(), vari.Value.toUpperCase());
                 });
             } else {
                 var variableTag = vari.FieldVariable.VariableTag;

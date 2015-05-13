@@ -142,6 +142,7 @@ define("order/order.viewModel",
                     itemCodeHeader = ko.observable(''),
                     sectionHeader = ko.observable(''),
                     currencySymbol = ko.observable(''),
+                    loggedInUser = ko.observable(),
                     //On Order Status change to progress to job that will open wizard
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
                     // Active Order
@@ -238,6 +239,10 @@ define("order/order.viewModel",
                     // Create New Order
                     createOrder = function () {
                         selectedOrder(model.Estimate.Create({}));
+                        selectedOrder().orderReportSignedBy(loggedInUser());
+                        //selectedOrder().creditLimitSetBy(loggedInUser());
+                        //selectedOrder().allowJobWoCreditCheckSetBy(loggedInUser());
+                        selectedOrder().officialOrderSetBy(loggedInUser());
                         view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
                         $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
@@ -884,6 +889,7 @@ define("order/order.viewModel",
                                 }
 
                                 currencySymbol(data.CurrencySymbol);
+                                loggedInUser(data.LoggedInUser || '');
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
