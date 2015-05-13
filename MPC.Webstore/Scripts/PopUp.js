@@ -832,7 +832,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 }
 function ShippingBillingDetails(Type, panelHtml) {
 
-      var bws = getBrowserHeight();
+    var bws = getBrowserHeight();
 
     var shadow = document.getElementById("innerLayer");
 
@@ -869,12 +869,14 @@ function ShippingBillingDetails(Type, panelHtml) {
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:300px;">' + panelHtml + '</div></div>';
     }
-    else {
+    else{
 
         left = parseInt((bws.width - 730) / 2);
         document.getElementById("innerLayer").style.width = "730px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body" style="height:500px;overflow-y:scroll;" >' + panelHtml + '</div></div>';
     }
+
+   
 
    // document.getElementById("innerLayer").style.width = (bws.width) + "px";
     document.getElementById("innerLayer").innerHTML = container;
