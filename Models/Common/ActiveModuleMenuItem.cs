@@ -38,7 +38,12 @@ namespace MPC.Models.Common
         /// <summary>
         /// Supplier
         /// </summary>
-        MySharedDocs = 5
+        MySharedDocs = 5,
+
+        /// <summary>
+        /// E-Marketing
+        /// </summary>
+        EMarketing = 6
 
     }
 }

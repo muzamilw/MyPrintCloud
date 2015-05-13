@@ -952,10 +952,10 @@
                                                 <div class="col-lg-4" style="width:38%;">
                                                     <!-- ko if: $root.themes().length > 0 -->
                                                     @*<select class="form-control" data-bind="options: $root.themes,optionsCaption:'Select Theme', optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>*@
-                                                    <div class="form-control" id="ops_theme_dropdown" style="cursor:pointer;" data-bind="click: $root.selectTheme">
-                                                        <div id="ops_theme_list" data-bind="click: $root.selectTheme">
+                                                    <div class="form-control" id="ops_theme_dropdown">
+                                                        <div id="ops_theme_list">
                                                             <a id="ops_theme_select" data-bind="text: $root.selectedThemeName" href="#"></a>
-                                                            <ul style="display: none;" data-bind="click: $root.selectTheme">
+                                                            <ul style="display: none;">
                                                                 <!-- ko template: { name: 'themeListItemTemplate', foreach: $root.themes } -->
                                                                 <!-- /ko -->
                                                             </ul>
@@ -1131,7 +1131,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Display on home page ?</label>
+                                                    <label class="control-label text-right tooltip-float">Display on home page</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
@@ -1178,7 +1178,7 @@
 
                                                 </div>
                                                 <div class="col-lg-9">
-                                                    <div style="background-color:gainsboro; border-radius:3px;width:220%;">
+                                                    <div style="background-color:gainsboro; border-radius:3px;width:145%;">
                                                         <header class="main-box-header clearfix">
                                                             <div style="float:left;"><span style="font-size:24px">Banners</span></div>
                                                         </header>
@@ -2078,7 +2078,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     </header>
                                                     <div style="background-color:gainsboro; border-radius:3px">
                                                         <header class="main-box-header clearfix">
-                                                            <div style="float:left;"><span style="font-size:24px">Assign domain names to this store</span></div>
+                                                            <div style="float:left;"><span style="font-size:24px">Payment Gateways</span></div>
                                                         </header>
                                                         <div class="main-box-body clearfix">
                                                             <div class="table-responsive">
