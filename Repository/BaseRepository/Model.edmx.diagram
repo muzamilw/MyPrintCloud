@@ -93,7 +93,7 @@
         <EntityTypeShape EntityType="DomainModels.RaveReview" Width="1.5" PointX="3" PointY="28.125" />
         <AssociationConnector Association="DomainModels.FK_RaveReview_Company" />
         <EntityTypeShape EntityType="DomainModels.EmailEvent" Width="1.5" PointX="15.375" PointY="17.75" />
-        <EntityTypeShape EntityType="DomainModels.Inquiry" Width="1.5" PointX="14" PointY="54.25" />
+        <EntityTypeShape EntityType="DomainModels.Inquiry" Width="1.5" PointX="13.75" PointY="53.125" />
         <EntityTypeShape EntityType="DomainModels.InquiryAttachment" Width="1.5" PointX="11.25" PointY="51.875" />
         <EntityTypeShape EntityType="DomainModels.InquiryItem" Width="1.5" PointX="14" PointY="59" />
         <EntityTypeShape EntityType="DomainModels.Invoice" Width="1.5" PointX="13.25" PointY="35.5" />
@@ -312,6 +312,8 @@
         <AssociationConnector Association="DomainModels.FK_SectionCostcentre_ItemSection" />
         <AssociationConnector Association="DomainModels.FK_SectionInkCoverage_ItemSection" />
         <AssociationConnector Association="DomainModels.FK_SectionCostCentreDetail_SectionCostcentre" />
+        <AssociationConnector Association="DomainModels.FK_DeliveryNote_Company" />
+        <AssociationConnector Association="DomainModels.FK_Inquiry_Company" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

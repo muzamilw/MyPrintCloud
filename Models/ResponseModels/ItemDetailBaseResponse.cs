@@ -33,5 +33,10 @@ namespace MPC.Models.ResponseModels
         /// </summary>
 
         public string CurrencySymbol { get; set; }
+
+        /// <summary>
+        /// System Users
+        /// </summary>
+        public IEnumerable<SystemUser> SystemUsers { get; set; }
     }
 }

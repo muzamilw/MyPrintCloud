@@ -37,6 +37,39 @@ define("common/itemDetail.viewModel",
                     inkPlateSides = ko.observableArray([]),
                     // Markups
                     markups = ko.observableArray([]),
+                    // System Users
+                    systemUsers = ko.observableArray([]),
+                    // Job Statuses
+                    jobStatuses = ko.observableArray([
+                        {
+                            StatusId: 11,
+                            StatusName: "Need Assigning"
+                        },
+                        {
+                            StatusId: 12,
+                            StatusName: "In Studio"
+                        },
+                        {
+                            StatusId: 13,
+                            StatusName: "In Print/Press"
+                        },
+                        {
+                            StatusId: 14,
+                            StatusName: "In Post Press/Bindery"
+                        },
+                        {
+                            StatusId: 15,
+                            StatusName: "Ready for Shipping"
+                        },
+                        {
+                            StatusId: 16,
+                            StatusName: "Shipped, Not Invoiced"
+                        },
+                        {
+                            StatusId: 17,
+                            StatusName: "Not Progressed to Job"
+                        }
+                    ]),
                     // Stock Category 
                     stockCategory = {
                         paper: 1,
@@ -950,11 +983,15 @@ define("common/itemDetail.viewModel",
                                 if (data.PaperSizes) {
                                     mapList(paperSizes, data.PaperSizes, model.PaperSize);
                                 }
-
                                 // Ink Plate Sides
                                 inkPlateSides.removeAll();
                                 if (data.InkPlateSides) {
                                     mapList(inkPlateSides, data.InkPlateSides, model.InkPlateSide);
+                                }
+                                // System Users
+                                systemUsers.removeAll();
+                                if (data.SystemUsers) {
+                                    mapList(systemUsers, data.SystemUsers, model.SystemUser);
                                 }
                                 currencySymbol(data.CurrencySymbol);
                                 view.initializeLabelPopovers();
@@ -1641,7 +1678,9 @@ define("common/itemDetail.viewModel",
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
                     onDeleteSectionCostCenter: onDeleteSectionCostCenter,
                     onResetButtonClick: onResetButtonClick,
-                    deleteSection: deleteSection
+                    deleteSection: deleteSection,
+                    jobStatuses: jobStatuses,
+                    systemUsers: systemUsers
                     //#endregion
                 };
             })()

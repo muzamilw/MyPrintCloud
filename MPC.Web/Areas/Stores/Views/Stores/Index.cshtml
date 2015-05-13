@@ -12,15 +12,15 @@
                     <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Your Web Stores</h1>
+                    <h1 class="pull-left" style="padding-left:0px;">Your Web Stores</h1>
                 </div>
                 @*<div class="pull-right top-page-ui">
-                    <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
-                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Store
-                    </a>
-                </div>*@
+                        <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
+                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Store
+                        </a>
+                    </div>*@
                 <div class="btn-group pull-right top-page-ui">
-                    <button class="btn btn-primary" >
+                    <button class="btn btn-primary">
                         Add Store
                     </button>
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -101,9 +101,9 @@
                 </td>
 
                 <td data-bind="text: type"></td>
-                
+
                 <td>
-                    <a class="btn btn-success" data-bind="text: 'Open Live Store', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a> 
+                    <a class="btn btn-success" data-bind="text: 'Open Live Store', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>
                 </td>
                 @*<td id="actionColumn">
                         <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
@@ -116,7 +116,7 @@
             <div class="filter-body" id="filter" style="margin-bottom:10px; background-color:#ffffff">
                 <div class="pull-left" style="margin-left:18px;">
                     <div class="row">
-                       <span>Clear your browser history cache regularly.</span> 
+                        <span>Clear your browser history cache regularly.</span>
                     </div>
                     <div class="row">
                         <span>
