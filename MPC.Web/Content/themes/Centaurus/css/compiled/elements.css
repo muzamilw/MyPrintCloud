@@ -4398,7 +4398,7 @@ input[type="radio"] {
 .tooltip-float-width {
     float: right;
     width: 35px;
-    margin-top: 3px;
+    margin-top: 5px;
 }
 
 .tooltip-float {
