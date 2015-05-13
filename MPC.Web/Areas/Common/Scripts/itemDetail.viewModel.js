@@ -1546,6 +1546,24 @@ define("common/itemDetail.viewModel",
                         subscribeSectionChanges();
                         showSectionDetail(true);
                     },
+                    // Delete Section Cost Center
+                    onDeleteSectionCostCenter = function (costCenter) {
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            view.hideSectionCostCenterDialogModel();
+                            selectedSection().sectionCostCentres.remove(costCenter);
+                            isSectionCostCenterDialogOpen(false);
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                    onResetButtonClick = function(costCenter) {
+                        confirmation.afterProceed(function() {
+                            selectedSectionCostCenter().qty1(selectedSection().qty1());
+                        });
+                        confirmation.show();
+                        return;
+                    },
 
                 //#endregion
                     itemAttachmentFileLoadedCallback = function (file, data) {
@@ -1658,6 +1676,8 @@ define("common/itemDetail.viewModel",
                     calculateQty2NetTotalForItem: calculateQty2NetTotalForItem,
                     calculateQty3NetTotalForItem: calculateQty3NetTotalForItem,
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
+                    onDeleteSectionCostCenter: onDeleteSectionCostCenter,
+                    onResetButtonClick: onResetButtonClick,
                     deleteSection: deleteSection,
                     jobStatuses: jobStatuses,
                     systemUsers: systemUsers
