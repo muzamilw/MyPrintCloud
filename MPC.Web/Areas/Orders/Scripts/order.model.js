@@ -101,12 +101,12 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Credit Limit Set By
                 creditLimitSetBy = ko.observable(specifiedCreditLimitSetBy || undefined),
                 // Credit Limit Set on Date Time
-                creditLimitSetOnDateTime = ko.observable(specifiedCreditLimitSetOnDateTime ? moment(specifiedCreditLimitSetOnDateTime).toDate() : undefined),
+                creditLimitSetOnDateTime = ko.observable(specifiedCreditLimitSetOnDateTime ? moment(specifiedCreditLimitSetOnDateTime).toDate() : moment().toDate()),
                 // Is JobAllowedWOCreditCheck
                 isJobAllowedWoCreditCheck = ko.observable(specifiedIsJobAllowedWOCreditCheck || undefined),
                 // Allow Job WOCreditCheckSetOnDateTime
                 allowJobWoCreditCheckSetOnDateTime = ko.observable(specifiedAllowJobWOCreditCheckSetOnDateTime ?
-                    moment(specifiedAllowJobWOCreditCheckSetOnDateTime).toDate() : undefined),
+                    moment(specifiedAllowJobWOCreditCheckSetOnDateTime).toDate() : moment().toDate()),
                 // Allow JobWOCreditCheckSetBy
                 allowJobWoCreditCheckSetBy = ko.observable(specifiedAllowJobWOCreditCheckSetBy || undefined),
                 // Customer Po
@@ -114,7 +114,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Official Order Set By
                 officialOrderSetBy = ko.observable(specifiedOfficialOrderSetBy || undefined),
                 // Official Order Set on Date Time
-                officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : undefined),
+                officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : moment().toDate()),
                 // Foot Notes
                 footNotes = ko.observable(specifiedFootNotes || undefined),
                 //Tax Rate
