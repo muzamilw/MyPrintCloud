@@ -1156,18 +1156,19 @@
 
                                                 </div>
                                                 <div class="form-group" style="margin-bottom: 7px !important;">
-                                                    <div style="float: left;padding-left: 10px;">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                         
+                                                    <div class="col-lg-6" style="float: left;padding-left: 10px;">
+                                                        <div class="bs-example-tooltips tooltip-float-width ">
+
                                                         </div>
-                                                        <label for="txtQuotedLabourCost" class="control-label text-right tooltip-float">Cost Center Charge  </label>
+                                                        <label for="txtQuotedLabourCost" style="float: left;" class="control-label tooltip-float">Cost Center Charge  </label>
                                                     </div>
-                                                    <div style="float:right;margin-right: -26px;" class="col-md-6" data-bind="visible: $root.selectedVariableString() === 'txtQuotedLabourCost'">
+                                                    <div style="float:right;" class="col-lg-6" data-bind="visible: $root.selectedVariableString() === 'txtQuotedLabourCost'">
                                                         <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
                                                         <!-- /ko -->
 
 
                                                     </div>
+                                                   
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-lg-1"> </div>
@@ -1444,7 +1445,7 @@
 
     </tr>
 </script>
-<script id="OperatorButtonsTemplate" type="text/html">
+<script  id="OperatorButtonsTemplate" type="text/html">
     <div class="col-md-1 iconplus" data-bind="click:$root.iconClick" id="icoAdd"></div>
     <div class="col-md-1 iconsubtract" data-bind="click:$root.iconClick" id="icoSub"></div>
     <div class="col-md-1 iconmultiply" data-bind="click:$root.iconClick" id="icoMul"></div>
