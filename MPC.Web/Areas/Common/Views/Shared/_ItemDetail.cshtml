@@ -25,14 +25,17 @@
         <div class="row">
             <div class="col-lg-12 PaddingZero">
                 <div class="col-lg-12 PaddingZero">
-                    <div style="text-align: right; ">
-                        <button data-bind="click:$root.closeItemDetail" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
+                    <div style="text-align: right; padding-right: 7px; " >
+                        <button data-bind="visible:!$root.showSectionDetail(),click:$root.closeItemDetail" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
+                    </div>
+                    <div style="text-align: right; padding-right: 7px; ">
+                        <button data-bind="visible:$root.showSectionDetail,click:$root.closeSectionDetailEditor" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row" id="user-profile">
-            <div class="col-lg-12 col-md-8 col-sm-8" data-bind="visible:!$root.showSectionDetail()">
+            <div class="col-lg-12 col-md-8 col-sm-8" data-bind="visible:!$root.showSectionDetail()" style="padding-left: 16px;padding-right: 16px;">
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
@@ -48,14 +51,14 @@
                                     <div class="col-lg-12 form-horizontal">
                                         @*<div class="col-lg-2">
 
-                                            </div>*@
+                                    </div>*@
                                         <div class="form-group">
                                             <div class="col-xs-2"></div>
                                             <div class="col-lg-8 " style="background-color:gainsboro;margin-top:20px;margin-bottom:20px;padding-top:20px;border-radius:3px">
                                                 <div style="background-color:gainsboro; border-radius:3px">
                                                     <div class="form-group">
                                                         <div class="col-lg-4" style="padding-right:10px;">
-                                                            <label class="control-label tooltip-float"><b>Multiple Quantities</b></label>
+                                                            <label class="control-label tooltip-float"><b>Quantities</b></label>
                                                         </div>
                                                         <div class="col-xs-2" style="float:left;">
                                                             <input type="text" class="form-control txtBox-contentAlignRight" data-bind="value:qty1" />
@@ -70,9 +73,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-2" style="margin-top:20px;margin-bottom:20px;padding-top:20px;border-radius:3px">
-                                                <button class="btn btn-success" data-bind="click:$root.createNewItemSection">Add Section</button>
-                                            </div>
+                                            @*<div class="col-xs-2" style="margin-top:20px;margin-bottom:20px;padding-top:20px;border-radius:3px">
+                                            <button class="btn btn-success" data-bind="click:$root.createNewItemSection">Add Section</button>
+                                        </div>*@
                                         </div>
                                         <div class="form-group">
 
@@ -93,41 +96,41 @@
 
 
                                     @*<div class="col-lg-12" style="margin-top: 5px">
-                                            <div class="form-group">
-                                                <div class="col-lg-4" style="padding-right:12px;">
-                                                    <label class="control-label tooltip-float">Components Total</label>
-                                                </div>
-                                                <div class="col-xs-2 txtBox-contentAlignRight">
-                                                    <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge1Total"></span></label>
-                                                </div>
-                                                <div class="col-xs-2 txtBox-contentAlignRight">
-                                                    <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge2Total"></span></label>
-                                                </div>
-                                                <div class="col-xs-2 txtBox-contentAlignRight">
-                                                    <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge3Total"></span></label>
-                                                </div>
-                                                <div class="col-xs-2">
-                                                    &nbsp;
-                                                </div>
-                                            </div>
-                                        </div>*@
+                                    <div class="form-group">
+                                        <div class="col-lg-4" style="padding-right:12px;">
+                                            <label class="control-label tooltip-float">Components Total</label>
+                                        </div>
+                                        <div class="col-xs-2 txtBox-contentAlignRight">
+                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge1Total"></span></label>
+                                        </div>
+                                        <div class="col-xs-2 txtBox-contentAlignRight">
+                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge2Total"></span></label>
+                                        </div>
+                                        <div class="col-xs-2 txtBox-contentAlignRight">
+                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge3Total"></span></label>
+                                        </div>
+                                        <div class="col-xs-2">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                </div>*@
                                     @*<div class="form-group">
-                                            <div class="col-lg-4" style="padding-right:10px;">
-                                                <label class="control-label tooltip-float">Apply MarkUp on all components</label>
-                                            </div>
-                                            <div class="col-xs-2" style="float:left;">
-                                                <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId1,event:{ change: $root.onChangeQty1MarkUpId}"></select>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId2,event:{ change: $root.onChangeQty2MarkUpId}"></select>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty3MarkUpId3,event:{ change: $root.onChangeQty3MarkUpId}"></select>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                &nbsp;
-                                            </div>
-                                        </div>*@
+                                    <div class="col-lg-4" style="padding-right:10px;">
+                                        <label class="control-label tooltip-float">Apply MarkUp on all components</label>
+                                    </div>
+                                    <div class="col-xs-2" style="float:left;">
+                                        <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId1,event:{ change: $root.onChangeQty1MarkUpId}"></select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId2,event:{ change: $root.onChangeQty2MarkUpId}"></select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty3MarkUpId3,event:{ change: $root.onChangeQty3MarkUpId}"></select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        &nbsp;
+                                    </div>
+                                </div>*@
                                     <div class="form-group">
                                         <div class="col-xs-2">
 
@@ -135,11 +138,11 @@
                                         <div class="col-lg-8 form-horizontal" style="background-color:gainsboro;margin-left: 4px;padding-top:20px;border-radius:3px">
                                             <div style="background-color:gainsboro; border-radius:3px">
                                                 <div class="form-group">
-                                                    <div class="col-lg-3">
-
+                                                    <div class="col-lg-3" style="text-align: right">
+                                                        <label class="control-label"><b>Net Total</b></label>
                                                     </div>
                                                     <div class="col-lg-1">
-                                                        <span data-bind="text:$root.currencySymbol"></span>
+                                                        ( <label class="control-label" data-bind=" text:$root.currencySymbol"></label> )
                                                     </div>
                                                     <div class="col-xs-2">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="numberValue:$root.calculateQty1NetTotalForItem" />
@@ -156,7 +159,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-lg-2">
-                                            <label class="control-label tooltip-float">Tax</label>
+                                            <label class="control-label tooltip-float">Tax ( % )</label>
                                         </div>
                                         <div class="col-lg-2">
                                             <input type="text" class="form-control txtBox-contentAlignRight" data-bind="disable:taxRateIsDisabled,value:tax1" />
@@ -193,40 +196,39 @@
 
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-2">
 
-                                        </div>
-                                        <div class="col-lg-8">
+                                        <div class="col-lg-12">
                                             <h3 style="color:black;">Descriptions to Appear on Estimates for combined components</h3>
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <div class="col-lg-2">
+
+                                        </div>
                                         <div class="col-lg-2 text-right">
                                             <label class="control-label tooltip-float">Product Name</label>
                                         </div>
-                                        <div class="col-lg-4" style="padding-left:12px;">
-                                            <div>
-                                                <input type="text" style="margin-left: -3px; width: 352px" class="form-control" id="ProductTitle" data-bind="value: productName" />
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-10" style="padding-left:0px;padding-right: 0px;">
+                                                <input type="text" class="form-control" id="ProductTitle" data-bind="value: productName" />
                                             </div>
                                         </div>
                                         <div class="col-lg-2">
                                             <label>&nbsp;</label>
                                         </div>
-                                        <div class="col-lg-2">
-                                            <label data-bind="text: productCategoriesUi" style="margin-left:5px;"></label>
-                                        </div>
+
                                     </div>
                                     <div class="form-group">
                                         <div class="col-lg-2">
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-4 text-right">
-                                            <input type="text" class="form-control" id="txtTitle1" placeholder="Enter Title 1">
+                                        <div class="col-lg-2 text-right">
+                                            <input style="text-align: right;" type="text" class="form-control" id="txtTitle1" placeholder="Enter Title 1">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <textarea class="form-control" rows="1" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1"></textarea>
+                                            <div class="col-lg-10" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1"></textarea>
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -239,13 +241,13 @@
                                         <div class="col-lg-2">
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-4 text-right">
-                                            <input type="text" class="form-control" id="txtTitle2" placeholder="Enter Title 2">
+                                        <div class="col-lg-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle2" placeholder="Enter Title 2">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <textarea class="form-control" rows="1" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2"></textarea>
+                                            <div class="col-lg-10" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2"></textarea>
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -258,13 +260,13 @@
                                         <div class="col-lg-2">
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-4 text-right">
-                                            <input type="text" class="form-control" id="txtTitle3" placeholder="Enter Title 3">
+                                        <div class="col-lg-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle3" placeholder="Enter Title 3">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <textarea class="form-control" rows="1" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3"></textarea>
+                                            <div class="col-lg-10" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3"></textarea>
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -277,13 +279,13 @@
                                         <div class="col-lg-2">
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-4 text-right">
-                                            <input type="text" class="form-control" id="txtTitle4" placeholder="Enter Title 4">
+                                        <div class="col-lg-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle4" placeholder="Enter Title 4">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <textarea class="form-control" rows="1" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4"></textarea>
+                                            <div class="col-lg-10" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4"></textarea>
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -296,13 +298,13 @@
                                         <div class="col-lg-2">
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-4 text-right">
-                                            <input type="text" class="form-control" id="txtTitle5" placeholder="Enter Title 5">
+                                        <div class="col-lg-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle5" placeholder="Enter Title 5">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <textarea class="form-control" rows="1" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5"></textarea>
+                                            <div class="col-lg-10" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5"></textarea>
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -315,13 +317,13 @@
                                         <div class="col-lg-2">
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-4 text-right">
-                                            <input type="text" class="form-control" id="txtTitle6" placeholder="Enter Title 6">
+                                        <div class="col-lg-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle6" placeholder="Enter Title 6">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <textarea class="form-control" rows="1" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6"></textarea>
+                                            <div class="col-lg-10" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6"></textarea>
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -334,13 +336,13 @@
                                         <div class="col-lg-2">
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-4 text-right">
-                                            <input type="text" class="form-control" id="txtTitle7" placeholder="Enter Title 7">
+                                        <div class="col-lg-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle7" placeholder="Enter Title 7">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <textarea class="form-control" rows="1" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7"></textarea>
+                                            <div class="col-lg-10" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7"></textarea>
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -350,15 +352,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-2">
-
-                                        </div>
-                                        <div class="col-lg-8">
+                                        <div class="col-lg-12">
                                             <h3 style="color:black;">Product Line description to appear on Invoices</h3>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-2 text-right">
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-2 ">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Invoice Description" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -366,31 +366,32 @@
                                             </div>
                                             <label class="control-label tooltip-float">Invoice Description</label>
                                         </div>
-                                        <div class="col-lg-8">
-                                            <textarea class="form-control" rows="1" data-bind="value: invoiceDescription" id="txtInvoiceDescription" placeholder="Enter Invoice Description" style="background-color:#FCFBB6;"></textarea>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-10" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="3" data-bind="value: invoiceDescription" id="txtInvoiceDescription" placeholder="Enter Invoice Description" style="background-color:#FCFBB6;"></textarea>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <div class="col-lg-2"></div>
                                         <div class="col-lg-2 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Invoice Description" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-                                            </div>
                                             <label class="control-label tooltip-float">User Notes</label>
                                         </div>
-                                        <div class="col-lg-8">
-                                            <textarea class="form-control" rows="1" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" style="background-color: #FCFBB6;"></textarea>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-10" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="3" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" style="background-color: #FCFBB6;"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
                                         <div class="form-group">
-                                            <div class="col-lg-2 text-right">
+                                            <div class="col-lg-4 text-right">
                                                 <label class="control-label tooltip-float">&nbsp;</label>
                                             </div>
                                             <div class="col-lg-8">
                                                 <a href="#" class="btn btn-primary pull-left" data-bind="click:$root.copyJobCards">
-                                                    <i class="fa fa-lg"></i>&nbsp;Copy Job Card
+                                                    <i class="fa fa-lg"></i>&nbsp;Copy Descriptions to Job Card Instructions
                                                 </a>
                                             </div>
                                         </div>
@@ -483,7 +484,7 @@
                                             </label>
                                         </div>
                                         <div class="col-lg-6">
-                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'name', optionsId: 'id', optionsCaption: 'Select...', value: jobManagerId"></select>
+                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsCaption: 'Select...', value: jobManagerId"></select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -513,7 +514,7 @@
                                             </label>
                                         </div>
                                         <div class="col-lg-6">
-                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'name', optionsId: 'id', optionsCaption: 'Select...', value: jobSignedBy"></select>
+                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsCaption: 'Select...', value: jobSignedBy"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -556,7 +557,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-md-8 col-sm-8" data-bind="visible:$root.showSectionDetail">
+            <div class="col-lg-12 col-md-8 col-sm-8" data-bind="visible:$root.showSectionDetail" style="padding-left: 16px;padding-right: 16px;">
                 <div class="main-box clearfix">
                     @Html.Partial("_OrderSectionDetail")
                 </div>
@@ -583,11 +584,14 @@
     <li class="col-md-2 col-sm-2 col-xs-6">
         <div>
             <div style="float: left"><img class="photo-box" style="padding-top: 0px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>
-            <div class="itemSectionName" data-bind=" text:name"></div>
+            <div style="font-size: small" class="itemSectionName" data-bind=" text:name"></div>
         </div>
         @*<span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>*@
-        <div class="btn btn-primary" style="font-size: x-small;margin-left:11px;" data-bind="click:$root.showSectionDetailEditor">
+        <div class="btn btn-primary" style="font-size: x-small;margin-left:11px;" data-bind="visible:!flagForAdd(),click:$root.showSectionDetailEditor">
             View Details
+        </div>
+        <div class="btn btn-success" style="font-size: x-small;margin-left:11px;" data-bind="visible:flagForAdd,click:$root.createNewItemSection">
+            Add Sheets
         </div>
     </li>
 </script>

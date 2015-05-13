@@ -392,9 +392,17 @@ namespace MPC.Implementation.WebStoreServices
                                     // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
                                     pid = "pid ='" + FontID.ToString() + "' ";
                                 }
+                                string lineSpacingString = "";
+                                if (ooBject.LineSpacing != null)
+                                {
+                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * ooBject.FontSize.Value) + " ";
+                                }
+
                                 if (objStyle.fontSize != null)
                                 {
-                                    fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + ">";
+                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize)))) + " ";
+                                    fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + lineSpacingString + ">";
+                                    fontTag += " fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + lineSpacingString + " ";
                                 }
                                 if (objStyle.fontStyle != null)
                                 {

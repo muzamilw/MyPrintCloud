@@ -85,7 +85,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 text-right">
+                                            <div class="col-lg-3 text-right profileLabelPadding">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
@@ -93,7 +93,7 @@
                                                     </a>
 
                                                 </div>
-                                                <label for="txtProductName"  class="control-label text-right tooltip-float">Product Name</label>
+                                                <label for="txtProductName" class="control-label text-right tooltip-float">Product Name</label>
 
                                             </div>
                                             <div class="col-lg-6">
@@ -155,7 +155,7 @@
 
                                             </div>
                                             <div class="col-lg-9">
-                                                <label class="control-label" data-bind="text: availableProductCategoryItems">
+                                                <label class="control-label" data-bind="html: availableProductCategoryItems">
                                                 </label>
                                                 <a href="#" style="margin-left:4px;" data-bind="click: $root.openProductCategoryDialog">
                                                     <i class="fa fa-lg"></i>&nbsp;Select Categories
@@ -992,7 +992,7 @@
                                     <h3 class="group-header">Price Table Defaults</h3>
                                     <div class="col-lg-9">
 
-                                        @*<div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -1009,7 +1009,7 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
 
-                                        </div>*@
+                                        </div>
 
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -2467,7 +2467,7 @@
         </div>
     </div>*@
 
-        <div class="col-lg-12 form-horizontal" style="margin-top: 25px;">
+        <div class="col-lg-12 form-horizontal" style="margin-top: 35px;">
             <button type="button" style="margin-top: -10px; margin-right: 8px;" data-bind="click: $parent.removeItemStockOption, visible: $index() > 0" class="btn btn-danger pull-right">
                 <span class="fa fa-trash-o"></span>
             </button>
@@ -2717,7 +2717,7 @@
         <tr>
             <td data-bind="visible: $parent.isQtyRangedUi() === '2'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="form-control" data-bind="value: quantity, validationTooltip: quantity" />
+                <input type="text" class="form-control" data-bind="value: quantityUi, validationTooltip: quantity" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: quantity"></span>
@@ -2725,7 +2725,7 @@
             </td>
             <td data-bind="visible: $parent.isQtyRangedUi() === '1'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="form-control" data-bind="value: qtyRangedFrom, validationTooltip: qtyRangedFrom" />
+                <input type="text" class="form-control" data-bind="value: quantityRangedFromUi, validationTooltip: qtyRangedFrom" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: qtyRangedFrom"></span>
@@ -2733,7 +2733,7 @@
             </td>
             <td data-bind="visible: $parent.isQtyRangedUi() === '1'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="form-control" data-bind="value: qtyRangedTo, validationTooltip: qtyRangedTo" />
+                <input type="text" class="form-control" data-bind="value: quantityRangedToUi, validationTooltip: qtyRangedTo" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: qtyRangedTo"></span>
