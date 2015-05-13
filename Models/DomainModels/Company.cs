@@ -192,6 +192,8 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<FieldVariable> FieldVariables { get; set; }
         public virtual ICollection<TemplateColorStyle> TemplateColorStyles { get; set; }
+        public virtual ICollection<DeliveryNote> DeliveryNotes { get; set; }
+        public virtual ICollection<Inquiry> Inquiries { get; set; }
 
         #region Additional Properties
 

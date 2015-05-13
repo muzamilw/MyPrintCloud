@@ -3735,3 +3735,44 @@ add constraint FK_SectionCostCentreDetail_SectionCostcentre
 foreign key (SectionCostCentreId)
 references SectionCostcentre (SectionCostCentreId)
 on delete cascade
+
+/* Execution Date: 13/05/2015 */
+
+exec sp_rename 'DeliveryNote.ContactCompanyId', 'CompanyId'
+
+alter table DeliveryNote
+alter Column CompanyId bigint null
+
+update deliveryNote
+set companyId = null
+where companyid not in (select companyid from company)
+
+alter table DeliveryNote
+add constraint FK_DeliveryNote_Company
+foreign key (CompanyId)
+references Company (CompanyId)
+
+alter table DeliveryNote
+drop constraint DF__tbl_deliv__Raise__5D95E53A
+
+alter table DeliveryNote
+alter Column RaisedBy nvarchar(max) null
+
+update deliveryNote
+set RaisedBy = null
+
+alter table DeliveryNote
+alter Column RaisedBy uniqueidentifier null
+
+exec sp_rename 'Inquiry.ContactCompanyId', 'CompanyId'
+
+alter table Inquiry
+alter Column CompanyId bigint null
+
+alter table Inquiry
+add constraint FK_Inquiry_Company
+foreign key (CompanyId)
+references Company (CompanyId)
+
+alter table Inquiry
+drop Column BrokerContactCompanyId
