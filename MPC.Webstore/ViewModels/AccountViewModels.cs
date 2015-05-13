@@ -60,6 +60,8 @@ namespace MPC.Webstore.Models
         public int QuantityOrdered { get; set; }
 
         public string ModifiedQueueItem { get; set; }
+        public string JsonAllQuestionQueue { get; set; }
+        public string JsonAllInputQueue { get; set; }
     }
 
 

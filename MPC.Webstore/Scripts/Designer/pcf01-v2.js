@@ -90,7 +90,6 @@ function a0(fontName, fontFileName) {
     } else {
         html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".eot" + '); src: url(' + path + fontFileName + ".eot?#iefix" + ') format(" embedded-opentype"), url(' + path + fontFileName + ".woff" + ') format("woff"),  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
     }
-    console.log(fontName);
     $('head').append(html);
 }
 
@@ -157,6 +156,8 @@ function c0(cCanvas, TOC) {
     var hWeight = "";
     if (TOC.IsBold)
         hWeight = "bold";
+   // else
+      //  hWeight = "normal";
     var textStyles = [];
 
     if (TOC.textStyles != null && TOC.textStyles != undefined && TOC.textStyles != "") {
@@ -171,6 +172,11 @@ function c0(cCanvas, TOC) {
             if (IT.textColor) {
                 styleName = 'color';
                 value = IT.textColor;
+                style[styleName] = value;
+            }
+            if (IT.textCMYK) {
+                styleName = 'textCMYK';
+                value = IT.textCMYK;
                 style[styleName] = value;
             }
             if (IT.fontName) {
@@ -296,6 +302,7 @@ function c2_01(OPT) {
                     var objStyle = OPT.customStyles[prop];
                     if (objStyle != undefined) {
                         var obj = {
+                            textCMYK: objStyle['textCMYK'],
                             textColor: objStyle['color'],
                             fontName: objStyle['font-family'],
                             fontSize: objStyle['font-Size'],
@@ -1398,7 +1405,7 @@ function fu02UI() {
 
     if (IsCalledFrom != 3)
     {
-        $("#Homebtn").css("display", "none");
+        //$("#Homebtn").css("display", "none");
     }
     if (IsCalledFrom == 3 || IsCalledFrom == 4) {
         $(".previewBtnContainer").css("display", "none");

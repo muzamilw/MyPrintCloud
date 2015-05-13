@@ -16,7 +16,7 @@
                         </ul>
                     </div>
                 </div>
-                <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 16px">
+                <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 24px">
                     @*<button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>*@
                     <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': $root.orderHasChanges }, enable: $root.orderHasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
@@ -66,8 +66,8 @@
         </div>
     </div>
     <div class="row" id="user-profile">
-        <div class="col-lg-12 col-md-8 col-sm-8">
-            <div class="main-box clearfix my-tabsHeader">
+        <div class="col-lg-12 col-md-8 col-sm-8" style="padding-left: 24px; padding-right: 24px;">
+            <div class="main-box clearfix">
                 <div class="tabs-wrapper profile-tabs">
                     <ul class="nav nav-tabs" id="orderDetailTabs">
                         <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Order Header</a></li>

@@ -65,7 +65,9 @@ namespace MPC.Repository.Repositories
                             AddOnImage = costcenter.ThumbnailImageURL,
                             Priority = costcenter.Priority ?? 0,
                             ItemStockId = options.StockId ?? 0,
-                            IsMandatory = addOns.IsMandatory == true ? 1 : 0
+                            IsMandatory = addOns.IsMandatory == true ? 1 : 0,
+                            QuantitySourceType = costcenter.QuantitySourceType ?? 0,
+                            TimeSourceType = costcenter.TimeSourceType ?? 0
                         };
             return query.ToList<AddOnCostsCenter>();
         }

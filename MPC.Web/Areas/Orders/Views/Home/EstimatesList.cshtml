@@ -17,12 +17,12 @@
                         <li data-bind="css: $root.itemCodeHeader() != '' ?  'active'   :   '', visible:$root.itemCodeHeader() !== ''" style="display: none; cursor:pointer"><span data-bind="text:$root.itemCodeHeader()+'  '+$root.selectedOrder().companyName() + ' '+ $root.orderCodeHeader()"></span></li>
                     </ol>
                     <div class="clearfix">
-                        <h1>Estimating</h1>
+                        <h1 style="padding-left:7px !important;">Estimating</h1>
                         @*<h1 class="pull-left" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Estimates</h1>*@
                     </div>
                     <div class="row" data-bind="visible: !isOrderDetailsVisible()">
                         <div class="col-lg-12">
-                            <div class="pull-right">
+                            <div class="pull-right" style="margin-right:10px;">
                                 <button id="open-wizard" data-bind="click: createOrder" class="btn btn-primary pull-right">
                                     Add New Estimate
                                 </button>
@@ -32,11 +32,11 @@
                             &nbsp;
                         </div>
                         <div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" style="padding-right: 17px;padding-left:15px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
-                                <div class="clearfix">
-                                </div>
+                                <div class=" clearfix">
+                            </div>
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs">
@@ -158,7 +158,7 @@
                         </script>
                         @* Tab Items Lists*@
                         <script id="tabItemsList" type="text/html">
-                            <div class="main-box-body main-box clearfix">
+                            <div>
                                 <div class="table-responsive">
                                     <table id="OrderListtbl" class="table user-list">
                                         <thead>

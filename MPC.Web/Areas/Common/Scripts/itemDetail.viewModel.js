@@ -37,6 +37,39 @@ define("common/itemDetail.viewModel",
                     inkPlateSides = ko.observableArray([]),
                     // Markups
                     markups = ko.observableArray([]),
+                    // System Users
+                    systemUsers = ko.observableArray([]),
+                    // Job Statuses
+                    jobStatuses = ko.observableArray([
+                        {
+                            StatusId: 11,
+                            StatusName: "Need Assigning"
+                        },
+                        {
+                            StatusId: 12,
+                            StatusName: "In Studio"
+                        },
+                        {
+                            StatusId: 13,
+                            StatusName: "In Print/Press"
+                        },
+                        {
+                            StatusId: 14,
+                            StatusName: "In Post Press/Bindery"
+                        },
+                        {
+                            StatusId: 15,
+                            StatusName: "Ready for Shipping"
+                        },
+                        {
+                            StatusId: 16,
+                            StatusName: "Shipped, Not Invoiced"
+                        },
+                        {
+                            StatusId: 17,
+                            StatusName: "Not Progressed to Job"
+                        }
+                    ]),
                     // Stock Category 
                     stockCategory = {
                         paper: 1,
@@ -67,6 +100,9 @@ define("common/itemDetail.viewModel",
                     selectedQty = ko.observable(),
                     selectedOrder = ko.observable(),
                     currencySymbol = ko.observable(''),
+                    lengthUnit = ko.observable(),
+                    weightUnit = ko.observable(),
+                    loggedInUser = ko.observable(),
                     closeItemDetailSection = null,
                     //#endregion  
                      isSectionCostCenterDialogOpen = ko.observable(false),
@@ -950,13 +986,20 @@ define("common/itemDetail.viewModel",
                                 if (data.PaperSizes) {
                                     mapList(paperSizes, data.PaperSizes, model.PaperSize);
                                 }
-
                                 // Ink Plate Sides
                                 inkPlateSides.removeAll();
                                 if (data.InkPlateSides) {
                                     mapList(inkPlateSides, data.InkPlateSides, model.InkPlateSide);
                                 }
+                                // System Users
+                                systemUsers.removeAll();
+                                if (data.SystemUsers) {
+                                    mapList(systemUsers, data.SystemUsers, model.SystemUser);
+                                }
                                 currencySymbol(data.CurrencySymbol);
+                                lengthUnit(data.LengthUnit || '');
+                                weightUnit(data.WeightUnit || '');
+                                loggedInUser(data.loggedInUserId || '');
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -1443,6 +1486,7 @@ define("common/itemDetail.viewModel",
                         subscribeSectionChanges();
                         showSectionDetail(true);
                     },
+
                     closeSectionDetailEditor = function () {
                         showSectionDetail(false);
                         selectedSection(undefined);
@@ -1508,6 +1552,24 @@ define("common/itemDetail.viewModel",
                         selectedSection(itemSection);
                         subscribeSectionChanges();
                         showSectionDetail(true);
+                    },
+                    // Delete Section Cost Center
+                    onDeleteSectionCostCenter = function (costCenter) {
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            view.hideSectionCostCenterDialogModel();
+                            selectedSection().sectionCostCentres.remove(costCenter);
+                            isSectionCostCenterDialogOpen(false);
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                    onResetButtonClick = function (costCenter) {
+                        confirmation.afterProceed(function () {
+                            selectedSectionCostCenter().qty1(selectedSection().qty1());
+                        });
+                        confirmation.show();
+                        return;
                     },
 
                 //#endregion
@@ -1621,7 +1683,13 @@ define("common/itemDetail.viewModel",
                     calculateQty2NetTotalForItem: calculateQty2NetTotalForItem,
                     calculateQty3NetTotalForItem: calculateQty3NetTotalForItem,
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
-                    deleteSection: deleteSection
+                    onDeleteSectionCostCenter: onDeleteSectionCostCenter,
+                    onResetButtonClick: onResetButtonClick,
+                    deleteSection: deleteSection,
+                    jobStatuses: jobStatuses,
+                    systemUsers: systemUsers,
+                    lengthUnit: lengthUnit,
+                    weightUnit: weightUnit
                     //#endregion
                 };
             })()

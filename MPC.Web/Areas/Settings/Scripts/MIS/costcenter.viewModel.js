@@ -847,7 +847,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             doBeforeSave = function () {
                 var flag = true;
 
-                if (selectedCostCenter().type() == 4) {
+                if (selectedCostCenter().type() == 11) {
 
                 }
                 else if (selectedCostCenter().calculationMethodType() == '2') {
@@ -974,7 +974,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 var cc = new model.CostCenter();
                 cc.setupCost('0');
                 cc.minimumCost('0');
-                cc.type('4');
+                cc.type('11');
                 cc.calculationMethodType('1');
                 cc.name('Enter Cost Center name');
                 cc.isDisabled(true);
@@ -1175,7 +1175,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         if (oCostCenter != undefined) {
                             getCostCenterById(oCostCenter);
                             
-                        } else if (selectedCostCenter() == undefined || selectedCostCenter().type() != 4) {
+                        } else if (selectedCostCenter() == undefined || selectedCostCenter().type() != 11) {
                             var cc = new model.CostCenter();
                             setDataForNewCostCenter(cc);
                             //cc.type(CostCenterType);

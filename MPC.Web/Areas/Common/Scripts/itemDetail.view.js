@@ -44,7 +44,7 @@ define("common/itemDetail.view",
                 },
                 // hide section Cost Center Dialog Model
                 hideSectionCostCenterDialogModel = function () {
-                    $("#sectionCostCenterDialogModel").modal("show");
+                    $("#sectionCostCenterDialogModel").modal("hide");
                 },
                 //Show Estimate Run Wizard Modal
                 showEstimateRunWizard = function () {
