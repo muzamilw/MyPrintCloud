@@ -677,6 +677,18 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
 
         var GlobalInputQueueItemsListJsonObject = JSON.stringify(GlobalInputQueueItemsList, null, 2);
        
+                InputQueues: GlobalInputQueueItemsList
+            }
+            jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
+            $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
+           // InputAndQuestionQueues[1] = InputAndQuestionQueues[1] + GlobalInputQueueItemsList;
+           // var jsonObjects = JSON.stringify(InputAndQuestionQueues, null, 2);
+            var InputAndQuestionQueues = {
+                QuestionQueues: GlobalQuestionQueueItemsList,
+                InputQueues: GlobalInputQueueItemsList
+            }
+            jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
+            $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
         
         SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfCostCentre, ItemPrice, Currency);
         
