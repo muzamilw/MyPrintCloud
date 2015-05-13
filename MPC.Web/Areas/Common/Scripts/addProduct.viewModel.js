@@ -286,6 +286,7 @@ define("common/addProduct.viewModel",
                             }
                         });
                     }),
+                    
                     //Calculate Total Price
                     // ReSharper disable once UnusedLocals
                     calculateTotalPrice = ko.computed(function () {
