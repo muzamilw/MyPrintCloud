@@ -102,6 +102,7 @@ define("common/itemDetail.viewModel",
                     currencySymbol = ko.observable(''),
                     lengthUnit = ko.observable(),
                     weightUnit = ko.observable(),
+                    loggedInUser = ko.observable(),
                     closeItemDetailSection = null,
                     //#endregion  
                      isSectionCostCenterDialogOpen = ko.observable(false),
@@ -998,6 +999,7 @@ define("common/itemDetail.viewModel",
                                 currencySymbol(data.CurrencySymbol);
                                 lengthUnit(data.LengthUnit || '');
                                 weightUnit(data.WeightUnit || '');
+                                loggedInUser(data.loggedInUserId || '');
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
