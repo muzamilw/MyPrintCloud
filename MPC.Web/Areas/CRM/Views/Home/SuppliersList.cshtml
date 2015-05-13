@@ -39,24 +39,27 @@
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
-                                <a href="~/CRM/Home/Calendar">Calendar</a>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
+                                @Html.ActionLink("All Contacts", "Contacts", "Home")
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
+                                @Html.ActionLink("Companies", "Index", "Home")
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
+                                @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
                                 @Html.ActionLink("To Do Lists", "ToDoList", "Home")
                             </li>
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
-                                <a href="~/CRM/Home/Contacts">Contacts</a>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
+                                @*@Html.ActionLink("Calendar", "Calendar", "Home",)*@
+                                <a href="#tab-Calendar" data-toggle="tab">Calendar</a>
                             </li>
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
-                                <a href="~/CRM/Home/Index">Companies</a>
+
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
+                                @Html.ActionLink("E-Marketing", "", "Home")
                             </li>
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
-                                <a href="#tab-Supplier" data-toggle="tab">Supplier</a>
-                            </li>
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.MySharedDocs) { <text>active</text> }">
-                                @Html.ActionLink("Shared Docs", "Contacts", "Home")
-                            </li>
+
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Supplier">

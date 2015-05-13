@@ -1679,6 +1679,14 @@ define("crm/crm.viewModel",
                                 _.each(data.Company.MediaLibraries, function (item) {
                                     selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
                                 });
+                                        $('#idCompanyimage')
+                               .load(function () {
+                                 
+                               })
+                               .error(function () {
+                                   $("#idCompanyimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
+                                  
+                               });
                             }
                             newUploadedMediaFile(model.MediaLibrary());
 
@@ -2048,10 +2056,21 @@ define("crm/crm.viewModel",
                                 var address = new model.Address.Create(item);
                                 allCompanyAddressesList.push(address);
                             });
+
+                        
                         }
                         selectedStore().reset();
                         isLoadingStores(false);
                         isBaseDataLoded(true);
+                        $('#idCompanyimage')
+                        .load(function () {
+
+                          
+                        })
+                        .error(function () {
+                            $("#idCompanyimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
+                           
+                        });
                         view.initializeLabelPopovers();
                     },
                     error: function (response) {

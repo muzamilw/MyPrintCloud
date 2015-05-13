@@ -240,8 +240,8 @@ define("order/order.viewModel",
                     createOrder = function () {
                         selectedOrder(model.Estimate.Create({}));
                         selectedOrder().orderReportSignedBy(loggedInUser());
-                        selectedOrder().creditLimitSetBy(loggedInUser());
-                        selectedOrder().allowJobWoCreditCheckSetBy(loggedInUser());
+                        //selectedOrder().creditLimitSetBy(loggedInUser());
+                        //selectedOrder().allowJobWoCreditCheckSetBy(loggedInUser());
                         selectedOrder().officialOrderSetBy(loggedInUser());
                         view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
@@ -364,7 +364,7 @@ define("order/order.viewModel",
                     // Open Item Detail
                     openItemDetail = function () {
                         isItemDetailVisible(true);
-                        itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail);
+                        itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail, isEstimateScreen());
                         view.initializeLabelPopovers();
                     },
 
