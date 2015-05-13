@@ -359,7 +359,7 @@ define("order/order.viewModel",
                     // Open Item Detail
                     openItemDetail = function () {
                         isItemDetailVisible(true);
-                        itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail);
+                        itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail, isEstimateScreen());
                         view.initializeLabelPopovers();
                     },
 
