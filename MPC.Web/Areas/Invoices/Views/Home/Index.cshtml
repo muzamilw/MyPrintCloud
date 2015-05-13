@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb" style="padding-left:9px;">
                         <li><a href="~/Dashboard/Index" class="my-navigator">HOME</a></li>
                         <li data-bind="css: $root.invoiceCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseInvoiceEditor" style="cursor:pointer"><span>Invoices</span></li>
                         <li data-bind="css: $root.invoiceCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.invoiceCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.invoiceCodeHeader"></span></li>
@@ -18,12 +18,12 @@
                         
                     </ol>
                     <div class="clearfix">
-                        <h1 class="pull-left">Invoices</h1>
+                        <h1 class="pull-left" style="padding-left:8px;">Invoices</h1>
 
                     </div>
                     <div class="row" data-bind="visible: !isDetailsVisible()">
                         <div class="col-lg-12">
-                            <div class="pull-right">
+                            <div class="pull-right" style="margin-right:10px;">
                                 <button id="open-wizard" class="btn btn-primary pull-right" data-bind="click:$root.createInvoice">
                                     Add Invoice
                                 </button>
@@ -33,7 +33,7 @@
                             &nbsp;
                         </div>
                         <div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" style="padding-left:18px;padding-right:19px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
                                 <div class="clearfix">
@@ -142,7 +142,7 @@
 
                         @* Tab Items Lists*@
                         <script id="tabItemsList" type="text/html">
-                            <div class="main-box-body main-box clearfix">
+                            <div>
                                 <div class="table-responsive">
                                     <table id="OrderListtbl" class="table user-list">
                                         <thead>
