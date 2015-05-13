@@ -79,7 +79,10 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix && sf.OrganisationId == OrganisationId).ToList();
         }
-
+        public IEnumerable<SectionFlag> GetDefaultSectionFlags()
+        {
+            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix && sf.OrganisationId == OrganisationId && sf.isDefault == true).ToList();
+        }
         /// <summary>
         /// Get Section Flags for Campaign
         /// </summary>

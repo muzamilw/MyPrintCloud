@@ -462,7 +462,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (pci.isSelected()) {
                         var pcname = pci.categoryName();
                         if (index < productCategoryItems().length - 1) {
-                            pcname = pcname + " || ";
+                            pcname = pcname + "<br/>";
                         }
                         categories += pcname;
                     }
