@@ -35,5 +35,10 @@ namespace MPC.MIS.Areas.Api.Models
 
         public string CurrencySymbol { get; set; }
 
+        /// <summary>
+        /// System Users
+        /// </summary>
+        public IEnumerable<SystemUserDropDown> SystemUsers { get; set; }
+
     }
 }
