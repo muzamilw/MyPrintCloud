@@ -570,13 +570,13 @@
   overflow: hidden;
   clear: both;
 }
-#storesBinding #tab-products .dd-handle-list {
+/*#storesBinding #tab-products .dd-handle-list {
   height: 90%;
   overflow: hidden;
 }
 #storesBinding #tab-products .dd-handle {
   height: auto;
-}
+}*/
 #storesBinding #ops_theme_dropdown {
   z-index: 1000000000000000;
   float: left;

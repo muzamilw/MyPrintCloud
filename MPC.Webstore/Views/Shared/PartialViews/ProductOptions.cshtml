@@ -1579,9 +1579,11 @@
                                         isQueueExist = true;
                                         ShowCostCentrePopup(QuestionQueueObject, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, InputQueueObject.Items, CostCentreType);
                                     }
+                                if(InputQueueObject.Items.length == 3){ // do not process the queue for prompting values
+                                    isQueueExist = true;
                                 }
+                            }
                             }else if(CostCentreType == 3){ // if method type is not 4 then it will be 3 : per quantity or 4: per hour
-
                                 if(QuantitySourceType == 1){ // do not process the queue for prompting values else execute it as it is of variable type
                                     isQueueExist = true;
                                     SetGlobalCostCentreQueue(QuestionQueueObject, InputQueueObject.Items, CostCentreId, CostCentreType,@ViewBag.ClonedItem.ItemId, ControlId, "", TotalItemPrice, "@ViewBag.Currency", false);

@@ -124,7 +124,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AddressName = source.AddressName,
                 Address1 = source.Address1,
                 Address2 = source.Address2,
-                Tel1 = source.Tel1
+                Tel1 = source.Tel1,
+                IsDefaultAddress = source.IsDefaultAddress
             };
         }
 
