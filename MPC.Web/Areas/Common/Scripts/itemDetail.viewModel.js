@@ -100,6 +100,8 @@ define("common/itemDetail.viewModel",
                     selectedQty = ko.observable(),
                     selectedOrder = ko.observable(),
                     currencySymbol = ko.observable(''),
+                    lengthUnit = ko.observable(),
+                    weightUnit = ko.observable(),
                     closeItemDetailSection = null,
                     //#endregion  
                      isSectionCostCenterDialogOpen = ko.observable(false),
@@ -994,6 +996,8 @@ define("common/itemDetail.viewModel",
                                     mapList(systemUsers, data.SystemUsers, model.SystemUser);
                                 }
                                 currencySymbol(data.CurrencySymbol);
+                                lengthUnit(data.LengthUnit || '');
+                                weightUnit(data.WeightUnit || '');
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -1680,7 +1684,9 @@ define("common/itemDetail.viewModel",
                     onResetButtonClick: onResetButtonClick,
                     deleteSection: deleteSection,
                     jobStatuses: jobStatuses,
-                    systemUsers: systemUsers
+                    systemUsers: systemUsers,
+                    lengthUnit: lengthUnit,
+                    weightUnit: weightUnit
                     //#endregion
                 };
             })()
