@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <label class="control-label" data-bind="value: creditLimitSetBy"></label>
+                        <label class="control-label" data-bind="text: creditLimitSetByUser() ? creditLimitSetByUser().fullName : ''"></label>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <label class="control-label" data-bind="value: allowJobWoCreditCheckSetBy"></label>
+                        <label class="control-label" data-bind="text: allowJobWoCreditCheckSetByUser() ? allowJobWoCreditCheckSetByUser().fullName : ''"></label>
 
                     </div>
 
@@ -176,7 +176,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <label class="control-label" data-bind="value: officialOrderSetBy"></label>
+                        <label class="control-label" data-bind="text: officialOrderSetByUser() ? officialOrderSetByUser().fullName : ''"></label>
                     </div>
                 </div>
             </div>
