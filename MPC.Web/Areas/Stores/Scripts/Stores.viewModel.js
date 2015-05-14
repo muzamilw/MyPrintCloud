@@ -3281,7 +3281,7 @@ define("stores/stores.viewModel",
                         success: function (data) {
                             if (data.ProductCategories != null) {
                                 _.each(data.ProductCategories, function (productCategory) {
-                                    $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.getCategoryChildListItems"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + productCategory.CategoryName + '</span><div class="nested-links col-sm-2"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
+                                    $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list cursorShape" ><i class="fa fa-chevron-circle-right " data-bind="click: $root.getCategoryChildListItems"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
                                     ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
                                     var category = {
                                         productCategoryId: productCategory.ProductCategoryId,
@@ -4634,7 +4634,7 @@ define("stores/stores.viewModel",
             getProducts = function () {
                 if (!isProductTabVisited()) {
                     isProductTabVisited(true);
-                    ist.product.viewModel.initializeForStore(selectedStore().companyId());
+                    ist.product.viewModel.initializeForStore(selectedStore().companyId(), selectedStore().taxRate());
                 }
             },
                 //#endregion 

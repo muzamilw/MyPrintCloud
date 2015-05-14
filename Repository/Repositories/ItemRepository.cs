@@ -1352,7 +1352,7 @@ namespace MPC.Repository.Repositories
                 {
                     CostCentreId = addOn.CostCenterID,
                     IsOptionalExtra = 1,
-                    Qty1Charge = addOn.ActualPrice,
+                    Qty1Charge = addOn.Qty1NetTotal,
                     Qty1NetTotal = addOn.Qty1NetTotal,
                     Qty1WorkInstructions = addOn.CostCentreDescription,
                     Qty2WorkInstructions = addOn.CostCentreJsonData,

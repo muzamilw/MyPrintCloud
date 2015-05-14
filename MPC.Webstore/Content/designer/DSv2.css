@@ -1153,7 +1153,7 @@ body:not(.compactHeader) .documentMenu.undoDisabled .menuItemContainer {
 
 body:not(.compactHeader) #documentTitleAndMenu {
     right: 130px;
-    width:628px;
+     width: 845px;
 }
 
 body:not(.compactHeader) .documentMenu {
@@ -6864,3 +6864,13 @@ font-size: 13px;
         height: 53px;
         background: url('assets-v2/homeIcon_hover.png') ;background-repeat: no-repeat;background-position-x: 14px;
 }  
+
+#BtnTxtCanvasAlignLeft{
+      margin-left: 2px;
+}
+#BtnTxtCanvasAlignCenter,#BtnTxtCanvasAlignRight,#BtnTxtCanvasAlignMiddle{
+    margin-left: 29px;
+}
+#documentMenu {
+    position:absolute;
+}

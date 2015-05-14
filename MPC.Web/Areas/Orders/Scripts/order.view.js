@@ -29,12 +29,20 @@ define("order/order.view",
 
                     liElement.click();
 
-                    // Scroll to Element
-                    setTimeout(function () {
-                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
-                        // Focus on element
-                        $(element).focus();
-                    }, 1000);
+                    //// Scroll to Element
+                    //setTimeout(function () {
+                    //    window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                    //    // Focus on element
+                    //    $(element).focus();
+                    //}, 1000);
+                    var target = $(element);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: (target.offset().top - 50)
+                        }, 1000);
+                        return false;
+                    }
                 },
                 // Show inventory dialog
                 //showInventoryItemDialog = function () {
@@ -81,7 +89,7 @@ define("order/order.view",
                     orderstate(state);
                     $(function () {
                         // set up an array to hold the order Status
-                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Shipped & Invoiced", "Cancelled"];
+                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Ready For Shipping", "Shipped & Invoiced", "Cancelled"];
 
                         // If Is Order is From Estimate then add Status "Revert to Estimate"
                         if (isFromEstimate) {
@@ -95,7 +103,7 @@ define("order/order.view",
                             .slider({
                                 min: 0,
                                 max: orderStatusArray.length - 1,
-                                value: orderstate() !== 0 ? (orderstate() === 9 ? orderstate() - 5 : orderstate() - 4) : orderstate()
+                                value: orderstate() !== 0 ? (orderstate() === 9 ? orderstate() - 4 : (orderstate() === 10 ? orderstate() - 6 : orderstate() - 4)) : orderstate()
                                 //value: orderstate()
                             })
 
@@ -117,7 +125,7 @@ define("order/order.view",
                             });
                     });
                 },
-               
+
                 // Show section Cost Center Dialog Model
                 showSectionCostCenterDialogModel = function () {
                     $("#sectionCostCenterDialogModel").modal("show");
@@ -195,7 +203,7 @@ define("order/order.view",
                 showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
                 showOrderStatusProgressToJobDialog: showOrderStatusProgressToJobDialog,
-                hideOrderStatusProgressToJobDialog:hideOrderStatusProgressToJobDialog
+                hideOrderStatusProgressToJobDialog: hideOrderStatusProgressToJobDialog
             };
         })(orderViewModel);
 

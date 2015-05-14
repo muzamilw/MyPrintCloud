@@ -57,7 +57,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [System.Web.Http.HttpGet]
         public HttpResponseMessage ExecuteCostCentre(string CostCentreId, string ClonedItemId, string OrderedQuantity, string CallMode, QuestionAndInputQueues Queues)
         {
-            if ((CallMode == "Update" && Queues != null) || CallMode != "Update")
+            if ((CallMode == "UpdateAllCostCentreOnQuantityChange" && Queues != null) || CallMode != "UpdateAllCostCentreOnQuantityChange")
             {
                 AppDomain _AppDomain = null;
 
@@ -92,7 +92,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
                     CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
                     _CostCentreLaoderFactory.InitializeLifetimeService();
-                    CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(CostCentreId));
+                  
+                    CostCentre  oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(CostCentreId));
+                    
+                    
 
                     if (CallMode == "New")
                     {
@@ -150,34 +153,34 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         }
                     }
 
-                    if (CallMode == "Update")
-                    {
-                        if (Queues != null)
-                        {
-                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
-                            // if queue contains item of other cost centre then this condition will filter the items of current cost centre
+                    //if (CallMode == "UpdateAllCostCentreOnQuantityChange")
+                    //{
+                    //    if (Queues != null)
+                    //    {
+                    //        _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                    //        // if queue contains item of other cost centre then this condition will filter the items of current cost centre
 
-                            if (Queues.QuestionQueues != null)
-                            {
-                                _CostCentreParamsArray[2] = Queues.QuestionQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList(); ;
-                            }
-                            else
-                            {
-                                _CostCentreParamsArray[2] = Queues.QuestionQueues;
-                            }
+                    //        if (Queues.QuestionQueues != null)
+                    //        {
+                    //            _CostCentreParamsArray[2] = Queues.QuestionQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList(); ;
+                    //        }
+                    //        else
+                    //        {
+                    //            _CostCentreParamsArray[2] = Queues.QuestionQueues;
+                    //        }
 
 
-                            if (Queues.InputQueues != null)
-                            {
-                                _CostCentreParamsArray[7] = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
-                            }
-                            else // else assign null
-                            {
-                                _CostCentreParamsArray[7] = Queues.InputQueues;
-                            }
+                    //        if (Queues.InputQueues != null)
+                    //        {
+                    //            _CostCentreParamsArray[7] = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                    //        }
+                    //        else // else assign null
+                    //        {
+                    //            _CostCentreParamsArray[7] = Queues.InputQueues;
+                    //        }
                             
-                        }
-                    }
+                    //    }
+                    //}
 
                     //_CostCentreParamsArray(0) = Common.g_GlobalData;
                     //GlobalData
@@ -264,9 +267,25 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     }
                     else
                     {
-                        if (CallMode == "Update") // dummy condition
+                        if (CallMode == "UpdateAllCostCentreOnQuantityChange") // dummy condition
                         { // change the condition exe cute all cost centre 
-                            return Request.CreateResponse(HttpStatusCode.OK, 131);
+                          //  return Request.CreateResponse(HttpStatusCode.OK, 131);
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                            _CostCentreParamsArray[2] = Queues.QuestionQueues.ToList();
+                            if (Queues.InputQueues != null)
+                            {
+                                InputQueue inputQueueObj = new InputQueue();
+                                List<InputQueueItem> Items = Queues.InputQueues.ToList();
+                                foreach (InputQueueItem obj in Items)
+                                {
+                                    inputQueueObj.addItem(obj.ID, obj.VisualQuestion, obj.CostCentreID, obj.ItemType, obj.ItemInputType, obj.VisualQuestion, obj.Value, obj.Qty1Answer);
+                                }
+                                _CostCentreParamsArray[7] = inputQueueObj.Items;
+                            }
+                            else
+                            {
+                                _CostCentreParamsArray[7] = new InputQueue();
+                            }
                         }
                         oResult = _oRemoteObject.returnPrice(ref _CostCentreParamsArray);
 
@@ -896,10 +915,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             public long CompanyID;
         }
 
-        public class QuestionAndInputQueues
-        {
-            public List<QuestionQueueItem> QuestionQueues;
-            public List<InputQueueItem> InputQueues;
-        }
+       
     }
 }
