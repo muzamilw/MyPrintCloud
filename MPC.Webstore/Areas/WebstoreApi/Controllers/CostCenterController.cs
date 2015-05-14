@@ -266,7 +266,22 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     {
                         if (CallMode == "Update") // dummy condition
                         { // change the condition exe cute all cost centre 
-                            return Request.CreateResponse(HttpStatusCode.OK, 131);
+                          //  return Request.CreateResponse(HttpStatusCode.OK, 131);
+                            _CostCentreParamsArray[2] = Queues.QuestionQueues.ToList();
+                            if (Queues.InputQueues != null)
+                            {
+                                InputQueue inputQueueObj = new InputQueue();
+                                List<InputQueueItem> Items = Queues.InputQueues.ToList();
+                                foreach (InputQueueItem obj in Items)
+                                {
+                                    inputQueueObj.addItem(obj.ID, obj.VisualQuestion, obj.CostCentreID, obj.ItemType, obj.ItemInputType, obj.VisualQuestion, obj.Value, obj.Qty1Answer);
+                                }
+                                _CostCentreParamsArray[7] = inputQueueObj;
+                            }
+                            else
+                            {
+                                _CostCentreParamsArray[7] = new InputQueue();
+                            }
                         }
                         oResult = _oRemoteObject.returnPrice(ref _CostCentreParamsArray);
 
@@ -896,10 +911,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             public long CompanyID;
         }
 
-        public class QuestionAndInputQueues
-        {
-            public List<QuestionQueueItem> QuestionQueues;
-            public List<InputQueueItem> InputQueues;
-        }
+       
     }
 }

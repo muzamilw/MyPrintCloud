@@ -142,6 +142,7 @@ define("order/order.viewModel",
                     itemCodeHeader = ko.observable(''),
                     sectionHeader = ko.observable(''),
                     currencySymbol = ko.observable(''),
+                    loggedInUser = ko.observable(),
                     //On Order Status change to progress to job that will open wizard
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
                     // Active Order
@@ -238,6 +239,10 @@ define("order/order.viewModel",
                     // Create New Order
                     createOrder = function () {
                         selectedOrder(model.Estimate.Create({}));
+                        selectedOrder().orderReportSignedBy(loggedInUser());
+                        //selectedOrder().creditLimitSetBy(loggedInUser());
+                        //selectedOrder().allowJobWoCreditCheckSetBy(loggedInUser());
+                        selectedOrder().officialOrderSetBy(loggedInUser());
                         view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
                         $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
@@ -363,7 +368,7 @@ define("order/order.viewModel",
                     // Open Item Detail
                     openItemDetail = function () {
                         isItemDetailVisible(true);
-                        itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail);
+                        itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail, isEstimateScreen());
                         view.initializeLabelPopovers();
                     },
 
@@ -888,6 +893,8 @@ define("order/order.viewModel",
                     selectedProduct(item);
                     item.productName(selectedCostCentre().name());
                     item.qty1(selectedCostCentre().quantity1());
+                    item.qty2(selectedCostCentre().quantity2());
+                    item.qty3(selectedCostCentre().quantity3());
                     item.qty1NetTotal(selectedCostCentre().setupCost());
                     //Req: Item Product code is set to '2', so while editting item's section is non mandatory
                     item.productType(2);
@@ -979,6 +986,7 @@ define("order/order.viewModel",
                                 }
 
                                 currencySymbol(data.CurrencySymbol);
+                                loggedInUser(data.LoggedInUser || '');
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -1393,6 +1401,8 @@ define("order/order.viewModel",
                         applyProductTax(item);
                         item.productName(inventoryStockItemToCreate().name);
                         item.qty1(selectedCostCentre().quantity1());
+                        item.qty2(selectedCostCentre().quantity2());
+                        item.qty3(selectedCostCentre().quantity3());
                         //Req: Item Product type is set to '2', so while editting item's section is non mandatory
                         item.productType(2);
                         item.qty1NetTotal(inventoryStockItemToCreate().price);
