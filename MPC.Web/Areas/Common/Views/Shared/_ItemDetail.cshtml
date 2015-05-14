@@ -7,7 +7,7 @@
             </div>
             <div class="col-lg-12">
                 <div class="clearfix">
-                    <div class="pull-left validationSummaryContainer">
+                    <div class="pull-left validationSummaryContainer" id="validationSummary">
                         <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForItem', popoverId: 'validationSummaryPopoverBodyForItem' }" style="display: none">Invalid data: Click here to see details.</a>
                         <div class="well well-small validationSummaryModal" id="validationSummaryPopupForItem" style="display: none">
                             <div id="validationSummaryPopoverBodyForItem">
@@ -61,14 +61,14 @@
                                                             <label class="control-label tooltip-float"><b>Quantities</b></label>
                                                         </div>
                                                         <div class="col-xs-2" style="float:left;">
-                                                            <input type="text" class="form-control txtBox-contentAlignRight" data-bind="value:qty1" />
+                                                            <input type="text" class="form-control txtBox-contentAlignRight" data-bind="value:qty1" readonly="readonly"/>
                                                         </div>
                                                         <!--ko if: $root.isEstimateScreen()-->
                                                         <div class="col-xs-2">
-                                                            <input type="text" class="form-control txtBox-contentAlignRight" />
+                                                            <input type="text" class="form-control txtBox-contentAlignRight" data-bind="value:qty2" readonly="readonly" />
                                                         </div>
                                                         <div class="col-xs-2">
-                                                            <input type="text" class="form-control txtBox-contentAlignRight" />
+                                                            <input type="text" class="form-control txtBox-contentAlignRight" data-bind="value:qty3" readonly="readonly" />
                                                         </div>
                                                         <!--/ko-->
                                                     </div>

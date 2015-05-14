@@ -372,7 +372,7 @@
                                         <div class="col-lg-2" style="width: 22%;">
                                             <label class="control-label"> MarkUp</label>
                                         </div>
-                                        <div class="col-xs-2" style="width: 13%">
+                                        <div class="col-xs-2" style="width: 16%">
                                             <select class="form-control col-lg-4" style="padding-left: 0px;padding-right: 0px" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}"></select>
                                         </div>
                                         <!--ko if: $root.isEstimateScreen()-->
@@ -427,6 +427,9 @@
             <td style="text-align: right">
                 <span data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" data-bind="numberInput: qty3NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 3)}"></a>
             </td>
+            <!--/ko-->
+            <!--ko if: !$root.isEstimateScreen()-->
+            <td></td>
             <!--/ko-->
         </tr>
     </script>

@@ -5,7 +5,7 @@
             specifiedJobDescriptionTitle1, specifiedJobDescription1, specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3,
             specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
             specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6, specifiedJobDescriptionTitle7, specifiedJobDescription7,
-            specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty1NetTotal, specifiedItemNotes,
+            specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty2, specifiedQty3, specifiedQty1NetTotal, specifiedItemNotes,
             specifiedProductCategories, specifiedJobCode, specifiedJobCreationDateTime, specifiedJobManagerId, specifiedJobEstimatedStartDateTime,
             specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
@@ -85,6 +85,10 @@
                         qty1NetTotal(value);
                     }
                 }),
+                 // Qty 2
+                qty2 = ko.observable(specifiedQty2 || 0),
+                 // Qty 3
+                qty3 = ko.observable(specifiedQty3 || 0),
                 // Item Notes
                 itemNotes = ko.observable(specifiedItemNotes || undefined),
                 // Job Code
@@ -400,6 +404,8 @@
                         Qty1GrossTotal: qty1GrossTotal(),
                         Qty1NetTotal: qty1NetTotal(),
                         Qty1: qty1(),
+                        Qty2: qty2(),
+                        Qty3: qty3(),
                         Tax1: tax1(),
                         ItemSections: itemSections.map(function(itemSection, index) {
                             var section = itemSection.convertToServerData(id() <= 0);
@@ -443,6 +449,8 @@
                 qty1NetTotal: qty1NetTotal,
                 qty1NetTotalComputed: qty1NetTotalComputed,
                 qty1: qty1,
+                qty2: qty2,
+                qty3: qty3,
                 productCategoriesUi: productCategoriesUi,
                 jobCode: jobCode,
                 itemNotes: itemNotes,
@@ -1873,7 +1881,7 @@
             source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
-            source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1, source.Qty1NetTotal,
+            source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1,source.Qty2,source.Qty3, source.Qty1NetTotal,
             source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobEstimatedStartDateTime,
             source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
