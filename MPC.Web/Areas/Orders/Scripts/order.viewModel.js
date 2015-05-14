@@ -277,13 +277,7 @@ define("order/order.viewModel",
                             confirmation.messageText("Do you want to save changes?");
                             confirmation.afterProceed(onSaveOrder);
                             confirmation.afterCancel(function () {
-                                selectedOrder().reset();
-                                closeOrderEditor();
-                                orderCodeHeader('');
-                                sectionHeader('');
-                                itemCodeHeader('');
-                                isSectionDetailVisible(false);
-                                isItemDetailVisible(false);
+                                resetOrderBreadcrumb();
                                 var orderIdFromDashboard = $('#OrderId').val();
                                 if (orderIdFromDashboard != 0 && !isEstimateScreen()) {
                                     getOrders();
@@ -293,11 +287,21 @@ define("order/order.viewModel",
                             confirmation.show();
                             return;
                         }
+                        resetOrderBreadcrumb();
                         var orderIdFromDashboardTemp = $('#OrderId').val();
                         if (orderIdFromDashboardTemp != 0 && !isEstimateScreen()) {
                             getOrders();
                         }
                         closeOrderEditor();
+                    },
+                    resetOrderBreadcrumb= function() {
+                        selectedOrder().reset();
+                        closeOrderEditor();
+                        orderCodeHeader('');
+                        sectionHeader('');
+                        itemCodeHeader('');
+                        isSectionDetailVisible(false);
+                        isItemDetailVisible(false);
                     },
                     // Close Editor
                     closeOrderEditor = function () {
