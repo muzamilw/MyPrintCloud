@@ -639,6 +639,10 @@ define("order/order.viewModel",
                         }
                     }
                     else {
+                            }
+                        }
+                    }
+                    else {
                         if (selectedOrder().statusId() !== 9 && (selectedOrder().statusId() - 1) !== status && (selectedOrder().statusId() - 2) !== status) {
                             status = selectedOrder().statusId() - 1;
                         }

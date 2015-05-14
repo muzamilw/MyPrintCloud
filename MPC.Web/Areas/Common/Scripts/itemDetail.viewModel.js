@@ -1182,6 +1182,7 @@ define("common/itemDetail.viewModel",
                         errorList.removeAll();
                         if (!doBeforeRunningWizard()) {
                             selectedSection().errors.showAllMessages();
+                            view.goToValidationSummary();
                             return;
                         }
                         $('#myTab a[href="#tab-recomendation"]').tab('show');
@@ -1702,13 +1703,13 @@ define("common/itemDetail.viewModel",
                     calculateQty2NetTotalForItem: calculateQty2NetTotalForItem,
                     calculateQty3NetTotalForItem: calculateQty3NetTotalForItem,
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
-<<<<<<< HEAD
-                    deleteSection: deleteSection,
-                    searchCostCenter: searchCostCenter,
-                    searchString: searchString,
-=======
                     onDeleteSectionCostCenter: onDeleteSectionCostCenter,
                     onResetButtonClick: onResetButtonClick,
+                    deleteSection: deleteSection,
+                    jobStatuses: jobStatuses,
+                    systemUsers: systemUsers,
+                    lengthUnit: lengthUnit,
+                    weightUnit: weightUnit,
                     deleteSection: deleteSection,
                     jobStatuses: jobStatuses,
                     systemUsers: systemUsers,

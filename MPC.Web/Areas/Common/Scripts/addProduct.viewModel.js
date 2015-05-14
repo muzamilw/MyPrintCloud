@@ -156,7 +156,7 @@ define("common/addProduct.viewModel",
                         //item.EstimateId = orderId;
                         //var newItem = model.Item.Create(item);
                         counterForItem(counterForItem() - 1);
-                        newItem.id(counterForItem());
+                        newItem.id(0);
 =======
                             },
                             error: function (response) {
@@ -288,7 +288,7 @@ define("common/addProduct.viewModel",
                         });
 <<<<<<< HEAD
                     }),
-                    showCostCenterSections = function() {
+                    
                         costCenterVisibility(!costCenterVisibility());
                     },
                     //calculateAddsOnTotal = ko.computed(function () {
