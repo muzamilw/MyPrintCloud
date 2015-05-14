@@ -1109,10 +1109,10 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="OfficialOrderSetOnDateTime" Type="datetime" />
           <Property Name="IsCreditApproved" Type="int" />
           <Property Name="CreditLimitForJob" Type="float" />
-          <Property Name="CreditLimitSetBy" Type="int" />
+          <Property Name="CreditLimitSetBy" Type="uniqueidentifier" />
           <Property Name="CreditLimitSetOnDateTime" Type="datetime" />
           <Property Name="IsJobAllowedWOCreditCheck" Type="int" />
-          <Property Name="AllowJobWOCreditCheckSetBy" Type="int" />
+          <Property Name="AllowJobWOCreditCheckSetBy" Type="uniqueidentifier" />
           <Property Name="AllowJobWOCreditCheckSetOnDateTime" Type="datetime" />
           <Property Name="NotesUpdateDateTime" Type="datetime" />
           <Property Name="NotesUpdatedByUserId" Type="int" />
@@ -9664,10 +9664,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="OfficialOrderSetOnDateTime" Type="DateTime" Precision="3" />
           <Property Name="IsCreditApproved" Type="Int32" />
           <Property Name="CreditLimitForJob" Type="Double" />
-          <Property Name="CreditLimitSetBy" Type="Int32" />
+          <Property Name="CreditLimitSetBy" Type="Guid" />
           <Property Name="CreditLimitSetOnDateTime" Type="DateTime" Precision="3" />
           <Property Name="IsJobAllowedWOCreditCheck" Type="Int32" />
-          <Property Name="AllowJobWOCreditCheckSetBy" Type="Int32" />
+          <Property Name="AllowJobWOCreditCheckSetBy" Type="Guid" />
           <Property Name="AllowJobWOCreditCheckSetOnDateTime" Type="DateTime" Precision="3" />
           <Property Name="NotesUpdateDateTime" Type="DateTime" Precision="3" />
           <Property Name="NotesUpdatedByUserId" Type="Int32" />

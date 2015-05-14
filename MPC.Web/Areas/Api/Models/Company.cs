@@ -118,6 +118,8 @@ namespace MPC.MIS.Areas.Api.Models
         /// Map Image Url
         /// </summary>
         public string MapImageUrl { get; set; }
+        public string DefaultContactEmail { get; set; }
+        public string DefaultContact { get; set; }
 
         public byte[] MapImageS2CBytes { get; set; }
         /// <summary>

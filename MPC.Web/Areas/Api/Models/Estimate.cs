@@ -63,10 +63,10 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? OfficialOrderSetOnDateTime { get; set; }
         public bool? IsCreditApproved { get; set; }
         public double? CreditLimitForJob { get; set; }
-        public int? CreditLimitSetBy { get; set; }
+        public Guid? CreditLimitSetBy { get; set; }
         public DateTime? CreditLimitSetOnDateTime { get; set; }
         public bool? IsJobAllowedWOCreditCheck { get; set; }
-        public int? AllowJobWOCreditCheckSetBy { get; set; }
+        public Guid? AllowJobWOCreditCheckSetBy { get; set; }
         public DateTime? AllowJobWOCreditCheckSetOnDateTime { get; set; }
         public DateTime? NotesUpdateDateTime { get; set; }
         public int? NotesUpdatedByUserId { get; set; }
