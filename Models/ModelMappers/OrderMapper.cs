@@ -789,6 +789,7 @@ namespace MPC.Models.ModelMappers
             target.EstimateId = source.EstimateId;
             target.InvoiceDescription = source.InvoiceDescription;
             target.ItemNotes = source.ItemNotes;
+            target.ItemId = source.ItemId;
 
             // Update Charges
             UpdateCharges(source, target);

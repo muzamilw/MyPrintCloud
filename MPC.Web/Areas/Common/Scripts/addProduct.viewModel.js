@@ -150,7 +150,7 @@ define("common/addProduct.viewModel",
                         //item.EstimateId = orderId;
                         //var newItem = model.Item.Create(item);
                         counterForItem(counterForItem() - 1);
-                        newItem.id(counterForItem());
+                        newItem.id(0);
                         newItem.qty1NetTotal(totalProductPriceWithoutTax());
                         newItem.itemSections()[0].baseCharge1(totalProductPriceWithoutTax());
                         newItem = addSelectedAddOnsAsCostCenters(newItem);

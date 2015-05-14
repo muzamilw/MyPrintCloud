@@ -251,12 +251,14 @@
                                             <div class="col-xs-2" style="width: 18%;margin-left: 3%">
                                                 <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty1" id="qty1" />
                                             </div>
+                                            <!--ko if: $root.isEstimateScreen()-->
                                             <div class="col-xs-2" style="width: 20%; margin-left: 1%;">
                                                 <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty2" id="qty2" />
                                             </div>
                                             <div class="col-xs-2" style="width: 22%; margin-left: 1%;">
                                                 <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty3" id="qty3" />
                                             </div>
+                                            <!--/ko-->
                                         </div>
 
                                     </div>
@@ -373,13 +375,14 @@
                                         <div class="col-xs-2" style="width: 13%">
                                             <select class="form-control col-lg-4" style="padding-left: 0px;padding-right: 0px" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}"></select>
                                         </div>
+                                        <!--ko if: $root.isEstimateScreen()-->
                                         <div class="col-xs-2" style="width: 15%;margin-right: 2%;margin-left: 2%">
                                             <select class="form-control col-lg-4" style=" padding-left: 0px; padding-right: 0px; margin-left: -19px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId,event:{ change: $root.onChangeQty2MarkUpId}"></select>
                                         </div>
                                         <div class="col-xs-2" style="width: 16%">
                                             <select class="form-control col-lg-4" style="padding-left: 0px; padding-right: 0px; margin-left: -40px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty3MarkUpId,event:{ change: $root.onChangeQty3MarkUpId}"></select>
                                         </div>
-
+                                        <!--/ko-->
                                     </div>
                                     <div class="form-group">
                                         <div class="col-lg-2" style="width: 22%">
@@ -388,12 +391,14 @@
                                         <div class="col-xs-2 txtBox-contentAlignRight" style="width: 15%">
                                             <label class="control-label" style="padding-right:22px"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge1"></span></label>
                                         </div>
+                                        <!--ko if: $root.isEstimateScreen()-->
                                         <div class="col-xs-2 txtBox-contentAlignRight" style="width: 13%">
                                             <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge2"></span></label>
                                         </div>
                                         <div class="col-xs-2 txtBox-contentAlignRight" style="width: 16%">
                                             <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge3"></span></label>
                                         </div>
+                                        <!--/ko-->
                                     </div>
                                 </div>
                             </div>
@@ -415,13 +420,14 @@
             <td style="text-align: right">
                 <span data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" style="margin-left: 0px" data-bind="numberInput: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
             </td>
+            <!--ko if: $root.isEstimateScreen()-->
             <td style="text-align: right">
                 <span data-bind="text:$root.currencySymbol" style="color: #3498db"></span> <a href="#" data-bind="numberInput: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
             </td>
             <td style="text-align: right">
                 <span data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" data-bind="numberInput: qty3NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 3)}"></a>
             </td>
-
+            <!--/ko-->
         </tr>
     </script>
 
