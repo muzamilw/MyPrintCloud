@@ -1023,6 +1023,7 @@
     <Content Include="Content\CSS\supr-theme\jquery.ui.supr.css" />
     <Content Include="Content\CSS\supr-theme\jquery.ui.theme.css" />
     <Content Include="Content\CSS\toastr.css" />
+    <Content Include="Content\Images\arrow-right.jpg" />
     <Content Include="Content\Images\colorpicker_background.png" />
     <Content Include="Content\Images\colorpicker_hex.png" />
     <Content Include="Content\Images\colorpicker_hsb_b.png" />
@@ -2103,6 +2104,7 @@
     <Content Include="Areas\Settings\Views\Home\_OrganisationDetail.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_PhraseLibrary.cshtml" />
     <Content Include="Areas\Orders\Views\Home\test.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\test.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
