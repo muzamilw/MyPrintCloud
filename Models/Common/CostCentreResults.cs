@@ -297,5 +297,11 @@ namespace MPC.Models.Common
         }
 
     }
+
+    public class QuestionAndInputQueues
+    {
+        public List<QuestionQueueItem> QuestionQueues;
+        public List<InputQueueItem> InputQueues;
+    }
 }
 

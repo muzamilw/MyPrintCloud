@@ -38,12 +38,14 @@
                                                 <div class="col-xs-4">
                                                     <input type="text" disabled="disabled" class="form-control" data-bind="value:$root.selectedSection().qty1" id="qty1" />
                                                 </div>
+                                                <!--ko if: $root.isEstimateScreen()-->
                                                 <div class="col-xs-4">
                                                     <input type="text" disabled="disabled" class="form-control" data-bind="value:$root.selectedSection().qty2" id="qty2" />
                                                 </div>
                                                 <div class="col-xs-4">
                                                     <input type="text" disabled="disabled" class="form-control" data-bind="value:$root.selectedSection().qty3" id="qty3" />
                                                 </div>
+                                                <!--/ko-->
                                                 <!-- /ko -->
                                             </div>
                                         </div>
@@ -59,11 +61,17 @@
                                                         <tr>
                                                             <th class="col-lg-3 "><span>Press</span></th>
                                                             <th class="col-lg-1"><span>Cost</span></th>
+<<<<<<< HEAD
                                                             <th class="col-lg-2 text-right"><span style="margin-right: -7px;">Run Time </span></th>
+=======
+                                                            <!--ko if: $root.isEstimateScreen()-->
+                                                            <th class="col-lg-2 text-right"><span>Run Time </span></th>
+>>>>>>> 7bcecd4241bdaab137fc0b8b6a1dbb8e3afac6b5
                                                             <th class="col-lg-1"><span style=" margin-left: 4px;">Cost</span></th>
                                                             <th class="col-lg-2  text-right" style="padding-right: 0px;"><span>Run Time </span></th>
                                                             <th class="col-lg-1"><span style=" margin-left: 9px;">Cost</span></th>
                                                             <th class="col-lg-2  text-right" style="padding-right: 0px;"><span>Run Time </span></th>
+                                                            <!--/ko-->
                                                             <th style="width:55px;">&nbsp;</th>
                                                         </tr>
                                                     </thead>
@@ -198,8 +206,14 @@
                 <span data-bind="text:qty1RunTime"></span>
             </div>
         </td>
+<<<<<<< HEAD
         <td data-bind="click:$root.selectBestPressFromWizard, css: { selectedRow: $root.selectedBestPressFromWizard() === $data }">
             <div style="margin-left: 10px;">
+=======
+        <!--ko if: $root.isEstimateScreen()-->
+        <td>
+            <div class="col-xs-3" style="margin-left: 5px;">
+>>>>>>> 7bcecd4241bdaab137fc0b8b6a1dbb8e3afac6b5
                 <span data-bind="text:$root.currencySymbol"> </span><span data-bind="numberInput:qty2Cost"></span>
             </div>
         </td>
@@ -218,7 +232,12 @@
                 <span style="margin-right: -9px;" data-bind="text:qty3RunTime"></span>
             </div>
         </td>
+<<<<<<< HEAD
         <td data-bind="click:$root.selectBestPressFromWizard, css: { selectedRow: $root.selectedBestPressFromWizard() === $data }" class="text-right"> </td>
+=======
+        <!--/ko-->
+        <td class="text-right"></td>
+>>>>>>> 7bcecd4241bdaab137fc0b8b6a1dbb8e3afac6b5
     </tr>
 </script>
 

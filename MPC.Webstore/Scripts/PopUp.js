@@ -239,7 +239,7 @@ function ShowArtWorkPopup(Type, panelHtml) {
     } else if (bws.width < 500) {
         //left = parseInt((bws.width) / 2);
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:550px;">' + panelHtml + '</div></div>';
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:400px;">' + panelHtml + '</div></div>';
 
     }
     else
@@ -296,7 +296,7 @@ var GlobalQuestionQueueItemsList = null; // question queues of disfferent cost c
 var idsToValidate = ""; // This variable contain ids of text boxes and validate that each text box must have a correct value
 var GlobalInputQueueItemsList = null;
 function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, InputQueueObject, CostCentreType) {
-    
+  //  console.log('enter in ShowCostCentrePopup');
     GlobalQuestionQueueItemsList = QuestionQueueItems;
     GlobalInputQueueItemsList = InputQueueObject;
     var innerHtml = "";
@@ -425,7 +425,7 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
 }
 
 function ShowInputCostCentrePopup(InputQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, QuestionQueueObject, CostCentreType) {
-
+   // console.log('enter in ShowInputCostCentrePopup');
     GlobalInputQueueItemsList = InputQueueItems;
     GlobalQuestionQueueItemsList = QuestionQueueObject;
     var innerHtml = "";
@@ -561,9 +561,9 @@ function SetMatrixAnswer(Answer, MatrixId)
 }
 
 function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice, CostCentreType) {
-
+    //console.log('enter in ValidateCostCentreControl');
     var arrayOfIds = idsToValidate.split(",");
-    
+
     var isDisplyEmptyFieldsMesg = 0;
 
     var isNotValidInput = 0;
@@ -571,7 +571,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
     var isFormulaValidationError = 0;
     for (var i = 0; i < arrayOfIds.length; i++) {
         if (arrayOfIds[i].indexOf("formulaMatrixBox") != -1) {
-            
+
             if ($("#" + arrayOfIds[i]).val() == "") {
                 isFormulaValidationError = 1;
                 $("#" + arrayOfIds[i]).css("border", "1px solid red");
@@ -580,7 +580,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             }
 
         } else {
-           
+
             if ($("#" + arrayOfIds[i]).val() == undefined) {
                 $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
             } else {
@@ -595,12 +595,12 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 }
 
             }
-            
-        }
-      
-       
-    }
 
+        }
+
+
+    }
+    console.log("isDisplyEmptyFieldsMesg" + isDisplyEmptyFieldsMesg + "isNotValidInput" + isNotValidInput + "isFormulaValidationError" + isFormulaValidationError);
     if (isDisplyEmptyFieldsMesg == 1) {
         $("#CCErrorMesgContainer").css("display", "block");
         if (isNotValidInput == 1) {
@@ -610,7 +610,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 $("#CCErrorMesgContainer").html(html);
             }
         } else {
-           
+
             $("#CCErrorMesgContainer").html("Please enter in the hightlighted fields.");
         }
         return;
@@ -626,6 +626,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         $("#CCErrorMesgContainer").html("Please select value formula values ");
         return;
     } else {
+        console.log("enter in else condition");
         var desriptionOfCostCentre = "";
         $("#CCErrorMesgContainer").css("display", "none");
         // Question Queue object items
@@ -638,7 +639,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                     if (QueueItem.ID == idOfQuestion) {
 
                         QueueItem.Qty1Answer = $(idofDropDown + ' option:selected').val();
-                       
+
                     }
                 });
 
@@ -652,9 +653,9 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             } else {
                 $(GlobalQuestionQueueItemsList).each(function (i, QueueItem) {
                     if (QueueItem.ID == $(val).attr('data-id')) {
-                       
+
                         QueueItem.Qty1Answer = $(val).val();
-                       
+
                     }
                 });
 
@@ -667,34 +668,32 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 });
             }
             if (desriptionOfCostCentre == "") {
-                desriptionOfCostCentre =  $(val).parent().prev().children().text() + $(val).val();
+                desriptionOfCostCentre = $(val).parent().prev().children().text() + $(val).val();
             } else {
                 desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + $(val).val() + ".";
             }
         });
-         
-        var GlobalQuestionQueueItemsListJsonObject = JSON.stringify(GlobalQuestionQueueItemsList, null, 2);
 
-        var GlobalInputQueueItemsListJsonObject = JSON.stringify(GlobalInputQueueItemsList, null, 2);
-       
-        
-        SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfCostCentre, ItemPrice, Currency);
-        
-        //if (populatedQueuItems != "null") {
-        //    populatedQueuItems = populatedQueuItems + GlobalQuestionQueueItemsListJsonObject;
-        //    $("#costCentreQueueItems").val(populatedQueuItems);
-        //}
-        //else {
-        //    populatedQueuItems = GlobalQuestionQueueItemsListJsonObject;
-        //    $("#costCentreQueueItems").val(populatedQueuItems);
-        //}
-        
-        
+        SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfCostCentre, ItemPrice, Currency, true);
+
+        idsToValidate = "";
     }
-   
-    idsToValidate = "";
+    //jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
+    //$("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
+    //// InputAndQuestionQueues[1] = InputAndQuestionQueues[1] + GlobalInputQueueItemsList;
+    //// var jsonObjects = JSON.stringify(InputAndQuestionQueues, null, 2);
+    //var InputAndQuestionQueues = {
+    //    QuestionQueues: GlobalQuestionQueueItemsList,
+    //    InputQueues: GlobalInputQueueItemsList
+    //}
+    //jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
+    //$("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
 
+   
 }
+   
+  
+
 function HideLoader() {
 
     document.getElementById("layer").style.display = "none";
@@ -764,7 +763,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 }
 function ShippingBillingDetails(Type, panelHtml) {
 
-      var bws = getBrowserHeight();
+    var bws = getBrowserHeight();
 
     var shadow = document.getElementById("innerLayer");
 
@@ -799,18 +798,16 @@ function ShippingBillingDetails(Type, panelHtml) {
     } else if (bws.width < 500) {
         //left = parseInt((bws.width) / 2);
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:550px;">' + panelHtml + '</div></div>';
-
+        container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:300px;">' + panelHtml + '</div></div>';
     }
-    else {
+    else{
 
         left = parseInt((bws.width - 730) / 2);
         document.getElementById("innerLayer").style.width = "730px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body" style="height:500px;overflow-y:scroll;" >' + panelHtml + '</div></div>';
-
-
     }
 
+   
 
    // document.getElementById("innerLayer").style.width = (bws.width) + "px";
     document.getElementById("innerLayer").innerHTML = container;
@@ -826,28 +823,37 @@ function ShippingBillingDetails(Type, panelHtml) {
 }
 function ShowResetPassword(Type, panelHtml) {
   
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
-
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-x: scroll;">' + panelHtml + '</div></div>';
     var bws = getBrowserHeight();
-
     var shadow = document.getElementById("innerLayer");
+   
+    if (bws.width < 640) {
+        
+        document.getElementById("innerLayer").innerHTML = container;
+        document.getElementById("innerLayer").style.top = "0px";
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        var r = -3;
+        document.getElementById("innerLayer").style.left = r + "px";
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+    } else {
 
-    document.getElementById("layer").style.width = bws.width + "px";
-    document.getElementById("layer").style.height = bws.height + "px";
+        document.getElementById("innerLayer").style.width = "645px";
+        //document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
 
-    var left = parseInt((bws.width - 645) / 2);
-
-    document.getElementById("innerLayer").innerHTML = container;
-
-    document.getElementById("innerLayer").style.left = left + "px";
-    document.getElementById("innerLayer").style.top = "0px";
-
-    document.getElementById("innerLayer").style.width = "645px";
-    document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
-
-    document.getElementById("layer").style.display = "block";
-    document.getElementById("innerLayer").style.display = "block";
+        var left = parseInt((bws.width - 645) / 2);
+        document.getElementById("innerLayer").innerHTML = container;
+        document.getElementById("innerLayer").style.left = left + "px";
+        document.getElementById("innerLayer").style.top = "0px";
+        // document.getElementById("innerLayer").style.width = "645px";
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+    }
 }
 function ConfirmDeleteSaveDesignPopup(ItemID) {
 
@@ -1130,7 +1136,11 @@ function CustomeAlertBoxDesigner(msg,callbackFuncName) {
 
 }
 
-function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode) {
+function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode, isPromptAQuestion) {
+
+   console.log('enter in SetGlobalCostCentreQueue');
+   console.log('GlobalQuestionQueueItemsList' + GlobalQuestionQueueItemsList);
+   console.log('GlobalInputQueueItemsList' + GlobalInputQueueItemsList);
     var jsonObjectsOfGlobalQueue = null;
     if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
 
@@ -1138,34 +1148,52 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
             QuestionQueues: GlobalQuestionQueueItemsList,
             InputQueues: GlobalInputQueueItemsList
         }
+
         jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
         $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
 
     } else {
-
+        var isUpdated = false;
         var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
-       
-        for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
-            for (var j = 0; j < InputAndQuestionQueues.InputQueues.length; j++) {
-                if (InputAndQuestionQueues.InputQueues[j].CostCenterId == GlobalInputQueueItemsList[i].CostCenterId && InputAndQuestionQueues.InputQueues[j].ID == GlobalInputQueueItemsList[i].ID) {
-                    InputAndQuestionQueues.InputQueues[j].Qty1Answer = GlobalInputQueueItemsList[i].Qty1Answer;
-                    break;
-                } else {
+        if (InputAndQuestionQueues.InputQueues == null) {
+            InputAndQuestionQueues.InputQueues = [];
+            for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
+                InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
+            }
+        } else {
+            for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
+                for (var j = 0; j < InputAndQuestionQueues.InputQueues.length; j++) {
+                    
+                    if (InputAndQuestionQueues.InputQueues[j].CostCentreID == GlobalInputQueueItemsList[i].CostCentreID && InputAndQuestionQueues.InputQueues[j].ID == GlobalInputQueueItemsList[i].ID) {
+                        InputAndQuestionQueues.InputQueues[j].Qty1Answer = GlobalInputQueueItemsList[i].Qty1Answer;
+                        isUpdated = true;
+                        break;
+                    }
+                }
+
+                if (isUpdated == false) {
                     InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
-                    break;
+                    isUpdated = false;
                 }
             }
         }
+      
 
+       
         for (var i = 0; i < GlobalQuestionQueueItemsList.length; i++) {
             for (var j = 0; j < InputAndQuestionQueues.QuestionQueues.length; j++) {
-                if (InputAndQuestionQueues.QuestionQueues[j].CostCenterId == GlobalQuestionQueueItemsList[i].CostCenterId && InputAndQuestionQueues.QuestionQueues[j].ID == GlobalQuestionQueueItemsList[i].ID) {
-                    InputAndQuestionQueues.QuestionQueues[j].Qty1Answer = GlobalQuestionQueueItemsList[i].Qty1Answer;
-                    break;
-                } else {
-                    InputAndQuestionQueues.QuestionQueues.push(GlobalQuestionQueueItemsList[i]);
-                    break;
-                }
+                if (InputAndQuestionQueues.QuestionQueues[j].CostCentreID == GlobalQuestionQueueItemsList[i].CostCentreID && InputAndQuestionQueues.QuestionQueues[j].ID == GlobalQuestionQueueItemsList[i].ID) {
+                  
+                        InputAndQuestionQueues.QuestionQueues[j].Qty1Answer = GlobalQuestionQueueItemsList[i].Qty1Answer;
+                        isUpdated = true;
+                        break;
+                   
+                } 
+            }
+
+            if (isUpdated == false){
+                InputAndQuestionQueues.QuestionQueues.push(GlobalQuestionQueueItemsList[i]);
+                isUpdated = false;
             }
         }
 
@@ -1173,7 +1201,9 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
        
     }
 
-
+    var UpdatedGlobalQueueArray = JSON.parse($("#costCentreQueueItems").val());
+    var CostCentreQueueObjectToSaveInDB = [];
+    //console.log('added from pop page: ' + $("#costCentreQueueItems").val());
     var to;
     to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + ClonedItemId + "&OrderedQuantity=" + $("#VMQuantityOrdered").val() + "&CallMode=New";
     var options = {
@@ -1195,10 +1225,55 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                     if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                         $(updatedAddOns)[i].ActualPrice = response;
                         $(updatedAddOns)[i].Description = desriptionOfQuestion;
-                        $(updatedAddOns)[i].CostCentreJasonData = jsonObjectsOfGlobalQueue;
+                        if (CostCentreType == 4) { // question queue
+                            for (var j = 0; j < UpdatedGlobalQueueArray.QuestionQueues.length; j++) {
+                                if (UpdatedGlobalQueueArray.QuestionQueues[j].CostCentreID == CostCentreId) {
+                                    CostCentreQueueObjectToSaveInDB.push(UpdatedGlobalQueueArray.QuestionQueues[j]);
+                                }
+                            }
+                        } else { // input queue
+                            for (var k = 0; k < UpdatedGlobalQueueArray.InputQueues.length; k++) {
+                               
+                                if (UpdatedGlobalQueueArray.InputQueues[k].CostCentreID == CostCentreId) {
+                                    CostCentreQueueObjectToSaveInDB.push(UpdatedGlobalQueueArray.InputQueues[k]);
+                                }
+                            }
+                        }
+                       // console.log(CostCentreQueueObjectToSaveInDB + CostCentreQueueObjectToSaveInDB.length);
+                        if (CostCentreQueueObjectToSaveInDB.length > 0) {
+                            $(updatedAddOns)[i].CostCentreJasonData = JSON.stringify(CostCentreQueueObjectToSaveInDB, null, 2);
+                        }
+                        
+                        
                         break;
                     }
                 }
+                
+                if (UpdatedGlobalQueueArray.QuestionQueues != null) {
+                    var QuestionQueueDBObject = [];
+                    for (var m = 0; m < UpdatedGlobalQueueArray.QuestionQueues.length; m++) {
+
+                        QuestionQueueDBObject.push(UpdatedGlobalQueueArray.QuestionQueues[m]);
+
+                    }
+
+                    if (QuestionQueueDBObject.length > 0) {
+                        $("#VMJsonAddOnsQuestionQueue").val(JSON.stringify(QuestionQueueDBObject, null, 2));
+                    }
+                }
+                if (UpdatedGlobalQueueArray.InputQueues != null) {
+                    var InputQueueDBObject = [];
+                    for (var n = 0; n < UpdatedGlobalQueueArray.InputQueues.length; n++) {
+
+                        InputQueueDBObject.push(UpdatedGlobalQueueArray.InputQueues[n]);
+
+                    }
+
+                    if (InputQueueDBObject.length > 0) {
+                        $("#VMJsonAddOnsInputQueue").val(JSON.stringify(InputQueueDBObject, null, 2));
+                    }
+                }
+               
 
                 var JsonToReSubmit = [];
 
@@ -1209,8 +1284,12 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                     totalVal = parseFloat(totalVal) + parseFloat($(updatedAddOns)[i].ActualPrice);
                 }
                 displayTotalPrice(ItemPrice, totalVal);
-
-                $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + response + '</label>' + '<a onclick="PromptCostCentre(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
+                if (isPromptAQuestion == true) {
+                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + response + '</label>' + '<a onclick="PromptQuestion(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
+                } else {
+                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + response + '</label>');
+                }
+                $("#VMAddOnrice").val(totalVal);
                 $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
             }
             HideLoader();

@@ -146,6 +146,7 @@ define("common/addProduct.viewModel",
                                 error: function(response) {
                                     toastr.error("Failed to Load Company Products . Error: " + response);
                                 }
+<<<<<<< HEAD
                             });
                     },
                     createNewRetailStoreProduct = function() {
@@ -156,6 +157,22 @@ define("common/addProduct.viewModel",
                         //var newItem = model.Item.Create(item);
                         counterForItem(counterForItem() - 1);
                         newItem.id(counterForItem());
+=======
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to Load Company Products . Error: " + response);
+                            }
+                        });
+                    },
+                    createNewRetailStoreProduct = function () {
+                        var newItem = createItemFromOrder(selecteditem());
+                        newItem.estimateId(orderId);
+                        //var item = selecteditem().convertToServerData();
+                        //item.EstimateId = orderId;
+                        //var newItem = model.Item.Create(item);
+                        counterForItem(counterForItem() - 1);
+                        newItem.id(0);
+>>>>>>> 7bcecd4241bdaab137fc0b8b6a1dbb8e3afac6b5
                         newItem.qty1NetTotal(totalProductPriceWithoutTax());
                         newItem.itemSections()[0].baseCharge1(totalProductPriceWithoutTax());
                         newItem = addSelectedAddOnsAsCostCenters(newItem);
@@ -269,6 +286,7 @@ define("common/addProduct.viewModel",
                                 selectedStockOption(itemStockOption);
                             }
                         });
+<<<<<<< HEAD
                     }),
                     showCostCenterSections = function() {
                         costCenterVisibility(!costCenterVisibility());
@@ -282,6 +300,10 @@ define("common/addProduct.viewModel",
                     //    }
                     //    addsOnTotal(total);
                     //}),
+=======
+                    }),
+                    
+>>>>>>> 7bcecd4241bdaab137fc0b8b6a1dbb8e3afac6b5
                     //Calculate Total Price
                     // ReSharper disable once UnusedLocals
                     calculateTotalPrice = ko.computed(function () {

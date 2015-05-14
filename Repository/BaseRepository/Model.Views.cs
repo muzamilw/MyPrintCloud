@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets2AFCFD04FF8EE803D9368CD5D6388FA7837099D83E9B1A33621CB1C287CE66BA))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsED5F11C878E11BB4F31019BB3ABCC70470107CFCA1CED67068FDBE72DF75B7BA))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets2AFCFD04FF8EE803D9368CD5D6388FA7837099D83E9B1A33621CB1C287CE66BA : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsED5F11C878E11BB4F31019BB3ABCC70470107CFCA1CED67068FDBE72DF75B7BA : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets2AFCFD04FF8EE803D9368CD5D6388FA7837099D83E9B1A33621CB1C287CE66BA()
+        public ViewsForBaseEntitySetsED5F11C878E11BB4F31019BB3ABCC70470107CFCA1CED67068FDBE72DF75B7BA()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "7899eafe48853ded3a30f691f91548b1aeb238b93c8e85d75ff2da4567b22d79";
-            this.HashOverAllExtentViews = "2515208fb7e12327a136ff2bc8b06832940b5e9b2eac3fabb8792f9cd5f1a527";
+            this.HashOverMappingClosure = "35482d6160899b1e21da40403c8398b5ba09e199da097c051ecff05f8dbc09b0";
+            this.HashOverAllExtentViews = "bc4076e3ea71f7ee18c42153d1d5750ca98ea84d397887fc18b396aa08903ff4";
             this.ViewCount = 334;
         }
         
@@ -3484,7 +3484,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Inquiry", @"
     SELECT VALUE -- Constructing Inquiry
-        [DomainModels.Store.Inquiry](T1.Inquiry_InquiryId, T1.Inquiry_Title, T1.Inquiry_ContactId, T1.Inquiry_CreatedDate, T1.Inquiry_SourceId, T1.Inquiry_ContactCompanyId, T1.Inquiry_RequireByDate, T1.Inquiry_SystemUserId, T1.Inquiry_Status, T1.Inquiry_IsDirectInquiry, T1.Inquiry_FlagId, T1.Inquiry_InquiryCode, T1.Inquiry_CreatedBy, T1.Inquiry_BrokerContactCompanyId, T1.Inquiry_OrganisationId)
+        [DomainModels.Store.Inquiry](T1.Inquiry_InquiryId, T1.Inquiry_Title, T1.Inquiry_ContactId, T1.Inquiry_CreatedDate, T1.Inquiry_SourceId, T1.Inquiry_CompanyId, T1.Inquiry_RequireByDate, T1.Inquiry_SystemUserId, T1.Inquiry_Status, T1.Inquiry_IsDirectInquiry, T1.Inquiry_FlagId, T1.Inquiry_InquiryCode, T1.Inquiry_CreatedBy, T1.Inquiry_OrganisationId)
     FROM (
         SELECT 
             T.InquiryId AS Inquiry_InquiryId, 
@@ -3492,7 +3492,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.ContactId AS Inquiry_ContactId, 
             T.CreatedDate AS Inquiry_CreatedDate, 
             T.SourceId AS Inquiry_SourceId, 
-            T.ContactCompanyId AS Inquiry_ContactCompanyId, 
+            T.CompanyId AS Inquiry_CompanyId, 
             T.RequireByDate AS Inquiry_RequireByDate, 
             T.SystemUserId AS Inquiry_SystemUserId, 
             T.Status AS Inquiry_Status, 
@@ -3500,7 +3500,6 @@ namespace Edm_EntityMappingGeneratedViews
             T.FlagId AS Inquiry_FlagId, 
             T.InquiryCode AS Inquiry_InquiryCode, 
             T.CreatedBy AS Inquiry_CreatedBy, 
-            T.BrokerContactCompanyId AS Inquiry_BrokerContactCompanyId, 
             T.OrganisationId AS Inquiry_OrganisationId, 
             True AS _from0
         FROM BaseDbContext.Inquiries AS T
@@ -3836,43 +3835,42 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView55()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2807);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2786);
             viewString.Append("\r\n    SELECT VALUE -- Constructing DeliveryNote\r\n        [DomainModels.Store.Del");
             viewString.Append("iveryNote](T1.DeliveryNote_DeliveryNoteId, T1.DeliveryNote_Code, T1.DeliveryNote");
-            viewString.Append("_DeliveryDate, T1.DeliveryNote_ContactCompanyId, T1.DeliveryNote_OrderReff, T1.D");
-            viewString.Append("eliveryNote_footnote, T1.DeliveryNote_Comments, T1.DeliveryNote_LockedBy, T1.Del");
-            viewString.Append("iveryNote_IsStatus, T1.DeliveryNote_ContactId, T1.DeliveryNote_ContactCompany, T");
-            viewString.Append("1.DeliveryNote_CustomerOrderReff, T1.DeliveryNote_AddressId, T1.DeliveryNote_Cre");
-            viewString.Append("atedBy, T1.DeliveryNote_CreationDateTime, T1.DeliveryNote_SupplierId, T1.Deliver");
-            viewString.Append("yNote_SupplierTelNo, T1.DeliveryNote_CsNo, T1.DeliveryNote_SupplierURL, T1.Deliv");
-            viewString.Append("eryNote_RaisedBy, T1.DeliveryNote_FlagId, T1.DeliveryNote_EstimateId, T1.Deliver");
-            viewString.Append("yNote_JobId, T1.DeliveryNote_InvoiceId, T1.DeliveryNote_OrderId, T1.DeliveryNote");
-            viewString.Append("_UserNotes, T1.DeliveryNote_NotesUpdateDateTime, T1.DeliveryNote_NotesUpdatedByU");
-            viewString.Append("serId, T1.DeliveryNote_SystemSiteId, T1.DeliveryNote_IsRead, T1.DeliveryNote_IsP");
-            viewString.Append("rinted)\r\n    FROM (\r\n        SELECT \r\n            T.DeliveryNoteId AS DeliveryNo");
-            viewString.Append("te_DeliveryNoteId, \r\n            T.Code AS DeliveryNote_Code, \r\n            T.De");
-            viewString.Append("liveryDate AS DeliveryNote_DeliveryDate, \r\n            T.ContactCompanyId AS Del");
-            viewString.Append("iveryNote_ContactCompanyId, \r\n            T.OrderReff AS DeliveryNote_OrderReff,");
-            viewString.Append(" \r\n            T.footnote AS DeliveryNote_footnote, \r\n            T.Comments AS ");
-            viewString.Append("DeliveryNote_Comments, \r\n            T.LockedBy AS DeliveryNote_LockedBy, \r\n    ");
-            viewString.Append("        T.IsStatus AS DeliveryNote_IsStatus, \r\n            T.ContactId AS Delive");
-            viewString.Append("ryNote_ContactId, \r\n            T.ContactCompany AS DeliveryNote_ContactCompany,");
-            viewString.Append(" \r\n            T.CustomerOrderReff AS DeliveryNote_CustomerOrderReff, \r\n        ");
-            viewString.Append("    T.AddressId AS DeliveryNote_AddressId, \r\n            T.CreatedBy AS Delivery");
-            viewString.Append("Note_CreatedBy, \r\n            T.CreationDateTime AS DeliveryNote_CreationDateTim");
-            viewString.Append("e, \r\n            T.SupplierId AS DeliveryNote_SupplierId, \r\n            T.Suppli");
-            viewString.Append("erTelNo AS DeliveryNote_SupplierTelNo, \r\n            T.CsNo AS DeliveryNote_CsNo");
-            viewString.Append(", \r\n            T.SupplierURL AS DeliveryNote_SupplierURL, \r\n            T.Raise");
-            viewString.Append("dBy AS DeliveryNote_RaisedBy, \r\n            T.FlagId AS DeliveryNote_FlagId, \r\n ");
-            viewString.Append("           T.EstimateId AS DeliveryNote_EstimateId, \r\n            T.JobId AS Del");
-            viewString.Append("iveryNote_JobId, \r\n            T.InvoiceId AS DeliveryNote_InvoiceId, \r\n        ");
-            viewString.Append("    T.OrderId AS DeliveryNote_OrderId, \r\n            T.UserNotes AS DeliveryNote");
-            viewString.Append("_UserNotes, \r\n            T.NotesUpdateDateTime AS DeliveryNote_NotesUpdateDateT");
-            viewString.Append("ime, \r\n            T.NotesUpdatedByUserId AS DeliveryNote_NotesUpdatedByUserId, ");
-            viewString.Append("\r\n            T.SystemSiteId AS DeliveryNote_SystemSiteId, \r\n            T.IsRea");
-            viewString.Append("d AS DeliveryNote_IsRead, \r\n            T.IsPrinted AS DeliveryNote_IsPrinted, \r");
-            viewString.Append("\n            True AS _from0\r\n        FROM BaseDbContext.DeliveryNotes AS T\r\n    ");
-            viewString.Append(") AS T1");
+            viewString.Append("_DeliveryDate, T1.DeliveryNote_CompanyId, T1.DeliveryNote_OrderReff, T1.Delivery");
+            viewString.Append("Note_footnote, T1.DeliveryNote_Comments, T1.DeliveryNote_LockedBy, T1.DeliveryNo");
+            viewString.Append("te_IsStatus, T1.DeliveryNote_ContactId, T1.DeliveryNote_ContactCompany, T1.Deliv");
+            viewString.Append("eryNote_CustomerOrderReff, T1.DeliveryNote_AddressId, T1.DeliveryNote_CreatedBy,");
+            viewString.Append(" T1.DeliveryNote_CreationDateTime, T1.DeliveryNote_SupplierId, T1.DeliveryNote_S");
+            viewString.Append("upplierTelNo, T1.DeliveryNote_CsNo, T1.DeliveryNote_SupplierURL, T1.DeliveryNote");
+            viewString.Append("_RaisedBy, T1.DeliveryNote_FlagId, T1.DeliveryNote_EstimateId, T1.DeliveryNote_J");
+            viewString.Append("obId, T1.DeliveryNote_InvoiceId, T1.DeliveryNote_OrderId, T1.DeliveryNote_UserNo");
+            viewString.Append("tes, T1.DeliveryNote_NotesUpdateDateTime, T1.DeliveryNote_NotesUpdatedByUserId, ");
+            viewString.Append("T1.DeliveryNote_SystemSiteId, T1.DeliveryNote_IsRead, T1.DeliveryNote_IsPrinted)");
+            viewString.Append("\r\n    FROM (\r\n        SELECT \r\n            T.DeliveryNoteId AS DeliveryNote_Deli");
+            viewString.Append("veryNoteId, \r\n            T.Code AS DeliveryNote_Code, \r\n            T.DeliveryD");
+            viewString.Append("ate AS DeliveryNote_DeliveryDate, \r\n            T.CompanyId AS DeliveryNote_Comp");
+            viewString.Append("anyId, \r\n            T.OrderReff AS DeliveryNote_OrderReff, \r\n            T.foot");
+            viewString.Append("note AS DeliveryNote_footnote, \r\n            T.Comments AS DeliveryNote_Comments");
+            viewString.Append(", \r\n            T.LockedBy AS DeliveryNote_LockedBy, \r\n            T.IsStatus AS");
+            viewString.Append(" DeliveryNote_IsStatus, \r\n            T.ContactId AS DeliveryNote_ContactId, \r\n ");
+            viewString.Append("           T.ContactCompany AS DeliveryNote_ContactCompany, \r\n            T.Cust");
+            viewString.Append("omerOrderReff AS DeliveryNote_CustomerOrderReff, \r\n            T.AddressId AS De");
+            viewString.Append("liveryNote_AddressId, \r\n            T.CreatedBy AS DeliveryNote_CreatedBy, \r\n   ");
+            viewString.Append("         T.CreationDateTime AS DeliveryNote_CreationDateTime, \r\n            T.Su");
+            viewString.Append("pplierId AS DeliveryNote_SupplierId, \r\n            T.SupplierTelNo AS DeliveryNo");
+            viewString.Append("te_SupplierTelNo, \r\n            T.CsNo AS DeliveryNote_CsNo, \r\n            T.Sup");
+            viewString.Append("plierURL AS DeliveryNote_SupplierURL, \r\n            T.RaisedBy AS DeliveryNote_R");
+            viewString.Append("aisedBy, \r\n            T.FlagId AS DeliveryNote_FlagId, \r\n            T.Estimate");
+            viewString.Append("Id AS DeliveryNote_EstimateId, \r\n            T.JobId AS DeliveryNote_JobId, \r\n  ");
+            viewString.Append("          T.InvoiceId AS DeliveryNote_InvoiceId, \r\n            T.OrderId AS Deli");
+            viewString.Append("veryNote_OrderId, \r\n            T.UserNotes AS DeliveryNote_UserNotes, \r\n       ");
+            viewString.Append("     T.NotesUpdateDateTime AS DeliveryNote_NotesUpdateDateTime, \r\n            T.");
+            viewString.Append("NotesUpdatedByUserId AS DeliveryNote_NotesUpdatedByUserId, \r\n            T.Syste");
+            viewString.Append("mSiteId AS DeliveryNote_SystemSiteId, \r\n            T.IsRead AS DeliveryNote_IsR");
+            viewString.Append("ead, \r\n            T.IsPrinted AS DeliveryNote_IsPrinted, \r\n            True AS ");
+            viewString.Append("_from0\r\n        FROM BaseDbContext.DeliveryNotes AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.DeliveryNote", viewString.ToString());
         }
         
@@ -7092,7 +7090,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Inquiries", @"
     SELECT VALUE -- Constructing Inquiries
-        [DomainModels.Inquiry](T1.Inquiry_InquiryId, T1.Inquiry_Title, T1.Inquiry_ContactId, T1.Inquiry_CreatedDate, T1.Inquiry_SourceId, T1.Inquiry_ContactCompanyId, T1.Inquiry_RequireByDate, T1.Inquiry_SystemUserId, T1.Inquiry_Status, T1.Inquiry_IsDirectInquiry, T1.Inquiry_FlagId, T1.Inquiry_InquiryCode, T1.Inquiry_CreatedBy, T1.Inquiry_BrokerContactCompanyId, T1.Inquiry_OrganisationId)
+        [DomainModels.Inquiry](T1.Inquiry_InquiryId, T1.Inquiry_Title, T1.Inquiry_ContactId, T1.Inquiry_CreatedDate, T1.Inquiry_SourceId, T1.Inquiry_RequireByDate, T1.Inquiry_SystemUserId, T1.Inquiry_Status, T1.Inquiry_IsDirectInquiry, T1.Inquiry_FlagId, T1.Inquiry_InquiryCode, T1.Inquiry_CreatedBy, T1.Inquiry_OrganisationId, T1.Inquiry_CompanyId)
     FROM (
         SELECT 
             T.InquiryId AS Inquiry_InquiryId, 
@@ -7100,7 +7098,6 @@ namespace Edm_EntityMappingGeneratedViews
             T.ContactId AS Inquiry_ContactId, 
             T.CreatedDate AS Inquiry_CreatedDate, 
             T.SourceId AS Inquiry_SourceId, 
-            T.ContactCompanyId AS Inquiry_ContactCompanyId, 
             T.RequireByDate AS Inquiry_RequireByDate, 
             T.SystemUserId AS Inquiry_SystemUserId, 
             T.Status AS Inquiry_Status, 
@@ -7108,8 +7105,8 @@ namespace Edm_EntityMappingGeneratedViews
             T.FlagId AS Inquiry_FlagId, 
             T.InquiryCode AS Inquiry_InquiryCode, 
             T.CreatedBy AS Inquiry_CreatedBy, 
-            T.BrokerContactCompanyId AS Inquiry_BrokerContactCompanyId, 
             T.OrganisationId AS Inquiry_OrganisationId, 
+            T.CompanyId AS Inquiry_CompanyId, 
             True AS _from0
         FROM DomainModelsStoreContainer.Inquiry AS T
     ) AS T1");
@@ -7444,43 +7441,42 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView153()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2814);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2793);
             viewString.Append("\r\n    SELECT VALUE -- Constructing DeliveryNotes\r\n        [DomainModels.Delivery");
             viewString.Append("Note](T1.DeliveryNote_DeliveryNoteId, T1.DeliveryNote_Code, T1.DeliveryNote_Deli");
-            viewString.Append("veryDate, T1.DeliveryNote_ContactCompanyId, T1.DeliveryNote_OrderReff, T1.Delive");
-            viewString.Append("ryNote_footnote, T1.DeliveryNote_Comments, T1.DeliveryNote_LockedBy, T1.Delivery");
-            viewString.Append("Note_IsStatus, T1.DeliveryNote_ContactId, T1.DeliveryNote_ContactCompany, T1.Del");
-            viewString.Append("iveryNote_CustomerOrderReff, T1.DeliveryNote_AddressId, T1.DeliveryNote_CreatedB");
-            viewString.Append("y, T1.DeliveryNote_CreationDateTime, T1.DeliveryNote_SupplierId, T1.DeliveryNote");
-            viewString.Append("_SupplierTelNo, T1.DeliveryNote_CsNo, T1.DeliveryNote_SupplierURL, T1.DeliveryNo");
-            viewString.Append("te_RaisedBy, T1.DeliveryNote_FlagId, T1.DeliveryNote_EstimateId, T1.DeliveryNote");
-            viewString.Append("_JobId, T1.DeliveryNote_InvoiceId, T1.DeliveryNote_OrderId, T1.DeliveryNote_User");
-            viewString.Append("Notes, T1.DeliveryNote_NotesUpdateDateTime, T1.DeliveryNote_NotesUpdatedByUserId");
-            viewString.Append(", T1.DeliveryNote_SystemSiteId, T1.DeliveryNote_IsRead, T1.DeliveryNote_IsPrinte");
-            viewString.Append("d)\r\n    FROM (\r\n        SELECT \r\n            T.DeliveryNoteId AS DeliveryNote_De");
-            viewString.Append("liveryNoteId, \r\n            T.Code AS DeliveryNote_Code, \r\n            T.Deliver");
-            viewString.Append("yDate AS DeliveryNote_DeliveryDate, \r\n            T.ContactCompanyId AS Delivery");
-            viewString.Append("Note_ContactCompanyId, \r\n            T.OrderReff AS DeliveryNote_OrderReff, \r\n  ");
-            viewString.Append("          T.footnote AS DeliveryNote_footnote, \r\n            T.Comments AS Deliv");
-            viewString.Append("eryNote_Comments, \r\n            T.LockedBy AS DeliveryNote_LockedBy, \r\n         ");
-            viewString.Append("   T.IsStatus AS DeliveryNote_IsStatus, \r\n            T.ContactId AS DeliveryNot");
-            viewString.Append("e_ContactId, \r\n            T.ContactCompany AS DeliveryNote_ContactCompany, \r\n  ");
-            viewString.Append("          T.CustomerOrderReff AS DeliveryNote_CustomerOrderReff, \r\n            T");
-            viewString.Append(".AddressId AS DeliveryNote_AddressId, \r\n            T.CreatedBy AS DeliveryNote_");
-            viewString.Append("CreatedBy, \r\n            T.CreationDateTime AS DeliveryNote_CreationDateTime, \r\n");
-            viewString.Append("            T.SupplierId AS DeliveryNote_SupplierId, \r\n            T.SupplierTel");
-            viewString.Append("No AS DeliveryNote_SupplierTelNo, \r\n            T.CsNo AS DeliveryNote_CsNo, \r\n ");
-            viewString.Append("           T.SupplierURL AS DeliveryNote_SupplierURL, \r\n            T.RaisedBy A");
-            viewString.Append("S DeliveryNote_RaisedBy, \r\n            T.FlagId AS DeliveryNote_FlagId, \r\n      ");
-            viewString.Append("      T.EstimateId AS DeliveryNote_EstimateId, \r\n            T.JobId AS Delivery");
-            viewString.Append("Note_JobId, \r\n            T.InvoiceId AS DeliveryNote_InvoiceId, \r\n            T");
-            viewString.Append(".OrderId AS DeliveryNote_OrderId, \r\n            T.UserNotes AS DeliveryNote_User");
-            viewString.Append("Notes, \r\n            T.NotesUpdateDateTime AS DeliveryNote_NotesUpdateDateTime, ");
-            viewString.Append("\r\n            T.NotesUpdatedByUserId AS DeliveryNote_NotesUpdatedByUserId, \r\n   ");
-            viewString.Append("         T.SystemSiteId AS DeliveryNote_SystemSiteId, \r\n            T.IsRead AS ");
-            viewString.Append("DeliveryNote_IsRead, \r\n            T.IsPrinted AS DeliveryNote_IsPrinted, \r\n    ");
-            viewString.Append("        True AS _from0\r\n        FROM DomainModelsStoreContainer.DeliveryNote AS ");
-            viewString.Append("T\r\n    ) AS T1");
+            viewString.Append("veryDate, T1.DeliveryNote_OrderReff, T1.DeliveryNote_footnote, T1.DeliveryNote_C");
+            viewString.Append("omments, T1.DeliveryNote_LockedBy, T1.DeliveryNote_IsStatus, T1.DeliveryNote_Con");
+            viewString.Append("tactId, T1.DeliveryNote_ContactCompany, T1.DeliveryNote_CustomerOrderReff, T1.De");
+            viewString.Append("liveryNote_AddressId, T1.DeliveryNote_CreatedBy, T1.DeliveryNote_CreationDateTim");
+            viewString.Append("e, T1.DeliveryNote_SupplierId, T1.DeliveryNote_SupplierTelNo, T1.DeliveryNote_Cs");
+            viewString.Append("No, T1.DeliveryNote_SupplierURL, T1.DeliveryNote_RaisedBy, T1.DeliveryNote_FlagI");
+            viewString.Append("d, T1.DeliveryNote_EstimateId, T1.DeliveryNote_JobId, T1.DeliveryNote_InvoiceId,");
+            viewString.Append(" T1.DeliveryNote_OrderId, T1.DeliveryNote_UserNotes, T1.DeliveryNote_NotesUpdate");
+            viewString.Append("DateTime, T1.DeliveryNote_NotesUpdatedByUserId, T1.DeliveryNote_SystemSiteId, T1");
+            viewString.Append(".DeliveryNote_IsRead, T1.DeliveryNote_IsPrinted, T1.DeliveryNote_CompanyId)\r\n   ");
+            viewString.Append(" FROM (\r\n        SELECT \r\n            T.DeliveryNoteId AS DeliveryNote_DeliveryN");
+            viewString.Append("oteId, \r\n            T.Code AS DeliveryNote_Code, \r\n            T.DeliveryDate A");
+            viewString.Append("S DeliveryNote_DeliveryDate, \r\n            T.OrderReff AS DeliveryNote_OrderReff");
+            viewString.Append(", \r\n            T.footnote AS DeliveryNote_footnote, \r\n            T.Comments AS");
+            viewString.Append(" DeliveryNote_Comments, \r\n            T.LockedBy AS DeliveryNote_LockedBy, \r\n   ");
+            viewString.Append("         T.IsStatus AS DeliveryNote_IsStatus, \r\n            T.ContactId AS Deliv");
+            viewString.Append("eryNote_ContactId, \r\n            T.ContactCompany AS DeliveryNote_ContactCompany");
+            viewString.Append(", \r\n            T.CustomerOrderReff AS DeliveryNote_CustomerOrderReff, \r\n       ");
+            viewString.Append("     T.AddressId AS DeliveryNote_AddressId, \r\n            T.CreatedBy AS Deliver");
+            viewString.Append("yNote_CreatedBy, \r\n            T.CreationDateTime AS DeliveryNote_CreationDateTi");
+            viewString.Append("me, \r\n            T.SupplierId AS DeliveryNote_SupplierId, \r\n            T.Suppl");
+            viewString.Append("ierTelNo AS DeliveryNote_SupplierTelNo, \r\n            T.CsNo AS DeliveryNote_CsN");
+            viewString.Append("o, \r\n            T.SupplierURL AS DeliveryNote_SupplierURL, \r\n            T.Rais");
+            viewString.Append("edBy AS DeliveryNote_RaisedBy, \r\n            T.FlagId AS DeliveryNote_FlagId, \r\n");
+            viewString.Append("            T.EstimateId AS DeliveryNote_EstimateId, \r\n            T.JobId AS De");
+            viewString.Append("liveryNote_JobId, \r\n            T.InvoiceId AS DeliveryNote_InvoiceId, \r\n       ");
+            viewString.Append("     T.OrderId AS DeliveryNote_OrderId, \r\n            T.UserNotes AS DeliveryNot");
+            viewString.Append("e_UserNotes, \r\n            T.NotesUpdateDateTime AS DeliveryNote_NotesUpdateDate");
+            viewString.Append("Time, \r\n            T.NotesUpdatedByUserId AS DeliveryNote_NotesUpdatedByUserId,");
+            viewString.Append(" \r\n            T.SystemSiteId AS DeliveryNote_SystemSiteId, \r\n            T.IsRe");
+            viewString.Append("ad AS DeliveryNote_IsRead, \r\n            T.IsPrinted AS DeliveryNote_IsPrinted, ");
+            viewString.Append("\r\n            T.CompanyId AS DeliveryNote_CompanyId, \r\n            True AS _from");
+            viewString.Append("0\r\n        FROM DomainModelsStoreContainer.DeliveryNote AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.DeliveryNotes", viewString.ToString());
         }
         

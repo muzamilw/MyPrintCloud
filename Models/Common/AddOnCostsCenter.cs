@@ -81,5 +81,7 @@ namespace MPC.Models.Common
 
         public string CostCentreJsonData { get; set; }
         public int IsMandatory { get; set; }
+        public int QuantitySourceType { get; set; }
+        public int TimeSourceType { get; set; }
     }
 }

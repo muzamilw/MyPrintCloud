@@ -18384,15 +18384,16 @@ fabric.Image.filters.Tint.fromObject = function (object) {
             if(chars[chars.length-1] != " ")   {
                 lc = (chars.length-1) * charSpacing ;
             }
-            Cleft = left - (m.width) - (lc);
+            Cleft = left - (m.width) - (lc) ;
             v1 = m.width; 
             for (var i = 0; i < chars.length; i++) {
                 var charWidth = ctx.measureText(chars[i]).width;
                 v3[i] = charWidth; v2 += charWidth;
-            } 
+            } //console.log( v1 + " " + v2);
             if (v1 != v2) {               
                 Cleft = Cleft - (v2 - v1);
-            } 
+            }
+            
         }
             for(var i = 0; i< chars.length;i++) {
                 ctx[method](chars[i], Cleft, top);
@@ -18682,7 +18683,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
         }
          if(fontSize == undefined || fontSize == null || fontSize =="") {
             fontSize = this.fontSize;
-        }
+         }
         return [
         // node-canvas needs "weight style", while browsers need "style weight"
 		(fabric.isLikelyNode ? fontWeight : fontStyle),
@@ -19643,8 +19644,7 @@ fabric.util.createAccessors(fabric.Text);
 		: (this.textAlign === 'right')
 		  ? this.width
 		  : 0;
-
-        // set proper line offset
+        //// set proper line offset
         var textLines = this.clippedText.split(this._reNewline), //this.text.split(this._reNewline),
 		  lineWidth = this._getWidthOfLine(ctx, lineIndex, textLines),
 		  lineHeight = this._getHeightOfLine(ctx, lineIndex, textLines),
@@ -19652,30 +19652,85 @@ fabric.util.createAccessors(fabric.Text);
 		  chars = line.split('');
 
         left += lineLeftOffset || 0;
-
+        
+        var v1 = 0, v2 = 0, v3 = [];
         var charSpacing =parseFloat(this.charSpacing);
         var Cleft = left;
-        if(this.textAlign == "center") {
-            var lc = (chars.length-2) * charSpacing ;
-            if(chars[chars.length-1] != " ")  {
-                lc = (chars.length-1) * charSpacing ;
-            } 
-            Cleft = left   - (lc/2); 
-            ctx.textAlign = "left";
-        } else if (this.textAlign == "right") {
-            ctx.textAlign = "left";
-            var lc = (chars.length-2) * charSpacing ;
-            if(chars[chars.length-1] != " ")   {
-                lc = (chars.length-1) * charSpacing ;
-            }
-            Cleft = left - (lc);
-        }
+        //if(this.textAlign == "center") {
+        //    var lc = (chars.length-2) * charSpacing ;
+        //    if(chars[chars.length-1] != " ")  {
+        //        lc = (chars.length-1) * charSpacing ;
+        //    } 
+        //    Cleft = left   - (lc/2); 
+        //    ctx.textAlign = "left";
+        //} else if (this.textAlign == "right") {
+        //    ctx.textAlign = "left";
+        //    var m = ctx.measureText(chars);
+        //    var lc = (chars.length - 2) * charSpacing;
+        //    if (chars[chars.length - 1] != " ") {
+        //        lc = (chars.length - 1) * charSpacing;
+        //    }
+        //    Cleft = left - (m.width) - (lc);
+        //    v1 = m.width;
+        //    for (var i = 0; i < chars.length; i++) {
+        //        var charWidth = ctx.measureText(chars[i]).width;
+        //        v3[i] = charWidth;
+        //        v2 += charWidth;
+        //    }
+
+        //    if (v1 != v2) {
+        //        Cleft = Cleft - (v2 - v1);
+        //    }
+        //    //ctx.textAlign = "left";
+        //    //var lc = (chars.length-2) * charSpacing ;
+        //    //if(chars[chars.length-1] != " ")   {
+        //    //    lc = (chars.length-1) * charSpacing ;
+        //    //}
+        //    //Cleft = left - (lc);
+        //    //var totalWidth = 0;
+        //    //var decl, charWidth, charHeight;
+            
+        //    //for (var i = 0, len = chars.length; i < len; i++) {
+        //    //    var cIndex = this.GetCharIndexFromLineIndex(lineIndex, i);
+        //    //    if (this.customStyles && (decl = this.customStyles[cIndex])) {
+        //    //        var shouldStroke = decl.stroke || this.stroke,
+        //    //        shouldFill = decl.fill || this.fill;
+        //    //        var objStyle = this.customStyles[cIndex];
+
+        //    //      //  ctx.save();
+        //    //        charWidth = this._applyCharStylesGetWidth(ctx, chars[i], lineIndex, i, decl, objStyle['font-family'], objStyle['color'], objStyle['font-Size'], objStyle['font-Weight'], objStyle['font-Style']);
+        //    //        //  charHeight = this._getHeightOfChar(ctx, _char, lineIndex, i);
+        //    //        //     totalWidth +=  charSpacing;
+        //    //     //   v3[i] = charWidth;
+        //    //    }
+        //    //}
+        //    //console.log(totalWidth + " " + lc + " " + Cleft);
+        //    //if(totalWidth == 0)
+        //    //{
+        //    //    Cleft = left - totalWidth;
+             
+        //    //} 
+        //}
         ctx.save();
-        for (var i = 0, len = chars.length; i < len; i++) {
-            this._renderChar(method, ctx, lineIndex, i, chars[i], Cleft, top, lineHeight);
-             var charWidth = ctx.measureText(chars[i]).width; 
-            Cleft = Cleft + charSpacing  ;
+        Cleft = Cleft + (charSpacing);
+        for (var i = 0; i < chars.length; i++) {
+           // ctx[method](chars[i], Cleft, top);
+            var width = this._renderCharCustom(method, ctx, lineIndex, i, chars[i], Cleft, top, lineHeight);
+      //      console.log(width);
+            //var charWidth = 0;
+            //if (v3.length == 0) {
+            //    charWidth = ctx.measureText(chars[i]).width;
+            //} else {
+            //    charWidth = parseFloat(v3[i]);
+            //}
+            Cleft = Cleft + (charSpacing);
         }
+        //for (var i = 0, len = chars.length; i < len; i++) {
+        //    this._renderChar(method, ctx, lineIndex, i, chars[i], Cleft, top, lineHeight);
+           
+        //    // var charWidth = ctx.measureText(chars[i]).width; 
+        //    Cleft = Cleft +  charSpacing;
+        //}
         ctx.restore();
     },
 
@@ -19735,6 +19790,50 @@ fabric.util.createAccessors(fabric.Text);
 
             ctx.translate(ctx.measureText(_char).width, 0);
         }
+    },
+    _renderCharCustom: function (method, ctx, lineIndex, i, _char, left, top, lineHeight) {
+        var decl, charWidth, charHeight; var charWidthToReturn = 0;
+      //  var charWidth = 0;
+        var cIndex = this.GetCharIndexFromLineIndex(lineIndex, i);
+        if (this.customStyles && (decl = this.customStyles[cIndex])) {
+            var shouldStroke = decl.stroke || this.stroke,
+			shouldFill = decl.fill || this.fill;
+            var objStyle = this.customStyles[cIndex];
+            ctx.save(); 
+            if (objStyle['font-Weight'] == undefined || objStyle['font-Weight'] == null || objStyle['font-Weight'] == "")
+            {
+
+            }
+            charWidth = this._applyCharStylesGetWidth(ctx, _char, lineIndex, i, decl, objStyle['font-family'], objStyle['color'], objStyle['font-Size'], objStyle['font-Weight'], objStyle['font-Style']);
+            charHeight = this._getHeightOfChar(ctx, _char, lineIndex, i);
+
+            if (shouldFill) {
+                ctx.fillText(_char, left, top);
+            }
+            if (shouldStroke) {
+                ctx.strokeText(_char, left, top);
+            }
+
+            this._renderCharDecoration(ctx, decl, left, top, charWidth, lineHeight, charHeight);
+            charWidthToReturn = ctx.measureText(_char).width;
+            ctx.restore();
+
+            ctx.translate(charWidth, 0);
+        }
+        else {
+
+            if (method === 'strokeText' && this.stroke) {
+                ctx[method](_char, left, top);
+            }
+            if (method === 'fillText' && this.fill) {
+                ctx[method](_char, left, top);
+            }
+            charWidth = this._applyCharStylesGetWidth(ctx, _char, lineIndex, i);
+            this._renderCharDecoration(ctx, null, left, top, charWidth, lineHeight);
+            charWidthToReturn = ctx.measureText(_char).width;
+            ctx.translate(ctx.measureText(_char).width, 0);
+        }
+        return charWidth;
     },
 
     /**
@@ -19935,7 +20034,11 @@ fabric.util.createAccessors(fabric.Text);
         ctx.lineWidth = styleDeclaration.strokeWidth || this.strokeWidth;
         //ctx.font = this._getFontDeclaration.call(styleDeclaration);
         if(fontWeight == undefined || fontWeight == null || fontWeight =="") {
-           fontWeight = this.fontWeight;
+            if (this.fontWeight == undefined || this.fontWeight == null ||  this.fontWeight == "") {
+               // fontWeight = 'normal'; 
+            } else {
+                fontWeight = this.fontWeight; 
+            }
         }
         if(fontFamily == undefined || fontFamily == null || fontFamily =="") {
             fontFamily = this.fontFamily;
@@ -19949,14 +20052,13 @@ fabric.util.createAccessors(fabric.Text);
         ctx.font = this._getFontDeclarationcustom(fontFamily,fontSize,fontStyle,fontWeight);
         this._setShadow.call(styleDeclaration, ctx);
 
-        if (!this.caching) {
+        if (!this.caching) {  // commneted by saqib to fix alignment bug 
             return ctx.measureText(_char).width;
         }
 
         if (!this._charWidthsCache[cacheProp]) {
             this._charWidthsCache[cacheProp] = ctx.measureText(_char).width;
         }
-
         return this._charWidthsCache[cacheProp];
     },
 
@@ -19975,8 +20077,14 @@ fabric.util.createAccessors(fabric.Text);
         } else { 
             styleDeclaration.fontSize = fontSize;
         }
-        if(fontWeight == undefined || fontWeight == null || fontWeight =="") {
-            styleDeclaration.fontWeight = this.fontWeight;
+        if (fontWeight == undefined || fontWeight == null || fontWeight == "") {
+            if (this.fontWeight == undefined || this.fontWeight == null || this.fontWeight == "") {
+             //   styleDeclaration.fontWeight = 'normal';
+
+            } else {
+                styleDeclaration.fontWeight = this.fontWeight;
+              //  console.log(styleDeclaration.fontWeight);
+            }
         } else { 
             styleDeclaration.fontWeight = fontWeight;
         }
