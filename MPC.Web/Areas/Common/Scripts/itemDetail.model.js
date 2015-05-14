@@ -6,8 +6,8 @@
             specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
             specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6, specifiedJobDescriptionTitle7, specifiedJobDescription7,
             specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty1NetTotal, specifiedItemNotes,
-            specifiedProductCategories, specifiedJobCode, specifiedJobCreationDateTime, specifiedJobManagerId, specifiedJobActualStartDateTime,
-            specifiedJobActualCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
+            specifiedProductCategories, specifiedJobCode, specifiedJobCreationDateTime, specifiedJobManagerId, specifiedJobEstimatedStartDateTime,
+            specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
             specifiedTax1, specifiedItemType, specifiedEstimateId) {
@@ -93,16 +93,94 @@
                 jobCreationDateTime = ko.observable(specifiedJobCreationDateTime ? moment(specifiedJobCreationDateTime).toDate() : undefined),
                 // Job Status Id
                 jobStatusId = ko.observable(specifiedJobStatusId || undefined),
+                // System Users
+                systemUsers = ko.observableArray([]),
+                // Get User by Id
+                getUserById = function (userId) {
+                    return systemUsers.find(function (user) {
+                        return user.id === userId;
+                    });
+                },
                 // Job Manager Id
                 jobManagerId = ko.observable(specifiedJobManagerId || undefined),
+                // Job Manager Set By For User
+                jobManagerUser = ko.computed({
+                    read: function () {
+                        if (!jobManagerId()) {
+                            return SystemUser.Create({});
+                        }
+                        return getUserById(jobManagerId());
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            jobManagerId(undefined);
+                            return;
+                        }
+                        var userId = value.id;
+                        if (userId === jobManagerId()) {
+                            return;
+                        }
+                        jobManagerId(userId);
+                    }
+                }),
                 // Job Progressed By
                 jobProgressedBy = ko.observable(specifiedJobProgressedBy || undefined),
+                // Set ProgressedBy
+                setJobProgressedBy = function (userId) {
+                    if (!userId) {
+                        return;
+                    }
+                    var user = getUserById(userId);
+                    if (user) {
+                        jobProgressedByUser(user);
+                    }
+                },
+                // Job Progressed By For User
+                jobProgressedByUser = ko.computed({
+                    read: function () {
+                        if (!jobProgressedBy()) {
+                            return SystemUser.Create({});
+                        }
+                        return getUserById(jobProgressedBy());
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            jobProgressedBy(undefined);
+                            return;
+                        }
+                        var userId = value.id;
+                        if (userId === jobProgressedBy()) {
+                            return;
+                        }
+                        jobProgressedBy(userId);
+                    }
+                }),
                 // Job Progressed By
                 jobSignedBy = ko.observable(specifiedJobSignedBy || undefined),
+                // Job Signed By For User
+                jobSignedByUser = ko.computed({
+                    read: function () {
+                        if (!jobSignedBy()) {
+                            return SystemUser.Create({});
+                        }
+                        return getUserById(jobSignedBy());
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            jobSignedBy(undefined);
+                            return;
+                        }
+                        var userId = value.id;
+                        if (userId === jobSignedBy()) {
+                            return;
+                        }
+                        jobSignedBy(userId);
+                    }
+                }),
                 // Job Actual Start DateTime
-                jobActualStartDateTime = ko.observable(specifiedJobActualStartDateTime ? moment(specifiedJobActualStartDateTime).toDate() : undefined),
+                jobActualStartDateTime = ko.observable(),
                 // Job ActualCompletion DateTime
-                jobActualCompletionDateTime = ko.observable(specifiedJobActualCompletionDateTime ? moment(specifiedJobActualCompletionDateTime).toDate() : undefined),
+                jobActualCompletionDateTime = ko.observable(),
                 // NominalCode Id
                 nominalCodeId = ko.observable(specifiedNominalCodeId || undefined),
                 // Invoice Description
@@ -192,9 +270,10 @@
                 // Estimate Id
                 estimateId = ko.observable(specifiedEstimateId || 0),
                 // Job Estimated Start Date Time
-                jobEstimatedStartDateTime = ko.observable(),
+                jobEstimatedStartDateTime = ko.observable(specifiedJobEstimatedStartDateTime ? moment(specifiedJobEstimatedStartDateTime).toDate() : undefined),
                 // Job Estimated Completion Date Time
-                jobEstimatedCompletionDateTime = ko.observable(),
+                jobEstimatedCompletionDateTime = ko.observable(specifiedJobEstimatedCompletionDateTime ?
+                    moment(specifiedJobEstimatedCompletionDateTime).toDate() : undefined),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
                 // Errors
@@ -314,6 +393,8 @@
                         JobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime() ?
                             moment(jobEstimatedCompletionDateTime()).format(ist.utcFormat) + "Z" : undefined,
                         JobManagerId: jobManagerId(),
+                        JobProgressedBy: jobProgressedBy(),
+                        JobCardPrintedBy: jobSignedBy(),
                         JobStatusId: jobStatusId(),
                         Qty1Tax1Value: qty1Tax1Value(),
                         Qty1GrossTotal: qty1GrossTotal(),
@@ -396,6 +477,11 @@
                 taxRateIsDisabled: taxRateIsDisabled,
                 itemStockOptions: itemStockOptions,
                 itemPriceMatrices: itemPriceMatrices,
+                systemUsers: systemUsers,
+                jobManagerUser: jobManagerUser,
+                jobProgressedByUser: jobProgressedByUser,
+                setJobProgressedBy: setJobProgressedBy,
+                jobSignedByUser: jobSignedByUser,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -1788,8 +1874,8 @@
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1, source.Qty1NetTotal,
-            source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobActtualStartDateTime,
-            source.JobActualCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
+            source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobEstimatedStartDateTime,
+            source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
             source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId);
 

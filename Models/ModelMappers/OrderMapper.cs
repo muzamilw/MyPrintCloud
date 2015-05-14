@@ -851,6 +851,7 @@ namespace MPC.Models.ModelMappers
             target.JobProgressedBy = source.JobProgressedBy;
             target.JobEstimatedStartDateTime = source.JobEstimatedStartDateTime;
             target.JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime;
+            target.JobCardPrintedBy = source.JobCardPrintedBy;
             target.JobCode = source.JobCode;
             
             // If Job Code is Already Assigned then skip

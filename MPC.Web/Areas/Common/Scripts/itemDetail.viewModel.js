@@ -443,10 +443,10 @@ define("common/itemDetail.viewModel",
                         showSectionDetail(false);
                         showItemDetailsSection(true);
                         selectedProduct(selectedProductParam);
+                        selectedProduct().systemUsers(systemUsers());
                         selectedOrder(selectedOrderParam);
                         selectedSection(selectedProduct().itemSections()[0]);
                         isEstimateScreen(isEstimateScreenFlag);
-                        //selectedSection().productType(selectedProduct().productType());
                         closeItemDetailSection = closeItemDetailParam;
                     },
                     closeItemDetail = function () {
@@ -947,6 +947,9 @@ define("common/itemDetail.viewModel",
                 },
                 // Change on Tax Rate
                     calculateTax = ko.computed(function () {
+                        if (!selectedProduct()) {
+                            return;
+                        }
                         qty1GrossTotalForItem();
                         qty2GrossTotalForItem();
                         qty3GrossTotalForItem();
