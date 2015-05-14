@@ -1778,18 +1778,36 @@
                     AddOnGrandTotal =
                     CostCentreTotalOnModify = parseFloat(CostCentreTotalOnModify) + parseFloat($(updatedAddOns)[i].ActualPrice);
                     if ($(updatedAddOns)[i].Type == 4) { // question queue
-                        for (var j = 0; j < UpdatedGlobalQueueArrayOnLoad.QuestionQueues.length; j++) {
-                            if (UpdatedGlobalQueueArrayOnLoad.QuestionQueues[j].CostCentreID == $(updatedAddOns)[i].CostCentreID) {
-                                CostCentreQueueObjectToSetLabels.push(UpdatedGlobalQueueArrayOnLoad.QuestionQueues[j]);
+                        if(UpdatedGlobalQueueArrayOnLoad != null ){
+                            if(UpdatedGlobalQueueArrayOnLoad.QuestionQueues != null){
+                                for (var j = 0; j < UpdatedGlobalQueueArrayOnLoad.QuestionQueues.length; j++) {
+                                    if (UpdatedGlobalQueueArrayOnLoad.QuestionQueues[j].CostCentreID == $(updatedAddOns)[i].CostCentreID) {
+                                        CostCentreQueueObjectToSetLabels.push(UpdatedGlobalQueueArrayOnLoad.QuestionQueues[j]);
+                                    }
+                                }
+                            }else{
+                                console.log("Json data on modify is corrupted.");
                             }
+                        }else{
+                            console.log("Json data on modify is corrupted.");
                         }
+                     
                     } else { // input queue
-                        for (var k = 0; k < UpdatedGlobalQueueArrayOnLoad.InputQueues.length; k++) {
+                        if(UpdatedGlobalQueueArrayOnLoad != null ){
+                            if(UpdatedGlobalQueueArrayOnLoad.InputQueues != null){
+                                for (var k = 0; k < UpdatedGlobalQueueArrayOnLoad.InputQueues.length; k++) {
 
-                            if (UpdatedGlobalQueueArrayOnLoad.InputQueues[k].CostCentreID == $(updatedAddOns)[i].CostCentreID) {
-                                CostCentreQueueObjectToSetLabels.push(UpdatedGlobalQueueArrayOnLoad.InputQueues[k]);
+                                    if (UpdatedGlobalQueueArrayOnLoad.InputQueues[k].CostCentreID == $(updatedAddOns)[i].CostCentreID) {
+                                        CostCentreQueueObjectToSetLabels.push(UpdatedGlobalQueueArrayOnLoad.InputQueues[k]);
+                                    }
+                                }
+                            }else{
+                                console.log("Json data on modify is corrupted.");
                             }
+                        }else{
+                            console.log("Json data on modify is corrupted.");
                         }
+                      
                     }
 
                     if (CostCentreQueueObjectToSetLabels.length > 0) {
