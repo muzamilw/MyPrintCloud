@@ -442,11 +442,8 @@ define("common/itemDetail.viewModel",
                         }
                     },
                     //Show Item Detail
-<<<<<<< HEAD
-                    showItemDetail = function(selectedProductParam, selectedOrderParam, closeItemDetailParam) {
-=======
                     showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam, isEstimateScreenFlag) {
->>>>>>> 7bcecd4241bdaab137fc0b8b6a1dbb8e3afac6b5
+
                         showSectionDetail(false);
                         showItemDetailsSection(true);
                         selectedProduct(selectedProductParam);
@@ -1500,12 +1497,7 @@ define("common/itemDetail.viewModel",
                         selectedSection(section);
                         subscribeSectionChanges();
                         showSectionDetail(true);
-<<<<<<< HEAD
-                    },s
-=======
                     },
-
->>>>>>> 7bcecd4241bdaab137fc0b8b6a1dbb8e3afac6b5
                     closeSectionDetailEditor = function () {
                         showSectionDetail(false);
                         selectedSection(undefined);
@@ -1710,12 +1702,7 @@ define("common/itemDetail.viewModel",
                     systemUsers: systemUsers,
                     lengthUnit: lengthUnit,
                     weightUnit: weightUnit,
-                    deleteSection: deleteSection,
-                    jobStatuses: jobStatuses,
-                    systemUsers: systemUsers,
-                    lengthUnit: lengthUnit,
-                    weightUnit: weightUnit
->>>>>>> 7bcecd4241bdaab137fc0b8b6a1dbb8e3afac6b5
+                    searchString: searchString
                     //#endregion
                 };
             })()

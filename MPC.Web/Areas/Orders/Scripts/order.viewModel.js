@@ -608,7 +608,7 @@ define("order/order.viewModel",
                     });
                     confirmation.show();
                     return;
-                }
+                },
                 statusNavigationBackward = function (status) {
                     // Only move 1 or 2 step backward at a time, if user try to move more than 1 or 2 step then system set 1 step by default
                     if (selectedOrder().statusId() === 10) {
@@ -635,10 +635,6 @@ define("order/order.viewModel",
                             } else {
                                 // Cancel to Shipped to invoiced
                                 status = selectedOrder().statusId() + 1;
-                            }
-                        }
-                    }
-                    else {
                             }
                         }
                     }

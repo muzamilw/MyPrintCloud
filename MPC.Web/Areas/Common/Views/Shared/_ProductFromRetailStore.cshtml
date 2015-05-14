@@ -185,7 +185,7 @@
 
                 </div> <!-- controls visibility of other sections- ends here-->
             </div>
-            <div class="col-lg-12 form-horizontal">
+            <div class="col-lg-12 form-horizontal" style="display: none" data-bind="visible:$root.costCenterVisibility()">
                 <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
                 <div class="col-lg-9"></div>
                 <div class="col-lg-3" style="margin-top: 10px;">
