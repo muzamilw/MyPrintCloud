@@ -271,7 +271,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 ContactId = source.ContactId,
                 Name = string.Format(CultureInfo.InvariantCulture, "{0} {1}", source.FirstName, source.LastName),
-                Email = source.Email
+                Email = source.Email,
+                IsDefaultContact = source.IsDefaultContact
             };
         }
 

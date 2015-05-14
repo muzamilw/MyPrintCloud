@@ -101,12 +101,12 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Credit Limit Set By
                 creditLimitSetBy = ko.observable(specifiedCreditLimitSetBy || undefined),
                 // Credit Limit Set on Date Time
-                creditLimitSetOnDateTime = ko.observable(specifiedCreditLimitSetOnDateTime ? moment(specifiedCreditLimitSetOnDateTime).toDate() : undefined),
+                creditLimitSetOnDateTime = ko.observable(specifiedCreditLimitSetOnDateTime ? moment(specifiedCreditLimitSetOnDateTime).toDate() : moment().toDate()),
                 // Is JobAllowedWOCreditCheck
                 isJobAllowedWoCreditCheck = ko.observable(specifiedIsJobAllowedWOCreditCheck || undefined),
                 // Allow Job WOCreditCheckSetOnDateTime
                 allowJobWoCreditCheckSetOnDateTime = ko.observable(specifiedAllowJobWOCreditCheckSetOnDateTime ?
-                    moment(specifiedAllowJobWOCreditCheckSetOnDateTime).toDate() : undefined),
+                    moment(specifiedAllowJobWOCreditCheckSetOnDateTime).toDate() : moment().toDate()),
                 // Allow JobWOCreditCheckSetBy
                 allowJobWoCreditCheckSetBy = ko.observable(specifiedAllowJobWOCreditCheckSetBy || undefined),
                 // Customer Po
@@ -114,7 +114,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Official Order Set By
                 officialOrderSetBy = ko.observable(specifiedOfficialOrderSetBy || undefined),
                 // Official Order Set on Date Time
-                officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : undefined),
+                officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : moment().toDate()),
                 // Foot Notes
                 footNotes = ko.observable(specifiedFootNotes || undefined),
                 //Tax Rate
@@ -468,7 +468,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 //Deliver Not Raised Flag
                 deliveryNoteRaised = ko.observable(specifiedDeliveryNoteRaised !== undefined ? specifiedDeliveryNoteRaised : false),
                 // Deliver Date
-                deliveryDate = ko.observable((specifiedDeliveryDate === undefined || specifiedDeliveryDate === null) ? moment().toDate() : moment(specifiedDeliveryDate, ist.utcFormat).toDate()),
+                deliveryDate = ko.observable((specifiedDeliveryDate === undefined || specifiedDeliveryDate === null) ?
+                    (!specifiedEstimateId ? moment().add('days', 2).toDate() : moment().toDate()) :
+                    moment(specifiedDeliveryDate).toDate()),
                 // Formatted Delivery Date
                 formattedDeliveryDate = ko.computed({
                     read: function () {
@@ -568,24 +570,26 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             };
         },
         // Address Entity
-        Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1) {
+        Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1, specifiedIsDefault) {
             return {
                 id: specifiedId,
                 name: specifiedName,
                 address1: specifiedAddress1 || "",
                 address2: specifiedAddress2 || "",
-                telephone1: specifiedTelephone1 || ""
+                telephone1: specifiedTelephone1 || "",
+                isDefault: specifiedIsDefault
             };
         },
                 
 
         // Company Contact Entity
-        CompanyContact = function (specifiedId, specifiedName, specifiedEmail) {
+        CompanyContact = function (specifiedId, specifiedName, specifiedEmail, specifiedIsDefault) {
             // ReSharper restore InconsistentNaming
             return {
                 id: specifiedId,
                 name: specifiedName,
-                email: specifiedEmail || ""
+                email: specifiedEmail || "",
+                isDefault: specifiedIsDefault
             };
         },
         
@@ -767,12 +771,12 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     // Address Factory
     Address.Create = function (source) {
-        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1);
+        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1, source.IsDefaultAddress);
     };
 
     // Company Contact Factory
     CompanyContact.Create = function (source) {
-        return new CompanyContact(source.ContactId, source.Name, source.Email);
+        return new CompanyContact(source.ContactId, source.Name, source.Email, source.IsDefaultContact);
     };
 
     // System User Factory

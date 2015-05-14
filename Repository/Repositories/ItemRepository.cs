@@ -2097,7 +2097,7 @@ namespace MPC.Repository.Repositories
 
         public bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice,
             long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId,
-            double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueuItem = "")
+            double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "")
         {
             try
             {
@@ -2205,7 +2205,9 @@ namespace MPC.Repository.Repositories
 
                   
                     FirstItemSection.Qty1MarkUpID = (int)markupid;
-                    FirstItemSection.QuestionQueue = QuestionQueuItem;
+                    FirstItemSection.QuestionQueue = QuestionQueue;
+                    FirstItemSection.InputQueue = InputQueue;
+                    FirstItemSection.CostCentreQueue = CostCentreQueue;
                     
 
                     bool isNewSectionCostCenter = false;
