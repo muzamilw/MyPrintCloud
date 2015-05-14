@@ -239,7 +239,7 @@ function ShowArtWorkPopup(Type, panelHtml) {
     } else if (bws.width < 500) {
         //left = parseInt((bws.width) / 2);
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:550px;">' + panelHtml + '</div></div>';
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:400px;">' + panelHtml + '</div></div>';
 
     }
     else
@@ -676,21 +676,11 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         var GlobalQuestionQueueItemsListJsonObject = JSON.stringify(GlobalQuestionQueueItemsList, null, 2);
 
         var GlobalInputQueueItemsListJsonObject = JSON.stringify(GlobalInputQueueItemsList, null, 2);
-        var jsonObjectsOfGlobalQueue = null;
-        if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
-
-            var InputAndQuestionQueues = {
-                QuestionQueues: GlobalQuestionQueueItemsList,
+       
                 InputQueues: GlobalInputQueueItemsList
             }
             jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
             $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
-
-        } else {
-
-            var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
-            console.log(InputAndQuestionQueues);
-           // InputAndQuestionQueues[0] = InputAndQuestionQueues[0] + GlobalQuestionQueueItemsList;
            // InputAndQuestionQueues[1] = InputAndQuestionQueues[1] + GlobalInputQueueItemsList;
            // var jsonObjects = JSON.stringify(InputAndQuestionQueues, null, 2);
             var InputAndQuestionQueues = {
@@ -699,9 +689,9 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             }
             jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
             $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
-        }
-       
-        console.log("Global Queue from pop up: " + JSON.stringify($("#costCentreQueueItems").val(), null, 2));
+        
+        SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfCostCentre, ItemPrice, Currency);
+        
         //if (populatedQueuItems != "null") {
         //    populatedQueuItems = populatedQueuItems + GlobalQuestionQueueItemsListJsonObject;
         //    $("#costCentreQueueItems").val(populatedQueuItems);
@@ -711,52 +701,6 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         //    $("#costCentreQueueItems").val(populatedQueuItems);
         //}
         
-        var to;
-        to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + ClonedItemId + "&OrderedQuantity=" + $("#VMQuantityOrdered").val() + "&CallMode=New";
-        var options = {
-            type: "POST",
-            url: to,
-            data:$("#costCentreQueueItems").val(),
-            contentType: "application/json",
-            async: true,
-            success: function (response) {
-                
-                ShowLoader();
-                var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
-                if (updatedAddOns != null) {
-
-                    for (var i = 0; i < $(updatedAddOns).length; i++) {
-                        if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
-                            $(updatedAddOns)[i].ActualPrice = response;
-                            $(updatedAddOns)[i].Description = desriptionOfCostCentre;
-                            $(updatedAddOns)[i].CostCentreJasonData = GlobalQuestionQueueItemsListJsonObject;
-                            break;
-                        }
-                    }
-
-                    var JsonToReSubmit = [];
-                    var totalVal = 0;
-                    for (var i = 0; i < $(updatedAddOns).length; i++) {
-                        JsonToReSubmit.push($(updatedAddOns)[i]);
-                        if ($(updatedAddOns)[i].Type == 4) {
-                            totalVal = parseFloat(totalVal) + parseFloat(response);
-                        } else {
-                            var actualP = ($("#VMQuantityOrdered").val() * $(updatedAddOns)[i].ActualPrice) + $(updatedAddOns)[i].SetupCost;
-                            if (actualP < $(updatedAddOns)[i].MinimumCost && $(updatedAddOns)[i].MinimumCost != 0) {
-                                actualP = $(updatedAddOns)[i].MinimumCost;
-                            }
-                            totalVal = parseFloat(totalVal) + parseFloat(actualP);
-                        }
-                    }
-                    displayTotalPrice(ItemPrice, totalVal);
-                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptCostCentre(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
-                    $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
-                }
-                HideLoader();
-            },
-            error: function (msg) { alert("Error occured "); console.log(msg); }
-        };
-        var returnText = $.ajax(options).responseText;
         
     }
    
@@ -832,7 +776,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 }
 function ShippingBillingDetails(Type, panelHtml) {
 
-      var bws = getBrowserHeight();
+    var bws = getBrowserHeight();
 
     var shadow = document.getElementById("innerLayer");
 
@@ -867,18 +811,16 @@ function ShippingBillingDetails(Type, panelHtml) {
     } else if (bws.width < 500) {
         //left = parseInt((bws.width) / 2);
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:550px;">' + panelHtml + '</div></div>';
-
+        container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:300px;">' + panelHtml + '</div></div>';
     }
-    else {
+    else{
 
         left = parseInt((bws.width - 730) / 2);
         document.getElementById("innerLayer").style.width = "730px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body" style="height:500px;overflow-y:scroll;" >' + panelHtml + '</div></div>';
-
-
     }
 
+   
 
    // document.getElementById("innerLayer").style.width = (bws.width) + "px";
     document.getElementById("innerLayer").innerHTML = container;
@@ -894,28 +836,37 @@ function ShippingBillingDetails(Type, panelHtml) {
 }
 function ShowResetPassword(Type, panelHtml) {
   
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
-
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-x: scroll;">' + panelHtml + '</div></div>';
     var bws = getBrowserHeight();
-
     var shadow = document.getElementById("innerLayer");
+   
+    if (bws.width < 640) {
+        
+        document.getElementById("innerLayer").innerHTML = container;
+        document.getElementById("innerLayer").style.top = "0px";
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        var r = -3;
+        document.getElementById("innerLayer").style.left = r + "px";
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+    } else {
 
-    document.getElementById("layer").style.width = bws.width + "px";
-    document.getElementById("layer").style.height = bws.height + "px";
+        document.getElementById("innerLayer").style.width = "645px";
+        //document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
 
-    var left = parseInt((bws.width - 645) / 2);
-
-    document.getElementById("innerLayer").innerHTML = container;
-
-    document.getElementById("innerLayer").style.left = left + "px";
-    document.getElementById("innerLayer").style.top = "0px";
-
-    document.getElementById("innerLayer").style.width = "645px";
-    document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
-
-    document.getElementById("layer").style.display = "block";
-    document.getElementById("innerLayer").style.display = "block";
+        var left = parseInt((bws.width - 645) / 2);
+        document.getElementById("innerLayer").innerHTML = container;
+        document.getElementById("innerLayer").style.left = left + "px";
+        document.getElementById("innerLayer").style.top = "0px";
+        // document.getElementById("innerLayer").style.width = "645px";
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+    }
 }
 function ConfirmDeleteSaveDesignPopup(ItemID) {
 
@@ -1195,5 +1146,97 @@ function CustomeAlertBoxDesigner(msg,callbackFuncName) {
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
+
+}
+
+function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode) {
+    var jsonObjectsOfGlobalQueue = null;
+    if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
+
+        var InputAndQuestionQueues = {
+            QuestionQueues: GlobalQuestionQueueItemsList,
+            InputQueues: GlobalInputQueueItemsList
+        }
+        jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
+        $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
+
+    } else {
+
+        var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
+       
+        for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
+            for (var j = 0; j < InputAndQuestionQueues.InputQueues.length; j++) {
+                if (InputAndQuestionQueues.InputQueues[j].CostCenterId == GlobalInputQueueItemsList[i].CostCenterId && InputAndQuestionQueues.InputQueues[j].ID == GlobalInputQueueItemsList[i].ID) {
+                    InputAndQuestionQueues.InputQueues[j].Qty1Answer = GlobalInputQueueItemsList[i].Qty1Answer;
+                    break;
+                } else {
+                    InputAndQuestionQueues.InputQueues.push(GlobalInputQueueItemsList[i]);
+                    break;
+                }
+            }
+        }
+
+        for (var i = 0; i < GlobalQuestionQueueItemsList.length; i++) {
+            for (var j = 0; j < InputAndQuestionQueues.QuestionQueues.length; j++) {
+                if (InputAndQuestionQueues.QuestionQueues[j].CostCenterId == GlobalQuestionQueueItemsList[i].CostCenterId && InputAndQuestionQueues.QuestionQueues[j].ID == GlobalQuestionQueueItemsList[i].ID) {
+                    InputAndQuestionQueues.QuestionQueues[j].Qty1Answer = GlobalQuestionQueueItemsList[i].Qty1Answer;
+                    break;
+                } else {
+                    InputAndQuestionQueues.QuestionQueues.push(GlobalQuestionQueueItemsList[i]);
+                    break;
+                }
+            }
+        }
+
+        $("#costCentreQueueItems").val(JSON.stringify(InputAndQuestionQueues, null, 2));
+       
+    }
+
+
+    var to;
+    to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + ClonedItemId + "&OrderedQuantity=" + $("#VMQuantityOrdered").val() + "&CallMode=New";
+    var options = {
+        type: "POST",
+        url: to,
+        data: $("#costCentreQueueItems").val(),
+        contentType: "application/json",
+        async: true,
+        success: function (response) {
+
+            ShowLoader();
+            
+            var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
+            
+            if (updatedAddOns != null) {
+
+                for (var i = 0; i < $(updatedAddOns).length; i++) {
+
+                    if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
+                        $(updatedAddOns)[i].ActualPrice = response;
+                        $(updatedAddOns)[i].Description = desriptionOfQuestion;
+                        $(updatedAddOns)[i].CostCentreJasonData = jsonObjectsOfGlobalQueue;
+                        break;
+                    }
+                }
+
+                var JsonToReSubmit = [];
+
+                var totalVal = 0;
+                // add checked cost centre values to gross total
+                for (var i = 0; i < $(updatedAddOns).length; i++) {
+                    JsonToReSubmit.push($(updatedAddOns)[i]);
+                    totalVal = parseFloat(totalVal) + parseFloat($(updatedAddOns)[i].ActualPrice);
+                }
+                displayTotalPrice(ItemPrice, totalVal);
+
+                $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + response + '</label>' + '<a onclick="PromptCostCentre(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
+                $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
+            }
+            HideLoader();
+        },
+        error: function (msg) { alert("Error occured "); console.log(msg); }
+    };
+    var returnText = $.ajax(options).responseText;
+
 
 }

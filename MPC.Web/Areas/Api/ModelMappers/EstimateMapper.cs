@@ -22,6 +22,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateId = source.EstimateId,
                 CompanyId = source.CompanyId,
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                StoreId = source.Company != null ? source.Company.StoreId : null,
+                IsCustomer = source.Company != null ? source.Company.IsCustomer : (short)0,
                 StatusId = source.StatusId,
                 Status = source.Status != null ? source.Status.StatusName : string.Empty,
                 EstimateCode = source.Estimate_Code,

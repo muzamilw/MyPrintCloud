@@ -13,5 +13,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string URL { get; set; }
         public short IsCustomer { get; set; }
         public DateTime? CreationDate { get; set; }
+        public double? TaxRate { get; set; }
     }
 }

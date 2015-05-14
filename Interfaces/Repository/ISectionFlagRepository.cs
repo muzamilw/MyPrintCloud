@@ -28,7 +28,7 @@ namespace MPC.Interfaces.Repository
         /// Get Section Flag For Customer Price Index Section
         /// </summary>
         IEnumerable<SectionFlag> GetAllForCustomerPriceIndex();
-
+        IEnumerable<SectionFlag> GetDefaultSectionFlags();
         /// <summary>
         /// Get Section Flags for Campaign
         /// </summary>

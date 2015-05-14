@@ -557,7 +557,8 @@ namespace MPC.Implementation.MISServices
                 InkPlateSides = inkPlateSideRepository.GetAll(),
                 Inks = stockItemRepository.GetStockItemOfCategoryInk(),
                 InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
-                CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty
+                CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty,
+                SystemUsers = systemUserRepository.GetAll()
             };
 
         }
