@@ -358,7 +358,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Mode = "";
             }
 
-            clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId);
+            clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId, UserCookieManager.WEBOrganisationID);
 
             if (listOfCostCentres == null || listOfCostCentres.Count == 0)
             {
@@ -385,8 +385,8 @@ namespace MPC.Webstore.Controllers
                         {
                             // var objCS = objSettings.Where(g => g.CostCentreID == cItem.CostCentreId).ToList();
 
-                            if (addOn.Type == 4)
-                            {
+                            //if (addOn.Type == 4)
+                            //{
                                 AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
                                 {
                                     Id = addOn.ProductAddOnID,
@@ -404,25 +404,25 @@ namespace MPC.Webstore.Controllers
                                     //   CostCenterModifiedJson =  objCS
                                 };
                                 AddonObjectList.Add(addOnsObject);
-                            }
-                            else
-                            {
-                                AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
-                                {
-                                    Id = addOn.ProductAddOnID,
-                                    CostCenterId = addOn.CostCenterID,
-                                    Type = addOn.Type,
-                                    SetupCost = addOn.SetupCost,
-                                    MinimumCost = addOn.MinimumCost,
-                                    ActualPrice = addOn.AddOnPrice ?? 0.0,
-                                    StockOptionId = addOn.ItemStockId,
-                                    Description = "",
-                                    isChecked = true,
-                                    QuantitySourceType = addOn.QuantitySourceType,
-                                    TimeSourceType = addOn.TimeSourceType
-                                };
-                                AddonObjectList.Add(addOnsObject);
-                            }
+                            //}
+                            //else
+                            //{
+                            //    AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                            //    {
+                            //        Id = addOn.ProductAddOnID,
+                            //        CostCenterId = addOn.CostCenterID,
+                            //        Type = addOn.Type,
+                            //        SetupCost = addOn.SetupCost,
+                            //        MinimumCost = addOn.MinimumCost,
+                            //        ActualPrice = addOn.AddOnPrice ?? 0.0,
+                            //        StockOptionId = addOn.ItemStockId,
+                            //        Description = "",
+                            //        isChecked = true,
+                            //        QuantitySourceType = addOn.QuantitySourceType,
+                            //        TimeSourceType = addOn.TimeSourceType
+                            //    };
+                            //    AddonObjectList.Add(addOnsObject);
+                            //}
 
                             isAddedToList = true;
                             break;
