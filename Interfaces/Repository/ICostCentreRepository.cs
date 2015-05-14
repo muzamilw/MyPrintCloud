@@ -71,5 +71,9 @@ namespace MPC.Interfaces.Repository
         CostCentreResponse GetAllNonSystemCostCentresForProduct(GetCostCentresRequest request);
 
         List<CostCentre> GetCostCentresforxml(List<long> CostCenterIDs);
+        /// <summary>
+        /// Get web order cost centre
+        /// </summary>
+        CostCentre GetWebOrderCostCentre(long OrganisationId);
     }
 }

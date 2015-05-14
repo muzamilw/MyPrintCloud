@@ -1225,6 +1225,7 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                     if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                         $(updatedAddOns)[i].ActualPrice = response;
                         $(updatedAddOns)[i].Description = desriptionOfQuestion;
+                        $(updatedAddOns)[i].Type = CostCentreType;
                         if (CostCentreType == 4) { // question queue
                             for (var j = 0; j < UpdatedGlobalQueueArray.QuestionQueues.length; j++) {
                                 if (UpdatedGlobalQueueArray.QuestionQueues[j].CostCentreID == CostCentreId) {
@@ -1280,6 +1281,7 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                 var totalVal = 0;
                 // add checked cost centre values to gross total
                 for (var i = 0; i < $(updatedAddOns).length; i++) {
+                    console.log("pop up update json" + $(updatedAddOns)[i].ActualPrice);
                     JsonToReSubmit.push($(updatedAddOns)[i]);
                     totalVal = parseFloat(totalVal) + parseFloat($(updatedAddOns)[i].ActualPrice);
                 }

@@ -77,7 +77,7 @@ namespace MPC.MIS.Controllers
             {
                 validationInfo = new ValidationInfo();
                 validationInfo.CustomerID = "1";
-                validationInfo.userId = "xyz";
+                validationInfo.userId = "EA8D4A6B-E88C-41B0-A003-49827D447074";
                 validationInfo.FullName = "Naveed Zahid";
                 validationInfo.Plan = "light";
                 validationInfo.Email = "naveedmnz@hotmail.com";

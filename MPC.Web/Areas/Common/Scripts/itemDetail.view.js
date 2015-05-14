@@ -69,11 +69,35 @@ define("common/itemDetail.view",
                     liElement.click();
 
                     // Scroll to Element
-                    setTimeout(function () {
-                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
-                        // Focus on element
-                        $(element).focus();
-                    }, 1000);
+                    //setTimeout(function () {
+                    //    window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                    //    // Focus on element
+                    //    $(element).focus();
+                    //}, 1000);
+                    var target = $(element);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: (target.offset().top - 50)
+                        }, 1000);
+                        return false;
+                    }
+                },
+                goToValidationSummary= function() {
+                    var target = $('#validationSummary');
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: (target.offset().top - 50)
+                        }, 1000);
+                        function blinker() {
+                            $('#validationSummary').fadeOut(500);
+                            $('#validationSummary').fadeIn(500);
+                        }
+
+                        setTimeout(blinker, 1000);
+                        return false;
+                    }
                 },
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
@@ -102,7 +126,8 @@ define("common/itemDetail.view",
                 gotoElement: gotoElement,
                 showEstimateRunWizard: showEstimateRunWizard,
                 hideEstimateRunWizard: hideEstimateRunWizard,
-                initializeLabelPopovers: initializeLabelPopovers
+                initializeLabelPopovers: initializeLabelPopovers,
+                goToValidationSummary: goToValidationSummary
             };
         })(itemDetailViewModel);
 

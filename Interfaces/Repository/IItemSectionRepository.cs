@@ -44,6 +44,13 @@ namespace MPC.Interfaces.Repository
         List<Machine> GetEnabledPresses(double sectionHeight, double sectionWidth);
         List<MachineSpoilage> GetSpoilageByPressId(int PressId);
         List<CostCentre> GetUserDefinedCostCentres();
-
+        /// <summary>
+        /// get item section no 1
+        /// </summary>
+        /// <param name="StockOptionID"></param>
+        /// <param name="CompanyID"></param>
+        /// <returns></returns>
+        ItemSection GetFirstSectionOfItem(long ItemId);
+        
     }
 }

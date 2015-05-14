@@ -86,7 +86,14 @@ namespace MPC.Webstore.Controllers
                     else
                     {
                         ViewBag.TemplateID = 0;
+                        if (ItemRecord.ProductDisplayOptions == (int)ProductDisplayOption.ThumbAndBanner)
+                        {
+                            ViewBag.IsTemplateProductWithBanner = true;
 
+                            //  SliderContainer.Style.Add("background-color", "#f3f3f3"); pending
+
+                            ViewBag.TempBannerImgURL = ItemRecord.ImagePath;
+                        }
 
                     }
                     ViewBag.btnUploadDesignPath = "/ProductOptions/" + CategoryID + "/" + ItemID + "/UploadDesign";

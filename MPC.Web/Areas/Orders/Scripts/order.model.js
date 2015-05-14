@@ -97,9 +97,46 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 sourceId = ko.observable(specifiedSourceId || undefined),
                 // Credit Limit For Job
                 creditLimitForJob = ko.observable(specifiedCreditLimitForJob || undefined),
-
+                // System Users
+                systemUsers = ko.observableArray([]),
                 // Credit Limit Set By
                 creditLimitSetBy = ko.observable(specifiedCreditLimitSetBy || undefined),
+                // Get User by Id
+                getUserById = function (userId) {
+                    return systemUsers.find(function (user) {
+                        return user.id === userId;
+                    });
+                },
+                // Set Credit Limit Set By
+                setCreditiLimitSetBy = function(userId) {
+                    if (!userId) {
+                        return;
+                    }
+                    var user = getUserById(userId);
+                    if (user) {
+                        creditLimitSetByUser(user);
+                    }
+                },
+                // Credit Limit Set By For User
+                creditLimitSetByUser = ko.computed({
+                   read: function() {
+                       if (!creditLimitSetBy()) {
+                           return SystemUser.Create({});
+                       }
+                       return getUserById(creditLimitSetBy());
+                   },
+                   write: function(value) {
+                       if (!value) {
+                           creditLimitSetBy(undefined);
+                           return;
+                       }
+                       var userId = value.id;
+                       if (userId === creditLimitSetBy()) {
+                           return;
+                       }
+                       creditLimitSetBy(userId);
+                   }
+                }),
                 // Credit Limit Set on Date Time
                 creditLimitSetOnDateTime = ko.observable(specifiedCreditLimitSetOnDateTime ? moment(specifiedCreditLimitSetOnDateTime).toDate() : moment().toDate()),
                 // Is JobAllowedWOCreditCheck
@@ -109,10 +146,70 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     moment(specifiedAllowJobWOCreditCheckSetOnDateTime).toDate() : moment().toDate()),
                 // Allow JobWOCreditCheckSetBy
                 allowJobWoCreditCheckSetBy = ko.observable(specifiedAllowJobWOCreditCheckSetBy || undefined),
+                // Set Allow JobWOCreditCheckSetBy
+                setAllowJobWoCreditCheckSetBy = function (userId) {
+                    if (!userId) {
+                        return;
+                    }
+                    var user = getUserById(userId);
+                    if (user) {
+                        allowJobWoCreditCheckSetByUser(user);
+                    }
+                },
+                // Allow JobWOCreditCheckSetBy For User
+                allowJobWoCreditCheckSetByUser = ko.computed({
+                    read: function () {
+                        if (!allowJobWoCreditCheckSetBy()) {
+                            return SystemUser.Create({});
+                        }
+                        return getUserById(allowJobWoCreditCheckSetBy());
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            allowJobWoCreditCheckSetBy(undefined);
+                            return;
+                        }
+                        var userId = value.id;
+                        if (userId === allowJobWoCreditCheckSetBy()) {
+                            return;
+                        }
+                        allowJobWoCreditCheckSetBy(userId);
+                    }
+                }),
                 // Customer Po
                 customerPo = ko.observable(specifiedCustomerPo || undefined),
                 // Official Order Set By
                 officialOrderSetBy = ko.observable(specifiedOfficialOrderSetBy || undefined),
+                // Official Order Set By For User
+                officialOrderSetByUser = ko.computed({
+                    read: function () {
+                        if (!officialOrderSetBy()) {
+                            return SystemUser.Create({});
+                        }
+                        return getUserById(officialOrderSetBy());
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            officialOrderSetBy(undefined);
+                            return;
+                        }
+                        var userId = value.id;
+                        if (userId === officialOrderSetBy()) {
+                            return;
+                        }
+                        officialOrderSetBy(userId);
+                    }
+                }),
+                // Set Official Order Set By 
+                setOfficialOrderSetBy = function (userId) {
+                    if (!userId) {
+                        return;
+                    }
+                    var user = getUserById(userId);
+                    if (user) {
+                        officialOrderSetByUser(user);
+                    }
+                },
                 // Official Order Set on Date Time
                 officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : moment().toDate()),
                 // Foot Notes
@@ -151,6 +248,36 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 status = ko.observable(undefined),
                 // Order signed by
                 orderReportSignedBy = ko.observable(undefined),
+                // Set Credit Limit Set By
+                setOrderReportSignedBy = function (userId) {
+                    if (!userId) {
+                        return;
+                    }
+                    var user = getUserById(userId);
+                    if (user) {
+                        orderReportSignedByUser(user);
+                    }
+                },
+                // Order Report Set By For User
+                orderReportSignedByUser = ko.computed({
+                    read: function () {
+                        if (!orderReportSignedBy()) {
+                            return SystemUser.Create({});
+                        }
+                        return getUserById(orderReportSignedBy());
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            orderReportSignedBy(undefined);
+                            return;
+                        }
+                        var userId = value.id;
+                        if (userId === orderReportSignedBy()) {
+                            return;
+                        }
+                        orderReportSignedBy(userId);
+                    }
+                }),
                 // Store Id
                 storeId = ko.observable(undefined),
                 // Errors
@@ -356,7 +483,16 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 convertToServerData: convertToServerData,
                 statusId: statusId,
                 status: status,
-                storeId: storeId
+                storeId: storeId,
+                setCreditiLimitSetBy: setCreditiLimitSetBy,
+                setAllowJobWoCreditCheckSetBy: setAllowJobWoCreditCheckSetBy,
+                setOfficialOrderSetBy: setOfficialOrderSetBy,
+                creditLimitSetByUser: creditLimitSetByUser,
+                allowJobWoCreditCheckSetByUser: allowJobWoCreditCheckSetByUser,
+                officialOrderSetByUser: officialOrderSetByUser,
+                setOrderReportSignedBy: setOrderReportSignedBy,
+                orderReportSignedByUser: orderReportSignedByUser,
+                systemUsers: systemUsers
             };
         },
 
@@ -591,24 +727,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 email: specifiedEmail || "",
                 isDefault: specifiedIsDefault
             };
-        },
-        
-        
-        // Ink Plate Side Entity
-        // ReSharper disable InconsistentNaming
-        InkPlateSide = function (specifiedId, specifiedName, specifiedIsDoubleSided, specifiedPlateInkSide1, specifiedPlateInkSide2) {
-            // ReSharper restore InconsistentNaming
-            return {
-                id: specifiedId,
-                name: specifiedName,
-                isDoubleSided: specifiedIsDoubleSided,
-                plateInkSide1: specifiedPlateInkSide1,
-                plateInkSide2: specifiedPlateInkSide2
-            };
         };
 
     // Estimate Factory
-    Estimate.Create = function (source) {
+    Estimate.Create = function (source, constructorParams) {
         var estimate = new Estimate(source.EstimateId, source.EstimateCode, source.EstimateName, source.CompanyId, source.CompanyName, source.ItemsCount,
         source.CreationDate, source.FlagColor, source.SectionFlagId, source.OrderCode, source.IsEstimate, source.ContactId, source.AddressId, source.IsDirectSale,
         source.IsOfficialOrder, source.IsCreditApproved, source.OrderDate, source.StartDeliveryDate, source.FinishDeliveryDate, source.HeadNotes,
@@ -618,6 +740,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
         estimate.statusId(source.StatusId);
         estimate.status(source.Status);
+        estimate.systemUsers(constructorParams.SystemUsers);
         var total = (parseFloat((source.EstimateTotal === undefined || source.EstimateTotal === null) ? 0 : source.EstimateTotal)).toFixed(2);
         estimate.estimateTotal(total);
         // Map Items if any
