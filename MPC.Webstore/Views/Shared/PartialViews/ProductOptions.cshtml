@@ -1582,7 +1582,8 @@
 
             } else {//This condition executes when first time a cost centre is selected from landing page
                 ShowLoader();
-                if ($("#costCentreQueueItems").val() == 'null') { // This condition will execute when cost centre queue is empty means we are adding cost centre at very first time
+                console.log($("#costCentreQueueItems").val());
+                if ($("#costCentreQueueItems").val() == 'null' || $("#costCentreQueueItems").val() == null) { // This condition will execute when cost centre queue is empty means we are adding cost centre at very first time
                     var isQueueExist = false;
                     var QuestionQueueObject = null;
                     var InputQueueObject = null;

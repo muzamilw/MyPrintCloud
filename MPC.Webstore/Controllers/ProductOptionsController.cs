@@ -247,7 +247,7 @@ namespace MPC.Webstore.Controllers
                     ccObjectList = new List<AddOnCostsCenter>();
 
                     AddOnCostsCenter ccObject = null;
-
+                    double AddOnPrices = 0;
                     foreach (var addOn in selectedAddOnsList)
                     {
                         ccObject = new AddOnCostsCenter();
@@ -274,11 +274,12 @@ namespace MPC.Webstore.Controllers
                             //}
                             ccObject.Qty1NetTotal = addOn.ActualPrice;
 
-
+                            AddOnPrices += addOn.ActualPrice;
                        // }
 
                         ccObjectList.Add(ccObject);
                     }
+                    cartObject.AddOnPrice = AddOnPrices.ToString();
                 }
 
                 //double itemPrice = Convert.ToDouble(cartObject.ItemPrice);
