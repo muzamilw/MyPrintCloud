@@ -706,7 +706,7 @@
     var isPriceSelected = 0;
     var mandatoryRefiningOptIds = "";
     var isImageUploadedOnLandingPage = 0;
-
+    var CostCentreTotalOnModify = 0;
     $(document).ready(function() {
 
 
@@ -740,10 +740,10 @@
 
                 for (var i = 0; i < $(updatedAddOns).length; i++) {
 
-                    if ($(updatedAddOns)[i].Type == 4) {
-
+                    CostCentreTotalOnModify = parseFloat(CostCentreTotalOnModify) + parseFloat($(updatedAddOns)[i].ActualPrice); 
+              
                         $(updatedAddOns)[i].CostCentreJasonData = JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems)));
-                    }
+                    
                 }
             }
             $('#VMJsonAddOns').val(JSON.stringify(updatedAddOns));
@@ -1049,7 +1049,7 @@
         itemPrice = parseFloat(itemPrice);
         addOnPrice = parseFloat(addOnPrice);
 
-
+        console.log("apply pricing" + addOnPrice + " " + itemPrice);
 
         $("#VMItemId").val(@ViewBag.ClonedItemId);
         $("#VMOrderId").val(@ViewBag.Order.EstimateId);
@@ -1241,6 +1241,7 @@
                             PromptQuestion(selectedCheckBox.CostCenterId, $(val).attr('id'), selectedCheckBox.Type, 2, selectedCheckBox.QuantitySourceType, selectedCheckBox.TimeSourceType);
                             checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
                             $("#VMAddOnrice").val(checkedPriceTotal);
+                            isReCalCostCentreOnQuantityChange = false;
                         }
                     }
 
@@ -1455,7 +1456,7 @@
        
         var quantityOrdered = $("#VMQuantityOrdered").val() == "" ? null : $("#VMQuantityOrdered").val();
         if ($("#" + ControlId).is(':checked')) {
-            if (Mode == 2) {// update
+            if (Mode == 2) {// This condition will excute when quantity changed and user already selected some cost centres
                 ShowLoader();
 
                 var to;
@@ -1529,6 +1530,7 @@
                         var isQueueExistOnModify = false;
                         var QuestionQueueObjectOnModify = response[2];
                         var InputQueueObjectOnModify = response[7];
+                        console.log("cost type " + CostCentreType + " Qty obj " + QuestionQueueObjectOnModify)
                         if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
                             if(QuestionQueueObjectOnModify != null){ // process the question queue and prompt for values
                                 if(QuestionQueueObjectOnModify.length > 0){

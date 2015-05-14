@@ -36,7 +36,8 @@ namespace MPC.Webstore.Controllers
         private readonly ITemplateService _template;
 
 
-        private string QueueItem = String.Empty;
+        private string QuestionQueueItem = String.Empty;
+        private string InputQueueItem = String.Empty;
         #endregion
 
 
@@ -160,17 +161,38 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.WEBOrderId = clonedItem.EstimateId ?? 0;
                 }
 
-                QueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().QuestionQueue;
-                if (QueueItem != null)
-                {
-                    List<QuestionQueueItem> objSettings = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QueueItem);
-                    ViewBag.CostCentreQueueItems = objSettings;
-                }
-                else 
+                QuestionQueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().QuestionQueue;
+                InputQueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().InputQueue;
+                if (QuestionQueueItem == null && InputQueueItem == null)
                 {
                     ViewBag.CostCentreQueueItems = null;
                 }
-              
+                else 
+                {
+                    QuestionAndInputQueues QIQueuesObj = new QuestionAndInputQueues();
+                    if (QuestionQueueItem != null)
+                    {
+
+                        List<QuestionQueueItem> QQueueList = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QuestionQueueItem);
+                        QIQueuesObj.QuestionQueues = QQueueList.ToList();
+                    }
+                    else
+                    {
+                        QIQueuesObj.QuestionQueues = new List<QuestionQueueItem>();
+                    }
+
+                    if (InputQueueItem != null)
+                    {
+
+                        List<InputQueueItem> IQueueList = JsonConvert.DeserializeObject<List<InputQueueItem>>(InputQueueItem);
+                        QIQueuesObj.InputQueues = IQueueList.ToList();
+                    }
+                    else
+                    {
+                        QIQueuesObj.InputQueues = new List<InputQueueItem>();
+                    }
+                    ViewBag.CostCentreQueueItems = QIQueuesObj;
+                }
             }
             else if (!string.IsNullOrEmpty(TemplateId))// template case
             {
