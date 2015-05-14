@@ -1263,7 +1263,7 @@ function g2_1(e) {
         pcL36('hide', '#textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText, #addImage , #addText , #DivToolTip');
         pcL36('show', '#DivAlignObjs');
     }
-
+    k4();
 
     if (D1AO && D1AO.type === 'text' || D1AO && D1AO.type === 'i-text') {
         if (D1AO.textCase == 3) {//val == '1'
@@ -1350,6 +1350,7 @@ function g2_1(e) {
                 $("#BtnLockTxtPosition").attr("disabled", "disabled");
             }
             $(".fontSelector").removeAttr("disabled");
+            $("#BtnLockEditing").removeAttr("disabled");
             $("#BtnTxtCanvasAlignLeft").removeAttr("disabled");
             $("#BtnTxtCanvasAlignCenter").removeAttr("disabled");
             $("#BtnTxtCanvasAlignRight").removeAttr("disabled");
@@ -1368,6 +1369,7 @@ function g2_1(e) {
             } else {
                 $(".positioningControls").css("display", "block");
             }
+         
         }
         else {
             $("#inputcharSpacing").spinner("option", "disabled", true);
@@ -1414,8 +1416,9 @@ function g2_1(e) {
             $("#inputPositionYTxt").spinner("option", "disabled", true);
             $(".fontSelector").attr("disabled", "disabled");
             $(".positioningControls").css("display", "block");
+          
         }
-
+       // g1(D1AO);
     }
     else if (D1AO && D1AO.type === 'image') {
         g2_22(1);
@@ -1431,7 +1434,7 @@ function g2_1(e) {
         $(".BtnChngeClr").css("background-color", clr);
     }
 
-    k4();
+    
     var tp = $("#selectedTab").css("top");
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage9");
     $(".stage6 #selectedTab").css("top", tp);
@@ -2253,7 +2256,7 @@ function pcL02_bK() {
 function pcL02_main() {
     $(".paletteToolbarWedge").css("display", "none");
     //   pcL36('hide', '#DivAdvanceColorPanel')
-    $("#DivColorPickerDraggable").css("-webkit-transform", "matrix(1, 0, 0, 1, 127, 206)");
+    $("#DivColorPickerDraggable").css("-webkit-transform", "matrix(1, 0, 0, 1, 127, 258)");
     pcL36('toggle', '#DivColorPickerDraggable');
 }
 function pcL02_main2() {
@@ -2316,20 +2319,23 @@ function pcL04() {
 function pcL05() {
     var selectedObject = canvas.getActiveObject();
     if (selectedObject) {
-        setActiveStyle('font-Weight', 'bold');
-        //  c2(selectedObject);
-        pcL22_Sub(selectedObject);
-        canvas.renderAll();
+        if (selectedObject.IsTextEditable != true) {
+            setActiveStyle('font-Weight', 'bold');
+            //  c2(selectedObject);
+            pcL22_Sub(selectedObject);
+            canvas.renderAll();
+        }
     }
 }
 function pcL06() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-
-        setActiveStyle('font-Style', 'italic');
-        pcL22_Sub(D1AO);
-        // c2(D1AO);
-        canvas.renderAll();
+        if (D1AO.IsTextEditable != true) {
+            setActiveStyle('font-Style', 'italic');
+            pcL22_Sub(D1AO);
+            // c2(D1AO);
+            canvas.renderAll();
+        }
     }
 }
 function pcL06ULine() {
@@ -2345,31 +2351,37 @@ function pcL06ULine() {
 function pcL07() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-        D1AO.set('textAlign', 'left');
-        $("#txtAreaUpdateTxt").css("text-align", 'left');
-        //   c2(D1AO);
-        pcL22_Sub(D1AO);
-        canvas.renderAll();
+        if (D1AO.IsTextEditable != true) {
+            D1AO.set('textAlign', 'left');
+            $("#txtAreaUpdateTxt").css("text-align", 'left');
+            //   c2(D1AO);
+            pcL22_Sub(D1AO);
+            canvas.renderAll();
+        }
     }
 }
 function pcL08() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-        D1AO.set('textAlign', 'center');
-        // c2(D1AO);
-        pcL22_Sub(D1AO);
-        $("#txtAreaUpdateTxt").css("text-align", 'center');
-        canvas.renderAll();
+        if (D1AO.IsTextEditable != true) {
+            D1AO.set('textAlign', 'center');
+            // c2(D1AO);
+            pcL22_Sub(D1AO);
+            $("#txtAreaUpdateTxt").css("text-align", 'center');
+            canvas.renderAll();
+        }
     }
 }
 function pcL09() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-        D1AO.set('textAlign', 'right');
-        //  c2(D1AO);
-        pcL22_Sub(D1AO);
-        $("#txtAreaUpdateTxt").css("text-align", 'right');
-        canvas.renderAll();
+        if (D1AO.IsTextEditable != true) {
+            D1AO.set('textAlign', 'right');
+            //  c2(D1AO);
+            pcL22_Sub(D1AO);
+            $("#txtAreaUpdateTxt").css("text-align", 'right');
+            canvas.renderAll();
+        }
     }
 }
 function pcL10() {
