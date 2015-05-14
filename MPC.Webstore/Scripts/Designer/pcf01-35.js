@@ -2256,7 +2256,7 @@ function pcL02_bK() {
 function pcL02_main() {
     $(".paletteToolbarWedge").css("display", "none");
     //   pcL36('hide', '#DivAdvanceColorPanel')
-    $("#DivColorPickerDraggable").css("-webkit-transform", "matrix(1, 0, 0, 1, 127, 206)");
+    $("#DivColorPickerDraggable").css("-webkit-transform", "matrix(1, 0, 0, 1, 127, 258)");
     pcL36('toggle', '#DivColorPickerDraggable');
 }
 function pcL02_main2() {
