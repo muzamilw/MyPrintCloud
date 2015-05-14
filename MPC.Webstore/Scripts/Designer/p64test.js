@@ -20052,9 +20052,9 @@ fabric.util.createAccessors(fabric.Text);
         ctx.font = this._getFontDeclarationcustom(fontFamily,fontSize,fontStyle,fontWeight);
         this._setShadow.call(styleDeclaration, ctx);
 
-      //  if (!this.caching) {  // commneted by saqib to fix alignment bug 
+        if (!this.caching) {  // commneted by saqib to fix alignment bug 
             return ctx.measureText(_char).width;
-       // }
+        }
 
         if (!this._charWidthsCache[cacheProp]) {
             this._charWidthsCache[cacheProp] = ctx.measureText(_char).width;

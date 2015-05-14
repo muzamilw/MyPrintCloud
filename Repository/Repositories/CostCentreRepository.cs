@@ -1020,6 +1020,14 @@ namespace MPC.Repository.Repositories
 			
 
 		}
+
+        /// <summary>
+        /// Get web order cost centre
+        /// </summary>
+        public CostCentre GetWebOrderCostCentre(long OrganisationId)
+        {
+            return db.CostCentres.Where(c => c.Type == (int)CostCenterTypes.WebOrder && c.OrganisationId == OrganisationId).FirstOrDefault();
+        }
 		#endregion
 		 #region "Compile Binaries"
 		#endregion

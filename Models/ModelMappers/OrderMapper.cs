@@ -789,6 +789,7 @@ namespace MPC.Models.ModelMappers
             target.EstimateId = source.EstimateId;
             target.InvoiceDescription = source.InvoiceDescription;
             target.ItemNotes = source.ItemNotes;
+            target.ItemId = source.ItemId;
 
             // Update Charges
             UpdateCharges(source, target);
@@ -850,6 +851,7 @@ namespace MPC.Models.ModelMappers
             target.JobProgressedBy = source.JobProgressedBy;
             target.JobEstimatedStartDateTime = source.JobEstimatedStartDateTime;
             target.JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime;
+            target.JobCardPrintedBy = source.JobCardPrintedBy;
             target.JobCode = source.JobCode;
             
             // If Job Code is Already Assigned then skip

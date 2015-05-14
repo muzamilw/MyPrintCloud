@@ -566,6 +566,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobCreationDateTime = source.JobCreationDateTime,
                 JobActualStartDateTime = source.JobActualStartDateTime,
                 JobActualCompletionDateTime = source.JobActualCompletionDateTime,
+                JobEstimatedStartDateTime = source.JobEstimatedStartDateTime,
+                JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime,
                 JobProgressedBy = source.JobProgressedBy,
                 JobCardPrintedBy = source.JobCardPrintedBy,
                 InvoiceDescription = source.InvoiceDescription,

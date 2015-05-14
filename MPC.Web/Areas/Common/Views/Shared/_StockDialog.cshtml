@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select inventory subsrate</h4>
+                <h4 class="modal-title">Select inventory substrate</h4>
             </div>
             <div class="col-lg-12">
                 <div class="col-lg-12 clearfix">
@@ -64,9 +64,9 @@
 
 @* Stock Item Template *@
 <script id="stockDialogItemTemplate" type="text/html">
-    <tr data-bind="click:$parent.onSelectStockItem">
+    <tr data-bind="click:$parent.onSelectStockItem" style="cursor:pointer;">
         <td>
-            <a data-bind="text: name, click: $parent.onSelectStockItem" style="cursor:pointer;" class="user-link"></a>
+            <a data-bind="text: name, click: undefined" class="user-link"></a>
         </td>
         <td>
             <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'Pack Qty '+ packageQty"></span>
