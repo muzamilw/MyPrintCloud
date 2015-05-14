@@ -500,7 +500,7 @@ function g1(D1AO) {
         $("#BtnTxtarrangeOrder2").removeAttr("disabled");
         $("#BtnTxtarrangeOrder3").removeAttr("disabled");
         $("#BtnTxtarrangeOrder4").removeAttr("disabled");
-        //$("#EditTXtArea").removeAttr("disabled");
+        $("#BtnLockEditing").removeAttr("disabled");
         $("#BtnSearchTxt").removeAttr("disabled");
         //$("#BtnUpdateText").removeAttr("disabled");
         $("#BtnSelectFonts").removeAttr("disabled");
@@ -535,10 +535,11 @@ function g1(D1AO) {
         $("#inputcharSpacing").spinner("option", "disabled", false);
         $("#BtnFontSize").spinner("option", "disabled", false);
         $("#txtLineHeight").spinner("option", "disabled", false);
-        $("#inputObjectWidthTxt").spinner("option", "disabled", false);
-        $("#inputObjectHeightTxt").spinner("option", "disabled", false);
-        $("#inputPositionXTxt").spinner("option", "disabled", false);
-        $("#inputPositionYTxt").spinner("option", "disabled", false);
+     //   $("#inputObjectWidthTxt").spinner("option", "disabled", false);
+    //    $("#inputObjectHeightTxt").spinner("option", "disabled", false);
+     //   $("#inputPositionXTxt").spinner("option", "disabled", false);
+        //   $("#inputPositionYTxt").spinner("option", "disabled", false);
+       
     }
     else {
         $("#inputcharSpacing").spinner("option", "disabled", true);
@@ -586,7 +587,7 @@ function g1(D1AO) {
         $("#inputObjectHeightTxt").spinner("option", "disabled", true);
         $("#inputPositionXTxt").spinner("option", "disabled", true);
         $("#inputPositionYTxt").spinner("option", "disabled", true);
-        $(".fontSelector").attr("disabled", "disabled");
+        $(".fontSelector").attr("disabled", "disabled"); 
     }
     //$.each(TO, function (i, IT) {
 
