@@ -452,6 +452,7 @@ define("common/itemDetail.viewModel",
                         selectedSection(selectedProduct().itemSections()[0]);
                         isEstimateScreen(isEstimateScreenFlag);
                         closeItemDetailSection = closeItemDetailParam;
+                        //errorList.removeAll();
                     },
                     closeItemDetail = function() {
                         showItemDetailsSection(false);

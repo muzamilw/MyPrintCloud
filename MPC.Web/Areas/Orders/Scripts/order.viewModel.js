@@ -579,13 +579,19 @@ define("order/order.viewModel",
                             statusNavigationBackward(status);
                         }
                         else if (selectedOrder().statusId() < status) {
+                            // Before status change to In Production, Items must exist in order
+
                             statusNavigationForward(status);
+
+
                         } else {
                             statusNavigationBackward(status);
                         }
                     }
 
                 },
+
+
 
                 forOrderStatusCancel = function () {
                     // $("#dialog-confirm").modal({ backdrop: '' });
@@ -677,6 +683,7 @@ define("order/order.viewModel",
                     }
                     // Pending Order to Confirm Start ,In Production to Shipped & Invoiced, Shipped & Invoiced to Cancelled,In Production to
                     if (status !== 6) {
+
                         showConfirmationMessageForForwardNavigationOnStatusChange(status);
 
                     }
@@ -686,6 +693,11 @@ define("order/order.viewModel",
                         // $("#dismiss")[0].style.display = 'none';
                         confirmation.messageText("Are you sure you want to progress all the un progressed items to jobs?");
                         confirmation.afterProceed(function () {
+                            if (selectedOrder().items().length === 0) {
+                                toastr.error("Please first add items.");
+                                view.setOrderState(5, selectedOrder().isFromEstimate());
+                                return;
+                            }
                             selectedOrder().statusId(status);
                             view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
                             changeAllItemProgressToJob();
@@ -1613,22 +1625,26 @@ define("order/order.viewModel",
                         selectedDeliverySchedule = ko.observable(),
                 // Add Deliver Schedule
                         addDeliverySchedule = function () {
-                            if (selectedDeliverySchedule() !== undefined && !selectedDeliverySchedule().isValid()) {
-                                selectedDeliverySchedule().errors.showAllMessages();
-                                return;
+                            if (selectedOrder().items().length === 0) {
+                                toastr.error("Please first add items.");
+                            } else {
+                                if (selectedDeliverySchedule() !== undefined && !selectedDeliverySchedule().isValid()) {
+                                    selectedDeliverySchedule().errors.showAllMessages();
+                                    return;
+                                }
+                                if (selectedDeliverySchedule() !== undefined && selectedDeliverySchedule().isValid()) {
+                                    setDeliveryScheduleFields();
+                                }
+                                var deliverySchedule = model.ShippingInformation.Create({ EstimateId: selectedOrder().id() });
+                                if (selectedOrder().items().length > 0) {
+                                    var item = selectedOrder().items()[0];
+                                    deliverySchedule.itemId(item.id());
+                                    setQuantityOfNewDeliverySchedule(deliverySchedule);
+                                }
+                                // deliverySchedule.deliveryNoteRaised(true);
+                                selectedOrder().deliverySchedules.splice(0, 0, deliverySchedule);
+                                selectedDeliverySchedule(selectedOrder().deliverySchedules()[0]);
                             }
-                            if (selectedDeliverySchedule() !== undefined && selectedDeliverySchedule().isValid()) {
-                                setDeliveryScheduleFields();
-                            }
-                            var deliverySchedule = model.ShippingInformation.Create({ EstimateId: selectedOrder().id() });
-                            if (selectedOrder().items().length > 0) {
-                                var item = selectedOrder().items()[0];
-                                deliverySchedule.itemId(item.id());
-                                setQuantityOfNewDeliverySchedule(deliverySchedule);
-                            }
-                            // deliverySchedule.deliveryNoteRaised(true);
-                            selectedOrder().deliverySchedules.splice(0, 0, deliverySchedule);
-                            selectedDeliverySchedule(selectedOrder().deliverySchedules()[0]);
                         },
                 // Set  Quantity Of new Added Delivery Schedule
                         setQuantityOfNewDeliverySchedule = function (deliverySchedule) {

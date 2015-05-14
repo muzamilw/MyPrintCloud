@@ -3774,7 +3774,7 @@ references Company (CompanyId)
 
 alter table Inquiry
 drop Column BrokerContactCompanyId
-
+/*Executed on Staging on 2015 05 13*/
 
 /* Execution Date: 14/05/2015 */
 
