@@ -170,7 +170,24 @@ namespace MPC.Repository.Repositories
 
         #region public
 
+           /// <summary>
+        /// get item section no 1
+        /// </summary>
+        /// <param name="StockOptionID"></param>
+        /// <param name="CompanyID"></param>
+        /// <returns></returns>
+        public ItemSection GetFirstSectionOfItem(long ItemId)
+        {
+            try
+            {
 
+                return db.ItemSections.Where(i => i.ItemId == ItemId && i.SectionNo == 1).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

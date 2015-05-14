@@ -3,7 +3,9 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
-
+using System.Collections.Generic;
+using System;
+using System.Linq;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
@@ -47,7 +49,23 @@ namespace MPC.Repository.Repositories
         {
             return base.Find(id);
         }
-
+        /// <summary>
+        /// get item section cost centres
+        /// </summary>
+        /// <param name="StockOptionID"></param>
+        /// <param name="CompanyID"></param>
+        /// <returns></returns>
+        public List<SectionCostcentre> GetAllSectionCostCentres(long ItemSetionId)
+        {
+            try
+            {
+                return db.SectionCostcentres.Where(s => s.ItemSectionId == ItemSetionId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
     }
