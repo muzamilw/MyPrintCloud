@@ -1184,6 +1184,7 @@ define("common/itemDetail.viewModel",
                         errorList.removeAll();
                         if (!doBeforeRunningWizard()) {
                             selectedSection().errors.showAllMessages();
+                            view.goToValidationSummary();
                             return;
                         }
                         $('#myTab a[href="#tab-recomendation"]').tab('show');

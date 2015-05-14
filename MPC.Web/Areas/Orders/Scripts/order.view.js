@@ -29,12 +29,20 @@ define("order/order.view",
 
                     liElement.click();
 
-                    // Scroll to Element
-                    setTimeout(function () {
-                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
-                        // Focus on element
-                        $(element).focus();
-                    }, 1000);
+                    //// Scroll to Element
+                    //setTimeout(function () {
+                    //    window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                    //    // Focus on element
+                    //    $(element).focus();
+                    //}, 1000);
+                    var target = $(element);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: (target.offset().top - 50)
+                        }, 1000);
+                        return false;
+                    }
                 },
                 // Show inventory dialog
                 //showInventoryItemDialog = function () {
