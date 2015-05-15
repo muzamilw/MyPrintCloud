@@ -51,6 +51,10 @@ define("order/order.viewModel",
                     selectedCompany = ko.observable(),
                     // Errors List
                     errorList = ko.observableArray([]),
+                    // Estimate Status
+                    estimatesStatus = {
+                        draftEstimate : 1    
+                    },
                     // Stock Category 
                     stockCategory = {
                         paper: 1,
@@ -990,6 +994,11 @@ define("order/order.viewModel",
                         if (isNaN(view.orderstate()) || view.orderstate() === 0) {
                             selectedOrder().statusId(4); // Pending orders
                         }
+                        // If Estimate Screen then set IsEstimate = true
+                        if (!selectedOrder().id() && isEstimateScreen()) {
+                            selectedOrder().isEstimate(true);
+                            selectedOrder().statusId(estimatesStatus.draftEstimate); // Draft Estimate
+                        }
                         var order = selectedOrder().convertToServerData();
                         _.each(selectedOrder().prePayments(), function (item) {
                             order.PrePayments.push(item.convertToServerData());
@@ -1010,7 +1019,7 @@ define("order/order.viewModel",
                             itemsArray.push(item);
 
                         });
-
+                        
                         order.Items = itemsArray;
                         dataservice.saveOrder(order, {
                             success: function (data) {
@@ -1022,6 +1031,12 @@ define("order/order.viewModel",
                                     // Update Id
                                     selectedOrder().id(data.EstimateId);
                                     selectedOrder().orderCode(data.OrderCode);
+                                    if (isEstimateScreen()) {
+                                        selectedOrder().code(data.EstimateCode);
+                                    }
+                                    else {
+                                        selectedOrder().orderCode(data.OrderCode);
+                                    }
                                     var total1 = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                     selectedOrder().estimateTotal(total1);
                                     selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
@@ -1036,7 +1051,6 @@ define("order/order.viewModel",
                                     // Get Order
                                     var orderUpdated = getOrderFromList(selectedOrder().id());
                                     if (orderUpdated) {
-                                        orderUpdated.code(data.OrderCode);
                                         orderUpdated.creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
                                         var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                         orderUpdated.estimateTotal(total);
