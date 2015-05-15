@@ -239,7 +239,7 @@ namespace MPC.Implementation.MISServices
                     sCostPlant += sCodeString;
 
                     sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "" ) + "\"}" + Environment.NewLine; 
-                    sCodeString += "QuotedPlantPrice = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"5\",question=\"Price Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
+                    sCodeString += "QuotedPlantPrice = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"5\",question=\"Price Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourPrice) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
                     sPricePlant += sCodeString;
 
                     sCodeString = "EstimatedTime = (vNoOfHours + " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " ) ";
@@ -252,7 +252,7 @@ namespace MPC.Implementation.MISServices
                     sCostPlant += sCodeString;
 
                     sCodeString = "Dim vNoOfHours as Integer =  {cinput,id=\"6\",question=\"" + costcenter.TimeQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeQuestionDefaultValue) + "\"} " + Environment.NewLine;
-                    sCodeString += "QuotedPlantPrice = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"5\",question=\"Price Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
+                    sCodeString += "QuotedPlantPrice = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"5\",question=\"Price Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourPrice) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
                     sPricePlant += sCodeString;
 
                     sCodeString = "EstimatedTime = (vNoOfHours + " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " ) ";
