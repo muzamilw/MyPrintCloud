@@ -1361,14 +1361,9 @@ define("common/itemDetail.viewModel",
                                         }
                                     });
 
-
-                                    var charge1 = setDecimalPlaceValue(selectedSection().baseCharge1());
-                                    var charge2 = setDecimalPlaceValue(selectedSection().baseCharge2());
-                                    var charge3 = setDecimalPlaceValue(selectedSection().baseCharge3());
-                                    baseCharge1Total(charge1);
-                                    baseCharge2Total(charge2);
-                                    baseCharge3Total(charge3);
-
+                                    calculateSectionBaseCharge1();
+                                    calculateSectionBaseCharge2();
+                                    calculateSectionBaseCharge3();
                                 }
                             },
                             error: function (response) {
