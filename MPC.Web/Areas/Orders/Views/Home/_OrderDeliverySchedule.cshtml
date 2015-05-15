@@ -31,6 +31,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!--ko if:$root.selectedOrder().deliverySchedules().length==0-->
+                            <tr>
+                                <td class="col-lg-2">
+                                    <span>No Item found!</span>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- /ko -->
                             <!-- ko template: { name: $root.templateToUseDeliverySchedule , foreach: $root.selectedOrder().deliverySchedules } -->
                             <!-- /ko -->
                         </tbody>
