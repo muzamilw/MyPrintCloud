@@ -193,14 +193,14 @@
                                             <label class="control-label tooltip-float" style="font-weight:bold">Gross</label>
                                         </div>
                                         <div class="col-lg-8">
-                                            <div class="col-xs-2 txtBox-contentAlignRight" style="padding-right: .5%;">
+                                            <div class="col-xs-2 txtBox-contentAlignRight" style="padding-right: 1.3%;">
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1GrossTotal"></span></label>
                                             </div>
                                             <!--ko if: $root.isEstimateScreen()-->
-                                            <div class="col-xs-2 txtBox-contentAlignRight">
+                                            <div class="col-xs-2 txtBox-contentAlignRight" style="padding-right: 2.2%;">
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2GrossTotal"></span></label>
                                             </div>
-                                            <div class="col-xs-2 txtBox-contentAlignRight" style="padding-right: .5%;">
+                                            <div class="col-xs-2 txtBox-contentAlignRight" style="padding-right: 1.3%;">
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3GrossTotal"></span></label>
                                             </div>
                                             <!--/ko-->
@@ -597,7 +597,9 @@
     <li class="col-md-2 col-sm-2 col-xs-6">
         <div>
             <div style="float: left"><img class="photo-box" style="padding-top: 0px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>
-            <div style="font-size: small" class="itemSectionName" data-bind=" text:name"></div>
+            <div style="font-size: small" class="itemSectionName">
+                <span class="form-control" data-bind=" text:name" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 23%;padding-left: 0px;"></span>
+            </div>
         </div>
         @*<span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>*@
         <div class="btn btn-primary" style="font-size: x-small;margin-left: 11%;" data-bind="visible:!flagForAdd(),click:$root.showSectionDetailEditor">
