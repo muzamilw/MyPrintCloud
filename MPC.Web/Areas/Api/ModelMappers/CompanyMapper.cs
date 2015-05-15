@@ -281,6 +281,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MapImageUrl = source.MapImageUrl,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
+                CompanyTerritories =
+                    source.CompanyTerritories != null
+                       ? source.CompanyTerritories.Take(1).Select(x => x.CreateFrom()).ToList()
+                        : null,
                 Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyContacts =
                     source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
