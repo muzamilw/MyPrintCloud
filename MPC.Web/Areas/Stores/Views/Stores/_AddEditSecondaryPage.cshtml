@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Secondary Page Detail</h4>
+                <h4 class="modal-title">Add/Edit Secondary Page </h4>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -69,14 +69,44 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         @*<img width="290" height="217" data-bind="attr: { src: imageSrc }" />*@
-                                                        <img width="290" height="217" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
-                                                        <img width="290" height="217" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
-                                                    </div>
+
+
+                                                        <div class="clearfix">
+
+
+                                                            <img width="290" height="217" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
+                                                            <img width="290" height="217" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
+                                                            <div class="col-lg-12">
+                                                                <div class="col-lg-6" style="margin-top: 5px;text-align:center;">
+                                                                    <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
+                                                                        <span>Upload </span>
+
+                                                                    </div>
+                                                                </div>
+                                                              </div>
+                                                            <div class="col-lg-12">
+                                                                <div class="col-lg-6 ThoumbnailCostCenter" style="margin-top:10px !important;">Select a page banner for the user defined page from media files. Considering using page banners with correct dimensions according to selected Store theme.</div>
+                                                            </div>
+                                                                
+
+
+
+                                                                </div>
+                                                              
+
+
+                                                            </div>
+
+
+
+                                                        @*<img width="290" height="217" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
+                                                        <img width="290" height="217" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />*@
+                                                    @*</div>*@
                                                     <div class="col-lg-1">
-                                                        <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
+                                                        @*<div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
                                                             <span>....</span>
-                                                            @*<input type="file" class="upload" multiple data-bind="files: { onLoaded: $root.SecondaryImageFileLoadedCallback, fileFilter: 'image.*'}" />*@
-                                                        </div>
+                                                           
+                                                        </div>*@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -309,7 +339,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="padding-left: 0px; padding-right: 7px;">
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable:isUserDefined() && $root.selectedSecondaryPage().id() != undefined">Archive</button>
