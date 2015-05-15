@@ -1327,17 +1327,17 @@
                         if(selectedCheckBox.QuantitySourceType == 1){
                             $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase  + '</label>');
                         }else{
-                            $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                            $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
                         }
                     }else if(selectedCheckBox.Type == 2){
                         if(selectedCheckBox.TimeSourceType == 1){
                             $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>');
                         }else{
-                            $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                            $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
                         }
 
                     }else{
-                        $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                        $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
                     }
                     $(val).click();
                 }

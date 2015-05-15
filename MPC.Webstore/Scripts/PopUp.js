@@ -414,7 +414,7 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
     document.getElementById("innerLayer").innerHTML = container;
 
     document.getElementById("innerLayer").style.left = left + "px";
-    document.getElementById("innerLayer").style.top = "0px";
+    document.getElementById("innerLayer").style.top = "200px";
 
     document.getElementById("innerLayer").style.width = "730px";
     document.getElementById("innerLayer").style.position = "fixed";
@@ -486,7 +486,7 @@ function ShowInputCostCentrePopup(InputQueueItems, CostCentreId, ClonedItemId, S
     document.getElementById("innerLayer").innerHTML = container;
 
     document.getElementById("innerLayer").style.left = left + "px";
-    document.getElementById("innerLayer").style.top = "0px";
+    document.getElementById("innerLayer").style.top = "200px";
 
     document.getElementById("innerLayer").style.width = "730px";
     document.getElementById("innerLayer").style.position = "fixed";
@@ -1293,7 +1293,7 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                 TaxAppliedValue = response;
                 TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * TaxRate) / 100);
                 if (isPromptAQuestion == true) {
-                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a onclick="PromptQuestion(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
+                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
                 } else {
                     $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + (TaxAppliedValue).toFixed(2).toString() + '</label>');
                 }
