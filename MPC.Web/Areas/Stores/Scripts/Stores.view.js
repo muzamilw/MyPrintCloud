@@ -218,8 +218,8 @@ define("stores/stores.view",
                 wireupThemeListClick = function () {
                     $(document).ready(function () {
                         var themeListOpen = false;
-                        
-                        $("#ops_theme_dropdown #ops_theme_list #ops_theme_select").click(function () {
+
+                        $("#ops_theme_dropdown").click(function () {
                             if (themeListOpen == true) {
                                 $("#ops_theme_dropdown #ops_theme_list ul").hide();
                                 themeListOpen = false;
@@ -231,6 +231,35 @@ define("stores/stores.view",
                             return false;
                         });
 
+                        $("#ops_theme_dropdown #ops_theme_list").click(function () {
+                            if (themeListOpen == true) {
+                                $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                                themeListOpen = false;
+                            } else {
+
+                                $("#ops_theme_dropdown #ops_theme_list ul").show();
+                                themeListOpen = true;
+                            }
+                            return false;
+                        });
+                        $("#ops_theme_dropdown #ops_theme_list #ops_theme_select").click(function () {
+                            if (themeListOpen == true) {
+                                $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                                themeListOpen = false;
+                            } else {
+
+                                $("#ops_theme_dropdown #ops_theme_list ul").show();
+                                themeListOpen = true;
+                            }
+                            return false;
+                        });
+                        $("body").click(function () {
+                            if (themeListOpen == true) {
+                                $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                                themeListOpen = false;
+                            } 
+                            return true;
+                        });
                     });
                 },
                 // Close Theme List

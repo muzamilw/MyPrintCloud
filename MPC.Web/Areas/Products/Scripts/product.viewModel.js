@@ -56,6 +56,7 @@ define("product/product.viewModel",
                     // Length Unit fOr Organisation 
                     lengthUnit = ko.observable(),
                     weightUnit = ko.observable(),
+                     isStoreTax = ko.observable(),
                     // Selected Region Id
                     selectedRegionId = ko.observable(),
                     // Selected Category Type Id
@@ -477,6 +478,7 @@ define("product/product.viewModel",
                     },
                     // Open Phrase Library
                     openPhraseLibrary = function () {
+                        $("#idheadingPhraseLibrary").html("Select a phrase");
                         phraseLibrary.show(function (phrase) {
                             updateJobDescription(phrase);
                         });
@@ -607,6 +609,7 @@ define("product/product.viewModel",
                     selectedCompany = ko.observable(),
                     // Selected Category
                     selectedCategory = ko.observable(),
+                    defaultTaxRate = ko.observable(),
                     // Select Category
                     categorySelectedEventHandler = function (category) {
                         if (category && selectedCategory() !== category) {
@@ -618,9 +621,10 @@ define("product/product.viewModel",
                     // Is Product Section Initialized
                     isProductSectionInitialized = false,
                     // Initialize the view model from Store
-                    initializeForStore = function (companyId) {
+                    initializeForStore = function (companyId, taxRate) {
                         if (selectedCompany() !== companyId) {
                             selectedCompany(companyId);
+                            defaultTaxRate(taxRate);
                             // Reset Designer load flag, to load smart forms list for this company
                             isDesignerCategoryBaseDataLoaded(false);
                         }
@@ -1424,7 +1428,9 @@ define("product/product.viewModel",
                     initializeForStore: initializeForStore,
                     categorySelectedEventHandler: categorySelectedEventHandler,
                     smartForms: smartForms,
-                    weightUnit: weightUnit
+                    weightUnit: weightUnit,
+                    isStoreTax: isStoreTax,
+                    defaultTaxRate: defaultTaxRate
                     // For Store
                     // Utility Methods
 
