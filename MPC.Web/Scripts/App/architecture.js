@@ -728,8 +728,10 @@ require(["ko", "knockout-validation"], function (ko) {
                     if (valueToWrite !== current) {
                         underlyingObservable(valueToWrite);
                     } else {
-                        if (newValue !== current.toString())
-                            underlyingObservable.valueHasMutated();
+                        if (newValue !== current.toString()) {
+                            underlyingObservable('');
+                            underlyingObservable(valueToWrite);
+                        }
                     }
                 }
             });
