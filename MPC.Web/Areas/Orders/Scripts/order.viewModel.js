@@ -51,6 +51,10 @@ define("order/order.viewModel",
                     selectedCompany = ko.observable(),
                     // Errors List
                     errorList = ko.observableArray([]),
+                    // Estimate Status
+                    estimatesStatus = {
+                        draftEstimate : 1    
+                    },
                     // Stock Category 
                     stockCategory = {
                         paper: 1,
@@ -607,13 +611,19 @@ define("order/order.viewModel",
                             statusNavigationBackward(status);
                         }
                         else if (selectedOrder().statusId() < status) {
+                            // Before status change to In Production, Items must exist in order
+
                             statusNavigationForward(status);
+
+
                         } else {
                             statusNavigationBackward(status);
                         }
                     }
 
                 },
+
+
 
                 forOrderStatusCancel = function () {
                     // $("#dialog-confirm").modal({ backdrop: '' });
@@ -705,6 +715,7 @@ define("order/order.viewModel",
                     }
                     // Pending Order to Confirm Start ,In Production to Shipped & Invoiced, Shipped & Invoiced to Cancelled,In Production to
                     if (status !== 6) {
+
                         showConfirmationMessageForForwardNavigationOnStatusChange(status);
 
                     }
@@ -714,6 +725,11 @@ define("order/order.viewModel",
                         // $("#dismiss")[0].style.display = 'none';
                         confirmation.messageText("Are you sure you want to progress all the un progressed items to jobs?");
                         confirmation.afterProceed(function () {
+                            if (selectedOrder().items().length === 0) {
+                                toastr.error("Please first add items.");
+                                view.setOrderState(5, selectedOrder().isFromEstimate());
+                                return;
+                            }
                             selectedOrder().statusId(status);
                             view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
                             changeAllItemProgressToJob();
@@ -1006,6 +1022,11 @@ define("order/order.viewModel",
                             if (isNaN(view.orderstate()) || view.orderstate() === 0) {
                                 selectedOrder().statusId(4); // Pending orders
                             }
+                        // If Estimate Screen then set IsEstimate = true
+                        if (!selectedOrder().id() && isEstimateScreen()) {
+                            selectedOrder().isEstimate(true);
+                            selectedOrder().statusId(estimatesStatus.draftEstimate); // Draft Estimate
+                        }
                             var order = selectedOrder().convertToServerData();
                             _.each(selectedOrder().prePayments(), function (item) {
                                 order.PrePayments.push(item.convertToServerData());
@@ -1026,7 +1047,7 @@ define("order/order.viewModel",
                                 itemsArray.push(item);
 
                             });
-
+                        
                             order.Items = itemsArray;
                             dataservice.saveOrder(order, {
                                 success: function (data) {
@@ -1038,6 +1059,12 @@ define("order/order.viewModel",
                                         // Update Id
                                         selectedOrder().id(data.EstimateId);
                                         selectedOrder().orderCode(data.OrderCode);
+                                    if (isEstimateScreen()) {
+                                        selectedOrder().code(data.EstimateCode);
+                                    }
+                                    else {
+                                        selectedOrder().orderCode(data.OrderCode);
+                                    }
                                         var total1 = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                         selectedOrder().estimateTotal(total1);
                                         selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
@@ -1052,7 +1079,6 @@ define("order/order.viewModel",
                                         // Get Order
                                         var orderUpdated = getOrderFromList(selectedOrder().id());
                                         if (orderUpdated) {
-                                            orderUpdated.code(data.OrderCode);
                                             orderUpdated.creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
                                             var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                             orderUpdated.estimateTotal(total);
@@ -1641,6 +1667,9 @@ define("order/order.viewModel",
                             selectedDeliverySchedule = ko.observable(),
                     // Add Deliver Schedule
                             addDeliverySchedule = function () {
+                            if (selectedOrder().items().length === 0) {
+                                toastr.error("Please first add items.");
+                            } else {
                                 if (selectedDeliverySchedule() !== undefined && !selectedDeliverySchedule().isValid()) {
                                     selectedDeliverySchedule().errors.showAllMessages();
                                     return;
@@ -1657,6 +1686,7 @@ define("order/order.viewModel",
                                 // deliverySchedule.deliveryNoteRaised(true);
                                 selectedOrder().deliverySchedules.splice(0, 0, deliverySchedule);
                                 selectedDeliverySchedule(selectedOrder().deliverySchedules()[0]);
+                            }
                             },
                     // Set  Quantity Of new Added Delivery Schedule
                             setQuantityOfNewDeliverySchedule = function (deliverySchedule) {

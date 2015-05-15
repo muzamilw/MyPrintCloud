@@ -46,6 +46,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <!--ko if:orders().length==0-->
+
+                                            <tr>
+                                                <td></td>
+                                                <td class="col-lg-2">
+                                                    <span style="font-size: 14px;">No Item found!</span>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <!-- /ko -->
                                             <!-- ko template: { name: 'allOrderListViewTemplate', foreach: orders } -->
                                             <!-- /ko -->
                                         </tbody>
@@ -224,6 +238,19 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!--ko if:orders().length==0-->
+
+                        <tr>
+                            <td></td>
+                            <td class="col-lg-2">
+                                <span style="font-size: 14px;">No Item found!</span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- /ko -->
                         <!-- ko template: { name: 'orderListViewTemplate', foreach: orders } -->
                         <!-- /ko -->
                     </tbody>

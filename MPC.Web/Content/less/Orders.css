@@ -20,10 +20,9 @@
 }
 #orderBinding .itemSectionName {
   float: right;
-  margin-top: -91px;
-  margin-left: 7px;
-  margin-right: 3px;
-  width: 88px;
+  margin-top: -82%;
+  margin-right: -6%;
+  width: 86%;
   color: #3c9bf6;
 }
 #orderBinding .phraseLibrayLink {

@@ -389,6 +389,51 @@ define("common/itemDetail.viewModel",
                             calculateSectionBaseCharge1();
                         }
                     }),
+                    sectionCostCenterQty1NetTotal = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty1NetTotal();
+                        },
+                        write: function (value) {
+                            if (!value || value === selectedSectionCostCenter().qty1NetTotal()) {
+                                return;
+                            }
+                            selectedSectionCostCenter().qty1NetTotal(value);
+                            calculateSectionBaseCharge1();
+                        }
+                    }),
+                    sectionCostCenterQty2NetTotal = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty2NetTotal();
+                        },
+                        write: function (value) {
+                            if (!value || value === selectedSectionCostCenter().qty2NetTotal()) {
+                                return;
+                            }
+                            selectedSectionCostCenter().qty2NetTotal(value);
+                            calculateSectionBaseCharge2();
+                        }
+                    }),
+                    sectionCostCenterQty3NetTotal = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty3NetTotal();
+                        },
+                        write: function (value) {
+                            if (!value || value === selectedSectionCostCenter().qty3NetTotal()) {
+                                return;
+                            }
+                            selectedSectionCostCenter().qty3NetTotal(value);
+                            calculateSectionBaseCharge3();
+                        }
+                    }),
                     sectionVisibilityHandler = function() {
                         isSectionVisible(!isSectionVisible());
                     },
@@ -1316,14 +1361,9 @@ define("common/itemDetail.viewModel",
                                         }
                                     });
 
-
-                                    var charge1 = setDecimalPlaceValue(selectedSection().baseCharge1());
-                                    var charge2 = setDecimalPlaceValue(selectedSection().baseCharge2());
-                                    var charge3 = setDecimalPlaceValue(selectedSection().baseCharge3());
-                                    baseCharge1Total(charge1);
-                                    baseCharge2Total(charge2);
-                                    baseCharge3Total(charge3);
-
+                                    calculateSectionBaseCharge1();
+                                    calculateSectionBaseCharge2();
+                                    calculateSectionBaseCharge3();
                                 }
                             },
                             error: function (response) {
@@ -1693,6 +1733,9 @@ define("common/itemDetail.viewModel",
                     sectionCostCenterQty1MarkUpId: sectionCostCenterQty1MarkUpId,
                     sectionCostCenterQty2MarkUpId: sectionCostCenterQty2MarkUpId,
                     sectionCostCenterQty3MarkUpId: sectionCostCenterQty3MarkUpId,
+                    sectionCostCenterQty1NetTotal: sectionCostCenterQty1NetTotal,
+                    sectionCostCenterQty2NetTotal: sectionCostCenterQty2NetTotal,
+                    sectionCostCenterQty3NetTotal: sectionCostCenterQty3NetTotal,
                     openPhraseLibrary: openPhraseLibrary,
                     calculateBaseChargeBasedOnSimilarSectionsValue: calculateBaseChargeBasedOnSimilarSectionsValue,
                     calculateQty1NetTotalForItem: calculateQty1NetTotalForItem,

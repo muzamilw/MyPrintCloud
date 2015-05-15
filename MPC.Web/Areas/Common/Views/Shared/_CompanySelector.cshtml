@@ -23,6 +23,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!--ko if: companies().length==0-->
+                                    <tr>
+                                        <td >
+                                            <span data-bind="text: 'No Item found!'"></span>
+                                        </td>
+                                    </tr>
+                                    <!-- /ko -->
                                     <!-- ko template: { name: 'companySelectorItemTemplate' , foreach: companies } -->
                                     <!-- /ko -->
                                 </tbody>
