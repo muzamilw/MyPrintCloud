@@ -304,7 +304,7 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
     
     if (Mode == "New") { // prompt in case of newly added cost centre
         for (var i = 0; i < QuestionQueueItems.length; i++) {
-
+            console.log(QuestionQueueItems[i].ItemType);
             if (QuestionQueueItems[i].ItemType == 1) { // text box
                 if (idsToValidate == "") {
                     idsToValidate = 'txtBox' + QuestionQueueItems[i].ID;
@@ -312,7 +312,7 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
                     idsToValidate = idsToValidate + ',' + 'txtBox' + QuestionQueueItems[i].ID;
                 }
 
-                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + QuestionQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + QuestionQueueItems[i].ID + ' data-id=' + QuestionQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + QuestionQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + QuestionQueueItems[i].ID + ' data-id=' + QuestionQueueItems[i].ID + ' value=' + parseFloat(QuestionQueueItems[i].DefaultAnswer) + ' /></div><br/><div class="clearBoth"></div>';
             }
 
             if (QuestionQueueItems[i].ItemType == 3) { // drop down
@@ -1225,6 +1225,7 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                     if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                         $(updatedAddOns)[i].ActualPrice = response;
                         $(updatedAddOns)[i].Description = desriptionOfQuestion;
+                        $(updatedAddOns)[i].Type = CostCentreType;
                         if (CostCentreType == 4) { // question queue
                             for (var j = 0; j < UpdatedGlobalQueueArray.QuestionQueues.length; j++) {
                                 if (UpdatedGlobalQueueArray.QuestionQueues[j].CostCentreID == CostCentreId) {
@@ -1280,6 +1281,7 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                 var totalVal = 0;
                 // add checked cost centre values to gross total
                 for (var i = 0; i < $(updatedAddOns).length; i++) {
+                    console.log("pop up update json" + $(updatedAddOns)[i].ActualPrice);
                     JsonToReSubmit.push($(updatedAddOns)[i]);
                     totalVal = parseFloat(totalVal) + parseFloat($(updatedAddOns)[i].ActualPrice);
                 }

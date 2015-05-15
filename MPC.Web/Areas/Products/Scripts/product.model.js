@@ -146,6 +146,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                             template().isCreatedManual(undefined);
                         }
                     }
+                    else {
+                        if (templateType() === 1) {
+                            template().isCreatedManual(true);
+                        }
+                    }
                 }
             }),
             // is vdp product
@@ -2372,7 +2377,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Stock Item Name
             stockItemName = ko.observable(specifiedStockItemName || undefined),
             // Press Id
-            pressId = ko.observable(specifiedPressId || undefined).extend({ required: true }),
+            pressId = ko.observable(specifiedPressId || undefined),
             // Press Name
             pressName = ko.observable(specifiedPressName || undefined),
             // section size id
@@ -2416,7 +2421,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Errors
             errors = ko.validation.group({
                 name: name,
-                pressId: pressId,
                 stockItemId: stockItemId
             }),
             // Is Valid
@@ -3451,7 +3455,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         }
         
         // If Not a print product
-        if (item.isFinishedGoods !== 1) {
+        if (item.isFinishedGoodsUi() !== '1') {
             item.template().isCreatedManualUi(undefined);
         }
         
