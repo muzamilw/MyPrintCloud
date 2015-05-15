@@ -2105,6 +2105,7 @@
     <Content Include="Areas\Common\Views\Shared\_PhraseLibrary.cshtml" />
     <Content Include="Areas\Orders\Views\Home\test.cshtml" />
     <Content Include="Areas\Common\Views\Shared\test.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_InquiryDetail.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

@@ -78,17 +78,18 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                @* ReSharper disable UnknownCssClass *@
-                                                @*<label class="control-label tooltip-float">Customer</label>*@
-                                                <a data-bind="click: $root.openCompanyDialog" href="#" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-user"></i> 
-                                                </a>
+                                                
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>                                                    
                                                     <input type="text" style="height: 60px;" data-bind="value: companyName" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                                                     
                                                 </div>
+                                            </div>
+                                            <div class="col-lg-1" style="padding-top:10px;">
+                                                <button data-bind="click: $root.openCompanyDialog " href="#" class="btn btn-primary pull-right">  @*, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined)*@
+                                                    <i class="fa fa-user"></i>
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="form-group">
