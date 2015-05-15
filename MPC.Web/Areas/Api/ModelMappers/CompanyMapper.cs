@@ -46,13 +46,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css"));
             }
-
+            string defaultContact = null;
+            string email = null;
+            DomainModels.CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
+            if (companyContact != null)
+            {
+                defaultContact = companyContact.FirstName + " " + companyContact.LastName;
+                email = companyContact.Email;
+            }
             return new Company
             {
                 CompanyId = source.CompanyId,
                 Name = source.Name,
                 StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
                 AccountNumber = source.AccountNumber,
+                DefaultContactEmail = email,
+                DefaultContact = defaultContact,
                 URL = source.URL,
                 CreditReference = source.CreditReference,
                 CreditLimit = source.CreditLimit,

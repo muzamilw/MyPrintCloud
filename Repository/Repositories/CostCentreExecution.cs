@@ -42,6 +42,7 @@ namespace MPC.Repository.Repositories
 
                         QuestionObj.Type = reader.GetInt16(2);
 
+                        QuestionObj.DefaultAnswer = reader.IsDBNull(3) ? "0" : reader.GetString(3);
                         
                     }
                     reader.Close();
