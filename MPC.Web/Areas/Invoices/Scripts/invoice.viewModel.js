@@ -332,7 +332,7 @@ define("invoice/invoice.viewModel",
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                         itemSection.productType(2);
                         newItem.itemSections.push(itemSection);
-                        selectedInvoice().invoiceDetailItems.splice(0, 0, newItem);
+                        selectedInvoice().items.splice(0, 0, newItem);
                     },
                     //#endregion
                     //#endregion
@@ -565,7 +565,7 @@ define("invoice/invoice.viewModel",
                     },
                     addItemFromRetailStore = function (newItem) {
                         selectedProduct(newItem);
-                        selectedInvoice().invoiceDetailItems.splice(0, 0, newItem);
+                        selectedInvoice().items.splice(0, 0, newItem);
                         itemDetailVm.updateOrderData(selectedInvoice(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
                     },
 

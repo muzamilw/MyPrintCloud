@@ -1,7 +1,7 @@
 ﻿/*
     Module with the model for the Invoice
 */
-define(["ko", "underscore", "underscore-ko"], function (ko) {
+define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], function (ko, itemModel) {
     var // Status Enums
         // ReSharper disable InconsistentNaming
         Status = {
@@ -65,6 +65,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 notesUpdateDateTime = ko.observable(),
                 //
                 invoiceDetailItems = ko.observableArray([]),
+                items = ko.observableArray([]),
                 isProformaInvoice = ko.observable(specifiedIsProforma),
                 invoiceReportSignedBy = ko.observable(specifiedSignedBy),
                 estimateId = ko.observable(specifiedEstimateId),
@@ -74,12 +75,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
                 isPostedInvoice = ko.observable(invoiceStatus === 20 ? true : false),
                 deliveryItems = ko.computed(function () {
-                    if (invoiceDetailItems().length === 0) {
+                    if (items().length === 0) {
                         return [];
                     }
 
-                    return invoiceDetailItems.filter(function (item) {
-                        return item.detailType() === 2;
+                    return items.filter(function (item) {
+                        return item.itemType() === 2;
                     });
                 }),
                 // Is Direct Sale Ui
@@ -216,8 +217,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 reset: reset,
                 setValidationSummary: setValidationSummary,
                 convertToServerData: convertToServerData,
-                isPostedInvoice: isPostedInvoice
-
+                isPostedInvoice: isPostedInvoice,
+                items: items
             };
         },
         // Invoice Detail Entity
