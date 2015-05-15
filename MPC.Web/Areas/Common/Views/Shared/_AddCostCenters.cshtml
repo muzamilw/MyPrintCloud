@@ -36,6 +36,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <!--ko if: $root.costCentres().length==0-->
+                                                    <tr>
+                                                        <td class="col-lg-6">
+                                                            <span>No Item found!</span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /ko -->
                                                     <!-- ko template: { name: 'relatedProductDialogItemTemplate', foreach: $root.costCentres } -->
                                                     <!-- /ko -->
                                                 </tbody>

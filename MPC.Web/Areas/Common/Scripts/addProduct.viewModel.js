@@ -22,6 +22,8 @@ define("common/addProduct.viewModel",
                     selectedStockOptionSequenceNumber = ko.observable(),
                     //SelectedStockOption
                     selectedStockOption = ko.observable(),
+                    // Quantites count 
+                    quantitiesCount = ko.observable(0),
                     //Adds on total 
                     addsOnTotal = ko.observable(0),
                     //Selected Product
@@ -67,6 +69,7 @@ define("common/addProduct.viewModel",
                     resetFields = function() {
                         searchFilter(undefined);
                         addsOnTotal(0);
+                        orderProductItems.removeAll();
                     },
                     // On Select fcosCost Center
                     onSelectCostCenter = function(costCenter) {
@@ -117,6 +120,7 @@ define("common/addProduct.viewModel",
                                     if (data != null) {
                                         costCenterVisibility(true);
                                         selectedProductQuanityPrice(0);
+                                        quantitiesCount(0);
                                         item.itemStockOptions.removeAll();
                                         item.itemPriceMatrices.removeAll();
                                         item.itemSections.removeAll();
@@ -134,6 +138,9 @@ define("common/addProduct.viewModel",
                                             item.itemPriceMatrices.push(itemToBePushed);
                                             if (item.isQtyRanged() == 2 && itemToBePushed.quantity() !== 0) {
                                                 productQuantitiesList.push(itemToBePushed.quantity());
+                                            }
+                                            if (itemToBePushed.quantity() !== 0) {
+                                                quantitiesCount(quantitiesCount() + 1);
                                             }
                                         });
                                         if (data.ItemSection != null) {
@@ -358,7 +365,8 @@ define("common/addProduct.viewModel",
                     showCostCenterSections: showCostCenterSections,
                     addsOnTotal: addsOnTotal,
                     onCloseProductFromRetailStore: onCloseProductFromRetailStore,
-                    selectedProductQuanityPrice: selectedProductQuanityPrice
+                    selectedProductQuanityPrice: selectedProductQuanityPrice,
+                    quantitiesCount: quantitiesCount
                 };
             })()
         };
