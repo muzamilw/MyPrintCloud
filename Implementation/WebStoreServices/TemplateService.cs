@@ -406,6 +406,9 @@ namespace MPC.Implementation.WebStoreServices
                                     lineSpacingString = " linespacing= " + (ooBject.LineSpacing * Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize)))) + " ";
                                     fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + lineSpacingString + ">";
                                     fontTag += " fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + lineSpacingString + " ";
+                                } else
+                                {
+                                  //  fontSize += "<StyleRun fontsize='" + ooBject.FontSize.Value + "' " + pid + lineSpacingString + ">";
                                 }
                                 if (objStyle.fontStyle != null)
                                 {
