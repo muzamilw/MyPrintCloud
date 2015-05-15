@@ -594,19 +594,31 @@
 </script>
 
 <script id="sectionItemTemplate" type="text/html">
+    <!--ko if: !flagForAdd() -->
     <li class="col-md-2 col-sm-2 col-xs-6">
         <div>
-            <div style="float: left"><img class="photo-box" style="padding-top: 0px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>
-            <div style="font-size: small" class="itemSectionName">
+            <div style="float: left"><img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" /></div>
+            <div style="font-size: small;cursor: pointer;" class="itemSectionName" data-bind="click:$root.showSectionDetailEditor">
                 <span class="form-control" data-bind=" text:name" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 23%;padding-left: 0px;"></span>
             </div>
         </div>
-        @*<span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>*@
+
         <div class="btn btn-primary" style="font-size: x-small;margin-left: 11%;" data-bind="visible:!flagForAdd(),click:$root.showSectionDetailEditor">
             View Details
+        </div>
+    </li>
+    <!--/ko-->
+    <!--ko if: flagForAdd() -->
+    <li class="col-md-2 col-sm-2 col-xs-6">
+        <div>
+            <div style="float: left"><img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
+            @*<div style="font-size: small;cursor: pointer;" class="itemSectionName" data-bind="click:$root.createNewItemSection">
+                </div>*@
         </div>
         <div class="btn btn-success" style="font-size: x-small;margin-left: 14%;" data-bind="visible:flagForAdd,click:$root.createNewItemSection">
             Add Sheets
         </div>
     </li>
+    <!--/ko-->
+
 </script>
