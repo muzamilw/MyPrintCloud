@@ -767,7 +767,7 @@ define("order/order.viewModel",
                     _.each(selectedOrder().items(), function (item) {
                         item.jobStatusId(jobStatuses()[5].StatusId);
                     });
-                }
+                },
                 // Show Confirmation on backward Navigation of Order Status Change
                 showConfirmationMessageForBackwardNavigationOnStatusChange = function (status) {
                     // $("#dialog-confirm").attr('data-backdrop', 'static');
