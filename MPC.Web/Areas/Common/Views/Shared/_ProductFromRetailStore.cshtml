@@ -26,7 +26,7 @@
                             </div>
                             <div class="form-group pull-right">
                                 <form data-bind="submit: $root.getItemsByCompanyId">
-                                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                                    <input type="text" style="width:214px"class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
                                     <i class="fa fa-search search-icon" data-bind="click:$root.getItemsByCompanyId"></i>
                                 </form>
                             </div>
@@ -66,12 +66,13 @@
                             <h4 class="group-header">Add Cost Center</h4>
                             <div class="filter-body" id="filter">
                                 <div class="filter-block pull-right">
+                                    <div class="col-lg-12">
+                                        <div class="form-group pull-right">
+                                            <!--ko if: $root.selecteditem()!=undefined -->
+                                            <select class="form-control" data-bind="options:$root.selecteditem().itemStockOptions,optionsText:'label',optionsValue:'id', value: $root.selectedStockItem, style: { marginRight: $root.quantitiesCount() <=3 ? '-9px' : '-6px', width: $root.quantitiesCount() <=3 ? '215px' : '194px' }"></select>
+                                            <!--/ko-->
 
-                                    <div class="form-group pull-right">
-                                        <!--ko if: $root.selecteditem()!=undefined -->
-                                        <select class="form-control col-lg-4" data-bind="options:$root.selecteditem().itemStockOptions,optionsText:'label',optionsValue:'id', value: $root.selectedStockItem"></select>
-                                        <!--/ko-->
-
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="clearfix">
@@ -104,7 +105,7 @@
                                                 <td></td>
                                             </tr>
                                             <!--/ko-->
-                                            <!-- ko template: { name: 'itemPriceMatrixTemplate' , foreach: $root.selecteditem().itemPriceMatrices() } -->
+                                            <!-- ko template: { name: 'itemPriceMatrixTemplate' , foreach: $root.selecteditem().itemPriceMatrices } -->
                                             <!-- /ko -->
                                         </tbody>
                                     </table>
@@ -128,7 +129,7 @@
                             <!-- /ko -->
                             <!-- /ko -->
                             <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
-                            <div class=" col-lg-4 text-right " style=" padding-right: 21px;">
+                            <div class=" col-lg-4 text-right " data-bind="style: { paddingRight: $root.quantitiesCount() <=3 ? '3px' : '16px' }">
                                 <label class="control-label tooltip-float">
                                     <span data-bind="text:$root.currencySymbol()"></span>
                                     <span data-bind="numberInput:$root.selectedProductQuanityPrice"></span>
@@ -174,7 +175,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div style="" class="col-lg-12">
+                        <div style="margin-top: 16px;" class="col-lg-12">
                             <label class="col-lg-6">Adds on Total </label>
                             <span class="col-lg-4" style="text-align: right; padding-right: 0px;" data-bind="text: $root.currencySymbol"></span>
                             <span class="col-lg-2" style="text-align: right; padding-right: 0px; padding-left: 0px; " data-bind="numberInput: addsOnTotal"></span>
@@ -189,9 +190,9 @@
                 <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
                 <div class="col-lg-9"></div>
                 <div class="col-lg-3" style="margin-top: 10px;">
-                    <label class="col-lg-7">Total </label>
-                    <span class="col-lg-1" style="text-align: left; padding-left: 0px; margin-left: -10px; padding-right: 0px;" data-bind="text: $root.currencySymbol"></span>
-                    <span class="col-lg-2" style=" text-align: left; margin-left: -6px; padding-left: 5px;" data-bind="numberInput: totalProductPrice"></span>
+                    <label class="col-lg-6">Total </label>
+                    <span class="col-lg-1" style="text-align: right; padding-right: 0px" data-bind="text: $root.currencySymbol"></span>
+                    <span class="col-lg-3" style=" text-align: right; padding-left: 0px;margin-left: -14px" data-bind="numberInput: totalProductPrice"></span>
                 </div>
                 <!-- /ko -->
             </div>
@@ -211,7 +212,16 @@
 </script>
 <script id="addOnTemplate" type="text/html">
     <tr>
-        <td> <input type="checkbox" data-bind="checked: isSelected" /></td>
+        <td style=" padding-bottom: 0px;">
+            <div class="col-xs-1">
+                <div class="checkbox-nice">
+                    <input type="checkbox"  data-bind="checked: isSelected,attr: { id:  $index() }" />
+                    <label data-bind="attr: { for:  $index() }">
+                    </label>
+                </div>
+            </div>
+
+        </td>
         <td data-bind="text: costCentreName"></td>
         <td style="text-align: right">
             <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
