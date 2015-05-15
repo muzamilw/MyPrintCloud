@@ -1750,7 +1750,7 @@ function fu05_ClHtml(c, m, y, k, Sname, IsACT, PID) {
 //        fu11();
 //    });
 //}
-function fu06_SvcCallback(DT, fname) {
+function fu06_SvcCallback(DT, fname,mode) {
     $.each(DT, function (i, IT) {
         b1(fname, IT.FontName, IT.FontName);
         a0(IT.FontName, IT.FontFile, IT.FontPath);
@@ -1781,7 +1781,9 @@ function fu06_SvcCallback(DT, fname) {
         canvas.calcOffset();
     });
     $("#canvasDocument").css("width", $(window).width() - 430);
-   
+    if (mode == true) {
+        d5(TP[0].ProductPageID, true);
+    }
 }
 function fu07() {
     var dm = '<span class="marker" style="left: 0px; width: 72px;"></span>';
@@ -2094,6 +2096,7 @@ function h9() {
         },
         inactive: function () {
             alert("error while loading fonts");
+            d5(TP[0].ProductPageID, true);
         }
     };
     var wf = document.createElement('script');
