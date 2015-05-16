@@ -31,6 +31,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!--ko if:$root.selectedOrder().deliverySchedules().length==0-->
+                            <tr>
+                                <td class="col-lg-2">
+                                    <span>No Item found!</span>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- /ko -->
                             <!-- ko template: { name: $root.templateToUseDeliverySchedule , foreach: $root.selectedOrder().deliverySchedules } -->
                             <!-- /ko -->
                         </tbody>
@@ -92,7 +106,7 @@
             <td style="width: 175px" data-bind="text: addressName"></td>
             <td style="width: 175px" data-bind="text: quantity"></td>
             <td data-bind="dateString: deliveryDate"></td>
-            <td style="width: 114px"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="text: price"></span> </td>
+            <td style="width: 114px"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="numberInput: price"></span> </td>
             <td>
                 <div class="checkbox-nice">
                     <input type="checkbox" disabled data-bind="checked: deliveryNoteRaised,attr: { id: 'deliveryNoteRaised1' + $index() }">

@@ -570,13 +570,13 @@
   overflow: hidden;
   clear: both;
 }
-/*#storesBinding #tab-products .dd-handle-list {
+#storesBinding #tab-products .dd-handle-list {
   height: 90%;
   overflow: hidden;
 }
 #storesBinding #tab-products .dd-handle {
   height: auto;
-}*/
+}
 #storesBinding #ops_theme_dropdown {
   z-index: 1000000000000000;
   float: left;
@@ -752,11 +752,13 @@
 }
 #orderBinding .itemSectionName {
   float: right;
-  margin-top: -91px;
-  margin-left: 7px;
-  margin-right: 3px;
-  width: 88px;
+  margin-top: -82%;
+  margin-right: -6%;
+  width: 86%;
   color: #3c9bf6;
+}
+#orderBinding .phraseLibrayLink {
+  padding: 4px 12px;
 }
 #OrderDialogSection1 {
   -moz-box-shadow: 0 0 8px #808080;

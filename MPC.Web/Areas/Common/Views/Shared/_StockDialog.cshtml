@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select inventory subsrate</h4>
+                <h4 class="modal-title">Select inventory substrate</h4>
             </div>
             <div class="col-lg-12">
                 <div class="col-lg-12 clearfix">
@@ -40,6 +40,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!--ko if: stockItems().length==0-->
+                                    <tr>
+                                        <td class="col-lg-6">
+                                            <span>No Item found!</span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <!-- /ko -->
                                     <!-- ko template: { name: 'stockDialogItemTemplate', foreach: stockItems } -->
                                     <!-- /ko -->
                                 </tbody>
@@ -64,9 +72,9 @@
 
 @* Stock Item Template *@
 <script id="stockDialogItemTemplate" type="text/html">
-    <tr data-bind="click:$parent.onSelectStockItem">
+    <tr data-bind="click:$parent.onSelectStockItem" style="cursor:pointer;">
         <td>
-            <a data-bind="text: name, click: $parent.onSelectStockItem" style="cursor:pointer;" class="user-link"></a>
+            <a data-bind="text: name, click: undefined" class="user-link"></a>
         </td>
         <td>
             <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'Pack Qty '+ packageQty"></span>

@@ -70,7 +70,7 @@
 
                         @*<div class="col-lg-6">*@
                         <div class="form-group col-lg-12">
-                            <div class="col-lg-4 text-right"><label class="text-right">Quantity</label></div>
+                            <div class="col-lg-4 text-right"><label class="control-label text-right">Quantity</label></div>
                             <div class="col-lg-5">
                                 <!--ko if:  $root.selectedQty() == 1-->
                                 <input type="text" class="text-right form-control" data-bind="value: qty1, enable: costCentreType() != 1 ? true: false " />
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <div class="form-group col-lg-12">
-                            <div class="col-lg-4 text-right"><label class="text-right">Total Cost</label></div>
+                            <div class="col-lg-4 text-right"><label class="control-label text-right">Total Cost</label></div>
                             <div class="col-lg-8">
                                 <!--ko if:  $root.selectedQty() == 1-->
                                 <input type="text" class="text-right form-control" data-bind="value: qty1EstimatedStockCost " />
@@ -104,7 +104,7 @@
                             </div>
                         </div>
                         <div class="form-group col-lg-12">
-                            <div class="col-lg-4 text-right"><label class="text-right">Total Price</label></div>
+                            <div class="col-lg-4 text-right"><label class="control-label text-right">Total Price</label></div>
                             <div class="col-lg-8">
                                 <!--ko if:  $root.selectedQty() == 1-->
                                 <input type="text" class="text-right form-control" data-bind="numberValue: $root.sectionCostCenterQty1Charge " />
@@ -118,11 +118,11 @@
                             </div>
                         </div>
                         <div class="form-group col-lg-12">
-                            <div class="col-lg-4 text-right"><label class="text-right">Markup</label></div>
+                            <div class="col-lg-4 text-right"><label class="control-label text-right">Markup</label></div>
                             <div class="col-lg-8"><select class="form-control col-lg-4 form-control" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsValue:'MarkUpId', value:$root.selectedQty() == 1 ? $root.sectionCostCenterQty1MarkUpId :$root.selectedQty() == 2?  $root.sectionCostCenterQty2MarkUpId :  $root.sectionCostCenterQty3MarkUpId  "></select></div>
                         </div>
                         <div class="form-group col-lg-12">
-                            <div class="col-lg-4 text-right"><label class="text-right">Markup Value</label></div>
+                            <div class="col-lg-4 text-right"><label class="control-label text-right">Markup Value</label></div>
                             <div class="col-lg-8">
                                 <!--ko if:  $root.selectedQty() == 1-->
                                 <input type="text" class="text-right form-control" data-bind="value: qty1MarkUpValue " readonly="readonly" />
@@ -136,16 +136,16 @@
                             </div>
                         </div>
                         <div class="form-group col-lg-12">
-                            <div class="col-lg-4 text-right"><label class="text-right">Net Total</label></div>
+                            <div class="col-lg-4 text-right"><label class="control-label text-right">Net Total</label></div>
                             <div class="col-lg-8">
                                 <!--ko if:  $root.selectedQty() == 1-->
-                                <input type="text" class="text-right form-control" data-bind="numberValue: qty1NetTotal " />
+                                <input type="text" class="text-right form-control" data-bind="numberValue: $root.sectionCostCenterQty1NetTotal " />
                                 <!--/ko-->
                                 <!--ko if:  $root.selectedQty() == 2-->
-                                <input type="text" class="text-right form-control" data-bind="numberValue: qty2NetTotal " />
+                                <input type="text" class="text-right form-control" data-bind="numberValue: $root.sectionCostCenterQty2NetTotal " />
                                 <!--/ko-->
                                 <!--ko if:  $root.selectedQty() == 3-->
-                                <input type="text" class="text-right form-control" data-bind="numberValue: qty3NetTotal " />
+                                <input type="text" class="text-right form-control" data-bind="numberValue: $root.sectionCostCenterQty3NetTotal " />
                                 <!--/ko-->
                             </div>
                         </div>

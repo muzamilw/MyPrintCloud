@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="CreditLimtSetBy" data-bind="value: creditLimitSetBy" />
+                        <label class="control-label" data-bind="text: creditLimitSetByUser() ? creditLimitSetByUser().fullName : ''"></label>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="datepickerOnCreditApprove" data-bind="datepicker: creditLimitSetOnDateTime">
+                        <label class="control-label" id="datepickerOnCreditApprove" data-bind="dateString: creditLimitSetOnDateTime"></label>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="CreditCheckWoSetBy" data-bind="value: allowJobWoCreditCheckSetBy, enable: isJobAllowedWoCreditCheck" />
+                        <label class="control-label" data-bind="text: allowJobWoCreditCheckSetByUser() ? allowJobWoCreditCheckSetByUser().fullName : ''"></label>
 
                     </div>
 
@@ -121,7 +121,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="datepickerOnCreditApprove2" data-bind="datepicker: allowJobWoCreditCheckSetOnDateTime, enable: isJobAllowedWoCreditCheck">
+                        <label class="control-label" id="datepickerOnCreditApprove2" data-bind="dateString: allowJobWoCreditCheckSetOnDateTime"></label>
                     </div>
                 </div>
             </div>
@@ -176,7 +176,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="officialOrderSetBy" data-bind="value: officialOrderSetBy, enable: isOfficialOrder" />
+                        <label class="control-label" data-bind="text: officialOrderSetByUser() ? officialOrderSetByUser().fullName : ''"></label>
                     </div>
                 </div>
             </div>
@@ -191,7 +191,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="datepickerOnOfficialOrders" data-bind="datepicker: officialOrderSetOnDateTime, enable: isOfficialOrder">
+                        <label class="control-label" id="datepickerOnOfficialOrders" data-bind="dateString: officialOrderSetOnDateTime"></label>
                     </div>
 
                 </div>

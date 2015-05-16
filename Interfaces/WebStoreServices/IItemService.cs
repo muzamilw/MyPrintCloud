@@ -89,7 +89,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ItemAttachment> GetArtwork(long ItemId);
 
         Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId);
-        bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "");
+        bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "");
 
         FavoriteDesign GetFavContactDesign(long templateID, long contactID);
         /// <summary>
@@ -147,7 +147,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="StockOptionID"></param>
         /// <param name="CompanyID"></param>
         /// <returns></returns>
-        List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId);
+        List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId, long OrganisationId);
 
         /// <summary>
         /// get cart items count 

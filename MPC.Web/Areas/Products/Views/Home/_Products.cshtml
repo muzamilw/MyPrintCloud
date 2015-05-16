@@ -26,7 +26,7 @@
             <!-- /ko -->
             <div class="clearfix">
             </div>
-            <div class="main-box-body main-box clearfix">
+            <div class="main-box-body main-box clearfix box-shadow-all">
                 <div id="gridZoomSlider">
                     <!-- ko template: { name: 'gridViewTemplate', foreach: products } -->
                     <!-- /ko -->
@@ -79,7 +79,9 @@
         </div>
     </div>
     <div id="pagerDiv" class="pull-right">
+       
         <!-- ko with: pager -->
+
         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
         <!-- /ko -->
     </div>

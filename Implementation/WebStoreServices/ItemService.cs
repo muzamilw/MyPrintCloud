@@ -45,6 +45,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ITemplatePageRepository _TemplatePageRepository;
         private readonly ITemplateBackgroundImagesRepository _TemplateBackgroundImagesRepository;
         private readonly ITemplateObjectRepository _TemplateObjectRepository;
+        private readonly ICostCentreRepository _CostCentreRepository;
         #region Constructor
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace MPC.Implementation.WebStoreServices
             IOrderService orderService, ICompanyService companyService, ISmartFormService smartformService, IProductCategoryItemRepository ProductCategoryItemRepository
             , IItemSectionRepository ItemSectionRepository, ISectionCostCentreRepository ItemSectionCostCentreRepository
             , ITemplateRepository TemplateRepository, ITemplatePageRepository TemplatePageRepository, ITemplateBackgroundImagesRepository TemplateBackgroundImagesRepository
-            , ITemplateObjectRepository TemplateObjectRepository)
+            , ITemplateObjectRepository TemplateObjectRepository, ICostCentreRepository CostCentreRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -82,6 +83,7 @@ namespace MPC.Implementation.WebStoreServices
             this._TemplatePageRepository = TemplatePageRepository;
             this._TemplateBackgroundImagesRepository = TemplateBackgroundImagesRepository;
             this._TemplateObjectRepository = TemplateObjectRepository;
+            this._CostCentreRepository = CostCentreRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -492,9 +494,9 @@ namespace MPC.Implementation.WebStoreServices
             }
          
         }
-        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "") 
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "") 
         {
-            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, CountOfUploads, QuestionQueue);
+            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, CountOfUploads, QuestionQueue, CostCentreQueue, InputQueue);
         }
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
@@ -998,11 +1000,30 @@ namespace MPC.Implementation.WebStoreServices
         /// <param name="StockOptionID"></param>
         /// <param name="CompanyID"></param>
         /// <returns></returns>
-       public List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId)
+       public List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId, long OrganisationId)
        {
            try
            {
-               return _AddOnRepository.GetClonedItemAddOnCostCentres(ItemId);
+               ItemSection firstSection = _ItemSectionRepository.GetFirstSectionOfItem(ItemId);
+               if (firstSection != null)
+               {
+                   CostCentre webOrderCC = _CostCentreRepository.GetWebOrderCostCentre(OrganisationId);
+                   List<SectionCostcentre> sectionCCList = _ItemSectionCostCentreRepository.GetAllSectionCostCentres(firstSection.ItemSectionId);
+                   if (webOrderCC != null)
+                   {
+                       sectionCCList = sectionCCList.Where(s => s.CostCentreId != webOrderCC.CostCentreId).ToList();
+                       return sectionCCList;
+                   }
+                   else 
+                   {
+                       return sectionCCList;
+                   }
+               }
+               else 
+               {
+                   return null;
+               }
+              
            }
            catch (Exception ex)
            {

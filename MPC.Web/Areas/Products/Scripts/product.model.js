@@ -146,6 +146,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                             template().isCreatedManual(undefined);
                         }
                     }
+                    else {
+                        if (templateType() === 1) {
+                            template().isCreatedManual(true);
+                        }
+                    }
                 }
             }),
             // is vdp product
@@ -1477,7 +1482,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsTemplateDesignMode: isTemplateDesignMode(),
                     IsCmyk: isCmyk() === 1,
                     Scalar: scalar(),
-                    ZoomFactor: zoomFactor(),
+                    ZoomFactor: 1,
                     DesignerCategoryId: designerCategoryId(),
                     TemplateType: templateType(),
                     TemplateTypeMode: templateTypeMode(),
@@ -2066,7 +2071,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Height
             height = ko.observable(specifiedHeight || undefined),
             // Page Name
-            pageName = ko.observable(specifiedPageName || undefined),
+            pageName = ko.observable(specifiedPageName || undefined).extend({required:true}),
             // Page No
             pageNo = ko.observable(specifiedPageNo || undefined),
             // Orientation
@@ -2075,6 +2080,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             productId = ko.observable(specifiedProductId || 0),
             // Errors
             errors = ko.validation.group({
+                pageName: pageName
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -2372,7 +2378,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Stock Item Name
             stockItemName = ko.observable(specifiedStockItemName || undefined),
             // Press Id
-            pressId = ko.observable(specifiedPressId || undefined).extend({ required: true }),
+            pressId = ko.observable(specifiedPressId || undefined),
             // Press Name
             pressName = ko.observable(specifiedPressName || undefined),
             // section size id
@@ -2416,7 +2422,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Errors
             errors = ko.validation.group({
                 name: name,
-                pressId: pressId,
                 stockItemId: stockItemId
             }),
             // Is Valid
@@ -3451,7 +3456,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         }
         
         // If Not a print product
-        if (item.isFinishedGoods !== 1) {
+        if (item.isFinishedGoodsUi() !== '1') {
             item.template().isCreatedManualUi(undefined);
         }
         

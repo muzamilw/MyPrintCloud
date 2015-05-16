@@ -334,3 +334,7 @@ a.reportAnchor a:hover {
     margin-top: -5px;
     margin-bottom: 20px;
 }
+.box-shadow-all {
+    box-shadow: 0 0 5px #CCCCCC !important;
+}
+.marginR5 {margin-right: 5px!important ;}

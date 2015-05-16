@@ -65,13 +65,20 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
-        private Estimate CreateNewOrder()
+        private Estimate CreateNewOrder(bool isEstimate = false)
         {
-            string orderCode = prefixRepository.GetNextOrderCodePrefix();
+            string orderCode = !isEstimate ? prefixRepository.GetNextOrderCodePrefix() : prefixRepository.GetNextEstimateCodePrefix();
             Estimate itemTarget = estimateRepository.Create();
             estimateRepository.Add(itemTarget);
             itemTarget.CreationDate = itemTarget.CreationTime = DateTime.Now;
-            itemTarget.Order_Code = orderCode;
+            if (isEstimate)
+            {
+                itemTarget.Estimate_Code = orderCode;
+            }
+            else
+            {
+                itemTarget.Order_Code = orderCode;    
+            }
             itemTarget.OrganisationId = orderRepository.OrganisationId;
             return itemTarget;
         }
@@ -489,12 +496,11 @@ namespace MPC.Implementation.MISServices
         public Estimate SaveOrder(Estimate estimate)
         {
             // Get Order if exists else create new
-            Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder();
+            Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder(estimate.isEstimate == true);
 
             // Update Order
             estimate.UpdateTo(order, new OrderMapperActions
                                      {
-                                         CreateNewOrder = CreateNewOrder,
                                          CreatePrePayment = CreateNewPrePayment,
                                          DeletePrePayment = DeletePrePayment,
                                          CreateItem = CreateItem,
@@ -542,7 +548,8 @@ namespace MPC.Implementation.MISServices
                        PaymentMethods = paymentMethodRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
                        // ChartOfAccounts = chartOfAccountRepository.GetAll(),
-                       CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem()
+                       CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
+                       LoggedInUser = organisationRepository.LoggedInUserId
                    };
         }
 
@@ -560,7 +567,8 @@ namespace MPC.Implementation.MISServices
                 CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty,
                 SystemUsers = systemUserRepository.GetAll(),
                 LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
-                WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty
+                WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
+                LoggedInUser = organisationRepository.LoggedInUserId
             };
 
         }
