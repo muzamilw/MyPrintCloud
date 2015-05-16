@@ -7,7 +7,7 @@
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4>Profile - <span data-bind="text: firstName"></span></h4>
+                <h4>Add/Edit Contact<span data-bind="text: firstName"></span></h4>
             </div>
             <br />
             <div class="col-lg-12 clearfix">
@@ -140,6 +140,13 @@
                                                     <!--/ko-->
                                                 </div>
                                                 <div class="col-lg-6">
+
+                                                   
+
+
+
+
+
                                                     <div class="form-group">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
@@ -150,17 +157,39 @@
                                                             <label class="control-label text-right tooltip-float">Profile Image</label>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: image }" />
+
+                                                            <div class="clearfix">
+
+                                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: image }" />
+                                                                <div class="col-lg-12" style="margin-top: 5px;text-align:center;">
+                                                                    <div class="fileUpload btn btn-primary">
+                                                                        <span>Upload </span>
+                                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.UserProfileImageFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;">Upload Profile image</div>
+                                                              
+
+                                                            </div>
+
+
+
+
+
+
+
+                                                            @*<img style="min-height: 170px; width: 170px;" data-bind="attr: { src: image }" />
                                                             <div class="col-lg-1 pull-right">
                                                                 <div class="fileUpload btn btn-primary">
                                                                     <span>....</span>
                                                                     <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.UserProfileImageFileLoadedCallback, fileFilter: 'image.*'}" />
                                                                 </div>
                                                             </div>
-                                                            <span class="help-block text-right"></span>
+                                                            <span class="help-block text-right"></span>*@
                                                         </div>
                                                     </div>
-                                                    <br />
+                                                   
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
@@ -703,7 +732,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchNewsLetter" class="control-label text-right tooltip-float">Subscribed to Newsletter ?</label>
+                                                        <label for="switchNewsLetter" class="control-label text-right tooltip-float">Subscribed to Newsletter</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -723,7 +752,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchMailLetter" class="control-label text-right tooltip-float">Subscribed to Emails ?</label>
+                                                        <label for="switchMailLetter" class="control-label text-right tooltip-float">Subscribed to Emails</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -743,7 +772,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchHasWebAcc" class="control-label text-right tooltip-float">Can access webstore ?</label>
+                                                        <label for="switchHasWebAcc" class="control-label text-right tooltip-float">Can access webstore</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -763,7 +792,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchIsPlaceOrder" class="control-label text-right tooltip-float">Can Place Order on webstore ?</label>
+                                                        <label for="switchIsPlaceOrder" class="control-label text-right tooltip-float">Can Place Order on webstore</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -783,7 +812,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchIsDefaultContact" class="control-label text-right tooltip-float">Default Contact of Store ?</label>
+                                                        <label for="switchIsDefaultContact" class="control-label text-right tooltip-float">Default Contact of Store</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -866,7 +895,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchCanEditProfile" class="control-label text-right tooltip-float">Can Edit Profile on Webstore ?</label>
+                                                        <label for="switchCanEditProfile" class="control-label text-right tooltip-float">Can Edit Profile on Webstore</label>
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
@@ -886,7 +915,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchIsPricingshown" class="control-label text-right tooltip-float">Prices are displayed to this user on Webstore ?</label>
+                                                        <label for="switchIsPricingshown" class="control-label text-right tooltip-float">Prices are displayed to this user on Webstore</label>
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
@@ -926,12 +955,12 @@
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Bussiness Address" data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Business Address" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
                                                             </div>
 
-                                                            <label for="ddbussinessAddress" class="control-label text-right tooltip-float">Bussiness Address</label>
+                                                            <label for="ddbussinessAddress" class="control-label text-right tooltip-float">Business Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
                                                             @*<select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',value: $root.selectedBussinessAddressId, validationToolTip: bussinessAddressId"></select>*@ @*,optionsCaption: 'Choose...'*@
@@ -940,11 +969,11 @@
                                                     </div>
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
-                                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
                                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
-                                                            </div>
+                                                            </div>*@
                                                             <label for="txtBAredd" class="control-label text-right tooltip-float">Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
@@ -953,11 +982,11 @@
                                                     </div>
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
-                                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
                                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content=" City" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
-                                                            </div>
+                                                            </div>*@
 
                                                             <label for="txtBAddCity" class="control-label text-right tooltip-float">City</label>
                                                         </div>
@@ -967,11 +996,11 @@
                                                     </div>
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
-                                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
                                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content=" State" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
-                                                            </div>
+                                                            </div>*@
 
                                                             <label for="txtBAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
@@ -1086,7 +1115,7 @@
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
              
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyContact, enable: !$root.isSavingNewCompanyContact()">Archive</button>
+                <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeleteCompanyContact, enable: !$root.isSavingNewCompanyContact()">Archive</button>
             </div>
             <div class="clearfix">
             </div>

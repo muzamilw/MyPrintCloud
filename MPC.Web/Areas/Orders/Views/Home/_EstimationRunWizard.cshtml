@@ -61,17 +61,30 @@
                                                         <tr>
                                                             <th class="col-lg-3 "><span>Press</span></th>
                                                             <th class="col-lg-1"><span>Cost</span></th>
-                                                            <!--ko if: $root.isEstimateScreen -->
-                                                            <th class="col-lg-2 text-right"><span>Run Time </span></th>
-                                                            <th class="col-lg-1"><span style=" margin-left: 4px;">Cost</span></th>
-                                                            <th class="col-lg-2  text-right" style="padding-right: 0px;"><span>Run Time </span></th>
-                                                            <th class="col-lg-1"><span style=" margin-left: 9px;">Cost</span></th>
-                                                            <th class="col-lg-2  text-right" style="padding-right: 0px;"><span>Run Time </span></th>
-                                                            <!--/ko-->
+                                                            <th class="col-lg-2 text-right"><span style="margin-right: -5px;">Run Time </span></th>
+
+                                                            <th class="col-lg-1"><span style=" margin-left: 4px;" data-bind="text: $root.isEstimateScreen()===true ? 'Cost':''"></span></th>
+                                                            <th class="col-lg-2  text-right" style="padding-right: 0px;" data-bind="text: $root.isEstimateScreen()===true ? 'Run Time':''"><span> </span></th>
+                                                            <th class="col-lg-1"><span style=" margin-left: 9px;" data-bind="text: $root.isEstimateScreen()===true ? 'Cost':''"></span></th>
+                                                            <th class="col-lg-2  text-right" style="padding-right: 0px;" data-bind="text: $root.isEstimateScreen()===true ? 'Run Time':''"><span>Run Time </span></th>
                                                             <th style="width:55px;">&nbsp;</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        <!--ko if:$root.bestPressList().length==0-->
+                                                        <tr>
+                                                            <td class="col-lg-2">
+                                                                <span>No Item found!</span>
+                                                            </td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <!-- /ko -->
                                                         <!-- ko template: { name: 'bestPressItemtemplate' , foreach: $root.bestPressList } -->
                                                         <!-- /ko -->
                                                     </tbody>
@@ -142,6 +155,14 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        <!--ko if:$root.userCostCentersCopy().length==0-->
+                                                        <tr>
+                                                            <td class="col-lg-2">
+                                                                <span>No Item found!</span>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <!-- /ko -->
                                                         <!-- ko template: { name: 'userCostCenterItemtemplate' , foreach: $root.userCostCentersCopy } -->
                                                         <!-- /ko -->
                                                     </tbody>
@@ -160,6 +181,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                       
                                                         <!-- ko template: { name: 'selectedUserCostCenterItemtemplate' , foreach: $root.userCostCenters } -->
                                                         <!-- /ko -->
                                                     </tbody>
@@ -202,28 +224,26 @@
             <span data-bind="text:qty1RunTime"></span>
         </div>
     </td>
-    <!--ko if: $root.isEstimateScreen -->
     <td data-bind="click:$root.selectBestPressFromWizard, css: { selectedRow: $root.selectedBestPressFromWizard() === $data }">
         <div class="col-xs-3" style="margin-left: 5px;">
-            <span data-bind="text:$root.currencySymbol"> </span><span data-bind="numberInput:qty2Cost"></span>
+            <span data-bind="text:$root.isEstimateScreen()===true ? $root.currencySymbol:''"> </span><span data-bind="numberInput:qty2Cost, style:{visibility:$root.isEstimateScreen()!==true ?'hidden' : 'visible'}"></span>
         </div>
     </td>
     <td data-bind="click:$root.selectBestPressFromWizard, css: { selectedRow: $root.selectedBestPressFromWizard() === $data }">
         <div class="pull-right" style=" ">
-            <span data-bind="text:qty2RunTime"></span>
+            <span data-bind="text:$root.isEstimateScreen()===true ? qty2RunTime:''"></span>
         </div>
     </td>
     <td data-bind="click:$root.selectBestPressFromWizard, css: { selectedRow: $root.selectedBestPressFromWizard() === $data }">
         <div class="" style="margin-left: 18px;">
-            <span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3Cost"></span>
+            <span data-bind="text:$root.isEstimateScreen()===true ? $root.currencySymbol:''"></span><span data-bind="numberInput: qty3Cost, style:{visibility:$root.isEstimateScreen()!==true ?'hidden' : 'visible'}"></span>
         </div>
     </td>
     <td data-bind="click:$root.selectBestPressFromWizard, css: { selectedRow: $root.selectedBestPressFromWizard() === $data }">
         <div class="pull-right" style=" margin-right: 7px;">
-            <span style="margin-right: -9px;" data-bind="text:qty3RunTime"></span>
+            <span style="margin-right: -9px;" data-bind="text:$root.isEstimateScreen()===true ? qty3RunTime:''"></span>
         </div>
     </td>
-    <!--/ko-->
     <td class="text-right"></td>
 </script>
 

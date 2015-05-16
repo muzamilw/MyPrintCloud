@@ -111,7 +111,8 @@ define("product/product.viewModel",
                     // Sort Order -  true means asc, false means desc
                     sortIsAsc = ko.observable(true),
                     // Pagination
-                    pager = ko.observable(new pagination.Pagination({ PageSize: 8 }, products)),
+                        
+                    pager = ko.observable(pagination.Pagination({ PageSize: 10 }, products)),
                     // Pagination For Item Relater Dialog
                     itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
                     // Pagination For Press Dialog
@@ -558,12 +559,18 @@ define("product/product.viewModel",
                         });
                         confirmation.show();
                     },
+                     onDeleteTemplatePage = function (templatePage) {
+                         confirmation.afterProceed(function () {
+                             selectedProduct().template().removeTemplatePage(templatePage);
+                         });
+                         confirmation.show();
+                     },
                     // Initialize the view model
                     initialize = function (specifiedView, isOnStoreScreen) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
-                        pager(new pagination.Pagination({ PageSize: 8 }, products, getItems));
+                        pager(pagination.Pagination({ PageSize: 10 }, products, getItems));
 
                         itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate));
 
@@ -600,7 +607,7 @@ define("product/product.viewModel",
                             }
 
                             // Set Zoom Factor and Scalar default
-                            selectedProduct().zoomFactor(designerCategory.zoomFactor);
+                            selectedProduct().zoomFactor(1);
                             selectedProduct().scalar(designerCategory.scalarFactor);
                         });
                     },
@@ -1430,7 +1437,8 @@ define("product/product.viewModel",
                     smartForms: smartForms,
                     weightUnit: weightUnit,
                     isStoreTax: isStoreTax,
-                    defaultTaxRate: defaultTaxRate
+                    defaultTaxRate: defaultTaxRate,
+                    onDeleteTemplatePage: onDeleteTemplatePage
                     // For Store
                     // Utility Methods
 

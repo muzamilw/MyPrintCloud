@@ -36,6 +36,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <!--ko if: $root.costCentres().length==0-->
+                                                    <tr>
+                                                        <td class="col-lg-6">
+                                                            <span>No Item found!</span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /ko -->
                                                     <!-- ko template: { name: 'relatedProductDialogItemTemplate', foreach: $root.costCentres } -->
                                                     <!-- /ko -->
                                                 </tbody>
@@ -64,20 +71,20 @@
 
     
     <script id="relatedProductDialogItemTemplate" type="text/html">
-        <tr data-bind="click:$root.onSelectCostCenter">
+        <tr data-bind="click:$root.onSelectCostCenter" style="cursor: pointer">
             <td>
                 <span style="font-size: 1.105em; color: black;" data-bind="text: name"></span>
                 <br />
                 <span style="font-size: 0.875em; color: lightgray;" data-bind="text: description"></span>
             </td>
             <td>
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput: pricePerUnitQuantity()"></span>
-            <span style="font-size: 0.875em; color: lightgray;" >/unit</span>
+                <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
+                <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput: pricePerUnitQuantity()"></span>
+                <span style="font-size: 0.875em; color: lightgray;">/unit</span>
                 <br />
-            <span style="font-size: 0.875em; color: lightgray;">Setup Cost </span>
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput:setupCostWithTax"></span>
+                <span style="font-size: 0.875em; color: lightgray;">Setup Cost </span>
+                <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
+                <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput:setupCostWithTax"></span>
             </td>
         </tr>
     </script>

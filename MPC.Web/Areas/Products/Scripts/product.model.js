@@ -1482,7 +1482,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsTemplateDesignMode: isTemplateDesignMode(),
                     IsCmyk: isCmyk() === 1,
                     Scalar: scalar(),
-                    ZoomFactor: zoomFactor(),
+                    ZoomFactor: 1,
                     DesignerCategoryId: designerCategoryId(),
                     TemplateType: templateType(),
                     TemplateTypeMode: templateTypeMode(),
@@ -2071,7 +2071,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Height
             height = ko.observable(specifiedHeight || undefined),
             // Page Name
-            pageName = ko.observable(specifiedPageName || undefined),
+            pageName = ko.observable(specifiedPageName || undefined).extend({required:true}),
             // Page No
             pageNo = ko.observable(specifiedPageNo || undefined),
             // Orientation
@@ -2080,6 +2080,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             productId = ko.observable(specifiedProductId || 0),
             // Errors
             errors = ko.validation.group({
+                pageName: pageName
             }),
             // Is Valid
             isValid = ko.computed(function () {

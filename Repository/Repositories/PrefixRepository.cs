@@ -107,6 +107,32 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
+        /// Returns Next Estimate Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextEstimateCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.EstimatePrefix + "-001-" + prefix.EstimateNext;
+
+                // Update Estimate Next
+                prefix.EstimateNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         /// Returns Next Item Code Prefix and increments the NextItem Value by 1
         /// </summary>
         public string GetNextItemCodePrefix(bool shouldIncrementNextItem = true)
