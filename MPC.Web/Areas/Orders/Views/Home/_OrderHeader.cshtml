@@ -112,20 +112,16 @@
                 <div class="col-lg-6">
                     <input type="text" style="height: 60px;" data-bind="value: orderCode" readonly class="form-control font24px" id="code" />
                 </div>
-
             </div>
-
 
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     @*<label class="control-label text-right tooltip-float">Order Flag</label>*@
                 </div>
-
                 <div class="col-lg-6">
                     <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
                     <span class="help-block text-right"></span>
                 </div>
-
             </div>
             <div>
                 <div class="row" style="margin-top: -15px;">
@@ -204,6 +200,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <!--ko if: nonDeliveryItems().length==0-->
+                                        <tr>
+                                            <td>
+                                                <span data-bind="text: 'No Item found!'"></span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <!-- /ko -->
                                         <!-- ko template: { name: 'itemTemplate', foreach: nonDeliveryItems } -->
                                         <!-- /ko -->
                                     </tbody>
@@ -249,6 +254,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <!--ko if: deliveryItems().length==0-->
+                                        <tr>
+                                            <td>
+                                                <span data-bind="text: 'No Item found!'"></span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <!-- /ko -->
                                         <!-- ko template: { name: 'deliveryItemTemplate', foreach: deliveryItems } -->
                                         <!-- /ko -->
                                     </tbody>
