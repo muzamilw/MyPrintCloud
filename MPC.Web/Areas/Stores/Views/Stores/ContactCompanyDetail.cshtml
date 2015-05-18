@@ -544,7 +544,7 @@
                                 <div class="col-lg-5" data-bind="with: $root.selectedStore">
                                     <div class="clearfix">
                                         <header>
-                                            <h2>
+                                            <h2 style="padding-right:5px;">
                                                 Product Categories
                                                 <a data-bind="click: $root.onCreateNewProductCategory" class="btn btn-primary pull-right">
                                                     Add New Product Category
@@ -593,7 +593,7 @@
                             </div>
                             <div class="tab-pane fade" id="tab-territory" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    <h3 class="group-header">Store Users and Visitors</h3>
+                                    @*<h3 class="group-header">Store Users and Visitors</h3>*@
                                     <p class="group-header-description" style="width:50%;">Store user could be corporate/private store administrator, managers(approvers) and end users. Users can also be new visitors that register on this store.</p>
 
 
@@ -607,7 +607,7 @@
 
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <header class="main-box-header clearfix" style="padding-left:0px;width:230%;  margin-left: 0px;">
+                                                    <header class="main-box-header clearfix" style="padding-left:0px;width:226%;  margin-left: 0px;">
                                                         <!--ko if: $root.selectedStore().type() != 4-->
                                                         <div class="filter-block form-group pull-left col-xs-4" style="padding-left:0px;">
                                                             <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.contactCompanyTerritoryFilter"></select>
@@ -625,7 +625,7 @@
                                                             </div>
                                                         </div>
                                                     </header>
-                                                    <div style="background-color:gainsboro; border-radius:3px; width:230%;">
+                                                    <div style="background-color:gainsboro; border-radius:3px; width:226%;">
                                                         <header class="main-box-header clearfix">
                                                             <div style="float:left;"><span style="font-size:24px">Users and Visitors</span></div>
                                                         </header>
@@ -669,7 +669,7 @@
                                                     </div>
 
 
-                                                    <footer class="main-box-header" style="  margin-right: 0px; text-align: right; padding-right:6px;width:230%;">
+                                                    <footer class="main-box-header" style="  margin-right: 0px; text-align: right; padding-right:6px;width:226%;">
                                                         <div id="pagerDivUsers">
                                                             <!-- ko with: $root.contactCompanyPager -->
                                                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -686,7 +686,7 @@
 
                                             <div class="col-lg-12">
                                                 <h3 class="group-header">Store Addresses</h3>
-                                                <p class="group-header-description">For a public store you add a default pickup location. For a private store the addresses are used for pick up location and also as delivery locations for orders placed.</p>
+                                                <p class="group-header-description">For a public store you add a default pickup location. For a private store the addresses are used for pick up location and also as shipping locations for orders placed.</p>
                                                 <div class="col-lg-12 clearfix">
 
 
@@ -698,7 +698,7 @@
                                                             </div>
                                                             <div class="col-lg-6">
 
-                                                                <header class="main-box-header clearfix" style="padding-left:0px;width:230%;  margin-left: 0px;">
+                                                                <header class="main-box-header clearfix" style="padding-left:0px;width:226%;  margin-left: 0px;">
                                                                     <!--ko if: $root.selectedStore().type() != 4-->
                                                                     <div class="filter-block form-group pull-left col-xs-4" style="padding-left:0px;">
                                                                         <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.addressTerritoryFilter"></select>
@@ -717,7 +717,7 @@
                                                                     </div>
                                                                 </header>
 
-                                                                <div style="background-color:gainsboro; border-radius:3px;width:230%;">
+                                                                <div style="background-color:gainsboro; border-radius:3px;width:226%;">
                                                                     <header class="main-box-header clearfix">
                                                                         <div style="float:left;"><span style="font-size:24px">Addresses</span></div>
                                                                     </header>
@@ -754,7 +754,7 @@
                                                                 </div>
 
 
-                                                                <footer class="main-box-header" style="margin-right: -10px;padding-right:6px;width:230%;text-align:right">
+                                                                <footer class="main-box-header" style="margin-right: -10px;padding-right:6px;width:226%;text-align:right">
                                                                     <div id="pagerDivAddress">
                                                                         <!-- ko with: $root.addressPager -->
                                                                         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -783,7 +783,7 @@
                                                                         <div class="col-lg-6">
 
 
-                                                                            <header class="main-box-header clearfix" style="padding-right: 0px;width:230%">
+                                                                            <header class="main-box-header clearfix" style="padding-right: 0px;width:226%">
                                                                                 <div class="filter-block">
                                                                                     <div class="filter-block pull-right" style="margin-right: -10px;">
                                                                                         <form data-bind="submit:$root.searchCompanyTerritoryByFilter ">
@@ -796,7 +796,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </header>
-                                                                            <div style="background-color:gainsboro; border-radius:3px;width:230%;">
+                                                                            <div style="background-color:gainsboro; border-radius:3px;width:226%;">
                                                                                 <header class="main-box-header clearfix">
                                                                                     <div style="float:left;"><span style="font-size:24px">Territories</span></div>
                                                                                 </header>
@@ -825,7 +825,7 @@
                                                                                     Add New Territory
                                                                                 </a>
                                                                             </div>
-                                                                            <footer class="main-box-header" style="margin-right: -10px;padding-right:0px;width:230%;text-align:right;">
+                                                                            <footer class="main-box-header" style="margin-right: -10px;padding-right:0px;width:226%;text-align:right;">
                                                                                 <div id="pagerDiv">
                                                                                     <!-- ko with: $root.companyTerritoryPager -->
                                                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -2018,11 +2018,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                     </div>
                                                                     <div class="col-lg-12 form-horizontal">
                                                                         <h3 class="group-header">Store Checkout Options</h3>
-                                                                        <div class="col-lg-9">
+                                                                        <div class="col-lg-9" style="padding-left:12px">
 
                                                                             <div class="form-group">
                                                                                 <div class="col-lg-3 text-right">
-                                                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                                                    <div class="bs-example-tooltips tooltip-float-width" style="padding-left: 12px;"">
                                                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Decide if users will pay online or checkout without payment.  NOTE: this is a global option for a retail store but controlled on a contact-by-contact basis under the user settings within this store.  Must enable online payments to force visitors to pay online" data-original-title="" title="">
                                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                         </a>
@@ -2194,7 +2194,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                                     </div>
                                                                                     <div class="col-lg-6">
                                                                                         <div class="input-group" style="width:50%;">
-                                                                                            <input type="text" class="form-control" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
+                                                                                            <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -2239,7 +2239,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                                     </div>
                                                                                     <div class="col-lg-6">
                                                                                         <div class="input-group" style="width:50%;">
-                                                                                            <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
+                                                                                            <input type="text" style="margin-left:-3px;" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
                                                                                             <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
                                                                                         </div>
                                                                                     </div>
@@ -2298,16 +2298,16 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                                                                 </div>
                                                                                 <div class="col-lg-6">
-                                                                                    <header class="main-box-header clearfix" style="width:220%;margin-right:0px;">
+                                                                                    <header class="main-box-header clearfix" style="width:220%;margin-right:0px;padding-right:0px;">
                                                                                         <div class="filter-block pull-right">
-                                                                                            <div class="form-group pull-left">
+                                                                                            <div class="form-group pull-left" style="margin-right: 2px;">
                                                                                                 <input type="text" class="form-control" placeholder="Search...">
                                                                                                 <i class="fa fa-search search-icon"></i>
                                                                                             </div>
 
                                                                                         </div>
                                                                                     </header>
-                                                                                    <div style="background-color:gainsboro; border-radius:3px;width:220%;">
+                                                                                    <div style="background-color:gainsboro; border-radius:3px;width:220%;  margin-left: 3px;padding-right: 0px">
                                                                                         <header class="main-box-header clearfix">
                                                                                             <div style="float:left;"><span style="font-size:24px">Payment Gateways</span></div>
                                                                                         </header>
@@ -2331,9 +2331,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;margin-left:-6px;">
                                                                                         <a data-toggle="modal" class="btn btn-primary" data-bind="click:$root.onCreateNewPaymentGateway">
-                                                                                            Add Payment Gateway
+                                                                                            Add New Payment Gateway
                                                                                         </a>
                                                                                     </div>
                                                                                 </div>
@@ -2540,16 +2540,43 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                 <div class="tab-pane clearfix fade" id="tab-pageeditor" data-bind="with: $root.selectedStore">
                                                                     <div class="col-lg-3">
                                                                         <div class="clearfix">
-                                                                            <header class="main-box-header clearfix">
+                                                                            <header class="main-box-header clearfix" style="padding-left: 0px;margin-left: 0px;padding-top:0px">
 
-                                                                                <h2>
+                                                                                <div class="form-group" id="form-group-closer">
+                                                                                    <div class="col-lg-3 text-right" style="padding-top:12px;width: 73%; padding-left:0px;">
+                                                                                        <label for="txtCompanyName" style=" padding-top: 10px;float: left;" class="control-label text-right tooltip-float">Available Widgets</label>
+                                                                                        <span class="bs-example-tooltips tooltip-float-width" style="float:left;">
+                                                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Here you can configure the layout and widgets/components which appear on Store's each page excluding Secondary pages. You may drag/add available widgets from left to a page after selecting the page. If you want to add custom HTML then add Dynamic Page HTML Control and modify the contents, this control can be placed multiple times and alow full HTML and Javascript content. You may also reorder the widgets/components. Please note changes done once are irreversible." data-original-title="" title="">
+                                                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                                            </a>
+                                                                                        </span>
+                                                                                      
+                                                                                    </div>
+                                                                                    <div class="col-lg-6">
+                                                                                       
+
+
+                                                                                    </div>
+                                                                                </div>
+
+
+
+
+
+                                                                                @*<div class="col-lg-3">
                                                                                     <span class="bs-example-tooltips tooltip-float-width">
                                                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Here you can configure the layout and widgets/components which appear on Store's each page excluding Secondary pages. You may drag/add available widgets from left to a page after selecting the page. If you want to add custom HTML then add Dynamic Page HTML Control and modify the contents, this control can be placed multiple times and alow full HTML and Javascript content. You may also reorder the widgets/components. Please note changes done once are irreversible." data-original-title="" title="">
                                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                         </a>
                                                                                     </span>
-                                                                                    Available Widgets for Pages
-                                                                                </h2>
+
+                                                                                    <label for="txtCurrentPage" style="padding-top: 9px;" class="control-label text-right tooltip-float col-lg-10">Available Widgets</label>
+
+                                                                                </div>*@                     
+
+                                                                                
+                                                                               
+                                                                               
                                                                                 @*<p class="group-header-description">Here you can configure the layout and widgets/components which appear on Store's each page excluding Secondary pages. You may drag/add available widgets from left to a page after selecting the page. If you want to add custom HTML then add Dynamic Page HTML Control and modify the contents, this control can be placed multiple times and alow full HTML and Javascript content. You may also reorder the widgets/components. Please note changes done once are irreversible.</p>*@
                                                                             </header>
                                                                             <div style="padding-right: 5px;" id="widgetDiv">
@@ -2562,13 +2589,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                     </div>
                                                                     <div class="col-lg-9 form-horizontal">
                                                                         <div class="clearfix">
-                                                                            <header class="main-box-header clearfix">
-                                                                                @*<h2>Current Page existing Widgets/Components</h2>*@
+                                                                            @*<header class="main-box-header clearfix">
+                                                                               
                                                                                 <div class="filter-block pull-right">
                                                                                 </div>
-                                                                            </header>
-                                                                            <div class="form-group">
-                                                                                <div class="col-lg-4 text-right">
+                                                                            </header>*@
+                                                                            <div class="form-group" style="padding-top: 12px;">
+                                                                                <div class="col-lg-6 text-right">
                                                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select the page you would like to work on (retail, corporate store, etc.)" data-original-title="" title="">
                                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -2577,11 +2604,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                                     <label for="txtCurrentPage" class="control-label text-right tooltip-float col-lg-10">Select page to view current widgets/components</label>
                                                                                 </div>
                                                                                 <div class="col-lg-6">
-                                                                                    <select class="form-control" data-bind="options: $root.cmsPagesForStoreLayout,optionsCaption:'Select Page', optionsText: 'PageTitle', optionsValue: 'PageId',value:$root.selectedCurrentPageId"></select>
-                                                                                    <span class="help-block text-right"></span>
+                                                                                    <select class="form-control" style="width:98%;" data-bind="options: $root.cmsPagesForStoreLayout,optionsCaption:'Select Page', optionsText: 'PageTitle', optionsValue: 'PageId',value:$root.selectedCurrentPageId"></select>
+                                                                                 
                                                                                 </div>
                                                                             </div>
-                                                                            <ul style="border:1px solid #eeeeee;list-style: none;padding: 15px;cursor:move" data-bind="sortable: { template: 'skinWidgetItemTemplate', data: $root.pageSkinWidgets }, drop: $root.dropped"></ul>
+                                                                            <ul style="border:1px solid #eeeeee;margin-top: 26px;list-style: none;padding: 15px;cursor:move" data-bind="sortable: { template: 'skinWidgetItemTemplate', data: $root.pageSkinWidgets }, drop: $root.dropped"></ul>
                                                                         </div>
                                                                         <div class="col-md-3">
                                                                         </div>
@@ -2599,13 +2626,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                                     <div class="form-group">
                                                                                         <div class="col-lg-3 text-right">
                                                                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Is delivery cost taxed?" data-original-title="" title="">
+                                                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Is shipping cost taxed?" data-original-title="" title="">
                                                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                                 </a>
                                                                                             </div>
-                                                                                            <label class="control-label text-right tooltip-float">Is delivery charge taxable?</label>
+                                                                                            <label class="control-label text-right tooltip-float">Shipping charge taxable</label>
                                                                                         </div>
-                                                                                        <div class="col-lg-6">
+                                                                                        <div class="col-lg-6" style="padding-left:5px;">
                                                                                             <div class="radio">
                                                                                                 <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosYesTaxable" value="1" data-bind="checked: isDeliveryTaxAbleUi">
                                                                                                 <label for="optionsRadiosYesTaxable">
@@ -2629,7 +2656,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                                                 </a>
                                                                                             </div>
 
-                                                                                            <label for="txtPickUpLocation" class="control-label text-right tooltip-float">Carriers pickup location. </label>
+                                                                                            <label for="txtPickUpLocation" style="padding-top:10px;" class="control-label text-right tooltip-float">Carriers pickup location. </label>
                                                                                         </div>
                                                                                         <div class="col-lg-6" data-bind="with: $root.pickupAddress">
                                                                                             <input type="text" disabled="disabled" class="form-control" style="float:left;width:86%" placeholder="Pick Up Location/Zip code" id="txtPickUpLocation" data-bind="value: $root.pickUpLocationValue ">
@@ -2646,7 +2673,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                                                                         </div>
                                                                                         <div class="col-lg-6">
-                                                                                            <div style="background-color:gainsboro; border-radius:3px; width:220%;">
+                                                                                            <div style="background-color:gainsboro; border-radius:3px; width:229%;">
                                                                                                 <header class="main-box-header clearfix">
                                                                                                     <div style="float:left;"><span style="font-size:24px">Shipping Methods</span></div>
                                                                                                 </header>
@@ -2737,7 +2764,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                         </div>
                                                                         <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
                                                                             <a class="btn btn-primary" data-bind="click: $root.onCreateNewCompanyCMYKColor">
-                                                                                Add CMYK Color
+                                                                                Add New Spot Color
                                                                             </a>
                                                                         </div>
 
@@ -2794,7 +2821,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                                                         <div style="background-color:gainsboro; border-radius:3px">
                                                                             <header class="main-box-header clearfix">
-                                                                                <div style="float:left;"><span style="font-size:24px">CRM Variables</span></div>
+                                                                                <div style="float:left;margin-left: 2px;"><span style="font-size:24px">CRM Variables</span></div>
                                                                             </header>
                                                                             <div class="main-box-body clearfix">
                                                                                 <div class="table-responsive">
@@ -2819,7 +2846,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                         <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
                                                                             <div class="filter-block" data-bind="click:$root.onAddVariableDefination">
                                                                                 <a class="btn btn-primary">
-                                                                                    Add Variable
+                                                                                    Add New Variable
                                                                                 </a>
                                                                             </div>
                                                                         </div>
@@ -2871,7 +2898,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                                                         <div style="background-color:gainsboro; border-radius:3px">
                                                                             <header class="main-box-header clearfix">
-                                                                                <div style="float:left;"><span style="font-size:24px">Smart Forms</span></div>
+                                                                                <div style="float:left;margin-left: 2px;"><span style="font-size:24px">Smart Forms</span></div>
                                                                             </header>
                                                                             <div class="main-box-body clearfix">
                                                                                 <div class="table-responsive">
@@ -2901,7 +2928,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                         </div>
                                                                         <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
                                                                             <a class="btn btn-primary" data-bind="click:$root.addSmartForm">
-                                                                                Add Smart Form
+                                                                                Add New Smart Form
                                                                             </a>
                                                                         </div>
 
