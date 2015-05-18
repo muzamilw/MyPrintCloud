@@ -482,44 +482,18 @@ namespace MPC.Webstore.Controllers
             }
 
             PriceMatrixObjectList = new List<ProductPriceMatrixViewModel>();
-
-            foreach (var matrixItem in referenceItem.ItemPriceMatrices.ToList())
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
             {
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                if (StoreBaseResopnse.Company.isIncludeVAT == true)
                 {
-                    if (StoreBaseResopnse.Company.isIncludeVAT == true)
+                    ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
+                    if (referenceItem.DefaultItemTax != null)
                     {
-                        ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
-                        if (referenceItem.DefaultItemTax != null)
-                        {
-                            ViewBag.TaxRate = Convert.ToDouble(referenceItem.DefaultItemTax);
-
-                        }
-                        else if (Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
-                        {
-                            ViewBag.TaxRate = Convert.ToDouble(StoreBaseResopnse.Company.TaxRate);
-
-                        }
-                        else
-                        {
-                            ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
-                            ViewBag.TaxRate = 0;
-
-                        }
+                        ViewBag.TaxRate = Convert.ToDouble(referenceItem.DefaultItemTax);
 
                     }
-                    else
+                    else if (Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
                     {
-                        ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
-                        ViewBag.TaxRate = 0;
-
-                    }
-                }
-                else
-                {
-                    if (StoreBaseResopnse.Company.isIncludeVAT == true)
-                    {
-                        ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
                         ViewBag.TaxRate = Convert.ToDouble(StoreBaseResopnse.Company.TaxRate);
 
                     }
@@ -529,6 +503,39 @@ namespace MPC.Webstore.Controllers
                         ViewBag.TaxRate = 0;
 
                     }
+
+                }
+                else
+                {
+                    ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
+                    ViewBag.TaxRate = 0;
+
+                }
+            }
+            else
+            {
+                if (StoreBaseResopnse.Company.isIncludeVAT == true)
+                {
+                    ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
+                    ViewBag.TaxRate = Convert.ToDouble(StoreBaseResopnse.Company.TaxRate);
+
+                }
+                else
+                {
+                    ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
+                    ViewBag.TaxRate = 0;
+
+                }
+            }
+            foreach (var matrixItem in referenceItem.ItemPriceMatrices.ToList())
+            {
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                {
+                   
+                }
+                else
+                {
+                   
                     matrixItem.PricePaperType1 = matrixItem.PricePaperType1;
                     matrixItem.PricePaperType2 = matrixItem.PricePaperType2;
                     matrixItem.PricePaperType3 = matrixItem.PricePaperType3;
