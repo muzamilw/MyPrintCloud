@@ -287,7 +287,7 @@ a.reportAnchor a:hover {
 }
 
 .btn-yellow {
-    background-color: #FFAA00;
+    background-color: #ffdd0c;
     border-color: #FFD400;
     color: #FFFFFF;
 }
@@ -337,4 +337,15 @@ a.reportAnchor a:hover {
 .box-shadow-all {
     box-shadow: 0 0 5px #CCCCCC !important;
 }
+.jobdescription{
+    width:75%;float:left;height:34px
+}
 .marginR5 {margin-right: 5px!important ;}
+.marginR10{margin-right: 10px!important ;}
+.marginT5 {margin-top:5px!important;}
+.marginT10{margin-top:10px!important;}
+.marginB5 {margin-bottom: 5px;}
+.marginB10 {margin-bottom: 10px;}
+.marginL5 {margin-left: 5px;}
+.marginL10 {margin-left: 10px;}
+.margin10 {margin: 10px;}
