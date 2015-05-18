@@ -295,16 +295,16 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
 var GlobalQuestionQueueItemsList = null; // question queues of disfferent cost centres will be added to this list 
 var idsToValidate = ""; // This variable contain ids of text boxes and validate that each text box must have a correct value
 var GlobalInputQueueItemsList = null;
-function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, InputQueueObject, CostCentreType, TaxRate) {
-  //  console.log('enter in ShowCostCentrePopup');
+function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, InputQueueObject, CostCentreType, TaxRate, WorkInstructions) {
+
     GlobalQuestionQueueItemsList = QuestionQueueItems;
     GlobalInputQueueItemsList = InputQueueObject;
     var innerHtml = "";
-    var Heading = "Please enter the following details of Cost Centre";
+    var Heading = "Add " + $("#" + SelectedCostCentreCheckBoxId).next().html();
     
     if (Mode == "New") { // prompt in case of newly added cost centre
         for (var i = 0; i < QuestionQueueItems.length; i++) {
-            console.log(QuestionQueueItems[i].ItemType);
+          
             if (QuestionQueueItems[i].ItemType == 1) { // text box
                 if (idsToValidate == "") {
                     idsToValidate = 'txtBox' + QuestionQueueItems[i].ID;
@@ -350,8 +350,9 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
                     '<input type="button" onclick="ShowFormulaMatrix(' + QuestionQueueItems[i].RowCount + ',' + QuestionQueueItems[i].ColumnCount + ',' + i + '); return false;" class="Matrix-select-button rounded_corners5 " value="Select" /></div><div class="clearBoth"></div>';
             }
         }
+       
     } else if (Mode == "Modify") { // prompt in case of added cost centre
-        Heading = "Edit Cost Centre details";
+        Heading = "Edit " + $("#" + SelectedCostCentreCheckBoxId).next().html();
         for (var i = 0; i < QuestionQueueItems.length; i++) {
 
             if (QuestionQueueItems[i].ItemType == 1) { // text box
@@ -398,8 +399,21 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
         }
     }
    
+    for (var w = 0; w < WorkInstructions.length; w++) {
 
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34; ,' + ItemPrice + ',' + CostCentreType + ',' + TaxRate +');">Continue</button></div></div></div>';
+        var WOptionHtml = "";
+
+        for (var c = 0; c < WorkInstructions[w].CostcentreWorkInstructionsChoices.length; c++) {
+            WOptionHtml = WOptionHtml + '<option data-id=' + WorkInstructions[w].InstructionId + ' value=' + WorkInstructions[w].CostcentreWorkInstructionsChoices[c].Choice + ' >' + WorkInstructions[w].CostcentreWorkInstructionsChoices[c].Choice + '</option>'
+        }
+        innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+            + WorkInstructions[w].Instruction +
+            '</label></div><div class="cost-centre-right-container"><select id=dropdown' + WorkInstructions[w].InstructionId + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
+            + WOptionHtml + '</select></div><br/><div class="clearBoth"></div>';
+
+    }
+
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button  id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34; ,' + ItemPrice + ',' + CostCentreType + ',' + TaxRate + ');">Continue</button><img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader" style="height: 20px;margin-right: 10px;margin-top:8px; display:none;"/></div></div></div>';
    
 
     var bws = getBrowserHeight();
@@ -424,18 +438,16 @@ function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, Sel
     document.getElementById("innerLayer").style.display = "block";
 }
 
-function ShowInputCostCentrePopup(InputQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, QuestionQueueObject, CostCentreType, TaxRate) {
-   // console.log('enter in ShowInputCostCentrePopup');
+function ShowInputCostCentrePopup(InputQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, QuestionQueueObject, CostCentreType, TaxRate, WorkInstructions) {
+    
     GlobalInputQueueItemsList = InputQueueItems;
     GlobalQuestionQueueItemsList = QuestionQueueObject;
     var innerHtml = "";
-    var Heading = "Please enter the following details of Cost Centre";
+    var Heading = "Add " + $("#" + SelectedCostCentreCheckBoxId).next().html();
 
     if (Mode == "New") { // This condition will execute when first time cost centre is prompting for values
         for (var i = 0; i < InputQueueItems.length; i++) {
             
-          
-           
             if (InputQueueItems[i].ID != 1 && InputQueueItems[i].ID != 2) { // Id 1= setuptime , Id 2 = setup cost
                 if (idsToValidate == "") {
                     idsToValidate = 'txtBox' + InputQueueItems[i].ID;
@@ -451,7 +463,7 @@ function ShowInputCostCentrePopup(InputQueueItems, CostCentreId, ClonedItemId, S
             }
         }
     } else if (Mode == "Modify") { // This condition will execute when cost centre is already prompted and user clicks to modify the values entered
-        Heading = "Edit Cost Centre details";
+        Heading = "Edit " + $("#" + SelectedCostCentreCheckBoxId).next().html();
         for (var i = 0; i < InputQueueItems.length; i++) {
             
             if (InputQueueItems[i].ID != 1 && InputQueueItems[i].ID != 2) { // Id 1= setuptime , Id 2 = setup cost
@@ -470,8 +482,21 @@ function ShowInputCostCentrePopup(InputQueueItems, CostCentreId, ClonedItemId, S
         }
     }
 
+    for (var w = 0; w < WorkInstructions.length; w++) {
 
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34; ,' + ItemPrice + ',' + CostCentreType + ',' + TaxRate +');">Continue</button></div></div></div>';
+        var WOptionHtml = "";
+
+        for (var c = 0; c < WorkInstructions[w].CostcentreWorkInstructionsChoices.length; c++) {
+            WOptionHtml = WOptionHtml + '<option data-id=' + WorkInstructions[w].InstructionId + ' value=' + WorkInstructions[w].CostcentreWorkInstructionsChoices[c].Choice + ' >' + WorkInstructions[w].CostcentreWorkInstructionsChoices[c].Choice + '</option>'
+        }
+        innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+            + WorkInstructions[w].Instruction +
+            '</label></div><div class="cost-centre-right-container"><select id=dropdown' + WorkInstructions[w].InstructionId + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
+            + WOptionHtml + '</select></div><br/><div class="clearBoth"></div>';
+
+    }
+
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34; ,' + ItemPrice + ',' + CostCentreType + ',' + TaxRate + ');">Continue</button><img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader"  style="height: 20px; margin-right: 10px;margin-top:8px; display:none;" /></div></div></div>';
 
 
     var bws = getBrowserHeight();
@@ -561,7 +586,7 @@ function SetMatrixAnswer(Answer, MatrixId)
 }
 
 function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice, CostCentreType, TaxRate) {
-    //console.log('enter in ValidateCostCentreControl');
+   
     var arrayOfIds = idsToValidate.split(",");
 
     var isDisplyEmptyFieldsMesg = 0;
@@ -600,7 +625,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
 
 
     }
-    console.log("isDisplyEmptyFieldsMesg" + isDisplyEmptyFieldsMesg + "isNotValidInput" + isNotValidInput + "isFormulaValidationError" + isFormulaValidationError);
+    
     if (isDisplyEmptyFieldsMesg == 1) {
         $("#CCErrorMesgContainer").css("display", "block");
         if (isNotValidInput == 1) {
@@ -626,7 +651,10 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         $("#CCErrorMesgContainer").html("Please select value formula values ");
         return;
     } else {
-        console.log("enter in else condition");
+
+        $("#btnCostCentreCalculator").prop('disabled', 'disabled');
+        $("#imgCCLoader").css("display", "block");
+        $("#imgCCLoader").css("float", "right");
         var desriptionOfCostCentre = "";
         $("#CCErrorMesgContainer").css("display", "none");
         // Question Queue object items
@@ -668,9 +696,9 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 });
             }
             if (desriptionOfCostCentre == "") {
-                desriptionOfCostCentre = $(val).parent().prev().children().text() + $(val).val();
+                desriptionOfCostCentre = $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
             } else {
-                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + $(val).val() + ".";
+                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
             }
         });
 
@@ -678,18 +706,6 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
 
         idsToValidate = "";
     }
-    //jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
-    //$("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
-    //// InputAndQuestionQueues[1] = InputAndQuestionQueues[1] + GlobalInputQueueItemsList;
-    //// var jsonObjects = JSON.stringify(InputAndQuestionQueues, null, 2);
-    //var InputAndQuestionQueues = {
-    //    QuestionQueues: GlobalQuestionQueueItemsList,
-    //    InputQueues: GlobalInputQueueItemsList
-    //}
-    //jsonObjectsOfGlobalQueue = JSON.stringify(InputAndQuestionQueues, null, 2);
-    //$("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
-
-   
 }
    
   
@@ -1137,10 +1153,7 @@ function CustomeAlertBoxDesigner(msg,callbackFuncName) {
 }
 
 function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode, isPromptAQuestion, TaxRate) {
-
-   console.log('enter in SetGlobalCostCentreQueue');
-   console.log('GlobalQuestionQueueItemsList' + GlobalQuestionQueueItemsList);
-   console.log('GlobalInputQueueItemsList' + GlobalInputQueueItemsList);
+    
     var jsonObjectsOfGlobalQueue = null;
     if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
 
@@ -1191,7 +1204,10 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                 } 
             }
 
-            if (isUpdated == false){
+            if (isUpdated == false) {
+                if (InputAndQuestionQueues.QuestionQueues == null) {
+                    InputAndQuestionQueues.QuestionQueues = [];
+                }
                 InputAndQuestionQueues.QuestionQueues.push(GlobalQuestionQueueItemsList[i]);
                 isUpdated = false;
             }
@@ -1203,7 +1219,7 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
 
     var UpdatedGlobalQueueArray = JSON.parse($("#costCentreQueueItems").val());
     var CostCentreQueueObjectToSaveInDB = [];
-    //console.log('added from pop page: ' + $("#costCentreQueueItems").val());
+   
     var to;
     to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + ClonedItemId + "&OrderedQuantity=" + $("#VMQuantityOrdered").val() + "&CallMode=New";
     var options = {
@@ -1225,6 +1241,7 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                     if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                         $(updatedAddOns)[i].ActualPrice = response;
                         $(updatedAddOns)[i].Description = desriptionOfQuestion;
+                       
                         $(updatedAddOns)[i].Type = CostCentreType;
                         if (CostCentreType == 4) { // question queue
                             for (var j = 0; j < UpdatedGlobalQueueArray.QuestionQueues.length; j++) {
@@ -1282,13 +1299,15 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
                 var TaxAppliedValue = 0;
                 // add checked cost centre values to gross total
                 for (var i = 0; i < $(updatedAddOns).length; i++) {
-                    console.log("pop up update json" + $(updatedAddOns)[i].ActualPrice);
+                  
                     JsonToReSubmit.push($(updatedAddOns)[i]);
                     TaxAppliedValue = parseFloat($(updatedAddOns)[i].ActualPrice);
                     TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * TaxRate) / 100);
+                    
                     totalVal = parseFloat(totalVal) + parseFloat(TaxAppliedValue);
-                    console.log("Actual price:" + $(updatedAddOns)[i].ActualPrice + " Tax: " + TaxRate + " TaxApplied:" + TaxAppliedValue);
+                  
                 }
+               
                 displayTotalPrice(ItemPrice, totalVal);
                 TaxAppliedValue = response;
                 TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * TaxRate) / 100);

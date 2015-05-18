@@ -1,8 +1,11 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Cost Centre Work Instructions Choice Domain Model
     /// </summary>
+    /// 
+    [Serializable()]
     public class CostcentreWorkInstructionsChoice
     {
         public long Id { get; set; }

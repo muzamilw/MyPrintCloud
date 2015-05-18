@@ -560,11 +560,28 @@ define("product/product.viewModel",
                         confirmation.show();
                     },
                      onDeleteTemplatePage = function (templatePage) {
+                         confirmation.messageText("Do you want to delete the template page?");
                          confirmation.afterProceed(function () {
                              selectedProduct().template().removeTemplatePage(templatePage);
                          });
                          confirmation.show();
                      },
+                      onDeleteItemAddonCostCentre = function () {
+                          confirmation.messageText("Do you want to delete this refining option?");
+                          confirmation.afterProceed(function () {
+                              selectedProduct().activeStockOption().removeItemAddonCostCentre();
+                          });
+                          confirmation.show();
+                      },
+                        onDeleteItemStockOption = function (itemStockOption) {
+                            confirmation.messageText("Do you want to delete this price column attribute?");
+                            confirmation.afterProceed(function () {
+                                selectedProduct().removeItemStockOption(itemStockOption);
+                            });
+                            confirmation.show();
+                        },
+
+                      
                     // Initialize the view model
                     initialize = function (specifiedView, isOnStoreScreen) {
                         view = specifiedView;
@@ -1438,7 +1455,9 @@ define("product/product.viewModel",
                     weightUnit: weightUnit,
                     isStoreTax: isStoreTax,
                     defaultTaxRate: defaultTaxRate,
-                    onDeleteTemplatePage: onDeleteTemplatePage
+                    onDeleteTemplatePage: onDeleteTemplatePage,
+                    onDeleteItemAddonCostCentre: onDeleteItemAddonCostCentre,
+                    onDeleteItemStockOption: onDeleteItemStockOption
                     // For Store
                     // Utility Methods
 

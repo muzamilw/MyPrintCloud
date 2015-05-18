@@ -28,9 +28,13 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 companyId = ko.observable(specifiedCompanyId || undefined).extend({ required: true }),
                 // Company Name
                 companyName = ko.observable(specifiedCompanyName),
+                // store Id
+                storeId = ko.observable(),
                 // Number Of items
                 numberOfItems = ko.observable(),
                 statusName = ko.observable(specifiedStatusName),
+                 // Estimate Total
+                estimateTotal = ko.observable(0).extend({ numberInput: ist.numberFormat }),
                 // Number of Items UI
                 noOfItemsUi = ko.computed(function () {
                     return "( " + numberOfItems() + " ) Items";
@@ -81,6 +85,16 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
                     return items.filter(function (item) {
                         return item.itemType() === 2;
+                    });
+                }),
+                 // Non Delivery Items
+                nonDeliveryItems = ko.computed(function () {
+                    if (items().length === 0) {
+                        return [];
+                    }
+
+                    return items.filter(function (item) {
+                        return item.itemType() !== 2;
                     });
                 }),
                 // Is Direct Sale Ui
@@ -165,13 +179,13 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         ReportSignedBy: invoiceReportSignedBy(),
                         HeadNotes: headNotes(),
                         FootNotes: footNotes(),
-                        InvoiceType : type(),
+                        InvoiceType: type(),
                         XeroAccessCode: xeroAccessCode(),
                         InvoiceDetails: invoiceDetailItems.map(function (inv) {
-                            var invDetail = inv.convertToServerData();                            
+                            var invDetail = inv.convertToServerData();
                             return invDetail;
                         }),
-            
+
                     };
                 };
 
@@ -193,6 +207,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 invoicePostingDate: invoicePostingDate,
                 invoicePostedBy: invoicePostedBy,
                 isArchived: isArchived,
+                nonDeliveryItems: nonDeliveryItems,
                 taxValue: taxValue,
                 grandTotal: grandTotal,
                 userNotes: userNotes,
@@ -202,13 +217,15 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 invoiceReportSignedBy: invoiceReportSignedBy,
                 headNotes: headNotes,
                 footNotes: footNotes,
-                type:type,
+                type: type,
                 xeroAccessCode: xeroAccessCode,
                 isDirectSaleUi: isDirectSaleUi,
                 isDirectSale: isDirectSale,
                 invoiceDetailItems: invoiceDetailItems,
-                deliveryItems:deliveryItems,
-                statusName:statusName,
+                deliveryItems: deliveryItems,
+                statusName: statusName,
+                storeId: storeId,
+                estimateTotal: estimateTotal,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -219,6 +236,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 convertToServerData: convertToServerData,
                 isPostedInvoice: isPostedInvoice,
                 items: items
+
             };
         },
         // Invoice Detail Entity
@@ -331,8 +349,72 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 convertToServerData: convertToServerData
             };
         };
-        
-     
+
+    var InvoiceDetail = function (specifiedInvoiceDetailId, specifiedInvoiceTitle, specifiedItemCharge, specifiedQuantity, specifiedItemTaxValue,
+        specifiedFlagId, specifiedDescription) {
+        var self,
+            id = ko.observable(specifiedInvoiceDetailId),
+            invoiceTitle = ko.observable(specifiedInvoiceTitle),
+            itemCharge = ko.observable(specifiedItemCharge).extend({ number: true, numberInput: ist.numberFormat }),
+            quantity = ko.observable(specifiedQuantity).extend({ number: true, required: true }),
+            itemTaxValue = ko.observable(specifiedItemTaxValue).extend({ number: true, numberInput: ist.numberFormat }),
+            flagId = ko.observable(specifiedFlagId),
+            description = ko.observable(specifiedDescription),
+
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            dirtyFlag = new ko.dirtyFlag({
+                invoiceTitle: invoiceTitle,
+                itemCharge: itemCharge,
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.InvoiceDetailId = source.id();
+                result.InvoiceTitle = source.invoiceTitle();
+                result.ItemCharge = source.itemCharge();
+                result.Quantity = source.quantity();
+                result.ItemTaxValue = source.itemTaxValue();
+                result.FlagId = source.flagId();
+                result.Description = source.description();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            invoiceTitle: invoiceTitle,
+            itemCharge: itemCharge,
+            quantity: quantity,
+            itemTaxValue: itemTaxValue,
+            flagId: flagId,
+            description: description,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    InvoiceDetail.Create = function (source) {
+        return new InvoiceDetail(source.PalleteId, source.PalleteName, source.Color1, source.Color2, source.Color3, source.Color4, source.Color5, source.Color5, "", "", 0);
+    }
+
     // Address Entity
     Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1) {
         return {
@@ -392,7 +474,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             source.ItemCharge, source.Quantity, source.ItemTaxValue, source.FlagId, source.Description,
             source.ItemType, source.TaxId);
 
-        
+
         return invDetail;
     };
 
@@ -412,7 +494,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             itemsCount = ko.observable(specifiedItemsCount),
             flagColor = ko.observable(specifiedFlagColor),
             invoiceTotal = ko.observable(specifiedInvoiceTotal),
-            isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),            
+            isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
                 // Number of Items UI
                 noOfItemsUi = ko.computed(function () {
                     return "( " + itemsCount() + " ) Items";
@@ -423,7 +505,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 }
             };
         self = {
-            id:id,
+            id: id,
             name: name,
             type: type,
             code: code,
@@ -445,10 +527,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     };
 
     return {
-        
-        Invoice: Invoice,        
+
+        Invoice: Invoice,
         InvoicesListView: InvoicesListView,
         Address: Address,
-        CompanyContact: CompanyContact
+        CompanyContact: CompanyContact,
+        InvoiceDetail: InvoiceDetail
     };
 });

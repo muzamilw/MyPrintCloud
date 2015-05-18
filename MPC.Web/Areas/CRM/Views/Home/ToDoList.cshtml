@@ -30,11 +30,12 @@
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                                @*@Html.ActionLink("To Do Lists", "ToDoList", "Home")*@
+                                <a href="#tab-ToDoList" data-toggle="tab">To Do Lists</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
-                                @*@Html.ActionLink("Calendar", "Calendar", "Home",)*@
-                                <a href="#tab-Calendar" data-toggle="tab">Calendar</a>
+                                @Html.ActionLink("Calendar", "Calendar", "Home")
+                                @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
 
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
@@ -135,8 +136,8 @@
 }
 
 <script id="todoListItemTemplate" type="text/html">
-    <tr>
-        <td><a href="#" class="store-user-link" data-bind="text: activityNotes,click : $root.onEditActivity"></a></td>
+    <tr data-bind="click : $root.onEditActivity" style="cursor: pointer">
+        <td><a href="#" class="store-user-link" data-bind="text: activityNotes"></a></td>
         <td data-bind="text:startDateTime"></td>
         <td data-bind="text:endDateTime"></td>
     </tr>

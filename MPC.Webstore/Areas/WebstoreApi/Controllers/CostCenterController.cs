@@ -94,7 +94,29 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     _CostCentreLaoderFactory.InitializeLifetimeService();
                   
                     CostCentre  oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(CostCentreId));
-                    
+
+                    List<CostcentreInstruction> oInstList = new List<CostcentreInstruction>();
+                    List<CostcentreWorkInstructionsChoice> oInsChoicesList = null;
+                    foreach (CostcentreInstruction obj in oCostCentre.CostcentreInstructions)
+                    {
+                        CostcentreInstruction oObject = new CostcentreInstruction();
+                        oObject.CostCentreId = obj.CostCentreId;
+                        oObject.Instruction =obj.Instruction;
+                        oObject.InstructionId = obj.InstructionId;
+                        oInsChoicesList = new List<CostcentreWorkInstructionsChoice>();
+                        foreach (CostcentreWorkInstructionsChoice wI in obj.CostcentreWorkInstructionsChoices)
+                        {
+                            CostcentreWorkInstructionsChoice oChoicObject = new CostcentreWorkInstructionsChoice();
+                            oChoicObject.Choice = wI.Choice;
+                            oChoicObject.Id = wI.Id;
+                            oChoicObject.InstructionId = wI.InstructionId;
+                            oInsChoicesList.Add(oChoicObject);
+                        }
+                        oObject.CostcentreWorkInstructionsChoices = oInsChoicesList;
+                        oInstList.Add(oObject);// = oCostCentre.CostcentreInstructions.ToArray();
+                    }
+                    CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, oInstList.ToArray(), oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+
                     
 
                     if (CallMode == "New")
@@ -153,34 +175,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         }
                     }
 
-                    //if (CallMode == "UpdateAllCostCentreOnQuantityChange")
-                    //{
-                    //    if (Queues != null)
-                    //    {
-                    //        _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
-                    //        // if queue contains item of other cost centre then this condition will filter the items of current cost centre
-
-                    //        if (Queues.QuestionQueues != null)
-                    //        {
-                    //            _CostCentreParamsArray[2] = Queues.QuestionQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList(); ;
-                    //        }
-                    //        else
-                    //        {
-                    //            _CostCentreParamsArray[2] = Queues.QuestionQueues;
-                    //        }
-
-
-                    //        if (Queues.InputQueues != null)
-                    //        {
-                    //            _CostCentreParamsArray[7] = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
-                    //        }
-                    //        else // else assign null
-                    //        {
-                    //            _CostCentreParamsArray[7] = Queues.InputQueues;
-                    //        }
-                            
-                    //    }
-                    //}
 
                     //_CostCentreParamsArray(0) = Common.g_GlobalData;
                     //GlobalData
@@ -213,22 +207,18 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     {
                         // update quantity in item section and return
                         _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId), Convert.ToInt32(OrderedQuantity));
-                        //first update item section quatity
-                        //persist queue
-                        // run multiple cost centre
-                        // after calculating cost centre 
-
+                     
                     }
 
 
                     _CostCentreParamsArray[9] = 1;
 
-
+                    // connection string
+                    _CostCentreParamsArray[10] =  "Persist Security Info=False;Integrated Security=false;Initial Catalog=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringDBName"] + ";server=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringServerName"] + "; user id=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringUserName"] + "; password=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringPasswordName"] + ";";
                   
 
 
-                    CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
-
+                   
 
 
                     _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
@@ -267,9 +257,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     }
                     else
                     {
-                        if (CallMode == "UpdateAllCostCentreOnQuantityChange") // dummy condition
-                        { // change the condition exe cute all cost centre 
-                          //  return Request.CreateResponse(HttpStatusCode.OK, 131);
+                        if (CallMode == "UpdateAllCostCentreOnQuantityChange") 
+                        { 
                             _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
                             _CostCentreParamsArray[2] = Queues.QuestionQueues.ToList();
                             if (Queues.InputQueues != null)

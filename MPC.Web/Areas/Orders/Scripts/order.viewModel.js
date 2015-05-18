@@ -6,7 +6,7 @@ define("order/order.viewModel",
         "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model"],
 // ReSharper disable InconsistentNaming
     function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel) {
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -45,6 +45,8 @@ define("order/order.viewModel",
                     paperSizes = ko.observableArray([]),
                     // Ink Plate Sides Methods
                     inkPlateSides = ko.observableArray([]),
+                    //Counter for New Section Id
+                    counterForSection = -1000,
                     //
                     selectedCompanyTaxRate = ko.observable(),
                     // selected Company
@@ -55,7 +57,7 @@ define("order/order.viewModel",
                     errorList = ko.observableArray([]),
                     // Estimate Status
                     estimatesStatus = {
-                        draftEstimate : 1    
+                        draftEstimate: 1
                     },
                     // Stock Category 
                     stockCategory = {
@@ -103,10 +105,10 @@ define("order/order.viewModel",
                         { name: "Direct  Order", value: "0" },
                         { name: "Online Order", value: "1" }
                     ]),
-                    flagItem = function(state) {
+                    flagItem = function (state) {
                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
-                    flagSelection = function(state) {
+                    flagSelection = function (state) {
                         return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
                     orderTypeFilter = ko.observable(),
@@ -270,7 +272,7 @@ define("order/order.viewModel",
                         } else {
                             isOrderDetailsVisible(true);
                         }
-                        
+
                     },
                     // Gross Total
                     grossTotal = ko.computed(function () {
@@ -317,7 +319,7 @@ define("order/order.viewModel",
                         }
                         closeOrderEditor();
                     },
-                    resetOrderBreadcrumb= function() {
+                    resetOrderBreadcrumb = function () {
                         selectedOrder().reset();
                         closeOrderEditor();
                         orderCodeHeader('');
@@ -335,6 +337,7 @@ define("order/order.viewModel",
                             isOrderDetailsVisible(false);
                         }
                         errorList.removeAll();
+                        selectedCompany(undefined);
                     },
                     // On Archive
                     onArchiveOrder = function (order) {
@@ -378,9 +381,9 @@ define("order/order.viewModel",
                                 // Get Company Address and Contacts
                                 getBaseForCompany(company.id, company.id);
                             }
-                            
+
                         }
-                        
+
                     },
                     // Add Item
                     addItem = function () {
@@ -395,6 +398,8 @@ define("order/order.viewModel",
                         if (itemSection === undefined) {
                             var itemSectionForAddView = itemModel.ItemSection.Create({});
                             itemSectionForAddView.flagForAdd(true);
+                            counterForSection = counterForSection - 1;
+                            itemSectionForAddView.id(counterForSection);
                             item.itemSections.push(itemSectionForAddView);
                         }
                         selectedProduct(item);
@@ -882,6 +887,7 @@ define("order/order.viewModel",
                     if (selectedOrder().companyId() === undefined) {
                         toastr.error("Please select customer.");
                     } else {
+                        isAddProductFromInventory(false);
                         isCostCenterDialogForShipping(true);
                         onAddCostCenter();
                     }
@@ -914,6 +920,8 @@ define("order/order.viewModel",
                     item.productType(2);
 
                     var itemSection = itemModel.ItemSection.Create({});
+                    counterForSection = counterForSection - 1;
+                    itemSection.id(counterForSection);
                     itemSection.name("Text Sheet");
                     itemSection.qty1(selectedCostCentre().quantity1());
                     itemSection.qty2(selectedCostCentre().quantity2());
@@ -942,6 +950,8 @@ define("order/order.viewModel",
 
                     item.itemSections.push(itemSection);
                     var itemSectionForAddView = itemModel.ItemSection.Create({});
+                    counterForSection = counterForSection - 1;
+                    itemSectionForAddView.id(counterForSection);
                     itemSectionForAddView.flagForAdd(true);
                     item.itemSections.push(itemSectionForAddView);
                     if (isCostCenterDialogForShipping()) {
@@ -1027,11 +1037,11 @@ define("order/order.viewModel",
                             if (isNaN(view.orderstate()) || view.orderstate() === 0) {
                                 selectedOrder().statusId(4); // Pending orders
                             }
-                        // If Estimate Screen then set IsEstimate = true
-                        if (!selectedOrder().id() && isEstimateScreen()) {
-                            selectedOrder().isEstimate(true);
-                            selectedOrder().statusId(estimatesStatus.draftEstimate); // Draft Estimate
-                        }
+                            // If Estimate Screen then set IsEstimate = true
+                            if (!selectedOrder().id() && isEstimateScreen()) {
+                                selectedOrder().isEstimate(true);
+                                selectedOrder().statusId(estimatesStatus.draftEstimate); // Draft Estimate
+                            }
                             var order = selectedOrder().convertToServerData();
                             _.each(selectedOrder().prePayments(), function (item) {
                                 order.PrePayments.push(item.convertToServerData());
@@ -1052,7 +1062,7 @@ define("order/order.viewModel",
                                 itemsArray.push(item);
 
                             });
-                        
+
                             order.Items = itemsArray;
                             dataservice.saveOrder(order, {
                                 success: function (data) {
@@ -1064,12 +1074,12 @@ define("order/order.viewModel",
                                         // Update Id
                                         selectedOrder().id(data.EstimateId);
                                         selectedOrder().orderCode(data.OrderCode);
-                                    if (isEstimateScreen()) {
-                                        selectedOrder().code(data.EstimateCode);
-                                    }
-                                    else {
-                                        selectedOrder().orderCode(data.OrderCode);
-                                    }
+                                        if (isEstimateScreen()) {
+                                            selectedOrder().code(data.EstimateCode);
+                                        }
+                                        else {
+                                            selectedOrder().orderCode(data.OrderCode);
+                                        }
                                         var total1 = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                         selectedOrder().estimateTotal(total1);
                                         selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
@@ -1229,9 +1239,9 @@ define("order/order.viewModel",
                                         view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
                                         // Get Base Data For Company
                                         if (data.CompanyId) {
-    // ReSharper disable AssignedValueIsNeverUsed
+                                            // ReSharper disable AssignedValueIsNeverUsed
                                             var storeId = 0;
-    // ReSharper restore AssignedValueIsNeverUsed
+                                            // ReSharper restore AssignedValueIsNeverUsed
                                             if (data.IsCustomer !== 3 && data.StoreId) {
                                                 storeId = data.StoreId;
                                                 selectedOrder().storeId(storeId);
@@ -1315,9 +1325,9 @@ define("order/order.viewModel",
                             if (selectedOrder().companyId() === undefined) {
                                 toastr.error("Please select customer.");
                             } else {
-    // ReSharper disable AssignedValueIsNeverUsed
+                                // ReSharper disable AssignedValueIsNeverUsed
                                 var companyId = 0;
-    // ReSharper restore AssignedValueIsNeverUsed
+                                // ReSharper restore AssignedValueIsNeverUsed
                                 if (selectedOrder().storeId()) {
                                     companyId = selectedOrder().storeId();
                                 } else {
@@ -1335,6 +1345,8 @@ define("order/order.viewModel",
                     //},
                         addItemFromRetailStore = function (newItem) {
                             var itemSectionForAddView = itemModel.ItemSection.Create({});
+                            counterForSection = counterForSection - 1;
+                            itemSectionForAddView.id(counterForSection);
                             itemSectionForAddView.flagForAdd(true);
                             newItem.itemSections.push(itemSectionForAddView);
 
@@ -1344,17 +1356,14 @@ define("order/order.viewModel",
                             itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
                         },
                         onAddCostCenter = function () {
-                            // getCostCenters();
-                            // view.showCostCentersDialog();
-    // ReSharper disable AssignedValueIsNeverUsed
+                            // ReSharper disable AssignedValueIsNeverUsed
                             var companyId = 0;
-    // ReSharper restore AssignedValueIsNeverUsed
-                            if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3 && selectedCompany().storeId !== null) {
-                                companyId = selectedCompany().storeId;
+                            // ReSharper restore AssignedValueIsNeverUsed
+                            if (selectedOrder().storeId()) {
+                                companyId = selectedOrder().storeId();
                             } else {
                                 companyId = selectedOrder().companyId();
                             }
-                            //addCostCenterVM.show(createNewCostCenterProduct, companyId, true);
                             addCostCenterVM.show(afterSelectCostCenter, companyId, true, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
                         },
                         onAddCostCenterForProduct = function () {
@@ -1370,11 +1379,11 @@ define("order/order.viewModel",
                             view.hideRCostCentersDialog();
                         },
                         getCostCenters = function () {
-    // ReSharper disable AssignedValueIsNeverUsed
+                            // ReSharper disable AssignedValueIsNeverUsed
                             var companyId = 0;
-    // ReSharper restore AssignedValueIsNeverUsed
-                            if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3 && selectedCompany().storeId !== null) {
-                                companyId = selectedCompany().storeId;
+                            // ReSharper restore AssignedValueIsNeverUsed
+                            if (selectedOrder().storeId()) {
+                                companyId = selectedOrder().storeId();
                             } else {
                                 companyId = selectedOrder().companyId();
                             }
@@ -1453,6 +1462,8 @@ define("order/order.viewModel",
 
                             selectedProduct(item);
                             var itemSection = itemModel.ItemSection.Create({});
+                            counterForSection = counterForSection - 1;
+                            itemSection.id(counterForSection);
                             itemSection.name("Text Sheet");
                             itemSection.qty1(selectedCostCentre().quantity1());
                             itemSection.qty2(selectedCostCentre().quantity2());
@@ -1492,6 +1503,8 @@ define("order/order.viewModel",
                             itemSection.sectionCostCentres.push(sectionCostCenter);
                             item.itemSections.push(itemSection);
                             var itemSectionForAddView = itemModel.ItemSection.Create({});
+                            counterForSection = counterForSection - 1;
+                            itemSectionForAddView.id(counterForSection);
                             itemSectionForAddView.flagForAdd(true);
                             item.itemSections.push(itemSectionForAddView);
 
@@ -1521,7 +1534,7 @@ define("order/order.viewModel",
 
                     //Total Product Price
                         totalProductPrice = ko.observable(0).extend({ numberInput: ist.numberFormat }),
-                    
+
                     //#endregion
                     //Get Inventories
                         getInventoriesListItems = function () {
@@ -1548,9 +1561,9 @@ define("order/order.viewModel",
 
                         createitemForRetailStoreProduct = function (selectedItem) {
                             if (selectedItem === null || selectedItem === undefined) {
-    // ReSharper disable InconsistentFunctionReturns
+                                // ReSharper disable InconsistentFunctionReturns
                                 return;
-    // ReSharper restore InconsistentFunctionReturns
+                                // ReSharper restore InconsistentFunctionReturns
                             }
                             var item = selectedItem.convertToServerData();
                             //item.EstimateId = orderId;
@@ -1613,6 +1626,8 @@ define("order/order.viewModel",
                                 newItem.qty1GrossTotal(0);
 
                                 var itemSection = itemModel.ItemSection.Create({});
+                                counterForSection = counterForSection - 1;
+                                itemSection.id(counterForSection);
                                 itemSection.name("Text Sheet");
                                 //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                                 itemSection.productType(2);
@@ -1683,26 +1698,26 @@ define("order/order.viewModel",
                             selectedDeliverySchedule = ko.observable(),
                     // Add Deliver Schedule
                             addDeliverySchedule = function () {
-                            if (selectedOrder().items().length === 0) {
-                                toastr.error("Please first add items.");
-                            } else {
-                                if (selectedDeliverySchedule() !== undefined && !selectedDeliverySchedule().isValid()) {
-                                    selectedDeliverySchedule().errors.showAllMessages();
-                                    return;
+                                if (selectedOrder().items().length === 0) {
+                                    toastr.error("Please first add items.");
+                                } else {
+                                    if (selectedDeliverySchedule() !== undefined && !selectedDeliverySchedule().isValid()) {
+                                        selectedDeliverySchedule().errors.showAllMessages();
+                                        return;
+                                    }
+                                    if (selectedDeliverySchedule() !== undefined && selectedDeliverySchedule().isValid()) {
+                                        setDeliveryScheduleFields();
+                                    }
+                                    var deliverySchedule = model.ShippingInformation.Create({ EstimateId: selectedOrder().id() });
+                                    if (selectedOrder().items().length > 0) {
+                                        var item = selectedOrder().items()[0];
+                                        deliverySchedule.itemId(item.id());
+                                        setQuantityOfNewDeliverySchedule(deliverySchedule);
+                                    }
+                                    // deliverySchedule.deliveryNoteRaised(true);
+                                    selectedOrder().deliverySchedules.splice(0, 0, deliverySchedule);
+                                    selectedDeliverySchedule(selectedOrder().deliverySchedules()[0]);
                                 }
-                                if (selectedDeliverySchedule() !== undefined && selectedDeliverySchedule().isValid()) {
-                                    setDeliveryScheduleFields();
-                                }
-                                var deliverySchedule = model.ShippingInformation.Create({ EstimateId: selectedOrder().id() });
-                                if (selectedOrder().items().length > 0) {
-                                    var item = selectedOrder().items()[0];
-                                    deliverySchedule.itemId(item.id());
-                                    setQuantityOfNewDeliverySchedule(deliverySchedule);
-                                }
-                                // deliverySchedule.deliveryNoteRaised(true);
-                                selectedOrder().deliverySchedules.splice(0, 0, deliverySchedule);
-                                selectedDeliverySchedule(selectedOrder().deliverySchedules()[0]);
-                            }
                             },
                     // Set  Quantity Of new Added Delivery Schedule
                             setQuantityOfNewDeliverySchedule = function (deliverySchedule) {
@@ -1754,7 +1769,7 @@ define("order/order.viewModel",
                     //
     // ReSharper disable UnusedLocals
                             calculateDeliveryShedulePrice = ko.computed(function () {
-    // ReSharper restore UnusedLocals
+                                // ReSharper restore UnusedLocals
                                 if (selectedDeliverySchedule() !== undefined && selectedDeliverySchedule().itemId() && selectedDeliverySchedule().quantity() !== undefined && selectedDeliverySchedule().quantity() !== "") {
                                     var selectedItem = _.find(selectedOrder().items(), function (item) {
                                         return item.id() === selectedDeliverySchedule().itemId();
@@ -1958,7 +1973,7 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                     createInquiry= function() {
+                     createInquiry = function () {
                          selectedInquiry(model.Inquiry.Create({}, { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }));
                          //selectedOrder().setOrderReportSignedBy(loggedInUser());
                          //selectedOrder().setCreditiLimitSetBy(loggedInUser());
@@ -2074,7 +2089,7 @@ define("order/order.viewModel",
                             isEstimateScreen(true);
                             getEstimates();
                         };
-                    //#endregion
+                //#endregion
                 return {
                     // #region Observables
                     selectedOrder: selectedOrder,

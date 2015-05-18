@@ -1145,6 +1145,9 @@
     <Content Include="Content\less\InventoryCategory.css">
       <DependentUpon>InventoryCategory.less</DependentUpon>
     </Content>
+    <Content Include="Content\less\Invoice.css">
+      <DependentUpon>Invoice.less</DependentUpon>
+    </Content>
     <Content Include="Content\less\ItemJobStatus.css">
       <DependentUpon>ItemJobStatus.less</DependentUpon>
     </Content>
@@ -2116,6 +2119,7 @@
     <Content Include="Areas\Orders\Views\Home\test.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_InquiryDetail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_InquiryDetailItem.cshtml" />
+    <Content Include="Areas\Invoices\Views\Home\AddEditInvoiceDetailDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -2129,6 +2133,7 @@
       <DependentUpon>MainSite.css</DependentUpon>
     </Content>
     <Content Include="Content\less\ItemJobStatus.less" />
+    <Content Include="Content\less\Invoice.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
