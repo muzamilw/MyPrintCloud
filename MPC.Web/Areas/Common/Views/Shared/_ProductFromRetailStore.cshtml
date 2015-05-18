@@ -17,7 +17,7 @@
                         </form>
                     </div>
                 </header>*@
-                    <h4 class="group-header">Search & Add Product</h4>
+                    <h4 class="group-header">Select a Product</h4>
 
                     <div class="filter-body" id="filter">
                         <div class="filter-block pull-right">
@@ -71,7 +71,7 @@
 
                         <div class="form-group" style="margin-left: 0px; margin-right: 0px;  overflow-y: auto" data-bind="css: {'productDialogEmptyHeight': ( $root.selectedStockItem() == undefined || ($root.selecteditem() != undefined && $root.selecteditem().itemPriceMatrices().length == 0)), 'productDialogNonEmptyHeight': ($root.selectedStockItem() != undefined && ($root.selecteditem() != undefined && $root.selecteditem().itemPriceMatrices().length != 0))}">
 
-                            <h4 class="group-header">Add Cost Center</h4>
+                            <h4 class="group-header"> Select Price Attribute & Quantity</h4>
                             <div class="filter-body" id="filter">
                                 <div class="filter-block pull-right">
                                     <div class="col-lg-12">
@@ -166,7 +166,7 @@
                         </form>
                     </div>
                 </header>*@
-                        <h4 class="group-header">Add Ons</h4>
+                        <h4 class="group-header">Select Refining Options</h4>
                       
                         <div class="main-box-body clearfix" style="max-height: 292px; min-height: 292px;overflow-y: auto">
                             <div class="table-responsive">
@@ -196,7 +196,7 @@
                         </div>
                         <!-- ko if: $root.selectedStockOption() !== undefined && $root.selectedStockOption().itemAddonCostCentres().length >= 1 -->
                         <div style="margin-top: 16px;" class="col-lg-12">
-                            <label class="col-lg-6">Adds on Total </label>
+                            <label class="col-lg-6">Refining Options Total </label>
                             <span class="col-lg-4" style="text-align: right; padding-right: 0px;" data-bind="text: $root.currencySymbol"></span>
                             <span class="col-lg-2" style="text-align: right; padding-right: 0px; padding-left: 0px; " data-bind="numberInput: addsOnTotal"></span>
                         </div>
@@ -210,9 +210,9 @@
                 <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
                 <div class="col-lg-9"></div>
                 <div class="col-lg-3" style="margin-top: 10px;">
-                    <label class="col-lg-6">Total </label>
+                    <label class="col-lg-8">Total Inc. Tax</label>
                     <span class="col-lg-1" style="text-align: right; padding-right: 0px" data-bind="text: $root.currencySymbol"></span>
-                    <span class="col-lg-3" style=" text-align: right; padding-left: 0px;margin-left: -14px" data-bind="numberInput: totalProductPrice"></span>
+                    <span class="col-lg-3" style=" text-align: right; padding-left: 0px;margin-left: -8px" data-bind="numberInput: totalProductPrice"></span>
                 </div>
                 <!-- /ko -->
             </div>
