@@ -132,7 +132,7 @@ namespace MPC.Webstore.Controllers
                         clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
                     }
                 }
-                ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList();
+                ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                 referenceItemId = Convert.ToInt64(ItemId);
                 ViewData["Templates"] = null;
             }
@@ -146,7 +146,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList();
+                    ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                     ViewData["Templates"] = null;
                 }
 
