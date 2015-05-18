@@ -19,7 +19,7 @@
                         @*<li data-bind="css: $root.sectionHeader() != '' ?  'active' : '' , visible:$root.sectionHeader() !== ''  " style="display: none"><span data-bind="text:$root.sectionHeader"></span></li>*@
                     </ol>
                     <div class="clearfix">
-                        <h1 class="pull-left" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Orders</h1>
+                        <h1 class="pull-left" style="padding-left:7px;" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Orders</h1>
 
                     </div>
                     @Html.Partial("_Orders")
