@@ -406,10 +406,7 @@ namespace MPC.Implementation.WebStoreServices
                                     lineSpacingString = " linespacing= " + (ooBject.LineSpacing * Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize)))) + " ";
                                     fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + lineSpacingString + ">";
                                     fontTag += " fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + lineSpacingString + " ";
-                                } else
-                                {
-                                  //  fontSize += "<StyleRun fontsize='" + ooBject.FontSize.Value + "' " + pid + lineSpacingString + ">";
-                                }
+                                } 
                                 if (objStyle.fontStyle != null)
                                 {
                                     fontTag += " font-style='" + objStyle.fontStyle + "'";
@@ -479,7 +476,7 @@ namespace MPC.Implementation.WebStoreServices
                                 {
                                     if (objStyle.fontName != null)
                                     {
-                                        fontSize += "<StyleRun " + pid + ">";
+                                        fontSize += "<StyleRun " + pid + lineSpacingString + ">";
                                         toApplyStyle = fontTag + " >" + fontSize + toApplyStyle + "</StyleRun></font>";
                                     }
                                     else
@@ -791,7 +788,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     oPdf.Color.String = oObject.ColorC.ToString() + " " + oObject.ColorM.ToString() + " " + oObject.ColorY.ToString() + " " + oObject.ColorK.ToString();
                     //if (!ooBject.IsColumnNull("Tint"))
-                    oPdf.Color.Alpha = Convert.ToInt32((oObject.Tint) * 2.5);
+                    oPdf.Color.Alpha = Convert.ToInt32((oObject.Tint) * 2.55);
                 }
                 else if (oObject.ColorType == 4) // For RGB Colors
                 {
@@ -844,7 +841,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     oPdf.Color.String = oObject.ColorC.ToString() + " " + oObject.ColorM.ToString() + " " + oObject.ColorY.ToString() + " " + oObject.ColorK.ToString();
                     if (oObject.Opacity != null)
-                        oPdf.Color.Alpha = Convert.ToInt32((100 * oObject.Opacity) * 2.5);
+                        oPdf.Color.Alpha = Convert.ToInt32((100 * oObject.Opacity) * 2.55);
                     //if (!ooBject.IsColumnNull("Tint"))
                     //oPdf.Color.Alpha = 0;//Convert.ToInt32((100 - oObject.Tint) * 2.5);
                 }

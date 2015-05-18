@@ -546,10 +546,10 @@ namespace MPC.Implementation.WebStoreServices
                             }
                             else
                             {
-                                double height, width = 0;
-                                DesignerSvgParser.GetSvgHieghtAndWidth(uploadPath,out height,out width);
-                                ImageWidth = Convert.ToInt32(width);
-                                ImageHeight = Convert.ToInt32(height);
+                                //double height, width = 0;
+                                //DesignerSvgParser.GetSvgHieghtAndWidth(uploadPath,out height,out width);
+                                //ImageWidth = Convert.ToInt32(width);
+                                //ImageHeight = Convert.ToInt32(height);
                             }
                             var bgImg = new TemplateBackgroundImage();
                             bgImg.Name = Imname;
