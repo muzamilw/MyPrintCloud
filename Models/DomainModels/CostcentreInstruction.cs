@@ -9,6 +9,8 @@ namespace MPC.Models.DomainModels
     /// <summary>
     /// Cost Centre Instruction
     /// </summary>
+    /// 
+    [Serializable()]
     public class CostcentreInstruction
     {
         public long InstructionId { get; set; }
