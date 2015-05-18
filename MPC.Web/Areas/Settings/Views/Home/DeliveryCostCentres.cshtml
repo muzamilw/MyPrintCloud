@@ -30,12 +30,12 @@
                                 @*<h2>Create and configure internal Shipping options used on web stores and estimating</h2>*@
                                 <!-- ko template: { name: 'filterTemplate' } -->
                                 <!-- /ko -->
-                                <table class="table user-list">
+                                <table class="table table-striped table-hover">
                                     <thead>
                                         <tr id="ccList" class="span12">
                                             <th class="col-lg-3"><span>Name</span></th>
                                             <th class="col-lg-4"><span>Description</span></th>
-                                          
+
                                             <th class="col-lg-4"><span>Enabled</span></th>
                                             <th class="col-lg-2">&nbsp;</th>
                                         </tr>
@@ -71,9 +71,9 @@
             </a>*@
         </script>
         <script id="itemCostCenterTemplate" type="text/html">
-            <tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedCostCenter}">
+            <tr data-bind="click : $root.onEditItem, css: { selectedRow: $data === $root.selectedCostCenter}" style="cursor: pointer">
                 <td>
-                    <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
+                    <a href="#" data-bind="text: name"></a>
                 </td>
                 <td data-bind="text: description"></td>
                 <td>
