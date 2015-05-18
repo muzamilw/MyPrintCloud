@@ -231,8 +231,19 @@ define("invoice/invoice.viewModel",
                     deleteProduct = function (item) {
                         selectedInvoice().items.remove(item);
                     },
+                    removeItemSectionWithAddFlagTrue = function () {
+                        _.each(selectedInvoice().items(), function (item) {
+                            _.each(item.itemSections(), function (itemSection) {
+                                if (itemSection.flagForAdd()) {
+                                    item.itemSections.remove(itemSection);
+                                }
+                            });
+                        });
+
+                    },
                     // On Save Order
                     onSaveInvoice = function (data, event, navigateCallback) {
+                        removeItemSectionWithAddFlagTrue();
                         if (!doBeforeSave()) {
                             return;
                         }
@@ -812,6 +823,7 @@ define("invoice/invoice.viewModel",
                         if (selectedInvoice().companyId() === undefined) {
                             toastr.error("Please select customer.");
                         } else {
+                            isAddProductFromInventory(false);
                             isCostCenterDialogForShipping(true);
                             onAddCostCenter();
                         }
@@ -845,6 +857,20 @@ define("invoice/invoice.viewModel",
                     },
                     //#endregion
 
+                    //#region Invoice Detail
+                    // Active Invoice Detail Item
+                    selectedInvoiceDetail = ko.observable(),
+                    // Add New Invoice Detail Item
+                    onAddInvoiceDetail = function () {
+                        var invoiceDetail = model.InvoiceDetail();
+                        selectedInvoiceDetail(invoiceDetail);
+                        view.showInvoiceDetailDialog();
+                    },
+                    // Close Invoice Detail Dialog
+                    closeInvoiceDetailDialog = function () {
+                        view.hideInvoiceDetailDialog();
+                    },
+                    //#endregion
                 //Initialize method to call in every screen
                 initializeScreen = function (specifiedView) {
                     view = specifiedView;
@@ -889,6 +915,7 @@ define("invoice/invoice.viewModel",
                     isAddProductFromInventory: isAddProductFromInventory,
                     isAddProductForSectionCostCenter: isAddProductForSectionCostCenter,
                     sectionHeader: sectionHeader,
+                    selectedInvoiceDetail: selectedInvoiceDetail,
                     //selectedOrder: selectedOrder,
                     //#endregion
 
@@ -914,6 +941,9 @@ define("invoice/invoice.viewModel",
                     createNewCostCenterProduct: createNewCostCenterProduct,
                     onShippingChargesClick: onShippingChargesClick,
                     editItem: editItem,
+                    grossTotal: grossTotal,
+                    onAddInvoiceDetail: onAddInvoiceDetail,
+                    closeInvoiceDetailDialog: closeInvoiceDetailDialog
                     //#endregion
                 };
             })()

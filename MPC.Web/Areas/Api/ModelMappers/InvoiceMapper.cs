@@ -31,14 +31,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 ContactId = source.ContactId,
                 AddressId = source.AddressId,
-                CompanyName = source.Company!=null ? source.Company.Name: "",
+                CompanyName = source.Company != null ? source.Company.Name : "",
                 InvoiceCode = source.InvoiceCode,
                 InvoiceName = source.InvoiceName,
                 IsArchive = source.IsArchive,
                 InvoiceDate = source.InvoiceDate,
                 Status = source.Status != null ? source.Status.StatusName : "",
                 InvoiceStatus = source.InvoiceStatus,
-                InvoiceTotal = Math.Round((double) source.InvoiceTotal,2),
+                InvoiceTotal = Math.Round((double)source.InvoiceTotal, 2),
                 ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " " + source.CompanyContact.LastName : "",
                 FlagId = source.FlagID,
                 InvoiceType = source.InvoiceType,
@@ -64,10 +64,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsArchive = source.IsArchive,
                 InvoiceDate = source.InvoiceDate,
                 InvoiceStatus = source.InvoiceStatus,
-                InvoiceTotal = Math.Round((double) source.InvoiceTotal,2),
+                InvoiceTotal = source.InvoiceTotal != null ? Math.Round((double)source.InvoiceTotal, 2) : 0,
                 FlagID = source.FlagId,
                 InvoiceType = source.InvoiceType,
-                GrandTotal = Math.Round((double)source.GrandTotal, 2),
+                GrandTotal = source.GrandTotal != null ? Math.Round((double)source.GrandTotal, 2) : 0,
                 OrderNo = source.OrderNo,
                 AccountNumber = source.AccountNumber,
                 ReportSignedBy = source.ReportSignedBy,
@@ -96,12 +96,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         public static InvoiceListResponseModel CreateFromList(this MPC.Models.ResponseModels.InvoiceRequestResponseModel source)
         {
-            return new  InvoiceListResponseModel
+            return new InvoiceListResponseModel
             {
                 RowCount = source.RowCount,
                 Invoices = source.Invoices.Select(invoice => invoice.CreateForList())
             };
-            
+
         }
 
     }
