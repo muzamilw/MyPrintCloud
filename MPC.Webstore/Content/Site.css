@@ -1,6 +1,4 @@
-﻿@import url(http://fonts.googleapis.com/css?family=Lato);
-@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700);
-
+﻿
 @font-face {
     font-family: 'Poiret One';
     font-style: normal;
@@ -591,7 +589,7 @@ ul.nav li.selectedLava a {
 }
 
 .address_contol_area1 {
-    width: 210px;
+    width: 265px;
     float: left;
     text-align: left;
     /*padding: 5px;*/
@@ -622,10 +620,10 @@ ul.nav li.selectedLava a {
 }
 
 .address_contol_area2 {
-    width: 220px;
+    width: 265px;
     float: left;
     text-align: left;
-    padding: 3px;
+    margin-left: 24px;
 }
 
 .left_user_popup_area {
@@ -1056,22 +1054,12 @@ ul.nav li.selectedLava a {
     height: 28px;
     background: url('sprite.png') -269px -492px;
     background-repeat: repeat-x;
-    border: 1px solid #adadad;
+    border: 1px solid #dadada;
     cursor: pointer;
     color: Black;
 }
 
-.btn_brown_small {
-    font-size: 11px;
-    clear: both;
-    height: 27px;
-    background: #cfcfcd;
-    text-align: center;
-    cursor: pointer;
-    color: black;
-    width: 160px;
-    border: none;
-}
+
 
 .internal_padding {
     padding: 20px 20px 0px 20px;
@@ -1237,7 +1225,7 @@ ul.nav li.selectedLava a {
 }
 
 .confirm_order_detail_div {
-    border-top: 1px solid #a8a8a8;
+    /*border-top: 1px solid #a8a8a8;*/
     padding: 10px;
 }
 
@@ -1333,12 +1321,12 @@ ul.nav li.selectedLava a {
     padding: 3px;
     background-repeat: no-repeat;
     border-width: 0px;
-    height: 28px;
-    width: 30px;
+    height: 31px;
+    width: 31px;
     color: white;
     cursor: pointer;
     float: left;
-    margin-left: 10px;
+    margin-left: 9px;
     margin-top: 2px;
 }
 
@@ -1622,13 +1610,17 @@ ul.nav li.selectedLava a {
     height: 33px;
     width: 145px;
     border: 0px;
-    background-color: #333333;
+    background-color: #00B4FF;
+    border-color: #00B4FF;
     cursor: pointer;
     font-size: 12px;
     text-align: center;
     margin-top: 40px;
     margin-bottom: 20px;
     text-transform: uppercase;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
 }
 
 .btn_BackTo_Tem_Prod_Land {
@@ -1682,6 +1674,7 @@ ul.nav li.selectedLava a {
 .signin_heading_div {
     text-align: left;
     padding: 15px 0px 15px 0px;
+    text-align: center;
 }
 
 .signin_heading_div_product {
@@ -1748,9 +1741,10 @@ ul.nav li.selectedLava a {
 }
 
 .sign_in_heading {
-    font-size: 20px;
-    color: black;
-    /* font-weight: bold;*/
+    font-size: 25px;
+    color: #E83e48;
+    text-shadow: none;
+    font-weight: bold;
 }
 
 .headingTempDesigner {
@@ -1768,11 +1762,12 @@ ul.nav li.selectedLava a {
 
 
 .contact_us_heading {
-    padding: 20px 0px 20px 0px;
+    padding: 20px 0px 0px 0px;
+    text-align: center;
+    font-size: 25px;
+    color: #E83e48;
+    text-shadow: none;
     font-weight: bold;
-    font-size: 22px;
-    text-align: left;
-    color: black;
 }
 
 .show_as_it_is {
@@ -1821,6 +1816,7 @@ ul.nav li.selectedLava a {
     text-align: left;
     margin-bottom: 20px;
     margin-top: 30px;
+    padding-left: 0px !important;
 }
 
 .shop_cart_update_sec {
@@ -1917,15 +1913,7 @@ ul.nav li.selectedLava a {
     width: 75px;
 }
 
-.text_box150 {
-    border: 1px solid #c1c6cc;
-    font-size: 13px;
-    padding: 5px;
-    background-image: url('Images/text_box_back.png');
-    background-repeat: repeat-x;
-    width: 150px;
-    color: black;
-}
+
 
 
 
@@ -2455,9 +2443,7 @@ width: 520px*/
     border: 4px solid #F3F3F3;
     margin-top: 10px;
     text-align: left;
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
 }
 
 .get_in_touch_box_ProdDetail {
@@ -2618,9 +2604,6 @@ width: 520px*/
 
 .heading_small_orange /* h4*/ {
     color: rgb(255, 252, 245);
-    
-    display: inline;
-    font-family: 'Avenir Next LT W01 Bold', Helvetica, Arial, sans-serif;
     font-size: 11px !important;
     font-style: normal;
     font-weight: normal !important;
@@ -2701,7 +2684,7 @@ width: 520px*/
 .Width60pixel {
     margin-top: 3px;
     float: left;
-    width: 186px;
+    width: 180px;
     margin-left: 1px;
 }
 
@@ -2712,15 +2695,22 @@ width: 520px*/
 
 
 .forgetPassLink {
-    font-size: 12px;
-    color: rgb(102,102,102);
+    font-size: 12px !important;
     font-style: normal;
     font-weight: normal;
-    color: #0066D3;
-   margin-left: 10px;
-  line-height: 3;
+    color: black !important;
+    margin-left: 10px;
+    line-height: 0;
 }
 
+    .forgetPassLink:hover {
+        font-size: 12px !important;
+        font-style: normal;
+        font-weight: normal;
+        color: #E83e48 !important;
+        margin-left: 10px;
+        line-height: 0;
+    }
 
 .imgBorder {
     border: 0px;
@@ -2763,6 +2753,12 @@ width: 520px*/
 }
 
 .gridViewCheckoutHeaderStyle th:nth-child(3) {
+    /*text-align: right !important;*/
+    padding-right: 5px;
+    /*padding: 10px;*/
+}
+
+.gridViewCheckoutHeaderStyle th:nth-child(4) {
     text-align: right !important;
     padding-right: 5px;
     /*padding: 10px;*/
@@ -2982,7 +2978,9 @@ width: 520px*/
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
-    /* font-weight: bold;*/
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
     color: White;
     padding: 0px 20px 0px 20px;
     border: 1px solid #1A567E;
@@ -2995,7 +2993,9 @@ width: 520px*/
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
-    /* font-weight: bold;*/
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
     color: White;
     padding: 0px 20px 0px 20px;
     border: 1px solid #1A567E;
@@ -3009,7 +3009,9 @@ width: 520px*/
     margin-bottom: 5px;
     background-image: url('Images/blue_back_btn.png');
     background-repeat: repeat-x;
-    /* font-weight: bold;*/
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
     color: White;
     padding: 5px 20px 5px 10px;
     border: 1px solid #1A567E;
@@ -3021,7 +3023,9 @@ width: 520px*/
     background-repeat: repeat-x;
     height: 34px;
     border: 0px;
-    /* font-weight: bold;*/
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
     color: White;
     padding: 5px 15px 5px 2px;
     border: 1px solid #1A567E;
@@ -3737,6 +3741,77 @@ width: 520px*/
 }
 
 .start_creating_btn_Login {
+    background: #E83e48;
+    background-repeat: no-repeat;
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: White;
+    width: 105px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-left: 7px;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+}
+
+.start_creating_btn_CretAcc {
+    background: #E83e48;
+    background-repeat: no-repeat;
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: White;
+    width: 180px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: bold;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+}
+
+.start_creating_btn {
+    /*  background: url('sprite.png') -341px -314px; */
+    /* background-repeat: no-repeat; */
+    height: 33px;
+    border: 0px;
+    text-align: center;
+    color: white;
+    width: 100px;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+    cursor: pointer;
+    /* margin-right: 10px; */
+    background-color: #E83e48;
+    font-size: 16px;
+    line-height: inherit;
+}
+
+    .start_creating_btn:hover {
+        background-color: #A5262E;
+        /*box-shadow: 0 0 0 4px #1A567E inset, 0 0 1px rgba(0, 0, 0, 0);
+        display: inline-block;
+        transform: translateZ(0px);
+        transition-duration: 0.3s;
+        transition-property: background;*/
+    }
+
+.SignUpButton {
+    /*background: url('/Content/Images/SignUp.PNG');
+    background-repeat: no-repeat;
+    height: 36px;
+    border: 0px;
+    text-align: center;
+    color: white;
+    width: 240px;
+    border: 1px solid #a8a8a8;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-left: 1px;*/
     background: #333333;
     background-repeat: no-repeat;
     height: 34px;
@@ -3752,60 +3827,6 @@ width: 520px*/
     margin-left: 7px;
 }
 
-.start_creating_btn_CretAcc {
-    background: #333333;
-    background-repeat: no-repeat;
-    height: 34px;
-    border: 0px;
-    text-align: center;
-    /* font-weight: bold;padding: 0px 30px 0px 30px;*/
-    color: White;
-    width: 180px;
-    border: 1px solid #1A567E;
-    cursor: pointer;
-}
-
-.start_creating_btn {
-    /*  background: url('sprite.png') -341px -314px; */
-    /* background-repeat: no-repeat; */
-    height: 33px;
-    border: 0px;
-    text-align: center;
-    color: white;
-    width: 100px;
-    /* border: 1px solid #1A567E; */
-    cursor: pointer;
-    /* margin-right: 10px; */
-    background-color: #E83e48;
-    font-size: 16px;
-    line-height: inherit;
-}
-
-    .start_creating_btn:hover {
-        background-color: #333333;
-        border-color: #333333;
-        color: #FFFFFF;
-        /*box-shadow: 0 0 0 4px #1A567E inset, 0 0 1px rgba(0, 0, 0, 0);
-        display: inline-block;
-        transform: translateZ(0px);
-        transition-duration: 0.3s;
-        transition-property: background;*/
-    }
-
-.SignUpButton {
-    background: url('/Content/Images/SignUp.PNG');
-    background-repeat: no-repeat;
-    height: 36px;
-    border: 0px;
-    text-align: center;
-    color: white;
-    width: 240px;
-    border: 1px solid #a8a8a8;
-    cursor: pointer;
-    margin-right: 10px;
-    margin-left: 1px;
-}
-
 .btnForgetPassword {
     background: url('sprite.png') -341px -314px;
     background-repeat: no-repeat;
@@ -3817,10 +3838,13 @@ width: 520px*/
     width: 150px;
     border: 1px solid #1A567E;
     cursor: pointer;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
 }
 
 .start_creating_btn_checkout {
-    background-color: #E83e48;
+    background-color: green;
     height: 34px;
     border: 0px;
     text-align: center;
@@ -3832,6 +3856,9 @@ width: 520px*/
     font-weight: bold;
     margin-right: 3px;
     margin-bottom: 10px;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
 }
 
 
@@ -3872,6 +3899,9 @@ width: 520px*/
     padding: 0px 30px 0px 11px;
     border: 1px solid #1A567E;
     cursor: pointer;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
 }
 
 .start_creating_btn_profile {
@@ -3883,6 +3913,9 @@ width: 520px*/
     color: White;
     padding: 5px 15px 5px 15px;
     border: 1px solid #1A567E;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
     cursor: pointer;
 }
 
@@ -4257,9 +4290,7 @@ width: 520px*/
 
 
 
-.BillShipAddressesControl {
-    width: 420px;
-}
+
 
 .BillShipAddressesControl_CP {
     width: 360px;
@@ -4718,7 +4749,8 @@ width: 520px*/
 .product_detail_note {
     padding: 20px 0px 5px 0px;
     float: right;
-    color: #999999;
+    color: black;
+    font-size: 11px;
 }
 
 .product_detail_alt_temp {
@@ -4734,7 +4766,7 @@ width: 520px*/
 
 .product_detail_item_cell {
     /* font-weight: bold;*/
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .product_detail_item_padding {
@@ -4742,7 +4774,7 @@ width: 520px*/
 }
 
 .procu_detail_grid_cell {
-    padding: 7px;
+    padding: 6px;
 }
 
 .tblContainerInner {
@@ -5010,10 +5042,6 @@ width: 520px*/
 
 /*BreadCrumb css*/
 
-/*.BreadCrumbMenu a
-{
-    color: #042F42;
-}*/
 
 
 
@@ -5209,11 +5237,7 @@ width: 520px*/
     float: right;
 }
 
-.exit_container_RQ {
-    margin-top: -65px;
-    margin-right: -65px;
-    float: right;
-}
+
 
 .exit_container {
     margin-top: -30px;
@@ -5931,7 +5955,7 @@ width: 520px*/
 }
 
 .TTL_Checkout {
-    text-align: left;
+    /*text-align: left;*/
     margin-left: 3px;
     float: left;
 }
@@ -6372,7 +6396,7 @@ width: 520px*/
 }
 
 .fontWeightNormal {
-    font-weight: normal;
+    font-weight: normal !important;
 }
 
 .MLeft17 {
@@ -7182,13 +7206,13 @@ div.wrapper {
 
 /***All Products control***/
 .allprodHead {
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.4);
-    padding: 10px 0px 10px 0px;
     color: #E83e48;
-    font-size: 22px !important;
-    margin-bottom: 15px;
-    font-family: AvenirNextLTW01-Regular;
-    text-align: left;
+    text-shadow: none;
+    font-weight: bold;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 0px;
 }
 
 
@@ -7201,10 +7225,6 @@ div.wrapper {
         text-decoration: underline;
     }
 
-    .white-container-lightgrey-border a:active, .white-container-lightgrey-border a:active {
-        font-size: inherit;
-        font-weight: inherit;
-    }
 
 .allproducts_colCat_cont {
     /*border:1px solid #c7c7c7;*/
@@ -7216,15 +7236,15 @@ div.wrapper {
 
 .colContainer {
     /* margin-bottom:20px;*/
-    margin-left: 10px;
+    /*margin-left: 10px;*/
 }
 
 .allproducts_col {
-    width: 240px;
+    width: 50%;
     float: left;
     text-align: left;
     display: block;
-    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .allproducts_col_cat {
@@ -7232,33 +7252,41 @@ div.wrapper {
 }
 
 .allproducts_col_cat_ul {
-    margin-top: 10px;
+    margin-top: 0px;
     list-style-type: none;
     list-style-position: outside;
     list-style-image: none;
     padding-left: 5px;
-    padding-bottom: 5px;
+    padding-top: 5px;
     line-height: 1.7;
+    font-size: 12px;
+    background-color: #F7F5F6;
+    margin-bottom: 15px;
 }
 
     .allproducts_col_cat_ul li {
         padding-bottom: 5px;
-        font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
+        /*font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;*/
     }
 
         .allproducts_col_cat_ul li a {
-            color: #E83e48;
+            color: black;
         }
 
+            .allproducts_col_cat_ul li a:hover {
+                color: #E83e48;
+            }
+
 .SubCatLink {
-    font-weight: normal;
-    color: #5a2e2d;
+    font-weight: bold;
+    color: black;
     padding-bottom: 5px;
+    font-size: 12px !important;
 }
 
-    .SubCatLink:link {
+    .SubCatLink:hover {
+        color: #E83e48;
         font-size: 12px !important;
-        font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
     }
 
 .width_allPro:link {
@@ -7269,11 +7297,20 @@ div.wrapper {
 
 .width_allPro {
     text-align: left !important;
-    font-size: medium !important;
-    margin-left: 15px;
-    font-family: 'Avenir Next LT W01 Bold';
+    font-size: 22px !important;
+    /*margin-left: 15px;*/
+    color: #E83e48;
     font-weight: normal;
 }
+
+    .width_allPro a {
+        color: #E83e48;
+    }
+
+        .width_allPro a:hover {
+            color: black;
+        }
+
 /* Category Products**/
 
 
@@ -9150,8 +9187,12 @@ a.PinkRegBack:active {
 .LandPage-Heading-Cs {
     color: black !important;
     font-size: 17px !important;
-    font-weight: bold;
+    margin-left: 10px;
 }
+
+    .LandPage-Heading-Cs label {
+        font-weight: normal;
+    }
 
 .t {
     width: 2px;
@@ -9169,23 +9210,14 @@ a.PinkRegBack:active {
     margin: 0 auto;
 }
 
-.artworkarrow {
-    display: block;
-    width: 310px;
-    margin-top: 30px;
-    float: left;
-    margin-left: 20px;
-    border: 1px solid white;
+
+
+.artworkarrow:hover {
+    cursor: pointer;
+    background-color: #f7f7f7;
+    border: 1px solid #e7e7e7;
     text-align: center;
 }
-
-    .artworkarrow:hover {
-        cursor: pointer;
-        width: 310px;
-        background-color: #f7f7f7;
-        border: 1px solid #e7e7e7;
-        text-align: center;
-    }
 
 .artworkLight {
     width: 290px;
@@ -9553,8 +9585,9 @@ a.PinkRegBack:active {
 
 .LightGrayLabels {
     line-height: 1.5;
-    color: #333333;
+    color: black;
     font-size: 13px;
+    font-weight: normal;
 }
 
 .colorBlack {
@@ -9701,22 +9734,6 @@ a.PinkRegBack:active {
 }
 
 
-::-webkit-input-placeholder { /* WebKit browsers */
-    color: White;
-}
-
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: White;
-}
-
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: White;
-}
-
-:-ms-input-placeholder { /* Internet Explorer 10+ */
-    color: White;
-}
-
 .divHalfLeft800 {
     float: left;
     width: 1000px;
@@ -9837,6 +9854,10 @@ a.PinkRegBack:active {
 .dashBoardRetrunLink {
     display: inline;
     float: right;
+    background-color: #00B4FF;
+    border-color: #00B4FF;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 .cntdashBoardRetrunLink {
@@ -9954,7 +9975,8 @@ a.PinkRegBack:active {
     min-height: 78px;
     display: inline;
     float: left;
-    width: 220px;
+    width: 100%;
+    font-size: 12px;
 }
 
 .SP_transparent {
@@ -10090,6 +10112,8 @@ a.PinkRegBack:active {
     cursor: pointer;
     font-size: 14px;
     margin-top: 10px;
+    float: left;
+    margin-bottom: 10px;
 }
 
 .MB_MainCont {
@@ -10379,7 +10403,7 @@ a.PinkRegBack:active {
     min-height: 150px;
     width: 100%;
     padding: 5px;
-    margin-top: 10px;
+    margin-top: 0px;
     padding-top: 0px !important;
     padding-bottom: 0px;
 }
@@ -10465,9 +10489,9 @@ a.PinkRegBack:active {
 }
 
 .DesgnFormatelbl {
-    border-bottom: 3px dotted #428bca;
+    border-bottom: 3px dotted #E83E46;
     text-align: left;
-    width: 175px;
+    width: 140px;
     padding-bottom: 5px;
     margin-bottom: 15px;
 }
@@ -10492,7 +10516,7 @@ a.PinkRegBack:active {
 }
 
 .GLHeading {
-    color: #333333;
+    color: #E83e48;
     margin-right: 5px;
 }
 
@@ -10680,6 +10704,7 @@ border-bottom: 3px solid #cacaca;*/
     text-align: left;
     background-color: #333333;
     color: White;
+    padding-left: 10px;
 }
 
 .AvailInContaier {
@@ -11214,9 +11239,11 @@ border-bottom: 3px solid #cacaca;*/
 }
 
 .liUserInfo {
-    font-size: 14px;
-    margin-right:0px;
-    margin-top: 1px;
+    font-size: 15px;
+    margin-right: 10px;
+    margin-top: 0px;
+    width: 200px;
+    text-align: right;
 }
 
 
@@ -11822,11 +11849,11 @@ ul.LogBar li a {
 }
 
 .srFirstTd {
-    width: 26%;
+    width: 34%;
 }
 
 .srScdTd {
-    width: 29%;
+    width: 20%;
 }
 
 .srThirdTd {
@@ -11929,7 +11956,7 @@ ul.LogBar li a {
 }
 
 .cntFilteringCritariaRight {
-    width: 77%;
+    width: 100%;
     text-align: left;
     color: White;
 }
@@ -11948,9 +11975,7 @@ ul.LogBar li a {
 
 
 .tblRestPass {
-    width: 630px;
-    padding: 10px;
-    margin-top: 10px;
+    width: 620px;
 }
 
 
@@ -11976,7 +12001,7 @@ ul.LogBar li a {
     -o-transition: background-color;
     -ms-transition: background-color;
     transition: background-color;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .AveniorTxtBoxCheckout1 {
@@ -12098,7 +12123,7 @@ ul.LogBar li a {
     text-shadow: none;
     font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 50px;
-    margin-top: 33px;
+    margin-top: 15px;
     width: 130px;
     text-align: left;
 }
@@ -12137,6 +12162,7 @@ ul.LogBar li a {
     margin-top: 16px;
     width: 203px;
     text-align: left;
+    display: none;
 }
 
 .tooltipCheckoutAvenior {
@@ -12151,6 +12177,7 @@ ul.LogBar li a {
 .cnttxtBox {
     width: 408px;
 }
+
 
 /*.widthAvenior
 {
@@ -12205,7 +12232,7 @@ ul.LogBar li a {
 
 
 .Categorytitle #MainContent_lblTitle {
-    display: block !important;
+    display: none !important;
 }
 
 .pnkRegBilltedTo {
@@ -12573,7 +12600,6 @@ ul.LogBar li a {
     float: right;
     text-align: left;
     width: 278px;
-    margin-top: 20px;
 }
 
 .pricetabl {
@@ -12638,8 +12664,103 @@ ul.LogBar li a {
     border-radius: 0px !important;
 }
 
+.artworkarrow {
+    display: block;
+    width: 260px !important;
+    margin-top: 13px;
+    float: left;
+    margin-left: 20px;
+    border: 1px solid white;
+    text-align: center;
+}
 
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
+    .upload-panel-margin {
+        margin-left: 0px;
+    }
+
+    .btn_brown_small {
+        font-size: 11px;
+        clear: both;
+        height: 27px;
+        background: #cfcfcd;
+        text-align: center;
+        cursor: pointer;
+        color: black;
+        width: 117px;
+        border: none;
+    }
+
+    .profile-menu {
+        width: 167px;
+        left: -65px;
+        background-color: #FFFFFF;
+        border: none;
+        -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+        top: 50px;
+        position: absolute;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        font-size: 14px;
+        text-align: left;
+        list-style: none;
+        z-index: 1000;
+    }
+
+    .product-detail-banner-slider {
+        width: 100%;
+        height: 420px;
+    }
+
+    .product-detail-slider {
+        width: 100% !important;
+        height: 380px !important;
+    }
+
+    .cntDesignGuidLines {
+        width: 100%;
+    }
+
+    .artworkarrow {
+        width: 100%;
+        margin-left: 20px;
+    }
+
+    .BreadCrumbMenu {
+        text-align: left !important;
+    }
+
+    .text_box150 {
+        border: 1px solid #c1c6cc;
+        font-size: 13px;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        width: 100%;
+        color: black;
+    }
+
+    .dashboardIcons {
+        padding-top: 7px;
+        box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
+        background: white;
+        border-radius: 33px;
+        color: #E83e48;
+        font-size: 25px;
+        text-align: center;
+    }
+
+    .exit_container_RQ {
+        margin-top: -65px;
+        margin-right: -65px;
+        float: right;
+    }
+
+    #USerInfoContainer {
+        width: inherit;
+    }
+
     .cartli {
         display: block;
     }
@@ -12677,9 +12798,10 @@ ul.LogBar li a {
 
     ul.LogBar {
         /* font-weight: bold;*/
-        float: left;
+        float: right;
         list-style: none;
         margin-top: 0px;
+        margin-bottom: 0px;
         width: 100%;
     }
 
@@ -12802,7 +12924,7 @@ ul.LogBar li a {
     }
 
     .BreadCrumbMenu h1 {
-        font-size: 15px !important;
+        font-size: 20px !important;
         color: #E83e48;
     }
 
@@ -12996,12 +13118,12 @@ ul.LogBar li a {
 
     #CollapseBtn {
         display: block;
-        margin-top: 12px;
+        margin-top: 0px;
     }
 
         #CollapseBtn:hover {
             display: block;
-            margin-top: 12px;
+            margin-top: 0px;
             color: #E83e48;
         }
 
@@ -13032,7 +13154,7 @@ ul.LogBar li a {
     }
 
     .height490 {
-        height: 400px !important;
+        max-height: 400px !important;
     }
 
     .Categorytitle {
@@ -13048,19 +13170,24 @@ ul.LogBar li a {
         text-align: center !important;
         text-transform: uppercase;
         margin-bottom: 20px;
+        display: none;
     }
 
     .start_creating_btn_SApp {
-        background: #E83e48;
+        background: green;
         background-repeat: no-repeat;
         height: 34px;
         border: 0px;
-        /* font-weight: bold; padding: 0px 30px 0px 5px;*/
+        text-transform: uppercase;
         color: White;
-        border: 1px solid #1A567E;
         cursor: pointer;
         width: 180px;
         margin-top: 0px;
+        font-weight: bold;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        margin-right: 3px;
     }
 
     .S_C_UP_VD_MesgBox {
@@ -13087,36 +13214,51 @@ ul.LogBar li a {
         position: absolute;
         margin-left: 249px;
         margin-top: 2px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .silver_back_button {
         border: none;
         height: 44px;
-        width: 53px;
+        width: 220px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: transparent;
-        background: url('../../images/repeat.png');
+        background: transparent;
         text-decoration: underline;
         text-align: left;
         font-size: 13px;
         font-weight: bold;
         background-repeat: no-repeat;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        color: #E83e48;
+        padding-left: 0px;
+        position: absolute;
+        margin-top: -20px;
     }
 
     .silver_back_button_remove {
         border: none;
         height: 27px;
-        width: 31px;
+        width: 188px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: transparent;
-        background: url('../../images/gnome_window_close.png');
+        background: transparent;
         text-decoration: underline;
         text-align: left;
         font-size: 13px;
         font-weight: bold;
         background-repeat: no-repeat;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        padding-left: 0px;
+        color: #E83e48;
+        position: absolute;
+        margin-top: -20px;
     }
 
     .fntQtyPrice {
@@ -13277,13 +13419,13 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 250px !important;
+        width: 100% !important;
         margin-top: -25px;
         font-size: 12px;
     }
 
     .DeleteIconPP {
-        margin-left: 205px !important;
+        margin-left: 195px !important;
         margin-top: -15px;
         clear: both;
         width: 18px;
@@ -13293,21 +13435,21 @@ ul.LogBar li a {
     .BD_PCS {
         float: left;
         text-align: center;
-        width: 250px !important;
+        width: 100% !important;
         margin-right: 1px;
         margin-left: 5px;
         margin-bottom: 10px;
     }
 
     .cntuploadfilebtns {
-        width: 250px !important;
+        width: 100% !important;
         text-align: center !important;
     }
 
     .UploadsGuidLineContainer {
-        margin-top: -2px;
+        /*margin-top: -2px;
         position: relative !important;
-        margin-left: 0px !important;
+        margin-left: 0px !important;*/
         text-align: left;
         float: left !important;
     }
@@ -13325,7 +13467,7 @@ ul.LogBar li a {
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 320px !important;
+        width: 100% !important;
         text-align: left;
         margin-top: 10px;
     }
@@ -13349,13 +13491,16 @@ ul.LogBar li a {
     }
 
     .BreadCrumbMenu {
-        text-shadow: 0 -1px 0 rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.4);
-        padding: 10px 0px 10px 0px;
-        color: #042F42;
-        font-size: 13px !important;
-        /*margin-bottom: 15px;*/
-        font-family: sans-serif !important;
-        margin-top: 10px;
+        -webkit-user-select: text;
+        color: rgb(33, 31, 31);
+        display: block;
+        font-family: 'Avenir Next LT W01 Bold';
+        font-size: 21px;
+        font-style: normal;
+        font-weight: normal !important;
+        line-height: 71px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
     }
 
     .BreadCrumbMenuItem {
@@ -13571,14 +13716,14 @@ ul.LogBar li a {
 
 
     .divStk {
-        width: 310px !important;
+        width: 100% !important;
         vertical-align: top;
         float: left;
         /*padding:10px;*/
     }
 
     .width730 {
-        width: 320px !important;
+        width: 100% !important;
     }
 
     .width365pxM250p {
@@ -13589,14 +13734,15 @@ ul.LogBar li a {
 
     .rptContainers {
         width: auto !important;
-        float: left;
-        min-height: 145px;
+        float: none;
+        height: auto;
     }
 
     .PriceTableCs {
         margin-top: 5px !important;
-        width: 320px;
-        padding: 0px !important;
+        width: 275px !important;
+        padding-right: 0px !important;
+        padding-left: 0px !important;
         margin-left: 15px;
     }
 
@@ -13611,7 +13757,7 @@ ul.LogBar li a {
         margin-top: 10px;
         margin-left: 5px;
         text-align: left;
-        width: auto !important;
+        width: 100% !important;
     }
 
     .noFloatSm {
@@ -13685,17 +13831,20 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
-        background-color: #E83e48;
+        background-color: #ffdd0c;
         height: 35px;
         width: 198px !important;
         border: 0px;
         font-size: 13px;
-        /* font-weight: bold; padding: 0px 30px 0px 11px;*/
-        color: White;
+        font-weight: bold;
+        color: black;
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .start_creating_btn_prodDetail_blk {
@@ -13711,6 +13860,9 @@ ul.LogBar li a {
         margin-bottom: 30px;
         text-transform: uppercase;
         cursor: pointer;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .text_box185_ProdDesgn {
@@ -13742,9 +13894,7 @@ ul.LogBar li a {
 
     .shopReceiptBillToHeading {
         color: #333333;
-        font-family: 'Open Sans Condensed', sans-serif;
         font-style: normal;
-        font-weight: bold;
         font-size: 20px !important;
     }
 
@@ -13760,17 +13910,18 @@ ul.LogBar li a {
         color: #666666;
         clear: both;
         height: 34px;
-        background: url('sprite.png') -271px -492px;
-        /* background: url('sprite.png') -289px -492px; padding: 5px 20px 5px 20px;*/
-        background-repeat: repeat-x;
-        border: 1px solid #adadad;
-        /* font-weight: bold;*/
+        background-color: #cccccc;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
         text-transform: uppercase;
         cursor: pointer;
         color: White;
         width: 180px;
         font-weight: bold;
         margin-right: 3px;
+        border: none;
+        font-size: 12px;
     }
 
     .ScrollImgContainer2 img {
@@ -13871,6 +14022,7 @@ ul.LogBar li a {
         margin-bottom: 50px;
         padding: 20px;
         background-color: #d6d6d6;
+        height: 440px;
     }
 
     .CAT_ThumbnailPath {
@@ -13895,8 +14047,8 @@ ul.LogBar li a {
     .cntParentCategDesc {
         width: auto !important;
         text-align: left;
-        font-size: 13px;
-        color: #042F42;
+        font-size: 15px;
+        color: black;
         margin-bottom: 30px;
         line-height: 1.9;
     }
@@ -13906,6 +14058,7 @@ ul.LogBar li a {
         font-size: 13px !important;
         padding-bottom: 5px;
         color: black;
+        cursor: pointer;
     }
 
 
@@ -14098,6 +14251,7 @@ ul.LogBar li a {
     .cntTopLevelCategory {
         /*position: relative !important;*/
         margin-top: 20px;
+        width: 100%;
     }
 
     .Top_Cat_Body {
@@ -14141,7 +14295,7 @@ ul.LogBar li a {
         -khtml-border-radius: 2px;
         border-radius: 2px;
         background-repeat: no-repeat;
-        width: 266px !important;
+        width: 100% !important;
         height: 42px;
         border: none;
         background-color: #43609b;
@@ -14167,7 +14321,7 @@ ul.LogBar li a {
         color: white;
         border: 1px solid #155f7c;
         border-top-color: #1c80a8;
-        width: 266px !important;
+        width: 100% !important;
         height: 42px;
         border: none;
         margin-top: 10px;
@@ -14234,7 +14388,8 @@ ul.LogBar li a {
         width: 100% !important;
         height: 80px !important;
         margin-top: 12px !important;
-        margin-right: 3px !important;clear:right;
+        margin-right: 3px !important;
+        clear: right;
     }
 
     .divDontHaveAccont {
@@ -14250,7 +14405,8 @@ ul.LogBar li a {
         -webkit-border-radius: 5px;
         -khtml-border-radius: 5px;
         border-radius: 5px;
-        margin-bottom:5px;
+        margin-bottom: 5px;
+        clear: right;
     }
 
     .cntRegisterFN {
@@ -14282,9 +14438,13 @@ ul.LogBar li a {
         text-decoration: underline;
         font-size: 11px;
         font-weight: bold;
-        background-color: #f3f3f3;
-        color: black;
-        /*margin-left: 5px;*/
+        background-color: #00B4FF;
+        border-color: #00B4FF;
+        border-radius: 5px;
+        color: white;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .tdDelivery {
@@ -14344,7 +14504,7 @@ ul.LogBar li a {
 
     .cnttotals {
         width: 55%;
-        float: left;
+        float: right;
         text-align: right;
         line-height: 1.5;
     }
@@ -14368,11 +14528,11 @@ ul.LogBar li a {
         font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
-        width: 90px;
+        width: 20%;
     }
 
     .DownloadExmContainer {
-        border-bottom: 3px dotted #428bca;
+        border-bottom: 3px dotted #E83E46;
         font-size: 17px;
         text-align: left;
         width: 150px;
@@ -14385,6 +14545,7 @@ ul.LogBar li a {
         font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
+        width: 70%;
     }
 
     .add_to_cart_btn {
@@ -14402,7 +14563,7 @@ ul.LogBar li a {
     }
 
     .width50p {
-        width: 295px;
+        width: 250px;
     }
 
     .GetTouchBoxContainer {
@@ -14417,6 +14578,107 @@ ul.LogBar li a {
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+    .upload-panel-margin {
+        margin-left: 0px;
+    }
+
+    .btn_brown_small {
+        font-size: 11px;
+        clear: both;
+        height: 27px;
+        background: #cfcfcd;
+        text-align: center;
+        cursor: pointer;
+        color: black;
+        width: 160px;
+        border: none;
+    }
+
+    .profile-menu {
+        width: 167px;
+        left: -65px;
+        background-color: #FFFFFF;
+        border: none;
+        -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+        top: 50px;
+        position: absolute;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        font-size: 14px;
+        text-align: left;
+        list-style: none;
+        z-index: 1000;
+    }
+
+    .product-detail-banner-slider {
+        width: 100%;
+        height: 420px;
+    }
+
+    .product-detail-slider {
+        width: 100% !important;
+        height: 380px !important;
+    }
+
+    .cntDesignGuidLines {
+        width: 100%;
+    }
+
+    .artworkarrow {
+        margin-left: 0px;
+    }
+
+    .BreadCrumbMenu {
+        text-align: left !important;
+    }
+
+    .BillShipAddressesControl {
+        width: 350px;
+    }
+
+    .order_history_btn {
+        height: 33px;
+        border: 0px;
+        text-align: center;
+        color: white;
+        width: 62px;
+        cursor: pointer;
+        background-color: #E83e48;
+        font-size: 16px;
+        line-height: inherit;
+    }
+
+    .text_box150 {
+        border: 1px solid #c1c6cc;
+        font-size: 13px;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        width: 100%;
+        color: black;
+    }
+
+    .dashboardIcons {
+        padding-top: 7px;
+        box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
+        background: white;
+        border-radius: 33px;
+        color: #E83e48;
+        font-size: 25px;
+        text-align: center;
+    }
+
+    .exit_container_RQ {
+        margin-top: -65px;
+        margin-right: -65px;
+        float: right;
+    }
+
+    #USerInfoContainer {
+        width: inherit;
+    }
+
     .cartli {
         display: block;
     }
@@ -14454,10 +14716,11 @@ ul.LogBar li a {
 
     ul.LogBar {
         /* font-weight: bold;*/
-        float: left;
+        float: right;
         list-style: none;
-        margin-top: 10px;
-        width: 440px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        width: 100%;
     }
 
     .tooltipCheckoutAvenior {
@@ -14664,6 +14927,7 @@ ul.LogBar li a {
 
     #CollapseBtn {
         display: block;
+        margin-top: 0px;
     }
 
     .cnttemporary {
@@ -14757,16 +15021,17 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 160px !important;
+        width: 155px !important;
         margin-top: -25px;
         font-size: 12px;
     }
 
     .PriceTableCs {
         margin-top: 5px !important;
-        width: 481px;
-        padding: 0px !important;
+        width: 100% !important;
+        padding-right: 0px !important;
         margin-left: 0px;
+        padding-left: 15px !important;
     }
 
     .add_to_cart_btn {
@@ -14784,7 +15049,7 @@ ul.LogBar li a {
     }
 
     .DownloadExmContainer {
-        border-bottom: 3px dotted #428bca;
+        border-bottom: 3px dotted #E83E46;
         font-size: 15px;
         text-align: left;
         width: 150px;
@@ -14803,20 +15068,20 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-        width: 290px !important;
-        float: left;
-        min-height: 145px;
+        width: 100% !important;
+        float: none;
+        height: auto;
     }
 
     .cntuploadfilebtns {
-        width: 150px !important;
-        text-align: left !important;
+        width: 100% !important;
+        text-align: center !important;
     }
 
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 481px !important;
+        width: 100% !important;
         text-align: left;
         margin-top: 10px;
     }
@@ -14825,7 +15090,7 @@ ul.LogBar li a {
         margin-top: 10px;
         margin-left: 5px;
         text-align: left;
-        width: 300px !important;
+        width: 100% !important;
     }
 
     .RfgImgCs {
@@ -14835,30 +15100,30 @@ ul.LogBar li a {
     }
 
     .StocksDelivryContainer {
-        margin-top: -30px;
+        margin-top: 0px;
         float: left;
         padding-right: 0px !important;
-        width: 481px !important;
+        width: 100% !important;
         padding-left: 0px;
     }
 
     .width730 {
-        width: 481px !important;
+        width: 100% !important;
     }
 
     .divStk {
-        width: 471px !important;
+        width: 100% !important;
         vertical-align: top;
         float: left;
         /* padding: 10px; */
     }
 
     .width50p {
-        width: 450px;
+        width: 100%;
     }
 
     .height490 {
-        height: 400px !important;
+        max-height: 400px !important;
     }
 
     .Categorytitle {
@@ -14874,19 +15139,23 @@ ul.LogBar li a {
         text-align: center !important;
         text-transform: uppercase;
         margin-bottom: 20px;
+        display: none;
     }
 
     .start_creating_btn_SApp {
-        background: #E83e48;
+        background: green;
         background-repeat: no-repeat;
         height: 34px;
         border: 0px;
-        /* font-weight: bold; padding: 0px 30px 0px 5px;*/
+        text-transform: uppercase;
         color: White;
-        border: 1px solid #1A567E;
         cursor: pointer;
         width: 180px;
         margin-top: 10px;
+        font-weight: bold;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .S_C_UP_VD_MesgBox {
@@ -14909,34 +15178,47 @@ ul.LogBar li a {
         position: absolute;
         margin-left: 365px;
         margin-top: 2px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .silver_back_button {
         border: none;
         height: 25px;
-        width: 100px;
+        width: 222px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: rgb(102,102,102);
+        color: #E83e48;
         background: none;
         text-decoration: underline;
         text-align: left;
         font-size: 13px;
         font-weight: bold;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        position: absolute;
+        margin-top: -10px;
     }
 
     .silver_back_button_remove {
         border: none;
         height: 25px;
-        width: 60px;
+        width: 188px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: rgb(102,102,102);
+        color: #E83e48;
         background: none;
         text-decoration: underline;
         text-align: left;
         font-size: 13px;
         font-weight: bold;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        position: absolute;
+        margin-top: -20px;
     }
 
     .fntQtyPrice {
@@ -15000,7 +15282,7 @@ ul.LogBar li a {
 
     .cnttotals {
         width: 30%;
-        float: left;
+        float: right;
         text-align: right;
         line-height: 1.5;
     }
@@ -15017,9 +15299,13 @@ ul.LogBar li a {
         text-decoration: underline;
         font-size: 11px;
         font-weight: bold;
-        background-color: #f3f3f3;
-        color: black;
-        /*margin-left: 5px;*/
+        background-color: #00B4FF;
+        border-color: #00B4FF;
+        border-radius: 5px;
+        color: white;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .footer_left_portion_division {
@@ -15100,17 +15386,20 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
-        background-color: #E83e48;
+        background-color: #ffdd0c;
         height: 35px;
         width: 198px !important;
         border: 0px;
         font-size: 13px;
-        /* font-weight: bold; padding: 0px 30px 0px 11px;*/
-        color: White;
+        font-weight: bold;
+        color: black;
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .start_creating_btn_prodDetail_blk {
@@ -15126,6 +15415,9 @@ ul.LogBar li a {
         margin-bottom: 30px;
         text-transform: uppercase;
         cursor: pointer;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .text_box185_ProdDesgn {
@@ -15156,9 +15448,6 @@ ul.LogBar li a {
 
     .shopReceiptBillToHeading {
         color: #333333;
-        font-family: 'Open Sans Condensed', sans-serif;
-        font-style: normal;
-        font-weight: bold;
         font-size: 20px !important;
     }
 
@@ -15174,17 +15463,18 @@ ul.LogBar li a {
         color: #666666;
         clear: both;
         height: 34px;
-        background: url('sprite.png') -271px -492px;
-        /* background: url('sprite.png') -289px -492px; padding: 5px 20px 5px 20px;*/
-        background-repeat: repeat-x;
-        border: 1px solid #adadad;
-        /* font-weight: bold;*/
+        background-color: #cccccc;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
         text-transform: uppercase;
         cursor: pointer;
         color: White;
         width: 180px;
         font-weight: bold;
         margin-right: 3px;
+        border: none;
+        font-size: 12px;
     }
 
     .p_dl_s_box_60 {
@@ -15223,7 +15513,7 @@ ul.LogBar li a {
     }
 
     .cntwidthProductDetailOnlinePrice {
-        width: 481px !important;
+        width: 100% !important;
     }
 
     .Background-lg {
@@ -15254,6 +15544,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
+        height: 440px;
     }
 
     .CAT_Body {
@@ -15283,8 +15574,8 @@ ul.LogBar li a {
     .cntParentCategDesc {
         width: auto !important;
         text-align: left;
-        font-size: 13px;
-        color: #042F42;
+        font-size: 15px;
+        color: black;
         margin-bottom: 30px;
         line-height: 1.9;
     }
@@ -15294,6 +15585,7 @@ ul.LogBar li a {
         font-size: 13px !important;
         padding-bottom: 5px;
         color: black;
+        cursor: pointer;
     }
 
 
@@ -15436,6 +15728,7 @@ ul.LogBar li a {
     .cntTopLevelCategory {
         /*position: relative !important;*/
         margin-top: 20px;
+        width: 100%;
     }
 
     .Top_Cat_Body {
@@ -15589,7 +15882,8 @@ ul.LogBar li a {
         -webkit-border-radius: 5px;
         -khtml-border-radius: 5px;
         border-radius: 5px;
-        margin-bottom:10px;
+        margin-bottom: 10px;
+        clear: right;
     }
 
     .cntRegisterFN {
@@ -15679,6 +15973,90 @@ ul.LogBar li a {
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .upload-panel-margin {
+        margin-left: 0px;
+    }
+
+    .btn_brown_small {
+        font-size: 11px;
+        clear: both;
+        height: 27px;
+        background: #cfcfcd;
+        text-align: center;
+        cursor: pointer;
+        color: black;
+        width: 160px;
+        border: none;
+    }
+
+    .product-detail-banner-slider {
+        width: 670px;
+        height: 420px;
+    }
+
+    .product-detail-slider {
+        width: 650px !important;
+        height: 380px !important;
+    }
+
+    .cntDesignGuidLines {
+        width: 66%;
+    }
+
+    .artworkarrow {
+        margin-left: 20px;
+    }
+
+    .BreadCrumbMenu {
+        text-align: center !important;
+    }
+
+    .BillShipAddressesControl {
+        width: 350px;
+    }
+
+    .order_history_btn {
+        height: 33px;
+        border: 0px;
+        text-align: center;
+        color: white;
+        width: 62px;
+        cursor: pointer;
+        background-color: #E83e48;
+        font-size: 16px;
+        line-height: inherit;
+    }
+
+    .text_box150 {
+        border: 1px solid #c1c6cc;
+        font-size: 13px;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        width: 100%;
+        color: black;
+    }
+
+    .dashboardIcons {
+        padding-top: 7px;
+        box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
+        background: white;
+        border-radius: 33px;
+        color: #E83e48;
+        font-size: 25px;
+        text-align: center;
+    }
+
+    .exit_container_RQ {
+        margin-top: -83px;
+        margin-right: -65px;
+        float: right;
+    }
+
+    #USerInfoContainer {
+        width: inherit;
+    }
+
     .cartli {
         display: none;
     }
@@ -15718,7 +16096,8 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         float: left;
         list-style: none;
-        margin-top: 10px;
+        margin-top: 0px;
+        margin-bottom: 0px;
         width: inherit;
     }
 
@@ -15761,7 +16140,7 @@ ul.LogBar li a {
 
     .copyTerms {
         color: white;
-        margin-left: 0px;
+        margin-left: 10px;
         font-size: 12px;
     }
 
@@ -15811,10 +16190,6 @@ ul.LogBar li a {
         margin-right: 0px;
     }
 
-    .copyTerms {
-        color: white;
-        margin-left: 69px;
-    }
 
     .orederPCnt {
         float: left;
@@ -16111,7 +16486,13 @@ ul.LogBar li a {
 
     #CollapseBtn {
         display: block;
+        margin-top: 10px;
     }
+
+        #CollapseBtn:hover {
+            display: block;
+            margin-top: 10px;
+        }
 
     .cnttemporary {
         display: block;
@@ -16191,7 +16572,7 @@ ul.LogBar li a {
 
     .cntTopLevelCategory {
         /*position: relative;*/
-        width: 641px;
+        width: 100%;
         margin-top: 20px;
     }
 
@@ -16297,7 +16678,7 @@ ul.LogBar li a {
 
     .PriceTableCs {
         margin-top: 5px !important;
-        width: 100%;
+        width: 100% !important;
         padding: 0px !important;
         margin-left: 0px;
     }
@@ -16320,7 +16701,7 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 160px !important;
+        width: 155px !important;
         margin-top: -25px;
         font-size: 12px;
     }
@@ -16330,10 +16711,11 @@ ul.LogBar li a {
         font-size: 11px;
         margin-bottom: 5px;
         line-height: 2;
+        width: 70%;
     }
 
     .DownloadExmContainer {
-        border-bottom: 3px dotted #428bca;
+        border-bottom: 3px dotted #E83E46;
         font-size: 15px;
         text-align: left;
         width: 150px;
@@ -16346,15 +16728,16 @@ ul.LogBar li a {
         font-size: 11px;
         margin-bottom: 5px;
         line-height: 2;
-        width: 90px;
+        width: 20%;
     }
 
     .UploadsGuidLineContainer {
-        margin-top: -2px;
+        /*margin-top: -2px;
         position: absolute !important;
-        margin-left: 430px !important;
+        margin-left: 430px !important;*/
         text-align: left;
         float: right !important;
+        width: 200px;
     }
 
     .UploadPanel {
@@ -16368,14 +16751,14 @@ ul.LogBar li a {
     }
 
     .cntuploadfilebtns {
-        width: 144px !important;
-        text-align: left !important;
+        width: 100% !important;
+        text-align: center !important;
     }
 
     .rptContainers {
-        width: 465px !important;
-        float: left;
-        min-height: 145px;
+        width: 100% !important;
+        float: none;
+        height: auto;
     }
 
     .UploadContainerCs {
@@ -16408,7 +16791,7 @@ ul.LogBar li a {
     }
 
     .divStk {
-        width: 631px !important;
+        width: 100% !important;
         vertical-align: top;
         float: left;
         /* padding: 10px; */
@@ -16419,7 +16802,7 @@ ul.LogBar li a {
     }
 
     .StocksDelivryContainer {
-        margin-top: -30px;
+        margin-top: 0px;
         float: left;
         padding-right: 0px !important;
         width: 100% !important;
@@ -16439,19 +16822,23 @@ ul.LogBar li a {
         text-align: center !important;
         text-transform: uppercase;
         margin-bottom: 20px;
+        display: none;
     }
 
     .start_creating_btn_SApp {
-        background: #E83e48;
+        background: green;
         background-repeat: no-repeat;
         height: 34px;
         border: 0px;
-        /* font-weight: bold; padding: 0px 30px 0px 5px;*/
+        text-transform: uppercase;
         color: White;
-        border: 1px solid #1A567E;
         cursor: pointer;
-        width: 180px;
-        margin-top: 10px;
+        width: 165px;
+        margin-top: 0px;
+        font-weight: bold;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .S_C_UP_VD_MesgBox {
@@ -16474,34 +16861,64 @@ ul.LogBar li a {
         position: absolute;
         margin-left: 505px;
         margin-top: 2px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .silver_back_button {
         border: none;
-        height: 25px;
-        width: 100px;
+        height: 40px;
+        width: 173px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: rgb(102,102,102);
+        color: #E83e48;
         background: none;
-        text-decoration: underline;
-        text-align: left;
+        text-decoration: none;
+        text-align: center;
         font-size: 13px;
         font-weight: bold;
+        /* background: green; */
+        word-wrap: normal;
+        border-radius: 5px;
+        text-decoration: underline;
+        padding-left: 0px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        position: relative;
+        margin-top: 0px;
+    }
+
+    .silver_back_button {
+        background: none;
     }
 
     .silver_back_button_remove {
         border: none;
-        height: 25px;
-        width: 60px;
+        height: 37px;
+        width: 170px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: rgb(102,102,102);
+        color: #E83e48;
         background: none;
-        text-decoration: underline;
-        text-align: left;
+        text-decoration: none;
+        text-align: center;
         font-size: 13px;
         font-weight: bold;
+        word-wrap: normal;
+        border-radius: 5px;
+        text-decoration: underline;
+        padding-left: 0px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        position: relative;
+        margin-top: 0px;
+    }
+
+    .silver_back_button_remove {
+        background: none;
     }
 
     .fntQtyPrice {
@@ -16565,14 +16982,14 @@ ul.LogBar li a {
 
     .cnttotals {
         width: 30%;
-        float: left;
+        float: right;
         text-align: right;
         line-height: 1.5;
     }
 
     .cnttotalPayables {
         float: right;
-        width: 45%;
+        width: 28%;
     }
 
     .tdDelivery {
@@ -16582,7 +16999,7 @@ ul.LogBar li a {
     }
 
     .cntsubHeadings {
-        width: 55% !important;
+        width: 33% !important;
         float: left;
     }
 
@@ -16603,8 +17020,8 @@ ul.LogBar li a {
     }
 
     .footer_left_portion_division {
-        min-height: 265px;
-        width: 335px;
+        min-height: 285px;
+        width: 320px;
     }
 
     .top_sub_section {
@@ -16677,17 +17094,20 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
-        background-color: #E83e48;
+        background-color: #ffdd0c;
         height: 35px;
         width: 182px !important;
         border: 0px;
         font-size: 13px;
-        /* font-weight: bold; padding: 0px 30px 0px 11px;*/
-        color: White;
+        font-weight: bold;
+        color: black;
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .start_creating_btn_prodDetail_blk {
@@ -16703,6 +17123,9 @@ ul.LogBar li a {
         margin-bottom: 30px;
         text-transform: uppercase;
         cursor: pointer;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .text_box185_ProdDesgn {
@@ -16718,10 +17141,7 @@ ul.LogBar li a {
 
     .shopReceiptBillToHeading {
         color: #333333;
-        font-family: 'Open Sans Condensed', sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 20px !important;
+        font-size: 13px !important;
     }
 
     .shopReceiptOrderDetails {
@@ -16732,21 +17152,22 @@ ul.LogBar li a {
     }
 
     .btn_brown {
-        margin-top: 10px !important;
+        margin-top: 0px !important;
         color: #666666;
         clear: both;
         height: 34px;
-        background: url('sprite.png') -271px -492px;
-        /* background: url('sprite.png') -289px -492px; padding: 5px 20px 5px 20px;*/
-        background-repeat: repeat-x;
-        border: 1px solid #adadad;
-        /* font-weight: bold;*/
+        background-color: #cccccc;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
         text-transform: uppercase;
         cursor: pointer;
         color: White;
         width: 180px;
         font-weight: bold;
         margin-right: 3px;
+        font-size: 12px;
+        border: none;
     }
 
     .p_dl_s_box_60 {
@@ -16820,7 +17241,7 @@ ul.LogBar li a {
     }
 
     .height490 {
-        height: 390px !important;
+        max-height: 390px !important;
     }
 
 
@@ -16840,6 +17261,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
+        height: 440px;
     }
 
     .CAT_Body {
@@ -16869,8 +17291,8 @@ ul.LogBar li a {
     .cntParentCategDesc {
         width: auto !important;
         text-align: left;
-        font-size: 13px;
-        color: #042F42;
+        font-size: 15px;
+        color: black;
         margin-bottom: 30px;
         line-height: 1.9;
     }
@@ -16879,6 +17301,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 13px !important;
         padding-bottom: 5px;
+        cursor: pointer;
     }
 
 
@@ -17006,7 +17429,7 @@ ul.LogBar li a {
     }*/
 
     .hyPrivacyP {
-        margin-left: 70px !important;
+        margin-left: 10px !important;
         color: white;
     }
 
@@ -17148,7 +17571,7 @@ ul.LogBar li a {
         height: 80px !important;
         margin-top: 12px !important;
         margin-right: 3px !important;
-        clear:right;
+        clear: right;
     }
 
     .divDontHaveAccont {
@@ -17165,17 +17588,20 @@ ul.LogBar li a {
         -khtml-border-radius: 5px;
         border-radius: 5px;
         margin-bottom: 10px;
+        clear: right;
     }
 
     .cntRegisterFN {
         width: 100% !important;
         float: none !important;
         margin-right: 0px !important;
+        clear: both;
     }
 
     .cntRegisterLN {
         width: 100% !important;
         float: none !important;
+        clear: both;
     }
 
     .registerAccountBtn {
@@ -17196,8 +17622,13 @@ ul.LogBar li a {
         text-decoration: underline;
         font-size: 13px;
         font-weight: bold;
-        background-color: #f3f3f3;
-        color: black;
+        background-color: #00B4FF;
+        border-color: #00B4FF;
+        border-radius: 5px;
+        color: white;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .dropdown290 {
@@ -17226,2781 +17657,91 @@ ul.LogBar li a {
 
 
 
-@media (min-width:961px) { /* big landscape tablets, laptops, and desktops */
-    .copyTerms {
-        color: white;
-        margin-left: 0px;
-    }
-
-    .heightauto {
-        height: auto !important;
-        padding-left: 0px;
-    }
-
-    .widthAvenior {
-        width: 500px;
-    }
-
-    .pink_company_top_logo {
-        height: 50px;
-        max-width: 290px;
-    }
-
-    .SpecsContainer {
-        /*width: 200px;*/
-        height: initial;
-        overflow: hidden;
-        color: #716C61;
-        margin: 5px 0px 5px 0px;
-        line-height: 1.5;
-    }
-
-    .feedEkList .itemTitle {
-        text-align: left;
+@media (min-width:992px) {
+    .upload-panel-margin {
         margin-left: 10px;
-        float: left;
-        clear: right;
-        width: 330px;
     }
 
-    .TopHeaderMenu a {
-        margin-right: 7px;
-        margin-left: 7px;
-    }
-
-    #CollapseBtn {
-        display: none;
-    }
-
-    .cnttemporary {
-        display: block;
-    }
-
-    .QCMainContainer {
-        display: block;
-    }
-
-    .TopHeaderMenu {
-        position: relative;
-        z-index: 1;
-        color: #ab406d;
-        font-size: 13px;
-        margin-top: 12px;
-        margin-right: 0px;
-        vertical-align: middle;
-    }
-
-    .BD_Featured {
-        float: left;
-        text-align: center;
-        margin-top: 0px;
-        width: 240px;
-        margin-left: 0px;
-        /* border: 10px;
-	border-style: solid;
-	border-color: transparent;
-	margin-left: 5px;*/
-        margin-right: 10px;
-        margin-bottom: 10px;
-    }
-
-    #MainContent_Label1 {
-        visibility: hidden;
-    }
-
-    .GetTouchBoxContainer {
-        width: 235px;
-        /*
-    margin-left: 8px;
-    margin-right: 8px;*/
-        display: inline-block;
-        vertical-align: top;
-    }
-
-    .width50p {
-        width: 230px;
-    }
-
-
-    .add_to_cart_btn {
-        border: 0px;
-        height: 35px;
-        width: 145px;
-        cursor: pointer;
-        background-position: -298px -663px;
-        background-color: #E83e48;
-        height: 34px;
-        border: 0px;
-        color: White;
-        margin-right: 0px;
-        margin-top: 0px;
-    }
-
-    .GLHeadDescContainer {
-        text-align: left;
-        font-size: 12px;
-        margin-bottom: 5px;
-        line-height: 2;
-    }
-
-    .DownloadExmContainer {
-        border-bottom: 3px dotted #428bca;
-        font-size: 17px;
-        text-align: left;
-        width: 150px;
-        padding-bottom: 5px;
-        margin-bottom: 15px;
-    }
-
-    .GLHeadingContainer {
-        text-align: left;
-        font-size: 12px;
-        margin-bottom: 5px;
-        line-height: 2;
-        width: 90px;
-    }
-
-    .height490 {
-        height: 400px !important;
-    }
-
-    .Categorytitle {
-        -webkit-user-select: text;
-        color: rgb(33, 31, 31);
-        display: block;
-        font-family: 'Avenir Next LT W01 Bold';
-        font-size: 31px;
-        font-style: normal;
-        font-weight: normal !important;
-        /*height: 70px;*/
-        line-height: 71px;
-        text-align: center !important;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-    }
-
-    .start_creating_btn_SApp {
-        background: #E83e48;
-        background-repeat: no-repeat;
-        height: 34px;
-        border: 0px;
-        /* font-weight: bold; padding: 0px 30px 0px 5px;*/
-        color: White;
-        border: 1px solid #1A567E;
-        cursor: pointer;
-        width: 180px;
-        margin-top: 0px;
-    }
-
-    .S_C_UP_VD_MesgBox {
-        margin-top: 50px;
-        margin-left: 400px;
-        position: absolute;
-    }
-
-    #pnlRemoveCartItem {
-        width: 500px;
-    }
-
-    .start_creating_btn_EmailProof {
-        background: url('sprite.png') -269px -492px;
-        background-repeat: no-repeat;
-        height: 37px;
-        border: 0px;
-        text-align: center;
-        /* font-weight: bold;padding: 0px 30px 0px 30px; border: 1px solid #1A567E;*/
-        color: White;
-        width: 190px;
-        cursor: pointer;
-        font-weight: bold;
-        position: absolute;
-        margin-left: 790px;
-        margin-top: 2px;
-    }
-
-    .silver_back_button {
-        border: none;
-        height: 25px;
-        width: 100px;
-        cursor: pointer;
-        margin-bottom: 10px;
-        color: rgb(102,102,102);
-        background: none;
-        text-decoration: underline;
-        text-align: left;
-        font-size: 13px;
-        font-weight: bold;
-    }
-
-    .silver_back_button_remove {
-        border: none;
-        height: 25px;
-        width: 65px;
-        cursor: pointer;
-        margin-bottom: 10px;
-        color: rgb(102,102,102);
-        background: none;
-        text-decoration: underline;
-        text-align: left;
-        font-size: 13px;
-        font-weight: bold;
-    }
-
-    .fntQtyPrice {
-        font-size: 14px !important;
-    }
-
-    .gridViewHeaderStyle {
-        font-style: normal;
-        /* font-weight: bold;*/
-        font-size: 14px !important;
-        line-height: 12px;
-        background-color: #333333;
-        height: 42px;
-        color: white;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        -khtml-border-radius: 10px;
-        border-radius: 10px;
-    }
-
-    .gridViewCheckoutHeaderStyle {
-        font-style: normal;
-        /* font-weight: bold;*/
-        font-size: 14px !important;
-        line-height: 12px;
-        background-color: #333333;
-        height: 42px;
-        color: white;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        -khtml-border-radius: 10px;
-        border-radius: 10px;
-    }
-
-    .heading_16 {
-        /* font-weight: bold;*/
-        font-size: 16px !important;
-    }
-
-    .BtnTemplateModifyContainer {
-        padding-top: 9px;
-        margin-left: 20px !important;
-    }
-
-    .cart_grid_image_container {
-        /*width: 140px;*/
-        width: 50%;
-        margin-left: 25px !important;
-        margin-bottom: 10px;
-    }
-
-    .MLeft17 {
-        margin-left: 17px !important;
-    }
-
-    .shopCartCheckOutbt {
-        margin-right: 3px;
-        margin-bottom: 10px;
-        margin-top: 0px !important;
-    }
-
-    .cnttotals {
-        width: 30%;
-        float: left;
-        text-align: right;
-        line-height: 1.5;
-    }
-
-    .cnttotalPayables {
-        float: right;
-        width: 45%;
-    }
-
-    .dropdown290 {
-        width: 280px !important;
-        margin: 0;
-        border: 1px solid #ccc5b9;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-border-radius: 4px;
-        border-radius: 4px;
-        background-color: white;
-        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
-        color: #66615b;
-        font-size: 18px;
-        padding: 13px 0px !important;
-        outline: none !important;
-        -webkit-transition: background-color;
-        -moz-transition: background-color;
-        -o-transition: background-color;
-        -ms-transition: background-color;
-        transition: background-color;
-        margin-bottom: 10px;
-    }
-
-    .silver_back_button_modify {
-        border: none;
-        height: 25px;
-        width: 98px !important;
+    .btn_brown_small {
+        font-size: 11px;
+        clear: both;
+        height: 27px;
+        background: #cfcfcd;
         text-align: center;
         cursor: pointer;
-        margin-bottom: 10px;
-        color: rgb(102,102,102);
-        background: none;
-        text-decoration: underline;
-        font-size: 13px;
-        font-weight: bold;
-        background-color: #f3f3f3;
         color: black;
+        width: 310px;
+        border: none;
     }
 
-    .tdDelivery {
-        /*width: 312px;*/
-        float: left;
-        width: 60% !important;
+    .product-detail-banner-slider {
+        width: 670px;
+        height: 420px;
     }
 
-    .cntsubHeadings {
-        margin-left: -22px;
-        width: 30% !important;
-        float: left;
-    }
-
-    .cntdispatchDelivery {
-        width: 52% !important;
-        float: left;
-    }
-
-    .tdDispatchDate {
-        /*width: 90px;*/
-        width: 40%;
-        float: left !important;
-        line-height: 4;
-    }
-
-    .dropdown_sec {
-        margin-left: 0px !important;
-    }
-
-    .loader {
-        position: fixed;
-        z-index: 999;
-        top: 45%;
-        left: 33%;
-        z-index: 10000;
-        width: 500px;
-    }
-
-    .temSelPnlTxtBck {
-        width: 472px !important;
-        clear: both;
-    }
-
-    .temSelPnlTxt {
-        width: 500px !important;
-        clear: both;
-    }
-
-    .footer_left_portion_division {
-        min-height: 265px;
-        width: 240px;
-    }
-
-    .designTutorials .TblMSRightDiv .EditorPickRItem .EditorPickRItemEditorChoice {
-        width: 220px !important;
-    }
-
-    .designtutorialHeadingDiv {
-        width: 190px !important;
-    }
-
-    .top_sub_section {
-        border-bottom: 0px solid #eaeaea;
-        border-top: 0px solid #eaeaea;
-        background-color: white;
-        -moz-border-top-right-radius: 5px !important;
-        -webkit-border-top-right-radius: 5px !important;
-        -khtml-border-top-right-radius: 5px !important;
-        border-top-right-radius: 5px !important;
-        border-bottom-right-radius: 5px !important;
-        -moz-border-bottom-right-radius: 5px !important;
-        -webkit-border-bottom-right-radius: 5px !important;
-        -khtml-border-bottom-right-radius: 5px !important;
-        border-bottom-left-radius: 5px !important;
-        -moz-border-bottom-left-radius: 5px !important;
-        -webkit-border-bottom-left-radius: 5px !important;
-        -khtml-border-bottom-left-radius: 5px !important;
-        -moz-border-top-left-radius: 5px !important;
-        -webkit-border-top-left-radius: 5px !important;
-        -khtml-border-top-left-radius: 5px !important;
-        border-top-left-radius: 5px !important;
-    }
-
-    .PDTC_Temp {
-        min-height: 208px;
-        width: auto;
-        padding: 1px;
-        /*background-color: #AAAAAA;*/
-        cursor: pointer;
-        margin-left: 7px;
-    }
-
-    .FI_Temp {
-        height: 208px;
-        width: 320px !important;
-    }
-
-    .BD_Temp {
-        /*float: left;*/
-        border: 5px;
-        border-style: solid;
-        border-color: transparent;
-        text-align: center;
-        margin-top: 5px;
-        width: 322px !important;
-        margin-right: 16px;
-        /*margin-left: 10px; width: 295px;*/
-        /*margin-bottom: 10px;*/
-    }
-
-    #pnlTempDetailSelection {
-        width: 717px !important;
-        min-height: 483px;
-        margin: auto;
-        margin-top: 0px;
-        margin-bottom: 16px;
-        padding: 10px;
-    }
-
-    .templateDetailContainer {
-        margin: auto;
-        width: 746px !important;
-        /*width: 833px;*/
-    }
-
-    .scrollImgContainer {
-        margin: 0 auto;
-        width: 760px;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        text-align: center;
-        min-height: 600px;
-    }
-
-    .mainPopUp {
-        width: 500px !important;
-    }
-
-    .height40_LP {
-        width: 160px !important;
-        margin-top: -25px;
-        font-size: 12px;
-    }
-
-    .DeleteIconPP {
-        margin-left: 125px !important;
-        margin-top: -15px;
-        clear: both;
-        width: 18px;
-        position: absolute;
-    }
-
-    .BD_PCS {
-        float: left;
-        text-align: center;
-        width: 160px !important;
-        margin-right: 1px;
-        margin-left: 5px;
-        margin-bottom: 10px;
-    }
-
-    .cntuploadfilebtns {
-        width: auto !important;
-        text-align: left !important;
-    }
-
-    .UploadsGuidLineContainer {
-        margin-top: -2px;
-        position: absolute !important;
-        margin-left: 470px !important;
-        text-align: left;
-        float: right !important;
-    }
-
-    .UploadPanel {
-        width: 680px !important;
-        max-height: 700px;
-        -moz-border-radius: 0px !important;
-        -webkit-border-radius: 0px !important;
-        -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
-    }
-    /* big landscape tablets, laptops, and desktops */
-
-    .UploadContainerCs {
-        color: #042F42;
-        font-size: 23px;
-        width: 100% !important;
-        text-align: left;
-        margin-top: 10px;
-    }
-
-    .RfgImgCs {
-        margin-top: 10px;
-        max-height: 65px !important;
-    }
-
-    .Width220pxM250px {
-        width: 349px !important;
-        margin-left: 248px !important;
-    }
-
-    .margin0-sm {
-        margin-top: 50px !important;
-    }
-
-    .divBottomBtns {
-        text-align: left !important;
-    }
-
-    .BreadCrumbMenu {
-        text-shadow: 0 -1px 0 rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.4);
-        padding: 10px 0px 10px 0px;
-        color: #042F42;
-        font-size: 22px !important;
-        /*margin-bottom: 15px;*/
-        font-family: sans-serif !important;
-        margin-top: 10px;
-    }
-
-    .BreadCrumbMenuItem {
-        color: #042F42;
-        float: left;
-        font-size: 22px !important;
-        font-family: sans-serif !important;
-    }
-
-    .full_img_ThumbnailPath {
-        max-width: 100%;
-        max-height: 185px;
-        border: 0px;
-        background-color: transparent !important;
-        -moz-border-radius: 0px !important;
-        -webkit-border-radius: 0px !important;
-        -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
-    }
-
-    .freetutorialsImg {
-        width: 170px !important;
-    }
-
-    .mainDivRelativeContainer {
-        margin-top: -47px !important;
-        margin-bottom: 65px;
-    }
-
-    .EditorPickRItem DIV {
-        width: 100px;
-    }
-
-    .EditorPickRItemEditorChoice {
-        width: 100px;
-    }
-
-    .MenuSliderContainer {
-        width: 1000px !important;
-        margin: auto;
-        height: 65px;
-    }
-
-    .SliderContainer {
-        width: 1000px !important;
-        margin: auto;
-    }
-
-    .MenuSliderContainerContainer {
-        position: absolute !important;
-        overflow: hidden;
-        left: 0px;
-        height: 100%;
-        background-color: #f068a6;
-        z-index: 98;
-        margin-top: -30px;
-        width: 100% !important;
-    }
-
-    .featureproductContainer {
-        min-height: 280px;
-        margin-top: 25px;
-        padding: 10px;
-        padding-left: 0px !important;
-        width: auto !important;
-    }
-
-    .TblMSRightDiv {
-        display: inline;
-        float: left;
-        width: 1000px !important;
-        text-align: left;
-        vertical-align: top;
-        margin-top: 25px;
-        padding: 10px;
-    }
-
-    .RSSWidget {
-        width: 1000px !important;
-        min-height: 275px;
-        float: left;
-        /*background: rgba(175, 110, 172, 0.10);*/
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
-        margin-right: 20px;
-        /*border: 0px solid rgb(233, 231, 231); */
-        margin-top: 10px;
-        color: white;
-    }
-
-    .RSSContainer {
-        margin-top: 10px !important;
-        margin-bottom: 10px !important;
-        width: 1000px !important;
-        margin: auto;
-    }
-
-    .SavedDesignsWidget {
-        margin-top: 10px;
-        margin-bottom: 40px;
-        padding-left: 10px;
-        padding-right: 10px;
-        float: left;
-        width: 1000px !important;
-        height: 650px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
-        clear: left;
-        text-align: left;
-    }
-
-    .freedesigns {
-        font-weight: normal;
-        width: 247px;
-        font-size: 40px;
-        /* text-align: center; */
-        margin-left: 35% !important;
-        color: white;
-    }
-
-    .EditorPickRItem {
-        display: inline;
-        float: left;
-        width: 161px !important;
-        min-height: 175px;
-        text-align: center;
-        color: white;
-    }
-
-    .EditorPickRItemEditorChoice {
-        display: inline;
-        float: left;
-        width: 161px !important;
-        min-height: 175px;
-        text-align: center;
-        color: white;
-    }
-
-    .controldiv {
-        position: absolute;
-        clear: both;
-    }
-
-    .EditorsPickContainer {
-        width: 1000px !important;
-    }
-
-    .SubscribeTxtBoxCS {
-        width: 245px !important;
-        margin-right: 20px;
-        margin-top: 5px !important;
-        padding: 5px;
-        margin-bottom: 0px !important;
-    }
-
-    .NewsLtrTxtBxContCS {
-        margin-bottom: 15px;
-        text-align: center !important;
-    }
-
-    .subscribe_sec {
-        padding-top: 10px;
-        background-color: transparent;
-        background-image: none !important;
-        margin: auto;
-        border: none !important;
-        width: 1000px !important;
-    }
-
-    .lblPhoneNo {
-        margin-top: 6px !important;
-        vertical-align: top;
-        width: auto;
-        display: inline-block;
-        margin-right: 0px !important;
-    }
-
-    .liMarginRight {
-        margin-right: 45px !important;
-    }
-
-    #menu-my-account {
-        list-style: none;
-        z-index: 1000;
-        float: right;
-        margin-right: 5px !important;
-    }
-
-
-    .divStk {
-        width: 100% !important;
-        vertical-align: top;
-        float: left;
-    }
-
-    .width730 {
-        width: 100% !important;
-    }
-
-    .width365pxM250p {
-        width: 100% !important;
-        /*margin-left: 127px;*/
-        margin-top: 25px;
-    }
-
-    .rptContainers {
-        width: 500px !important;
-        float: left;
-        min-height: 145px;
-    }
-
-    .PriceTableCs {
-        margin-top: -30px !important;
-        width: 260px;
-        padding: 0px !important;
-        margin-left: 10px;
-    }
-
-    .noFloatSm {
-        float: left !important;
-    }
-
-    .search_box {
-        width: 200px !important;
-        background-color: #eeeeee;
-    }
-
-    .divHalfRightProfile {
-        float: left;
-        /*width: 700px;*/
-        text-align: left;
-        padding-left: 107px !important;
-    }
-
-    .cntHalfRightProfile {
-        float: left;
-        /*width: 700px;*/
-        text-align: left;
-        padding-left: 125px !important;
-    }
-
-    .CkOutBrokerLlogo {
-        height: 70px;
-        width: 180px;
-        margin-bottom: 10px;
-        float: left !important;
-    }
-
-    .productDetailSilderFG {
+    .product-detail-slider {
         width: 650px !important;
         height: 380px !important;
     }
 
-    .btn_upload_design_Prod_details {
-        background-position: -56px -673px;
-        color: White;
-        /* font-weight: bold; padding: 0px 30px 0px 11px; border: 1px solid #1A567E;*/
-        height: 35px;
-        width: 180px !important;
-        border: 0px;
-        background-color: #E83e48;
-        cursor: pointer;
-        font-size: 13px;
-        text-align: center;
-        text-transform: uppercase;
-        font-weight: bold;
+    .cntDesignGuidLines {
+        width: 66%;
     }
 
-    .start_creating_btn_prodDetail_orng {
-        background-color: #E83e48;
-        height: 35px;
-        width: 180px !important;
-        border: 0px;
-        font-size: 13px;
-        /* font-weight: bold; padding: 0px 30px 0px 11px;*/
-        color: White;
-        text-align: center;
-        text-transform: uppercase;
-        cursor: pointer;
-        margin-bottom: 30px;
-    }
-
-    .start_creating_btn_prodDetail_blk {
-        background: url('sprite.png') -267px -491px;
-        background-repeat: repeat-x;
-        height: 35px;
-        width: 180px !important;
-        border: 0px;
-        font-size: 13px;
-        /* font-weight: bold; padding: 0px 30px 0px 11px;border: 1px solid #1A567E;*/
-        color: White;
-        text-align: center;
-        margin-bottom: 30px;
-        text-transform: uppercase;
-        cursor: pointer;
-    }
-
-    .text_box185_ProdDesgn {
-        border: 1px solid #c1c6cc;
-        font-size: 13px;
-        padding-bottom: 5px;
-        padding-right: 5px;
-        padding-top: 5px;
-        background-image: url('Images/text_box_back.png');
-        background-repeat: repeat-x;
-        width: 100px !important;
-    }
-
-    .ScrollImgTitlePort {
-        padding-top: 0px !important;
-        position: relative;
-        z-index: 1000;
-        bottom: 20px;
-        opacity: 0.7;
-        left: 7px;
-        width: 250px !important;
-        background: #444;
-        color: white;
-        overflow: hidden;
-        visibility: hidden;
-        height: 15px;
-    }
-
-    .shopReceiptBillToHeading {
-        line-height: 33px;
-        color: #333333;
-        font-family: 'Open Sans Condensed', sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 13px !important;
-    }
-
-    .shopReceiptOrderDetails {
-        width: 100px;
-        text-align: right !important;
-        float: left;
-        clear: both;
-    }
-
-    .btn_brown {
-        margin-top: 0px !important;
-        color: #666666;
-        clear: both;
-        height: 34px;
-        background: url('sprite.png') -271px -492px;
-        /* background: url('sprite.png') -289px -492px; padding: 5px 20px 5px 20px;*/
-        background-repeat: repeat-x;
-        border: 1px solid #adadad;
-        /* font-weight: bold;*/
-        text-transform: uppercase;
-        cursor: pointer;
-        color: White;
-        width: 180px;
-        font-weight: bold;
-        margin-right: 3px;
-    }
-
-    .ScrollImgContainer2 img {
-        border: 5px solid #eeeeee;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        width: 250px !important;
-        height: auto;
-        max-height: 300px;
-        min-height: 159px;
-        display: block;
-        z-index: 100;
-        margin-top: 0px;
-        margin-bottom: 0px;
-        margin-left: 3px;
-    }
-
-    .p_dl_s_box_60 {
-        text-align: center !important;
-        background-color: #f3f3f3;
-        /*width: 1000px;*/
-        /*min-height: 60px;
-    padding-top: 10px;*/
-        padding-bottom: 5px;
-        margin: auto;
-        /*margin-top: 50px;*/
-    }
-
-    .p_box_600_width {
-        width: 600px !important;
-        margin: auto;
-    }
-
-    .matching_set_image_horizontal {
-        width: 120px !important;
-    }
-
-    .matching_set_image_vertical {
-        height: 120px !important;
-    }
-
-    .matching_set_image_fixed {
-        width: 120px !important;
-        height: 120px;
-    }
-
-    .order_container {
-        background-color: #EEEEEE;
-        width: 100% !important;
-        padding: 5px;
-    }
-
-    .cntwidthProductDetailOnlinePrice {
-        width: 665px !important;
-    }
-
-    .Background-lg {
-        background-color: transparent !important;
-    }
-
-    .Background-sm {
-        background-color: #f3f3f3 !important;
-    }
-
-    .cntwidthProductDetailDesc {
-        width: 665px !important;
-    }
-
-    #slider img {
-        position: absolute;
-        border: none;
-        display: none;
-        max-height: 400px;
-        max-width: 650px !important;
-    }
-
-    #slider {
-        width: 430px !important;
-        height: 375px !important; /* Make it the same size as your images */
-        background: #fff url('../images/loading45_slider.gif') no-repeat;
-        position: relative;
-        margin: 0 auto; /*make the image slider center-aligned   box-shadow: 0px 1px 5px #999999;*/
-        background-size: contain !important;
-        background-position: center !important;
-    }
-
-    .BD_CatProducts {
-        float: left;
-        border: 0px;
-        border-style: solid;
-        border-color: transparent;
-        text-align: center;
-        margin-top: 0px;
-        width: 240px;
-        margin-right: 12px;
-        /*margin-left: 5px; border: 10px;*/
-        margin-bottom: 50px;
-        background-color: transparent !important;
-        -moz-border-radius: 0px !important;
-        -webkit-border-radius: 0px !important;
-        -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
-    }
-
-    .CAT_Body {
-        float: left;
-        border: none;
-        text-align: center;
-        margin-top: 0px;
-        width: 240px;
-        margin-right: 8px;
-        /*margin-left: 5px;*/
-        margin-bottom: 50px;
-        background-color: transparent !important;
-        -moz-border-radius: 0px !important;
-        -webkit-border-radius: 0px !important;
-        -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
-        min-height: 315px;
-    }
-
-    .CAT_ThumbnailPath {
-        max-width: 100%;
-        max-height: 166px;
-        border: 0px;
-    }
-
-    .cntParentCategDesc {
-        width: 650px !important;
-        text-align: left;
-        font-size: 13px;
-        color: #042F42;
-        margin-bottom: 30px;
-        line-height: 1.9;
-    }
-
-    .dashboard_item_main_heading {
-        /* font-weight: bold;*/
-        font-size: 13px !important;
-        padding-bottom: 5px;
-        color: black;
-    }
-
-
-
-    .dashboard_item_detail {
-        font-size: 12px !important;
-        color: #666666;
-    }
-
-        .dashboard_item_detail:link {
-            font-size: 12px !important;
-            color: #666666;
-        }
-
-    .contact_log {
-        height: 63px !important;
-        width: 65px !important;
-    }
-
-    .dashboard_logo_des_div {
-        width: 275px !important;
-        float: left;
-        text-align: left;
-        padding: 10px 0px 0px 10px;
-        cursor: pointer;
-        height: 50px;
-    }
-
-    .cntDashboardItems {
-        float: left;
-        width: 400px !important;
-        margin-left: 35px !important;
-    }
-
-    .cntDashboardItemsSP {
-        float: left;
-        width: 400px !important;
-        margin-left: 35px !important;
-    }
-
-    .padding50 {
-        padding: 50px 50px 25px 50px !important;
-    }
-
-    .sign_up_page_box {
-        padding: 20px !important;
-    }
-
-    .smallTxtBox {
-        margin: 0;
-        border: 1px solid #ccc5b9;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-border-radius: 4px;
-        border-radius: 4px;
-        background-color: #fffefd;
-        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
-        color: #66615b;
-        font-size: 18px;
-        padding: 13px 18px !important;
-        outline: none !important;
-        -webkit-transition: background-color;
-        -moz-transition: background-color;
-        -o-transition: background-color;
-        -ms-transition: background-color;
-        transition: background-color;
-        margin-bottom: 10px;
-        width: 190px !important;
-    }
-
-    .container {
-        width: 961px !important;
-    }
-
-    .PinkSearchHeight {
-        height: 75px !important;
-    }
-
-    .login_bar {
-        float: right !important;
-    }
-
-    .iframYtubeVideo {
-        width: 480px !important;
-    }
-
-    .collapseMenu {
-        display: none;
-    }
-
-    .collapsedMenu {
-        display: none;
-    }
-
-    .nearestOutlettxt {
-        margin-left: 30px !important;
-    }
-
-    .hyPrivacyP {
-        margin-left: 35px !important;
-        color: white;
-    }
-
-    .hyperTermCond {
-        margin-left: 43px !important;
-        display: initial;
-        color: white;
-        line-height: 0;
-    }
-
-
-
-    /*.content_area
-    {
-        width: 1000px;
-        margin: auto;
-        border: 0px solid orange;
-    }*/
-
-
-
-    .footerLogoContainer {
-        float: left;
-    }
-
-    /*.payment_sec
-    {
-        float: left;
-        margin-left: 125px;
-    }*/
-
-    /*.social_icons
-    {
-        float: right;
-    }*/
-
-    .footer_sub_height {
-        text-align: left;
-    }
-
-    .Top_Cat_Body {
-        margin-left: 15px;
-        float: left;
-        border: 1px;
-        /*border-style: solid;
-	border-color: #F9F9F9;*/
-        text-align: center;
-        width: 145px !important;
-        margin-right: 0px !important;
-        margin-bottom: 9px !important;
-        background-color: transparent;
-        transition: all 0.4s ease-in-out 0s;
-        -webkit-transition: all 0.4s ease-in-out 0s;
-        -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
-    }
-
-    .FI_TL {
-        height: 186px;
-        width: auto !important;
-    }
-
-    .cntTopLevelCategory {
-        /*position: absolute !important;*/
-        margin-top: 20px;
-        /*margin-left: 15px;*/
-        width: 961px;
-    }
-
-
-
-    .needHelpBox {
-        border: 0px solid rgb(233, 231, 231) !important;
-        margin-top: 2px !important;
-        margin-bottom: 20px;
-        float: left;
-        min-height: 260px;
-        border-image: none;
-    }
-
-    #MainContent_ctl07_controlBodyDiv {
-        margin-top: 0px !important;
-        border-top: 0px solid #e7e7e7 !important;
-    }
-
-    .cntSignInWithSocialinks {
-        text-align: center;
-        width: 400px !important;
-        float: left;
-    }
-
-    .connectWithfb {
-        cursor: pointer;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        -khtml-border-radius: 2px;
-        border-radius: 2px;
-        background-repeat: no-repeat;
-        width: 300px !important;
-        height: 42px;
-        border: none;
-        background-color: #43609b;
-        background: -webkit-linear-gradient(#5678bc, #314a7b);
-        background: linear-gradient(#5678bc, #314a7b);
-        border: 1px solid #293f69;
-        border-top-color: #314a7b;
-        color: white;
-        font-size: 17px;
-    }
-
-    .connectWithtwitter {
-        font-size: 17px;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        -khtml-border-radius: 2px;
-        border-radius: 2px;
-        background-color: #3fa7d0;
-        background: -webkit-linear-gradient(#5fbee4, #2091bd);
-        background: linear-gradient(#5fbee4, #2091bd);
-        border: 1px solid #1c80a8;
-        border-top-color: #2091bd;
-        color: white;
-        border: 1px solid #155f7c;
-        border-top-color: #1c80a8;
-        width: 300px !important;
-        height: 42px;
-        border: none;
-        margin-top: 10px;
-        text-align: left;
-        padding-left: 67px;
-        cursor: pointer;
-    }
-
-    .txtBoxLoginPage {
-        margin: 0;
-        border: 1px solid #ccc5b9;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-border-radius: 4px;
-        border-radius: 4px;
-        background-color: white;
-        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
-        color: #66615b;
-        font-size: 18px;
-        padding: 13px 18px !important;
-        outline: none !important;
-        -webkit-transition: background-color;
-        -moz-transition: background-color;
-        -o-transition: background-color;
-        -ms-transition: background-color;
-        transition: background-color;
-        margin-bottom: 10px;
-        width: 400px !important;
-    }
-
-    .white-container-lightgrey-border {
-        padding: 10px !important;
-        position: relative;
-        display: block;
-        background-color: White;
-        border: 4px solid #F3F3F3;
-        margin-top: 20px;
-        text-align: left;
-    }
-
-    #MainContent_lgnctrl_cntOrBottom {
-        /*width: 400px !important;*/
-        text-align: center;
-        margin-top: 30px;
-    }
-
-    .divwidthset {
-        /*margin-left: 408px;*/
-        float: right;
-        width: 11em !important;
-        margin-right: 90px !important;
-    }
-
-    .divwidth {
-        float: left;
-        width: 15em !important;
-        padding-top: 0.5em;
-    }
-
-    .containerRegisternow {
-        float: right;
-        width: 270px !important;
-        height: 50px !important;
-        margin-top: 72px !important;
-        margin-right: 43px !important;
-    }
-
-    .divDontHaveAccont {
-        float: right;
-        padding-top: 10px;
-        padding-bottom: 40px;
-        padding-left: 40px !important;
-        padding-right: 40px !important;
-        height: 195px;
-        background-color: #f3f3f3;
-        margin-right: 10px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
-    }
-
-    .cntRegisterFN {
-        width: 190px !important;
-        float: left !important;
-        margin-right: 20px !important;
-    }
-
-    .cntRegisterLN {
-        width: 190px !important;
-        float: left !important;
-    }
-
-    .registerAccountBtn {
-        float: right;
-        margin-right: 30px !important;
-        margin-top: 20px;
-    }
-}
-
-@media (min-width:992px) { /* big landscape tablets, laptops, and desktops */
-    .heightauto {
-        height: auto !important;
-        padding-left: 0px;
-    }
-
-    .widthAvenior {
-        width: 500px;
-    }
-
-    .phone_number_sec {
-        color: #042F42;
-        font-size: 22px;
-        margin-top: 0px;
-        text-align: left;
-        margin-top: 0px;
-        float: right;
-        display: none;
-    }
-
-    .BannerBakImage {
-        display: block !important;
-        background: transparent url('/StoredImages/PageBanners/a22d4e7d-f8a0-48cb-993e-e8d3ebe58c3f_HomePageBanner.png') no-repeat center center;
-        /*background-size: auto 498px;*/
-        height: 623px;
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .pink_company_top_logo {
-        height: 50px;
-        max-width: 290px;
-    }
-
-    .SpecsContainer {
-        /*width: 200px;*/
-        height: initial;
-        overflow: hidden;
-        color: #716C61;
-        margin: 5px 0px 5px 0px;
-        line-height: 1.5;
-    }
-
-    .feedEkList .itemTitle {
-        text-align: left;
-        margin-left: 10px;
-        float: left;
-        clear: right;
-        width: 330px;
-    }
-
-    .TopHeaderMenu a {
-        margin-right: 5px;
-        margin-left: 7px;
-    }
-
-    #CollapseBtn {
-        display: none;
-    }
-
-    .cnttemporary {
-        display: block;
-    }
-
-    .QCMainContainer {
-        display: block;
-    }
-
-    .TopHeaderMenu {
-        display: block;
-        position: relative;
-        z-index: 1;
-        color: #ab406d;
-        font-size: 13px;
-        margin-top: 12px;
-        margin-right: 0px;
-        vertical-align: middle;
-    }
-
-    .BD_Featured {
-        float: left;
-        text-align: center;
-        margin-top: 0px;
-        width: 200px;
-        margin-left: 0px;
-        /* border: 10px;
-	border-style: solid;
-	border-color: transparent;
-	margin-left: 5px;*/
-        margin-right: 10px;
-        margin-bottom: 10px;
-    }
-
-        .BD_Featured:hover {
-            background-color: #d6d6d6 !important;
-            -moz-border-radius: 10px !important;
-            -webkit-border-radius: 10px !important;
-            -khtml-border-radius: 10px !important;
-            border-radius: 10px !important;
-        }
-
-
-
-    #MainContent_Label1 {
-        visibility: hidden;
-    }
-
-    .GetTouchBoxContainer {
-        width: 235px;
-        /*
-    margin-left: 8px;
-    margin-right: 8px;*/
-        display: inline-block;
-        vertical-align: top;
-    }
-
-    .width50p {
-        width: 230px;
-    }
-
-
-    .add_to_cart_btn {
-        border: 0px;
-        height: 35px;
-        width: 145px;
-        cursor: pointer;
-        background-position: -298px -663px;
-        background-color: #E83e48;
-        height: 34px;
-        border: 0px;
-        color: White;
-        margin-right: 0px;
-        margin-top: 0px;
-    }
-
-    .GLHeadDescContainer {
-        text-align: left;
-        font-size: 12px;
-        margin-bottom: 5px;
-        line-height: 2;
-    }
-
-    .DownloadExmContainer {
-        border-bottom: 3px dotted #428bca;
-        font-size: 17px;
-        text-align: left;
-        width: 150px;
-        padding-bottom: 5px;
-        margin-bottom: 15px;
-    }
-
-    .GLHeadingContainer {
-        text-align: left;
-        font-size: 12px;
-        margin-bottom: 5px;
-        line-height: 2;
-        width: 90px;
-    }
-
-    .height490 {
-        height: 400px !important;
-    }
-
-    .Categorytitle {
-        -webkit-user-select: text;
-        color: rgb(33, 31, 31);
-        display: block;
-        font-family: 'Avenir Next LT W01 Bold';
-        font-size: 31px;
-        font-style: normal;
-        font-weight: normal !important;
-        /*height: 70px;*/
-        line-height: 71px;
-        text-align: center !important;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-    }
-
-    .start_creating_btn_SApp {
-        background: #E83e48;
-        background-repeat: no-repeat;
-        height: 34px;
-        border: 0px;
-        /* font-weight: bold; padding: 0px 30px 0px 5px;*/
-        color: White;
-        border: 1px solid #1A567E;
-        cursor: pointer;
-        width: 180px;
-        margin-top: 0px;
-    }
-
-    .S_C_UP_VD_MesgBox {
-        margin-top: 50px;
-        margin-left: 400px;
-        position: absolute;
-    }
-
-    #pnlRemoveCartItem {
-        width: 500px;
-    }
-
-    .start_creating_btn_EmailProof {
-        background: url('sprite.png') -269px -492px;
-        background-repeat: no-repeat;
-        height: 37px;
-        border: 0px;
-        text-align: center;
-        /* font-weight: bold;padding: 0px 30px 0px 30px; border: 1px solid #1A567E;*/
-        color: White;
-        width: 190px;
-        cursor: pointer;
-        font-weight: bold;
-        position: absolute;
-        margin-left: 790px;
-        margin-top: 2px;
-    }
-
-    .silver_back_button {
-        border: none;
-        height: 25px;
-        width: 100px;
-        cursor: pointer;
-        margin-bottom: 10px;
-        color: rgb(102,102,102);
-        background: none;
-        text-decoration: underline;
-        text-align: left;
-        font-size: 13px;
-        font-weight: bold;
-    }
-
-    .silver_back_button_remove {
-        border: none;
-        height: 25px;
-        width: 60px;
-        cursor: pointer;
-        margin-bottom: 10px;
-        color: rgb(102,102,102);
-        background: none;
-        text-decoration: underline;
-        text-align: left;
-        font-size: 13px;
-        font-weight: bold;
-    }
-
-    .fntQtyPrice {
-        font-size: 14px !important;
-    }
-
-    .gridViewHeaderStyle {
-        font-style: normal;
-        /* font-weight: bold;*/
-        font-size: 14px !important;
-        line-height: 12px;
-        background-color: #333333;
-        height: 42px;
-        color: white;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        -khtml-border-radius: 10px;
-        border-radius: 10px;
-    }
-
-    .gridViewCheckoutHeaderStyle {
-        font-style: normal;
-        /* font-weight: bold;*/
-        font-size: 14px !important;
-        line-height: 12px;
-        background-color: #333333;
-        height: 42px;
-        color: white;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        -khtml-border-radius: 10px;
-        border-radius: 10px;
-    }
-
-
-    .heading_16 {
-        /* font-weight: bold;*/
-        font-size: 16px !important;
-    }
-
-    .BtnTemplateModifyContainer {
-        padding-top: 9px;
-        margin-left: 20px !important;
-    }
-
-    .cart_grid_image_container {
-        /*width: 140px;*/
-        width: 50%;
-        margin-left: 25px !important;
-        margin-bottom: 10px;
-    }
-
-    .MLeft17 {
-        margin-left: 17px !important;
-    }
-
-    .shopCartCheckOutbt {
-        margin-right: 3px;
-        margin-bottom: 10px;
-        margin-top: 0px !important;
-    }
-
-    .cnttotals {
-        width: 30%;
-        float: left;
-        text-align: right;
-        line-height: 1.5;
-    }
-
-    .cnttotalPayables {
-        float: right;
-        width: 45%;
-    }
-
-    .dropdown290 {
-        width: 280px !important;
-        margin: 0;
-        border: 1px solid #ccc5b9;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-border-radius: 4px;
-        border-radius: 4px;
-        background-color: white;
-        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
-        color: #66615b;
-        font-size: 18px;
-        padding: 13px 0px !important;
-        outline: none !important;
-        -webkit-transition: background-color;
-        -moz-transition: background-color;
-        -o-transition: background-color;
-        -ms-transition: background-color;
-        transition: background-color;
-        margin-bottom: 10px;
-    }
-
-    .silver_back_button_modify {
-        border: none;
-        height: 25px;
-        width: 98px !important;
-        text-align: center;
-        cursor: pointer;
-        margin-bottom: 10px;
-        color: rgb(102,102,102);
-        background: none;
-        text-decoration: underline;
-        font-size: 13px;
-        font-weight: bold;
-        background-color: #f3f3f3;
-        color: black;
-    }
-
-    .tdDelivery {
-        /*width: 312px;*/
-        float: left;
-        width: 60% !important;
-    }
-
-    .cntsubHeadings {
-        margin-left: -22px;
-        width: 30% !important;
-        float: left;
-    }
-
-    .cntdispatchDelivery {
-        width: 52% !important;
-        float: left;
-    }
-
-    .tdDispatchDate {
-        /*width: 90px;*/
-        width: 40%;
-        float: left !important;
-        line-height: 4;
-    }
-
-    .dropdown_sec {
-        margin-left: 0px !important;
-    }
-
-    .loader {
-        position: fixed;
-        z-index: 999;
-        top: 45%;
-        left: 33%;
-        z-index: 10000;
-        width: 500px;
-    }
-
-    .temSelPnlTxtBck {
-        width: 472px !important;
-        clear: both;
-    }
-
-    .temSelPnlTxt {
-        width: 500px !important;
-        clear: both;
-    }
-
-    .footer_left_portion_division {
-        min-height: 310px;
-        width: 252px;
-    }
-
-    .designTutorials .TblMSRightDiv .EditorPickRItem .EditorPickRItemEditorChoice {
-        width: 220px !important;
-    }
-
-    .designtutorialHeadingDiv {
-        width: 147px !important;
-    }
-
-    .top_sub_section {
-        border-bottom: 0px solid #eaeaea;
-        border-top: 0px solid #eaeaea;
-        background-color: white;
-        -moz-border-top-right-radius: 5px !important;
-        -webkit-border-top-right-radius: 5px !important;
-        -khtml-border-top-right-radius: 5px !important;
-        border-top-right-radius: 5px !important;
-        border-bottom-right-radius: 5px !important;
-        -moz-border-bottom-right-radius: 5px !important;
-        -webkit-border-bottom-right-radius: 5px !important;
-        -khtml-border-bottom-right-radius: 5px !important;
-        border-bottom-left-radius: 5px !important;
-        -moz-border-bottom-left-radius: 5px !important;
-        -webkit-border-bottom-left-radius: 5px !important;
-        -khtml-border-bottom-left-radius: 5px !important;
-        -moz-border-top-left-radius: 5px !important;
-        -webkit-border-top-left-radius: 5px !important;
-        -khtml-border-top-left-radius: 5px !important;
-        border-top-left-radius: 5px !important;
-    }
-
-    .PDTC_Temp {
-        min-height: 208px;
-        width: auto;
-        padding: 1px;
-        /*background-color: #AAAAAA;*/
-        cursor: pointer;
-        margin-left: 7px;
-    }
-
-    .FI_Temp {
-        height: 208px;
-        width: 320px !important;
-    }
-
-    .BD_Temp {
-        /*float: left;*/
-        border: 5px;
-        border-style: solid;
-        border-color: transparent;
-        text-align: center;
-        margin-top: 5px;
-        width: 322px !important;
-        margin-right: 16px;
-        /*margin-left: 10px; width: 295px;*/
-        /*margin-bottom: 10px;*/
-    }
-
-    #pnlTempDetailSelection {
-        width: 717px !important;
-        min-height: 483px;
-        margin: auto;
-        margin-top: 0px;
-        margin-bottom: 16px;
-        padding: 10px;
-    }
-
-    .templateDetailContainer {
-        margin: auto;
-        width: 746px !important;
-        /*width: 833px;*/
-    }
-
-    .scrollImgContainer {
-        margin: 0 auto;
-        width: 760px;
-        -moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
-        text-align: center;
-        min-height: 600px;
-    }
-
-    .mainPopUp {
-        width: 500px !important;
-    }
-
-    .height40_LP {
-        width: 160px !important;
-        margin-top: -25px;
-        font-size: 12px;
-    }
-
-    .DeleteIconPP {
-        margin-left: 125px !important;
-        margin-top: -15px;
-        clear: both;
-        width: 18px;
-        position: absolute;
-    }
-
-    .BD_PCS {
-        float: left;
-        text-align: center;
-        width: 160px !important;
-        margin-right: 1px;
-        margin-left: 5px;
-        margin-bottom: 10px;
-    }
-
-    .cntuploadfilebtns {
-        width: auto !important;
-        text-align: left !important;
-    }
-
-    .UploadsGuidLineContainer {
-        margin-top: -2px;
-        position: absolute !important;
-        margin-left: 470px !important;
-        text-align: left;
-        float: right !important;
-    }
-
-    .UploadPanel {
-        width: 680px !important;
-        max-height: 700px;
-        -moz-border-radius: 0px !important;
-        -webkit-border-radius: 0px !important;
-        -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
-    }
-    /* big landscape tablets, laptops, and desktops */
-
-    .UploadContainerCs {
-        color: #042F42;
-        font-size: 23px;
-        width: 100% !important;
-        text-align: left;
-        margin-top: 10px;
-    }
-
-    .RfgImgCs {
-        margin-top: 10px;
-        max-height: 65px !important;
-    }
-
-    .Width220pxM250px {
-        width: 349px !important;
-        margin-left: 248px !important;
-    }
-
-    .margin0-sm {
-        margin-top: 50px !important;
-    }
-
-    .divBottomBtns {
-        text-align: left !important;
+    .artworkarrow {
+        margin-left: 20px;
     }
 
     .BreadCrumbMenu {
-        text-shadow: 0 -1px 0 rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.4);
-        padding: 10px 0px 10px 0px;
-        color: #042F42;
-        font-size: 22px !important;
-        /*margin-bottom: 15px;*/
-        font-family: sans-serif !important;
-        margin-top: 10px;
-    }
-
-    .BreadCrumbMenuItem {
-        color: #042F42;
-        float: left;
-        font-size: 22px !important;
-        font-family: sans-serif !important;
-    }
-
-    .full_img_ThumbnailPath {
-        max-width: 100%;
-        max-height: 185px;
-        border: 0px;
-        background-color: transparent !important;
-        -moz-border-radius: 0px !important;
-        -webkit-border-radius: 0px !important;
-        -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
-    }
-
-    .freetutorialsImg {
-        width: 150px !important;
-    }
-
-    .mainDivRelativeContainer {
-        margin-top: -47px !important;
-        margin-bottom: 65px;
-    }
-
-    .EditorPickRItem DIV {
-        width: 100px;
-    }
-
-    .EditorPickRItemEditorChoice {
-        width: 100px;
-    }
-
-    .MenuSliderContainer {
-        width: 1000px !important;
-        margin: auto;
-        height: 65px;
-    }
-
-    .SliderContainer {
-        width: 1000px !important;
-        margin: auto;
-    }
-
-    .MenuSliderContainerContainer {
-        position: absolute !important;
-        overflow: hidden;
-        left: 0px;
-        height: 100%;
-        background-color: #f068a6;
-        z-index: 98;
-        margin-top: -30px;
-        width: 100% !important;
-    }
-
-    .featureproductContainer {
-        min-height: 280px;
-        margin-top: 25px;
-        padding: 10px;
-        padding-left: 0px !important;
-        width: auto !important;
-    }
-
-    .TblMSRightDiv {
-        display: inline;
-        float: left;
-        width: 1000px !important;
-        text-align: left;
-        vertical-align: top;
-        margin-top: 25px;
-        padding: 10px;
-    }
-
-    .RSSWidget {
-        width: 1000px !important;
-        min-height: 275px;
-        float: left;
-        /*background: rgba(175, 110, 172, 0.10);*/
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
-        margin-right: 20px;
-        /*border: 0px solid rgb(233, 231, 231); */
-        margin-top: 10px;
-        color: white;
-    }
-
-    .RSSContainer {
-        margin-top: 10px !important;
-        margin-bottom: 10px !important;
-        width: 1000px !important;
-        margin: auto;
-    }
-
-    .SavedDesignsWidget {
-        margin-top: 10px;
-        margin-bottom: 40px;
-        padding-left: 10px;
-        padding-right: 10px;
-        float: left;
-        width: 1000px !important;
-        height: 650px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
-        clear: left;
-        text-align: left;
-    }
-
-    .freedesigns {
-        font-weight: normal;
-        width: 247px;
-        font-size: 40px;
-        /* text-align: center; */
-        margin-left: 35% !important;
-        color: white;
-    }
-
-    .EditorPickRItem {
-        display: inline;
-        float: left;
-        width: 160px !important;
-        min-height: 175px;
-        text-align: center;
-        color: white;
-    }
-
-    .EditorPickRItemEditorChoice {
-        display: inline;
-        float: left;
-        width: 161px !important;
-        min-height: 175px;
-        text-align: center;
-        color: white;
-    }
-
-    .controldiv {
-        position: absolute;
-        clear: both;
-    }
-
-    .EditorsPickContainer {
-        width: 1000px !important;
-    }
-
-    .SubscribeTxtBoxCS {
-        width: 245px !important;
-        margin-right: 20px;
-        margin-top: 5px !important;
-        padding: 5px;
-        margin-bottom: 0px !important;
-    }
-
-    .NewsLtrTxtBxContCS {
-        margin-bottom: 15px;
         text-align: center !important;
     }
 
-    .subscribe_sec {
-        padding-top: 10px;
-        background-color: transparent;
-        background-image: none !important;
-        margin: auto;
-        border: none !important;
-        width: 1000px !important;
+    .BillShipAddressesControl {
+        width: 350px;
     }
 
-    .lblPhoneNo {
-        margin-top: 3px !important;
-        vertical-align: top;
-        width: auto;
-        display: inline-block;
-        margin-right: 0px !important;
-    }
-
-    .liMarginRight {
-        margin-right: 45px !important;
-    }
-
-    #menu-my-account {
-        list-style: none;
-        z-index: 1000;
-        float: right;
-        margin-right: 5px !important;
-    }
-
-
-    .divStk {
-        width: 100% !important;
-        vertical-align: top;
-        float: left;
-    }
-
-    .width730 {
-        width: 100% !important;
-    }
-
-    .width365pxM250p {
-        width: 100% !important;
-        /*margin-left: 127px;*/
-        margin-top: 25px;
-    }
-
-    .rptContainers {
-        width: 500px !important;
-        float: left;
-        min-height: 145px;
-    }
-
-    .PriceTableCs {
-        margin-top: -30px !important;
-        width: 260px;
-        padding: 0px !important;
-        margin-left: 10px;
-    }
-
-    .noFloatSm {
-        float: left !important;
-    }
-
-    .search_box {
-        width: 200px !important;
-        background-color: #eeeeee;
-    }
-
-    .divHalfRightProfile {
-        float: left;
-        /*width: 700px;*/
-        text-align: left;
-        padding-left: 107px !important;
-    }
-
-    .cntHalfRightProfile {
-        float: left;
-        /*width: 700px;*/
-        text-align: left;
-        padding-left: 125px !important;
-    }
-
-    .CkOutBrokerLlogo {
-        height: 70px;
-        width: 180px;
-        margin-bottom: 10px;
-        float: left !important;
-    }
-
-    .productDetailSilderFG {
-        width: 650px !important;
-        height: 380px !important;
-    }
-
-    .btn_upload_design_Prod_details {
-        background-position: -56px -673px;
-        color: White;
-        /* font-weight: bold; padding: 0px 30px 0px 11px; border: 1px solid #1A567E;*/
-        height: 35px;
-        width: 180px !important;
+    .order_history_btn {
+        height: 33px;
         border: 0px;
+        text-align: center;
+        color: white;
+        width: 100px;
+        cursor: pointer;
         background-color: #E83e48;
-        cursor: pointer;
-        font-size: 13px;
-        text-align: center;
-        text-transform: uppercase;
-        font-weight: bold;
+        font-size: 16px;
+        line-height: inherit;
     }
 
-    .start_creating_btn_prodDetail_orng {
-        background-color: #E83e48;
-        height: 35px;
-        width: 180px !important;
-        border: 0px;
-        font-size: 13px;
-        /* font-weight: bold; padding: 0px 30px 0px 11px;*/
-        color: White;
-        text-align: center;
-        text-transform: uppercase;
-        cursor: pointer;
-        margin-bottom: 30px;
-    }
-
-    .start_creating_btn_prodDetail_blk {
-        background: url('sprite.png') -267px -491px;
-        background-repeat: repeat-x;
-        height: 35px;
-        width: 180px !important;
-        border: 0px;
-        font-size: 13px;
-        /* font-weight: bold; padding: 0px 30px 0px 11px;border: 1px solid #1A567E;*/
-        color: White;
-        text-align: center;
-        margin-bottom: 30px;
-        text-transform: uppercase;
-        cursor: pointer;
-    }
-
-    .text_box185_ProdDesgn {
+    .text_box150 {
         border: 1px solid #c1c6cc;
         font-size: 13px;
-        padding-bottom: 5px;
-        padding-right: 5px;
-        padding-top: 5px;
+        padding: 5px;
         background-image: url('Images/text_box_back.png');
         background-repeat: repeat-x;
-        width: 100px !important;
-    }
-
-    .ScrollImgTitlePort {
-        padding-top: 0px !important;
-        position: relative;
-        z-index: 1000;
-        bottom: 20px;
-        opacity: 0.7;
-        left: 7px;
-        width: 250px !important;
-        background: #444;
-        color: white;
-        overflow: hidden;
-        visibility: hidden;
-        height: 15px;
-    }
-
-    .shopReceiptBillToHeading {
-        line-height: 33px;
-        color: #333333;
-        font-family: 'Open Sans Condensed', sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 13px !important;
-    }
-
-    .shopReceiptOrderDetails {
-        width: 100px;
-        text-align: right !important;
-        float: left;
-        clear: both;
-    }
-
-    .btn_brown {
-        margin-top: 0px !important;
-        color: #666666;
-        clear: both;
-        height: 34px;
-        background: url('sprite.png') -271px -492px;
-        /* background: url('sprite.png') -289px -492px; padding: 5px 20px 5px 20px;*/
-        background-repeat: repeat-x;
-        border: 1px solid #adadad;
-        /* font-weight: bold;*/
-        text-transform: uppercase;
-        cursor: pointer;
-        color: White;
-        width: 180px;
-        font-weight: bold;
-        margin-right: 3px;
-    }
-
-    .ScrollImgContainer2 img {
-        border: 5px solid #eeeeee;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        width: 250px !important;
-        height: auto;
-        max-height: 300px;
-        min-height: 159px;
-        display: block;
-        z-index: 100;
-        margin-top: 0px;
-        margin-bottom: 0px;
-        margin-left: 3px;
-    }
-
-    .p_dl_s_box_60 {
-        text-align: center !important;
-        background-color: #f3f3f3;
-        /*width: 1000px;*/
-        /*min-height: 60px;
-    padding-top: 10px;*/
-        padding-bottom: 5px;
-        margin: auto;
-        /*margin-top: 50px;*/
-    }
-
-    .p_box_600_width {
-        width: 600px !important;
-        margin: auto;
-    }
-
-    .matching_set_image_horizontal {
-        width: 120px !important;
-    }
-
-    .matching_set_image_vertical {
-        height: 120px !important;
-    }
-
-    .matching_set_image_fixed {
-        width: 120px !important;
-        height: 120px;
-    }
-
-    .order_container {
-        background-color: #EEEEEE;
-        width: 100% !important;
-        padding: 5px;
-    }
-
-    .cntwidthProductDetailOnlinePrice {
-        width: 665px !important;
-    }
-
-    .Background-lg {
-        background-color: transparent !important;
-    }
-
-    .Background-sm {
-        background-color: #f3f3f3 !important;
-    }
-
-    .cntwidthProductDetailDesc {
-        width: 665px !important;
-    }
-
-    #slider img {
-        position: absolute;
-        border: none;
-        display: none;
-        max-height: 400px;
-        max-width: 650px !important;
-    }
-
-    #slider {
-        width: 430px !important;
-        height: 375px !important; /* Make it the same size as your images */
-        background: #fff url('../images/loading45_slider.gif') no-repeat;
-        position: relative;
-        margin: 0 auto; /*make the image slider center-aligned   box-shadow: 0px 1px 5px #999999;*/
-        background-size: contain !important;
-        background-position: center !important;
-    }
-
-    .BD_CatProducts {
-        float: left;
-        border: 0px;
-        border-style: solid;
-        border-color: transparent;
-        text-align: center;
-        margin-top: 0px;
-        width: 240px;
-        margin-right: 12px;
-        /*margin-left: 5px; border: 10px;*/
-        margin-bottom: 50px;
-        background-color: transparent !important;
-        -moz-border-radius: 0px !important;
-        -webkit-border-radius: 0px !important;
-        -khtml-border-radius: 0px !important;
-        border-radius: 10px !important;
-    }
-
-    .CAT_Body {
-        float: left;
-        border: none;
-        text-align: center;
-        margin-top: 0px;
-        width: 240px;
-        margin-right: 8px;
-        /*margin-left: 5px;*/
-        margin-bottom: 50px;
-        background-color: transparent !important;
-        -moz-border-radius: 0px !important;
-        -webkit-border-radius: 0px !important;
-        -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
-        min-height: 315px;
-    }
-
-    .CAT_ThumbnailPath {
-        max-width: 100%;
-        max-height: 166px;
-        border: 0px;
-    }
-
-    .cntParentCategDesc {
-        width: 650px !important;
-        text-align: left;
-        font-size: 13px;
-        color: #042F42;
-        margin-bottom: 30px;
-        line-height: 1.9;
-    }
-
-    .dashboard_item_main_heading {
-        /* font-weight: bold;*/
-        font-size: 13px !important;
-        padding-bottom: 5px;
+        width: 150px;
         color: black;
     }
 
-
-
-    .dashboard_item_detail {
-        font-size: 12px !important;
-        color: #666666;
-    }
-
-        .dashboard_item_detail:link {
-            font-size: 12px !important;
-            color: #666666;
-        }
-
-    .contact_log {
-        height: 63px !important;
-        width: 65px !important;
-    }
-
-    .dashboard_logo_des_div {
-        width: 275px !important;
-        float: left;
-        text-align: left;
-        padding: 10px 0px 0px 10px;
-        cursor: pointer;
-        height: 50px;
-    }
-
-    .cntDashboardItems {
-        float: left;
-        width: 400px !important;
-        margin-left: 35px !important;
-    }
-
-    .cntDashboardItemsSP {
-        float: left;
-        width: 400px !important;
-        margin-left: 35px !important;
-    }
-
-    .padding50 {
-        padding: 50px 50px 25px 50px !important;
-    }
-
-    .sign_up_page_box {
-        padding: 20px !important;
-    }
-
-    .smallTxtBox {
-        margin: 0;
-        border: 1px solid #ccc5b9;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-border-radius: 4px;
-        border-radius: 4px;
-        background-color: #fffefd;
-        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
-        color: #66615b;
-        font-size: 18px;
-        padding: 13px 18px !important;
-        outline: none !important;
-        -webkit-transition: background-color;
-        -moz-transition: background-color;
-        -o-transition: background-color;
-        -ms-transition: background-color;
-        transition: background-color;
-        margin-bottom: 10px;
-        width: 190px !important;
-    }
-
-    .container {
-        width: 1000px !important;
-    }
-
-    .PinkSearchHeight {
-        height: 75px !important;
-    }
-
-    .login_bar {
-        float: right !important;
-        padding-right: 10px;
-    }
-
-    .iframYtubeVideo {
-        width: 480px !important;
-    }
-
-    .collapseMenu {
-        display: none;
-    }
-
-    .collapsedMenu {
-        display: none;
-    }
-
-    .nearestOutlettxt {
-        margin-left: 30px !important;
-    }
-
-    .hyPrivacyP {
-        margin-left: 150px !important;
-        color: white;
-    }
-
-    .hyperTermCond {
-        display: initial;
-        line-height: 0;
-        color: white;
-        margin-left: 43px !important;
-    }
-
-
-
-    /*.content_area
-    {
-        width: 1000px;
-        margin: auto;
-        border: 0px solid orange;
-    }*/
-
-
-
-    .footerLogoContainer {
-        float: left;
-    }
-
-    /*.payment_sec
-    {
-        float: left;
-        margin-left: 125px;
-    }*/
-
-    /*.social_icons
-    {
-        float: right;
-    }*/
-
-    .footer_sub_height {
-        text-align: left;
-    }
-
-    .Top_Cat_Body {
-        margin-left: -3px;
-        float: left;
-        border: 1px;
-        /*border-style: solid;
-	border-color: #F9F9F9;*/
+    .dashboardIcons {
+        padding-top: 7px;
+        box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
+        background: white;
+        border-radius: 33px;
+        color: #E83e48;
+        font-size: 30px;
         text-align: center;
-        /*width: auto !important;*/
-        margin-right: 0px !important;
-        margin-bottom: 9px !important;
-        background-color: transparent;
-        transition: all 0.4s ease-in-out 0s;
-        -webkit-transition: all 0.4s ease-in-out 0s;
-        -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
     }
 
-    .FI_TL {
-        height: 123px;
-        width: auto !important;
-    }
-
-    .cntTopLevelCategory {
-        /*position: absolute !important;*/
-        margin-top: 20px;
-        /*margin-left: 55px !important;*/
-        width: 1000px;
-    }
-
-
-    .needHelpBox {
-        border: 0px solid rgb(233, 231, 231) !important;
-        margin-top: 2px !important;
-        margin-bottom: 20px;
-        float: left;
-        min-height: 260px;
-        border-image: none;
-    }
-
-    #MainContent_ctl07_controlBodyDiv {
-        margin-top: 0px !important;
-        border-top: 0px solid #e7e7e7 !important;
-    }
-
-    .cntSignInWithSocialinks {
-        text-align: center;
-        width: 400px !important;
-        float: left;
-    }
-
-    .connectWithfb {
-        cursor: pointer;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        -khtml-border-radius: 2px;
-        border-radius: 2px;
-        background-repeat: no-repeat;
-        width: 300px !important;
-        height: 42px;
-        border: none;
-        background-color: #43609b;
-        background: -webkit-linear-gradient(#5678bc, #314a7b);
-        background: linear-gradient(#5678bc, #314a7b);
-        border: 1px solid #293f69;
-        border-top-color: #314a7b;
-        color: white;
-        font-size: 17px;
-    }
-
-    .connectWithtwitter {
-        font-size: 17px;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        -khtml-border-radius: 2px;
-        border-radius: 2px;
-        background-color: #3fa7d0;
-        background: -webkit-linear-gradient(#5fbee4, #2091bd);
-        background: linear-gradient(#5fbee4, #2091bd);
-        border: 1px solid #1c80a8;
-        border-top-color: #2091bd;
-        color: white;
-        border: 1px solid #155f7c;
-        border-top-color: #1c80a8;
-        width: 300px !important;
-        height: 42px;
-        border: none;
-        margin-top: 10px;
-        text-align: left;
-        padding-left: 67px;
-        cursor: pointer;
-    }
-
-    .txtBoxLoginPage {
-        margin: 0;
-        border: 1px solid #ccc5b9;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-border-radius: 4px;
-        border-radius: 4px;
-        background-color: white;
-        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
-        color: #66615b;
-        font-size: 18px;
-        padding: 13px 18px !important;
-        outline: none !important;
-        -webkit-transition: background-color;
-        -moz-transition: background-color;
-        -o-transition: background-color;
-        -ms-transition: background-color;
-        transition: background-color;
-        margin-bottom: 10px;
-        width: 400px !important;
-    }
-
-    .white-container-lightgrey-border {
-        padding: 10px !important;
-        position: relative;
-        display: block;
-        background-color: White;
-        border: 4px solid #F3F3F3;
-        margin-top: 20px;
-        text-align: left;
-    }
-
-    #MainContent_lgnctrl_cntOrBottom {
-        /*width: 400px !important;*/
-        text-align: center;
-        margin-top: 30px;
-    }
-
-    .divwidthset {
-        /*margin-left: 408px;*/
+    .exit_container_RQ {
+        margin-top: -65px;
+        margin-right: -65px;
         float: right;
-        width: 11em !important;
-        margin-right: 90px !important;
     }
 
-    .divwidth {
-        float: left;
-        width: 15em !important;
-        padding-top: 0.5em;
+    #USerInfoContainer {
+        width: inherit;
     }
 
-    .containerRegisternow {
-        float: right;
-        width: 270px !important;
-        height: 50px !important;
-        margin-top: 72px !important;
-        margin-right: 43px !important;
-    }
-
-    .divDontHaveAccont {
-        float: right;
-        padding-top: 10px;
-        padding-bottom: 40px;
-        padding-left: 40px !important;
-        padding-right: 40px !important;
-        height: 195px;
-        background-color: #f3f3f3;
-        margin-right: 10px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
-    }
-
-    .cntRegisterFN {
-        width: 190px !important;
-        float: left !important;
-        margin-right: 20px !important;
-    }
-
-    .cntRegisterLN {
-        width: 190px !important;
-        float: left !important;
-    }
-
-    .registerAccountBtn {
-        float: right;
-        margin-right: 30px !important;
-        margin-top: 20px;
-    }
-}
-
-@media (min-width:1025px) {
     .cartli {
         display: none;
     }
@@ -20016,7 +17757,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -750px;
+        margin-left: -545px;
         display: block;
     }
 
@@ -20034,6 +17775,7 @@ ul.LogBar li a {
         list-style: none;
         margin-top: 10px;
         width: inherit;
+        margin-bottom: 10px;
     }
 
     .smallContctUsAvenior {
@@ -20054,7 +17796,7 @@ ul.LogBar li a {
     .TTL_Checkout {
         text-align: left;
         margin-left: 3px;
-        float: left;
+        float: none;
         padding: inherit !important;
     }
 
@@ -20443,7 +18185,7 @@ ul.LogBar li a {
     }
 
     .StocksDelivryContainer {
-        margin-top: -30px;
+        margin-top: 0px;
         float: left;
         width: 700px !important;
         margin-right: 20px;
@@ -20467,7 +18209,7 @@ ul.LogBar li a {
 
     .footer_left_portion_division {
         min-height: 265px;
-        width: 248px;
+        width: 240px;
         padding-left: 0px;
     }
 
@@ -20571,10 +18313,11 @@ ul.LogBar li a {
         font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
+        width: 70%;
     }
 
     .DownloadExmContainer {
-        border-bottom: 3px dotted #428bca;
+        border-bottom: 3px dotted #E83E46;
         font-size: 17px;
         text-align: left;
         width: 165px;
@@ -20587,11 +18330,11 @@ ul.LogBar li a {
         font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
-        width: 90px;
+        width: 20%;
     }
 
     .height490 {
-        height: 400px !important;
+        max-height: 400px !important;
     }
 
     .Categorytitle {
@@ -20607,19 +18350,22 @@ ul.LogBar li a {
         text-align: center !important;
         text-transform: uppercase;
         margin-bottom: 20px;
+        display: none;
     }
 
     .start_creating_btn_SApp {
-        background: #E83e48;
+        background: green;
         background-repeat: no-repeat;
         height: 34px;
         border: 0px;
-        /* font-weight: bold; padding: 0px 30px 0px 5px;*/
+        text-transform: uppercase;
         color: White;
-        border: 1px solid #1A567E;
         cursor: pointer;
         width: 180px;
         margin-top: 0px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .S_C_UP_VD_MesgBox {
@@ -20646,35 +18392,60 @@ ul.LogBar li a {
         position: absolute;
         margin-left: 790px;
         margin-top: 2px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .silver_back_button {
-        border: none;
-        height: 25px;
-        width: 100px;
+        background-color: green;
+        height: 34px;
+        border: 0px;
+        text-align: center;
+        color: White;
+        width: 230px;
         cursor: pointer;
-        margin-bottom: 10px;
-        color: rgb(102,102,102);
-        background: none;
-        text-decoration: underline;
-        text-align: left;
-        font-size: 13px;
         font-weight: bold;
+        margin-right: 3px;
+        margin-bottom: 10px;
+        word-wrap: normal;
+        text-decoration: none;
+        padding-left: 5px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        position: relative;
+        margin-top: 0px;
     }
 
+        .silver_back_button:hover {
+            background-color: rgb(5, 82, 5);
+        }
+
     .silver_back_button_remove {
-        border: none;
-        height: 25px;
-        width: 65px;
+        background-color: #E83e48;
+        height: 34px;
+        border: 0px;
+        text-align: center;
+        color: White;
+        width: 180px;
         cursor: pointer;
-        margin-bottom: 10px;
-        color: rgb(102,102,102);
-        background: none;
-        text-decoration: underline;
-        text-align: left;
-        font-size: 13px;
         font-weight: bold;
+        margin-right: 3px;
+        margin-bottom: 10px;
+        word-wrap: normal;
+        text-decoration: none;
+        padding-left: 5px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        position: relative;
+        margin-top: 0px;
     }
+
+        .silver_back_button_remove:hover {
+            background-color: #A5262E;
+        }
 
     .fntQtyPrice {
         font-size: 14px !important;
@@ -20738,14 +18509,15 @@ ul.LogBar li a {
 
     .cnttotals {
         width: 30%;
-        float: left;
+        float: right;
         text-align: right;
         line-height: 1.5;
+        margin-right: 10px;
     }
 
     .cnttotalPayables {
         float: right;
-        width: 45%;
+        width: 19%;
     }
 
     .dropdown290 {
@@ -20783,8 +18555,13 @@ ul.LogBar li a {
         text-decoration: underline;
         font-size: 13px;
         font-weight: bold;
-        background-color: #f3f3f3;
-        color: black;
+        background-color: #00B4FF;
+        border-color: #00B4FF;
+        border-radius: 5px;
+        color: white;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .tdDelivery {
@@ -20794,8 +18571,8 @@ ul.LogBar li a {
     }
 
     .cntsubHeadings {
-        margin-left: -22px;
-        width: 30% !important;
+        margin-left: 0px;
+        width: 40% !important;
         float: left;
     }
 
@@ -20919,13 +18696,13 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 160px !important;
+        width: 100% !important;
         margin-top: -25px;
         font-size: 12px;
     }
 
     .DeleteIconPP {
-        margin-left: 125px !important;
+        margin-left: 265px !important;
         margin-top: -15px;
         clear: both;
         width: 18px;
@@ -20935,7 +18712,7 @@ ul.LogBar li a {
     .BD_PCS {
         float: left;
         text-align: center;
-        width: 160px !important;
+        width: 100% !important;
         margin-right: 1px;
         margin-left: 5px;
         margin-bottom: 10px;
@@ -20943,14 +18720,14 @@ ul.LogBar li a {
     }
 
     .cntuploadfilebtns {
-        width: auto !important;
-        text-align: left !important;
+        width: 100% !important;
+        text-align: center !important;
     }
 
     .UploadsGuidLineContainer {
-        margin-top: -2px;
+        /*margin-top: -2px;
         position: absolute !important;
-        margin-left: 470px !important;
+        margin-left: 470px !important;*/
         text-align: left;
         float: right !important;
     }
@@ -20969,7 +18746,7 @@ ul.LogBar li a {
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 100% !important;
+        width: 49% !important;
         text-align: left;
         margin-top: 10px;
     }
@@ -20992,16 +18769,7 @@ ul.LogBar li a {
         text-align: left !important;
     }
 
-    .BreadCrumbMenu {
-        text-shadow: 0 -1px 0 rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.4);
-        padding: 10px 0px 10px 0px;
-        color: #042F42;
-        font-size: 14px !important;
-        /*margin-bottom: 15px;*/
-        font-family: sans-serif !important;
-        margin-top: 10px;
-        /*margin-bottom: 20px;*/ text-decoration: none;
-    }
+
 
     .BreadCrumbMenuItem {
         color: #042F42;
@@ -21222,14 +18990,14 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-        width: 520px !important;
-        float: left;
-        min-height: 145px;
+        width: 100% !important;
+        float: none;
+        height: auto;
     }
 
     .PriceTableCs {
-        margin-top: -30px !important;
-        width: 260px;
+        margin-top: 0px !important;
+        width: 260px !important;
         padding: 0px !important;
         margin-left: 10px;
     }
@@ -21254,7 +19022,7 @@ ul.LogBar li a {
         float: left;
         /*width: 700px;*/
         text-align: left;
-        padding-left: 125px !important;
+        padding-left: 30px !important;
     }
 
     .CkOutBrokerLlogo {
@@ -21285,17 +19053,20 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
-        background-color: #E83e48;
+        background-color: #ffdd0c;
         height: 35px;
         width: 180px !important;
         border: 0px;
         font-size: 13px;
-        /* font-weight: bold; padding: 0px 30px 0px 11px;*/
-        color: White;
+        font-weight: bold;
+        color: black;
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .start_creating_btn_prodDetail_blk {
@@ -21311,6 +19082,9 @@ ul.LogBar li a {
         margin-bottom: 30px;
         text-transform: uppercase;
         cursor: pointer;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
     }
 
     .text_box185_ProdDesgn {
@@ -21343,9 +19117,6 @@ ul.LogBar li a {
     .shopReceiptBillToHeading {
         line-height: 33px;
         color: #333333;
-        font-family: 'Open Sans Condensed', sans-serif;
-        font-style: normal;
-        font-weight: bold;
         font-size: 13px !important;
     }
 
@@ -21361,17 +19132,17 @@ ul.LogBar li a {
         color: #666666;
         clear: both;
         height: 34px;
-        background: url('sprite.png') -271px -492px;
-        /* background: url('sprite.png') -289px -492px; padding: 5px 20px 5px 20px;*/
-        background-repeat: repeat-x;
-        border: 1px solid #adadad;
-        /* font-weight: bold;*/
+        background-color: #cccccc;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
         text-transform: uppercase;
         cursor: pointer;
         color: White;
         width: 180px;
         font-weight: bold;
         margin-right: 3px;
+        border: none;
     }
 
     .ScrollImgContainer2 img {
@@ -21425,7 +19196,7 @@ ul.LogBar li a {
     }
 
     .cntwidthProductDetailOnlinePrice {
-        width: 665px !important;
+        width: 644px !important;
     }
 
     .Background-lg {
@@ -21437,7 +19208,7 @@ ul.LogBar li a {
     }
 
     .cntwidthProductDetailDesc {
-        width: 665px !important;
+        width: 644px !important;
     }
 
     #slider img {
@@ -21469,6 +19240,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
+        height: 440px;
     }
 
     .CAT_Body {
@@ -21505,18 +19277,19 @@ ul.LogBar li a {
     .cntParentCategDesc {
         width: 650px !important;
         text-align: left;
-        font-size: 13px;
-        color: #042F42;
+        font-size: 15px;
+        color: black;
         margin-bottom: 30px;
         line-height: 1.9;
-        margin-top: 20px;
+        margin-top: 0px;
     }
 
     .dashboard_item_main_heading {
         /* font-weight: bold;*/
-        font-size: 13px !important;
+        font-size: 17px !important;
         padding-bottom: 5px;
         color: black;
+        cursor: pointer;
     }
 
 
@@ -21540,15 +19313,15 @@ ul.LogBar li a {
         width: 275px !important;
         float: left;
         text-align: left;
-        padding: 10px 0px 0px 10px;
+        padding: 3px 0px 0px 10px;
         cursor: pointer;
         height: 50px;
     }
 
     .cntDashboardItems {
         float: left;
-        width: 350px !important;
-        margin-left: 35px !important;
+        width: 385px !important;
+        margin-left: 95px !important;
     }
 
     .cntDashboardItemsSP {
@@ -21601,7 +19374,7 @@ ul.LogBar li a {
     }
 
     .iframYtubeVideo {
-        width: 480px !important;
+        width: 460px !important;
     }
 
     .collapseMenu {
@@ -21658,7 +19431,7 @@ ul.LogBar li a {
         float: left;
         border: 1px;
         text-align: left;
-        width: 215px !important;
+        width: 200px !important;
         margin-right: 13px !important;
         margin-bottom: 20px !important;
         background-color: transparent;
@@ -21673,6 +19446,7 @@ ul.LogBar li a {
     .cntTopLevelCategory {
         /*position: absolute !important;*/
         margin-top: 20px;
+        width: 100%;
         /*margin-left: 15px;*/
     }
 
@@ -21806,7 +19580,7 @@ ul.LogBar li a {
         padding-top: 10px;
         padding-bottom: 40px;
         padding-left: 40px !important;
-        padding-right: 100px !important;
+        padding-right: 40px !important;
         height: inherit;
         background-color: #f3f3f3;
         margin-right: 10px;
@@ -21814,6 +19588,7 @@ ul.LogBar li a {
         -webkit-border-radius: 5px;
         -khtml-border-radius: 5px;
         border-radius: 5px;
+        width: 100%;
     }
 
     .cntRegisterFN {
@@ -21829,7 +19604,1963 @@ ul.LogBar li a {
 
     .registerAccountBtn {
         float: right;
-        margin-right: 52px !important;
+        margin-right: 66px !important;
+        margin-top: 20px;
+    }
+
+    .designtutorialHeadingDiv {
+        width: 160px !important;
+    }
+}
+
+@media (min-width:1025px) {
+    .upload-panel-margin {
+        margin-left: 10px;
+    }
+
+    .btn_brown_small {
+        font-size: 11px;
+        clear: both;
+        height: 27px;
+        background: #cfcfcd;
+        text-align: center;
+        cursor: pointer;
+        color: black;
+        width: 310px;
+        border: none;
+    }
+
+    .product-detail-banner-slider {
+        width: 670px;
+        height: 420px;
+    }
+
+    .product-detail-slider {
+        width: 650px !important;
+        height: 380px !important;
+    }
+
+    .cntDesignGuidLines {
+        width: 66%;
+    }
+
+    .artworkarrow {
+        margin-left: 20px;
+    }
+
+    .BreadCrumbMenu {
+        text-align: center !important;
+    }
+
+    .BillShipAddressesControl {
+        width: 350px;
+    }
+
+    .order_history_btn {
+        height: 33px;
+        border: 0px;
+        text-align: center;
+        color: white;
+        width: 100px;
+        cursor: pointer;
+        background-color: #E83e48;
+        font-size: 16px;
+        line-height: inherit;
+    }
+
+    .text_box150 {
+        border: 1px solid #c1c6cc;
+        font-size: 13px;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        width: 150px;
+        color: black;
+    }
+
+    .dashboardIcons {
+        padding-top: 7px;
+        box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
+        background: white;
+        border-radius: 33px;
+        color: #E83e48;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .exit_container_RQ {
+        margin-top: -65px;
+        margin-right: -65px;
+        float: right;
+    }
+
+    #USerInfoContainer {
+        width: 535px;
+    }
+
+    .cartli {
+        display: none;
+    }
+
+    .classicLoginCart {
+        float: right !important;
+        width: 0px;
+        height: 0px !important;
+        margin-top: 2px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        padding-left: 5px;
+        position: absolute !important;
+        margin-left: -545px;
+        display: block;
+    }
+
+    #trVatNumb {
+        clear: none;
+    }
+
+    .checkoutNoteslbl {
+        padding-left: 15px !important;
+    }
+
+    ul.LogBar {
+        /* font-weight: bold; */
+        float: left;
+        list-style: none;
+        margin-top: 10px;
+        width: inherit;
+        margin-bottom: 10px;
+    }
+
+    .smallContctUsAvenior {
+        text-align: right;
+        margin-left: 0px;
+    }
+
+    .top_header {
+        background-color: transparent !important;
+        margin-bottom: 0px;
+    }
+
+    .smallCheckoutAvenior {
+        padding-left: inherit !important;
+        margin-bottom: 0px;
+    }
+
+    .TTL_Checkout {
+        text-align: left;
+        margin-left: 3px;
+        float: none;
+        padding: inherit !important;
+    }
+
+    .btn-watch span {
+        -moz-box-sizing: border-box;
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+        display: block;
+        left: 23px;
+        opacity: 1;
+        padding: 0;
+        position: absolute;
+        text-align: center;
+        top: 30px;
+        transition: all 0.3s linear 0s;
+        z-index: 99999;
+    }
+
+    .PnlSubscribeNewsletter {
+        margin: auto;
+        /*width: 1000px;*/
+        padding-left: 0px;
+    }
+
+    #MainContent_ctl00_USerInfoContainer {
+        margin-right: 0px;
+    }
+
+    .copyTerms {
+        color: white;
+        margin-left: 0px;
+        font-size: 12px;
+    }
+
+        .copyTerms label {
+            font-weight: normal;
+        }
+
+    .orederPCnt {
+        float: left;
+        width: 200px;
+        line-height: 2;
+    }
+
+    .corpPInfoCnt1 {
+        float: left;
+        width: 19%;
+    }
+
+    .corpPInfoCnt2 {
+        float: left;
+        width: 36%;
+        margin-bottom: 0px;
+    }
+
+    .corpPInfoCnt3 {
+        margin-left: 5px;
+        float: left;
+        width: 44.4%;
+    }
+
+    .Corp_FI_TL {
+        height: 270px;
+        width: 465px;
+        border: 0px;
+        /* width: 432px;*/
+    }
+
+    .Corp_Cat_Body {
+        background-color: White !important;
+        float: left;
+        border: 10px;
+        border-style: solid;
+        border-color: transparent;
+        text-align: center;
+        margin-top: 0px;
+        width: 465px;
+        height: 300px;
+        margin-top: 19px;
+        margin-bottom: 15px;
+        margin-right: 20px;
+    }
+
+    .hypPassword {
+        margin-top: 0px;
+        margin-left: 190px;
+    }
+
+    .loginusercolorSize {
+        color: black !important;
+        font-size: 26px;
+        margin-right: 30px;
+        margin-left: 30px;
+    }
+
+        .loginusercolorSize:hover {
+            font-size: 26px;
+            margin-right: 30px;
+            margin-left: 30px;
+        }
+
+    .grossTotaldiv {
+        width: 226px;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 15px;
+        margin-bottom: 20px;
+        /*border: 1px solid black;*/
+        padding-top: 5px;
+        padding-left: 5px;
+    }
+
+    .BD {
+        float: left;
+        border: 1px;
+        text-align: left;
+        width: 240px !important;
+        margin-right: 13px !important;
+        margin-bottom: 20px !important;
+        background-color: transparent;
+        padding: 20px;
+        background-color: #d6d6d6;
+    }
+
+    .BreadCrumbMenu h1 {
+        font-size: 25px !important;
+        color: #E83e48;
+    }
+
+    .BlackBtnCS {
+        float: right !important;
+        /*background: url('sprite.png') -608px -610px;
+    background-repeat: no-repeat;*/
+        width: 0px;
+        height: 0px !important;
+        margin-top: 2px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        padding-left: 5px;
+        position: absolute !important;
+        margin-left: -845px;
+    }
+
+    .Top_Cat_ThumbnailPath {
+        max-width: 150px;
+        height: auto;
+        max-height: 186px;
+        border: 0px;
+        background-color: transparent !important;
+        -moz-border-radius: 0px !important;
+        -webkit-border-radius: 0px !important;
+        -khtml-border-radius: 0px !important;
+        border-radius: 0px !important;
+    }
+
+    .firstDyContainer {
+        border-right: 1px solid #c7c7c7;
+    }
+
+    .secDyContainer {
+        border-right: 1px solid #c7c7c7;
+    }
+
+    .product_detail_image_heading_S5 {
+        padding-top: 15px;
+        text-align: left;
+        font-size: 16px;
+        color: Black !important;
+    }
+
+    .Top_Cat_ThumbnailPath:hover {
+        /* Un-prefixed. Prefix `transform` for all target browsers. */
+        /*transform: scale(1.2);
+    transition: transform .4s linear;
+    z-index: -999;*/
+        -webkit-transform: scale(1.05,1.07);
+        -webkit-transition-timing-function: ease-out;
+        -webkit-transition-duration: 250ms;
+        -moz-transform: scale(1.05,1.07);
+        -moz-transition-timing-function: ease-out;
+        -moz-transition-duration: 250ms;
+    }
+
+
+
+    .cntrightMenu {
+        width: 1000px !important;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .cntTemplatePages {
+        float: left;
+        width: 338px;
+        text-align: left;
+    }
+
+    .lblTipCP {
+        float: right;
+        margin-top: -205px;
+        width: 300px;
+    }
+
+    .filteredYourSelf {
+        margin-top: 25px;
+        margin-left: 0px;
+        position: absolute;
+    }
+
+    .filteredTip {
+        margin-top: 25px;
+        margin-left: -30px;
+        position: absolute;
+    }
+
+    .imgPageBanner {
+        width: 960px; /*height : 155px;*/
+    }
+
+    .forthTip {
+        width: 349px;
+        height: 205px;
+    }
+
+    .cntCopyScale {
+        background-color: rgb(62, 69, 80);
+        color: rgb(255, 255, 255);
+        font-size: 18px;
+        padding-top: 50px;
+        padding-right: 125px;
+        padding-left: 125px;
+        line-height: 30px;
+        text-align: center;
+    }
+
+    .DesgntblWidth940 {
+        width: 940px;
+    }
+
+    .DesgntblWidth508 {
+        width: 508px;
+    }
+
+    .DesgntblWidth100 {
+        width: 100%;
+    }
+
+    .DesgntblWidth150 {
+        width: 150px;
+    }
+
+    .DesgntblWidth470 {
+        width: 470px;
+        text-align: center;
+    }
+
+    .DesgntblWidth299 {
+        width: 299px;
+    }
+
+    .DesgntblWidth520 {
+        width: 520px;
+    }
+
+    .DesgntblWidth440 {
+        width: 440px;
+    }
+
+    .designContentNumbering {
+        position: absolute;
+        margin-top: 20px;
+        margin-left: 447px;
+    }
+
+    .tddesgnPara {
+        background-color: #3E4550;
+        color: #ffffff;
+        font-size: 18px;
+        padding-top: 50px;
+        padding-right: 135px;
+        padding-left: 135px;
+        line-height: 30px;
+        text-align: center;
+    }
+
+    .tdParaRight {
+        background-color: #ffffff;
+        color: #000000;
+        font-size: 18px;
+        padding-top: 50px;
+        padding-right: 135px;
+        padding-left: 135px;
+        line-height: 30px;
+        text-align: center;
+    }
+
+    #MainContent_AvailableSoonCont {
+        display: block;
+    }
+
+    .pricetabl {
+        width: 220px;
+    }
+
+    .heightauto {
+        height: auto !important;
+        padding-left: 15px;
+    }
+
+    .widthAvenior {
+        width: 500px;
+    }
+
+    .pink_company_top_logo {
+        height: 70px;
+        max-width: 290px;
+    }
+
+    .SpecsContainer {
+        /*width: 200px;*/
+        height: initial;
+        overflow: hidden;
+        color: #716C61;
+        margin: 5px 0px 5px 0px;
+        line-height: 1.5;
+    }
+
+    .feedEkList .itemTitle {
+        text-align: left;
+        margin-left: 10px;
+        float: left;
+        clear: right;
+        width: 330px;
+    }
+
+    .NewsDescCs {
+        text-align: left;
+        /*width: 595px;*/
+        margin: auto;
+        font-size: 16px;
+        float: left;
+        color: white;
+        line-height: 1.5;
+        margin-bottom: 0px;
+    }
+
+    .top_header_ex {
+        width: 100%;
+        /* height: 54px;*/
+        margin-top: 20px;
+    }
+
+    .company_logo {
+        float: none;
+        /* height: 0px; */
+        padding-left: 0px;
+        margin-bottom: 0px;
+        position: absolute;
+        width: 1000px !important;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .WhisperImg {
+        width: 230px;
+    }
+
+    .phone_number_sec {
+        color: #428bca;
+        font-size: 22px;
+        text-align: right;
+        margin-top: 17px;
+        float: right;
+        display: none;
+    }
+
+    .text_box115 {
+        border: 1px solid #c1c6cc;
+        font-size: 13px;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        width: 95px;
+        margin-bottom: 10px;
+    }
+
+    .StocksDelivryContainer {
+        margin-top: 0px;
+        float: left;
+        width: 695px !important;
+        margin-right: 20px;
+        padding-left: 0px;
+    }
+
+
+
+    .TopHeaderMenu a {
+        margin-right: 38px;
+        margin-left: 32px;
+    }
+
+    #CollapseBtn {
+        display: none;
+    }
+
+    .cnttemporary {
+        display: block;
+    }
+
+    .footer_left_portion_division {
+        min-height: 265px;
+        width: 240px;
+        padding-left: 0px;
+    }
+
+    .FI_TL {
+        height: 153px;
+        width: 100% !important;
+        background: #efeff1;
+        text-align: center;
+    }
+
+    .PDTC_TL {
+        min-height: 153px;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .BD_Featured:hover {
+        background-color: #d6d6d6;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+    }
+
+
+    .QCMainContainer {
+        display: block;
+    }
+
+    .BannerBakImage {
+        display: block !important;
+        background: transparent url('/StoredImages/PageBanners/a22d4e7d-f8a0-48cb-993e-e8d3ebe58c3f_HomePageBanner.png') no-repeat center center;
+        /*background-size: auto 498px;*/
+        height: 623px;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .TopHeaderMenu {
+        position: relative;
+        z-index: 1;
+        color: #428bca;
+        font-size: 18px;
+        margin-top: 0px;
+        /*margin-right: 48px;*/
+        vertical-align: middle;
+        display: block;
+        width: 100%;
+    }
+
+        .TopHeaderMenu:hover {
+            color: #428bca;
+        }
+
+    .BD_Featured {
+        float: left;
+        text-align: center;
+        margin-top: 0px;
+        width: 240px;
+        margin-left: 0px;
+        /* border: 10px;
+	border-style: solid;
+	border-color: transparent;
+	margin-left: 5px;*/
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    #MainContent_Label1 {
+        visibility: visible;
+    }
+
+    .GetTouchBoxContainer {
+        width: 235px;
+        padding-right: 0px;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .width50p {
+        width: 240px;
+    }
+
+
+    .add_to_cart_btn {
+        border: 0px;
+        height: 35px;
+        width: 145px;
+        cursor: pointer;
+        background-position: -298px -663px;
+        background-color: #E83e48;
+        height: 34px;
+        border: 0px;
+        color: White;
+        margin-right: 0px;
+        margin-top: 0px;
+    }
+
+    .GLHeadDescContainer {
+        text-align: left;
+        font-size: 12px;
+        margin-bottom: 5px;
+        line-height: 2;
+        width: 70%;
+    }
+
+    .DownloadExmContainer {
+        border-bottom: 3px dotted #E83E46;
+        font-size: 17px;
+        text-align: left;
+        width: 165px;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+    }
+
+    .GLHeadingContainer {
+        text-align: left;
+        font-size: 12px;
+        margin-bottom: 5px;
+        line-height: 2;
+        width: 20%;
+    }
+
+    .height490 {
+        max-height: 400px !important;
+    }
+
+    .Categorytitle {
+        -webkit-user-select: text;
+        color: rgb(33, 31, 31);
+        display: block;
+        font-family: 'Avenir Next LT W01 Bold';
+        font-size: 31px;
+        font-style: normal;
+        font-weight: normal !important;
+        /*height: 70px;*/
+        line-height: 71px;
+        text-align: center !important;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: none;
+    }
+
+    .start_creating_btn_SApp {
+        background: green;
+        background-repeat: no-repeat;
+        height: 34px;
+        border: 0px;
+        text-transform: uppercase;
+        color: White;
+        cursor: pointer;
+        width: 180px;
+        margin-top: 0px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+    }
+
+    .S_C_UP_VD_MesgBox {
+        margin-top: 50px;
+        margin-left: 400px;
+        position: absolute;
+    }
+
+    #pnlRemoveCartItem {
+        width: 500px;
+    }
+
+    .start_creating_btn_EmailProof {
+        background: url('sprite.png') -269px -492px;
+        background-repeat: no-repeat;
+        height: 37px;
+        border: 0px;
+        text-align: center;
+        /* font-weight: bold;padding: 0px 30px 0px 30px; border: 1px solid #1A567E;*/
+        color: White;
+        width: 190px;
+        cursor: pointer;
+        font-weight: bold;
+        position: absolute;
+        margin-left: 790px;
+        margin-top: 2px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+    }
+
+    .silver_back_button {
+        background-color: green;
+        height: 34px;
+        border: 0px;
+        text-align: center;
+        color: White;
+        width: 230px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-right: 3px;
+        margin-bottom: 10px;
+        word-wrap: normal;
+        text-decoration: none;
+        padding-left: initial;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        position: relative;
+        margin-top: 0px;
+    }
+
+        .silver_back_button:hover {
+            background-color: rgb(5, 82, 5);
+        }
+
+    .silver_back_button_remove {
+        background-color: #E83e48;
+        height: 34px;
+        border: 0px;
+        text-align: center;
+        color: White;
+        width: 180px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-right: 3px;
+        margin-bottom: 10px;
+        word-wrap: normal;
+        text-decoration: none;
+        padding-left: initial;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        position: relative;
+        margin-top: 0px;
+    }
+
+        .silver_back_button_remove:hover {
+            background-color: #A5262E;
+        }
+
+    .fntQtyPrice {
+        font-size: 14px !important;
+    }
+
+    .gridViewHeaderStyle {
+        font-style: normal;
+        /* font-weight: bold;*/
+        font-size: 14px !important;
+        line-height: 12px;
+        background-color: #333333;
+        height: 42px;
+        color: white;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+    }
+
+    .gridViewCheckoutHeaderStyle {
+        font-style: normal;
+        /* font-weight: bold;*/
+        font-size: 14px !important;
+        line-height: 12px;
+        background-color: #333333;
+        height: 42px;
+        color: white;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+    }
+
+
+    .heading_16 {
+        /* font-weight: bold;*/
+        font-size: 16px !important;
+    }
+
+    .BtnTemplateModifyContainer {
+        padding-top: 9px;
+        margin-left: 20px !important;
+    }
+
+    .cart_grid_image_container {
+        /*width: 140px;*/
+        width: 50%;
+        margin-left: 25px !important;
+        margin-bottom: 10px;
+    }
+
+    .MLeft17 {
+        margin-left: 17px !important;
+    }
+
+    .shopCartCheckOutbt {
+        margin-right: 3px;
+        margin-bottom: 10px;
+        margin-top: 0px !important;
+    }
+
+    .cnttotals {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+        margin-right: 10px;
+    }
+
+    .cnttotalPayables {
+        float: right;
+        width: 19%;
+    }
+
+    .dropdown290 {
+        width: 280px !important;
+        margin: 0;
+        border: 1px solid #ccc5b9;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        background-color: white;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+        color: #66615b;
+        font-size: 18px;
+        padding: 13px 0px !important;
+        outline: none !important;
+        -webkit-transition: background-color;
+        -moz-transition: background-color;
+        -o-transition: background-color;
+        -ms-transition: background-color;
+        transition: background-color;
+        margin-bottom: 10px;
+    }
+
+    .silver_back_button_modify {
+        border: none;
+        height: 25px;
+        width: 98px !important;
+        text-align: center;
+        cursor: pointer;
+        margin-bottom: 10px;
+        color: rgb(102,102,102);
+        background: none;
+        text-decoration: underline;
+        font-size: 13px;
+        font-weight: bold;
+        background-color: #00B4FF;
+        border-color: #00B4FF;
+        border-radius: 5px;
+        color: white;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+    }
+
+    .tdDelivery {
+        /*width: 312px;*/
+        float: left;
+        width: 60% !important;
+    }
+
+    .cntsubHeadings {
+        margin-left: 0px;
+        width: 40% !important;
+        float: left;
+    }
+
+    .cntdispatchDelivery {
+        width: 52% !important;
+        float: left;
+    }
+
+    .tdDispatchDate {
+        /*width: 90px;*/
+        width: 40%;
+        float: left !important;
+        line-height: 4;
+    }
+
+    .dropdown_sec {
+        margin-left: 0px !important;
+    }
+
+    .loader {
+        position: fixed;
+        z-index: 999;
+        top: 45%;
+        left: 33%;
+        z-index: 10000;
+        width: 500px;
+    }
+
+    .temSelPnlTxtBck {
+        width: 472px !important;
+        clear: both;
+    }
+
+    .temSelPnlTxt {
+        width: 500px !important;
+        clear: both;
+    }
+
+
+    .designTutorials .TblMSRightDiv .EditorPickRItem .EditorPickRItemEditorChoice {
+        width: 220px !important;
+    }
+
+
+
+    .top_sub_section {
+        border-bottom: 0px solid #eaeaea;
+        border-top: 0px solid #eaeaea;
+        background-color: white;
+        -moz-border-top-right-radius: 5px !important;
+        -webkit-border-top-right-radius: 5px !important;
+        -khtml-border-top-right-radius: 5px !important;
+        border-top-right-radius: 5px !important;
+        border-bottom-right-radius: 5px !important;
+        -moz-border-bottom-right-radius: 5px !important;
+        -webkit-border-bottom-right-radius: 5px !important;
+        -khtml-border-bottom-right-radius: 5px !important;
+        border-bottom-left-radius: 5px !important;
+        -moz-border-bottom-left-radius: 5px !important;
+        -webkit-border-bottom-left-radius: 5px !important;
+        -khtml-border-bottom-left-radius: 5px !important;
+        -moz-border-top-left-radius: 5px !important;
+        -webkit-border-top-left-radius: 5px !important;
+        -khtml-border-top-left-radius: 5px !important;
+        border-top-left-radius: 5px !important;
+    }
+
+    .PDTC_Temp {
+        min-height: 208px;
+        width: auto;
+        padding: 1px;
+        /*background-color: #AAAAAA;*/
+        cursor: pointer;
+        margin-left: 0px;
+    }
+
+    .FI_Temp {
+        height: 208px;
+        width: 320px !important;
+    }
+
+    .BD_Temp {
+        /*float: left;*/
+        border: 5px;
+        border-style: solid;
+        border-color: transparent;
+        text-align: center;
+        margin-top: 5px;
+        width: 330px !important;
+        margin-right: 16px;
+        /*margin-left: 10px; width: 295px;*/
+        /*margin-bottom: 10px;*/
+    }
+
+    #pnlTempDetailSelection {
+        width: 717px !important;
+        min-height: 483px;
+        margin: auto;
+        margin-top: 0px;
+        margin-bottom: 16px;
+        padding: 10px;
+    }
+
+    .templateDetailContainer {
+        margin: auto;
+        width: 746px !important;
+        /*width: 833px;*/
+    }
+
+    .scrollImgContainer {
+        margin: 0 auto;
+        width: 790px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        text-align: center;
+        min-height: 600px;
+    }
+
+    .mainPopUp {
+        width: 500px !important;
+    }
+
+    .height40_LP {
+        width: 100% !important;
+        margin-top: -25px;
+        font-size: 12px;
+    }
+
+    .DeleteIconPP {
+        margin-left: 265px !important;
+        margin-top: -15px;
+        clear: both;
+        width: 18px;
+        position: absolute;
+    }
+
+    .BD_PCS {
+        float: none;
+        text-align: center;
+        width: 100% !important;
+        margin-right: 1px;
+        margin-left: 5px;
+        margin-bottom: 10px;
+        padding: 0px;
+    }
+
+    .cntuploadfilebtns {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .UploadsGuidLineContainer {
+        /*margin-top: -2px;
+        position: absolute !important;
+        margin-left: 470px !important;*/
+        text-align: left;
+        float: right !important;
+    }
+
+    .UploadPanel {
+        width: 680px !important;
+        max-height: 700px;
+        -moz-border-radius: 0px !important;
+        -webkit-border-radius: 0px !important;
+        -khtml-border-radius: 0px !important;
+        border-radius: 0px !important;
+        overflow-x: hidden;
+    }
+    /* big landscape tablets, laptops, and desktops */
+
+    .UploadContainerCs {
+        color: #042F42;
+        font-size: 23px;
+        width: 49% !important;
+        text-align: left;
+        margin-top: 10px;
+    }
+
+    .RfgImgCs {
+        margin-top: 10px;
+        max-height: 65px !important;
+    }
+
+    .Width220pxM250px {
+        width: 349px !important;
+        margin-left: 248px !important;
+    }
+
+    .margin0-sm {
+        margin-top: 50px !important;
+    }
+
+    .divBottomBtns {
+        text-align: left !important;
+    }
+
+
+
+    .BreadCrumbMenuItem {
+        color: #042F42;
+        float: left;
+        font-size: 14px !important;
+        font-family: sans-serif !important;
+        text-decoration: none;
+    }
+
+    .full_img_ThumbnailPath {
+        -webkit-transform: scale(1,1);
+        -webkit-transition-timing-function: ease-out;
+        -webkit-transition-duration: 250ms;
+        -moz-transform: scale(1,1);
+        -moz-transition-timing-function: ease-out;
+        -moz-transition-duration: 250ms;
+        max-width: 240px;
+        height: 115px;
+        border: 0px;
+        background-color: transparent !important;
+        -moz-border-radius: 0px !important;
+        -webkit-border-radius: 0px !important;
+        -khtml-border-radius: 0px !important;
+        border-radius: 0px !important;
+    }
+
+    .freetutorialsImg {
+        width: 160px !important;
+    }
+
+    .mainDivRelativeContainer {
+        margin-top: -47px !important;
+        margin-bottom: 65px;
+    }
+
+    .EditorPickRItem DIV {
+        width: 100px;
+    }
+
+    .EditorPickRItemEditorChoice {
+        width: 100px;
+    }
+
+    .MenuSliderContainer {
+        width: 1000px !important;
+        margin: auto;
+        height: 65px;
+    }
+
+    .SliderContainer {
+        width: 1000px !important;
+        margin: auto;
+    }
+
+    .MenuSliderContainerContainer {
+        position: absolute !important;
+        overflow: hidden;
+        left: 0px;
+        height: 100%;
+        background-color: #f068a6;
+        z-index: 98;
+        margin-top: -30px;
+        width: 100% !important;
+    }
+
+    .featureproductContainer {
+        min-height: 280px;
+        margin-top: 25px;
+        padding: 10px;
+        padding-left: 0px !important;
+        width: auto !important;
+        margin-left: 0px;
+    }
+
+    .TblMSRightDiv {
+        display: inline;
+        float: left;
+        width: 1000px !important;
+        text-align: left;
+        vertical-align: top;
+        margin-top: 25px;
+        padding: 10px;
+    }
+
+    .RSSWidget {
+        width: 1000px !important;
+        min-height: 275px;
+        float: left;
+        /*background: rgba(175, 110, 172, 0.10);*/
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        margin-right: 20px;
+        /*border: 0px solid rgb(233, 231, 231); */
+        margin-top: 10px;
+        color: white;
+    }
+
+    .RSSContainer {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        width: 1000px !important;
+        margin: auto;
+    }
+
+    .SavedDesignsWidget {
+        margin-top: 10px;
+        margin-bottom: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
+        float: left;
+        width: 1000px !important;
+        height: 650px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        clear: left;
+        text-align: left;
+    }
+
+    .freedesigns {
+        font-weight: normal;
+        width: 247px;
+        font-size: 40px;
+        /* text-align: center; */
+        margin-left: 35% !important;
+        color: white;
+    }
+
+    .EditorPickRItem {
+        display: inline;
+        float: left;
+        width: 161px !important;
+        height: 175px;
+        text-align: center;
+        color: white;
+    }
+
+    .EditorPickRItemEditorChoice {
+        display: inline;
+        float: left;
+        width: 161px !important;
+        height: 220px;
+        text-align: center;
+        color: white;
+    }
+
+    .controldiv {
+        position: absolute;
+        clear: both;
+    }
+
+    .EditorsPickContainer {
+        width: 1000px !important;
+    }
+
+    .SubscribeTxtBoxCS {
+        width: 297px !important;
+        margin-right: 20px;
+        margin-top: 10px !important;
+        padding: 7px;
+        margin-bottom: 0px !important;
+        font-size: 14px;
+    }
+
+    .NewsLtrTxtBxContCS {
+        margin-bottom: 15px;
+        text-align: left !important;
+        padding-left: 0px;
+    }
+
+    .subscribe_sec {
+        padding-top: 30px;
+        background-color: transparent;
+        background-image: none !important;
+        margin: auto;
+        border: none !important;
+        width: 1000px !important;
+        padding-bottom: 30px;
+    }
+
+    .lblPhoneNo {
+        margin-top: 0px !important;
+        vertical-align: top;
+        width: auto;
+        display: inline-block;
+        margin-right: 0px !important;
+    }
+
+    .liMarginRight {
+        margin-right: 20px !important;
+    }
+
+    #menu-my-account {
+        list-style: none;
+        z-index: 1000;
+        float: right;
+        margin-right: 5px !important;
+    }
+
+
+    .divStk {
+        width: 100% !important;
+        vertical-align: top;
+        float: left;
+    }
+
+    .width730 {
+        width: 100% !important;
+    }
+
+    .width365pxM250p {
+        width: 100% !important;
+        /*margin-left: 127px;*/
+        margin-top: 25px;
+    }
+
+    .rptContainers {
+        width: 100% !important;
+        float: none;
+        height: auto;
+    }
+
+    .PriceTableCs {
+        margin-top: 0px !important;
+        width: 260px !important;
+        padding: 0px !important;
+        margin-left: 10px;
+    }
+
+    .noFloatSm {
+        float: left !important;
+    }
+
+    .search_box {
+        width: 200px !important;
+        background-color: #eeeeee;
+    }
+
+    .divHalfRightProfile {
+        float: left;
+        /*width: 700px;*/
+        text-align: left;
+        padding-left: 107px !important;
+    }
+
+    .cntHalfRightProfile {
+        float: left;
+        /*width: 700px;*/
+        text-align: left;
+        padding-left: 30px !important;
+    }
+
+    .CkOutBrokerLlogo {
+        height: 70px;
+        width: 180px;
+        margin-bottom: 10px;
+        float: left !important;
+    }
+
+    .productDetailSilderFG {
+        width: 650px !important;
+        height: 380px !important;
+    }
+
+    .btn_upload_design_Prod_details {
+        background-position: -56px -673px;
+        color: White;
+        /* font-weight: bold; padding: 0px 30px 0px 11px; border: 1px solid #1A567E;*/
+        height: 35px;
+        width: 180px !important;
+        border: 0px;
+        background-color: #E83e48;
+        cursor: pointer;
+        font-size: 13px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .start_creating_btn_prodDetail_orng {
+        background-color: #ffdd0c;
+        height: 35px;
+        width: 180px !important;
+        border: 0px;
+        font-size: 13px;
+        font-weight: bold;
+        color: black;
+        text-align: center;
+        text-transform: uppercase;
+        cursor: pointer;
+        margin-bottom: 10px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+    }
+
+    .start_creating_btn_prodDetail_blk {
+        background: url('sprite.png') -267px -491px;
+        background-repeat: repeat-x;
+        height: 35px;
+        width: 180px !important;
+        border: 0px;
+        font-size: 13px;
+        /* font-weight: bold; padding: 0px 30px 0px 11px;border: 1px solid #1A567E;*/
+        color: White;
+        text-align: center;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        cursor: pointer;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+    }
+
+    .text_box185_ProdDesgn {
+        border: 1px solid #c1c6cc;
+        font-size: 13px;
+        padding-bottom: 5px;
+        padding-right: 5px;
+        padding-top: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        width: 110px !important;
+        padding-left: 5px;
+    }
+
+    .ScrollImgTitlePort {
+        padding-top: 0px !important;
+        position: relative;
+        z-index: 1000;
+        bottom: 20px;
+        opacity: 0.7;
+        left: 7px;
+        width: 250px !important;
+        background: #444;
+        color: white;
+        overflow: hidden;
+        visibility: hidden;
+        height: 15px;
+    }
+
+    .shopReceiptBillToHeading {
+        line-height: 33px;
+        color: #333333;
+        font-size: 13px !important;
+    }
+
+    .shopReceiptOrderDetails {
+        width: 100px;
+        text-align: right !important;
+        float: left;
+        clear: both;
+    }
+
+    .btn_brown {
+        margin-top: 0px !important;
+        color: #666666;
+        clear: both;
+        height: 34px;
+        -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+        background-color: #cccccc;
+        text-transform: uppercase;
+        cursor: pointer;
+        color: White;
+        width: 180px;
+        font-weight: bold;
+        margin-right: 3px;
+        border: none;
+    }
+
+    .ScrollImgContainer2 img {
+        border: 5px solid #eeeeee;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        width: 258px !important;
+        height: auto;
+        max-height: 300px;
+        min-height: 159px;
+        display: block;
+        z-index: 100;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-left: 3px;
+    }
+
+    .p_dl_s_box_60 {
+        text-align: center !important;
+        background-color: #f3f3f3;
+        /*width: 1000px;*/
+        /*min-height: 60px;
+    padding-top: 10px;*/
+        padding-bottom: 5px;
+        margin: auto;
+        /*margin-top: 50px;*/
+    }
+
+    .p_box_600_width {
+        width: 600px !important;
+        margin: auto;
+    }
+
+    .matching_set_image_horizontal {
+        width: 120px !important;
+    }
+
+    .matching_set_image_vertical {
+        height: 120px !important;
+    }
+
+    .matching_set_image_fixed {
+        width: 120px !important;
+        height: 120px;
+    }
+
+    .order_container {
+        background-color: #EEEEEE;
+        width: 100% !important;
+        padding: 5px;
+    }
+
+    .cntwidthProductDetailOnlinePrice {
+        width: 665px !important;
+    }
+
+    .Background-lg {
+        background-color: transparent !important;
+    }
+
+    .Background-sm {
+        background-color: #f3f3f3 !important;
+    }
+
+    .cntwidthProductDetailDesc {
+        width: 665px !important;
+    }
+
+    #slider img {
+        position: absolute;
+        border: none;
+        display: none;
+        max-height: 400px;
+        max-width: 650px !important;
+    }
+
+    #slider {
+        width: 430px !important;
+        height: 375px !important; /* Make it the same size as your images */
+        background: #fff url('../images/loading45_slider.gif') no-repeat;
+        position: relative;
+        margin: 0 auto; /*make the image slider center-aligned   box-shadow: 0px 1px 5px #999999;*/
+        background-size: contain !important;
+        background-position: center !important;
+    }
+
+    .BD_CatProducts {
+        float: left;
+        border: 1px;
+        text-align: left;
+        width: 240px !important;
+        margin-right: 13px !important;
+        margin-bottom: 20px !important;
+        background-color: transparent;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #d6d6d6 !important;
+        height: 440px;
+    }
+
+    .CAT_Body {
+        float: left;
+        border: 1px;
+        text-align: left;
+        width: 240px !important;
+        margin-right: 13px !important;
+        margin-bottom: 20px !important;
+        background-color: transparent;
+        padding: 20px;
+        border-radius: 10px !important;
+        background-color: #d6d6d6 !important;
+        min-height: 315px;
+    }
+
+    .CAT_ThumbnailPath {
+        -webkit-transform: scale(1,1);
+        -webkit-transition-timing-function: ease-out;
+        -webkit-transition-duration: 250ms;
+        -moz-transform: scale(1,1);
+        -moz-transition-timing-function: ease-out;
+        -moz-transition-duration: 250ms;
+        max-width: 180px;
+        height: 115px;
+        border: 0px;
+        background-color: transparent !important;
+        -moz-border-radius: 0px !important;
+        -webkit-border-radius: 0px !important;
+        -khtml-border-radius: 0px !important;
+        border-radius: 0px !important;
+    }
+
+    .cntParentCategDesc {
+        width: 650px !important;
+        text-align: left;
+        font-size: 15px;
+        color: black;
+        margin-bottom: 30px;
+        line-height: 1.9;
+        margin-top: 0px;
+    }
+
+    .dashboard_item_main_heading {
+        /* font-weight: bold;*/
+        font-size: 17px !important;
+        padding-bottom: 5px;
+        color: black;
+        cursor: pointer;
+    }
+
+
+
+    .dashboard_item_detail {
+        font-size: 12px !important;
+        color: #666666;
+    }
+
+        .dashboard_item_detail:link {
+            font-size: 12px !important;
+            color: #666666;
+        }
+
+    .contact_log {
+        height: 57px !important;
+        width: 57px !important;
+    }
+
+    .dashboard_logo_des_div {
+        width: 275px !important;
+        float: left;
+        text-align: left;
+        padding: 3px 0px 0px 10px;
+        cursor: pointer;
+        height: 50px;
+    }
+
+    .cntDashboardItems {
+        float: left;
+        width: 385px !important;
+        margin-left: 95px !important;
+    }
+
+    .cntDashboardItemsSP {
+        float: left;
+        width: 350px !important;
+        margin-left: 0px !important;
+    }
+
+    .padding50 {
+        padding: 50px 0px 25px 50px !important;
+    }
+
+    .sign_up_page_box {
+        padding: 0px !important;
+    }
+
+    .smallTxtBox {
+        margin: 0;
+        border: 1px solid #ccc5b9;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        background-color: #fffefd;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+        color: #66615b;
+        font-size: 18px;
+        padding: 13px 18px !important;
+        outline: none !important;
+        -webkit-transition: background-color;
+        -moz-transition: background-color;
+        -o-transition: background-color;
+        -ms-transition: background-color;
+        transition: background-color;
+        margin-bottom: 10px;
+        width: 190px !important;
+    }
+
+    .container {
+        width: 1000px !important;
+    }
+
+    .PinkSearchHeight {
+        height: 75px !important;
+    }
+
+    .login_bar {
+        float: right !important;
+    }
+
+    .iframYtubeVideo {
+        width: 480px !important;
+    }
+
+    .collapseMenu {
+        display: none;
+    }
+
+    .collapsedMenu {
+        display: none;
+    }
+
+    .hyPrivacyP {
+        margin-left: 1px !important;
+        color: white;
+    }
+
+    .hyperTermCond {
+        margin-left: 43px !important;
+        display: initial;
+        color: white;
+        line-height: 0;
+    }
+
+
+
+    /*.content_area
+    {
+        width: 1000px;
+        margin: auto;
+        border: 0px solid orange;
+    }*/
+
+
+
+    .footerLogoContainer {
+        float: left;
+    }
+
+    /*.payment_sec
+    {
+        float: left;
+        margin-left: 125px;
+    }*/
+
+    /*.social_icons
+    {
+        float: right;
+    }*/
+
+    .footer_sub_height {
+        text-align: left;
+    }
+
+    .Top_Cat_Body {
+        float: left;
+        border: 1px;
+        text-align: left;
+        width: 215px !important;
+        margin-right: 13px !important;
+        margin-bottom: 20px !important;
+        background-color: transparent;
+        padding: 20px;
+        transition: all 0.4s ease-in-out 0s;
+        -webkit-transition: all 0.4s ease-in-out 0s;
+        -o-transition: all 0.4s ease-in-out 0s;
+        min-height: 470px;
+    }
+
+
+    .cntTopLevelCategory {
+        /*position: absolute !important;*/
+        margin-top: 20px;
+        width: 100%;
+        /*margin-left: 15px;*/
+    }
+
+
+
+    .needHelpBox {
+        border: 0px solid rgb(233, 231, 231) !important;
+        margin-top: 2px !important;
+        margin-bottom: 20px;
+        float: left;
+        min-height: 260px;
+        border-image: none;
+    }
+
+    #MainContent_ctl07_controlBodyDiv {
+        margin-top: 0px !important;
+        border-top: 0px solid #e7e7e7 !important;
+    }
+
+    .cntSignInWithSocialinks {
+        text-align: center;
+        width: 400px !important;
+        float: left;
+    }
+
+    .connectWithfb {
+        cursor: pointer;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        -khtml-border-radius: 2px;
+        border-radius: 2px;
+        background-repeat: no-repeat;
+        width: 300px !important;
+        height: 42px;
+        border: none;
+        background-color: #43609b;
+        background: -webkit-linear-gradient(#5678bc, #314a7b);
+        background: linear-gradient(#5678bc, #314a7b);
+        border: 1px solid #293f69;
+        border-top-color: #314a7b;
+        color: white;
+        font-size: 17px;
+    }
+
+    .connectWithtwitter {
+        font-size: 17px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        -khtml-border-radius: 2px;
+        border-radius: 2px;
+        background-color: #3fa7d0;
+        background: -webkit-linear-gradient(#5fbee4, #2091bd);
+        background: linear-gradient(#5fbee4, #2091bd);
+        border: 1px solid #1c80a8;
+        border-top-color: #2091bd;
+        color: white;
+        border: 1px solid #155f7c;
+        border-top-color: #1c80a8;
+        width: 300px !important;
+        height: 42px;
+        border: none;
+        margin-top: 10px;
+        text-align: left;
+        padding-left: 67px;
+        cursor: pointer;
+    }
+
+    .txtBoxLoginPage {
+        margin: 0;
+        border: 1px solid #ccc5b9;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        background-color: white;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+        color: #66615b;
+        font-size: 18px;
+        padding: 13px 18px !important;
+        outline: none !important;
+        -webkit-transition: background-color;
+        -moz-transition: background-color;
+        -o-transition: background-color;
+        -ms-transition: background-color;
+        transition: background-color;
+        margin-bottom: 10px;
+        width: 400px !important;
+    }
+
+    .white-container-lightgrey-border {
+        padding: 10px !important;
+        position: relative;
+        display: block;
+        background-color: White;
+        border: 4px solid #F3F3F3;
+        margin-top: 20px;
+        text-align: left;
+    }
+
+    #MainContent_lgnctrl_cntOrBottom {
+        /*width: 400px !important;*/
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .divwidthset {
+        /*margin-left: 408px;*/
+        float: right;
+        width: 12em !important;
+        margin-right: 0px !important;
+    }
+
+    .divwidth {
+        float: left;
+        width: 15em !important;
+        padding-top: 0.5em;
+    }
+
+    .containerRegisternow {
+        float: left;
+        width: 270px !important;
+        height: 50px !important;
+        margin-top: 23px !important;
+        margin-right: 0px !important;
+        margin-left: 50px;
+    }
+
+    .divDontHaveAccont {
+        float: right;
+        padding-top: 10px;
+        padding-bottom: 40px;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+        height: inherit;
+        background-color: #f3f3f3;
+        margin-right: 0px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .cntRegisterFN {
+        width: 190px !important;
+        float: left !important;
+        margin-right: 20px !important;
+    }
+
+    .cntRegisterLN {
+        width: 190px !important;
+        float: left !important;
+    }
+
+    .registerAccountBtn {
+        float: right;
+        margin-right: 66px !important;
         margin-top: 20px;
     }
 
@@ -21899,7 +21630,7 @@ ul.LogBar li a {
 
 .productDetailPageHeading {
     padding-bottom: 40px;
-    font-size: 20px;
+    font-size: 17px;
 }
 
 /*.productdetailBannerleftPanel
@@ -22089,10 +21820,8 @@ ul.LogBar li a {
 }
 
 .spnOrderHeadings {
-    color: #333333;
-    font-family: 'Open Sans Condensed', sans-serif;
+    color: rgb(161, 161, 161);
     font-style: normal;
-    font-weight: bold;
     font-size: 13px;
     line-height: 2.4;
     text-align: right;
@@ -22625,6 +22354,9 @@ border: 8px solid rgb(237, 239, 240);
     cursor: pointer;
     /* margin-right: 10px; */
     font-size: 16px;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
 }
 
 
@@ -22678,7 +22410,7 @@ border: 8px solid rgb(237, 239, 240);
 }
 
 .dashboard_heading_signin {
-    padding-top: 35px;
+    margin-top: 17px;
 }
 
 gridViewRowStyle td {
@@ -22729,7 +22461,7 @@ gridViewCheckoutRowStyle td {
 .carttxtcolorSize {
     margin-left: 5px;
     color: black;
-    font-size: 14px;
+    font-size: 15px;
     float: left;
     text-decoration: none;
 }
@@ -22742,7 +22474,7 @@ gridViewCheckoutRowStyle td {
 .carttxtcolorSize:hover {
     margin-left: 5px;
     color: #E83e48 !important;
-    font-size: 14px;
+    font-size: 15px;
     text-decoration: none;
 }
 
@@ -23330,15 +23062,7 @@ a.btn-watch span:after {
     color: red;
 }
 
-.dashboardIcons {
-    padding-top: 7px;
-    box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
-    background: white;
-    border-radius: 33px;
-    color: #E83e48;
-    font-size: 30px;
-    text-align: center;
-}
+
 
 .bodyResetPassword {
     background-color: White;
@@ -23556,7 +23280,6 @@ a.btn-watch span:after {
 
 .gridViewRowStyle td {
     padding-top: 10px;
-    padding-left: 5px;
     vertical-align: top;
 }
 
@@ -23585,7 +23308,7 @@ a.btn-watch span:after {
     -o-transition: background-color;
     -ms-transition: background-color;
     transition: background-color;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .checkoutNoteslbl {
@@ -23599,6 +23322,7 @@ a.btn-watch span:after {
     color: #66615b;
     text-shadow: none;
     font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+    display: none;
 }
 
 #cphBonham_BonhamsMenu_bonhamsControl {
@@ -23628,6 +23352,7 @@ a:hover {
 
 #lbl_Forgot_Password {
     padding: 10px;
+    padding-left: 4px;
 }
 
 #cmdNext {
@@ -23811,8 +23536,9 @@ a:hover.btn-watch {
 }
 
 .ScrollBarOnOrderHistory {
-    height: 601px;
+    height: 500px;
     overflow-y: scroll;
+    background: #f6f6f7;
 }
 
 .profile-box-header {
@@ -24021,7 +23747,463 @@ gridfontStyle {
     padding: 19px 0px 0px;
 }
 
-.BreadCrumbMenu h1 {
-    font-size: 20px !important;
-    color: #5BB7AC;
+
+.profile-menu {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+    .profile-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+        background-color: #3498db;
+    }
+
+#header-navbar .profile-dropdown > a {
+    padding-top: 8px;
+    padding-bottom: 7px;
+    line-height: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+    #header-navbar .profile-dropdown > a > img {
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        float: left;
+        height: 35px;
+        margin-right: 5px;
+        width: 35px;
+    }
+
+    #header-navbar .profile-dropdown > a > span {
+        float: left;
+        display: block;
+        margin-right: 3px;
+    }
+
+.profile-menu li {
+    width: 100%;
+    border-bottom: 1px solid #f3f3f3;
+}
+
+
+
+.profile-menu {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+    .profile-menu > li > a {
+        padding-left: 35px;
+        -webkit-transition: border-color 0.1s ease-in-out 0s,background-color 0.1s ease-in-out 0s;
+        transition: border-color 0.1s ease-in-out 0s,background-color 0.1s ease-in-out 0s;
+    }
+
+    .profile-menu > li > a {
+        color: black;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .profile-menu > li > a {
+        display: block;
+        padding: 5px 20px;
+        clear: both;
+        font-size: 15px;
+        line-height: 1.42857143;
+        color: #333;
+        white-space: nowrap;
+    }
+
+        .profile-menu > li > a:hover {
+            color: #E83e48;
+        }
+
+    .profile-menu > li:hover {
+        background: #e7e7e7;
+    }
+
+.product-container > div.white-container-lightgrey-border {
+    border: 0px solid #F3F3F3 !important;
+    margin-top: 0px !important;
+}
+
+.BreadCrumbMenu h1 a {
+    color: #E83e48;
+    font-weight: normal;
+    text-shadow: none;
+    font-weight: bold;
+}
+
+#productCategoryContainer {
+    display: none;
+}
+
+.cntParentCategDesc label {
+    font-weight: normal;
+}
+
+#lbl_ProductHeading {
+    display: none;
+}
+
+.float-none {
+    float: none !important;
+}
+
+.OrderConfirmationPanel {
+    border: none;
+    padding: 0px !important;
+}
+
+.copyTerms a {
+    color: white;
+}
+
+
+#priceToggle > label {
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+.LightGrayLabels > label {
+    font-weight: normal;
+}
+
+.dashboard_item_main_heading > label {
+    cursor: pointer;
+}
+
+.dashBoardRetrunLink > div > h1 > a {
+    color: white;
+}
+
+.dashBoardRetrunLink > div > h1 {
+    font-size: 15px !important;
+    margin: 10px !important;
+}
+
+.dashboard_item_main_heading > label {
+    cursor: pointer;
+}
+
+.dashBoardRetrunLink:hover {
+    color: #ffffff;
+    background-color: #009DE0;
+    border-color: #009DE0;
+}
+
+.add_to_cart_btn:hover {
+    background-color: #A5262E;
+}
+
+.Uplod_PCS:hover {
+    background-color: #A5262E;
+}
+
+.start_creating_btn_checkout:hover {
+    background-color: rgb(5, 82, 5);
+}
+
+.start_creating_btn_SApp:hover {
+    background-color: rgb(5, 82, 5);
+}
+
+.add-inquiry-btn {
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: white;
+    width: 123px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #00B4FF;
+    border-color: #00B4FF;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+}
+
+    .add-inquiry-btn:hover {
+        color: #ffffff;
+        background-color: #009DE0;
+        border-color: #009DE0;
+    }
+
+.cntcheckoutSummary {
+    text-align: left;
+    padding-left: 0px !important;
+}
+
+.btn_brown:hover {
+    background: #A9A9A9;
+    border: none;
+}
+
+.start_creating_btn_CretAcc:hover {
+    background-color: #A5262E;
+}
+
+.start_creating_btn_Login:hover {
+    background-color: #A5262E;
+}
+
+.reset-box-container {
+    width: 100%;
+}
+
+    .reset-box-container > input[type="password"] {
+        width: 65% !important;
+    }
+
+.dashboard-main-heading {
+    color: #E83e48;
+    text-shadow: none;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.height-140 {
+    height: 140px;
+}
+
+.dashboard_item_main_heading > label:hover {
+    color: #E83e48;
+}
+
+.modal-header {
+    text-align: left;
+}
+
+.WebGridPadding {
+    padding-left: 7px;
+}
+
+.WebGridheader > th:nth-child(1) {
+    padding-left: 7px;
+}
+
+.add-address-btn {
+    background-color: green;
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: White;
+    width: 140px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 3px;
+    margin-bottom: 10px;
+    word-wrap: normal;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#designFormateimg {
+    width: 100%;
+  margin-bottom: 10px;
+  height: 200px;
+}
+
+.btn_upload_design_Prod_details:hover {
+    background-color: #A5262E;
+}
+
+.start_creating_btn_prodDetail_orng:hover {
+    background-color: #DFC003;
+}
+
+.btn_upload_files_Prod_Land:hover {
+    color: #ffffff;
+    background-color: #009DE0;
+    border-color: #009DE0;
+}
+
+.silver_back_button_modify:hover {
+    color: #ffffff;
+    background-color: #009DE0;
+    border-color: #009DE0;
+}
+
+.receiptbillingShippingcnt {
+    line-height: 15px;
+}
+
+.default-address-tickCs {
+    margin-left: 26px;
+    font-size: 20px;
+    color: green;
+}
+
+.edit-address {
+    font-size: 16px !important;
+    color: red;
+}
+
+.gridViewRowStyleForWebGrid > td > p {
+    font-size: 13px;
+}
+
+.order_history_btn:hover {
+    background-color: #E83e48;
+}
+
+.search-order-Go {
+    width: 11%;
+    float: left;
+    margin-left: 15px;
+}
+
+.search-order-clear {
+    width: 11%;
+    float: left;
+}
+
+.product_detail_sup_padding > table > thead > tr > th {
+    width: 100%;
+}
+
+.background-green {
+    background: green !important;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+}
+
+    .background-green:hover {
+        background: rgb(5, 82, 5) !important;
+    }
+
+.modal-title {
+    text-align: center;
+    font-size: 25px;
+    color: #E83e48;
+    text-shadow: none;
+    font-weight: bold;
+}
+
+.orderReceiptTitle {
+    text-align: center;
+    font-size: 25px;
+    color: #E83e48;
+    text-shadow: none;
+    font-weight: bold;
+}
+
+.more-info-button {
+    background: #00be00;
+    background-repeat: no-repeat;
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: White;
+    width: 175px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 12px;
+    margin-top: 10px;
+}
+
+.place-inquiry-button {
+    background: #E83e48;
+    background-repeat: no-repeat;
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: White;
+    width: 175px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 12px;
+    margin-top: 10px;
+}
+
+.create-design-button {
+    background: #585858;
+    background-repeat: no-repeat;
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: White;
+    width: 175px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 12px;
+    margin-top: 10px;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+}
+
+.goto-designer-button {
+    background: #ffdd0c;
+    background-repeat: no-repeat;
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: black;
+    width: 175px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 12px;
+    margin-top: 10px;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+}
+
+    .goto-designer-button:hover {
+        background: #DFC003;
+    }
+
+.create-design-button:hover {
+    background: #292929;
+}
+
+.link-sign-up {
+    margin-left: 58px;
+}
+
+.close {
+    font-size: 30px !important;
+    margin-top: 5px !important;
+}
+
+.link-sign-up:hover {
+    margin-left: 58px;
+}
+
+.CCModifyLink {
+    cursor: pointer;
+    color: red;
+    margin-left: 10px;
+    text-decoration: underline;
+    font-size: 12px;
+}
+
+    .CCModifyLink:hover {
+        cursor: pointer;
+        color: red;
+        margin-left: 10px;
+        text-decoration: underline;
+        font-size: 12px;
+    }
+
+.CcImageContainer {
+    width: 80px;
+}
+
+#Addressline2 {
+    font-weight: normal !important;
+}
+
+.receiptbillingShippingcnt > label {
+    font-weight: normal !important;
+}
+
+#shippingAddressline2 {
+    font-weight: normal !important;
 }
