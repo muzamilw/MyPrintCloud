@@ -1316,7 +1316,7 @@ define("order/order.viewModel",
                                 } else {
                                     companyId = selectedOrder().companyId();
                                 }
-                                addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate());
+                                addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), pageHeader());
                             }
                             //addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
                         },
