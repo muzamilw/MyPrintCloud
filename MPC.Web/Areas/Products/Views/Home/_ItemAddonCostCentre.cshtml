@@ -8,16 +8,7 @@
             <div class="col-lg-12 form-horizontal outerDiv-Padding" data-bind="with: activeItemAddonCostCentre">
                 <div class="form-group">
                     <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Cost Centre" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-
-
-                        <label class="control-label text-right tooltip-float">Option</label>
+                       <label class="control-label text-right tooltip-float">Cost Center</label>
 
                     </div>
 
@@ -28,15 +19,6 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Cost Centre Type" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-
-
                         <label class="control-label text-right tooltip-float">Type</label>
 
                     </div>
@@ -48,16 +30,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Mandatory" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-
-
-                        <label class="control-label text-right tooltip-float">Is Mandatory</label>
+                         <label class="control-label text-right tooltip-float">User must select this</label>
 
                     </div>
 
@@ -80,7 +53,7 @@
 
             <div class="modal-footer">
                 <hr/>
-                <button type="button" data-dismiss="modal" class="btn btn-danger pull-left" data-bind="click: removeItemAddonCostCentre">Delete</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger pull-left" data-bind="click: $root.onDeleteItemAddonCostCentre">Delete</button>
                 <button type="button" class="btn btn-primary" data-bind="click: $parent.onSaveItemCostCentre">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.closeItemAddonCostCentreDialog" style="margin-left: 0">Close</button>
 

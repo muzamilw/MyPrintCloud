@@ -170,17 +170,16 @@ define("product/product.view",
                     }
                     
                     var inputElement = category.isSelected() ?
-                        '<input class="bigcheckbox" type="checkbox" checked="checked" data-bind="click: $root.updateCheckedStateForCategory"  />' :
-                        '<input class="bigcheckbox" type="checkbox" data-bind="click: $root.updateCheckedStateForCategory" />';
+                        '<input class="bigcheckbox" style="float: right;" type="checkbox" checked="checked" data-bind="click: $root.updateCheckedStateForCategory"  />' :
+                        '<input class="bigcheckbox" style="float: right;" type="checkbox" data-bind="click: $root.updateCheckedStateForCategory" />';
 
                     var childCategoryHtml = '<ol class="dd-list"> ' +
                         '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
                         '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
                         '<div class="dd-handle">' +
                         '<span>' + category.name + '</span>' +
-                        '<div class="nested-links col-md-1" > ' +
-                        inputElement +
-                        '</div></div></li></ol>';
+                        inputElement
+                        + '</div></li></ol>';
 
                     targetElement.append(childCategoryHtml);
 
@@ -408,6 +407,7 @@ define("product/product.view",
 
                             isSliderInitialized = true;
                         }, 1000);
+                    
                     });
                 },
                 // Edit Template

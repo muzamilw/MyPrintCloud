@@ -1717,7 +1717,7 @@ define("crm/crm.viewModel",
                         getStoreForEditting(item.companyId());
                         getBaseData(item.companyId());
                     }
-
+                    isUserAndAddressesTabOpened(true);
                     //view.initializeForm();
 
                     //view.initializeLabelPopovers();
