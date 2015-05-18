@@ -136,8 +136,8 @@
 }
 
 <script id="todoListItemTemplate" type="text/html">
-    <tr>
-        <td><a href="#" class="store-user-link" data-bind="text: activityNotes,click : $root.onEditActivity"></a></td>
+    <tr data-bind="click : $root.onEditActivity" style="cursor: pointer">
+        <td><a href="#" class="store-user-link" data-bind="text: activityNotes"></a></td>
         <td data-bind="text:startDateTime"></td>
         <td data-bind="text:endDateTime"></td>
     </tr>

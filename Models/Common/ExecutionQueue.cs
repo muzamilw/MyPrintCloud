@@ -200,7 +200,8 @@ namespace MPC.Models.Common
         private CostCentreCostResult[] m_CostCentreCostResult = new CostCentreCostResult[5];
         private CostCentreActualCostResult[] m_CostCentreActualCostResult;
 
-        private DataSet m_WorkInstructions;
+        private CostcentreInstruction[] m_WorkInstructions;
+
         private string m_WorkInstructionsString1;
         private string m_WorkInstructionsString2;
         private string m_WorkInstructionsString3;
@@ -213,7 +214,7 @@ namespace MPC.Models.Common
 
         private double m_RunningSpoilage;
 
-        public CostCentreQueueItem(long CostCentreID, string CostCentreName, int CostCentreSequence, string CodeFileName, DataSet Workinstructions, int SetupSpoilage, double RunningSpoilage)
+        public CostCentreQueueItem(long CostCentreID, string CostCentreName, int CostCentreSequence, string CodeFileName, CostcentreInstruction[] Workinstructions, int SetupSpoilage, double RunningSpoilage)
         {
             try
             {
@@ -325,7 +326,7 @@ namespace MPC.Models.Common
             set { m_CostCentreCodeFileName = value; }
         }
 
-        public DataSet WorkInstructions
+        public CostcentreInstruction[] WorkInstructions
         {
             get { return m_WorkInstructions; }
         }

@@ -72,6 +72,11 @@ define("invoice/invoice.viewModel",
                     selectedMarkup1 = ko.observable(0),
                     selectedCategoryId = ko.observable(),
                     currencySymbol = ko.observable(''),
+                    selectedCostCentre = ko.observable(),
+                     sectionHeader = ko.observable(''),
+                      counterForSection = -1000,
+                      //Is Estimate Screen
+                    isEstimateScreen = ko.observable(false),
                     // Active Order
                     selectedInvoice = ko.observable(),
                     // Page Header 
@@ -113,7 +118,7 @@ define("invoice/invoice.viewModel",
                     //Is Cost Center dialog open for shipping
                     isCostCenterDialogForShipping = ko.observable(false),
                     //#endregion
-                    
+
                     //#region Utility Functions
                     // Selected Address
                     selectedAddress = ko.computed(function () {
@@ -155,7 +160,7 @@ define("invoice/invoice.viewModel",
                             confirmation.afterCancel(function () {
                                 selectedInvoice().reset();
                                 closeInvoiceEditor();
-                                invoiceCodeHeader('');                               
+                                invoiceCodeHeader('');
                                 isSectionDetailVisible(false);
                                 isItemDetailVisible(false);
                             });
@@ -179,7 +184,7 @@ define("invoice/invoice.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, [0, 1], true);
+                        companySelector.show(onSelectCompany, [0, 1, 3], true);
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
@@ -193,15 +198,15 @@ define("invoice/invoice.viewModel",
 
                         selectedInvoice().companyId(company.id);
                         selectedInvoice().companyName(company.name);
-
+                        selectedCompany(company);
+                        if (company.isCustomer !== 3 && company.storeId) {
+                            selectedInvoice().storeId(company.storeId);
+                        }
                         // Get Company Address and Contacts
-                        getBaseForCompany(company.id, company.storeId);
+                        getBaseForCompany(company.id, (selectedInvoice().storeId() === null || selectedInvoice().storeId() === undefined) ? company.id :
+                            selectedInvoice().storeId());
                     },
-                    // Open Item Detail
-                    openItemDetail = function () {
-                        isItemDetailVisible(true);
-                        view.initializeLabelPopovers();
-                    },
+
                     vatList = ko.observableArray([
                         {
                             name: "VAT Free",
@@ -231,7 +236,7 @@ define("invoice/invoice.viewModel",
                         if (!doBeforeSave()) {
                             return;
                         }
-                       
+
                         var istatus = selectedInvoice().invoiceStatus();
                         if (istatus == 19)//Awaiting Invoice
                         {
@@ -249,7 +254,7 @@ define("invoice/invoice.viewModel",
                         }
 
 
-                        
+
                     },
                     // Do Before Save
                     doBeforeSave = function () {
@@ -266,58 +271,93 @@ define("invoice/invoice.viewModel",
                         view.gotoElement(validation.element);
                     },
                     saveSectionCostCenter = function (newItem, sectionCostCenter, selectedStockOptionParam, selectedProductQuanityParam) {
-                          //var orderNewItem = new model.Item.Create(newItem.convertToServerData());
-                          //newItem = orderNewItem;
-                          sectionCostCenter.name('Web Order Cost Center');
-                          sectionCostCenter.qty1EstimatedStockCost(0);
-                          sectionCostCenter.qty2EstimatedStockCost(0);
-                          sectionCostCenter.qty3EstimatedStockCost(0);
+                        //var orderNewItem = new model.Item.Create(newItem.convertToServerData());
+                        //newItem = orderNewItem;
+                        sectionCostCenter.name('Web Order Cost Center');
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
 
-                          sectionCostCenter.qty2Charge(0);
-                          sectionCostCenter.qty3Charge(0);
-                          sectionCostCenter.qty1(selectedProductQuanityParam);
-                          selectedSectionCostCenter(sectionCostCenter);
-                          selectedQty(1);
+                        sectionCostCenter.qty2Charge(0);
+                        sectionCostCenter.qty3Charge(0);
+                        sectionCostCenter.qty1(selectedProductQuanityParam);
+                        selectedSectionCostCenter(sectionCostCenter);
+                        selectedQty(1);
 
-                          //Item's Quantity
-                          newItem.qty1(selectedProductQuanityParam);
-                          //Item's Section Quantity
-                          newItem.itemSections()[0].qty1(selectedProductQuanityParam);
-                          newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
+                        //Item's Quantity
+                        newItem.qty1(selectedProductQuanityParam);
+                        //Item's Section Quantity
+                        newItem.itemSections()[0].qty1(selectedProductQuanityParam);
+                        newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
 
-                          itemDetailVm.updateOrderData(selectedInvoice(), newItem, selectedSectionCostCenter(), selectedQty(), newItem.itemSections()[0]);
+                        itemDetailVm.updateOrderData(selectedInvoice(), newItem, selectedSectionCostCenter(), selectedQty(), newItem.itemSections()[0]);
 
-                          //#region Add Selected Addons as Cost Centers
-                          if (selectedStockOptionParam != undefined && selectedStockOptionParam.itemAddonCostCentres().length > 0) {
-                              _.each(selectedStockOptionParam.itemAddonCostCentres(), function (stockOption) {
-                                  if (stockOption.isSelected()) {
-                                      sectionCostCenter = itemModel.SectionCostCentre.Create({});
-                                      sectionCostCenter.costCentreId(stockOption.costCentreId());
-                                      sectionCostCenter.name(stockOption.costCentreName());
-                                      sectionCostCenter.qty1EstimatedStockCost(0);
-                                      sectionCostCenter.qty2EstimatedStockCost(0);
-                                      sectionCostCenter.qty3EstimatedStockCost(0);
-                                      sectionCostCenter.qty1Charge(stockOption.totalPrice());
-                                      sectionCostCenter.qty2Charge(0);
-                                      sectionCostCenter.qty3Charge(0);
-                                      sectionCostCenter.qty1(1);
+                        //#region Add Selected Addons as Cost Centers
+                        if (selectedStockOptionParam != undefined && selectedStockOptionParam.itemAddonCostCentres().length > 0) {
+                            _.each(selectedStockOptionParam.itemAddonCostCentres(), function (stockOption) {
+                                if (stockOption.isSelected()) {
+                                    sectionCostCenter = itemModel.SectionCostCentre.Create({});
+                                    sectionCostCenter.costCentreId(stockOption.costCentreId());
+                                    sectionCostCenter.name(stockOption.costCentreName());
+                                    sectionCostCenter.qty1EstimatedStockCost(0);
+                                    sectionCostCenter.qty2EstimatedStockCost(0);
+                                    sectionCostCenter.qty3EstimatedStockCost(0);
+                                    sectionCostCenter.qty1Charge(stockOption.totalPrice());
+                                    sectionCostCenter.qty2Charge(0);
+                                    sectionCostCenter.qty3Charge(0);
+                                    sectionCostCenter.qty1(1);
 
-                                      sectionCostCenter.qty1NetTotal(stockOption.totalPrice());
-                                      selectedSectionCostCenter(sectionCostCenter);
-                                      selectedQty(1);
-                                      newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
-                                  }
-                              });
-                          }
-                          //#endregion
+                                    sectionCostCenter.qty1NetTotal(stockOption.totalPrice());
+                                    selectedSectionCostCenter(sectionCostCenter);
+                                    selectedQty(1);
+                                    newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
+                                }
+                            });
+                        }
+                        //#endregion
                     },
                     createitemForRetailStoreProduct = function (selectedItem) {
                         var item = selectedItem.convertToServerData();
                         //item.EstimateId = orderId;
                         selectedSection(undefined);
                         var newItem = itemModel.Item.Create(item);
-
+                        applyProductTax(newItem);
                         return newItem;
+                    },
+                    // Edit Item
+                    editItem = function (item) {
+                        itemCodeHeader(item.code());
+                        var itemSection = _.find(item.itemSections(), function (itemSec) {
+                            return itemSec.flagForAdd() === true;
+                        });
+                        if (itemSection === undefined) {
+                            var itemSectionForAddView = itemModel.ItemSection.Create({});
+                            counterForSection = counterForSection - 1;
+                            itemSectionForAddView.id(counterForSection);
+                            itemSectionForAddView.flagForAdd(true);
+                            item.itemSections.push(itemSectionForAddView);
+                        }
+                        selectedProduct(item);
+                        var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
+                        editSection(section);
+                        openItemDetail();
+                    },
+                     // Open Item Detail
+                    openItemDetail = function () {
+                        isItemDetailVisible(true);
+                        itemDetailVm.showItemDetail(selectedProduct(), selectedInvoice(), closeItemDetail, isEstimateScreen());
+                        view.initializeLabelPopovers();
+                    },
+                    // Edit Section
+                    editSection = function (item) {
+                        sectionHeader("SECTION - " + item.sectionNo());
+                        selectedSection(item);
+                        openSectionDetail();
+
+                    },
+                    // Open Section Detail
+                    openSectionDetail = function () {
+                        view.initializeLabelPopovers();
                     },
                     //#region Add Blank Print Product
                     onCreateNewBlankPrintProduct = function () {
@@ -329,14 +369,102 @@ define("invoice/invoice.viewModel",
                         newItem.qty1GrossTotal(0);
 
                         var itemSection = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSection.id(counterForSection);
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                         itemSection.productType(2);
                         newItem.itemSections.push(itemSection);
                         selectedInvoice().items.splice(0, 0, newItem);
                     },
+                    //Product From Cost Center
+                     createNewCostCenterProduct = function () {
+                         view.hideCostCentersQuantityDialog();
+                         //selectedCostCentre(costCenter);
+                         var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id() });
+                         applyProductTax(item);
+                         selectedProduct(item);
+                         item.productName(selectedCostCentre().name());
+                         item.qty1(selectedCostCentre().quantity1());
+                         item.qty2(selectedCostCentre().quantity2());
+                         item.qty3(selectedCostCentre().quantity3());
+                         item.qty1NetTotal(selectedCostCentre().setupCost());
+                         //Req: Item Product code is set to '2', so while editting item's section is non mandatory
+                         item.productType(2);
+
+                         var itemSection = itemModel.ItemSection.Create({});
+                         counterForSection = counterForSection - 1;
+                         itemSection.id(counterForSection);
+                         itemSection.name("Text Sheet");
+                         itemSection.qty1(selectedCostCentre().quantity1());
+                         itemSection.qty2(selectedCostCentre().quantity2());
+                         itemSection.qty3(selectedCostCentre().quantity3());
+                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                         itemSection.productType(2);
+                         itemSection.baseCharge1(selectedCostCentre().setupCost());
+
+                         var sectionCostCenter = itemModel.SectionCostCentre.Create({});
+                         sectionCostCenter.qty1(selectedCostCentre().quantity1());
+                         sectionCostCenter.qty2(selectedCostCentre().quantity2());
+                         sectionCostCenter.qty3(selectedCostCentre().quantity3());
+                         sectionCostCenter.qty1EstimatedStockCost(0);
+                         sectionCostCenter.qty2EstimatedStockCost(0);
+                         sectionCostCenter.qty3EstimatedStockCost(0);
+                         sectionCostCenter.costCentreId(selectedCostCentre().id());
+                         sectionCostCenter.costCentreName(selectedCostCentre().name());
+                         sectionCostCenter.name(selectedCostCentre().name());
+
+                         //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
+                         sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
+
+                         selectedSectionCostCenter(sectionCostCenter);
+                         selectedQty(1);
+                         itemSection.sectionCostCentres.push(sectionCostCenter);
+
+                         item.itemSections.push(itemSection);
+                         var itemSectionForAddView = itemModel.ItemSection.Create({});
+                         counterForSection = counterForSection - 1;
+                         itemSectionForAddView.id(counterForSection);
+                         itemSectionForAddView.flagForAdd(true);
+                         item.itemSections.push(itemSectionForAddView);
+                         if (isCostCenterDialogForShipping()) {
+                             item.itemType(2); // Delivery Item
+                             var deliveryItem = _.find(selectedInvoice().items(), function (itemWithType2) {
+                                 return itemWithType2.itemType() === 2;
+                             });
+                             if (deliveryItem !== undefined) {
+                                 selectedInvoice().items.remove(deliveryItem);
+                             }
+
+                         }
+
+                         selectedInvoice().items.splice(0, 0, item);
+
+                         selectedSection(itemSection);
+
+                         //this method is calling to update orders list view total prices etc by trigering computed in item's detail view
+                         itemDetailVm.updateOrderData(selectedInvoice(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                     },
+                      // Gross Total
+                    grossTotal = ko.computed(function () {
+                        var total = 0;
+                        if (selectedInvoice() != undefined) {
+                            _.each(selectedInvoice().nonDeliveryItems(), function (item) {
+                                var val = item.qty1GrossTotal();
+                                total = total + parseFloat(val);
+                            });
+                            _.each(selectedInvoice().deliveryItems(), function (item) {
+                                var val = item.qty1GrossTotal();
+                                total = total + parseFloat(val);
+                            });
+                            total = total.toFixed(2);
+                            selectedInvoice().estimateTotal(total);
+                        }
+
+                        return total;
+                    }),
                     //#endregion
                     //#endregion
-                    
+
                     // #region ServiceCalls
                     // Get Base Data
                      getBaseData = function () {
@@ -358,7 +486,7 @@ define("invoice/invoice.viewModel",
                                      costCentresBaseData.valueHasMutated();
                                  }
                                  // view.initializeLabelPopovers();
-                                
+
                              },
                              error: function (response) {
                                  toastr.error("Failed to load base data" + response);
@@ -384,10 +512,10 @@ define("invoice/invoice.viewModel",
                             return invoice.id() === id;
                         });
                     },
-                    
+
                     // Save Invoice
-                    saveInvoice = function (callback, navigateCallback) {                        
-                        var invoice = selectedInvoice().convertToServerData();                        
+                    saveInvoice = function (callback, navigateCallback) {
+                        var invoice = selectedInvoice().convertToServerData();
                         dataservice.saveInvoice(invoice, {
                             success: function (data) {
                                 if (!selectedInvoice().id()) {
@@ -421,7 +549,7 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
-                 
+
                     //get Invoices Of Current Screen
                     getInvoicesOfCurrentScreen = function () {
                         getInvoices(currentScreen());
@@ -491,7 +619,7 @@ define("invoice/invoice.viewModel",
                             success: function (data) {
                                 if (data) {
                                     selectedInvoice(model.Invoice.Create(data));
-                                    
+
 
 
                                     // Get Base Data For Company
@@ -542,7 +670,7 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
-                    createInvoice = function () {                     
+                    createInvoice = function () {
                         selectedInvoice(model.Invoice.Create({}));
                         selectedInvoice().invoiceStatus(19);
                         selectedInvoice().isPostedInvoice(false);
@@ -554,60 +682,173 @@ define("invoice/invoice.viewModel",
                             toastr.error("Please select customer.");
                         } else {
                             var companyId = 0;
-                            if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3 && selectedCompany().storeId !== null) {
-                                companyId = selectedCompany().storeId;
+                            if (selectedInvoice().storeId()) {
+                                companyId = selectedInvoice().storeId();
                             } else {
                                 companyId = selectedInvoice().companyId();
                             }
                             addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedInvoice().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
                         }
-                        addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedInvoice().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
+                        // addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedInvoice().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
                     },
-                    addItemFromRetailStore = function (newItem) {
-                        selectedProduct(newItem);
-                        selectedInvoice().items.splice(0, 0, newItem);
-                        itemDetailVm.updateOrderData(selectedInvoice(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
-                    },
+                     addItemFromRetailStore = function (newItem) {
+                         var itemSectionForAddView = itemModel.ItemSection.Create({});
+                         counterForSection = counterForSection - 1;
+                         itemSectionForAddView.id(counterForSection);
+                         itemSectionForAddView.flagForAdd(true);
+                         newItem.itemSections.push(itemSectionForAddView);
+                         selectedProduct(newItem);
+                         selectedInvoice().items.splice(0, 0, newItem);
+                         itemDetailVm.updateOrderData(selectedInvoice(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                     },
 
-                    // Open Stock Item Dialog For Adding product
-                    openStockItemDialogForAddingProduct = function () {
-                        isAddProductFromInventory(true);
-                        isAddProductForSectionCostCenter(false);
-                        stockDialog.show(function (stockItem) {
-                            createNewInventoryProduct(stockItem);
-                        }, stockCategory.paper, false, currencySymbol());
-                    },
+
+                     // Open Stock Item Dialog For Adding product
+                     openStockItemDialogForAddingProduct = function () {
+                         isAddProductFromInventory(true);
+                         isAddProductForSectionCostCenter(false);
+                         if (selectedInvoice().companyId() === undefined) {
+                             toastr.error("Please select customer.");
+                         } else {
+                             stockDialog.show(function (stockItem) {
+                                 createNewInventoryProduct(stockItem);
+                             }, stockCategory.paper, false, currencySymbol(), selectedCompanyTaxRate());
+                         }
+                     },
                     createNewInventoryProduct = function (stockItem) {
                         var costCenter = itemModel.costCentre.Create({});
                         selectedCostCentre(costCenter);
-
                         view.showCostCentersQuantityDialog();
                         inventoryStockItemToCreate(stockItem);
                     },
+                    getStockCostCenterId = function (type) {
+                        var costCentreId;
+                        _.each(costCentresBaseData(), function (costCenter) {
+                            if (costCenter.Type == type) {
+                                costCentreId = costCenter.CostCentreId;
+                            }
+                        });
+                        return costCentreId;
+                    },
+                    applyProductTax = function (item) {
+                        if (item.tax1() === undefined) {
+                            if (item.defaultItemTax() !== undefined && item.defaultItemTax() !== null) {
+                                item.tax1(item.defaultItemTax());
+                            } else if (selectedCompanyTaxRate() !== undefined && selectedCompanyTaxRate() !== null) {
+                                item.tax1(selectedCompanyTaxRate());
+                            } else {
+                                item.tax1(0);
+                                item.taxRateIsDisabled(true);
+                            }
+                        }
+                    },
+                    onSaveProductInventory = function () {
+                        var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id() });
+                        applyProductTax(item);
+                        item.productName(inventoryStockItemToCreate().name);
+                        item.qty1(selectedCostCentre().quantity1());
+                        item.qty2(selectedCostCentre().quantity2());
+                        item.qty3(selectedCostCentre().quantity3());
+                        //Req: Item Product type is set to '2', so while editting item's section is non mandatory
+                        item.productType(2);
+                        item.qty1NetTotal(inventoryStockItemToCreate().price);
+                        item.qty1GrossTotal(inventoryStockItemToCreate().priceWithTax);
 
+                        selectedProduct(item);
+                        var itemSection = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSection.id(counterForSection);
+                        itemSection.name("Text Sheet");
+                        itemSection.qty1(selectedCostCentre().quantity1());
+                        itemSection.qty2(selectedCostCentre().quantity2());
+                        itemSection.qty3(selectedCostCentre().quantity3());
+                        itemSection.baseCharge1(inventoryStockItemToCreate().price);
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
+
+                        var sectionCostCenter = itemModel.SectionCostCentre.Create({});
+                        sectionCostCenter.qty1(selectedCostCentre().quantity1());
+                        sectionCostCenter.qty2(selectedCostCentre().quantity2());
+                        sectionCostCenter.qty3(selectedCostCentre().quantity3());
+                        sectionCostCenter.costCentreId(getStockCostCenterId(139));
+                        sectionCostCenter.costCentreName(selectedCostCentre().name());
+                        sectionCostCenter.name('Stock(s)');
+                        sectionCostCenter.qty1NetTotal(inventoryStockItemToCreate().price);
+                        sectionCostCenter.qty2NetTotal(0);
+                        sectionCostCenter.qty2NetTotal(0);
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
+                        sectionCostCenter.qty1Charge(inventoryStockItemToCreate().price);
+                        sectionCostCenter.qty2Charge(0);
+                        sectionCostCenter.qty3Charge(0);
+                        sectionCostCenter.costCentreType('139');
+
+                        var sectionCostCenterDetail = itemModel.SectionCostCenterDetail.Create({});
+                        sectionCostCenterDetail.stockName(inventoryStockItemToCreate().name);
+                        sectionCostCenterDetail.costPrice(inventoryStockItemToCreate().price);
+                        sectionCostCenterDetail.qty1(inventoryStockItemToCreate().packageQty);
+
+                        sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
+
+                        selectedSectionCostCenter(sectionCostCenter);
+                        selectedQty(1);
+
+                        itemSection.sectionCostCentres.push(sectionCostCenter);
+                        item.itemSections.push(itemSection);
+                        var itemSectionForAddView = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSectionForAddView.id(counterForSection);
+                        itemSectionForAddView.flagForAdd(true);
+                        item.itemSections.push(itemSectionForAddView);
+
+                        view.hideCostCentersQuantityDialog();
+                        selectedInvoice().items.splice(0, 0, item);
+                        selectedSection(itemSection);
+
+                    },
+                      //Opens Cost Center dialog for Shipping
+                    onShippingChargesClick = function () {
+                        if (selectedInvoice().companyId() === undefined) {
+                            toastr.error("Please select customer.");
+                        } else {
+                            isCostCenterDialogForShipping(true);
+                            onAddCostCenter();
+                        }
+
+                    },
+                    onAddCostCenter = function () {
+                        var companyId = 0;
+                        if (selectedInvoice().storeId()) {
+                            companyId = selectedInvoice().storeId();
+                        } else {
+                            companyId = selectedInvoice().companyId();
+                        }
+                        addCostCenterVM.show(afterSelectCostCenter, companyId, true, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
+                    },
                     //Opens Cost Center dialog for Cost Center
                     onCostCenterClick = function () {
                         isAddProductFromInventory(false);
                         isCostCenterDialogForShipping(false);
                         onAddCostCenterForProduct();
                     },
-                     onAddCostCenterForProduct = function () {
-                         getCostCentersForProduct();
-                         // view.showCostCentersDialog();
-                     },
-                      getCostCentersForProduct = function () {
-                          addCostCenterVM.show(afterSelectCostCenter, selectedInvoice().companyId(), false, currencySymbol());
-                      },
-                      afterSelectCostCenter = function (costCenter) {
-                          selectedCostCentre(costCenter);
-                          view.showCostCentersQuantityDialog();
-                      },
+                    onAddCostCenterForProduct = function () {
+                        getCostCentersForProduct();
+                        // view.showCostCentersDialog();
+                    },
+                  getCostCentersForProduct = function () {
+                      addCostCenterVM.show(afterSelectCostCenter, selectedInvoice().companyId(), false, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
+                  },
+                    afterSelectCostCenter = function (costCenter) {
+                        selectedCostCentre(costCenter);
+                        view.showCostCentersQuantityDialog();
+                    },
                     //#endregion
 
                 //Initialize method to call in every screen
                 initializeScreen = function (specifiedView) {
                     view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);                   
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
                     // Get Base Data
                     getBaseData();
                 },
@@ -617,13 +858,13 @@ define("invoice/invoice.viewModel",
                     pager(new pagination.Pagination({ PageSize: 10 }, invoices, getInvoices));
                     getInvoices();
                 };
-                
+
                 //#endregion
 
                 return {
 
                     //#region Observables
-                    initialize:initialize,
+                    initialize: initialize,
                     selectedInvoice: selectedInvoice,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
@@ -643,6 +884,11 @@ define("invoice/invoice.viewModel",
                     orderTypeFilter: orderTypeFilter,
                     invoiceCodeHeader: invoiceCodeHeader,
                     selectedCompany: selectedCompany,
+                    selectedCostCentre: selectedCostCentre,
+                    currencySymbol: currencySymbol,
+                    isAddProductFromInventory: isAddProductFromInventory,
+                    isAddProductForSectionCostCenter: isAddProductForSectionCostCenter,
+                    sectionHeader: sectionHeader,
                     //selectedOrder: selectedOrder,
                     //#endregion
 
@@ -662,7 +908,12 @@ define("invoice/invoice.viewModel",
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
                     createitemForRetailStoreProduct: createitemForRetailStoreProduct,
                     openStockItemDialogForAddingProduct: openStockItemDialogForAddingProduct,
-                    onCostCenterClick: onCostCenterClick
+                    onCostCenterClick: onCostCenterClick,
+                    openCompanyDialog: openCompanyDialog,
+                    onSaveProductInventory: onSaveProductInventory,
+                    createNewCostCenterProduct: createNewCostCenterProduct,
+                    onShippingChargesClick: onShippingChargesClick,
+                    editItem: editItem,
                     //#endregion
                 };
             })()
