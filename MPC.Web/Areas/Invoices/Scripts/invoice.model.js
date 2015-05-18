@@ -33,6 +33,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Number Of items
                 numberOfItems = ko.observable(),
                 statusName = ko.observable(specifiedStatusName),
+                 // Estimate Total
+                estimateTotal = ko.observable(0).extend({ numberInput: ist.numberFormat }),
                 // Number of Items UI
                 noOfItemsUi = ko.computed(function () {
                     return "( " + numberOfItems() + " ) Items";
@@ -223,6 +225,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 deliveryItems: deliveryItems,
                 statusName: statusName,
                 storeId: storeId,
+                estimateTotal:estimateTotal,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -233,6 +236,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 convertToServerData: convertToServerData,
                 isPostedInvoice: isPostedInvoice,
                 items: items
+               
             };
         },
         // Invoice Detail Entity

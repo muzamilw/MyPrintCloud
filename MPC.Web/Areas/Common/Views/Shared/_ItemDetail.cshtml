@@ -41,7 +41,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-detail" data-toggle="tab">Print Product</a></li>
 
-                            <li data-bind="visible: $root.selectedOrder() != undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
+                            <li data-bind="visible: $root.selectedOrder() != undefined &&  $root.selectedOrder().statusId!==undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
                             <li><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
                         </ul>
                         <div class="tab-content">
@@ -572,7 +572,7 @@
             </div>
             <div class="col-lg-12 col-md-8 col-sm-8" data-bind="visible:$root.showSectionDetail" style="padding-left: 16px;padding-right: 16px;">
                 <div class="main-box clearfix">
-                    @Html.Partial("_OrderSectionDetail")
+                    @Html.Partial("~/Areas/Orders/Views/Home/_OrderSectionDetail.cshtml")
                 </div>
             </div>
         </div>
@@ -598,8 +598,8 @@
     <li class="col-md-2 col-sm-2 col-xs-6">
         <div>
             <div style="float: left"><img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" /></div>
-            <div style="font-size: small;cursor: pointer;" class="itemSectionName" data-bind="click:$root.showSectionDetailEditor">
-                <span class="form-control" data-bind=" text:name" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 23%;padding-left: 0px;"></span>
+            <div style="font-size: small;float: right;margin-top: -87%;cursor: pointer; margin-right: -6%; width: 86%;"  data-bind="click:$root.showSectionDetailEditor">
+                <span class="form-control" data-bind="text:name" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 23%;padding-left: 0px;"></span>
             </div>
         </div>
 

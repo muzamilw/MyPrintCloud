@@ -313,7 +313,7 @@
                                                                                 <td></td>
                                                                                 <td></td>
                                                                                 <td></td>
-                                                                              
+
                                                                             </tr>
                                                                             <!-- /ko -->
                                                                             <!-- ko template: { name: 'sectionCostCentreItemTemplate', foreach: sectionCostCentres } -->
@@ -454,8 +454,8 @@
     <!--ko if: !flagForAdd() && $root.selectedSection().id()!==id() -->
     <li>
         <div>
-            <div style="float: left"><img style="width: 53%;;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" /></div>
-            <div style="font-size: small;width: 57%;margin-right: 38%;cursor: pointer;margin-top: -45%;padding-right: 5%;" class="itemSectionName">
+            <div style="float: left"><img style="width: 53%;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" /></div>
+            <div style="font-size: small;width: 57%;float: right;margin-right: 38%;cursor: pointer;margin-top: -45%;padding-right: 5%;">
                 <span class="form-control" data-bind=" text:name,click:$root.showSectionDetailEditor" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 20%;padding-left: 0px;"></span>
             </div>
         </div>
@@ -469,6 +469,10 @@
     <li>
         <div>
             <div style="float: left"><img style="width: 53%;cursor: pointer" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
+            @*<div style="font-size: small;width: 57%;margin-right: 38%;float: right;cursor: pointer;margin-top: -45%;padding-right: 5%;" class="itemSectionName">
+                <span class="form-control" style="text-align: center;border: none;background-color: transparent;padding-right: 20%;padding-left: 0px;"></span>
+            </div>*@
+
         </div>
 
         <div class="btn btn-success" style="font-size: x-small; padding-right: 4px;padding-left: 4px; margin-left: 7%;" data-bind="visible:flagForAdd,click:$root.createNewItemSection">
@@ -481,7 +485,7 @@
     <li>
         <div>
             <div style="float: left"><img style="width: 53%;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>
-            <div style="font-size: small;width: 57%;margin-right: 38%;margin-top: -45%;padding-right: 5%;" class="itemSectionName">
+            <div style="font-size: small;width: 57%;margin-right: 38%;float: right;margin-top: -45%;padding-right: 5%;" class="itemSectionName">
                 <span class="form-control" data-bind=" text:name" style="text-align: center;color: #3c9bf6;border: none;background-color: transparent;padding-right: 20%;padding-left: 0px;"></span>
             </div>
         </div>
