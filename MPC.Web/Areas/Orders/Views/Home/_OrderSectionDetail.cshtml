@@ -479,7 +479,7 @@
 
     </li>
     <!--/ko-->
-    <!--ko if: $root.selectedSection().id()===id() -->
+    <!--ko if: !flagForAdd() && $root.selectedSection().id()===id() -->
     <li>
         <div>
             <div style="float: left"><img style="width: 53%;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>

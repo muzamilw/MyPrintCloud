@@ -74,6 +74,7 @@ define("invoice/invoice.viewModel",
                     currencySymbol = ko.observable(''),
                     selectedCostCentre = ko.observable(),
                      sectionHeader = ko.observable(''),
+                      counterForSection = -1000,
                       //Is Estimate Screen
                     isEstimateScreen = ko.observable(false),
                     // Active Order
@@ -331,6 +332,8 @@ define("invoice/invoice.viewModel",
                         });
                         if (itemSection === undefined) {
                             var itemSectionForAddView = itemModel.ItemSection.Create({});
+                            counterForSection = counterForSection - 1;
+                            itemSectionForAddView.id(counterForSection);
                             itemSectionForAddView.flagForAdd(true);
                             item.itemSections.push(itemSectionForAddView);
                         }
@@ -366,6 +369,8 @@ define("invoice/invoice.viewModel",
                         newItem.qty1GrossTotal(0);
 
                         var itemSection = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSection.id(counterForSection);
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                         itemSection.productType(2);
                         newItem.itemSections.push(itemSection);
@@ -387,6 +392,8 @@ define("invoice/invoice.viewModel",
                          item.productType(2);
 
                          var itemSection = itemModel.ItemSection.Create({});
+                         counterForSection = counterForSection - 1;
+                         itemSection.id(counterForSection);
                          itemSection.name("Text Sheet");
                          itemSection.qty1(selectedCostCentre().quantity1());
                          itemSection.qty2(selectedCostCentre().quantity2());
@@ -415,6 +422,8 @@ define("invoice/invoice.viewModel",
 
                          item.itemSections.push(itemSection);
                          var itemSectionForAddView = itemModel.ItemSection.Create({});
+                         counterForSection = counterForSection - 1;
+                         itemSectionForAddView.id(counterForSection);
                          itemSectionForAddView.flagForAdd(true);
                          item.itemSections.push(itemSectionForAddView);
                          if (isCostCenterDialogForShipping()) {
@@ -684,6 +693,8 @@ define("invoice/invoice.viewModel",
                     },
                      addItemFromRetailStore = function (newItem) {
                          var itemSectionForAddView = itemModel.ItemSection.Create({});
+                         counterForSection = counterForSection - 1;
+                         itemSectionForAddView.id(counterForSection);
                          itemSectionForAddView.flagForAdd(true);
                          newItem.itemSections.push(itemSectionForAddView);
                          selectedProduct(newItem);
@@ -745,6 +756,8 @@ define("invoice/invoice.viewModel",
 
                         selectedProduct(item);
                         var itemSection = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSection.id(counterForSection);
                         itemSection.name("Text Sheet");
                         itemSection.qty1(selectedCostCentre().quantity1());
                         itemSection.qty2(selectedCostCentre().quantity2());
@@ -784,6 +797,8 @@ define("invoice/invoice.viewModel",
                         itemSection.sectionCostCentres.push(sectionCostCenter);
                         item.itemSections.push(itemSection);
                         var itemSectionForAddView = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSectionForAddView.id(counterForSection);
                         itemSectionForAddView.flagForAdd(true);
                         item.itemSections.push(itemSectionForAddView);
 
