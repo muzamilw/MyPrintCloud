@@ -5,8 +5,8 @@
                 <button type="button" class="close" data-dismiss="modal" data-bind="click:$root.onCloseProductFromRetailStore" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Product From Store</h4>
             </div>
-            <div class="col-lg-12 form-horizontal" style="margin-left: 33px; margin-top: 30px;">
-                <div class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="margin-left: 23px">
+            <div class="col-lg-12 form-horizontal" style=" margin-top: 30px;">
+                <div class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="margin-left: 9px; width: 30%;">
                     @*<header class="main-box-header clearfix">
                     <div class="filter-block pull-left">
                         <form data-bind="submit: $root.getItemsByCompanyId">
@@ -61,13 +61,13 @@
                     </div>
                 </div>
                 <div style="display: none" data-bind="visible:$root.costCenterVisibility()"> <!-- controls visibility of other sections- starts here-->
-                    <div class="col-lg-1" style=" padding-left: 8px; width: 7%;">
-                        <div style="height: 300px; position: relative; top: 50%; transform: translateY(55%); ">
-                            <img src="~/Content/Images/arrow-right.jpg" style="width: 60px;" data-bind="click:$root.showCostCenter" />
+                    <div class="col-lg-1" style=" padding-left: 3px; width: 7%;">
+                        <div style="height: 300px; position: relative; top: 50%; transform: translateY(55%); padding-right: 0px; ">
+                            <img src="~/Content/Images/arrow-right.jpg" style="width: 45px;" data-bind="click:$root.showCostCenter" />
                         </div>
                     </div>
 
-                    <div style=" margin-left: 3px; height: 415px; max-height: 415px;" @*data-bind="visible:$root.costCenterVisibility()"*@ class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection2">
+                    <div style=" margin-left: -25px; height: 415px; max-height: 415px; width: 29%;" @*data-bind="visible:$root.costCenterVisibility()"*@ class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection2">
 
                         <div class="form-group" style="margin-left: 0px; margin-right: 0px;  overflow-y: auto" data-bind="css: {'productDialogEmptyHeight': ( $root.selectedStockItem() == undefined || ($root.selecteditem() != undefined && $root.selecteditem().itemPriceMatrices().length == 0)), 'productDialogNonEmptyHeight': ($root.selectedStockItem() != undefined && ($root.selecteditem() != undefined && $root.selecteditem().itemPriceMatrices().length != 0))}">
 
@@ -149,13 +149,13 @@
                             <!--/ko-->
                         </div>
                     </div>
-                    <div class="col-lg-1" style=" padding-left: 8px; width: 7%">
+                    <div class="col-lg-1" style=" padding-left: 3px; width: 7%;">
                         <div style="height: 300px; position: relative; top: 50%; transform: translateY(55%); ">
-                            <img src="~/Content/Images/arrow-right.jpg" style="width: 60px;" />
+                            <img src="~/Content/Images/arrow-right.jpg" style="width: 45px;" />
                         </div>
                     </div>
 
-                    <div style="margin-left: 0px; height: 415px; max-height: 415px;" class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="">
+                    <div style="margin-left: -25px; height: 415px; max-height: 415px; width: 30%;" class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="">
                         @*<header class="main-box-header clearfix">
                     <div class="filter-block pull-left">
                         <form data-bind="submit: $root.getItemsByCompanyId">

@@ -20,6 +20,11 @@ namespace MPC.Interfaces.Repository
         string GetNextOrderCodePrefix();
 
         /// <summary>
+        /// Get Prefixed Next Estimate Code
+        /// </summary>
+        string GetNextEstimateCodePrefix();
+
+        /// <summary>
         /// Get Prefixed Next Item Code
         /// </summary>
         string GetNextItemCodePrefix(bool shouldIncrementNextItem = true);
