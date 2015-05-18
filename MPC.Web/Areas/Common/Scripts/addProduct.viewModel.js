@@ -16,6 +16,8 @@ define("common/addProduct.viewModel",
                     productQuantitiesList = ko.observableArray([]),
                     //Selected item
                     selecteditem = ko.observable(),
+                   //Selected item Name
+                    selecteditemName = ko.observable(),
                     // Show/Hide Cost center section
                     costCenterVisibility = ko.observable(false),
                     //Selected Stock Option Sequence Number
@@ -52,9 +54,11 @@ define("common/addProduct.viewModel",
                     companyIdFromOrder = null,
                     companyTaxRate = null,
                     searchFilter = ko.observable(),
+                    storeName = ko.observable(),
                     // Show
-                    show = function(afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem, companyTaxRateParam) {
+                    show = function(afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem, companyTaxRateParam, productName) {
                         resetFields();
+                        storeName(productName);
                         orderId = oId;
                         currencySymbol(currencySym);
                         afterAddCostCenter = afterAddCostCenterCallback;
@@ -111,7 +115,8 @@ define("common/addProduct.viewModel",
                     },
                     //Update Items Data On Item Selection
                     //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
-                    updateItemsDataOnItemSelection = function(item) {
+                    updateItemsDataOnItemSelection = function (item) {
+                        selecteditemName(item.productName());
                         selectedProductFromStore(item);
                         dataservice.getItemsDetailsByItemId({
                                 itemId: item.id()
@@ -366,7 +371,9 @@ define("common/addProduct.viewModel",
                     addsOnTotal: addsOnTotal,
                     onCloseProductFromRetailStore: onCloseProductFromRetailStore,
                     selectedProductQuanityPrice: selectedProductQuanityPrice,
-                    quantitiesCount: quantitiesCount
+                    quantitiesCount: quantitiesCount,
+                    selecteditemName: selecteditemName,
+                    storeName: storeName
                 };
             })()
         };

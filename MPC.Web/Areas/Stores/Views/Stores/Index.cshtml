@@ -91,12 +91,12 @@
             </a>
         </script>
         <script id="itemStoreTemplate" type="text/html">
-            <tr data-bind="click: $root.selectStore, css: { selectedRow: $data === $root.selectedStore}">
+            <tr data-bind="click : $root.onEditItem, css: { selectedRow: $data === $root.selectedStore}" style="cursor: pointer">
                 <td>
                     <img style="width: 30%; max-width: 30%;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
                 </td>
                 <td>
-                    <a href="#" class="store-user-link" data-bind="text: name,click : $root.onEditItem"></a>
+                    <a href="#" class="store-user-link" data-bind="text: name"></a>
                     <a href="#" class="store-user-link storeSubText" data-bind="text: url,click : $root.onEditItem"><i class="fa fa-external-link-square"></i></a>
                 </td>
 
@@ -106,9 +106,9 @@
                     <a class="btn btn-success" data-bind="text: 'Open Live Store', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>
                 </td>
                 @*<td id="actionColumn">
-                        <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                        <!-- /ko -->
-                    </td>*@
+                <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                <!-- /ko -->
+            </td>*@
             </tr>
         </script>
         @* Filter Template *@
