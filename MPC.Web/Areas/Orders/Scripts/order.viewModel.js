@@ -882,6 +882,7 @@ define("order/order.viewModel",
                     if (selectedOrder().companyId() === undefined) {
                         toastr.error("Please select customer.");
                     } else {
+                        isAddProductFromInventory(false);
                         isCostCenterDialogForShipping(true);
                         onAddCostCenter();
                     }

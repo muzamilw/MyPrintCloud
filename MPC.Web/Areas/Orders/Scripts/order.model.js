@@ -320,7 +320,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
                     if (itemInvalid) {
                         var nameElement = items.domElement;
-                        validationSummaryList.push({ name: itemInvalid.productName() + " has invalid data.", element: nameElement });
+                        validationSummaryList.push({ name: itemInvalid.productName() + "has invalid data.", element: nameElement });
                     }
                 },
                 // True if the order has been changed

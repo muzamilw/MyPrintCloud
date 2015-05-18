@@ -225,7 +225,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 deliveryItems: deliveryItems,
                 statusName: statusName,
                 storeId: storeId,
-                estimateTotal:estimateTotal,
+                estimateTotal: estimateTotal,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -236,7 +236,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 convertToServerData: convertToServerData,
                 isPostedInvoice: isPostedInvoice,
                 items: items
-               
+
             };
         },
         // Invoice Detail Entity
@@ -350,6 +350,70 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             };
         };
 
+    var InvoiceDetail = function (specifiedInvoiceDetailId, specifiedInvoiceTitle, specifiedItemCharge, specifiedQuantity, specifiedItemTaxValue,
+        specifiedFlagId, specifiedDescription) {
+        var self,
+            id = ko.observable(specifiedInvoiceDetailId),
+            invoiceTitle = ko.observable(specifiedInvoiceTitle),
+            itemCharge = ko.observable(specifiedItemCharge).extend({ number: true, numberInput: ist.numberFormat }),
+            quantity = ko.observable(specifiedQuantity).extend({ number: true, required: true }),
+            itemTaxValue = ko.observable(specifiedItemTaxValue).extend({ number: true, numberInput: ist.numberFormat }),
+            flagId = ko.observable(specifiedFlagId),
+            description = ko.observable(specifiedDescription),
+
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            dirtyFlag = new ko.dirtyFlag({
+                invoiceTitle: invoiceTitle,
+                itemCharge: itemCharge,
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.InvoiceDetailId = source.id();
+                result.InvoiceTitle = source.invoiceTitle();
+                result.ItemCharge = source.itemCharge();
+                result.Quantity = source.quantity();
+                result.ItemTaxValue = source.itemTaxValue();
+                result.FlagId = source.flagId();
+                result.Description = source.description();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            invoiceTitle: invoiceTitle,
+            itemCharge: itemCharge,
+            quantity: quantity,
+            itemTaxValue: itemTaxValue,
+            flagId: flagId,
+            description: description,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    InvoiceDetail.Create = function (source) {
+        return new InvoiceDetail(source.PalleteId, source.PalleteName, source.Color1, source.Color2, source.Color3, source.Color4, source.Color5, source.Color5, "", "", 0);
+    }
 
     // Address Entity
     Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1) {
@@ -467,6 +531,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         Invoice: Invoice,
         InvoicesListView: InvoicesListView,
         Address: Address,
-        CompanyContact: CompanyContact
+        CompanyContact: CompanyContact,
+        InvoiceDetail: InvoiceDetail
     };
 });
