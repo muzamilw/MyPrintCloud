@@ -41,7 +41,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-detail" data-toggle="tab">Print Product</a></li>
 
-                            <li data-bind="visible: $root.selectedOrder() != undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
+                            <li data-bind="visible: $root.selectedOrder() != undefined &&  $root.selectedOrder().statusId!==undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
                             <li><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
                         </ul>
                         <div class="tab-content">
@@ -60,7 +60,7 @@
                                                         <div class="col-lg-3">
                                                             <label class="control-label tooltip-float"><b>Quantities</b></label>
                                                         </div>
-                                                        <div class="col-xs-2" style="float:left;padding-right: 2px;">
+                                                        <div class="col-xs-2" style="float:left;">
                                                             <input type="text" class="form-control txtBox-contentAlignRight" data-bind="value:qty1" readonly="readonly" />
                                                         </div>
                                                         <!--ko if: $root.isEstimateScreen()-->
@@ -139,23 +139,35 @@
                                         <div class="col-lg-8 form-horizontal" style="background-color:gainsboro;margin-left: 4px;padding-top:20px;border-radius:3px">
                                             <div style="background-color:gainsboro; border-radius:3px">
                                                 <div class="form-group">
-                                                    <div class="col-lg-3" style="text-align: right;padding-right: 0%;">
-                                                        <div class="col-lg-10" style="padding-right: 0px;">
+                                                    <div class="col-lg-3" style="text-align: right;">
+                                                        <div class="col-lg-12" style="padding-right: 0px;">
                                                             <label class="control-label"><b>Net Total</b></label>
-                                                        </div>
-                                                        <div class="col-lg-1" style="width: 9%;margin-left: 3%;">
-                                                            <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
                                                         </div>
                                                     </div>
                                                     <div class="col-xs-2" style="padding-right: 0px;">
-                                                        <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="numberValue:$root.calculateQty1NetTotalForItem" />
+                                                        <div class="col-lg-1" style="padding-left: 0px;">
+                                                            <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
+                                                        </div>
+                                                        <div class="col-lg-11">
+                                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="numberValue:$root.calculateQty1NetTotalForItem" />
+                                                        </div>
                                                     </div>
                                                     <!--ko if: $root.isEstimateScreen -->
-                                                    <div class="col-xs-2">
-                                                        <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" id="txtQty2" data-bind="numberValue:$root.calculateQty2NetTotalForItem" />
+                                                    <div class="col-xs-2" style="padding-right: 0px;">
+                                                        <div class="col-lg-1" style="padding-left: 0px;">
+                                                            <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
+                                                        </div>
+                                                        <div class="col-lg-11">
+                                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" id="txtQty2" data-bind="numberValue:$root.calculateQty2NetTotalForItem" />
+                                                        </div>
                                                     </div>
-                                                    <div class="col-xs-2">
-                                                        <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="numberValue:$root.calculateQty3NetTotalForItem" />
+                                                    <div class="col-xs-2" style="padding-right: 0px;">
+                                                        <div class="col-lg-1" style="padding-left: 0px;">
+                                                            <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
+                                                        </div>
+                                                        <div class="col-lg-11">
+                                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="numberValue:$root.calculateQty3NetTotalForItem" />
+                                                        </div>
                                                     </div>
                                                     <!--/ko-->
                                                 </div>
@@ -170,7 +182,7 @@
                                             @*<input type="text" class="form-control txtBox-contentAlignRight" data-bind="disable:taxRateIsDisabled,value:tax1" />*@
                                             <div class="input-group">
                                                 <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled,value:tax1">
-                                                <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
+                                                <span class="input-group-addon" style="cursor: none" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -570,36 +582,39 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-12 col-md-8 col-sm-8" data-bind="visible:$root.showSectionDetail" style="padding-left: 16px;padding-right: 16px;">
                 <div class="main-box clearfix">
-                    @Html.Partial("_OrderSectionDetail")
+                    @Html.Partial("~/Areas/Orders/Views/Home/_OrderSectionDetail.cshtml")
                 </div>
+
             </div>
+           
         </div>
+
+        @Html.Partial("~/Areas/Common/Views/Shared/_CostCenterQuantity.cshtml")
+        @Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
+        @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
     </div>
-
-    @Html.Partial("~/Areas/Common/Views/Shared/_CostCenterQuantity.cshtml")
-    @Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
-    @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
 </div>
+    <script id="orderItemAttachmentTemplate" type="text/html">
+        <li class="col-md-2 col-sm-3 col-xs-6">
+            <div class="photo-box image-link" style="padding-top: 0; ">
+                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()===undefined,attr: { src: '@Url.Content("~/")' + folderPath() }" alt="" />
+                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()!==undefined,attr: { src: fileSourcePath }" />
+            </div>
+            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
+        </li>
+    </script>
 
-<script id="orderItemAttachmentTemplate" type="text/html">
-    <li class="col-md-2 col-sm-3 col-xs-6">
-        <div class="photo-box image-link" style="padding-top: 0; ">
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()===undefined,attr: { src: '@Url.Content("~/")' + folderPath() }" alt="" />
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()!==undefined,attr: { src: fileSourcePath }" />
-        </div>
-        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
-    </li>
-</script>
-
+ 
 <script id="sectionItemTemplate" type="text/html">
     <!--ko if: !flagForAdd() -->
     <li class="col-md-2 col-sm-2 col-xs-6">
         <div>
             <div style="float: left"><img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" /></div>
-            <div style="font-size: small;cursor: pointer;" class="itemSectionName" data-bind="click:$root.showSectionDetailEditor">
-                <span class="form-control" data-bind=" text:name" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 23%;padding-left: 0px;"></span>
+            <div style="font-size: small;float: right;margin-top: -87%;cursor: pointer; margin-right: -6%; width: 86%;" data-bind="click:$root.showSectionDetailEditor">
+                <span class="form-control" data-bind="text:name" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 23%;padding-left: 0px;"></span>
             </div>
         </div>
 

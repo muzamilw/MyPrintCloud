@@ -42,7 +42,8 @@
                                 @Html.ActionLink("All Contacts", "Contacts", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
-                                @Html.ActionLink("Companies", "Index", "Home")
+                                <a href="#tab-Customers" data-toggle="tab">Companies</a>
+                                @*@Html.ActionLink("Companies", "Index", "Home")*@
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
@@ -51,8 +52,8 @@
                                 @Html.ActionLink("To Do Lists", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
-                                @*@Html.ActionLink("Calendar", "Calendar", "Home",)*@
-                                <a href="#tab-Calendar" data-toggle="tab">Calendar</a>
+                                @Html.ActionLink("Calendar", "Calendar", "Home")
+                                @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
 
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">

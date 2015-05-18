@@ -185,6 +185,8 @@ namespace MPC.Repository.Repositories
 
 				try
 				{
+                    db.Configuration.ProxyCreationEnabled = false;
+                    db.Configuration.LazyLoadingEnabled = false;
                     return db.CostCentres.Include("CostcentreInstructions").Include("CostcentreInstructions.CostcentreWorkInstructionsChoices").Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
 
 				}

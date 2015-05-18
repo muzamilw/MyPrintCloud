@@ -1135,6 +1135,9 @@
     <Content Include="Content\less\InventoryCategory.css">
       <DependentUpon>InventoryCategory.less</DependentUpon>
     </Content>
+    <Content Include="Content\less\Invoice.css">
+      <DependentUpon>Invoice.less</DependentUpon>
+    </Content>
     <Content Include="Content\less\ItemJobStatus.css">
       <DependentUpon>ItemJobStatus.less</DependentUpon>
     </Content>
@@ -2118,6 +2121,7 @@
       <DependentUpon>MainSite.css</DependentUpon>
     </Content>
     <Content Include="Content\less\ItemJobStatus.less" />
+    <Content Include="Content\less\Invoice.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

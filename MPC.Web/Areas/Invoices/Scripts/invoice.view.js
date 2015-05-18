@@ -80,7 +80,8 @@ define("invoice/invoice.view",
                 showItemDetailDialog: showItemDetailDialog,
                 hideItemDetailDialog: hideItemDetailDialog,
                 showCostCentersQuantityDialog: showCostCentersQuantityDialog,
-                hideCostCentersQuantityDialog: hideCostCentersQuantityDialog
+                hideCostCentersQuantityDialog: hideCostCentersQuantityDialog,
+                initializeLabelPopovers: initializeLabelPopovers
 
             };
         })(invoiceViewModel);

@@ -33,7 +33,7 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
 
-                        functionReturnValue = obj.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
+                        functionReturnValue = obj.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour, Convert.ToString(oParamsArray[10]));
                         obj = null;
                     }
                     else
@@ -137,7 +137,7 @@ namespace MPC.Implementation.WebStoreServices
                     //populate the question in the executionQueue
                     //loading the Questions Information for populating in the Queue
                     MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
-                    CostCentreQuestion ovariable = obj.LoadQuestion(Convert.ToInt32(QuestionID));
+                    CostCentreQuestion ovariable = obj.LoadQuestion(Convert.ToInt32(QuestionID), Convert.ToString(oParamsArray[10]));
 
                     QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type == null ? (short)0 : ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, 0, 0, ovariable.AnswerCollection);
 
@@ -244,7 +244,7 @@ namespace MPC.Implementation.WebStoreServices
                     //populate the question in the executionQueue
                     //loading the Questions Information for populating in the Queue
                     MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
-                    CostCentreMatrix oMatrix = obj.GetMatrix(MatrixID);
+                    CostCentreMatrix oMatrix = obj.GetMatrix(MatrixID, Convert.ToString(oParamsArray[10]));
                     QuestionItem = new QuestionQueueItem(MatrixID, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false, 0, 0, 0, 0, 0, oMatrix.RowsCount, oMatrix.ColumnsCount, null, oMatrix.items);
                     QuestionQueue.Add(QuestionItem);
                     oMatrix = null;
@@ -267,7 +267,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
 
-                return obj.ExecuteUserStockItem(StockID, StockPriceType, out Price, out PerQtyQty);
+                return obj.ExecuteUserStockItem(StockID, StockPriceType, "", out Price, out PerQtyQty);
             }
             catch (Exception ex)
             {
@@ -298,7 +298,7 @@ namespace MPC.Implementation.WebStoreServices
 
                     CostCentreVariable oVariable;
                     //First we have to fetch the Variable object which contains the information
-                    oVariable = obj.LoadVariable(VariableID);
+                    oVariable = obj.LoadVariable(VariableID, Convert.ToString(oParamsArray[10]));
 
                     //now check the type of the variable.
                     //type 1 = system variable
@@ -772,7 +772,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     else if (oVariable.Type == 2)
                     {
-                        return obj.ExecUserVariable(oVariable);
+                        return obj.ExecUserVariable(oVariable, Convert.ToString(oParamsArray[10]));
                     }
                     else if (oVariable.Type == 3)
                     {
