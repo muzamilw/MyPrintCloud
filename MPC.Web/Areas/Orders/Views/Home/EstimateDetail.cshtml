@@ -150,10 +150,10 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                            </div>
+                                            </div>  
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" style="height: 60px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />
+                                                    <input type="text" style="height: 60px; width: 375px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />
                                                 </div>
                                             </div>
                                         </div>
@@ -222,9 +222,14 @@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div>
-                                                    <textarea class="form-control" placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                                                    <textarea class="form-control" id=""placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
                                                 </div>
                                             </div>
+                                            @*<div class="col-lg-1">
+                                                <a id="P1" style="padding: 4px 8px;" class="btn btn-primary">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
+                                            </div>*@
                                         </div>
                                     </div>
                                 </div>
@@ -237,7 +242,7 @@
                                             <div class="col-lg-9">
                                                 <div style="background-color:gainsboro; border-radius:3px">
                                                     <header class="main-box-header clearfix">
-                                                        <div id="orderProducts" style="float:left;" data-bind="validationOnElement: items"><span style="font-size:24px">Products in this Estimate</span></div>
+                                                        <div id="orderProducts" style="float: left; margin-top: 8px;" data-bind="validationOnElement: items"><span style="font-size:16px">Products in this Estimate</span></div>
                                                     </header>
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
@@ -253,7 +258,7 @@
                                                                     <!--ko if: nonDeliveryItems().length==0-->
                                                                     <tr>
                                                                         <td>
-                                                                            <span data-bind="text: 'No Item found!'"></span>
+                                                                            <span data-bind="text: 'No Items found!'"></span>
                                                                         </td>
                                                                         <td></td>
                                                                         <td></td>
@@ -291,7 +296,7 @@
                                             <div class="col-lg-9">
                                                 <div style="background-color:gainsboro; border-radius:3px">
                                                     <header class="main-box-header clearfix">
-                                                        <div style="float:left;"><span style="font-size:24px">Shipping Charge</span></div>
+                                                        <div style="float:left;"><span style="font-size: 16px;margin-top: 8px;">Shipping Charge</span></div>
                                                     </header>
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
@@ -307,7 +312,7 @@
                                                                     <!--ko if: deliveryItems().length==0-->
                                                                     <tr>
                                                                         <td>
-                                                                            <span data-bind="text: 'No Item found!'"></span>
+                                                                            <span data-bind="text: 'No Items found!'"></span>
                                                                         </td>
                                                                         <td></td>
                                                                         <td></td>
@@ -364,8 +369,8 @@
                                 @* Item Template *@
                                 <script id="itemTemplate" type="text/html">
                                     <tr data-bind=" click:  $root.editItem" style="cursor: pointer">
-                                        <td>
-                                            <a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>
+                                        <td style=" padding-top: 10px;">
+                                            <a href="#" style="font-size: 24px" data-bind="text: productName, click: $root.editItem"><span></span></a>
                                         </td>
                                         <td>
                                             <span style="font-size:20px;" data-bind="text: qty1"></span>
@@ -377,8 +382,8 @@
                                 </script>
                                 <script id="deliveryItemTemplate" type="text/html">
                                     <tr>
-                                        <td>
-                                            <span style="font-size:20px;" data-bind="text: productName"></span>
+                                        <td style=" padding-top: 10px;">
+                                            <span style="font-size:24px;" data-bind="text: productName"></span>
                                         </td>
                                         <td></td>
                                         <td>
