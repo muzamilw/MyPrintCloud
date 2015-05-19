@@ -2845,7 +2845,7 @@ namespace MPC.Implementation.MISServices
             int NoofSheetsQty2 = 0;
             int NoofSheetsQty3 = 0;
             double RunningSpoilage = 0;
-            double SetupSpoilage = 0;
+            int SetupSpoilage = 0;
             int NoofInks = 0;
             if (oSectionAllInks != null && oSectionAllInks.Count > 0)
                 NoofInks = oSectionAllInks.Count;
@@ -2856,13 +2856,13 @@ namespace MPC.Implementation.MISServices
             {
                 if(pressSpoilageSide2 != null)
                 {
-                    RunningSpoilage = pressSpoilage.RunningSpoilage > pressSpoilageSide2.RunningSpoilage ? pressSpoilage.RunningSpoilage : pressSpoilageSide2.RunningSpoilage;
-                    SetupSpoilage = pressSpoilage.SetupSpoilage > pressSpoilageSide2.SetupSpoilage ? pressSpoilage.SetupSpoilage : pressSpoilageSide2.SetupSpoilage;
+                    RunningSpoilage = pressSpoilage.RunningSpoilage > pressSpoilageSide2.RunningSpoilage ? pressSpoilage.RunningSpoilage??1 : pressSpoilageSide2.RunningSpoilage??1;
+                    SetupSpoilage = pressSpoilage.SetupSpoilage > pressSpoilageSide2.SetupSpoilage ? pressSpoilage.SetupSpoilage??0 : pressSpoilageSide2.SetupSpoilage??0;
                 }
                 else
                 {
-                    RunningSpoilage = pressSpoilage.RunningSpoilage;
-                    SetupSpoilage = pressSpoilage.SetupSpoilage;
+                    RunningSpoilage = pressSpoilage.RunningSpoilage ?? 1;
+                    SetupSpoilage = pressSpoilage.SetupSpoilage ?? 0;
                 }
             }
             if (oItemSection.IsPortrait == true)
@@ -2880,11 +2880,11 @@ namespace MPC.Implementation.MISServices
 
             if (pressSpoilage != null)
             {
-                FinishedItemQty1 = (NoofSheetsQty1 * Convert.ToInt32(pressSpoilage.RunningSpoilage / 100)) + NoofSheetsQty1 + Convert.ToInt32(pressSpoilage.SetupSpoilage);
-                FinishedItemQty2 = (NoofSheetsQty2 * Convert.ToInt32(pressSpoilage.RunningSpoilage / 100)) + NoofSheetsQty2 + Convert.ToInt32(pressSpoilage.SetupSpoilage);
-                FinishedItemQty3 = (NoofSheetsQty3 * Convert.ToInt32(pressSpoilage.RunningSpoilage / 100)) + NoofSheetsQty3 + Convert.ToInt32(pressSpoilage.SetupSpoilage);
-                oItemSection.SetupSpoilage = pressSpoilage.SetupSpoilage;
-                oItemSection.RunningSpoilage = Convert.ToInt32(pressSpoilage.RunningSpoilage);
+                FinishedItemQty1 = (NoofSheetsQty1 * Convert.ToInt32(RunningSpoilage / 100)) + NoofSheetsQty1 + SetupSpoilage;
+                FinishedItemQty2 = (NoofSheetsQty2 * Convert.ToInt32(RunningSpoilage / 100)) + NoofSheetsQty2 + SetupSpoilage;
+                FinishedItemQty3 = (NoofSheetsQty3 * Convert.ToInt32(RunningSpoilage / 100)) + NoofSheetsQty3 + SetupSpoilage;
+                oItemSection.SetupSpoilage = SetupSpoilage;
+                oItemSection.RunningSpoilage = Convert.ToInt32(RunningSpoilage);
                 oItemSection.FinishedItemQty1 = FinishedItemQty1;
                 oItemSection.FinishedItemQty2 = FinishedItemQty2;
                 oItemSection.FinishedItemQty3 = FinishedItemQty3;

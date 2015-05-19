@@ -3834,3 +3834,5 @@ alter column SourceId int null
 
 alter table invoiceDetail
 add TaxValue float null
+
+--Executed on Staging, Preview, Australia and Europe Servers-----on 2015 05 19---
