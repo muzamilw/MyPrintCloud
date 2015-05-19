@@ -327,6 +327,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\InquiryController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDetailBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
@@ -419,7 +420,11 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\GetInquiryResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InquiryAttachmentMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InquiryItemMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InquiryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InvoiceBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InvoiceDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAttachmentMapper.cs" />
@@ -519,9 +524,14 @@
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
     <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CrmContactResponse.cs" />
+    <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
+    <Compile Include="Areas\Api\Models\Inquiry.cs" />
+    <Compile Include="Areas\Api\Models\InquiryAttachment.cs" />
+    <Compile Include="Areas\Api\Models\InquiryItem.cs" />
+    <Compile Include="Areas\Api\Models\InquiryListView.cs" />
     <Compile Include="Areas\Api\Models\InvoiceDetail.cs" />
     <Compile Include="Areas\Api\Models\InvoiceListResponseModel.cs" />
     <Compile Include="Areas\Api\Models\InvoicesListModel.cs" />
@@ -2108,6 +2118,7 @@
     <Content Include="Areas\Common\Views\Shared\_PhraseLibrary.cshtml" />
     <Content Include="Areas\Orders\Views\Home\test.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_InquiryDetail.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_InquiryDetailItem.cshtml" />
     <Content Include="Areas\Invoices\Views\Home\AddEditInvoiceDetailDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
@@ -3311,6 +3322,7 @@
     <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
+    <Folder Include="Areas\Api\Views\Inquiry\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\ItemDetailBase\" />
     <Folder Include="Areas\Api\Views\LookupMethod\" />

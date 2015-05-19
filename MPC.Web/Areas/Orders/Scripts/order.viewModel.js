@@ -51,6 +51,8 @@ define("order/order.viewModel",
                     selectedCompanyTaxRate = ko.observable(),
                     // selected Company
                     selectedCompany = ko.observable(),
+                    //inquiries
+                    inquiries = ko.observableArray([]),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // Estimate Status
@@ -151,6 +153,7 @@ define("order/order.viewModel",
                     sectionHeader = ko.observable(''),
                     currencySymbol = ko.observable(''),
                     loggedInUser = ko.observable(),
+                    selectedInquiryItem = ko.observable(),
                     //On Order Status change to progress to job that will open wizard
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
                     // Active Order
@@ -522,6 +525,9 @@ define("order/order.viewModel",
                 },
                 // On Save Order
                 onSaveOrder = function (data, event, navigateCallback) {
+                    if (currentScreen() == 8) {
+                        
+                    }
                     removeItemSectionWithAddFlagTrue();
                     if (!doBeforeSave()) {
                         return;
@@ -540,7 +546,6 @@ define("order/order.viewModel",
                             }
                         });
                     });
-
                 },
                 // Do Before Save
                 doBeforeSave = function () {
@@ -1205,6 +1210,17 @@ define("order/order.viewModel",
                                     toastr.error("Failed to load orders" + response);
                                 }
                             });
+                        },
+                        // Map Inquiries
+                        mapInquiries = function (data) {
+                            var inquiriesList = [];
+                            _.each(data, function (inquiry) {
+                                //order.FlagColor = getSectionFlagColor(order.SectionFlagId);
+                                inquiriesList.push(model.Inquiry.Create(inquiry, { SystemUsers: systemUsers() }));
+                            });
+                            // Push to Original Array
+                            ko.utils.arrayPushAll(inquiries(), inquiriesList);
+                            inquiries.valueHasMutated();
                         },
                     // Get Order By Id
                         getOrderById = function (id, callback) {
@@ -1929,7 +1945,33 @@ define("order/order.viewModel",
                         orders.removeAll();
                         currentScreen(8);
                         pager().reset(0);
-
+                        getInquiries();
+                    },
+                    getInquiries = function() {
+                        isLoadingOrders(true);
+                        dataservice.getInquiries({
+                            SearchString: filterText(),
+                            PageSize: pager().pageSize(),
+                            PageNo: pager().currentPage(),
+                            Status: currentScreen(),
+                            FilterFlag: selectedFilterFlag(),
+                            OrderTypeFilter: orderTypeFilter(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                inquiries.removeAll();
+                                if (data && data.TotalCount > 0) {
+                                    mapInquiries(data.Inquiries);
+                                    pager().totalCount(data.TotalCount);
+                                }
+                                isLoadingOrders(false);
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Failed to load inquiries" + response);
+                            }
+                        });
                     },
                      createInquiry = function () {
                          selectedInquiry(model.Inquiry.Create({}, { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }));
@@ -1960,6 +2002,56 @@ define("order/order.viewModel",
                              attachment.inquiryId(selectedInquiry().inquiryId());
                              selectedInquiry().inquiryAttachments.push(attachment);
                          }
+                     },
+                     onCreateNewInquiryDetailItem = function () {
+                         selectedInquiryItem(model.InquiryItem.Create({}));
+                         view.showInquiryDetailItemDialog();
+                     },
+                     editInquiryItem = function(inquiry) {
+                         //selectedInquiry(model.Inquiry.Create(inquiry.convertToServerData()));
+                         isLoadingOrders(true);
+                         
+                         dataservice.getInquiry({
+                             id: inquiry.inquiryId()
+                         }, {
+                             success: function (data) {
+                                 if (data) {
+                                     selectedInquiry(model.Inquiry.Create(data));
+                                    
+                                     openOrderEditor();
+                                 }
+                                 isLoadingOrders(false);
+                                 
+                             },
+                             error: function (response) {
+                                 isLoadingOrders(false);
+                                 toastr.error("Failed to load Inquiry details" + response);
+                             }
+                         });
+                         view.showInquiryDetailItemDialog();
+                     },
+                     onSaveInquiry = function() {
+                         var inquiry = selectedInquiry().convertToServerData();
+                         _.each(selectedInquiry().inquiryAttachments(), function (item) {
+                             inquiry.inquiryAttachments.push(item.convertToServerData());
+                         });
+                         _.each(selectedInquiry().inquiryItems(), function (item) {
+                             inquiry.InquiryItems.push(item.convertToServerData());
+                         });
+                         dataservice.saveInquiry(inquiry, {
+                             success: function (data) {
+                                 toastr.success("Saved Successfully !");
+                             },
+                             error: function (response) {
+                                 toastr.error("Failed to Save Order. Error: " + response);
+                             }
+                         });
+                     },
+                     onSaveInquiryDetailItem = function() {
+                         selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
+                     },
+                     onCloseInquiryDetailItem = function() {
+                         view.hideInquiryDetailItemDialog();
                      },
                     //#endregion
                     //#region INITIALIZE
@@ -2141,6 +2233,13 @@ define("order/order.viewModel",
                     createInquiry: createInquiry,
                     selectedInquiry: selectedInquiry,
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
+                    onCreateNewInquiryDetailItem: onCreateNewInquiryDetailItem,
+                    onCloseInquiryDetailItem: onCloseInquiryDetailItem,
+                    onSaveInquiryDetailItem: onSaveInquiryDetailItem,
+                    selectedInquiryItem: selectedInquiryItem,
+                    editInquiryItem: editInquiryItem,
+                    onSaveInquiry: onSaveInquiry,
+                    inquiries: inquiries,
                     //#endregion
                     //#region Utility Functions
                     onCreateNewBlankPrintProduct: onCreateNewBlankPrintProduct,

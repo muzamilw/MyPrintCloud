@@ -73,7 +73,7 @@
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Invoiced">
-                                                <!-- ko template: { name: 'tabItemsList' } -->
+                                                <!-- ko template: { name: 'inquiryItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
 
@@ -99,7 +99,6 @@
                                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
                                             <i class="fa fa-search search-icon" data-bind="click: $root.getOrdersOfCurrentScreen"></i>
                                         </div>
-
                                     </div>
                                 </form>
                                 <div class="clearfix">
@@ -150,15 +149,36 @@
                                 <td>
                                     <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
                                 </td>
-                                 <td>
+                                <td>
                                     <!--ko if: $root.currentScreen() != 8-->
                                     <span data-bind="text: orderCode"></span>
                                     <!--/ko-->
-                                     </td>
+                                </td>
                                 @*<td style="width: 20%;">
                         <!-- ko template: { name: 'orderActionTemplate' } -->
                         <!-- /ko -->
                     </td>*@
+                            </tr>
+                        </script>
+                        @* inquiries List View Template *@
+                        <script id="inquiriesListViewTemplate" type="text/html">
+                            <tr>
+                                <td>
+                                    <a data-bind="text: companyName, click: $root.editInquiryItem" style="cursor:pointer;" class="user-link"></a>
+                                    @*<span class="user-subhead">
+                                        <span data-bind="text: name"></span>
+                                        <span data-bind="text: ' '"></span>
+                                        <span data-bind="text: noOfItemsUi"></span>
+                                    </span>*@
+                                </td>
+                                <td>
+                                    <span data-bind="dateString: requireByDate, datePattern: 'DD/MM/YYYY'"></span>
+                                </td>
+                                <td>
+                                    @*<span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>*@
+                                </td>
+                                <td></td>
+
                             </tr>
                         </script>
                         @* Tab Items Lists*@
@@ -180,6 +200,33 @@
                                         </thead>
                                         <tbody>
                                             <!-- ko template: { name: 'orderListViewTemplate', foreach: orders } -->
+                                            <!-- /ko -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="pagerDiv" class="pull-right">
+                                <!-- ko with: pager -->
+                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                <!-- /ko -->
+                            </div>
+                        </script>
+                        @* Inquiry Items List*@
+                        <script id="inquiryItemsList" type="text/html">
+                            <div>
+                                <div class="table-responsive">
+                                    <table id="OrderListtbl" class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-lg-4"><span>Customer</span></th>
+                                                <th class="col-lg-3"><span>Require By Date</span></th>
+                                                <th class="col-lg-2"><span>Flag</span></th>
+                                                <th class="col-lg-3">
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- ko template: { name: 'inquiriesListViewTemplate', foreach: inquiries } -->
                                             <!-- /ko -->
                                         </tbody>
                                     </table>

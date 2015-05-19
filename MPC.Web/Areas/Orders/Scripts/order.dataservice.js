@@ -25,6 +25,13 @@ define("order/order.dataservice", function () {
                         type: 'GET'
                     });
 
+                    // Define request to get Inquiries
+                    amplify.request.define('getInquiries', 'ajax', {
+                        url: ist.siteUrl + '/Api/Inquiry',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to get Estimates
                     amplify.request.define('getEstimates', 'ajax', {
                         url: ist.siteUrl + '/Api/Estimate',
@@ -46,10 +53,25 @@ define("order/order.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
+                    // Define request to get inquiry by id
+                    amplify.request.define('getInquiry', 'ajax', {
+                        url: ist.siteUrl + '/Api/Inquiry',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'GET'
+                    });
 
                     // Define request to save Order
                     amplify.request.define('saveOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/Order',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+
+                    // Define request to save Inquiry
+                    amplify.request.define('saveInquiry', 'ajax', {
+                        url: ist.siteUrl + '/Api/Inquiry',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
@@ -129,11 +151,31 @@ define("order/order.dataservice", function () {
                     error: callbacks.error,
                 });
             },
+            // Get Inquiry by id 
+            getInquiry = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getInquiry',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
             // Get Orders
             getOrders = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getOrders',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
+            },
+            // Get Inquiries
+            getInquiries = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getInquiries',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error
@@ -174,6 +216,16 @@ define("order/order.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'saveOrder',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+            //Save Inquiry
+            saveInquiry = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveInquiry',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
@@ -222,9 +274,12 @@ define("order/order.dataservice", function () {
 
         return {
             getOrder: getOrder,
+            getInquiry: getInquiry,
             getOrders: getOrders,
+            getInquiries: getInquiries,
             getEstimates: getEstimates,
             saveOrder: saveOrder,
+            saveInquiry: saveInquiry,
             archiveOrder: archiveOrder,
             getBaseData: getBaseData,
             cloneOrder: cloneOrder,
