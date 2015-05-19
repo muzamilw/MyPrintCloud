@@ -898,7 +898,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     var Inquiry = function (
         specifiedInquiryId, specifiedTitle, specifiedContactId, specifiedCreatedDate, specifiedSourceId, specifiedCompanyId, specifiedCompanyName,specifiedRequireByDate,
-        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId
+        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId, specifiedFlagColor
     ) {
         var self,
         inquiryId = ko.observable(specifiedInquiryId),
@@ -916,6 +916,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         inquiryCode = ko.observable(specifiedInquiryCode),
         createdBy = ko.observable(specifiedCreatedBy),
         organisationId = ko.observable(specifiedOrganisationId),
+        flagColor = ko.observable(specifiedFlagColor),
         inquiryAttachments = ko.observableArray([]),
         inquiryItems = ko.observableArray([]),
         // System Users
@@ -1018,6 +1019,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             inquiryCode: inquiryCode,
             createdBy: createdBy,
             organisationId: organisationId,
+            flagColor: flagColor,
             inquiryAttachments: inquiryAttachments,
             inquiryItems: inquiryItems,
             systemUserIdByUser: systemUserIdByUser,
@@ -1047,7 +1049,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               source.FlagId,
               source.InquiryCode,
               source.CreatedBy,
-              source.OrganisationId
+              source.OrganisationId,
+            source.FlagColor
             );
         // Map Items if any
         if (source.InquiryAttachments && source.InquiryAttachments.length > 0) {

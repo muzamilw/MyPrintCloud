@@ -371,15 +371,16 @@ define("order/order.viewModel",
                             getBaseForCompany(company.id, (selectedOrder().storeId() === null || selectedOrder().storeId() === undefined) ? company.id :
                                 selectedOrder().storeId());
                         } else if (isDisplayInquiryDetailScreen()) {
+                            companyContacts.removeAll();
                             selectedInquiry().companyId(company.id);
                             selectedInquiry().companyName(company.name);
                             if (company.isCustomer !== 3 && company.storeId) {
                                 // Get Company Address and Contacts
-                                getBaseForCompany(company.id, (company.storeId === null || company.storeId === undefined) ? company.id :
+                                getBaseForInquiry(company.id, (company.storeId === null || company.storeId === undefined) ? company.id :
                                     company.storeId);
                             } else {
                                 // Get Company Address and Contacts
-                                getBaseForCompany(company.id, company.id);
+                                getBaseForInquiry(company.id, company.id);
                             }
 
                         }
@@ -1163,19 +1164,28 @@ define("order/order.viewModel",
                         if (!isEstimateScreen()) {
                             getOrders(currentScreen());
                         } else {
-                            getEstimates(currentScreen());
+                            if (currentScreen() != 8) {
+                                getEstimates(currentScreen());
+                            } else {
+                                getInquiries();
+                            }
+                            
                         }
 
                     },
                     //Get Order Tab Changed Event
-                    getOrdersOnTabChange = function(currentTab) {
-                        pager().reset();
+                    getOrdersOnTabChange = function (currentTab) {
+                       
                         if (isEstimateScreen()) {
+
+                            pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
+                            pager().reset();
                             getEstimates(currentTab);
                         } else {
+                            pager().reset();
                             getOrders(currentTab);
                         }
-
+ 
                     },
                     // Get Orders
                     getOrders = function(currentTab) {
@@ -1209,7 +1219,7 @@ define("order/order.viewModel",
                     mapInquiries = function(data) {
                         var inquiriesList = [];
                         _.each(data, function(inquiry) {
-                            //order.FlagColor = getSectionFlagColor(order.SectionFlagId);
+                            inquiry.FlagColor = getSectionFlagColor(inquiry.FlagId);
                             inquiriesList.push(model.Inquiry.Create(inquiry, { SystemUsers: systemUsers() }));
                         });
                         // Push to Original Array
@@ -1900,7 +1910,8 @@ define("order/order.viewModel",
                     //#region Estimate Screen
 
                     // Get Estimates
-                    getEstimates = function(currentTab) {
+                    getEstimates = function (currentTab) {
+                       
                         isLoadingOrders(true);
                         currentScreen(currentTab);
                         dataservice.getEstimates({
@@ -1939,6 +1950,8 @@ define("order/order.viewModel",
                         orders.removeAll();
                         currentScreen(8);
                         pager().reset(0);
+                        //
+                        pager(new pagination.Pagination({ PageSize: 5 }, inquiries, getInquiries));
                         getInquiries();
                     },
                     getInquiries = function() {
@@ -2003,7 +2016,8 @@ define("order/order.viewModel",
                     },
                     editInquiry = function(inquiry) {
                         isLoadingOrders(true);
-
+                        isCompanyBaseDataLoaded(false);
+                        companyContacts.removeAll();
                         dataservice.getInquiry({
                             id: inquiry.inquiryId()
                         }, {
@@ -2012,7 +2026,7 @@ define("order/order.viewModel",
                                     selectedInquiry(model.Inquiry.Create(data));
                                     openOrderEditor();
                                 }
-                                getBaseForCompany(data.CompanyId, data.CompanyId);
+                                getBaseForInquiry(data.CompanyId, data.CompanyId);
                                 isLoadingOrders(false);
                             },
                             error: function(response) {
@@ -2034,8 +2048,12 @@ define("order/order.viewModel",
                             inquiry.InquiryItems.push(item.convertToServerData());
                         });
                         dataservice.saveInquiry(inquiry, {
-                            success: function(data) {
+                            success: function (data) {
+                                data.CompanyName = selectedInquiry().companyName();
+                                selectedInquiry(model.Inquiry.Create(data));
+                                inquiries.splice(0, 0, selectedInquiry());
                                 toastr.success("Saved Successfully !");
+                                closeOrderEditor();
                             },
                             error: function(response) {
                                 toastr.error("Failed to Save Order. Error: " + response);
@@ -2048,15 +2066,41 @@ define("order/order.viewModel",
                     onCloseInquiryDetailItem = function() {
                         view.hideInquiryDetailItemDialog();
                     },
-                    selectCompannyContactFromInquiry = ko.computed(function() {
-                        if (selectedInquiry() !== undefined && selectedInquiry().contactId() != undefined) {
-                            _.each(companyContacts(), function(contact) {
-                                if (contact.id == selectedInquiry().contactId()) {
-                                    selectedCompanyContactOfInquiry(contact);
+                    // Get Company Base Data
+                    getBaseForInquiry = function (id, storeId) {
+                        isCompanyBaseDataLoaded(false);
+                        dataservice.getBaseDataForCompany({
+                            id: id,
+                            storeId: storeId
+                        }, {
+                            success: function (data) {
+                                if (data) {
+                                    if (data.CompanyContacts) {
+                                        mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
+                                        setDefaultContactForInquiry();
+                                    }
+                                    selectedCompanyTaxRate(data.TaxRate);
                                 }
-                            });
+                                isCompanyBaseDataLoaded(true);
+                            },
+                            error: function (response) {
+                                isCompanyBaseDataLoaded(true);
+                                toastr.error("Failed to load details for selected company" + response);
+                            }
+                        });
+                    },
+                     // Select Default Contact For Inquiry in case of new order
+                    setDefaultContactForInquiry = function () {
+                        if (selectedInquiry().inquiryId() > 0) {
+                            return;
                         }
-                    }),
+                        var defaultContact = companyContacts.find(function (contact) {
+                            return contact.isDefault;
+                        });
+                        if (defaultContact) {
+                            selectedInquiry().contactId(defaultContact.id);
+                        }
+                    },
                     //#endregion
                     //#region INITIALIZE
 
@@ -2234,7 +2278,6 @@ define("order/order.viewModel",
                     downloadArtwork: downloadArtwork,
                     //#endregion
                     //#region Inquiries tab
-                    selectCompannyContactFromInquiry: selectCompannyContactFromInquiry,
                     inqiriesTabClick: inqiriesTabClick,
                     createInquiry: createInquiry,
                     selectedInquiry: selectedInquiry,

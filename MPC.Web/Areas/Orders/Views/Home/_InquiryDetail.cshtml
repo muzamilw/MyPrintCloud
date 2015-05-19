@@ -89,8 +89,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
                                             </div>
-                                            <div class="col-lg-6">
-                                                @*data-bind="if: $root.isCompanyBaseDataLoaded"*@
+                                            <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
                                                 <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
