@@ -1,13 +1,15 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
 {
@@ -67,6 +69,37 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        
+        #region Inquieries Screen From Estimate
+        /// <summary>
+        /// Get Inquiries For Specified Search
+        /// </summary>
+        public GetInquiryResponse GetInquiries(GetInquiryRequest request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStatusSpecified = request.Status == 0;//if true get all then get by status
+            bool filterFlagSpecified = request.FilterFlag == 0;
+            //Order Type Filter , 2-> all, 0 -> Direct  Order, 1 -> Online Order
+            bool orderTypeFilterSpecified = request.OrderTypeFilter == 2;
+            Expression<Func<Inquiry, bool>> query =
+
+
+                item =>
+                    ((
+                    string.IsNullOrEmpty(request.SearchString) ||
+                    ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.InquiryCode.Contains(request.SearchString)) ||
+                    (item.Title.Contains(request.SearchString)) 
+                    )) &&
+                    item.OrganisationId == OrganisationId);
+
+            IEnumerable<Inquiry> items = DbSet.Where(query)
+                .Skip(fromRow)
+                .Take(toRow)
+                .ToList();
+
+            return new GetInquiryResponse { Inquiries = items, TotalCount = DbSet.Count(query) };
+        }
+        #endregion
+
     }
 }

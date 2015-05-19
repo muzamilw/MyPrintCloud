@@ -320,7 +320,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
                     if (itemInvalid) {
                         var nameElement = items.domElement;
-                        validationSummaryList.push({ name: itemInvalid.productName() + " has invalid data.", element: nameElement });
+                        validationSummaryList.push({ name: itemInvalid.productName() + "has invalid data.", element: nameElement });
                     }
                 },
                 // True if the order has been changed
@@ -895,7 +895,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         contactId = ko.observable(specifiedContactId),
         createdDate = ko.observable(specifiedCreatedDate),
         sourceId = ko.observable(specifiedSourceId),
-        companyId = ko.observable(specifiedCompanyId),
+        companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
         companyName = ko.observable(specifiedCompanyName),
         requireByDate = ko.observable(specifiedRequireByDate ? moment(specifiedRequireByDate).toDate() : moment().toDate()),
         systemUserId = ko.observable(specifiedSystemUserId),
@@ -905,8 +905,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         inquiryCode = ko.observable(specifiedInquiryCode),
         createdBy = ko.observable(specifiedCreatedBy),
         organisationId = ko.observable(specifiedOrganisationId),
-        inquiryAttachments = ko.observableArray(),
-        inquiryItems = ko.observableArray(),
+        inquiryAttachments = ko.observableArray([]),
+        inquiryItems = ko.observableArray([]),
         errors = ko.validation.group({
 
         }),
@@ -942,10 +942,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     InquiryId: inquiryId(),
                     Title: title(),
                     ContactId: contactId(),
-                    CreatedDate: createdDate(),
+                    CreatedDate: createdDate() ? moment(createdDate()).format(ist.utcFormat) + 'Z' : undefined,
                     SourceId: sourceId(),
                     CompanyId: companyId(),
-                    RequireByDate: requireByDate(),
+                    RequireByDate: requireByDate() ? moment(requireByDate()).format(ist.utcFormat) + 'Z' : undefined,
                     SystemUserId: systemUserId(),
                     Status: status(),
                     IsDirectInquiry: isDirectInquiry(),
@@ -953,6 +953,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     InquiryCode: inquiryCode(),
                     CreatedBy: createdBy(),
                     OrganisationId: organisationId(),
+                    InquiryAttachments: [],
+                    InquiryItems: []
                 };
             },
             // Reset
@@ -1007,6 +1009,27 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               source.CreatedBy,
               source.OrganisationId
             );
+        // Map Items if any
+        if (source.InquiryAttachments && source.InquiryAttachments.length > 0) {
+            var items = [];
+            _.each(source.InquiryAttachments, function (item) {
+                items.push(InquiryAttachment.Create(item));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(inquiry.inquiryAttachments(), items);
+            inquiry.inquiryAttachments.valueHasMutated();
+        }
+        if (source.InquiryItems && source.InquiryItems.length > 0) {
+             items = [];
+            _.each(source.InquiryItems, function (item) {
+                items.push(InquiryItem.Create(item));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(inquiry.inquiryItems(), items);
+            inquiry.inquiryItems.valueHasMutated();
+        }
         return inquiry;
     };
     //#endregion
@@ -1096,7 +1119,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         inquiryItemId = ko.observable(specifiedInquiryItemId),
         title = ko.observable(specifiedTitle),
         notes = ko.observable(specifiedNotes),
-        deliveryDate = ko.observable(specifiedDeliveryDate),
+        deliveryDate = ko.observable(specifiedDeliveryDate ? moment(specifiedDeliveryDate).toDate() : moment().toDate()),
         inquiryId = ko.observable(specifiedInquiryId),
         productId = ko.observable(specifiedProductId),
         errors = ko.validation.group({
@@ -1125,8 +1148,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 return {
                     InquiryItemId: inquiryItemId(),
                     Title: title(),
-                    AttachmentPath: attachmentPath(),
-                    DeliveryDate: deliveryDate(),
+                    Notes: notes(),
+                    DeliveryDate: deliveryDate() ? moment(deliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
                     InquiryId: inquiryId(),
                     ProductId: productId()
                 };
