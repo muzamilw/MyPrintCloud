@@ -126,6 +126,7 @@
     <Compile Include="Common\GoodsReceivedNoteByColumn.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\InquiryByColumn.cs" />
     <Compile Include="Common\InvoiceByColumn.cs" />
     <Compile Include="Common\ItemCloneResult.cs" />
     <Compile Include="Common\Order.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="DomainModels\MachineClickChargeZone.cs" />
     <Compile Include="DomainModels\MachineGuillotineCalc.cs" />
     <Compile Include="DomainModels\MachineGuilotinePtv.cs" />
+    <Compile Include="DomainModels\MachineLookupMethod.cs" />
     <Compile Include="DomainModels\MachineMeterPerHourLookup.cs" />
     <Compile Include="DomainModels\MachinePerHourLookup.cs" />
     <Compile Include="DomainModels\MachineSpeedWeightLookup.cs" />
@@ -407,6 +409,7 @@
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
     <Compile Include="RequestModels\FieldVariableRequestModel.cs" />
     <Compile Include="RequestModels\GetCostCentresRequest.cs" />
+    <Compile Include="RequestModels\GetInquiryRequest.cs" />
     <Compile Include="RequestModels\GetInvoicesRequestModel.cs" />
     <Compile Include="RequestModels\GetDeliveryNoteRequest.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
@@ -449,6 +452,7 @@
     <Compile Include="ResponseModels\CrmContactResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
+    <Compile Include="ResponseModels\GetInquiryResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />

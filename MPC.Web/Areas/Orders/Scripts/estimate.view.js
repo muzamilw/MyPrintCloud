@@ -78,6 +78,14 @@ define("order/estimate.view",
                 hideCostCentersQuantityDialog = function () {
                     $("#orderCostCentersQuanity").modal("hide");
                 },
+                // Show Inquiry Detail Item Dialog
+                showInquiryDetailItemDialog = function () {
+                    $("#InquiryDetailItemDialog").modal("show");
+                },
+               // Hide Inquiry Detail Item Dialog
+                hideInquiryDetailItemDialog = function () {
+                    $("#InquiryDetailItemDialog").modal("hide");
+                },
                 setOrderState = function (state, isFromEstimate) {
                     orderstate(state);
                     $(function () {
@@ -209,6 +217,8 @@ define("order/estimate.view",
                 hideEstimateRunWizard: hideEstimateRunWizard,
                 showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
+                showInquiryDetailItemDialog: showInquiryDetailItemDialog,
+                hideInquiryDetailItemDialog: hideInquiryDetailItemDialog,
                 showInksDialog: showInksDialog,
                 hideInksDialog: hideInksDialog
             };

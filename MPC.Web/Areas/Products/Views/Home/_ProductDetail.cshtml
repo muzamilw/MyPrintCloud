@@ -543,7 +543,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Xero Access Code" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Xero access code is a unique pairing of the API application and the organisation in Xero. If, under a separate login/instance of your application, a user attempts to authenticate a connection to the same organisation in Xero, this will replace the previous access token." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -561,9 +561,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Xero Access Code" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                   
                                                 </div>
                                                 <label  class="control-label text-right tooltip-float">Xero Access Code Format</label>
                                             </div>
@@ -694,7 +692,7 @@
                                                         <div class="rows">
                                                             <div class="col-md-2">
                                                                 <img src="~/Content/Images/Page.png" alt="Signature" style="position:relative; margin-left: -18px;" />
-                                                                <textarea rows="3" id="detailSectionName" class="form-control imgtext" data-bind="value: name, validationToolTip: name, validationOnElement: name"></textarea>
+                                                                <textarea  disabled="disabled" rows="3" id="detailSectionName" class="form-control imgtext" data-bind="value: name, validationToolTip: name, validationOnElement: name"></textarea>
                                                                 <a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary signaturemodify">
                                                                     <i class="fa fa-lg"></i>&nbsp;Modify
                                                                 </a>
@@ -1221,7 +1219,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimate Production Time" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated production days will be used to calculate the approximate delivery date and displayed on store shopping cart page.  If there are multiple products in cart then production days of all products will be added including  weekend’s will be added to get a approximate delivery date." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -2432,7 +2430,7 @@
     <script id="templatePageTemplate" type="text/html">
         <tr>
             <td style="width:25%;">
-                <input type="text" style="width:200px;" maxlength="15" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName">
+                <input type="text" style="width:200px;" maxlength="15" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName, validationTooltip: pageName, validationOnElement: pageName">
             </td>
             <td>
                 <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="value: height">

@@ -314,6 +314,8 @@
         <AssociationConnector Association="DomainModels.FK_SectionCostCentreDetail_SectionCostcentre" />
         <AssociationConnector Association="DomainModels.FK_DeliveryNote_Company" />
         <AssociationConnector Association="DomainModels.FK_Inquiry_Company" />
+        <EntityTypeShape EntityType="DomainModels.MachineLookupMethod" Width="1.5" PointX="37.625" PointY="60.75" />
+        <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_lookup_methods" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
