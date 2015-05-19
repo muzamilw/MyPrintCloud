@@ -75,5 +75,6 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }
         public virtual ICollection<ItemSection> ItemSections { get; set; }
+        public virtual ICollection<MachineLookupMethod> MachineLookupMethods { get; set; }
     }
 }

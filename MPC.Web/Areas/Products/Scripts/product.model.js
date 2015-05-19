@@ -1189,6 +1189,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Show Template Errors
                 if (!template().isValid()) {
                     template().errors.showAllMessages();
+                    // Show Template Page Errors
+                    var templatePageErrors = template().templatePages.filter(function (templatePage) {
+                        return !templatePage.isValid();
+                    });
+                    if (templatePageErrors.length > 0) {
+                        _.each(templatePageErrors, function (templatePage) {
+                            templatePage.errors.showAllMessages();
+                        });
+                    }
                 }
                 // Show Item Section Errors
                 var itemSectionErrors = itemSections.filter(function (itemSection) {
@@ -1235,6 +1244,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (template().pdfTemplateHeight.error) {
                         var templatePdfHeightElement = template().pdfTemplateHeight.domElement;
                         validationSummaryList.push({ name: "Height is required in case of Blank Template", element: templatePdfHeightElement });
+                    }
+                    // Show Template Page Errors
+                    var templatePageInvalid = template().templatePages.find(function (templatePage) {
+                        return !templatePage.isValid();
+                    });
+                    if (templatePageInvalid) {
+                        if (templatePageInvalid.pageName.error) {
+                            validationSummaryList.push({ name: "Template Page Name", element: templatePageInvalid.pageName.domElement });
+                        }
                     }
                 }
                 // If Print Item and don't has Template Pages for Blank Template
