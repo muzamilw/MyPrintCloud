@@ -21,6 +21,8 @@ define("machine/machine.viewModel",
                     sortOn = ko.observable(1),
                     //Sort In Ascending
                     sortIsAsc = ko.observable(true),
+                    // machine lookup methods
+                    machinelookups = ko.observableArray([]),
                     //Pager
                     pager = ko.observable(),
                     //Search Filter
@@ -293,6 +295,22 @@ define("machine/machine.viewModel",
                             selectedMachine().onSelectStockItem(stockItem);
                         }, stockCategoryId, false);
                     },
+
+                     // Delete a Markup
+                    onDeleteLookup = function (lookup) {
+                       
+
+                        machinelookups.remove(lookup);
+                        _.each(machinelookups(), function (item) {
+                            if ((item.id() === lookup.id())) {
+                                machinelookups.remove(item);
+                                }
+                            });
+                            
+                        
+                    },
+
+
                     onEditItem = function (oMachine) {
                         errorList.removeAll();
                         dataservice.getMachineById({
@@ -303,6 +321,20 @@ define("machine/machine.viewModel",
                                     selectedMachine(model.machineClientMapper(data));
                                     selectedMachine().reset();
                                     showMachineDetail();
+
+
+
+                                    //Machine lookups
+                                    machinelookups.removeAll();
+                                    var machinesLookupList = [];
+                                    _.each(data.MachineLookupMethod, function (item) {
+                                        var lookupmethods = new model.MachineLookupClientMapper(item);
+                                        machinesLookupList.push(lookupmethods);
+                                    });
+                                    ko.utils.arrayPushAll(lookupmethods(), machinesLookupList);
+                                    machinelookups.valueHasMutated();
+
+                                   
                                     
                                     
                                 }
@@ -312,6 +344,26 @@ define("machine/machine.viewModel",
                             }
                         });
                     },
+
+                     onCreateNewMachineLookupMethodId = function () {
+                         var lookups = machinelookups()[0];
+                         if ((machinelookups().length === 0) || (lookups !== undefined && lookups !== null && lookups.MachineId() !== undefined && lookups.MethodId() !== undefined && lookups.isValid())) {
+                             //var newMarkup = model.Markup();
+                             //newMarkup.id(idCounter() - 1);
+                             //newMarkup.rate(0);
+                             ////New Id
+                             //idCounter(idCounter() - 1);
+                             //markups.splice(0, 0, newMarkup);
+                             //filteredMarkups.splice(0, 0, newMarkup);
+                             //selectedMarkup(filteredMarkups()[0]);
+                             //selectedMyOrganization().flagForChanges("Changes occur");
+                         }
+                         if (lookups !== undefined && lookups !== null && !lookups.isValid()) {
+                             lookups.errors.showAllMessages();
+                         }
+                     },
+
+
                     closeEditDialog = function () {
                         if (selectedMachine() != undefined) {
                             if (selectedMachine().MachineId() > 0) {
@@ -384,8 +436,10 @@ define("machine/machine.viewModel",
                     onismakereadyusedChange:onismakereadyusedChange,
                     oniswashupusedChange: oniswashupusedChange,
                     createNewMachine: createNewMachine,
-                    saveNewMachine: saveNewMachine
-
+                    saveNewMachine: saveNewMachine,
+                    machinelookups: machinelookups,
+                    onDeleteLookup: onDeleteLookup,
+                    onCreateNewMachineLookupMethodId: onCreateNewMachineLookupMethodId
                   
                 };
             })()
