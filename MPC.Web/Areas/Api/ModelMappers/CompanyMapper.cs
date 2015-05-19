@@ -48,7 +48,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             }
             string defaultContact = null;
             string email = null;
-            DomainModels.CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
+            DomainModels.CompanyContact companyContact = source.CompanyContacts != null ? 
+                source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1) : null;
             if (companyContact != null)
             {
                 defaultContact = companyContact.FirstName + " " + companyContact.LastName;
