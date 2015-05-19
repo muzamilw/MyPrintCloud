@@ -139,6 +139,50 @@
     }
 }
 
+.errorFill {
+    border: 1px solid red !important;
+    background-color: #fdd !important;
+}
+
+.errorFillRow{
+    border: 3px solid red !important;
+}
+
+/* For Elements That use ValidationTooltip + Css: { 'errorFill': someValue } , css should be css: { 'errorFillWithValidation': someValue }  */
+.errorFillWithValidation {
+    border: 1px solid red !important;
+    background-color: #fdd !important;
+}
+
+.errorMsgText {
+    color: red !important;
+    cursor: pointer !important;
+}
+
+div#spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1000000011;
+    border: 2px solid #eeeeee;
+    font-size: 40px;
+    width: 1em;
+    height: 1em;
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
+    -ms-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    -o-animation: spin 1s linear infinite;
+    -ms-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top-color: #2eaef0;
+}
+
 /* Validation Summary */
 
 /* Selected Row Highlight */
@@ -161,3 +205,4 @@
 @import "Orders";
 @import "CompanySelector";
 @import "ItemJobStatus";
+@import "Invoice";

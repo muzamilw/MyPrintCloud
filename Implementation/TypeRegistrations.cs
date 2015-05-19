@@ -88,6 +88,7 @@ namespace MPC.Implementation
              unityContainer.RegisterType<IReportService, ReportService>();
              unityContainer.RegisterType<IItemSectionService, ItemSectionService>();
              unityContainer.RegisterType<ITemplateVariableService, TemplateVariableService>();
+             unityContainer.RegisterType<IInquiryService, InquiryService>();
             
         }
     }

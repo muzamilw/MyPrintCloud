@@ -3789,3 +3789,4 @@ alter Column creditLimitSetBy uniqueidentifier null
 
 alter table Estimate
 alter Column allowJobWoCreditCheckSetBy uniqueidentifier null
+/*Executed on Staging on 2015 05 14*/

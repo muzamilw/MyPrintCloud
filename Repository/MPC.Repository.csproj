@@ -217,6 +217,7 @@
     <Compile Include="Repositories\CompanyContactRoleRepository.cs" />
     <Compile Include="Repositories\CompanyCostCenterRepository.cs" />
     <Compile Include="Repositories\CostCentreAnswerRepository.cs" />
+    <Compile Include="Repositories\EstimateInquiryRepository.cs" />
     <Compile Include="Repositories\GoodRecieveNoteRepository.cs" />
     <Compile Include="Repositories\InkCoverageGroupRepository.cs" />
     <Compile Include="Repositories\ItemImageRepository.cs" />

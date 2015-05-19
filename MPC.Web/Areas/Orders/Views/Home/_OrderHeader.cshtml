@@ -112,20 +112,16 @@
                 <div class="col-lg-6">
                     <input type="text" style="height: 60px;" data-bind="value: orderCode" readonly class="form-control font24px" id="code" />
                 </div>
-
             </div>
-
 
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     @*<label class="control-label text-right tooltip-float">Order Flag</label>*@
                 </div>
-
                 <div class="col-lg-6">
                     <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
                     <span class="help-block text-right"></span>
                 </div>
-
             </div>
             <div>
                 <div class="row" style="margin-top: -15px;">
@@ -319,7 +315,7 @@
 
     @* Item Template *@
     <script id="itemTemplate" type="text/html">
-        <tr data-bind=" click:  $root.editItem" style="cursor: pointer">
+        <tr data-bind=" click:  $root.editItem, css: { errorFillRow: !isValid() }" style="cursor: pointer">
             <td>
                 <a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>
             </td>
@@ -330,20 +326,6 @@
                 <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                 <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
             </td>
-            @*<td class="text-right">
-                <a href="#" class="table-link" data-bind="click: $root.editItem">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-                <a href="#" class="table-link danger" data-bind="click: $root.deleteItem">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-            </td>*@
         </tr>
     </script>
 

@@ -15,7 +15,7 @@ namespace MPC.Repository.Repositories
     {
 
 
-        public CostCentreQuestion LoadQuestion(int QuestionID)
+        public CostCentreQuestion LoadQuestion(int QuestionID, string connectionString)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace MPC.Repository.Repositories
                 CostCentreQuestion QuestionObj = new CostCentreQuestion();
 
                // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
-                string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
+             //   string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringDBName"] + ";server=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringServerName"] + "; user id=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringUserName"] + "; password=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringPasswordName"] + ";";
                 string queryString = "select * from CostCentreQuestion where Id = " + QuestionID;
 
                 using (SqlConnection con = new SqlConnection(connectionString))
@@ -82,13 +82,14 @@ namespace MPC.Repository.Repositories
         /// </summary>
         /// <param name="MatrixID"></param>
         /// <returns></returns>
-        public CostCentreMatrix GetMatrix(int MatrixID)
+        public CostCentreMatrix GetMatrix(int MatrixID, string connectionString)
         {
             try
             {
 
                 // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
-                string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
+               // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
+              //  string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringDBName"] + ";server=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringServerName"] + "; user id=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringUserName"] + "; password=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringPasswordName"] + ";";
                 string queryString = "select * from CostCentreMatrix where MatrixId = " + MatrixID;
 
                 CostCentreMatrix oMatrix = new CostCentreMatrix();
@@ -143,14 +144,14 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public double ExecuteUserResource(long ResourceID, ResourceReturnType oCostPerHour)
+        public double ExecuteUserResource(long ResourceID, ResourceReturnType oCostPerHour, string connectionString)
         {
             try
             {
                 if (oCostPerHour == ResourceReturnType.CostPerHour)
                 {
                     // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
-                    string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
+                 //   string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringDBName"] + ";server=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringServerName"] + "; user id=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringUserName"] + "; password=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringPasswordName"] + ";";
                     string queryString = "select CostPerHour from SystemUser where SystemUserId = " + ResourceID;
 
                     double result = 0;
@@ -187,7 +188,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty)
+        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, string connectionString, out double Price, out double PerQtyQty)
         {
             try
             {
@@ -196,7 +197,7 @@ namespace MPC.Repository.Repositories
 
 
                 // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
-                string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
+                //string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringDBName"] + ";server=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringServerName"] + "; user id=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringUserName"] + "; password=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringPasswordName"] + ";";
                 double result = 0;
                 //
                 // In a using statement, acquire the SqlConnection as a resource.
@@ -247,14 +248,14 @@ namespace MPC.Repository.Repositories
         /// <param name="VariableId">VariableID</param>
         /// <param name="oConnection">Open DB connection</param>
         /// <returns>Variable</returns>
-        public CostCentreVariable LoadVariable(int VariableId)
+        public CostCentreVariable LoadVariable(int VariableId, string connectionString)
         {
             try
             {
                 CostCentreVariable oVariable = new CostCentreVariable();
 
                 // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
-                string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
+                //string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringDBName"] + ";server=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringServerName"] + "; user id=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringUserName"] + "; password=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringPasswordName"] + ";";
 
                 string queryString = "select * from CostCentreVariable where VarId = " + VariableId;
 
@@ -309,7 +310,7 @@ namespace MPC.Repository.Repositories
         /// <param name="Variable">VVariable object</param>
         /// <param name="oConnection">DB Connection</param>
         /// <returns>double</returns>
-        public double ExecUserVariable(CostCentreVariable oVariable)
+        public double ExecUserVariable(CostCentreVariable oVariable, string connectionString)
         {
             string sSqlString = null;
             double dResult = 0;
@@ -317,7 +318,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
-                string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
+              //  string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringDBName"] + ";server=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringServerName"] + "; user id=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringUserName"] + "; password=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringPasswordName"] + ";";
                     string queryString = "";
 
                     if (Convert.ToBoolean(oVariable.IsCriteriaUsed) == true)
