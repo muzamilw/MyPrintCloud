@@ -12,13 +12,15 @@ namespace MPC.Implementation.MISServices
         #region Private
         private readonly IEstimateInquiryRepository estimateInquiryRepository;
         private readonly IOrganisationRepository organisationRepository;
+        private readonly IPrefixRepository prefixRepository;
 
         #endregion
         #region Constructor
-        public InquiryService(IOrganisationRepository organisationRepository, IEstimateInquiryRepository estimateInquiryRepository)
+        public InquiryService(IOrganisationRepository organisationRepository, IEstimateInquiryRepository estimateInquiryRepository, IPrefixRepository prefixRepository)
         {
             this.organisationRepository = organisationRepository;
             this.estimateInquiryRepository = estimateInquiryRepository;
+            this.prefixRepository = prefixRepository;
         }
 
         #endregion
@@ -39,6 +41,7 @@ namespace MPC.Implementation.MISServices
         public Inquiry Add(Inquiry inquiry)
         {
             inquiry.OrganisationId = organisationRepository.OrganisationId;
+            inquiry.InquiryCode = prefixRepository.GetNextInquiryCodePrefix();
             estimateInquiryRepository.Add(inquiry);
             estimateInquiryRepository.SaveChanges();
             return inquiry;

@@ -156,6 +156,31 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        /// <summary>
+        /// Returns Next Inquiry Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextInquiryCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.EnquiryPrefix + "-001-" + prefix.EnquiryNext;
+
+                // Update Enquiry Next
+                prefix.EnquiryNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         /// <summary>
         /// Returns Next Item Code Prefix and increments the NextItem Value by 1
