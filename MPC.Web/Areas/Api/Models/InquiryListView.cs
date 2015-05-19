@@ -9,7 +9,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long ContactId { get; set; }
         public string ContactName { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public Guid? SourceId { get; set; }
+        public int? SourceId { get; set; }
         public long? CompanyId { get; set; }
         public string CompanyName { get; set; }
         public DateTime? RequireByDate { get; set; }
