@@ -123,13 +123,13 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     validationSummaryList.removeAll();
 
                     if (name.error) {
-                        validationSummaryList.push({ name: "Order Title", element: name.domElement });
+                        validationSummaryList.push({ name: "Invoice Title", element: name.domElement });
                     }
                     if (companyId.error) {
                         validationSummaryList.push({ name: "Customer", element: companyId.domElement });
                     }
                     if (sectionFlagId.error) {
-                        validationSummaryList.push({ name: "Order Flag ", element: sectionFlagId.domElement });
+                        validationSummaryList.push({ name: "Invoice Flag ", element: sectionFlagId.domElement });
                     }
 
 

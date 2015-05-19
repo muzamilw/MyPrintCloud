@@ -452,17 +452,13 @@ define("common/itemDetail.viewModel",
                             selectedQty(1);
                         }
 
-                        //sectionCostCenter.name(stockItemToCreate().name);
                         sectionCostCenter.name('Stock(s)');
-                        //sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
                         sectionCostCenter.costCentreType('139');
-                        //sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
-                        //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
-                        //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
                         sectionCostCenter.qty1EstimatedStockCost(0);
                         sectionCostCenter.qty2EstimatedStockCost(0);
                         sectionCostCenter.qty3EstimatedStockCost(0);
                         sectionCostCenter.qty1Charge(stockItemToCreate().price);
+                        sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
                         sectionCostCenter.qty2Charge(0);
                         sectionCostCenter.qty3Charge(0);
                         view.hideCostCentersQuantityDialog();
@@ -472,10 +468,6 @@ define("common/itemDetail.viewModel",
                         sectionCostCenterDetail.stockId(stockItemToCreate().id);
                         sectionCostCenterDetail.costPrice(stockItemToCreate().price);
                         sectionCostCenterDetail.qty1(selectedCostCentre().quantity1());
-                        //sectionCostCenterDetail.qty1NetTotal(selectedCostCentre().quantity1());
-                        //sectionCostCenterDetail.qty2NetTotal(selectedCostCentre().quantity2());
-                        //sectionCostCenterDetail.qty2NetTotal(selectedCostCentre().quantity3());
-
                         sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         if (!containsStockItem) {
                             selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
@@ -483,8 +475,13 @@ define("common/itemDetail.viewModel",
                         } else {
                             var newCost = selectedSectionCostCenter().qty1Charge() + sectionCostCenterDetail.costPrice();
                             selectedSectionCostCenter().qty1Charge(newCost);
+                            selectedSectionCostCenter().qty1NetTotal(newCost);
                             selectedSectionCostCenter().sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         }
+
+                        calculateSectionBaseCharge1();
+                        calculateSectionBaseCharge2();
+                        calculateSectionBaseCharge3();
                     },
                     //Show Item Detail
                     showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam, isEstimateScreenFlag) {
@@ -908,43 +905,37 @@ define("common/itemDetail.viewModel",
                         }
                     }),
                     qty1NetTotalForItem = function () {
-                        if (selectedSection() !== undefined) {
-                            baseCharge1TotalForItem = 0;
-                            _.each(selectedProduct().itemSections(), function (itemSection) {
-                                if (itemSection.baseCharge1() === undefined || itemSection.baseCharge1() === "" || itemSection.baseCharge1() === null || isNaN(itemSection.baseCharge1())) {
-                                    itemSection.baseCharge1(0);
-                                }
-                                baseCharge1TotalForItem = parseFloat(baseCharge1TotalForItem) + parseFloat(itemSection.baseCharge1());
-                            });
-                            selectedProduct().qty1NetTotal(baseCharge1TotalForItem);
-                            qty1GrossTotalForItem();
-                        }
+                        baseCharge1TotalForItem = 0;
+                        _.each(selectedProduct().itemSections(), function (itemSection) {
+                            if (itemSection.baseCharge1() === undefined || itemSection.baseCharge1() === "" || itemSection.baseCharge1() === null || isNaN(itemSection.baseCharge1())) {
+                                itemSection.baseCharge1(0);
+                            }
+                            baseCharge1TotalForItem = parseFloat(baseCharge1TotalForItem) + parseFloat(itemSection.baseCharge1());
+                        });
+                        selectedProduct().qty1NetTotal(baseCharge1TotalForItem);
+                        qty1GrossTotalForItem();
                     },
                     qty2NetTotalForItem = function () {
-                        if (selectedSection() !== undefined) {
-                            baseCharge2TotalForItem = 0;
-                            _.each(selectedProduct().itemSections(), function (itemSection) {
-                                if (itemSection.baseCharge2() === undefined || itemSection.baseCharge2() === "" || itemSection.baseCharge2() === null || isNaN(itemSection.baseCharge2())) {
-                                    itemSection.baseCharge2(0);
-                                }
-                                baseCharge2TotalForItem = parseFloat(baseCharge2TotalForItem) + parseFloat(itemSection.baseCharge2());
-                            });
-                            selectedProduct().qty2NetTotal(baseCharge2TotalForItem);
-                            qty2GrossTotalForItem();
-                        }
+                        baseCharge2TotalForItem = 0;
+                        _.each(selectedProduct().itemSections(), function (itemSection) {
+                            if (itemSection.baseCharge2() === undefined || itemSection.baseCharge2() === "" || itemSection.baseCharge2() === null || isNaN(itemSection.baseCharge2())) {
+                                itemSection.baseCharge2(0);
+                            }
+                            baseCharge2TotalForItem = parseFloat(baseCharge2TotalForItem) + parseFloat(itemSection.baseCharge2());
+                        });
+                        selectedProduct().qty2NetTotal(baseCharge2TotalForItem);
+                        qty2GrossTotalForItem();
                     },
                     qty3NetTotalForItem = function () {
-                        if (selectedSection() !== undefined) {
-                            baseCharge3TotalForItem = 0;
-                            _.each(selectedProduct().itemSections(), function (itemSection) {
-                                if (itemSection.baseCharge3() === undefined || itemSection.baseCharge3() === "" || itemSection.baseCharge3() === null || isNaN(itemSection.baseCharge3())) {
-                                    itemSection.baseCharge3(0);
-                                }
-                                baseCharge3TotalForItem = parseFloat(baseCharge3TotalForItem) + parseFloat(itemSection.baseCharge3());
-                            });
-                            selectedProduct().qty3NetTotal(baseCharge3TotalForItem);
-                            qty3GrossTotalForItem();
-                        }
+                        baseCharge3TotalForItem = 0;
+                        _.each(selectedProduct().itemSections(), function (itemSection) {
+                            if (itemSection.baseCharge3() === undefined || itemSection.baseCharge3() === "" || itemSection.baseCharge3() === null || isNaN(itemSection.baseCharge3())) {
+                                itemSection.baseCharge3(0);
+                            }
+                            baseCharge3TotalForItem = parseFloat(baseCharge3TotalForItem) + parseFloat(itemSection.baseCharge3());
+                        });
+                        selectedProduct().qty3NetTotal(baseCharge3TotalForItem);
+                        qty3GrossTotalForItem();
                     },
                     qty1GrossTotalForItem = function () {
                         var qty1NetTotal = parseFloat((selectedProduct().qty1NetTotal() !== undefined && selectedProduct().qty1NetTotal() !== null) ? selectedProduct().qty1NetTotal() : 0).toFixed(2);
@@ -1061,7 +1052,7 @@ define("common/itemDetail.viewModel",
                     calculateSectionBaseCharge1 = function () {
                         baseCharge1Total(0);
 
-                        if (selectedSection() !== undefined && selectedSection().sectionCostCentres().length > 0) {
+                        if (selectedSection() !== undefined) {
                             _.each(selectedSection().sectionCostCentres(), function (item) {
                                 if (item.qty1NetTotal() === undefined || item.qty1NetTotal() === "" || item.qty1NetTotal() === null || isNaN(item.qty1NetTotal())) {
                                     item.qty1NetTotal(0);
@@ -1088,7 +1079,7 @@ define("common/itemDetail.viewModel",
                     calculateSectionBaseCharge2 = function () {
                         baseCharge2Total(0);
 
-                        if (selectedSection() !== undefined && selectedSection().sectionCostCentres().length > 0) {
+                        if (selectedSection() !== undefined) {
                             _.each(selectedSection().sectionCostCentres(), function (item) {
                                 if (item.qty2NetTotal() === undefined || item.qty2NetTotal() === "" || item.qty2NetTotal() === null || isNaN(item.qty2NetTotal())) {
                                     item.qty2NetTotal(0);
@@ -1112,7 +1103,7 @@ define("common/itemDetail.viewModel",
                     calculateSectionBaseCharge3 = function () {
                         baseCharge3Total(0);
 
-                        if (selectedSection() !== undefined && selectedSection().sectionCostCentres().length > 0) {
+                        if (selectedSection() !== undefined) {
                             _.each(selectedSection().sectionCostCentres(), function (item) {
                                 if (item.qty3NetTotal() === undefined || item.qty3NetTotal() === "" || item.qty3NetTotal() === null || isNaN(item.qty3NetTotal())) {
                                     item.qty3NetTotal(0);
@@ -1559,6 +1550,9 @@ define("common/itemDetail.viewModel",
                             selectedProduct().itemSections.remove(section);
                             showSectionDetail(false);
                             selectedSection(undefined);
+                            qty1NetTotalForItem();
+                            qty2NetTotalForItem();
+                            qty3NetTotalForItem();
                         });
                         confirmation.afterCancel(function () {
 
@@ -1621,6 +1615,9 @@ define("common/itemDetail.viewModel",
                             view.hideSectionCostCenterDialogModel();
                             selectedSection().sectionCostCentres.remove(costCenter);
                             isSectionCostCenterDialogOpen(false);
+                            calculateSectionBaseCharge1();
+                            calculateSectionBaseCharge2();
+                            calculateSectionBaseCharge3();
                         });
                         confirmation.show();
                         return;

@@ -1014,7 +1014,8 @@ define("invoice/invoice.viewModel",
                     grossTotal: grossTotal,
                     onAddInvoiceDetail: onAddInvoiceDetail,
                     closeInvoiceDetailDialog: closeInvoiceDetailDialog,
-                    onSaveInvoiceDetail: onSaveInvoiceDetail
+                    onSaveInvoiceDetail: onSaveInvoiceDetail,
+                    gotoElement: gotoElement
                     //#endregion
                 };
             })()
