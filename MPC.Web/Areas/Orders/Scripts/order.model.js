@@ -907,6 +907,34 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         organisationId = ko.observable(specifiedOrganisationId),
         inquiryAttachments = ko.observableArray([]),
         inquiryItems = ko.observableArray([]),
+        // System Users
+        systemUsers = ko.observableArray([]),
+        // Get User by Id
+        getUserById = function (userId) {
+            return systemUsers.find(function (user) {
+                return user.id === userId;
+            });
+        },
+        // System User Id Set By For User
+        systemUserIdByUser = ko.computed({
+            read: function () {
+                if (!systemUserId()) {
+                    return SystemUser.Create({});
+                }
+                return getUserById(systemUserId());
+            },
+            write: function (value) {
+                if (!value) {
+                    systemUserId(undefined);
+                    return;
+                }
+                var userId = value.id;
+                if (userId === systemUserId()) {
+                    return;
+                }
+                systemUserId(userId);
+            }
+        }),
         errors = ko.validation.group({
 
         }),
@@ -981,6 +1009,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             organisationId: organisationId,
             inquiryAttachments: inquiryAttachments,
             inquiryItems: inquiryItems,
+            systemUserIdByUser: systemUserIdByUser,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1181,9 +1210,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         var inquiryItem = new InquiryItem(
               source.InquiryItemId,
               source.Title,
-              source.AttachmentPath,
+              source.Notes,
+              source.DeliveryDate,
               source.InquiryId,
-              source.Extension
+              source.ProductId
             );
         return inquiryItem;
     };
