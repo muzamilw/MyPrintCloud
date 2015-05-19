@@ -55,9 +55,11 @@ define("common/addProduct.viewModel",
                     companyTaxRate = null,
                     searchFilter = ko.observable(),
                     storeName = ko.observable(),
+                    callerNaMe = ko.observable(),
                     // Show
-                    show = function(afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem, companyTaxRateParam, productName) {
+                    show = function(afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem, companyTaxRateParam, productName,callerName) {
                         resetFields();
+                        callerNaMe(callerName);
                         storeName(productName);
                         orderId = oId;
                         currencySymbol(currencySym);
@@ -373,7 +375,8 @@ define("common/addProduct.viewModel",
                     selectedProductQuanityPrice: selectedProductQuanityPrice,
                     quantitiesCount: quantitiesCount,
                     selecteditemName: selecteditemName,
-                    storeName: storeName
+                    storeName: storeName,
+                    callerNaMe: callerNaMe
                 };
             })()
         };
