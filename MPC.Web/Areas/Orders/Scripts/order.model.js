@@ -921,6 +921,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         inquiryItems = ko.observableArray([]),
         // System Users
         systemUsers = ko.observableArray([]),
+        //Pipe Line Sources
+        pipelineSources = ko.observableArray([]),
         // Get User by Id
         getUserById = function (userId) {
             return systemUsers.find(function (user) {
@@ -945,6 +947,32 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     return;
                 }
                 systemUserId(userId);
+            }
+        }),
+        // Get Pipe Line by Id
+        getpipeLineById = function (userId) {
+            return pipelineSources.find(function (source) {
+                return source.id === userId;
+            });
+        },
+        // System Pipe Line Id Set By For User
+        systemPipeLineByUser = ko.computed({
+            read: function () {
+                if (!sourceId()) {
+                    return SystemUser.Create({});
+                }
+                return getpipeLineById(sourceId());
+            },
+            write: function (value) {
+                if (!value) {
+                    sourceId(undefined);
+                    return;
+                }
+                var userId = value.id;
+                if (userId === sourceId()) {
+                    return;
+                }
+                sourceId(userId);
             }
         }),
         errors = ko.validation.group({
@@ -1023,6 +1051,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             inquiryAttachments: inquiryAttachments,
             inquiryItems: inquiryItems,
             systemUserIdByUser: systemUserIdByUser,
+            systemPipeLineByUser: systemPipeLineByUser,
+            systemUsers: systemUsers,
+            pipelineSources: pipelineSources,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1033,7 +1064,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return self;
     };
 
-    Inquiry.Create = function (source) {
+    Inquiry.Create = function (source, constructorParams) {
         var inquiry = new Inquiry(
               source.InquiryId,
               source.Title,
@@ -1073,6 +1104,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             ko.utils.arrayPushAll(inquiry.inquiryItems(), items);
             inquiry.inquiryItems.valueHasMutated();
         }
+        if (constructorParams) {
+            inquiry.systemUsers(constructorParams.SystemUsers);
+            inquiry.pipelineSources(constructorParams.PipelineSources);
+        }
+        
         return inquiry;
     };
     //#endregion

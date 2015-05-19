@@ -159,7 +159,7 @@ define("order/order.viewModel",
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({}, { SystemUsers: systemUsers() })),
                     //Active Inquiry
-                    selectedInquiry = ko.observable(model.Inquiry.Create({})),
+                    selectedInquiry = ko.observable(model.Inquiry.Create({}), { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }),
 
                     // Page Header 
                     pageHeader = ko.computed(function() {
@@ -1220,7 +1220,7 @@ define("order/order.viewModel",
                         var inquiriesList = [];
                         _.each(data, function(inquiry) {
                             inquiry.FlagColor = getSectionFlagColor(inquiry.FlagId);
-                            inquiriesList.push(model.Inquiry.Create(inquiry, { SystemUsers: systemUsers() }));
+                            inquiriesList.push(model.Inquiry.Create(inquiry, { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }));
                         });
                         // Push to Original Array
                         ko.utils.arrayPushAll(inquiries(), inquiriesList);
@@ -2023,7 +2023,7 @@ define("order/order.viewModel",
                         }, {
                             success: function(data) {
                                 if (data) {
-                                    selectedInquiry(model.Inquiry.Create(data));
+                                    selectedInquiry(model.Inquiry.Create(data), { SystemUsers: systemUsers(), PipelineSources: pipelineSources() });
                                     openOrderEditor();
                                 }
                                 getBaseForInquiry(data.CompanyId, data.CompanyId);
@@ -2050,7 +2050,7 @@ define("order/order.viewModel",
                         dataservice.saveInquiry(inquiry, {
                             success: function (data) {
                                 data.CompanyName = selectedInquiry().companyName();
-                                selectedInquiry(model.Inquiry.Create(data));
+                                selectedInquiry(model.Inquiry.Create(data), { SystemUsers: systemUsers(), PipelineSources: pipelineSources() });
                                 inquiries.splice(0, 0, selectedInquiry());
                                 toastr.success("Saved Successfully !");
                                 closeOrderEditor();
