@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="productFromRetailStoreModal" style="overflow-y: hidden; margin-top: -14px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
+﻿<div class="modal fade" id="productFromRetailStoreModal" style="@*overflow-y: hidden;*@ margin-top: -14px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
     <div class="modal-dialog" id="productFromRetailStoreModalDialog">
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
@@ -6,7 +6,7 @@
                 <h4 data-bind="text:'Product From Store :'+$root.storeName()"></h4>
             </div>
             <div class="col-lg-12 form-horizontal" style=" margin-top: 30px;">
-                <div class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="margin-left: 9px; width: 30%;">
+                <div class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="margin-left: 16px; width: 30%;">
                     @*<header class="main-box-header clearfix">
                             <div class="filter-block pull-left">
                                 <form data-bind="submit: $root.getItemsByCompanyId">
@@ -22,7 +22,7 @@
                     <div class="filter-body" id="filter">
                         <div class="filter-block pull-right">
                             <div class="pull-left spanfilterlbl">
-                                &nbsp;
+                               &nbsp;
                             </div>
                             <div class="form-group pull-right">
                                 <form data-bind="submit: $root.getItemsByCompanyId">
@@ -61,103 +61,106 @@
                 </div>
                 <div style="display: none" data-bind="visible:$root.costCenterVisibility()">
                     <!-- controls visibility of other sections- starts here-->
-                    <div class="col-lg-1" style=" padding-left: 3px; width: 7%;">
-                        <div style="height: 300px; position: relative; top: 50%; transform: translateY(55%); padding-right: 0px; ">
-                        </div>
-                    </div>
+                  
+                    <div style=" width: 33%; margin-left: 2%; padding-top: 0px;" class="col-lg-3 center_align form-horizontal outerDiv-Padding" >
 
-                    <div style=" margin-left: -25px; height: 415px; max-height: 415px; width: 30%;" @*data-bind="visible:$root.costCenterVisibility()"*@ class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection2">
-
-                        <div class="form-group" style="margin-left: 0px; margin-right: 0px;  overflow-y: auto" data-bind="css: {'productDialogEmptyHeight': ( $root.selectedStockItem() == undefined || ($root.selecteditem() != undefined && $root.selecteditem().itemPriceMatrices().length == 0)), 'productDialogNonEmptyHeight': ($root.selectedStockItem() != undefined && ($root.selecteditem() != undefined && $root.selecteditem().itemPriceMatrices().length != 0))}">
+                        <div class="form-group" style="margin-left: 0px; margin-right: 0px; padding: 24px; padding-bottom: 5px; " id="OrderDialogSection2">
 
                             <h4 class="group-header" data-bind="text:$root.selecteditemName"></h4>
-                            <div class="filter-body" id="filter">
-                                <div class="pull-left spanfilterlbl">
-                                    <label style="font-size: 18px;">Select Price Column</label>
-                                </div>
+                            <div id="filter">
                                 <div class="filter-block pull-right">
+                                    <div class="pull-left spanfilterlbl">
+                                        <label style="font-size: 16px;">Select Price Column</label>
+                                    </div>
                                     <div class="col-lg-12">
-                                        <div class="form-group pull-right">
+                                        <div class="form-group pull-right" style="width: 75%;">
                                             <!--ko if: $root.selecteditem()!=undefined -->
-                                            <select class="form-control" style="width: 247px;"data-bind="options:$root.selecteditem().itemStockOptions,optionsText:'label',optionsValue:'id', value: $root.selectedStockItem"></select>
+                                            <select class="form-control" data-bind="options:$root.selecteditem().itemStockOptions,optionsText:'label',optionsValue:'id', value: $root.selectedStockItem"></select>
                                             <!--/ko-->
+
                                         </div>
                                     </div>
+                                    <!-- second section-->
+                                    <!-- ko if: $root.selecteditem()!=undefined && $root.selecteditem().itemPriceMatrices().length != 0  -->
+                                    <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
+                                    <div class="col-lg-12" style="  padding-left: 0px; padding-top: 5px;">
+                                        <div class="pull-left col-lg-6" style="padding-left: 0px;">
+                                            <label style="font-size: 15px; margin-top: 7px;">Quantity Required</label>
+                                        </div>
+                                        <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
+
+                                        <div class="col-lg-6" style=" padding-right: 0px;">
+                                            <div class="form-group pull-right">
+                                                <input type="text" placeholder="" style=" margin-left: 1px;" class="form-control" data-bind="value: $root.selectedProductQuanity" />
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
+                                        <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
+                                        <div class="col-lg-6" style=" padding-right: 0px;">
+                                            <div class="form-group pull-right">
+                                                <select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity, optionsCaption: 'Select Quantity'"></select>
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
+                                    </div>
+                                    <!-- /ko -->
+                                    <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
+                                    <div class=" col-lg-7 text-right ">
+                                        <label class="control-label tooltip-float" style="margin-right: -4%;">
+                                            <span data-bind="text:$root.currencySymbol()"></span>
+                                            <span data-bind="numberInput:$root.selectedProductQuanityPrice"></span>
+                                        </label>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
                                 </div>
-                               
-                            </div>
-
-                            <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined-->
-                            <div class="main-box-body clearfix">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
-                                                <th class="col-lg-5">Quantity</th>
-                                                <!--/ko-->
-                                                <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
-                                                <th class="col-lg-3">Quantity From</th>
-                                                <th class="col-lg-3">Quantity To</th>
-                                                <!--/ko-->
-                                                <th style="text-align: right" class="col-lg-7 " data-bind="text: $root.selectedStockOptionName"></th>
-                                                <th class="col-lg-1"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!--ko if: $root.selecteditem().itemPriceMatrices().length==0-->
-                                            <tr>
-                                                <td class="col-lg-6">
-                                                    <span>No Item found!</span>
-                                                </td>
-                                                <td></td>`
-                                                <td></td>
-                                            </tr>
-                                            <!-- /ko -->
-                                            <!-- ko template: { name: 'itemPriceMatrixTemplate' , foreach: $root.selecteditem().itemPriceMatrices } -->
-                                            <!-- /ko -->
-                                        </tbody>
-                                    </table>
+                                <div class="clearfix">
                                 </div>
                             </div>
 
-                            <!--/ko-->
                         </div>
-                        <div class="form-group col-lg-12">
-                            <!-- ko if: $root.selecteditem()!=undefined && $root.selecteditem().itemPriceMatrices().length != 0  -->
-
-                            <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
-
-                            <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
-                            <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Enter Quantity</label></div>
-                            <div class=" col-lg-5"><input type="text" class="form-control" data-bind="value: $root.selectedProductQuanity" /></div>
-                            <!-- /ko -->
-
-                            <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
-                            <div class=" col-lg-8">
-                                <select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity, optionsCaption: 'Select Quantity'"></select>
+                        
+                        <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined-->
+                        <div class="main-box-body clearfix" style="max-height: 161px; overflow: auto;">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
+                                            <th class="col-lg-5">Price Table</th>
+                                            <!--/ko-->
+                                            <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
+                                            <th class="col-lg-4">Price Table</th>
+                                            <th class="col-lg-3">&nbsp;</th>
+                                            <!--/ko-->
+                                            <th class="col-lg-5">&nbsp;</th>
+                                            <th style="text-align: right" class="col-lg-7 " @*data-bind="text: $root.selectedStockOptionName"*@></th>
+                                            <th class="col-lg-1"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--ko if: $root.selecteditem().itemPriceMatrices().length==0-->
+                                        <tr>
+                                            <td class="col-lg-6">
+                                                <span>No Item found!</span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <!-- /ko -->
+                                        <!-- ko template: { name: 'itemPriceMatrixTemplate' , foreach: $root.selecteditem().itemPriceMatrices } -->
+                                        <!-- /ko -->
+                                    </tbody>
+                                </table>
                             </div>
-                            <!-- /ko -->
-
-                            <!-- /ko -->
-
-                            <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
-                            <div class=" col-lg-4 text-right " data-bind="style: { paddingRight: $root.quantitiesCount() <=3 ? '3px' : '16px' }">
-                                <label class="control-label tooltip-float">
-                                    <span data-bind="text:$root.currencySymbol()"></span>
-                                    <span data-bind="numberInput:$root.selectedProductQuanityPrice"></span>
-                                </label>
-                            </div>
-                            <!-- /ko -->
-                            <!--/ko-->
                         </div>
-                    </div>
-                    <div class="col-lg-1" style=" padding-left: 3px; width: 7%;">
-                        <div style="height: 300px; position: relative; top: 50%; transform: translateY(55%); ">
-                        </div>
-                    </div>
 
-                    <div style="margin-left: -25px; height: 415px; max-height: 415px; width: 29%;" class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="">
+                        <!--/ko-->
+                    </div>
+                   
+
+                    <div style="margin-left: 2%; height: 415px; max-height: 415px; width: 30%;" class="col-lg-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="">
                         @*<header class="main-box-header clearfix">
                                 <div class="filter-block pull-left">
                                     <form data-bind="submit: $root.getItemsByCompanyId">
@@ -212,7 +215,7 @@
                 <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
                 <div class="col-lg-9"></div>
                 <div class="col-lg-3" style="margin-top: 10px;">
-                    <label class="col-lg-8">Total Inc. Tax</label>
+                    <label class="col-lg-8">Total(Inc. Tax)</label>
                     <span class="col-lg-1" style="text-align: right; padding-right: 0px" data-bind="text: $root.currencySymbol"></span>
                     <span class="col-lg-3" style=" text-align: right; padding-left: 0px;margin-left: -8px" data-bind="numberInput: totalProductPrice"></span>
                 </div>
@@ -220,7 +223,7 @@
             </div>
             <div class="modal-footer">
                 <hr />
-                <button type="button" class="btn btn-primary" style=" margin-top: -10px" data-bind="click: $root.onSaveRetailStoreProduct">Add</button>    @*data-bind="click: $root.onSaveCompanyTerritory"*@
+                <button type="button" class="btn btn-success" style=" margin-top: -10px" data-bind="click: $root.onSaveRetailStoreProduct, text:'Add Product to '+$root.callerNaMe()">Add</button>    @*data-bind="click: $root.onSaveCompanyTerritory"*@
                 @*<button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductFromRetailStore" style="margin-left: 0px;">Close</button>*@
             </div>
         </div>
