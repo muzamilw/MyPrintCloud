@@ -2844,11 +2844,27 @@ namespace MPC.Implementation.MISServices
             int NoofSheetsQty1 = 0;
             int NoofSheetsQty2 = 0;
             int NoofSheetsQty3 = 0;
+            double RunningSpoilage = 0;
+            double SetupSpoilage = 0;
             int NoofInks = 0;
             if (oSectionAllInks != null && oSectionAllInks.Count > 0)
                 NoofInks = oSectionAllInks.Count;
 
             var pressSpoilage = itemsectionRepository.GetMachineSpoilageByMachineIdAndColors(PressID, NoofInks);
+            var pressSpoilageSide2 = itemsectionRepository.GetMachineSpoilageByMachineIdAndColors(PressID, NoofInks);
+            if(pressSpoilage != null)
+            {
+                if(pressSpoilageSide2 != null)
+                {
+                    RunningSpoilage = pressSpoilage.RunningSpoilage > pressSpoilageSide2.RunningSpoilage ? pressSpoilage.RunningSpoilage : pressSpoilageSide2.RunningSpoilage;
+                    SetupSpoilage = pressSpoilage.SetupSpoilage > pressSpoilageSide2.SetupSpoilage ? pressSpoilage.SetupSpoilage : pressSpoilageSide2.SetupSpoilage;
+                }
+                else
+                {
+                    RunningSpoilage = pressSpoilage.RunningSpoilage;
+                    SetupSpoilage = pressSpoilage.SetupSpoilage;
+                }
+            }
             if (oItemSection.IsPortrait == true)
             {
                 NoofSheetsQty1 = Convert.ToInt32(oItemSection.Qty1) / Convert.ToInt32(oItemSection.PrintViewLayoutPortrait);
@@ -5417,25 +5433,25 @@ namespace MPC.Implementation.MISServices
                     updatedSection.PrintViewLayout = 1;
                 updatedSection = CalculatePaperCost(updatedSection, (int)updatedSection.PressId, false, false);
             }
-            if (updatedSection.IsPlateUsed != null && updatedSection.IsPlateUsed != false)//Plates
-            {
-                if (updatedSection.IsPlateSupplied == null)
-                    updatedSection.IsPlateSupplied = false;
-                updatedSection = CalculatePlateCost(updatedSection, false, false);
-            }
-            if (updatedSection.IsMakeReadyUsed == true)//Make Readies
-            {
-                if (updatedSection.IsDoubleSided == true)
-                    updatedSection.MakeReadyQty = updatedSection.Side1Inks + updatedSection.Side2Inks;
-                else
-                    updatedSection.MakeReadyQty = updatedSection.Side1Inks; // is to set later
-                updatedSection = CalculateMakeReadyCost(updatedSection, (int)updatedSection.PressId, false, false);
-            }
-            if (updatedSection.IsWashup != null && updatedSection.IsWashup == true)//Washups
-            {
-                updatedSection.WashupQty = updatedSection.WashupQty ?? 0;
-                updatedSection = CalculateWashUpCost(updatedSection, (int)updatedSection.PressId, false, false);
-            }
+            //if (updatedSection.IsPlateUsed != null && updatedSection.IsPlateUsed != false)//Plates
+            //{
+            //    if (updatedSection.IsPlateSupplied == null)
+            //        updatedSection.IsPlateSupplied = false;
+            //    updatedSection = CalculatePlateCost(updatedSection, false, false);
+            //}
+            //if (updatedSection.IsMakeReadyUsed == true)//Make Readies
+            //{
+            //    if (updatedSection.IsDoubleSided == true)
+            //        updatedSection.MakeReadyQty = updatedSection.Side1Inks + updatedSection.Side2Inks;
+            //    else
+            //        updatedSection.MakeReadyQty = updatedSection.Side1Inks; // is to set later
+            //    updatedSection = CalculateMakeReadyCost(updatedSection, (int)updatedSection.PressId, false, false);
+            //}
+            //if (updatedSection.IsWashup != null && updatedSection.IsWashup == true)//Washups
+            //{
+            //    updatedSection.WashupQty = updatedSection.WashupQty ?? 0;
+            //    updatedSection = CalculateWashUpCost(updatedSection, (int)updatedSection.PressId, false, false);
+            //}
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)
             {
                 //CalculatePressCostWebPress
