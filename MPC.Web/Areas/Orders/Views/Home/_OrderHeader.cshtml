@@ -314,7 +314,7 @@
 
     @* Item Template *@
     <script id="itemTemplate" type="text/html">
-        <tr data-bind=" click:  $root.editItem" style="cursor: pointer">
+        <tr data-bind=" click:  $root.editItem, css: { errorFillRow: !isValid() }" style="cursor: pointer">
             <td>
                 <a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>
             </td>
@@ -325,20 +325,6 @@
                 <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                 <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
             </td>
-            @*<td class="text-right">
-                <a href="#" class="table-link" data-bind="click: $root.editItem">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-                <a href="#" class="table-link danger" data-bind="click: $root.deleteItem">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-            </td>*@
         </tr>
     </script>
 
