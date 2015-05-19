@@ -12,7 +12,7 @@ namespace MPC.Models.DomainModels
         public string Title { get; set; }
         public long ContactId { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public Guid? SourceId { get; set; }
+        public int? SourceId { get; set; }
         public long? CompanyId { get; set; }
         public DateTime? RequireByDate { get; set; }
         public Guid? SystemUserId { get; set; }

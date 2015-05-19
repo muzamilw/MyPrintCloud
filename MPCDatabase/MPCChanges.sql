@@ -3794,15 +3794,6 @@ alter Column allowJobWoCreditCheckSetBy uniqueidentifier null
 /* Execution Date: 19/05/2015 */
 
 alter table inquiry
-alter column SourceId nvarchar(max) null
-
-update inquiry
-set sourceid = null
-
-alter table inquiry
-alter column SourceId uniqueidentifier null
-
-alter table inquiry
 alter column SystemUserId nvarchar(max) null
 
 update inquiry
@@ -3834,3 +3825,12 @@ add PassesSide1 bigint null
 
 alter table itemSection
 add PassesSide2 bigint null
+
+alter table inquiry
+alter column SourceId nvarchar(max) null
+
+alter table inquiry
+alter column SourceId int null
+
+alter table invoiceDetail
+add TaxValue float null
