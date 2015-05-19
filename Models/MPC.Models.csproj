@@ -190,6 +190,7 @@
     <Compile Include="DomainModels\MachineClickChargeZone.cs" />
     <Compile Include="DomainModels\MachineGuillotineCalc.cs" />
     <Compile Include="DomainModels\MachineGuilotinePtv.cs" />
+    <Compile Include="DomainModels\MachineLookupMethod.cs" />
     <Compile Include="DomainModels\MachineMeterPerHourLookup.cs" />
     <Compile Include="DomainModels\MachinePerHourLookup.cs" />
     <Compile Include="DomainModels\MachineSpeedWeightLookup.cs" />

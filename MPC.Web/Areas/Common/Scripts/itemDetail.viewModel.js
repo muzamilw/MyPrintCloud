@@ -1250,7 +1250,7 @@ define("common/itemDetail.viewModel",
                             errorList.push({ name: "Sheet plan cannot be zero.", element: selectedSection().numberUp.domElement });
                             flag = false;
                         } else if (selectedSection().stockItemId() == null) {
-                            errorList.push({ name: "Please select stock.", element: selectedSection().stockItemName.domElement });
+                            errorList.push({ name: "Please select stock.", element: selectedSection().stockItemId.domElement });
                             flag = false;
                         }
                         return flag;
@@ -1543,6 +1543,12 @@ define("common/itemDetail.viewModel",
                         showSectionDetail(true);
                     },
                     closeSectionDetailEditor = function () {
+                        if (!selectedSection().isValid()) {
+                            selectedProduct().showAllErrors();
+                            selectedProduct().setValidationSummary(errorList);
+                            return;
+                        }
+                        errorList.removeAll();
                         showSectionDetail(false);
                         selectedSection(undefined);
                     },
