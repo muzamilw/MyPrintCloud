@@ -898,7 +898,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     var Inquiry = function (
         specifiedInquiryId, specifiedTitle, specifiedContactId, specifiedCreatedDate, specifiedSourceId, specifiedCompanyId, specifiedCompanyName,specifiedRequireByDate,
-        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId
+        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId, specifiedFlagColor
     ) {
         var self,
         inquiryId = ko.observable(specifiedInquiryId),
@@ -916,8 +916,65 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         inquiryCode = ko.observable(specifiedInquiryCode),
         createdBy = ko.observable(specifiedCreatedBy),
         organisationId = ko.observable(specifiedOrganisationId),
+        flagColor = ko.observable(specifiedFlagColor),
         inquiryAttachments = ko.observableArray([]),
         inquiryItems = ko.observableArray([]),
+        // System Users
+        systemUsers = ko.observableArray([]),
+        //Pipe Line Sources
+        pipelineSources = ko.observableArray([]),
+        // Get User by Id
+        getUserById = function (userId) {
+            return systemUsers.find(function (user) {
+                return user.id === userId;
+            });
+        },
+        // System User Id Set By For User
+        systemUserIdByUser = ko.computed({
+            read: function () {
+                if (!systemUserId()) {
+                    return SystemUser.Create({});
+                }
+                return getUserById(systemUserId());
+            },
+            write: function (value) {
+                if (!value) {
+                    systemUserId(undefined);
+                    return;
+                }
+                var userId = value.id;
+                if (userId === systemUserId()) {
+                    return;
+                }
+                systemUserId(userId);
+            }
+        }),
+        // Get Pipe Line by Id
+        getpipeLineById = function (userId) {
+            return pipelineSources.find(function (source) {
+                return source.id === userId;
+            });
+        },
+        // System Pipe Line Id Set By For User
+        systemPipeLineByUser = ko.computed({
+            read: function () {
+                if (!sourceId()) {
+                    return SystemUser.Create({});
+                }
+                return getpipeLineById(sourceId());
+            },
+            write: function (value) {
+                if (!value) {
+                    sourceId(undefined);
+                    return;
+                }
+                var userId = value.id;
+                if (userId === sourceId()) {
+                    return;
+                }
+                sourceId(userId);
+            }
+        }),
         errors = ko.validation.group({
 
         }),
@@ -990,8 +1047,13 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             inquiryCode: inquiryCode,
             createdBy: createdBy,
             organisationId: organisationId,
+            flagColor: flagColor,
             inquiryAttachments: inquiryAttachments,
             inquiryItems: inquiryItems,
+            systemUserIdByUser: systemUserIdByUser,
+            systemPipeLineByUser: systemPipeLineByUser,
+            systemUsers: systemUsers,
+            pipelineSources: pipelineSources,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1002,7 +1064,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return self;
     };
 
-    Inquiry.Create = function (source) {
+    Inquiry.Create = function (source, constructorParams) {
         var inquiry = new Inquiry(
               source.InquiryId,
               source.Title,
@@ -1018,7 +1080,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               source.FlagId,
               source.InquiryCode,
               source.CreatedBy,
-              source.OrganisationId
+              source.OrganisationId,
+            source.FlagColor
             );
         // Map Items if any
         if (source.InquiryAttachments && source.InquiryAttachments.length > 0) {
@@ -1041,6 +1104,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             ko.utils.arrayPushAll(inquiry.inquiryItems(), items);
             inquiry.inquiryItems.valueHasMutated();
         }
+        if (constructorParams) {
+            inquiry.systemUsers(constructorParams.SystemUsers);
+            inquiry.pipelineSources(constructorParams.PipelineSources);
+        }
+        
         return inquiry;
     };
     //#endregion
@@ -1192,9 +1260,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         var inquiryItem = new InquiryItem(
               source.InquiryItemId,
               source.Title,
-              source.AttachmentPath,
+              source.Notes,
+              source.DeliveryDate,
               source.InquiryId,
-              source.Extension
+              source.ProductId
             );
         return inquiryItem;
     };
