@@ -320,7 +320,18 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
                     if (itemInvalid) {
                         var nameElement = items.domElement;
-                        validationSummaryList.push({ name: itemInvalid.productName() + "has invalid data.", element: nameElement });
+                        // Show Item Section Errors
+                        var itemSectionInvalid = itemInvalid.itemSections.find(function (itemSection) {
+                            return !itemSection.isValid();
+                        });
+                        var invalidSectionName = '';
+                        if (itemSectionInvalid) {
+                            invalidSectionName = itemSectionInvalid.name();
+                        }
+                        validationSummaryList.push({
+                            name: itemInvalid.productName() + " has invalid data in Section named " + invalidSectionName,
+                            element: nameElement
+                        });
                     }
                 },
                 // True if the order has been changed

@@ -415,9 +415,9 @@
 </div>
 <script id="emailCampaingnSectionItemTemplate" type="text/html">
     <li class="dd-item dd-item-list" data-id="15">
-        <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle-list cursorShape" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }"><i class="fa fa-chevron-circle-right" data-bind="click: $root.getCategoryChildListItems"></i></div>
         <div class="dd-handle">
-            <span data-bind="text: $data.sectionName(),drag: $root.draggedSection" style="cursor: move;z-index: 8000"></span>
+            <span class="col-sm-10 cursorShape" data-bind="text: $data.sectionName(),drag: $root.draggedSection" style="cursor: move;z-index: 8000"></span>
             <div class="nested-links">
                 <a href="#" class="nested-link"></a>
             </div>
@@ -430,8 +430,8 @@
 </script>
 <script id="emailVariableIemTemplate" type="text/html">
     <li class="dd-item dd-item-list" data-id="16">
-        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-        <div class="dd-handle">
+        <div class="dd-handle-list cursorShape"><i class="fa fa-chevron-circle-right"></i></div>
+        <div class="dd-handle cursorShape">
             <span data-bind="text: $data.variableName(),drag: $root.draggedEmailVaribale" style="cursor: move;z-index: 8000"></span>
             <div class="nested-links">
             </div>

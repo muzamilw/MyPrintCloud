@@ -111,29 +111,11 @@ define("product/product.viewModel",
                     // Sort Order -  true means asc, false means desc
                     sortIsAsc = ko.observable(true),
                     // Pagination
-                        
-                    pager = ko.observable(pagination.Pagination({ PageSize: 10 }, products)),
+                    pager = ko.observable(new pagination.Pagination({ PageSize: 10 }, products)),
                     // Pagination For Item Relater Dialog
                     itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
                     // Pagination For Press Dialog
                     pressDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, pressItems)),
-                    // Current Page - Editable
-                    currentPageCustom = ko.computed({
-                        read: function () {
-                            return pager().currentPage();
-                        },
-                        write: function (value) {
-                            if (!value) {
-                                return;
-                            }
-                            var page = parseInt(value);
-                            if (page === pager().currentPage() || !pager().isPageValid(page)) {
-                                return;
-                            }
-                            pager().currentPage(page);
-                            getItems();
-                        }
-                    }),
                     // Item Actions
                     itemActions = {
                         onSaveVideo: function () {
@@ -587,7 +569,7 @@ define("product/product.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
-                        pager(pagination.Pagination({ PageSize: 10 }, products, getItems));
+                        pager(new pagination.Pagination({ PageSize: 10 }, products, getItems));
 
                         itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate));
 
@@ -655,12 +637,15 @@ define("product/product.viewModel",
 
                         var productDetailBinding = $("#productDetailBinding")[0];
                         var productBinding = $("#productBinding")[0];
+                        var productPagerBinding = $("#pagerDivForProducts")[0];
                         setTimeout(function () {
                             if (!isProductSectionInitialized) {
                                 ko.cleanNode(productBinding);
                                 ko.cleanNode(productDetailBinding);
+                                ko.cleanNode(productPagerBinding);
                                 ko.applyBindings(view.viewModel, productBinding);
                                 ko.applyBindings(view.viewModel, productDetailBinding);
+                                ko.applyBindings(view.viewModel, productPagerBinding);
                                 isProductSectionInitialized = true;
                             }
                         }, 1000);
@@ -1212,8 +1197,8 @@ define("product/product.viewModel",
                             success: function (data) {
                                 pressItems.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    pressDialogPager().totalCount(data.TotalCount);
                                     mapPressItems(data.Machines);
+                                    pressDialogPager().totalCount(data.TotalCount);
                                 }
                             },
                             error: function (response) {
@@ -1234,8 +1219,8 @@ define("product/product.viewModel",
                             success: function (data) {
                                 products.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    pager().totalCount(data.TotalCount);
                                     mapProducts(data.Items);
+                                    pager().totalCount(data.TotalCount);
                                 }
                                 isLoadingProducts(false);
                                 view.initializeProductMinMaxSlider();
@@ -1257,8 +1242,8 @@ define("product/product.viewModel",
                             success: function (data) {
                                 productsToRelate.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    itemRelaterPager().totalCount(data.TotalCount);
                                     mapProductsToRelate(data.Items);
+                                    itemRelaterPager().totalCount(data.TotalCount);
                                 }
                                 if (callback && typeof callback === "function") {
                                     callback();
@@ -1378,7 +1363,6 @@ define("product/product.viewModel",
                     isProductDetailsVisible: isProductDetailsVisible,
                     pager: pager,
                     errorList: errorList,
-                    currentPageCustom: currentPageCustom,
                     filterText: filterText,
                     pageHeader: pageHeader,
                     filterTextForRelatedItems: filterTextForRelatedItems,
