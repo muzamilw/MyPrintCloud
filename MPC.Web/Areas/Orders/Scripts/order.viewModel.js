@@ -452,7 +452,6 @@ define("order/order.viewModel",
                     deleteProduct = function(item) {
                         selectedOrder().items.remove(item);
                     },
-
                     // Map List
                     mapList = function(observableList, data, factory) {
                         var list = [];
@@ -463,17 +462,6 @@ define("order/order.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(observableList(), list);
                         observableList.valueHasMutated();
-                    },
-                    //In case Of Edit Order set Delivery Schedule Address Name
-                    setDeliveryScheduleAddressName = function() {
-                        _.each(selectedOrder().deliverySchedules(), function(dSchedule) {
-                            var selectedAddressItem = _.find(companyAddresses(), function(item) {
-                                return item.id === dSchedule.addressId();
-                            });
-                            if (selectedAddressItem) {
-                                dSchedule.addressName(selectedAddressItem.name);
-                            }
-                        });
                     },
                     // Select Default Address For Company in case of new order
                     setDefaultAddressForCompany = function() {
@@ -1236,10 +1224,6 @@ define("order/order.viewModel",
                             success: function(data) {
                                 if (data) {
                                     selectedOrder(model.Estimate.Create(data, { SystemUsers: systemUsers() }));
-                                    //    selectedOrder().taxRate(data.CompanyTaxRate);
-                                    _.each(data.PrePayments, function(item) {
-                                        selectedOrder().prePayments.push(model.PrePayment.Create(item));
-                                    });
                                     view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
                                     // Get Base Data For Company
                                     if (data.CompanyId) {
@@ -1254,8 +1238,6 @@ define("order/order.viewModel",
                                         }
                                         getBaseForCompany(data.CompanyId, storeId);
                                     }
-                                    // Set Delivey Schedule Item Name
-                                    setDeliveryScheduleItemName();
                                     // If Signed by is not set in case of online order then set it
                                     if (!selectedOrder().orderReportSignedBy()) {
                                         selectedOrder().setOrderReportSignedBy(loggedInUser());
@@ -1277,18 +1259,6 @@ define("order/order.viewModel",
                             }
                         });
                     },
-
-                    //In case Of Edit Order set Delivery Schedule Item Name
-                    setDeliveryScheduleItemName = function() {
-                        _.each(selectedOrder().deliverySchedules(), function(dSchedule) {
-                            var selectedItem = _.find(selectedOrder().items(), function(item) {
-                                return item.id() === dSchedule.itemId();
-                            });
-                            if (selectedItem) {
-                                dSchedule.itemName(selectedItem.productName());
-                            }
-                        });
-                    },
                     // Get Company Base Data
                     getBaseForCompany = function(id, storeId) {
                         isCompanyBaseDataLoaded(false);
@@ -1303,7 +1273,6 @@ define("order/order.viewModel",
                                     if (data.CompanyAddresses) {
                                         mapList(companyAddresses, data.CompanyAddresses, model.Address);
                                         setDefaultAddressForCompany();
-                                        setDeliveryScheduleAddressName();
                                     }
                                     if (data.CompanyContacts) {
                                         mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
@@ -1703,7 +1672,7 @@ define("order/order.viewModel",
                     // Add Deliver Schedule
                     addDeliverySchedule = function() {
                         if (selectedOrder().items().length === 0) {
-                            toastr.error("Please first add items.");
+                            toastr.error("Please Add items first.");
                         } else {
                             if (selectedDeliverySchedule() !== undefined && !selectedDeliverySchedule().isValid()) {
                                 selectedDeliverySchedule().errors.showAllMessages();
