@@ -105,6 +105,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
         /// <summary>
         /// Returns Next Invoice Code Prefix and increments the NextItem Value by 1
         /// </summary>

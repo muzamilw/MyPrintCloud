@@ -3,23 +3,14 @@
 }
 @section leftmenue {
 }
-
 <div class="row" id="invoiceBinding">
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
-                    <ol class="breadcrumb" style="padding-left:9px;">
-                        <li><a href="~/Dashboard/Index" class="my-navigator">HOME</a></li>
-                        <li data-bind="css: $root.invoiceCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseInvoiceEditor" style="cursor:pointer"><span>Invoices</span></li>
-                        <li data-bind="css: $root.invoiceCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.invoiceCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.invoiceCodeHeader"></span></li>
-                        
-                        
-                    </ol>
                     <div class="clearfix">
                         <h1 class="pull-left" style="padding-left:8px;">Invoices</h1>
-
                     </div>
                     <div class="row" data-bind="visible: !isDetailsVisible()">
                         <div class="col-lg-12">
@@ -47,7 +38,6 @@
                                             <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(21);}">Cancelled</a></li>
                                             <li><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(22);}">Archived</a></li>
                                             <li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(30);}">Proforma</a></li>
-
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="tab-All">
@@ -74,7 +64,6 @@
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="clearfix">
@@ -97,14 +86,14 @@
                                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
                                             <i class="fa fa-search search-icon" data-bind="click: $root.getInvoicesOfCurrentScreen"></i>
                                         </div>
-                                        
+
                                     </div>
                                 </form>
                                 <div class="clearfix">
                                 </div>
                             </div>
                         </script>
-                       
+
                         @* List View Template *@
                         <script id="invoiceListViewTemplate" type="text/html">
                             <tr>
@@ -116,7 +105,7 @@
                                     <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/arrow_down.png")" alt="" />
                                     <!-- /ko -->
                                 </td>
-                                <td>                                    
+                                <td>
                                     <a data-bind="text: companyName, click: $root.editInvoice" style="cursor:pointer;" class="user-link"></a>
                                     <span class="user-subhead">
                                         <span data-bind="text: name"></span>
@@ -124,7 +113,6 @@
                                         <span data-bind="text: noOfItemsUi"></span>
                                     </span>
                                 </td>
-
                                 <td>
                                     <span data-bind="dateString: invoiceDate, datePattern: 'DD/MM/YYYY'"></span>
                                 </td>
@@ -139,7 +127,6 @@
                                 </td>
                             </tr>
                         </script>
-
                         @* Tab Items Lists*@
                         <script id="tabItemsList" type="text/html">
                             <div>
@@ -182,7 +169,6 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_AddCostCenters.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")
-
 @section Scripts{
     <script>
         require(["invoice/invoice.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view"
@@ -196,5 +182,4 @@
 
 
     </script>
-
 }             

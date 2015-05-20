@@ -167,7 +167,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right" style="padding-top:10px;">
-                                                <label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>
+                                                @*<label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>*@
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" style="height: 60px;" data-bind="value: code" readonly class="form-control font24px" id="code" />
@@ -183,37 +183,21 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div class="row" style="margin-top: -15px;">
+                                        <div class="form-group">
+                                            <div>
                                                 <div class=" col-lg-4 text-right">
                                                     <label class="control-label text-right tooltip-float">Invoice Status</label>
                                                 </div>
                                                 <div class="col-lg-6 text-left" style="margin-bottom: -8px;">
-                                                    <ul style="list-style: none; border:none" class="form-control">
-                                                        @*<li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isCreditApproved, 'product-has-nofeature' : !isCreditApproved() }">
-                                                            </li>*@
-                                                    </ul>
+                                                    <label class="control-label" data-bind="text:invoiceStatusText"></label>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-4 text-right" style="margin-top:0px">
-                                                    <label class="control-label text-right tooltip-float">Purchase Order No.</label>
-                                                </div>
-                                                <div class="col-lg-6 text-left">
-                                                    <ul style="list-style: none; border:none" class="form-control">
-                                                        @*<li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isOfficialOrder, 'product-has-nofeature' : !isOfficialOrder() }">
-                                                            </li>*@
-                                                    </ul>
-                                                </div>
-                                            </div>
-
                                         </div>
                                         <div class="form-group" style="margin-top:0px">
                                             <div class="col-lg-4 text-right" style="padding-top: 10px;">
                                                 <label class="control-label text-right tooltip-float">Invoice Date</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                @*<input type="text" style="height: 60px;" data-bind="datepicker: orderDate" class="form-control font24px" id="EstimateTitle" />*@
                                                 <input type="text" style="height: 60px;" class="form-control font24px" id="orderDate" data-bind="datepicker: invoiceDate">
                                             </div>
                                         </div>
@@ -224,7 +208,6 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <div class="col-lg-2 text-right">
-                                                @*<label class="control-label tooltip-float">Order Header</label>*@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div>
@@ -316,10 +299,10 @@
                                                 </div>
                                                 <div class="col-lg-6" style="margin-top:10px">
                                                     <div class="col-lg-8 text-right">
-                                                        <label class="control-label text-right tooltip-float">Gross Total:</label>
+                                                        <label class="control-label text-right tooltip-float">Invoice Total:</label>
                                                     </div>
                                                     <div class="col-lg-4 text-right" style="margin-top:5px">
-                                                        @*<span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>*@
+                                                        <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
                                                         <span data-bind="numberInput: $root.grossTotal" style="font-weight: bold; font-size:20px;"></span>
                                                     </div>
                                                 </div>
@@ -347,7 +330,8 @@
                                                 </label>
                                             </div>
                                             <div class="col-lg-3">
-                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsCaption: 'Select a system user'"></select>
+                                                @*<select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsCaption: 'Select a system user'"></select>*@
+                                                <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsCaption: 'Select a system user', optionsText: 'UserName', optionsValue: 'SystemUserId',value:invoiceReportSignedBy"></select>
                                             </div>
                                         </div>
                                     </div>

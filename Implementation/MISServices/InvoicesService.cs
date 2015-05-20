@@ -122,13 +122,7 @@ namespace MPC.Implementation.MISServices
             sectionInkCoverageRepository.Delete(item);
         }
 
-        /// <summary>
-        /// Returns Next Job Code
-        /// </summary>
-        private string GetJobCodeForItem()
-        {
-            return prefixRepository.GetNextJobCodePrefix(false);
-        }
+
 
         /// <summary>
         /// Creates New Section Cost Centre Detail
@@ -280,6 +274,7 @@ namespace MPC.Implementation.MISServices
                 SystemUsers = response.SystemUsers,
                 SectionFlags = response.SectionFlags,
                 CurrencySymbol = response.CurrencySymbol,
+                LoggedInUserId = invoiceRepository.LoggedInUserId,
                 CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem()
             };
         }
@@ -304,18 +299,25 @@ namespace MPC.Implementation.MISServices
         private Invoice UpdateInvoice(Invoice invoice)
         {
             Invoice oInvoice = invoiceRepository.Find(invoice.InvoiceId);
-            oInvoice.InvoiceName = invoice.InvoiceName;
-            oInvoice.InvoiceType = invoice.InvoiceType;
-            oInvoice.Status = invoice.Status;
-            oInvoice.InvoiceDate = invoice.InvoiceDate;
-            oInvoice.InvoiceStatus = invoice.InvoiceStatus;
-            oInvoice.FlagID = invoice.FlagID;
-            oInvoice.HeadNotes = invoice.HeadNotes;
-            oInvoice.FootNotes = invoice.FootNotes;
-            oInvoice.GrandTotal = invoice.GrandTotal;
             oInvoice.CompanyId = invoice.CompanyId;
             oInvoice.ContactId = invoice.ContactId;
             oInvoice.AddressId = invoice.AddressId;
+            oInvoice.InvoiceCode = invoice.InvoiceCode;
+            oInvoice.InvoiceName = invoice.InvoiceName;
+            oInvoice.IsArchive = invoice.IsArchive;
+            oInvoice.InvoiceDate = invoice.InvoiceDate;
+            oInvoice.InvoiceStatus = invoice.InvoiceStatus;
+            oInvoice.InvoiceTotal = invoice.InvoiceTotal;
+            oInvoice.FlagID = invoice.FlagID;
+            oInvoice.InvoiceType = invoice.InvoiceType;
+            oInvoice.GrandTotal = invoice.GrandTotal;
+            oInvoice.OrderNo = invoice.OrderNo;
+            oInvoice.AccountNumber = invoice.AccountNumber;
+            oInvoice.ReportSignedBy = invoice.ReportSignedBy;
+            oInvoice.InvoicePostedBy = invoice.InvoicePostedBy;
+            oInvoice.HeadNotes = invoice.HeadNotes;
+            oInvoice.FootNotes = invoice.FootNotes;
+
             // Update Invoice
             invoice.UpdateTo(oInvoice, new InvoiceMapperActions
             {
@@ -345,10 +347,13 @@ namespace MPC.Implementation.MISServices
                     InvoiceDetail invDetailDB = dbVersion.InvoiceDetails.FirstOrDefault(i => i.InvoiceDetailId == detail.InvoiceDetailId);
                     if (invDetailDB != null)
                     {
-                        detail.InvoiceTitle = invDetailDB.InvoiceTitle;
-                        detail.Quantity = invDetailDB.Quantity;
-                        detail.ItemCharge = invDetailDB.ItemCharge;
-                        detail.ItemTaxValue = invDetailDB.ItemTaxValue;
+                        invDetailDB.InvoiceTitle = detail.InvoiceTitle;
+                        invDetailDB.ItemCharge = detail.ItemCharge;
+                        invDetailDB.FlagId = detail.FlagId;
+                        invDetailDB.Quantity = detail.Quantity;
+                        invDetailDB.ItemTaxValue = detail.ItemTaxValue;
+                        invDetailDB.Description = detail.Description;
+                        invDetailDB.TaxValue = detail.TaxValue;
                     }
                     else
                     {
@@ -370,6 +375,8 @@ namespace MPC.Implementation.MISServices
         }
         private Invoice SaveNewInvoice(Invoice invoice)
         {
+            string invoiceCode = prefixRepository.GetNextInvoiceCodePrefix();
+            invoice.InvoiceCode = invoiceCode;
             invoiceRepository.Add(invoice);
             invoiceRepository.SaveChanges();
             return invoice;
