@@ -477,33 +477,14 @@ define("invoice/invoice.viewModel",
                       // Gross Total
                     grossTotal = ko.computed(function () {
                         var total = 0;
-                        if (selectedInvoice() != undefined) {
+                        if (selectedInvoice() != undefined && selectedInvoice().invoiceDetailItems().length === 0) {
                             _.each(selectedInvoice().items(), function (item) {
-                                if (item.detailType !== undefined && selectedInvoice().invoiceDetailItems().length === 0) {
-                                    var qty = item.qty1() !== undefined ? item.qty1() : 0;
-                                    var itemCharge = item.itemCharge() !== undefined ? item.itemCharge() : 0;
-                                    var taxCalculate1 = (((item.tax() !== undefined ? item.tax() : 0) / 100) * (itemCharge * qty));
-                                    var val = ((itemCharge * qty) + taxCalculate1);
-                                    total = total + parseFloat(val);
-                                } else {
-                                    var val1 = (item.qty1GrossTotal() === undefined || item.qty1GrossTotal() === null) ? 0 : item.qty1GrossTotal();
-                                    total = total + parseFloat(val1);
-                                }
-
-                            });
-
-                            // Use on save invoice
-                            _.each(selectedInvoice().invoiceDetailItems(), function (item) {
-                                var qty = item.qty1() !== undefined ? item.qty1() : 0;
-                                var itemCharge = item.itemCharge() !== undefined ? item.itemCharge() : 0;
-                                var taxCalculate1 = (((item.tax() !== undefined ? item.tax() : 0) / 100) * (itemCharge * qty));
-                                var val = ((itemCharge * qty) + taxCalculate1);
-                                total = total + parseFloat(val);
+                                var val1 = (item.qty1GrossTotal() === undefined || item.qty1GrossTotal() === null) ? 0 : item.qty1GrossTotal();
+                                total = total + parseFloat(val1);
                             });
                             selectedInvoice().invoiceTotal(total);
                         }
                         return total;
-
                     }),
                     //#endregion
                     //#endregion
@@ -557,23 +538,42 @@ define("invoice/invoice.viewModel",
                     },
 
                     setInvoiceDetailItems = function () {
+                        var removeItems = [];
                         _.each(selectedInvoice().items(), function (item) {
                             if (item.detailType !== undefined) {
                                 selectedInvoice().invoiceDetailItems.push(item);
+                                removeItems.push(item);
+                            }
+                        });
+                        _.each(removeItems, function (item) {
+                            if (item.detailType !== undefined) {
                                 selectedInvoice().items.remove(item);
                             }
                         });
                     },
+
+
                     // Save Invoice
                     saveInvoice = function (callback, navigateCallback) {
                         setInvoiceDetailItems();
                         var invoice = selectedInvoice().convertToServerData();
+                        _.each(selectedInvoice().invoiceDetailItems(), function (inv) {
+                            invoice.InvoiceDetails.push(inv.convertToServerData(inv));
+
+                        });
+                        _.each(selectedInvoice().items(), function (item) {
+                            invoice.Items.push(item.convertToServerData());
+                        });
+
+
                         dataservice.saveInvoice(invoice, {
                             success: function (data) {
                                 if (!selectedInvoice().id()) {
                                     // Update Id
                                     selectedInvoice().id(data.InvoiceId);
+                                    selectedInvoice().code(data.InvoiceCode);
                                     var invoiceListViewItem = model.InvoicesListView();
+                                    invoiceListViewItem.code(data.InvoiceCode);
                                     invoiceListViewItem.id(selectedInvoice().id());
                                     updateInvoiceLitViewItem(invoiceListViewItem);
                                     // Add to top of list
@@ -971,10 +971,8 @@ define("invoice/invoice.viewModel",
                     taxCalculateForInvoiceDetail = function () {
                         var qty = (selectedInvoiceDetail().qty1() !== undefined && selectedInvoiceDetail().qty1() !== null) ? selectedInvoiceDetail().qty1() : 0;
                         var itemCharge = (selectedInvoiceDetail().itemCharge() !== undefined && selectedInvoiceDetail().itemCharge() !== null) ? selectedInvoiceDetail().itemCharge() : 0;
-
                         var taxCalculate1 = ((((selectedInvoiceDetail().tax() !== undefined && selectedInvoiceDetail().tax() !== null) ? selectedInvoiceDetail().tax() : 0) / 100) * (itemCharge * qty));
                         selectedInvoiceDetail().itemTaxValue(taxCalculate1);
-
                         selectedInvoiceDetail().qty1GrossTotal((itemCharge * qty) + taxCalculate1);
                     },
                 //#endregion

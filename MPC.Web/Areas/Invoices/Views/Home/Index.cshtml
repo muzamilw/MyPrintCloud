@@ -122,8 +122,8 @@
                                 <td>
                                     <span data-bind="text: code"></span>
                                 </td>
-                                <td>
-                                    <span data-bind="text: invoiceTotal()!==undefined ? '$' + invoiceTotal():''"></span>
+                                <td style="text-align: right;">
+                                    <span data-bind="text:invoiceTotal()!==undefined ? $root.currencySymbol:''"></span><span data-bind="numberInput:invoiceTotal "></span>
                                 </td>
                             </tr>
                         </script>
@@ -139,7 +139,7 @@
                                                 <th class="col-lg-2"><span>Invoice Date</span></th>
                                                 <th class="col-lg-1"><span>Flag</span></th>
                                                 <th class="col-lg-2"><span>Invoice Code</span></th>
-                                                <th class="col-lg-2"><span>Invoice Total</span></th>
+                                                <th class="col-lg-2" style="text-align: right;"><span>Invoice Total</span></th>
                                             </tr>
                                         </thead>
                                         <tbody>

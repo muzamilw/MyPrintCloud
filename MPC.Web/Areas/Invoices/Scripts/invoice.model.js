@@ -202,14 +202,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                       FootNotes: footNotes(),
                       InvoiceType: type(),
                       XeroAccessCode: xeroAccessCode(),
-                      InvoiceDetails: invoiceDetailItems.map(function (inv) {
-                          var invDetail = inv.convertToServerData(inv);
-                          return invDetail;
-                      }),
-                      Items: items.map(function (item) {
-                          var itemDetail = item.convertToServerData();
-                          return itemDetail;
-                      }),
+                      InvoiceDetails: [],
+                      Items: []
                   };
               };
 
@@ -267,30 +261,26 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     //  Invoice Detail Entity
     var InvoiceDetail = function (specifiedInvoiceDetailId, specifiedInvoiceTitle, specifiedItemCharge, specifiedQuantity, specifiedItemTaxValue,
-    specifiedFlagId, specifiedDescription, specifiedDetailType, specifiedItemType, specifiedTaxValue) {
+    specifiedFlagId, specifiedDescription, specifiedDetailType, specifiedItemType, specifiedTaxValue, specifiedItemGrossTotal) {
         var self,
             id = ko.observable(specifiedInvoiceDetailId),
             // Invoice Title 
             productName = ko.observable(specifiedInvoiceTitle),
-            itemCharge = ko.observable(specifiedItemCharge).extend({ numberInput: ist.numberFormat }),
+            itemCharge = ko.observable(specifiedItemCharge).extend({ required: true, numberInput: ist.numberFormat }),
             // Quantity
             qty1 = ko.observable(specifiedQuantity).extend({
-                required: {
-                    message: "Quantity is required",
-                    onlyIf: function () {
-                        // return qty1 === 0 || qty1 < 0 || qty1 === undefined;
-                    }
-                },
-                number: true
+                number: true,
+                required: true,
             }),
-            tax = ko.observable(specifiedTaxValue).extend({ number:true  }),
+            tax = ko.observable(specifiedTaxValue).extend({ number: true }),
             itemTaxValue = ko.observable(specifiedItemTaxValue).extend({ numberInput: ist.numberFormat }),
             flagId = ko.observable(specifiedFlagId),
             detailType = ko.observable(specifiedDetailType),
             itemType = ko.observable(specifiedItemType),
             description = ko.observable(specifiedDescription),
+           // itemGrossTotal = ko.observable(specifiedItemGrossTotal),
             // For List View
-            qty1GrossTotal = ko.observable().extend({ numberInput: ist.numberFormat }),
+            qty1GrossTotal = ko.observable(specifiedItemGrossTotal).extend({ numberInput: ist.numberFormat }),
 
         // Errors
     errors = ko.validation.group({
@@ -313,18 +303,22 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     }),
         //Convert To Server
     convertToServerData = function (source) {
-        var result = {};
-        result.InvoiceDetailId = source.id() < 0 ? 0 : source.id();
-        result.InvoiceTitle = source.productName();
-        result.ItemCharge = source.itemCharge();
-        result.Quantity = source.qty1();
-        result.ItemTaxValue = source.itemTaxValue();
-        result.TaxValue = source.tax();
-        result.FlagId = source.flagId();
-        result.Description = source.description();
-        result.ItemType = source.itemType();
-        result.DetailType = source.detailType();
-        return result;
+        if (source) {
+            var result = {};
+            result.InvoiceDetailId = source.id();
+            result.InvoiceTitle = source.productName();
+            result.ItemCharge = source.itemCharge() === null ? 0 : source.itemCharge();
+            result.Quantity = source.qty1();
+            result.ItemTaxValue = source.itemTaxValue();
+            result.TaxValue = source.tax();
+            result.FlagId = source.flagId();
+            result.Description = source.description();
+            result.ItemType = source.itemType();
+            result.DetailType = source.detailType();
+            result.ItemGrossTotal = source.qty1GrossTotal();
+            return result;
+        }
+
     },
         // Reset
     reset = function () {
@@ -341,6 +335,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             qty1GrossTotal: qty1GrossTotal,
             detailType: detailType,
             itemType: itemType,
+            //itemGrossTotal: itemGrossTotal,
             tax: tax,
             isValid: isValid,
             errors: errors,
@@ -354,7 +349,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     //  Invoice Detail Factory
     InvoiceDetail.Create = function (source) {
         return new InvoiceDetail(source.InvoiceDetailId, source.InvoiceTitle, source.ItemCharge, source.Quantity, source.ItemTaxValue,
-            source.FlagId, source.Description, source.DetailType, source.ItemType, source.TaxValue);
+            source.FlagId, source.Description, source.DetailType, source.ItemType, source.TaxValue, source.ItemGrossTotal);
     }
 
     // Address Entity
@@ -407,11 +402,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             _.each(source.Items, function (item) {
                 items.push(itemModel.Item.Create(item));
             });
-
-            // Push to Original Item
-            ko.utils.arrayPushAll(invoice.items(), items);
-            invoice.items.valueHasMutated();
         }
+        // Push to Original Item
+        ko.utils.arrayPushAll(invoice.items(), items);
+        invoice.items.valueHasMutated();
         return invoice;
     };
 
@@ -431,7 +425,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             invoiceDate = ko.observable(specifiedInvoiceDate),
             itemsCount = ko.observable(specifiedItemsCount),
             flagColor = ko.observable(specifiedFlagColor),
-            invoiceTotal = ko.observable(specifiedInvoiceTotal),
+            invoiceTotal = ko.observable(specifiedInvoiceTotal).extend({ numberInput: ist.numberFormat }),
             isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
                 // Number of Items UI
                 noOfItemsUi = ko.computed(function () {

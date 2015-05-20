@@ -354,9 +354,11 @@ namespace MPC.Implementation.MISServices
                         invDetailDB.ItemTaxValue = detail.ItemTaxValue;
                         invDetailDB.Description = detail.Description;
                         invDetailDB.TaxValue = detail.TaxValue;
+                        invDetailDB.ItemGrossTotal = detail.ItemGrossTotal;
                     }
                     else
                     {
+                        detail.InvoiceDetailId = 0;
                         detail.InvoiceId = invoice.InvoiceId;
                         dbVersion.InvoiceDetails.Add(detail);
                     }
