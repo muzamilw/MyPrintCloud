@@ -716,6 +716,13 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 name: specifiedDescription
             };
         },
+         // Pipeline Products Entity        
+        PipeLineProduct = function (specifiedId, specifiedDescription) {
+            return {
+                id: specifiedId,
+                name: specifiedDescription
+            };
+        },
         // Address Entity
         Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1, specifiedIsDefault) {
             return {
@@ -998,7 +1005,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             flagId: flagId,
             inquiryCode: inquiryCode,
             createdBy: createdBy,
-            organisationId: organisationId
+            organisationId: organisationId,
+            inquiryItems: inquiryItems
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -1298,6 +1306,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return new PipeLineSource(source.SourceId, source.Description);
     };
 
+    // Pipeline Product Factory
+    PipeLineProduct.Create = function (source) {
+        return new PipeLineProduct(source.ProductId, source.Description);
+    };
+
     // Pre Payment Factory
     PrePayment.Create = function (source) {
         return new PrePayment(source.PrePaymentId, source.CustomerId, source.OrderId, source.Amount, source.PaymentDate, source.PaymentMethodId,
@@ -1322,6 +1335,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         SystemUser: SystemUser,
         // PipeLine Source Constructor
         PipeLineSource: PipeLineSource,
+        // PipeLine Product Constructor
+        PipeLineProduct: PipeLineProduct,
         // Status Enum
         Status: Status,
         // Pre Payment Constructor
