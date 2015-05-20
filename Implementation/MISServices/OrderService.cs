@@ -296,7 +296,7 @@ namespace MPC.Implementation.MISServices
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
-            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/");
+            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/" + estimate.CompanyId + "/Products/");
 
             if (estimate.Items == null)
             {
@@ -306,11 +306,11 @@ namespace MPC.Implementation.MISServices
             foreach (Item item in estimate.Items)
             {
                 string attachmentMapPath = mapPath + item.ItemId;
-
+                DirectoryInfo directoryInfo = null;
                 // Create directory if not there
                 if (!Directory.Exists(attachmentMapPath))
                 {
-                    Directory.CreateDirectory(attachmentMapPath);
+                    directoryInfo = Directory.CreateDirectory(attachmentMapPath);
                 }
 
                 if (item.ItemAttachments == null)
@@ -320,9 +320,16 @@ namespace MPC.Implementation.MISServices
 
                 foreach (ItemAttachment itemAttachment in item.ItemAttachments)
                 {
-                    itemAttachment.FolderPath = SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
+                    string folderPath = directoryInfo != null ? directoryInfo.FullName : attachmentMapPath;
+                    int indexOf = folderPath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                    folderPath = folderPath.Substring(indexOf, folderPath.Length - indexOf);
+                    itemAttachment.FolderPath = folderPath;
+                    if (SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
                         itemAttachment.FileName,
-                        itemAttachment.FileSource, itemAttachment.FileSourceBytes);
+                        itemAttachment.FileSource, itemAttachment.FileSourceBytes) != null)
+                    {
+                        itemAttachment.FileName = itemAttachment.FileName;
+                    }
                 }
             }
         }
