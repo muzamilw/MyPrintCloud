@@ -57,5 +57,6 @@ namespace MPC.Interfaces.Repository
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
 
         Estimate GetEstimateWithCompanyByOrderID(long OrderID);
+        long GetEstimateIdOfInquiry(long inquiryId);
     }
 }
