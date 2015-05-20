@@ -37,6 +37,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string HeadNotes { get; set; }
         public string FootNotes { get; set; }
         public ICollection<InvoiceDetail> InvoiceDetails { get; set; }
+        public ICollection<OrderItem> Items { get; set; }
 
     }
 }

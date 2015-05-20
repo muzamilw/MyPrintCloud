@@ -366,6 +366,8 @@
     <Compile Include="LoggerModels\Log.cs" />
     <Compile Include="ModelMappers\InquiryItemMapper.cs" />
     <Compile Include="ModelMappers\InquiryMapper.cs" />
+    <Compile Include="ModelMappers\InvoiceDomainMapper.cs" />
+    <Compile Include="ModelMappers\InvoiceMapperActions.cs" />
     <Compile Include="ModelMappers\InquiryMapperActions.cs" />
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="ModelMappers\SectionCostCentreDetailMapper.cs" />

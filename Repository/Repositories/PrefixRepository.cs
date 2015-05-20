@@ -105,6 +105,31 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        /// <summary>
+        /// Returns Next Invoice Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextInvoiceCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.InvoicePrefix + "-001-" + prefix.InvoiceNext;
+
+                // Update Invoice Next
+                prefix.InvoiceNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         /// <summary>
         /// Returns Next Estimate Code Prefix and increments the NextItem Value by 1

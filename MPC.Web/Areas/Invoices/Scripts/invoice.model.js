@@ -108,7 +108,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
-                    return errors().length === 0 ? true : false;
+                    return errors().length === 0 &&
+                        items.filter(function (item) {
+                            return !item.isValid() && item.itemType() !== 2;
+                        }).length === 0;
                 }),
                 // Show All Error Messages
                 showAllErrors = function () {
@@ -118,6 +121,27 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Set Validation Summary
                 setValidationSummary = function (validationSummaryList) {
                     validationSummaryList.removeAll();
+
+                    if (name.error) {
+                        validationSummaryList.push({ name: "Invoice Title", element: name.domElement });
+                    }
+                    if (companyId.error) {
+                        validationSummaryList.push({ name: "Customer", element: companyId.domElement });
+                    }
+                    if (sectionFlagId.error) {
+                        validationSummaryList.push({ name: "Invoice Flag ", element: sectionFlagId.domElement });
+                    }
+
+
+                    // Show Item  Errors
+                    var itemInvalid = items.find(function (item) {
+                        return !item.isValid() && item.itemType() !== 2;
+                    });
+
+                    if (itemInvalid) {
+                        var nameElement = items.domElement;
+                        validationSummaryList.push({ name: itemInvalid.productName() + "has invalid data.", element: nameElement });
+                    }
                 },
                 // True if the order has been changed
             // ReSharper disable InconsistentNaming
@@ -140,8 +164,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     invoiceReportSignedBy: invoiceReportSignedBy,
                     type: type,
                     headNotes: headNotes,
-                    footNotes: footNotes
-
+                    footNotes: footNotes,
+                    items: items
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -182,10 +206,13 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         InvoiceType: type(),
                         XeroAccessCode: xeroAccessCode(),
                         InvoiceDetails: invoiceDetailItems.map(function (inv) {
-                            var invDetail = inv.convertToServerData();
+                            var invDetail = inv.convertToServerData(inv);
                             return invDetail;
                         }),
-
+                        Items: items.map(function (item) {
+                            var itemDetail = item.convertToServerData();
+                            return itemDetail;
+                        }),
                     };
                 };
 
@@ -351,57 +378,80 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         };
 
     var InvoiceDetail = function (specifiedInvoiceDetailId, specifiedInvoiceTitle, specifiedItemCharge, specifiedQuantity, specifiedItemTaxValue,
-        specifiedFlagId, specifiedDescription) {
+        specifiedFlagId, specifiedDescription, specifiedDetailType, specifiedItemType) {
         var self,
             id = ko.observable(specifiedInvoiceDetailId),
-            invoiceTitle = ko.observable(specifiedInvoiceTitle),
-            itemCharge = ko.observable(specifiedItemCharge).extend({ number: true, numberInput: ist.numberFormat }),
-            quantity = ko.observable(specifiedQuantity).extend({ number: true, required: true }),
-            itemTaxValue = ko.observable(specifiedItemTaxValue).extend({ number: true, numberInput: ist.numberFormat }),
-            flagId = ko.observable(specifiedFlagId),
-            description = ko.observable(specifiedDescription),
+            // Invoice Title 
+            productName = ko.observable(specifiedInvoiceTitle),
+            itemCharge = ko.observable(specifiedItemCharge).extend({ numberInput: ist.numberFormat }),
+            // Quantity
+            qty1 = ko.observable(specifiedQuantity).extend({
+                required: {
+                    message: "Quantity is required",
+                    onlyIf: function () {
+                        // return qty1 === 0 || qty1 < 0 || qty1 === undefined;
+                    }
+                },
+                number: true
+            }),
+            tax = ko.observable().extend({ numberInput: ist.numberFormat }),
+            itemTaxValue = ko.observable(specifiedItemTaxValue).extend({ numberInput: ist.numberFormat }),
+        flagId = ko.observable(specifiedFlagId),
+        detailType = ko.observable(specifiedDetailType),
+        itemType = ko.observable(specifiedItemType),
+        description = ko.observable(specifiedDescription),
+        // For List View
+        qty1GrossTotal = ko.observable().extend({ numberInput: ist.numberFormat }),
 
-            // Errors
-            errors = ko.validation.group({
+        // Errors
+    errors = ko.validation.group({
+        itemCharge: itemCharge,
+        qty1: qty1,
+        tax: tax
+    }),
+        // Is Valid 
+    isValid = ko.computed(function () {
+        return errors().length === 0 ? true : false;
+    }),
 
-            }),
-            // Is Valid 
-            isValid = ko.computed(function () {
-                return errors().length === 0 ? true : false;
-            }),
-
-            dirtyFlag = new ko.dirtyFlag({
-                invoiceTitle: invoiceTitle,
-                itemCharge: itemCharge,
-            }),
-            // Has Changes
-            hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty();
-            }),
-            //Convert To Server
-            convertToServerData = function (source) {
-                var result = {};
-                result.InvoiceDetailId = source.id();
-                result.InvoiceTitle = source.invoiceTitle();
-                result.ItemCharge = source.itemCharge();
-                result.Quantity = source.quantity();
-                result.ItemTaxValue = source.itemTaxValue();
-                result.FlagId = source.flagId();
-                result.Description = source.description();
-                return result;
-            },
-            // Reset
-            reset = function () {
-                dirtyFlag.reset();
-            };
+    dirtyFlag = new ko.dirtyFlag({
+        productName: productName,
+        itemCharge: itemCharge,
+    }),
+        // Has Changes
+    hasChanges = ko.computed(function () {
+        return dirtyFlag.isDirty();
+    }),
+        //Convert To Server
+    convertToServerData = function (source) {
+        var result = {};
+        result.InvoiceDetailId = source.id() < 0 ? 0 : source.id();
+        result.InvoiceTitle = source.productName();
+        result.ItemCharge = source.itemCharge();
+        result.Quantity = source.qty1();
+        result.ItemTaxValue = source.itemTaxValue();
+        result.FlagId = source.flagId();
+        result.Description = source.description();
+        result.ItemType = source.itemType();
+        result.DetailType = source.detailType();
+        return result;
+    },
+        // Reset
+    reset = function () {
+        dirtyFlag.reset();
+    };
         self = {
             id: id,
-            invoiceTitle: invoiceTitle,
+            productName: productName,
             itemCharge: itemCharge,
-            quantity: quantity,
+            qty1: qty1,
             itemTaxValue: itemTaxValue,
             flagId: flagId,
             description: description,
+            qty1GrossTotal: qty1GrossTotal,
+            detailType: detailType,
+            itemType: itemType,
+            tax: tax,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -412,7 +462,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return self;
     };
     InvoiceDetail.Create = function (source) {
-        return new InvoiceDetail(source.PalleteId, source.PalleteName, source.Color1, source.Color2, source.Color3, source.Color4, source.Color5, source.Color5, "", "", 0);
+        return new InvoiceDetail(source.InvoiceDetailId, source.InvoiceTitle, source.ItemCharge, source.Quantity, source.ItemTaxValue,
+            source.FlagId, source.Description, source.DetailType, source.ItemType);
     }
 
     // Address Entity
@@ -464,7 +515,18 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             ko.utils.arrayPushAll(invoice.invoiceDetailItems, invDetailItems);
             invoice.invoiceDetailItems.valueHasMutated();
         }
+        // Map Items if any
+        if (source.Items && source.Items.length > 0) {
+            var items = [];
 
+            _.each(source.Items, function (item) {
+                items.push(itemModel.Item.Create(item));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(invoice.items(), items);
+            invoice.items.valueHasMutated();
+        }
         return invoice;
     };
 

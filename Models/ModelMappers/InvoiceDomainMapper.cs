@@ -1,117 +1,18 @@
-﻿using System;
-using MPC.MIS.Areas.Api.Models;
-using System.Linq;
-using MPC.Models.ModelMappers;
-//using Invoice = MPC.Models.DomainModels.Invoice;
-using DomainModels = MPC.Models.DomainModels;
+﻿//using Invoice = MPC.Models.DomainModels.Invoice;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace MPC.MIS.Areas.Api.ModelMappers
+namespace MPC.Models.ModelMappers
 {
-    public static class InvoiceMapper
+    public static class InvoiceDomainMapper
     {
-        /// <summary>
-        /// Domain response to Web response invoice mapper
-        /// </summary>
-        public static InvoiceRequestResponseModel CreateFrom(this MPC.Models.ResponseModels.InvoiceRequestResponseModel source)
-        {
-            return new InvoiceRequestResponseModel
-            {
-                RowCount = source.RowCount,
-                Invoices = source.Invoices.Select(invoice => invoice.CreateFrom())
-            };
-        }
-
-        /// <summary>
-        /// Domain invoice to web invoice mapper
-        /// </summary>
-        public static Models.Invoice CreateFrom(this DomainModels.Invoice source)
-        {
-            return new Models.Invoice
-            {
-                InvoiceId = source.InvoiceId,
-                CompanyId = source.CompanyId,
-                ContactId = source.ContactId,
-                AddressId = source.AddressId,
-                CompanyName = source.Company != null ? source.Company.Name : "",
-                InvoiceCode = source.InvoiceCode,
-                InvoiceName = source.InvoiceName,
-                IsArchive = source.IsArchive,
-                InvoiceDate = source.InvoiceDate,
-                Status = source.Status != null ? source.Status.StatusName : "",
-                InvoiceStatus = source.InvoiceStatus,
-                InvoiceTotal = source.InvoiceTotal != null ? Math.Round((double)source.InvoiceTotal, 2) : 0,
-                ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " " + source.CompanyContact.LastName : "",
-                FlagId = source.FlagID,
-                InvoiceType = source.InvoiceType,
-                GrandTotal = source.GrandTotal != null ? Math.Round((double)source.GrandTotal, 2) : 0,
-                OrderNo = source.OrderNo,
-                AccountNumber = source.AccountNumber,
-                ReportSignedBy = source.ReportSignedBy,
-                HeadNotes = source.HeadNotes,
-                FootNotes = source.FootNotes,
-                InvoiceDetails = source.InvoiceDetails != null ? source.InvoiceDetails.Select(i => i.CreateFrom()).ToList() : new List<InvoiceDetail>(),
-                Items = source.Items != null ? source.Items.Select(i => i.CreateFromForOrder()).ToList() : new List<OrderItem>()
-            };
-        }
-        public static DomainModels.Invoice CreateFrom(this Invoice source)
-        {
-            return new DomainModels.Invoice
-            {
-                InvoiceId = source.InvoiceId,
-                CompanyId = source.CompanyId,
-                ContactId = source.ContactId,
-                AddressId = source.AddressId,
-                InvoiceCode = source.InvoiceCode,
-                InvoiceName = source.InvoiceName,
-                IsArchive = source.IsArchive,
-                InvoiceDate = source.InvoiceDate,
-                InvoiceStatus = source.InvoiceStatus,
-                InvoiceTotal = source.InvoiceTotal != null ? Math.Round((double)source.InvoiceTotal, 2) : 0,
-                FlagID = source.FlagId,
-                InvoiceType = source.InvoiceType,
-                GrandTotal = source.GrandTotal != null ? Math.Round((double)source.GrandTotal, 2) : 0,
-                OrderNo = source.OrderNo,
-                AccountNumber = source.AccountNumber,
-                ReportSignedBy = source.ReportSignedBy,
-                HeadNotes = source.HeadNotes,
-                FootNotes = source.FootNotes,
-                InvoiceDetails = source.InvoiceDetails != null ? source.InvoiceDetails.Select(i => i.CreateFrom()).ToList() : null,
-                Items = source.Items != null ? source.Items.Select(i => i.CreateFromForOrder()).ToList() : null
-            };
-        }
-
-        private static InvoicesListModel CreateForList(this  DomainModels.Invoice source)
-        {
-            return new InvoicesListModel
-            {
-                InvoiceId = source.InvoiceId,
-                CompanyName = source.Company != null ? source.Company.Name : "",
-                InvoiceCode = source.InvoiceCode,
-                InvoiceName = source.InvoiceName,
-                InvoiceDate = source.InvoiceDate,
-                GrandTotal = source.GrandTotal != null ? Math.Round((double)source.GrandTotal, 2) : 0,
-                StatusId = source.Status != null ? source.Status.StatusId : 0,
-                FlagId = source.FlagID,
-                OrderNo = source.OrderNo,
-                ItemsCount = source.InvoiceDetails != null ? source.InvoiceDetails.Count() : 0
-            };
-        }
-
-        public static InvoiceListResponseModel CreateFromList(this MPC.Models.ResponseModels.InvoiceRequestResponseModel source)
-        {
-            return new InvoiceListResponseModel
-            {
-                RowCount = source.RowCount,
-                Invoices = source.Invoices.Select(invoice => invoice.CreateForList())
-            };
-
-        }
+     
 
         /// <summary>
         ///  Copy from source entity to the target
         /// </summary>
-        public static void UpdateToInvoice(this  DomainModels.Invoice source, DomainModels.Invoice target,
+        public static void UpdateTo(this  DomainModels.Invoice source, DomainModels.Invoice target,
             InvoiceMapperActions actions)
         {
             if (source == null)
@@ -218,6 +119,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         private static void UpdateToForOrder(this DomainModels.Item source, DomainModels.Item target, InvoiceMapperActions actions, bool assignJobCodes)
         {
+            // Update Header
+            UpdateHeader(source, target, assignJobCodes, actions);
+
             // Update Item Sections
             UpdateItemSections(source, target, actions);
 
@@ -653,7 +557,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Update the header
         /// </summary>
-        private static void UpdateHeader(Item source, Item target, bool assignJobCodes, OrderMapperActions actions)
+        private static void UpdateHeader(DomainModels.Item source, DomainModels.Item target, bool assignJobCodes, InvoiceMapperActions actions)
         {
             target.ProductCode = source.ProductCode;
             target.ProductName = source.ProductName;
@@ -676,7 +580,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Updates Charges
         /// </summary>
-        private static void UpdateCharges(Item source, Item target)
+        private static void UpdateCharges(DomainModels.Item source, DomainModels.Item target)
         {
             target.Qty1 = source.Qty1;
             target.Qty2 = source.Qty2;
@@ -699,7 +603,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Update Job Description
         /// </summary>
-        private static void UpdateJobDescription(Item source, Item target, bool assignJobCodes, OrderMapperActions actions)
+        private static void UpdateJobDescription(DomainModels.Item source, DomainModels.Item target, bool assignJobCodes, InvoiceMapperActions actions)
         {
             target.JobDescriptionTitle1 = source.JobDescriptionTitle1;
             target.JobDescription1 = source.JobDescription1;
@@ -736,7 +640,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             }
 
             // Get Next Job Code
-            target.JobCode = actions.GetNextJobCode();
+           // target.JobCode = actions.GetNextJobCode();
         }
 
         #endregion Product Header

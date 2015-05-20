@@ -601,7 +601,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         },
         // Shipping Information
         ShippingInformation = function (specifiedShippingId, specifiedItemId, specifiedAddressId, specifiedQuantity, specifiedPrice, specifiedDeliveryNoteRaised,
-            specifiedDeliveryDate, specifiedEstimateId) {
+            specifiedDeliveryDate, specifiedEstimateId, specifiedAddressName, specifiedItemName) {
             var // Unique key
                 shippingId = ko.observable(specifiedShippingId),
                 // Item ID
@@ -625,9 +625,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     }
                 }),
                 // Item Name
-                itemName = ko.observable(),
+                itemName = ko.observable(specifiedItemName || ''),
                 // Address Name
-                addressName = ko.observable(),
+                addressName = ko.observable(specifiedAddressName || ''),
                 //
                 isSelected = ko.observable(false),
                 // Estimate ID
@@ -1318,7 +1318,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     };
 
     ShippingInformation.Create = function (source) {
-        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate, source.EstimateId);
+        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised,
+            source.DeliveryDate, source.EstimateId, source.AddressName, source.ItemName);
     };
 
     return {
