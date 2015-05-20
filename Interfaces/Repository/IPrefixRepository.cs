@@ -25,6 +25,11 @@ namespace MPC.Interfaces.Repository
         string GetNextEstimateCodePrefix();
 
         /// <summary>
+        /// Get Prefixed Next Inquiry Code
+        /// </summary>
+        string GetNextInquiryCodePrefix();
+
+        /// <summary>
         /// Get Prefixed Next Item Code
         /// </summary>
         string GetNextItemCodePrefix(bool shouldIncrementNextItem = true);

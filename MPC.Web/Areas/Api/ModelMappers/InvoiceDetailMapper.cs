@@ -20,7 +20,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Description = source.Description,
                 ItemType = source.ItemType,
                 TaxId = source.TaxId,
-                DetailType = source.DetailType
+                DetailType = source.DetailType,
+                TaxValue = source.TaxValue
 
             };
         }
@@ -39,7 +40,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Description = source.Description,
                 ItemType = source.ItemType,
                 TaxId = source.TaxId, 
-                DetailType = source.DetailType
+                DetailType = source.DetailType,
+                TaxValue = source.TaxValue
             };
         }
     }
