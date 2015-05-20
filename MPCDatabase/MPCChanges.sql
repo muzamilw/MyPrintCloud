@@ -3834,3 +3834,20 @@ alter column SourceId int null
 
 alter table invoiceDetail
 add TaxValue float null
+
+/* Execution Date: 20/05/2015 */
+
+alter table activity
+drop constraint DF_tbl_activity_CreatedBy
+
+alter table activity
+alter column createdby nvarchar(max) null
+
+update activity
+set createdby = null
+
+alter table activity
+alter column createdby uniqueidentifier null
+
+alter table invoicedetail
+add ItemGrossTotal float null

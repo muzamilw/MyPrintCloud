@@ -601,7 +601,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         },
         // Shipping Information
         ShippingInformation = function (specifiedShippingId, specifiedItemId, specifiedAddressId, specifiedQuantity, specifiedPrice, specifiedDeliveryNoteRaised,
-            specifiedDeliveryDate, specifiedEstimateId) {
+            specifiedDeliveryDate, specifiedEstimateId, specifiedAddressName, specifiedItemName) {
             var // Unique key
                 shippingId = ko.observable(specifiedShippingId),
                 // Item ID
@@ -625,9 +625,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     }
                 }),
                 // Item Name
-                itemName = ko.observable(),
+                itemName = ko.observable(specifiedItemName || ''),
                 // Address Name
-                addressName = ko.observable(),
+                addressName = ko.observable(specifiedAddressName || ''),
                 //
                 isSelected = ko.observable(false),
                 // Estimate ID
@@ -711,6 +711,13 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         },
         // Pipeline Source Entity        
         PipeLineSource = function (specifiedId, specifiedDescription) {
+            return {
+                id: specifiedId,
+                name: specifiedDescription
+            };
+        },
+         // Pipeline Products Entity        
+        PipeLineProduct = function (specifiedId, specifiedDescription) {
             return {
                 id: specifiedId,
                 name: specifiedDescription
@@ -998,7 +1005,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             flagId: flagId,
             inquiryCode: inquiryCode,
             createdBy: createdBy,
-            organisationId: organisationId
+            organisationId: organisationId,
+            inquiryItems: inquiryItems
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -1298,6 +1306,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return new PipeLineSource(source.SourceId, source.Description);
     };
 
+    // Pipeline Product Factory
+    PipeLineProduct.Create = function (source) {
+        return new PipeLineProduct(source.ProductId, source.Description);
+    };
+
     // Pre Payment Factory
     PrePayment.Create = function (source) {
         return new PrePayment(source.PrePaymentId, source.CustomerId, source.OrderId, source.Amount, source.PaymentDate, source.PaymentMethodId,
@@ -1305,7 +1318,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     };
 
     ShippingInformation.Create = function (source) {
-        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate, source.EstimateId);
+        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised,
+            source.DeliveryDate, source.EstimateId, source.AddressName, source.ItemName);
     };
 
     return {
@@ -1321,6 +1335,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         SystemUser: SystemUser,
         // PipeLine Source Constructor
         PipeLineSource: PipeLineSource,
+        // PipeLine Product Constructor
+        PipeLineProduct: PipeLineProduct,
         // Status Enum
         Status: Status,
         // Pre Payment Constructor

@@ -35,6 +35,8 @@ define("order/order.viewModel",
                     systemUsers = ko.observableArray([]),
                     // Pipeline Sources
                     pipelineSources = ko.observableArray([]),
+                    // Pipeline Products
+                    pipelineProducts = ko.observableArray([]),
                     // Payment Methods
                     paymentMethods = ko.observableArray([]),
                     //Inks
@@ -452,7 +454,6 @@ define("order/order.viewModel",
                     deleteProduct = function(item) {
                         selectedOrder().items.remove(item);
                     },
-
                     // Map List
                     mapList = function(observableList, data, factory) {
                         var list = [];
@@ -463,17 +464,6 @@ define("order/order.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(observableList(), list);
                         observableList.valueHasMutated();
-                    },
-                    //In case Of Edit Order set Delivery Schedule Address Name
-                    setDeliveryScheduleAddressName = function() {
-                        _.each(selectedOrder().deliverySchedules(), function(dSchedule) {
-                            var selectedAddressItem = _.find(companyAddresses(), function(item) {
-                                return item.id === dSchedule.addressId();
-                            });
-                            if (selectedAddressItem) {
-                                dSchedule.addressName(selectedAddressItem.name);
-                            }
-                        });
                     },
                     // Select Default Address For Company in case of new order
                     setDefaultAddressForCompany = function() {
@@ -986,6 +976,9 @@ define("order/order.viewModel",
                                 if (data.PipeLineSources) {
                                     mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
                                 }
+                                if (data.PipeLineProducts) {
+                                    mapList(pipelineProducts, data.PipeLineProducts, model.PipeLineProduct);
+                                }
                                 paymentMethods.removeAll();
                                 if (data.PaymentMethods) {
                                     ko.utils.arrayPushAll(paymentMethods(), data.PaymentMethods);
@@ -1236,10 +1229,6 @@ define("order/order.viewModel",
                             success: function(data) {
                                 if (data) {
                                     selectedOrder(model.Estimate.Create(data, { SystemUsers: systemUsers() }));
-                                    //    selectedOrder().taxRate(data.CompanyTaxRate);
-                                    _.each(data.PrePayments, function(item) {
-                                        selectedOrder().prePayments.push(model.PrePayment.Create(item));
-                                    });
                                     view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
                                     // Get Base Data For Company
                                     if (data.CompanyId) {
@@ -1254,8 +1243,6 @@ define("order/order.viewModel",
                                         }
                                         getBaseForCompany(data.CompanyId, storeId);
                                     }
-                                    // Set Delivey Schedule Item Name
-                                    setDeliveryScheduleItemName();
                                     // If Signed by is not set in case of online order then set it
                                     if (!selectedOrder().orderReportSignedBy()) {
                                         selectedOrder().setOrderReportSignedBy(loggedInUser());
@@ -1277,18 +1264,6 @@ define("order/order.viewModel",
                             }
                         });
                     },
-
-                    //In case Of Edit Order set Delivery Schedule Item Name
-                    setDeliveryScheduleItemName = function() {
-                        _.each(selectedOrder().deliverySchedules(), function(dSchedule) {
-                            var selectedItem = _.find(selectedOrder().items(), function(item) {
-                                return item.id() === dSchedule.itemId();
-                            });
-                            if (selectedItem) {
-                                dSchedule.itemName(selectedItem.productName());
-                            }
-                        });
-                    },
                     // Get Company Base Data
                     getBaseForCompany = function(id, storeId) {
                         isCompanyBaseDataLoaded(false);
@@ -1303,7 +1278,6 @@ define("order/order.viewModel",
                                     if (data.CompanyAddresses) {
                                         mapList(companyAddresses, data.CompanyAddresses, model.Address);
                                         setDefaultAddressForCompany();
-                                        setDeliveryScheduleAddressName();
                                     }
                                     if (data.CompanyContacts) {
                                         mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
@@ -1703,7 +1677,7 @@ define("order/order.viewModel",
                     // Add Deliver Schedule
                     addDeliverySchedule = function() {
                         if (selectedOrder().items().length === 0) {
-                            toastr.error("Please first add items.");
+                            toastr.error("Please Add items first.");
                         } else {
                             if (selectedDeliverySchedule() !== undefined && !selectedDeliverySchedule().isValid()) {
                                 selectedDeliverySchedule().errors.showAllMessages();
@@ -1982,13 +1956,7 @@ define("order/order.viewModel",
                     },
                     createInquiry = function() {
                         selectedInquiry(model.Inquiry.Create({}, { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }));
-                        //selectedOrder().setOrderReportSignedBy(loggedInUser());
-                        //selectedOrder().setCreditiLimitSetBy(loggedInUser());
-                        //selectedOrder().setAllowJobWoCreditCheckSetBy(loggedInUser());
-                        //selectedOrder().setOfficialOrderSetBy(loggedInUser());
-                        //view.setOrderState(4); // Pending Order
-                        //selectedOrder().statusId(4);
-                        //$('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
+                        companyContacts.removeAll();
                         openOrderEditor();
                     },
                     itemAttachmentFileLoadedCallback = function(file, data) {
@@ -2028,6 +1996,7 @@ define("order/order.viewModel",
                                 }
                                 getBaseForInquiry(data.CompanyId, data.CompanyId);
                                 isLoadingOrders(false);
+                                selectedInquiry().reset();
                             },
                             error: function(response) {
                                 isLoadingOrders(false);
@@ -2060,13 +2029,15 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    onSaveInquiryDetailItem = function() {
-                        selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
+                    onSaveInquiryDetailItem = function () {
+                        if (!selectedInquiryItem().inquiryItemId() > 0 ) {
+                            selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
+                        }
                     },
                     onCloseInquiryDetailItem = function() {
                         view.hideInquiryDetailItemDialog();
                     },
-                    // Get Company Base Data
+                    //Get Company Base Data
                     getBaseForInquiry = function (id, storeId) {
                         isCompanyBaseDataLoaded(false);
                         dataservice.getBaseDataForCompany({
@@ -2089,7 +2060,7 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                     // Select Default Contact For Inquiry in case of new order
+                    //Select Default Contact For Inquiry in case of new order
                     setDefaultContactForInquiry = function () {
                         if (selectedInquiry().inquiryId() > 0) {
                             return;
@@ -2101,6 +2072,17 @@ define("order/order.viewModel",
                             selectedInquiry().contactId(defaultContact.id);
                         }
                     },
+                    //Update Company Contacts Details 
+                    updateSelectedCompanyContactDetails = ko.computed(function() {
+                        if (selectedInquiry() != undefined && selectedInquiry().contactId() != undefined &&
+                            companyContacts().length > 0) {
+                            _.each(companyContacts(), function(contact) {
+                                if (contact.id == selectedInquiry().contactId()) {
+                                    selectedCompanyContactOfInquiry(contact);
+                                }
+                            });
+                        }
+                    }),
                     //#endregion
                     //#region INITIALIZE
 
@@ -2213,6 +2195,7 @@ define("order/order.viewModel",
                     onCostCenterClick: onCostCenterClick,
                     isAddProductFromInventory: isAddProductFromInventory,
                     isAddProductForSectionCostCenter: isAddProductForSectionCostCenter,
+                    pipelineProducts: pipelineProducts,
                     //#endregion Utility Methods
                     //#region Estimate Screen
                     initializeEstimate: initializeEstimate,

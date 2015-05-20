@@ -61,6 +61,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
         private readonly IShippingInformationRepository shippingInformationRepository;
         private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
+        private readonly IPipeLineProductRepository pipeLineProductRepository;
 
         /// <summary>
         /// Creates New Order and assigns new generated code
@@ -341,7 +342,7 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository,
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
-            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository)
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository)
         {
             if (estimateRepository == null)
             {
@@ -453,6 +454,7 @@ namespace MPC.Implementation.MISServices
             this.sectionInkCoverageRepository = sectionInkCoverageRepository;
             this.shippingInformationRepository = shippingInformationRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
+            this.pipeLineProductRepository = pipeLineProductRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
         }
 
@@ -549,6 +551,7 @@ namespace MPC.Implementation.MISServices
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
                        // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
+                       PipeLineProducts = pipeLineProductRepository.GetAll(),
                        LoggedInUser = organisationRepository.LoggedInUserId
                    };
         }

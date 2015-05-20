@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets6DB094FCD008FDD05BC0261D882C6F9F9FB426FC5E78FAF708B4F382FDB5BBCA))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets7A786FDB1EFEC9980FF4B50518FA5A18075A434221B2C7D220C7ABB0634DD4DE))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets6DB094FCD008FDD05BC0261D882C6F9F9FB426FC5E78FAF708B4F382FDB5BBCA : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets7A786FDB1EFEC9980FF4B50518FA5A18075A434221B2C7D220C7ABB0634DD4DE : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets6DB094FCD008FDD05BC0261D882C6F9F9FB426FC5E78FAF708B4F382FDB5BBCA()
+        public ViewsForBaseEntitySets7A786FDB1EFEC9980FF4B50518FA5A18075A434221B2C7D220C7ABB0634DD4DE()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "097088f24d5a10a3eae615fa841752c34f1139b01516e41ddf895a762fb7cd2e";
-            this.HashOverAllExtentViews = "ac014e21924b53df969e44dac3643a2fa95feccc9d6c99f9a7d0ceffc1c25d22";
+            this.HashOverMappingClosure = "6d595e475868d93ddb5d6a797ef095bb54d8b8be656ecbf2f945eec66a0fdea3";
+            this.HashOverAllExtentViews = "3f1989295325831fc1982ca707b82f905ab4a1789c589bf5ffb56649acff00c1";
             this.ViewCount = 336;
         }
         
@@ -3614,29 +3614,26 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView49()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.InvoiceDetail", @"
-    SELECT VALUE -- Constructing InvoiceDetail
-        [DomainModels.Store.InvoiceDetail](T1.InvoiceDetail_InvoiceDetailId, T1.InvoiceDetail_InvoiceId, T1.InvoiceDetail_DetailType, T1.InvoiceDetail_ItemId, T1.InvoiceDetail_InvoiceTitle, T1.InvoiceDetail_NominalCode, T1.InvoiceDetail_ItemCharge, T1.InvoiceDetail_Quantity, T1.InvoiceDetail_ItemTaxValue, T1.InvoiceDetail_FlagId, T1.InvoiceDetail_DepartmentId, T1.InvoiceDetail_Description, T1.InvoiceDetail_ItemType, T1.InvoiceDetail_TaxId, T1.InvoiceDetail_TaxValue)
-    FROM (
-        SELECT 
-            T.InvoiceDetailId AS InvoiceDetail_InvoiceDetailId, 
-            T.InvoiceId AS InvoiceDetail_InvoiceId, 
-            T.DetailType AS InvoiceDetail_DetailType, 
-            T.ItemId AS InvoiceDetail_ItemId, 
-            T.InvoiceTitle AS InvoiceDetail_InvoiceTitle, 
-            T.NominalCode AS InvoiceDetail_NominalCode, 
-            T.ItemCharge AS InvoiceDetail_ItemCharge, 
-            T.Quantity AS InvoiceDetail_Quantity, 
-            T.ItemTaxValue AS InvoiceDetail_ItemTaxValue, 
-            T.FlagId AS InvoiceDetail_FlagId, 
-            T.DepartmentId AS InvoiceDetail_DepartmentId, 
-            T.Description AS InvoiceDetail_Description, 
-            T.ItemType AS InvoiceDetail_ItemType, 
-            T.TaxId AS InvoiceDetail_TaxId, 
-            T.TaxValue AS InvoiceDetail_TaxValue, 
-            True AS _from0
-        FROM BaseDbContext.InvoiceDetails AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.InvoiceDetail", "\r\n    SELECT VALUE -- Constructing InvoiceDetail\r\n        [DomainModels.Store.Inv" +
+                    "oiceDetail](T1.InvoiceDetail_InvoiceDetailId, T1.InvoiceDetail_InvoiceId, T1.Inv" +
+                    "oiceDetail_DetailType, T1.InvoiceDetail_ItemId, T1.InvoiceDetail_InvoiceTitle, T" +
+                    "1.InvoiceDetail_NominalCode, T1.InvoiceDetail_ItemCharge, T1.InvoiceDetail_Quant" +
+                    "ity, T1.InvoiceDetail_ItemTaxValue, T1.InvoiceDetail_FlagId, T1.InvoiceDetail_De" +
+                    "partmentId, T1.InvoiceDetail_Description, T1.InvoiceDetail_ItemType, T1.InvoiceD" +
+                    "etail_TaxId, T1.InvoiceDetail_TaxValue, T1.InvoiceDetail_ItemGrossTotal)\r\n    FR" +
+                    "OM (\r\n        SELECT \r\n            T.InvoiceDetailId AS InvoiceDetail_InvoiceDet" +
+                    "ailId, \r\n            T.InvoiceId AS InvoiceDetail_InvoiceId, \r\n            T.Det" +
+                    "ailType AS InvoiceDetail_DetailType, \r\n            T.ItemId AS InvoiceDetail_Ite" +
+                    "mId, \r\n            T.InvoiceTitle AS InvoiceDetail_InvoiceTitle, \r\n            T" +
+                    ".NominalCode AS InvoiceDetail_NominalCode, \r\n            T.ItemCharge AS Invoice" +
+                    "Detail_ItemCharge, \r\n            T.Quantity AS InvoiceDetail_Quantity, \r\n       " +
+                    "     T.ItemTaxValue AS InvoiceDetail_ItemTaxValue, \r\n            T.FlagId AS Inv" +
+                    "oiceDetail_FlagId, \r\n            T.DepartmentId AS InvoiceDetail_DepartmentId, \r" +
+                    "\n            T.Description AS InvoiceDetail_Description, \r\n            T.ItemTyp" +
+                    "e AS InvoiceDetail_ItemType, \r\n            T.TaxId AS InvoiceDetail_TaxId, \r\n   " +
+                    "         T.TaxValue AS InvoiceDetail_TaxValue, \r\n            T.ItemGrossTotal AS" +
+                    " InvoiceDetail_ItemGrossTotal, \r\n            True AS _from0\r\n        FROM BaseDb" +
+                    "Context.InvoiceDetails AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -7245,29 +7242,26 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView148()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.InvoiceDetails", @"
-    SELECT VALUE -- Constructing InvoiceDetails
-        [DomainModels.InvoiceDetail](T1.InvoiceDetail_InvoiceDetailId, T1.InvoiceDetail_InvoiceId, T1.InvoiceDetail_DetailType, T1.InvoiceDetail_ItemId, T1.InvoiceDetail_InvoiceTitle, T1.InvoiceDetail_NominalCode, T1.InvoiceDetail_ItemCharge, T1.InvoiceDetail_Quantity, T1.InvoiceDetail_ItemTaxValue, T1.InvoiceDetail_FlagId, T1.InvoiceDetail_DepartmentId, T1.InvoiceDetail_Description, T1.InvoiceDetail_ItemType, T1.InvoiceDetail_TaxId, T1.InvoiceDetail_TaxValue)
-    FROM (
-        SELECT 
-            T.InvoiceDetailId AS InvoiceDetail_InvoiceDetailId, 
-            T.InvoiceId AS InvoiceDetail_InvoiceId, 
-            T.DetailType AS InvoiceDetail_DetailType, 
-            T.ItemId AS InvoiceDetail_ItemId, 
-            T.InvoiceTitle AS InvoiceDetail_InvoiceTitle, 
-            T.NominalCode AS InvoiceDetail_NominalCode, 
-            T.ItemCharge AS InvoiceDetail_ItemCharge, 
-            T.Quantity AS InvoiceDetail_Quantity, 
-            T.ItemTaxValue AS InvoiceDetail_ItemTaxValue, 
-            T.FlagId AS InvoiceDetail_FlagId, 
-            T.DepartmentId AS InvoiceDetail_DepartmentId, 
-            T.Description AS InvoiceDetail_Description, 
-            T.ItemType AS InvoiceDetail_ItemType, 
-            T.TaxId AS InvoiceDetail_TaxId, 
-            T.TaxValue AS InvoiceDetail_TaxValue, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.InvoiceDetail AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.InvoiceDetails", "\r\n    SELECT VALUE -- Constructing InvoiceDetails\r\n        [DomainModels.InvoiceD" +
+                    "etail](T1.InvoiceDetail_InvoiceDetailId, T1.InvoiceDetail_InvoiceId, T1.InvoiceD" +
+                    "etail_DetailType, T1.InvoiceDetail_ItemId, T1.InvoiceDetail_InvoiceTitle, T1.Inv" +
+                    "oiceDetail_NominalCode, T1.InvoiceDetail_ItemCharge, T1.InvoiceDetail_Quantity, " +
+                    "T1.InvoiceDetail_ItemTaxValue, T1.InvoiceDetail_FlagId, T1.InvoiceDetail_Departm" +
+                    "entId, T1.InvoiceDetail_Description, T1.InvoiceDetail_ItemType, T1.InvoiceDetail" +
+                    "_TaxId, T1.InvoiceDetail_TaxValue, T1.InvoiceDetail_ItemGrossTotal)\r\n    FROM (\r" +
+                    "\n        SELECT \r\n            T.InvoiceDetailId AS InvoiceDetail_InvoiceDetailId" +
+                    ", \r\n            T.InvoiceId AS InvoiceDetail_InvoiceId, \r\n            T.DetailTy" +
+                    "pe AS InvoiceDetail_DetailType, \r\n            T.ItemId AS InvoiceDetail_ItemId, " +
+                    "\r\n            T.InvoiceTitle AS InvoiceDetail_InvoiceTitle, \r\n            T.Nomi" +
+                    "nalCode AS InvoiceDetail_NominalCode, \r\n            T.ItemCharge AS InvoiceDetai" +
+                    "l_ItemCharge, \r\n            T.Quantity AS InvoiceDetail_Quantity, \r\n            " +
+                    "T.ItemTaxValue AS InvoiceDetail_ItemTaxValue, \r\n            T.FlagId AS InvoiceD" +
+                    "etail_FlagId, \r\n            T.DepartmentId AS InvoiceDetail_DepartmentId, \r\n    " +
+                    "        T.Description AS InvoiceDetail_Description, \r\n            T.ItemType AS " +
+                    "InvoiceDetail_ItemType, \r\n            T.TaxId AS InvoiceDetail_TaxId, \r\n        " +
+                    "    T.TaxValue AS InvoiceDetail_TaxValue, \r\n            T.ItemGrossTotal AS Invo" +
+                    "iceDetail_ItemGrossTotal, \r\n            True AS _from0\r\n        FROM DomainModel" +
+                    "sStoreContainer.InvoiceDetail AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
