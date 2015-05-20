@@ -37,7 +37,7 @@ namespace MPC.Models.DomainModels
         public DateTime? LastModifiedDate { get; set; }
         public DateTime? LastModifiedtime { get; set; }
         public int? LastModifiedBy { get; set; }
-        public int? CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         public int? CampaignId { get; set; }
         public short? IsLocked { get; set; }
         public int? LockedBy { get; set; }

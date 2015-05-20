@@ -21,6 +21,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemType = source.ItemType,
                 TaxId = source.TaxId,
                 DetailType = source.DetailType,
+                ItemGrossTotal = source.ItemGrossTotal,
                 TaxValue = source.TaxValue
 
             };
@@ -41,6 +42,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemType = source.ItemType,
                 TaxId = source.TaxId, 
                 DetailType = source.DetailType,
+                ItemGrossTotal = source.ItemGrossTotal,
                 TaxValue = source.TaxValue
             };
         }
