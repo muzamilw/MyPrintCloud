@@ -247,8 +247,8 @@
                                                     Source
                                                 </label>
                                             </div>
-                                            <div class="col-lg-3">
-                                                <select class="form-control" data-bind="options: $root.pipelineSources, optionsText: 'name', optionsId: 'id', optionsCaption: 'Select Source', value: systemPipeLineByUser"></select>
+                                            <div class="col-lg-3" data-bind="if: $root.pipelineSources ">
+                                                <select class="form-control" data-bind="options: $root.pipelineSources, optionsText: 'name', optionsId: 'id',optionsValue: 'id', optionsCaption: 'Select Source', value: sourceId"></select> 
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -258,7 +258,7 @@
                                                 </label>
                                             </div>
                                             <div class="col-lg-3">
-                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsCaption: 'Select a system user', value: systemUserIdByUser"></select>
+                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsValue: 'id', optionsCaption: 'Select a system user', value: systemUserId"></select>
                                             </div>
                                         </div>
                                     </div>

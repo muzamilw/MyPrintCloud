@@ -110,6 +110,7 @@
     <Compile Include="Repository\IEstimateInquiryRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />
+    <Compile Include="Repository\IInquiryItemRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
     <Compile Include="Repository\ISectionCostCentreDetailRepository.cs" />

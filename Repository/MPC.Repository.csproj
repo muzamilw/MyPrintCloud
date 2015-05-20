@@ -220,6 +220,7 @@
     <Compile Include="Repositories\EstimateInquiryRepository.cs" />
     <Compile Include="Repositories\GoodRecieveNoteRepository.cs" />
     <Compile Include="Repositories\InkCoverageGroupRepository.cs" />
+    <Compile Include="Repositories\InquiryItemRepository.cs" />
     <Compile Include="Repositories\ItemImageRepository.cs" />
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
     <Compile Include="Repositories\SectionCostCentreDetailRepository.cs" />

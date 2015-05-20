@@ -49,10 +49,13 @@
                                 <div class="col-lg-12 form-horizontal" style="margin-top: -17px">
                                     @*@Html.Partial("_OrderSectionDetail")*@
                                     <div class="col-lg-12 form-horizontal">
-                                        @*<div class="col-lg-2">
-
-                                            </div>*@
                                         <div class="form-group">
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-lg-8" style="  margin-top: 10px;">
+                                                <input type="text" style="font-size: 24px;height: 60px;border-bottom: 2px dashed black !important;font-weight: bold;padding-left: 0px;border-top: none;border-left: none;border-right: none;" class="form-control" placeholder="Product Name" data-bind="value: productName, validationTooltip: productName, validationOnElement: productName" />
+                                            </div>
+                                        </div>
+                                        @*<div class="form-group">
                                             <div class="col-xs-2"></div>
                                             <div class="col-lg-8 " style="background-color:gainsboro;margin-top:20px;margin-bottom:20px;padding-top:20px;border-radius:3px">
                                                 <div style="background-color:gainsboro; border-radius:3px">
@@ -74,10 +77,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @*<div class="col-xs-2" style="margin-top:20px;margin-bottom:20px;padding-top:20px;border-radius:3px">
-                                                    <button class="btn btn-success" data-bind="click:$root.createNewItemSection">Add Section</button>
-                                                </div>*@
-                                        </div>
+                                           
+                                        </div>*@
+                                      
                                         <div class="form-group">
 
                                             <div class="col-xs-2"></div>
@@ -89,7 +91,14 @@
                                                     </ul>
                                                 </div>
                                             </div>
-
+                                            <div class="col-lg-2">
+                                                    <div >
+                                                        <div style="float: left"><img class="photo-box" style="padding-top: 7px; cursor: pointer; height: 153px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
+                                                    </div>
+                                                <div class="btn btn-success" style="font-size: x-small;margin-left: 10%;" data-bind="click:$root.createNewItemSection">
+                                                    Add Sheets
+                                                </div>
+                                            </div>
                                         </div>
 
 
@@ -138,6 +147,24 @@
                                         </div>
                                         <div class="col-lg-8 form-horizontal" style="background-color:gainsboro;margin-left: 4px;padding-top:20px;border-radius:3px">
                                             <div style="background-color:gainsboro; border-radius:3px">
+                                                <div style="background-color:gainsboro; border-radius:3px">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-3">
+                                                            <label class="control-label tooltip-float">Qty</label>
+                                                        </div>
+                                                        <div class="col-xs-2" style="text-align: right; margin-top: 7px;">
+                                                            <span  data-bind="text:qty1" style="margin-right: 12px;" />
+                                                        </div>
+                                                        <!--ko if: $root.isEstimateScreen()-->
+                                                        <div class="col-xs-2" style="text-align: right; margin-top: 7px;" >
+                                                            <span  data-bind="text:qty2" style="margin-right: 12px;" />
+                                                        </div>
+                                                        <div class="col-xs-2" style="text-align: right; margin-top: 7px;">
+                                                            <span data-bind="text:qty3" style="margin-right: 12px;" />
+                                                        </div>
+                                                        <!--/ko-->
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3" style="text-align: right;">
                                                         <div class="col-lg-12" style="padding-right: 0px;">
@@ -226,23 +253,7 @@
                                             <h3 style="color:black;">Descriptions to Appear on Estimates for combined components</h3>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-2">
-
-                                        </div>
-                                        <div class="col-lg-2 text-right">
-                                            <label class="control-label tooltip-float">Product Name</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="col-lg-10" style="padding-left:0px;padding-right: 0px;">
-                                                <input type="text" class="form-control" id="ProductTitle" data-bind="value: productName" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <label>&nbsp;</label>
-                                        </div>
-
-                                    </div>
+                                    
                                     <div class="form-group">
                                         <div class="col-lg-2">
                                             &nbsp;
@@ -618,21 +629,9 @@
             </div>
         </div>
 
-        <div class="btn btn-primary" style="font-size: x-small;margin-left: 11%;" data-bind="visible:!flagForAdd(),click:$root.showSectionDetailEditor">
+        @*<div class="btn btn-primary" style="font-size: x-small;margin-left: 11%;" data-bind="visible:!flagForAdd(),click:$root.showSectionDetailEditor">
             View Details
-        </div>
-    </li>
-    <!--/ko-->
-    <!--ko if: flagForAdd() -->
-    <li class="col-md-2 col-sm-2 col-xs-6">
-        <div>
-            <div style="float: left"><img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
-            @*<div style="font-size: small;cursor: pointer;" class="itemSectionName" data-bind="click:$root.createNewItemSection">
-                </div>*@
-        </div>
-        <div class="btn btn-success" style="font-size: x-small;margin-left: 14%;" data-bind="visible:flagForAdd,click:$root.createNewItemSection">
-            Add Sheets
-        </div>
+        </div>*@
     </li>
     <!--/ko-->
 
