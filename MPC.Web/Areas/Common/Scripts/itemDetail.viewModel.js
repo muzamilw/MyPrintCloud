@@ -118,7 +118,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedSectionCostCenter()) {
                                 return 0;
                             }
-                            return selectedSectionCostCenter().qty1Charge();
+                            return selectedSectionCostCenter().qty1Charge() || 0;
                         },
                         write: function (value) {
                             if (!value || value === selectedSectionCostCenter().qty1Charge()) {
@@ -164,7 +164,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedSectionCostCenter()) {
                                 return 0;
                             }
-                            return selectedSectionCostCenter().qty2Charge();
+                            return selectedSectionCostCenter().qty2Charge() || 0;
                         },
                         write: function (value) {
                             if (!value || value === selectedSectionCostCenter().qty2Charge()) {
@@ -210,7 +210,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedSectionCostCenter()) {
                                 return 0;
                             }
-                            return selectedSectionCostCenter().qty3Charge();
+                            return selectedSectionCostCenter().qty3Charge() || 0;
                         },
                         write: function (value) {
                             if (!value || value === selectedSectionCostCenter().qty3Charge()) {
@@ -394,7 +394,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedSectionCostCenter()) {
                                 return 0;
                             }
-                            return selectedSectionCostCenter().qty1NetTotal();
+                            return selectedSectionCostCenter().qty1NetTotal() || 0;
                         },
                         write: function (value) {
                             if (!value || value === selectedSectionCostCenter().qty1NetTotal()) {
@@ -409,7 +409,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedSectionCostCenter()) {
                                 return 0;
                             }
-                            return selectedSectionCostCenter().qty2NetTotal();
+                            return selectedSectionCostCenter().qty2NetTotal() || 0;
                         },
                         write: function (value) {
                             if (!value || value === selectedSectionCostCenter().qty2NetTotal()) {
@@ -424,7 +424,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedSectionCostCenter()) {
                                 return 0;
                             }
-                            return selectedSectionCostCenter().qty3NetTotal();
+                            return selectedSectionCostCenter().qty3NetTotal() || 0;
                         },
                         write: function (value) {
                             if (!value || value === selectedSectionCostCenter().qty3NetTotal()) {
@@ -457,6 +457,7 @@ define("common/itemDetail.viewModel",
                         sectionCostCenter.qty1EstimatedStockCost(0);
                         sectionCostCenter.qty2EstimatedStockCost(0);
                         sectionCostCenter.qty3EstimatedStockCost(0);
+                        setWorkInstructionsForStockCostCenter(sectionCostCenter);
                         sectionCostCenter.qty1Charge(stockItemToCreate().price);
                         sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
                         sectionCostCenter.qty2Charge(0);
@@ -476,12 +477,25 @@ define("common/itemDetail.viewModel",
                             var newCost = selectedSectionCostCenter().qty1Charge() + sectionCostCenterDetail.costPrice();
                             selectedSectionCostCenter().qty1Charge(newCost);
                             selectedSectionCostCenter().qty1NetTotal(newCost);
+                            setWorkInstructionsForStockCostCenter(selectedSectionCostCenter());
                             selectedSectionCostCenter().sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         }
 
                         calculateSectionBaseCharge1();
                         calculateSectionBaseCharge2();
                         calculateSectionBaseCharge3();
+                    },
+                    // Set Work Instructions in case of Stock Cost Center
+                    setWorkInstructionsForStockCostCenter = function(sectionCostCenter) {
+                        if (!isEstimateScreen()) {
+                            sectionCostCenter.qty1WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
+                            sectionCostCenter.qty2WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
+                            sectionCostCenter.qty3WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
+                        } else {
+                            sectionCostCenter.qty1WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
+                            sectionCostCenter.qty2WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity2() + ")");
+                            sectionCostCenter.qty3WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity3() + ")");
+                        }
                     },
                     //Show Item Detail
                     showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam, isEstimateScreenFlag) {
@@ -864,7 +878,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedProduct()) {
                                 return 0;
                             }
-                            return selectedProduct().qty1NetTotal();
+                            return selectedProduct().qty1NetTotal() || 0;
                         },
                         write: function (value) {
                             if ((value === undefined || value === null) || value === selectedProduct().qty1NetTotal()) {
@@ -879,7 +893,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedProduct()) {
                                 return 0;
                             }
-                            return selectedProduct().qty2NetTotal();
+                            return selectedProduct().qty2NetTotal() || 0;
                         },
                         write: function (value) {
                             if ((value === undefined || value === null) || value === selectedProduct().qty2NetTotal()) {
@@ -894,7 +908,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedProduct()) {
                                 return 0;
                             }
-                            return selectedProduct().qty3NetTotal();
+                            return selectedProduct().qty3NetTotal() || 0;
                         },
                         write: function (value) {
                             if ((value === undefined || value === null) || value === selectedProduct().qty3NetTotal()) {

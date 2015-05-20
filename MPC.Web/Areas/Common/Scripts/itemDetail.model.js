@@ -2042,7 +2042,9 @@
     //#region Item Attachment Factory
     // ReSharper disable once InconsistentNaming
     ItemAttachment.Create = function (source) {
-        return new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath);
+        var itemAttachment = new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath);
+        itemAttachment.itemId(source.ItemId);
+        return itemAttachment;
     };
     //#endregion
     //#region Item Stock Option Factory
