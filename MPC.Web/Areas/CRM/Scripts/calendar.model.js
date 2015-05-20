@@ -144,7 +144,7 @@
             activityNotes = ko.observable(specifiedActivityNotes),
             startDateTime = ko.observable(specifiedActivityStartTime !== undefined ? moment(specifiedActivityStartTime).format(ist.dateTimePattern) : undefined),
             endDateTime = ko.observable(specifiedActivityEndTime !== undefined ? moment(specifiedActivityEndTime).format(ist.dateTimePattern) : undefined);
-        actionby = ko.observable(specifiedactionby);
+            actionby = ko.observable(specifiedactionby);
         self = {
             id: id,
             activityNotes: activityNotes,

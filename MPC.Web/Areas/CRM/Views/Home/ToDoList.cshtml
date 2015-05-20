@@ -62,7 +62,7 @@
                                                                 <label for="owner" class="control-label text-right tooltip-float">Show to do list for</label>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsText: 'FullName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>
+                                                                <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsCaption: 'All', optionsText: 'FullName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -75,11 +75,11 @@
                                                             <span class="fc-button fc-button-next fc-state-default fc-corner-right" data-bind="click:$root.nextMonth"><span class="fc-text-arrow">›</span></span>
                                                         </div>
 
-                                                        <div class="col-lg-4">
+                                                        <div class="col-lg-3">
                                                             <span class="fc-button fc-button-today fc-state-default fc-corner-left fc-corner-right" data-bind="click:$root.todayActivities">today</span>
                                                         </div>
 
-                                                        <div class="col-lg-4">
+                                                        <div class="col-lg-5">
                                                             <span class="fc-header-center"><span class="fc-header-title"><h2 class="font-weight" style="font-size: 2.3em" data-bind="text:$root.dateDisplay"></h2></span></span>
                                                         </div>
                                                         <div class="col-lg-2">

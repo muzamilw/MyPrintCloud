@@ -72,7 +72,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ActivityEndTime = source.ActivityEndTime,
                 ActivityStartTime = source.ActivityStartTime,
                 FlagId = source.FlagId,
-
+                SystemUserId = source.SystemUserId,
             };
         }
 

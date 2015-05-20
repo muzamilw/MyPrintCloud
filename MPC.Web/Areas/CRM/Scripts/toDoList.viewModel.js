@@ -129,7 +129,11 @@ define("toDoList/toDoList.viewModel",
                                     var sectionFlag = _.find(sectionFlags(), function (sFlag) {
                                         return sFlag.SectionFlagId == item.FlagId;
                                     });
-                                    items.push(model.ActivityList.Create(item));
+                                    var newitem = model.ActivityList.Create(item);
+                                    newitem.actionby(systemUsers.filter(function (itemsys) { return itemsys.SystemUserId == item.SystemUserId })[0].FullName);
+                                    //systemUsers
+                                    items.push(newitem);
+
                                 });
                             }
                             // viewDate();
