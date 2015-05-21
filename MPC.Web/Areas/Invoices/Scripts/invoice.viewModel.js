@@ -60,6 +60,8 @@ define("invoice/invoice.viewModel",
                     // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
                     currentScreen = ko.observable(),
+                    // True, show status column in list view
+                    isShowStatusCloumn = ko.observable(true),
                     // #endregion
 
                     // #region Observables
@@ -182,7 +184,7 @@ define("invoice/invoice.viewModel",
                     // On Archive
                     onArchiveInvoice = function (invoice) {
                         confirmation.afterProceed(function () {
-                            archiveInvoice(invoice.id());
+                            // archiveInvoice(invoice.id());
                         });
                         confirmation.show();
                     },
@@ -256,7 +258,7 @@ define("invoice/invoice.viewModel",
                         }
 
                         var istatus = selectedInvoice().invoiceStatus();
-                        if (istatus == 19) //Awaiting Invoice
+                        if (istatus == 19 && selectedInvoice().id() !== 0 && selectedInvoice().id() !== undefined) //Awaiting Invoice
                         {
                             confirmation.messageText("Do you want to post the invoice.");
 
@@ -630,6 +632,11 @@ define("invoice/invoice.viewModel",
                     //Get Order Tab Changed Event
                     getInvoicesOnTabChange = function (currentTab) {
                         pager().reset();
+                        if (currentTab === 0) {
+                            isShowStatusCloumn(true);
+                        } else {
+                            isShowStatusCloumn(false);
+                        }
                         getInvoices(currentTab);
 
                     },
@@ -693,14 +700,18 @@ define("invoice/invoice.viewModel",
                                 if (data) {
                                     selectedInvoice(model.Invoice.Create(data));
 
-                                    //_.each(data.InvoiceDetails, function (invDetial) {
-                                    //    selectedInvoice().items.push(model.InvoiceDetail.Create(invDetial));
-                                    //});
-
                                     // Get Base Data For Company
                                     if (data.CompanyId) {
-                                        getBaseForCompany(data.CompanyId, 0);
+                                        var storeId = 0;
+                                        if (data.IsCustomer !== 3 && data.StoreId) {
+                                            storeId = data.StoreId;
+                                            selectedInvoice().storeId(storeId);
+                                        } else {
+                                            storeId = data.CompanyId;
+                                        }
+                                        getBaseForCompany(data.CompanyId, storeId);
                                     }
+
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
@@ -718,7 +729,7 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
-                    // Get Company Base Data
+                     // Get Company Base Data
                     getBaseForCompany = function (id, storeId) {
                         isCompanyBaseDataLoaded(false);
                         dataservice.getBaseDataForCompany({
@@ -731,9 +742,11 @@ define("invoice/invoice.viewModel",
                                 if (data) {
                                     if (data.CompanyAddresses) {
                                         mapList(companyAddresses, data.CompanyAddresses, model.Address);
+                                        setDefaultAddressForCompany();
                                     }
                                     if (data.CompanyContacts) {
                                         mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
+                                        setDefaultContactForCompany();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
                                 }
@@ -745,9 +758,34 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
+                     // Select Default Address For Company in case of new Invoice
+                    setDefaultAddressForCompany = function () {
+                        if (selectedInvoice().id() > 0) {
+                            return;
+                        }
+                        var defaultCompanyAddress = companyAddresses.find(function (address) {
+                            return address.isDefaultAddress;
+                        });
+                        if (defaultCompanyAddress) {
+                            selectedInvoice().addressId(defaultCompanyAddress.id);
+                        }
+                    },
+                     // Select Default Contact For Company in case of new Invoice
+                    setDefaultContactForCompany = function () {
+                        if (selectedInvoice().id() > 0) {
+                            return;
+                        }
+                        var defaultContact = companyContacts.find(function (contact) {
+                            return contact.isDefault;
+                        });
+                        if (defaultContact) {
+                            selectedInvoice().contactId(defaultContact.id);
+                        }
+                    },
                     createInvoice = function () {
                         selectedInvoice(model.Invoice.Create({}));
                         selectedInvoice().invoiceStatus(19);
+                        selectedInvoice().invoiceReportSignedBy(loggedInUserId());
                         selectedInvoice().isPostedInvoice(false);
                         openInvoiceEditor();
                     },
@@ -1050,7 +1088,8 @@ define("invoice/invoice.viewModel",
                     onAddInvoiceDetail: onAddInvoiceDetail,
                     closeInvoiceDetailDialog: closeInvoiceDetailDialog,
                     onSaveInvoiceDetail: onSaveInvoiceDetail,
-                    gotoElement: gotoElement
+                    gotoElement: gotoElement,
+                    isShowStatusCloumn: isShowStatusCloumn
                     //#endregion
                 };
             })()
