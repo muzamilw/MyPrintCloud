@@ -78,13 +78,15 @@
             </div>
         </div>
     </div>
-    <div id="pagerDiv" class="pull-right">
+    <!-- ko stopBinding: true -->
+    <div id="pagerDivForProducts" class="pull-right">
        
         <!-- ko with: pager -->
 
         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
         <!-- /ko -->
     </div>
+    <!-- /ko -->
     @*<div class="pull-right">
         <div class="pull-right spanfilterlbl" data-bind="">
             <a class=" pagerLeftIcon " data-bind="click: pager().previousPage">
@@ -123,7 +125,7 @@
     @* Grid View Template *@
     <script id="gridViewTemplate" type="text/html">
         <div class="Top_Cat_Body">
-            <div class="LCLB">
+            <div class="LCLB" style="overflow:hidden">
                 <div class="PDTC_TL FI_TL" data-bind="click: $root.editProduct">
                     <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
                 </div>
@@ -149,7 +151,7 @@
         <button type="button" style="width:50px;" class="btn btn-info" title="Edit Product" data-bind="click: $root.editProduct">
            <span style="font-size:10px;">Edit</span> 
         </button>
-        <button type="button" style="width:50px;" class="btn btn-warning" title="Copy Product" data-bind="click: $root.onCloneProduct">
+        <button type="button" style="width:50px;" class="btn btn-success" title="Copy Product" data-bind="click: $root.onCloneProduct">
             <span style="font-size:10px;">Copy</span> 
         </button>
         <button type="button" style="width:50px;" class="btn btn-yellow" title="Design Template" data-bind="click: $root.editTemplate, visible: ((isFinishedGoodsUi() === '1') && templateId() && (templateTypeUi() !== '3'))">

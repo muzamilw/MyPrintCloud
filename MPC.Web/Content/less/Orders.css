@@ -1,13 +1,4 @@
-﻿#orderBinding {
-  /*#tabsHeader {
-        border: 1px solid silver;
-        box-shadow: 1px 1px 1px silver;
-    }*/
-}
-#orderBinding .selectedBestPressFromWizard {
-  background: yellow !important;
-}
-#orderBinding #tab-EstimateHeader #orderType {
+﻿#orderBinding #tab-EstimateHeader #orderType {
   font-weight: bold;
   font-size: 15px;
   color: red;
@@ -17,6 +8,38 @@
 }
 #orderBinding #tab-EstimateHeader #orderSectionDetailDialog #orderSectionDetail {
   width: 1100px;
+}
+#orderBinding #tab-EstimateHeader #orderStatusSliderContainer {
+  background-color: gainsboro;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+#orderBinding #tab-EstimateHeader #orderStatusSliderContainer #statusSliderSubContainer {
+  background-color: gainsboro;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  height: 100%;
+}
+#orderBinding #tab-EstimateHeader #orderStatusSliderContainer #statusSliderSubContainer #orderStatusSilderPanel {
+  margin-bottom: 60px;
+  width: 80%;
+}
+#orderBinding #tab-EstimateHeader #orderHeaderProductsContainer,
+#orderBinding #tab-EstimateHeader #orderHeaderShippingContainer {
+  background-color: gainsboro;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+#orderBinding #tab-EstimateHeader #orderHeaderAddShippingButton {
+  float: left;
+  margin-top: 10px;
+  margin-left: -8px;
 }
 #orderBinding .itemSectionName {
   float: right;

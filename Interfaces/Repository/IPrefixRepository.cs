@@ -25,6 +25,11 @@ namespace MPC.Interfaces.Repository
         string GetNextEstimateCodePrefix();
 
         /// <summary>
+        /// Get Prefixed Next Inquiry Code
+        /// </summary>
+        string GetNextInquiryCodePrefix();
+
+        /// <summary>
         /// Get Prefixed Next Item Code
         /// </summary>
         string GetNextItemCodePrefix(bool shouldIncrementNextItem = true);
@@ -39,5 +44,10 @@ namespace MPC.Interfaces.Repository
         List<Prefix> GetPrefixesByOrganisationID(long organisationID);
 
         Prefix GetPrefixByOrganisationId(long OrgId);
+
+        /// <summary>
+        /// Returns Next Invoice Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        string GetNextInvoiceCodePrefix();
     }
 }

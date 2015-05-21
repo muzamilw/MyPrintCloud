@@ -55,9 +55,9 @@
 </div>
 
 <script id="listDeliveryCarrierTemplate" type="text/html">
-    <tr>
+    <tr data-bind="click:$root.openEditDialog" style="cursor: pointer">
         <td>
-            <a style="cursor:pointer;" data-bind="text:carrierName,click:$root.openEditDialog"></a>
+            <a style="cursor:pointer;" data-bind="text:carrierName"></a>
         </td>
         <td data-bind="text:url"></td>
         <td data-bind="text:apiKey"></td>

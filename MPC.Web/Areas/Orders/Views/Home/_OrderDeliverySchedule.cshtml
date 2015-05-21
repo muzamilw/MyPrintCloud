@@ -1,7 +1,6 @@
 ﻿<div>
-    <div class="col-lg-12 form-horizontal">
-        @*<h3 class="group-header">Delivery Schedule</h3>*@
-        <div class="col-lg-12">
+    <div class="col-sm-12 form-horizontal">
+        <div class="col-sm-12">
             <div class="clearfix">
                 <header class="main-box-header clearfix">
                     <div class="filter-block pull-right">
@@ -9,11 +8,6 @@
                             Add Delivery Schedule
                         </a>
                     </div>
-                    @*<div class="filter-block pull-right">
-                            <a href="#" class="btn btn-primary pull-right" data-bind="click:$root.onRaised">
-                                Raise
-                            </a>
-                        </div>*@
                 </header>
                 <div class="table-responsive">
 
@@ -33,16 +27,9 @@
                         <tbody>
                             <!--ko if:$root.selectedOrder().deliverySchedules().length==0-->
                             <tr>
-                                <td class="col-lg-2">
-                                    <span>No Item found!</span>
+                                <td colspan="2">
+                                    <span>No Items found!</span>
                                 </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                             </tr>
                             <!-- /ko -->
                             <!-- ko template: { name: $root.templateToUseDeliverySchedule , foreach: $root.selectedOrder().deliverySchedules } -->

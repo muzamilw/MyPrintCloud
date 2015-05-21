@@ -5,16 +5,16 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Select inventory substrate</h4>
             </div>
-            <div class="col-lg-12">
-                <div class="col-lg-12 clearfix">
+            <div class="col-sm-12">
+                <div class="col-sm-12 clearfix">
                     <header class="main-box-header clearfix">
                         <div class="filter-body set-filter-margin" id="filter">
                                 <div class="filter-block" style="margin-top: 2px">
                                     <div class="form-group">
-                                        <div class="col-lg-2">
+                                        <div class="col-sm-2">
                                             <label for="category" style="margin-top: 9px;" class="control-label">Inventory Category</label>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-sm-3">
                                             <select id="category" class="form-control" data-bind="options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:$root.stockDialogCatFilter"></select>
                                         </div>
                                     </div>
@@ -42,8 +42,8 @@
                                 <tbody>
                                     <!--ko if: stockItems().length==0-->
                                     <tr>
-                                        <td class="col-lg-6">
-                                            <span>No Item found!</span>
+                                        <td class="col-sm-6">
+                                            <span>No Items found!</span>
                                         </td>
                                         <td></td>
                                     </tr>

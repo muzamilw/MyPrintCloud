@@ -23,7 +23,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Price = source.Price,
                 AddressId = source.AddressId,
                 EstimateId = source.EstimateId,
-                DeliveryNoteRaised = source.DeliveryNoteRaised
+                DeliveryNoteRaised = source.DeliveryNoteRaised,
+                ItemName = source.Item != null ? source.Item.ProductName : string.Empty,
+                AddressName = source.Address != null ? source.Address.AddressName : string.Empty
             };
         }
 

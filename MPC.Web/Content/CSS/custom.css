@@ -17,44 +17,9 @@ body {
     margin-left: 0;
 }
 
-.errorFill {
-    border: 1px solid red !important;
-    background-color: #fdd !important;
-}
-
-/* For Elements That use ValidationTooltip + Css: { 'errorFill': someValue } , css should be css: { 'errorFillWithValidation': someValue }  */
-.errorFillWithValidation {
-    border: 1px solid red !important;
-    background-color: #fdd !important;
-}
-
 .errorMsgText {
     color: red !important;
     cursor: pointer !important;
-}
-
-div#spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 1000000011;
-    border: 2px solid #eeeeee;
-    font-size: 40px;
-    width: 1em;
-    height: 1em;
-    -moz-border-radius: .5em;
-    -webkit-border-radius: .5em;
-    -ms-border-radius: .5em;
-    border-radius: .5em;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    -webkit-animation: spin 1s linear infinite;
-    -moz-animation: spin 1s linear infinite;
-    -o-animation: spin 1s linear infinite;
-    -ms-animation: spin 1s linear infinite;
-    animation: spin 1s linear infinite;
-    border-top-color: #2eaef0;
 }
 
 .trial-description {
@@ -273,21 +238,12 @@ a.reportAnchor a:hover {
 }
 
 
-
-.selectedRow {
-    background: none repeat scroll 0 0 #E5E5ED !important;
-}
-
-a.reportAnchor a:hover {
-    text-decoration: underline;
-}
-
 .height60 {
     height: 60px;
 }
 
 .btn-yellow {
-    background-color: #FFAA00;
+    background-color: #ffdd0c;
     border-color: #FFD400;
     color: #FFFFFF;
 }
@@ -337,4 +293,21 @@ a.reportAnchor a:hover {
 .box-shadow-all {
     box-shadow: 0 0 5px #CCCCCC !important;
 }
+.jobdescription{
+    width:75%;float:left;height:34px
+}
 .marginR5 {margin-right: 5px!important ;}
+.marginR10{margin-right: 10px!important ;}
+.marginT5 {margin-top:5px!important;}
+.marginT10{margin-top:10px!important;}
+.marginB5 {margin-bottom: 5px;}
+.marginB10 {margin-bottom: 10px;}
+.marginL5 {margin-left: 5px;}
+.marginL10 {margin-left: 10px;}
+.margin10 {margin: 10px;}
+
+.addressbox{
+    border: 1px solid rgb(238, 238, 238)!important;
+    padding: 35px!important;
+    margin-bottom: 24px!important;
+}

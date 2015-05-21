@@ -15,9 +15,12 @@
                         </ul>
                     </div>
                 </div>
-                <div data-bind="with: selectedInquiry" style="text-align: right; padding-right: 16px">
+                <div data-bind="with: selectedInquiry" style="text-align: right; padding-right: 16px; margin-right: 9px;">
                     <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
-                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
+                    <!-- ko if: $root.selectedInquiry().inquiryId() > 0-->
+                    <button class="btn btn-success" id="progressToEstBtn" data-bind="click: $root.onProgressToEstimate, enable: status() == 25 && inquiryId() > 0">Progress To Estimate</button>
+                    <!--/ko-->
+                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveInquiry, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
                 </div>
             </div>
@@ -57,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="row" id="user-profile">
+    <div class="row" id="user-profile" style="margin-left: 9px; margin-right: 9px;">
         <div class="col-lg-12 col-md-8 col-sm-8">
             <div class="main-box clearfix my-tabsHeader">
                 <div class="tabs-wrapper profile-tabs">
@@ -75,7 +78,8 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" style="height: 60px;" data-bind="value: companyName" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
+                                                    <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedInquiry().inquiryId() ? $root.openCompanyDialog : undefined" readonly="" placeholder="Select Customer" class="form-control font24px" id="txtCompany">
+                                                    @*<input type="text" style="height: 60px;" data-bind="value: companyName, validationTooltip: companyId" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />*@
 
                                                 </div>
                                             </div>
@@ -88,53 +92,45 @@
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
                                             </div>
-                                            <div class="col-lg-6" > @*data-bind="if: $root.isCompanyBaseDataLoaded"*@
+                                            <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
                                                 <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                            </div>
-                                            @*<div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                            <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
-                                            <span class="help-block text-right"></span>
-                                            </div>
                                             <div class="col-lg-1" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                            <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
-                                                <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
-                                            </a>
-                                        </div>*@
-                                        </div>
-                                       
-                                        <div class="form-group" style="margin-top: -20px;">
-                                            <div class="col-lg-4 text-right">
-                                                <label class="control-label tooltip-float">&nbsp;</label>
+                                                <a class="btn btn-primary pull-right" id="contactDetailpull" onclick="showContactDetail()">
+                                                    <i id="contactDetailpullicon" class="fa fa-chevron-circle-right drop-icon"></i>
+                                                </a>
                                             </div>
-                                            <div class="col-lg-6" data-bind="with: $root.selectedCompanyContact">
-                                                <div>
-                                                    <label id="email" data-bind="text: email" class="form-control" style="border:none"></label>
+                                        </div>
+                                        <div id="popoverContactDetail" style="display:none;">
+                                            <!-- ko if: $root.selectedCompanyContactOfInquiry() != undefined -->
+                                            <div class="form-group" style="margin-top: -20px;">
+                                                <div class="col-lg-4 text-right">
+                                                    <label class="control-label tooltip-float">&nbsp;</label>
+                                                </div>
+                                                <div class="col-lg-6" data-bind="with: $root.selectedCompanyContactOfInquiry">
+                                                    <div>
+                                                        <label id="email" data-bind="text: email" class="form-control" style="border:none"></label>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <!--/ko-->
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                               
+
+                                        <div class="form-group" style="margin-top: -9px;">
+                                            <div class="col-lg-4 text-right" style="padding-top:10px;">
                                             </div>
                                             <div class="col-lg-6">
-                                                <div>
-                                                    @*<input type="text" style="height: 60px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />*@
-                                                </div>
+                                                <input type="text" style="height: 60px;" data-bind="value: title" class="form-control font24px" id="code" placeholder="Enter Inquiry Title" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right" style="padding-top:10px;">
-                                                @*<label class="control-label" id="orderType">Inquiry Title</label>*@  @*data-bind="text: isDirectSaleUi"*@
-                                            </div> 
+                                            </div>
                                             <div class="col-lg-6">
-                                                <input type="text" style="height: 60px;" data-bind="value: title"  class="form-control font24px" id="code" placeholder="Enter Inquiry Title"/>
+                                                <input type="text" style="height: 60px;" data-bind="value: inquiryCode" class="form-control font24px" id="code" readonly="readonly" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -142,7 +138,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: flagId"></select>
+                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: flagId, validationToolTip: flagId"></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -150,22 +146,20 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="orderDate" data-bind="datepicker: requireByDate">
+                                                <input type="text" style="height: 60px;" class="form-control font24px" data-bind="datepicker: requireByDate">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-7 text-right">
-                                                <div class="col-lg-7">
-                                                </div>
-                                                <div class="col-lg-5 text-left">
-                                                    <label class="control-label" style="border:none" id="code" data-bind="text: title"></label>
-                                                </div>
+                                        <div class="">
+                                            <div class="col-lg-4 text-right">
+                                                Status:
                                             </div>
-                                            <div class="col-lg-5">
-                                                <div class="col-lg-8 text-left">
-                                                    <div>
-                                                    </div>
-                                                </div>
+                                            <div class="col-lg-6">
+                                                <!--ko if: status() == 25 -->
+                                                UnProcessed Inquiry
+                                                <!--/ko-->
+                                                <!--ko if: status() == 26 -->
+                                                Progressed To Estimate - <br/> <a href="#" data-bind="click: $root.viewEstimateFromInquiry" >View Estimate</a>
+                                                <!--/ko-->
                                             </div>
                                         </div>
                                     </div>
@@ -200,20 +194,20 @@
                                                             <table class="table table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="col-lg-8"><span></span></th>
-                                                                        <th class="col-lg-2"><span>Qty</span></th>
-                                                                        <th class="col-lg-2 text-right"><span>Price inc. Tax</span></th>
+                                                                        <th class="col-lg-6"><span>Title</span></th>
+                                                                        <th class="col-lg-4"><span></span>Delivery Date</th>
+                                                                        <th class="col-lg-2 text-right"><span></span></th>
                                                                     </tr>
                                                                 </thead>
-                                                                @*<tbody>
-                                                                    <!-- ko template: { name: 'itemTemplate', foreach: items } -->
+                                                                <tbody>
+                                                                    <!-- ko template: { name: 'inquiryItemTemplate', foreach: inquiryItems } -->
                                                                     <!-- /ko -->
-                                                                </tbody>*@
+                                                                </tbody>
                                                             </table>
                                                         </div>
                                                     </div>
                                                     <div class="btn-group" style="float: left; margin-top: 10px;">
-                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewProductFromRetailStore">Add New Item</button>
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewInquiryDetailItem">Add New Item</button>
                                                     </div>
 
                                                 </div>
@@ -221,27 +215,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 form-horizontal">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <div class="col-lg-2">
-                                                &nbsp;
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <div style="background-color:gainsboro; border-radius:3px">
-                                                    <div class="col-lg-12 form-group">
-                                                        <div class="col-lg-11 text-right" >
-                                                            <label class="control-label text-right tooltip-float">Gross Total:</label>
-                                                        </div>
-                                                        <div class="col-lg-1">
-                                                            <span data-bind="text: $root.currencySymbol() + $root.grossTotal()" style="font-weight: bold; font-size:20px;"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -264,7 +238,7 @@
                                         </div>
                                         <div class="main-box-body">
                                             <div id="gallery-photos-lightbox">
-                                                <ul class="clearfix gallery-photos">
+                                                <ul class="clearfix gallery-photos col-lg-12">
                                                     <!-- ko template: { name: 'inquiryAttachmentsTemplate' , foreach: inquiryAttachments  } -->
                                                     <!-- /ko -->
                                                 </ul>
@@ -289,8 +263,8 @@
                                                     Source
                                                 </label>
                                             </div>
-                                            <div class="col-lg-3">
-                                                <select class="form-control" data-bind="options: $root.pipelineSources, optionsText: 'name', optionsId: 'id', optionsCaption: 'Select Source', value: sourceId"></select>
+                                            <div class="col-lg-3" data-bind="if: $root.pipelineSources ">
+                                                <select class="form-control" data-bind="options: $root.pipelineSources, optionsText: 'name', optionsId: 'id',optionsValue: 'id', optionsCaption: 'Select Source', value: sourceId"></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -300,23 +274,23 @@
                                                 </label>
                                             </div>
                                             <div class="col-lg-3">
-                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsCaption: 'Select a system user', value: systemUserId"></select>
+                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsValue: 'id', optionsCaption: 'Select a system user', value: systemUserId"></select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                @* Item Template *@
-                                <script id="itemTemplate" type="text/html">
-                                    <tr data-bind=" click:  $root.editItem" style="cursor: pointer">
+                                @* Inquiry Item Template *@
+                                <script id="inquiryItemTemplate" type="text/html">
+                                    <tr data-bind=" click:  $root.editInquiryItem" style="cursor: pointer">
                                         <td>
-                                            <a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>
+                                            <a href="#" data-bind="text: title, click: $root.editInquiryItem"><span></span></a>
                                         </td>
                                         <td>
-                                            <span style="font-size:20px;" data-bind="text: qty1"></span>
+                                            <span style="font-size:20px;" data-bind="dateString: deliveryDate, datePattern: 'DD/MM/YYYY' "></span>
                                         </td>
                                         <td style=" text-align: right;">
-                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
-                                            <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
+                                            <span style="font-size:20px;"></span>
+                                            <span style="font-size:20px;"></span>
                                         </td>
                                     </tr>
                                 </script>
@@ -331,7 +305,7 @@
                                         </td>
                                     </tr>
                                 </script>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -339,22 +313,38 @@
             </div>
         </div>
     </div>
+    @Html.Partial("~/Areas/Orders/Views/Home/_InquiryDetailItem.cshtml")
 </div>
 
 <script id="inquiryAttachmentsTemplate" type="text/html">
     <li class="col-md-2 col-sm-3 col-xs-6">
-            <div class="photo-box image-link" style="padding-top: 0; ">
-                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()===undefined" alt="" />   @*,attr: { src: '@Url.Content("~/")' + folderPath() }*@
-                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()!==undefined,attr: { src: attachmentPath }" />
-            </div>
-            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
-        </li>
+        <div class="photo-box image-link" style="padding-top: 0; ">
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()===undefined" alt="" />   @*,attr: { src: '@Url.Content("~/")' + folderPath() }*@
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()!==undefined,attr: { src: attachmentPath }" />
+        </div>
+        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
+    </li>
 </script>
 
-@Html.Partial("~/Areas/Orders/Views/Home/_AddEditPrePayment.cshtml")
-@Html.Partial("~/Areas/Orders/Views/Shared/_OrderCostCenterQuantity.cshtml")
-@Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
-<!-- ko stopBinding: true -->
-@Html.Partial("~/Areas/Common/Views/Shared/_ItemDetail.cshtml")
-<!--/ko-->
+<script type="text/javascript">
+
+    function showContactDetail() {
+        var e = document.getElementById("popoverContactDetail");
+        var p = document.getElementById("contactDetailpullicon");
+
+        if (e.style.display == "none") {
+            p.className = "fa fa-chevron-circle-down drop-icon";
+            e.style.display = "block";
+        }
+        else if (e.style.display == "block") {
+            p.className = "fa fa-chevron-circle-right drop-icon";
+            e.style.display = "none";
+
+        }
+    }
+
+
+
+</script>
+
 

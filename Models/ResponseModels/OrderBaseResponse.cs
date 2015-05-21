@@ -25,6 +25,11 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<PipeLineSource> PipeLineSources { get; set; }
 
         /// <summary>
+        /// Pipeline Product
+        /// </summary>
+        public IEnumerable<PipeLineProduct> PipeLineProducts { get; set; }
+
+        /// <summary>
         /// Payment Methoda
         /// </summary>
         public IEnumerable<PaymentMethod> PaymentMethods { get; set; }

@@ -676,6 +676,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Reportparam> Reportparams { get; set; }
 
         /// <summary>
+        /// Machine Lookup Method DbSet
+        /// </summary>
+        public DbSet<MachineLookupMethod> MachineLookupMethods { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming
