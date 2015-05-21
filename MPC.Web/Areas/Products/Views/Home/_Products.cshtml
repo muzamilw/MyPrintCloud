@@ -78,6 +78,7 @@
             </div>
         </div>
     </div>
+    <!-- ko stopBinding: true -->
     <div id="pagerDivForProducts" class="pull-right">
        
         <!-- ko with: pager -->
@@ -85,6 +86,7 @@
         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
         <!-- /ko -->
     </div>
+    <!-- /ko -->
     @*<div class="pull-right">
         <div class="pull-right spanfilterlbl" data-bind="">
             <a class=" pagerLeftIcon " data-bind="click: pager().previousPage">

@@ -54,7 +54,6 @@
                         <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                     </a>
                 </div>
-
             </div>
             <div id="popoveraddress" style="display:none;">
                 <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().address1!=='' && $root.selectedAddress().address1!== undefined-->
@@ -315,7 +314,7 @@
 
     @* Item Template *@
     <script id="itemTemplate" type="text/html">
-        <tr data-bind=" click:  $root.editItem, css: { errorFillRow: !isValid() }" style="cursor: pointer">
+        <tr data-bind="click:  $root.editItem, css: { errorFillRow: !isValid() }" style="cursor: pointer">
             <td>
                 <a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>
             </td>

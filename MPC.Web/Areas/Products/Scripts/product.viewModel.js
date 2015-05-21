@@ -637,12 +637,15 @@ define("product/product.viewModel",
 
                         var productDetailBinding = $("#productDetailBinding")[0];
                         var productBinding = $("#productBinding")[0];
+                        var productPagerBinding = $("#pagerDivForProducts")[0];
                         setTimeout(function () {
                             if (!isProductSectionInitialized) {
                                 ko.cleanNode(productBinding);
                                 ko.cleanNode(productDetailBinding);
+                                ko.cleanNode(productPagerBinding);
                                 ko.applyBindings(view.viewModel, productBinding);
                                 ko.applyBindings(view.viewModel, productDetailBinding);
+                                ko.applyBindings(view.viewModel, productPagerBinding);
                                 isProductSectionInitialized = true;
                             }
                         }, 1000);

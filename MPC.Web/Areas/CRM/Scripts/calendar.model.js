@@ -137,23 +137,26 @@
         return new CompanyContact(source.ContactId, source.Name, source.CompanyName);
     };
 
-    ActivityList = function (specifiedActivityId, specifiedActivityNotes, specifiedActivityStartTime, specifiedActivityEndTime) {
+    ActivityList = function (specifiedActivityId, specifiedActivityNotes, specifiedActivityStartTime, specifiedActivityEndTime, specifiedactionby) {
         var self,
             id = ko.observable(specifiedActivityId),
+            
             activityNotes = ko.observable(specifiedActivityNotes),
             startDateTime = ko.observable(specifiedActivityStartTime !== undefined ? moment(specifiedActivityStartTime).format(ist.dateTimePattern) : undefined),
             endDateTime = ko.observable(specifiedActivityEndTime !== undefined ? moment(specifiedActivityEndTime).format(ist.dateTimePattern) : undefined);
+        actionby = ko.observable(specifiedactionby);
         self = {
             id: id,
             activityNotes: activityNotes,
             startDateTime: startDateTime,
             endDateTime: endDateTime,
+            actionby: actionby
         };
         return self;
     };
     // Activity List Item For Client Factory
     ActivityList.Create = function (source) {
-        return new ActivityList(source.ActivityId, source.ActivityRef, source.ActivityStartTime, source.ActivityEndTime);
+        return new ActivityList(source.ActivityId, source.ActivityRef, source.ActivityStartTime, source.ActivityEndTime, source.SystemUserId);
     };
     return {
         Activity: Activity,

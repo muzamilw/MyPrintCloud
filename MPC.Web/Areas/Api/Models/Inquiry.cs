@@ -11,7 +11,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string Title { get; set; }
         public long ContactId { get; set; }
         public System.DateTime? CreatedDate { get; set; }
-        public Guid? SourceId { get; set; }
+        public int? SourceId { get; set; }
         public long? CompanyId { get; set; }
         public string CompanyName { get; set; }
         public DateTime? RequireByDate { get; set; }
@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string InquiryCode { get; set; }
         public Guid? CreatedBy { get; set; }
         public long? OrganisationId { get; set; }
+        public long? EstimateId { get; set; }
         public virtual Company Company { get; set; }
         public virtual CompanyContact CompanyContact { get; set; }
         public virtual IEnumerable<InquiryAttachment> InquiryAttachments { get; set; }
