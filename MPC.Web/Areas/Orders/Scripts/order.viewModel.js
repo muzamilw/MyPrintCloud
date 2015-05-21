@@ -5,7 +5,7 @@ define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
         "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model"],
 // ReSharper disable InconsistentNaming
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel) {
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel, floatingSec) {
         // ReSharper restore InconsistentNaming
         var ist = window.ist || {};
         ist.order = {
@@ -1977,6 +1977,7 @@ define("order/order.viewModel",
                             attachment.attachmentId(undefined);
                             attachment.attachmentPath(data);
                             attachment.orignalFileName(file.name);
+                            attachment.extension(file.type);
                             attachment.inquiryId(selectedInquiry().inquiryId());
                             selectedInquiry().inquiryAttachments.push(attachment);
                         }
@@ -2016,9 +2017,26 @@ define("order/order.viewModel",
                             return;
                         }
                         var inquiry = selectedInquiry().convertToServerData();
-                        _.each(selectedInquiry().inquiryAttachments(), function(item) {
-                            inquiry.inquiryAttachments.push(item.convertToServerData());
+
+                        var itemsArray = [];
+                        _.each(selectedInquiry().inquiryAttachments(), function (obj) {
+                            var item = obj.convertToServerData(); // item converted 
+                            var attArray = [];
+                            _.each(item.InquiryAttachments, function (att) {
+                                var attachment = att.convertToServerData(); // item converted 
+                                //attchment.ContactId = selectedOrder().contactId();
+                                attArray.push(attachment);
+                            });
+                            item.InquiryAttachments = attArray;
+                            itemsArray.push(item);
+
                         });
+
+                        inquiry.InquiryAttachments = itemsArray;
+
+                        //_.each(selectedInquiry().inquiryAttachments(), function(item) {
+                        //    inquiry.inquiryAttachments.push(item.convertToServerData());
+                        //});
                         _.each(selectedInquiry().inquiryItems(), function(item) {
                             inquiry.InquiryItems.push(item.convertToServerData());
                         });
@@ -2129,6 +2147,9 @@ define("order/order.viewModel",
                         getOrderById(id, openOrderEditor);
                         $('#estimateListTabs a[href="#tab-All"]').tab('show');
                         getOrdersOnTabChange(0);
+                    },
+                    showEstimateNotes = function() {
+                        toastr.success('wow');
                     },
                     //#endregion
                     //#region INITIALIZE
@@ -2322,6 +2343,7 @@ define("order/order.viewModel",
                     inquiries: inquiries,
                     onProgressToEstimate: onProgressToEstimate,
                     viewEstimateFromInquiry: viewEstimateFromInquiry,
+                    showEstimateNotes: showEstimateNotes,
                     //#endregion
                     //#region Utility Functions
                     onCreateNewBlankPrintProduct: onCreateNewBlankPrintProduct,
