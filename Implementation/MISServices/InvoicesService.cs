@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -320,24 +316,7 @@ namespace MPC.Implementation.MISServices
         private Invoice UpdateInvoice(Invoice invoice)
         {
             Invoice oInvoice = invoiceRepository.Find(invoice.InvoiceId);
-            oInvoice.CompanyId = invoice.CompanyId;
-            oInvoice.ContactId = invoice.ContactId;
-            oInvoice.AddressId = invoice.AddressId;
-            oInvoice.InvoiceCode = invoice.InvoiceCode;
-            oInvoice.InvoiceName = invoice.InvoiceName;
-            oInvoice.IsArchive = invoice.IsArchive;
-            oInvoice.InvoiceDate = invoice.InvoiceDate;
-            oInvoice.InvoiceStatus = invoice.InvoiceStatus;
-            oInvoice.InvoiceTotal = invoice.InvoiceTotal;
-            oInvoice.FlagID = invoice.FlagID;
-            oInvoice.InvoiceType = invoice.InvoiceType;
-            oInvoice.GrandTotal = invoice.GrandTotal;
-            oInvoice.OrderNo = invoice.OrderNo;
-            oInvoice.AccountNumber = invoice.AccountNumber;
-            oInvoice.ReportSignedBy = invoice.ReportSignedBy;
-            oInvoice.InvoicePostedBy = invoice.InvoicePostedBy;
-            oInvoice.HeadNotes = invoice.HeadNotes;
-            oInvoice.FootNotes = invoice.FootNotes;
+            UpdateInvoice(invoice, oInvoice);
 
             // Update Invoice
             invoice.UpdateTo(oInvoice, new InvoiceMapperActions
@@ -381,6 +360,29 @@ namespace MPC.Implementation.MISServices
             // Save Changes
             invoiceRepository.SaveChanges();
             return invoice;
+        }
+
+
+        private void UpdateInvoice(Invoice source, Invoice target)
+        {
+            target.CompanyId = source.CompanyId;
+            target.ContactId = source.ContactId;
+            target.AddressId = source.AddressId;
+            target.InvoiceCode = source.InvoiceCode;
+            target.InvoiceName = source.InvoiceName;
+            target.IsArchive = source.IsArchive;
+            target.InvoiceDate = source.InvoiceDate;
+            target.InvoiceStatus = source.InvoiceStatus;
+            target.InvoiceTotal = source.InvoiceTotal;
+            target.FlagID = source.FlagID;
+            target.InvoiceType = source.InvoiceType;
+            target.GrandTotal = source.GrandTotal;
+            target.OrderNo = source.OrderNo;
+            target.AccountNumber = source.AccountNumber;
+            target.ReportSignedBy = source.ReportSignedBy;
+            target.InvoicePostedBy = source.InvoicePostedBy;
+            target.HeadNotes = source.HeadNotes;
+            target.FootNotes = source.FootNotes;
         }
         #endregion
     }
