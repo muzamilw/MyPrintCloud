@@ -396,9 +396,9 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds)
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId)
         {
-             return _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode, Org, ManagerIds);
+            return _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode, Org, ManagerIds, StoreId);
         }
         public double UpdateORderGrandTotal(long OrderID)
         {

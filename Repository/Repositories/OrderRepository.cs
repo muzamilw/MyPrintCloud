@@ -967,7 +967,7 @@ namespace MPC.Repository.Repositories
             {
                 DateTime StartDate = AddBusinessdays(1, DateTime.Now);
                 tblOrder.StartDeliveryDate = StartDate;
-                tblOrder.FinishDeliveryDate = AddBusinessdays(2, StartDate);
+                tblOrder.FinishDeliveryDate = StartDate;//AddBusinessdays(2, StartDate);
             }
 
 
@@ -1905,16 +1905,29 @@ namespace MPC.Repository.Repositories
         /// <param name="orderStatus"></param>
         /// <param name="currentStoreMode"></param>
         /// <returns></returns>
-        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds)
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId)
         {
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
             tblOrder.StatusId = (short)orderStatus;
             tblOrder.Order_Date = DateTime.Now;
+            tblOrder.ArtworkByDate = DateTime.Now.AddDays(2);
+            tblOrder.DataByDate = DateTime.Now.AddDays(2);
+            tblOrder.PaperByDate = DateTime.Now.AddDays(2);
+            tblOrder.TargetPrintDate = DateTime.Now.AddDays(2);
+            tblOrder.TargetBindDate = DateTime.Now.AddDays(2);
             if (ManagerIds != null && ManagerIds.Count > 0) 
             {
                 tblOrder.SalesPersonId = ManagerIds[0];
+                tblOrder.OfficialOrderSetBy = ManagerIds[0];
+                tblOrder.CreditLimitSetBy = ManagerIds[0];
             }
+            Company oCompany = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
+            if(oCompany != null)
+            {
+                tblOrder.OrderManagerId = oCompany.AccountManagerId;
+            }
+           
             UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode, Org, ManagerIds);
            // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
 

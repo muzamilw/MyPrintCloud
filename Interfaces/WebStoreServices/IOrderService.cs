@@ -72,7 +72,7 @@ namespace MPC.Interfaces.WebStoreServices
         bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
 
 
-        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds);
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId);
         Estimate GetLastOrderByContactId(long ContactId);
 
 
