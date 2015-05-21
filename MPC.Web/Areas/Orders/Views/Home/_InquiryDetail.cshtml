@@ -15,8 +15,11 @@
                         </ul>
                     </div>
                 </div>
-                <div data-bind="with: selectedInquiry" style="text-align: right; padding-right: 16px">
+                <div data-bind="with: selectedInquiry" style="text-align: right; padding-right: 16px; margin-right: 9px;">
                     <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
+                    <!-- ko if: $root.selectedInquiry().inquiryId() > 0-->
+                    <button class="btn btn-success" id="progressToEstBtn" data-bind="click: $root.onProgressToEstimate, enable: status() == 25 && inquiryId() > 0">Progress To Estimate</button>
+                    <!--/ko-->
                     <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveInquiry, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
                 </div>
@@ -57,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="row" id="user-profile">
+    <div class="row" id="user-profile" style="margin-left: 9px; margin-right: 9px;">
         <div class="col-lg-12 col-md-8 col-sm-8">
             <div class="main-box clearfix my-tabsHeader">
                 <div class="tabs-wrapper profile-tabs">
@@ -113,7 +116,7 @@
                                             </div>
                                             <!--/ko-->
                                         </div>
-                                            
+
                                         <div class="form-group" style="margin-top: -9px;">
                                             <div class="col-lg-4 text-right" style="padding-top:10px;">
                                             </div>
@@ -121,13 +124,13 @@
                                                 <input type="text" style="height: 60px;" data-bind="value: title" class="form-control font24px" id="code" placeholder="Enter Inquiry Title" />
                                             </div>
                                         </div>
-                                        </div>
+                                    </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right" style="padding-top:10px;">
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" style="height: 60px;" data-bind="value: inquiryCode" class="form-control font24px" id="code"  readonly="readonly"/>
+                                                <input type="text" style="height: 60px;" data-bind="value: inquiryCode" class="form-control font24px" id="code" readonly="readonly" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -135,7 +138,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: flagId"></select>
+                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: flagId, validationToolTip: flagId"></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -144,6 +147,19 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" style="height: 60px;" class="form-control font24px" data-bind="datepicker: requireByDate">
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="col-lg-4 text-right">
+                                                Status:
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <!--ko if: status() == 25 -->
+                                                UnProcessed Inquiry
+                                                <!--/ko-->
+                                                <!--ko if: status() == 26 -->
+                                                Progressed To Estimate - <br/> <a href="#" data-bind="click: $root.viewEstimateFromInquiry" >View Estimate</a>
+                                                <!--/ko-->
                                             </div>
                                         </div>
                                     </div>
@@ -248,7 +264,7 @@
                                                 </label>
                                             </div>
                                             <div class="col-lg-3" data-bind="if: $root.pipelineSources ">
-                                                <select class="form-control" data-bind="options: $root.pipelineSources, optionsText: 'name', optionsId: 'id',optionsValue: 'id', optionsCaption: 'Select Source', value: sourceId"></select> 
+                                                <select class="form-control" data-bind="options: $root.pipelineSources, optionsText: 'name', optionsId: 'id',optionsValue: 'id', optionsCaption: 'Select Source', value: sourceId"></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -302,12 +318,12 @@
 
 <script id="inquiryAttachmentsTemplate" type="text/html">
     <li class="col-md-2 col-sm-3 col-xs-6">
-            <div class="photo-box image-link" style="padding-top: 0; ">
-                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()===undefined" alt="" />   @*,attr: { src: '@Url.Content("~/")' + folderPath() }*@
-                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()!==undefined,attr: { src: attachmentPath }" />
-            </div>
-            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
-        </li>
+        <div class="photo-box image-link" style="padding-top: 0; ">
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()===undefined" alt="" />   @*,attr: { src: '@Url.Content("~/")' + folderPath() }*@
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()!==undefined,attr: { src: attachmentPath }" />
+        </div>
+        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
+    </li>
 </script>
 
 <script type="text/javascript">

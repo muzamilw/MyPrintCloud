@@ -22,5 +22,7 @@ namespace MPC.Models.ResponseModels
         //public virtual IEnumerable<MachineResource> MachineResources { get; set; }
         public IEnumerable<MachineSpoilage> MachineSpoilageItems { get; set; }
         public IEnumerable<InkCoverageGroup> InkCoveragItems { get; set; }
+
+        public IEnumerable<MachineLookupMethod> MachineLookupMethods { get; set; }
     }
 }

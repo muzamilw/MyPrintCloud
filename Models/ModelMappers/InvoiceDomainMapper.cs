@@ -2,17 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MPC.Models.DomainModels;
 
 namespace MPC.Models.ModelMappers
 {
     public static class InvoiceDomainMapper
     {
-     
+
 
         /// <summary>
         ///  Copy from source entity to the target
         /// </summary>
-        public static void UpdateTo(this  DomainModels.Invoice source, DomainModels.Invoice target,
+        public static void UpdateTo(this  Invoice source, Invoice target,
             InvoiceMapperActions actions)
         {
             if (source == null)
@@ -29,6 +30,7 @@ namespace MPC.Models.ModelMappers
             }
 
             UpdateItems(source, target, actions);
+            UpdateInvoiceDetails(source, target, actions);
         }
 
         #region Order Product
@@ -36,39 +38,66 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// True if the Item is new
         /// </summary>
-        private static bool IsNewItem(DomainModels.Item sourceItem)
+        private static bool IsNewItem(Item sourceItem)
         {
             return sourceItem.ItemId <= 0;
         }
 
         /// <summary>
+        /// True if the Item is new
+        /// </summary>
+        private static bool IsNewItem(InvoiceDetail sourceItem)
+        {
+            return sourceItem.InvoiceDetailId <= 0;
+        }
+
+        /// <summary>
         /// Initialize target Items
         /// </summary>
-        private static void InitializeItems(DomainModels.Invoice item)
+        private static void InitializeItems(Invoice item)
         {
             if (item.Items == null)
             {
-                item.Items = new List<DomainModels.Item>();
+                item.Items = new List<Item>();
             }
         }
 
         /// <summary>
+        /// Initialize target Details
+        /// </summary>
+        private static void InitializeInvoiceDetials(Invoice item)
+        {
+            if (item.InvoiceDetails == null)
+            {
+                item.InvoiceDetails = new List<InvoiceDetail>();
+            }
+        }
+        /// <summary>
         /// Update or add Items
         /// </summary>
-        private static void UpdateOrAddItems(DomainModels.Invoice source, DomainModels.Invoice target, InvoiceMapperActions actions)
+        private static void UpdateOrAddItems(Invoice source, Invoice target, InvoiceMapperActions actions)
         {
-            foreach (DomainModels.Item sourceLine in source.Items.ToList())
+            foreach (Item sourceLine in source.Items.ToList())
             {
                 UpdateOrAddItem(sourceLine, target, actions);
             }
         }
-
+        /// <summary>
+        /// Update or add invoice Detail Items
+        /// </summary>
+        private static void UpdateOrAddInvoiceDetails(Invoice source, Invoice target, InvoiceMapperActions actions)
+        {
+            foreach (InvoiceDetail sourceLine in source.InvoiceDetails.ToList())
+            {
+                UpdateOrAddInvoiceDetail(sourceLine, target, actions);
+            }
+        }
         /// <summary>
         /// Update target Items 
         /// </summary>
-        private static void UpdateOrAddItem(DomainModels.Item sourceItem, DomainModels.Invoice target, InvoiceMapperActions actions)
+        private static void UpdateOrAddItem(Item sourceItem, Invoice target, InvoiceMapperActions actions)
         {
-            DomainModels.Item targetLine;
+            Item targetLine;
             if (IsNewItem(sourceItem))
             {
                 targetLine = actions.CreateItem();
@@ -86,11 +115,44 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// Update target Items 
+        /// </summary>
+        private static void UpdateOrAddInvoiceDetail(InvoiceDetail sourceItem, Invoice target, InvoiceMapperActions actions)
+        {
+            InvoiceDetail targetLine;
+            if (IsNewItem(sourceItem))
+            {
+                targetLine = actions.CreateInvoiceDetail();
+                target.InvoiceDetails.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.InvoiceDetails.FirstOrDefault(item => item.ItemId == sourceItem.ItemId);
+            }
+
+            sourceItem.UpdateTo(targetLine, actions);
+        }
+
+
+        public static void UpdateTo(this InvoiceDetail source, InvoiceDetail target, InvoiceMapperActions actions)
+        {
+            target.InvoiceTitle = source.InvoiceTitle;
+            target.ItemCharge = source.ItemCharge;
+            target.FlagId = source.FlagId;
+            target.Quantity = source.Quantity;
+            target.ItemTaxValue = source.ItemTaxValue;
+            target.Description = source.Description;
+            target.TaxValue = source.TaxValue;
+            target.ItemGrossTotal = source.ItemGrossTotal;
+        }
+
+
+        /// <summary>
         /// Delete sections no longer needed
         /// </summary>
-        private static void DeleteItems(DomainModels.Invoice source, DomainModels.Invoice target, InvoiceMapperActions actions)
+        private static void DeleteItems(Invoice source, Invoice target, InvoiceMapperActions actions)
         {
-            List<DomainModels.Item> linesToBeRemoved = target.Items.Where(
+            List<Item> linesToBeRemoved = target.Items.Where(
                 vdp => !IsNewItem(vdp) && source.Items.All(sourceVdp => sourceVdp.ItemId != vdp.ItemId))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
@@ -103,7 +165,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Item Sections
         /// </summary>
-        private static void UpdateItems(DomainModels.Invoice source, DomainModels.Invoice target, InvoiceMapperActions actions)
+        private static void UpdateItems(Invoice source, Invoice target, InvoiceMapperActions actions)
         {
             InitializeItems(source);
             InitializeItems(target);
@@ -115,9 +177,21 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// Update Invoice Details Items
+        /// </summary>
+        private static void UpdateInvoiceDetails(Invoice source, Invoice target, InvoiceMapperActions actions)
+        {
+            InitializeInvoiceDetials(source);
+            InitializeInvoiceDetials(target);
+
+            UpdateOrAddInvoiceDetails(source, target, actions);
+        }
+
+
+        /// <summary>
         /// Update Item 
         /// </summary>
-        private static void UpdateToForOrder(this DomainModels.Item source, DomainModels.Item target, InvoiceMapperActions actions, bool assignJobCodes)
+        private static void UpdateToForOrder(this Item source, Item target, InvoiceMapperActions actions, bool assignJobCodes)
         {
             // Update Header
             UpdateHeader(source, target, assignJobCodes, actions);
@@ -129,6 +203,7 @@ namespace MPC.Models.ModelMappers
             UpdateItemAttachments(source, target, actions);
         }
 
+
         #endregion Order Product
 
         #region Product
@@ -138,7 +213,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// True if the ItemSection is new
         /// </summary>
-        private static bool IsNewItemSection(DomainModels.ItemSection sourceItemSection)
+        private static bool IsNewItemSection(ItemSection sourceItemSection)
         {
             return sourceItemSection.ItemSectionId <= 0;
         }
@@ -146,20 +221,20 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Initialize target ItemSections
         /// </summary>
-        private static void InitializeItemSections(DomainModels.Item item)
+        private static void InitializeItemSections(Item item)
         {
             if (item.ItemSections == null)
             {
-                item.ItemSections = new List<DomainModels.ItemSection>();
+                item.ItemSections = new List<ItemSection>();
             }
         }
 
         /// <summary>
         /// Update or add Item Sections
         /// </summary>
-        private static void UpdateOrAddItemSections(DomainModels.Item source, DomainModels.Item target, InvoiceMapperActions actions)
+        private static void UpdateOrAddItemSections(Item source, Item target, InvoiceMapperActions actions)
         {
-            foreach (DomainModels.ItemSection sourceLine in source.ItemSections.ToList())
+            foreach (ItemSection sourceLine in source.ItemSections.ToList())
             {
                 UpdateOrAddItemSection(sourceLine, target, actions);
             }
@@ -168,9 +243,9 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update target Item Sections 
         /// </summary>
-        private static void UpdateOrAddItemSection(DomainModels.ItemSection sourceItemSection, DomainModels.Item target, InvoiceMapperActions actions)
+        private static void UpdateOrAddItemSection(ItemSection sourceItemSection, Item target, InvoiceMapperActions actions)
         {
-            DomainModels.ItemSection targetLine;
+            ItemSection targetLine;
             if (IsNewItemSection(sourceItemSection))
             {
                 targetLine = actions.CreateItemSection();
@@ -195,7 +270,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// True if the Section Cost Centre is new
         /// </summary>
-        private static bool IsNewSectionCostCentre(DomainModels.SectionCostcentre source)
+        private static bool IsNewSectionCostCentre(SectionCostcentre source)
         {
             return source.SectionCostcentreId <= 0;
         }
@@ -203,20 +278,20 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Initialize target Section Cost Centres
         /// </summary>
-        private static void InitializeSectionCostCentres(DomainModels.ItemSection item)
+        private static void InitializeSectionCostCentres(ItemSection item)
         {
             if (item.SectionCostcentres == null)
             {
-                item.SectionCostcentres = new List<DomainModels.SectionCostcentre>();
+                item.SectionCostcentres = new List<SectionCostcentre>();
             }
         }
 
         /// <summary>
         /// Update or add Item Sections
         /// </summary>
-        private static void UpdateOrAddSectionCostCentres(DomainModels.ItemSection source, DomainModels.ItemSection target, InvoiceMapperActions actions)
+        private static void UpdateOrAddSectionCostCentres(ItemSection source, ItemSection target, InvoiceMapperActions actions)
         {
-            foreach (DomainModels.SectionCostcentre sourceLine in source.SectionCostcentres.ToList())
+            foreach (SectionCostcentre sourceLine in source.SectionCostcentres.ToList())
             {
                 UpdateOrAddSectionCostCentre(sourceLine, target, actions);
             }
@@ -225,9 +300,9 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update target Item Sections 
         /// </summary>
-        private static void UpdateOrAddSectionCostCentre(DomainModels.SectionCostcentre sourceSectionCostcentre, DomainModels.ItemSection target, InvoiceMapperActions actions)
+        private static void UpdateOrAddSectionCostCentre(SectionCostcentre sourceSectionCostcentre, ItemSection target, InvoiceMapperActions actions)
         {
-            DomainModels.SectionCostcentre targetLine;
+            SectionCostcentre targetLine;
             if (IsNewSectionCostCentre(sourceSectionCostcentre))
             {
                 targetLine = actions.CreateSectionCostCentre();
@@ -247,9 +322,9 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Delete section cost centres no longer needed
         /// </summary>
-        private static void DeleteSectionCostCentres(DomainModels.ItemSection source, DomainModels.ItemSection target, InvoiceMapperActions actions)
+        private static void DeleteSectionCostCentres(ItemSection source, ItemSection target, InvoiceMapperActions actions)
         {
-            List<DomainModels.SectionCostcentre> linesToBeRemoved = target.SectionCostcentres.Where(
+            List<SectionCostcentre> linesToBeRemoved = target.SectionCostcentres.Where(
                 vdp => !IsNewSectionCostCentre(vdp) && source.SectionCostcentres.All(sourceVdp => sourceVdp.SectionCostcentreId != vdp.SectionCostcentreId))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
@@ -262,7 +337,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Section Cost Centres
         /// </summary>
-        private static void UpdateSectionCostCentres(DomainModels.ItemSection source, DomainModels.ItemSection target, InvoiceMapperActions actions)
+        private static void UpdateSectionCostCentres(ItemSection source, ItemSection target, InvoiceMapperActions actions)
         {
             InitializeSectionCostCentres(source);
             InitializeSectionCostCentres(target);
@@ -280,7 +355,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// True if the Section Cost Centre is new
         /// </summary>
-        private static bool IsNewSectionCostCentreDetail(DomainModels.SectionCostCentreDetail source)
+        private static bool IsNewSectionCostCentreDetail(SectionCostCentreDetail source)
         {
             return source.SectionCostCentreDetailId <= 0;
         }
@@ -288,20 +363,20 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Initialize target Section Cost Centres
         /// </summary>
-        private static void InitializeSectionCostCentreDetails(DomainModels.SectionCostcentre item)
+        private static void InitializeSectionCostCentreDetails(SectionCostcentre item)
         {
             if (item.SectionCostCentreDetails == null)
             {
-                item.SectionCostCentreDetails = new List<DomainModels.SectionCostCentreDetail>();
+                item.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
             }
         }
 
         /// <summary>
         /// Update or add Item Sections
         /// </summary>
-        private static void UpdateOrAddSectionCostCentreDetails(DomainModels.SectionCostcentre source, DomainModels.SectionCostcentre target, InvoiceMapperActions actions)
+        private static void UpdateOrAddSectionCostCentreDetails(SectionCostcentre source, SectionCostcentre target, InvoiceMapperActions actions)
         {
-            foreach (DomainModels.SectionCostCentreDetail sourceLine in source.SectionCostCentreDetails.ToList())
+            foreach (SectionCostCentreDetail sourceLine in source.SectionCostCentreDetails.ToList())
             {
                 UpdateOrAddSectionCostCentreDetail(sourceLine, target, actions);
             }
@@ -310,10 +385,10 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update target Item Sections 
         /// </summary>
-        private static void UpdateOrAddSectionCostCentreDetail(DomainModels.SectionCostCentreDetail sourceSectionCostCentreDetail, DomainModels.SectionCostcentre target,
+        private static void UpdateOrAddSectionCostCentreDetail(SectionCostCentreDetail sourceSectionCostCentreDetail, SectionCostcentre target,
            InvoiceMapperActions actions)
         {
-            DomainModels.SectionCostCentreDetail targetLine;
+            SectionCostCentreDetail targetLine;
             if (IsNewSectionCostCentreDetail(sourceSectionCostCentreDetail))
             {
                 targetLine = actions.CreateSectionCostCenterDetail();
@@ -331,9 +406,9 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Delete section cost centres no longer needed
         /// </summary>
-        private static void DeleteSectionCostCentreDetails(DomainModels.SectionCostcentre source, DomainModels.SectionCostcentre target, InvoiceMapperActions actions)
+        private static void DeleteSectionCostCentreDetails(SectionCostcentre source, SectionCostcentre target, InvoiceMapperActions actions)
         {
-            List<DomainModels.SectionCostCentreDetail> linesToBeRemoved = target.SectionCostCentreDetails.Where(
+            List<SectionCostCentreDetail> linesToBeRemoved = target.SectionCostCentreDetails.Where(
                 vdp => !IsNewSectionCostCentreDetail(vdp) && source.SectionCostCentreDetails.All(sourceVdp =>
                     sourceVdp.SectionCostCentreDetailId != vdp.SectionCostCentreDetailId))
                   .ToList();
@@ -347,7 +422,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Section Cost Centres
         /// </summary>
-        private static void UpdateSectionCostCentreDetails(DomainModels.SectionCostcentre source, DomainModels.SectionCostcentre target, InvoiceMapperActions actions)
+        private static void UpdateSectionCostCentreDetails(SectionCostcentre source, SectionCostcentre target, InvoiceMapperActions actions)
         {
             InitializeSectionCostCentreDetails(source);
             InitializeSectionCostCentreDetails(target);
@@ -366,7 +441,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// True if the Section Ink COverage is new
         /// </summary>
-        private static bool IsNewSectionInkCoverage(DomainModels.SectionInkCoverage source)
+        private static bool IsNewSectionInkCoverage(SectionInkCoverage source)
         {
             return source.Id <= 0;
         }
@@ -374,20 +449,20 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Initialize target Section Ink Coverage
         /// </summary>
-        private static void InitializeSectionInkCoverages(DomainModels.ItemSection item)
+        private static void InitializeSectionInkCoverages(ItemSection item)
         {
             if (item.SectionInkCoverages == null)
             {
-                item.SectionInkCoverages = new List<DomainModels.SectionInkCoverage>();
+                item.SectionInkCoverages = new List<SectionInkCoverage>();
             }
         }
 
         /// <summary>
         /// Update or add Item Section Ink Coverages
         /// </summary>
-        private static void UpdateOrAddSectionInkCoverages(DomainModels.ItemSection source, DomainModels.ItemSection target, InvoiceMapperActions actions)
+        private static void UpdateOrAddSectionInkCoverages(ItemSection source, ItemSection target, InvoiceMapperActions actions)
         {
-            foreach (DomainModels.SectionInkCoverage sourceLine in source.SectionInkCoverages.ToList())
+            foreach (SectionInkCoverage sourceLine in source.SectionInkCoverages.ToList())
             {
                 UpdateOrAddSectionInkCoverage(sourceLine, target, actions);
             }
@@ -396,9 +471,9 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update target Item Sections 
         /// </summary>
-        private static void UpdateOrAddSectionInkCoverage(DomainModels.SectionInkCoverage sourceSectionInkCoverage, DomainModels.ItemSection target, InvoiceMapperActions actions)
+        private static void UpdateOrAddSectionInkCoverage(SectionInkCoverage sourceSectionInkCoverage, ItemSection target, InvoiceMapperActions actions)
         {
-            DomainModels.SectionInkCoverage targetLine;
+            SectionInkCoverage targetLine;
             if (IsNewSectionInkCoverage(sourceSectionInkCoverage))
             {
                 targetLine = actions.CreateSectionInkCoverage();
@@ -415,9 +490,9 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Delete section ink coverage no longer needed
         /// </summary>
-        private static void DeleteSectionInkCoverages(DomainModels.ItemSection source, DomainModels.ItemSection target, InvoiceMapperActions actions)
+        private static void DeleteSectionInkCoverages(ItemSection source, ItemSection target, InvoiceMapperActions actions)
         {
-            List<DomainModels.SectionInkCoverage> linesToBeRemoved = target.SectionInkCoverages.Where(
+            List<SectionInkCoverage> linesToBeRemoved = target.SectionInkCoverages.Where(
                 vdp => !IsNewSectionInkCoverage(vdp) && source.SectionInkCoverages.All(sourceVdp => sourceVdp.Id != vdp.Id))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
@@ -430,7 +505,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Section Cost Centres
         /// </summary>
-        private static void UpdateSectionInkCoverages(DomainModels.ItemSection source, DomainModels.ItemSection target, InvoiceMapperActions actions)
+        private static void UpdateSectionInkCoverages(ItemSection source, ItemSection target, InvoiceMapperActions actions)
         {
             InitializeSectionInkCoverages(source);
             InitializeSectionInkCoverages(target);
@@ -447,7 +522,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Item Sections
         /// </summary>
-        private static void UpdateItemSections(DomainModels.Item source, DomainModels.Item target, InvoiceMapperActions actions)
+        private static void UpdateItemSections(Item source, Item target, InvoiceMapperActions actions)
         {
             InitializeItemSections(source);
             InitializeItemSections(target);
@@ -459,9 +534,9 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Delete Sections no longer needed
         /// </summary>
-        private static void DeleteItemSections(DomainModels.Item source, DomainModels.Item target, InvoiceMapperActions actions)
+        private static void DeleteItemSections(Item source, Item target, InvoiceMapperActions actions)
         {
-            List<DomainModels.ItemSection> linesToBeRemoved = target.ItemSections.Where(
+            List<ItemSection> linesToBeRemoved = target.ItemSections.Where(
                 ii => !IsNewItemSection(ii) && source.ItemSections.All(section => section.ItemSectionId != ii.ItemSectionId))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
@@ -478,7 +553,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// True if the ItemAttachment is new
         /// </summary>
-        private static bool IsNewItemAttachment(DomainModels.ItemAttachment sourceItemAttachment)
+        private static bool IsNewItemAttachment(ItemAttachment sourceItemAttachment)
         {
             return sourceItemAttachment.ItemAttachmentId == 0;
         }
@@ -486,20 +561,20 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Initialize target ItemAttachments
         /// </summary>
-        private static void InitializeItemAttachments(DomainModels.Item item)
+        private static void InitializeItemAttachments(Item item)
         {
             if (item.ItemAttachments == null)
             {
-                item.ItemAttachments = new List<DomainModels.ItemAttachment>();
+                item.ItemAttachments = new List<ItemAttachment>();
             }
         }
 
         /// <summary>
         /// Update or add Item Vdp Prices
         /// </summary>
-        private static void UpdateOrAddItemAttachments(DomainModels.Item source, DomainModels.Item target, InvoiceMapperActions actions)
+        private static void UpdateOrAddItemAttachments(Item source, Item target, InvoiceMapperActions actions)
         {
-            foreach (DomainModels.ItemAttachment sourceLine in source.ItemAttachments.ToList())
+            foreach (ItemAttachment sourceLine in source.ItemAttachments.ToList())
             {
                 UpdateOrAddItemAttachment(sourceLine, target, actions);
             }
@@ -508,9 +583,9 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update target Attachments 
         /// </summary>
-        private static void UpdateOrAddItemAttachment(DomainModels.ItemAttachment sourceItemAttachment, DomainModels.Item target, InvoiceMapperActions actions)
+        private static void UpdateOrAddItemAttachment(ItemAttachment sourceItemAttachment, Item target, InvoiceMapperActions actions)
         {
-            DomainModels.ItemAttachment targetLine;
+            ItemAttachment targetLine;
             if (IsNewItemAttachment(sourceItemAttachment))
             {
                 targetLine = actions.CreateItemAttachment();
@@ -526,9 +601,9 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Delete Attachments no longer needed
         /// </summary>
-        private static void DeleteItemAttachments(DomainModels.Item source, DomainModels.Item target, InvoiceMapperActions actions)
+        private static void DeleteItemAttachments(Item source, Item target, InvoiceMapperActions actions)
         {
-            List<DomainModels.ItemAttachment> linesToBeRemoved = target.ItemAttachments.Where(
+            List<ItemAttachment> linesToBeRemoved = target.ItemAttachments.Where(
                 ii => !IsNewItemAttachment(ii) && source.ItemAttachments.All(attachment => attachment.ItemAttachmentId != ii.ItemAttachmentId))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
@@ -541,7 +616,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Attachments
         /// </summary>
-        private static void UpdateItemAttachments(DomainModels.Item source, DomainModels.Item target, InvoiceMapperActions actions)
+        private static void UpdateItemAttachments(Item source, Item target, InvoiceMapperActions actions)
         {
             InitializeItemAttachments(source);
             InitializeItemAttachments(target);
@@ -557,7 +632,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update the header
         /// </summary>
-        private static void UpdateHeader(DomainModels.Item source, DomainModels.Item target, bool assignJobCodes, InvoiceMapperActions actions)
+        private static void UpdateHeader(Item source, Item target, bool assignJobCodes, InvoiceMapperActions actions)
         {
             target.ProductCode = source.ProductCode;
             target.ProductName = source.ProductName;
@@ -580,7 +655,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Updates Charges
         /// </summary>
-        private static void UpdateCharges(DomainModels.Item source, DomainModels.Item target)
+        private static void UpdateCharges(Item source, Item target)
         {
             target.Qty1 = source.Qty1;
             target.Qty2 = source.Qty2;
@@ -603,7 +678,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Job Description
         /// </summary>
-        private static void UpdateJobDescription(DomainModels.Item source, DomainModels.Item target, bool assignJobCodes, InvoiceMapperActions actions)
+        private static void UpdateJobDescription(Item source, Item target, bool assignJobCodes, InvoiceMapperActions actions)
         {
             target.JobDescriptionTitle1 = source.JobDescriptionTitle1;
             target.JobDescription1 = source.JobDescription1;
@@ -640,7 +715,7 @@ namespace MPC.Models.ModelMappers
             }
 
             // Get Next Job Code
-           // target.JobCode = actions.GetNextJobCode();
+            // target.JobCode = actions.GetNextJobCode();
         }
 
         #endregion Product Header

@@ -328,6 +328,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryController.cs" />
+    <Compile Include="Areas\Api\Controllers\InquiryProgressController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDetailBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
@@ -433,6 +434,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeZoneMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineGuillotineCalcMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineGuilotinePtvMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineLookupMethodMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineMeterPerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
@@ -546,6 +548,7 @@
     <Compile Include="Areas\Api\Models\MachineClickChargeZone.cs" />
     <Compile Include="Areas\Api\Models\MachineGuillotineCalc.cs" />
     <Compile Include="Areas\Api\Models\MachineGuilotinePtv.cs" />
+    <Compile Include="Areas\Api\Models\MachineLookupMethod.cs" />
     <Compile Include="Areas\Api\Models\MachineMeterPerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
@@ -1770,6 +1773,7 @@
     <Content Include="Scripts\App\dashboard.model.js" />
     <Content Include="Scripts\App\dashboard.view.js" />
     <Content Include="Scripts\App\dashboard.viewModel.js" />
+    <Content Include="Scripts\App\p71.js" />
     <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.js" />
     <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.min.js" />
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
@@ -3324,6 +3328,7 @@
     <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
+    <Folder Include="Areas\Api\Views\InquiryProgress\" />
     <Folder Include="Areas\Api\Views\Inquiry\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\ItemDetailBase\" />

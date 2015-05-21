@@ -11,5 +11,6 @@ namespace MPC.Interfaces.MISServices
         Inquiry Update(Inquiry inquiry);
         bool Delete(int inquiryId);
         Inquiry GetInquiryById(int id);
+        void ProgressInquiryToEstimate(long inquiryId);
     }
 }

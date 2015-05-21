@@ -22,6 +22,7 @@ namespace MPC.Models.DomainModels
         public string InquiryCode { get; set; }
         public Guid? CreatedBy { get; set; }
         public long? OrganisationId { get; set; }
+        public long? EstimateId { get; set; }
         public virtual Company Company { get; set; }
         public virtual CompanyContact CompanyContact { get; set; }
         public virtual ICollection<InquiryAttachment> InquiryAttachments { get; set; }

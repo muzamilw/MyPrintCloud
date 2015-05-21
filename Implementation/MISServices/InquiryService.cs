@@ -16,15 +16,17 @@ namespace MPC.Implementation.MISServices
         private readonly IInquiryItemRepository inquiryItemRepository;
         private readonly IOrganisationRepository organisationRepository;
         private readonly IPrefixRepository prefixRepository;
+        private readonly IEstimateRepository estimateRepository;
 
         #endregion
         #region Constructor
-        public InquiryService(IOrganisationRepository organisationRepository, IEstimateInquiryRepository estimateInquiryRepository, IPrefixRepository prefixRepository, IInquiryItemRepository inquiryItemRepository)
+        public InquiryService(IOrganisationRepository organisationRepository, IEstimateInquiryRepository estimateInquiryRepository, IPrefixRepository prefixRepository, IInquiryItemRepository inquiryItemRepository, IEstimateRepository estimateRepository)
         {
             this.organisationRepository = organisationRepository;
             this.estimateInquiryRepository = estimateInquiryRepository;
             this.prefixRepository = prefixRepository;
             this.inquiryItemRepository = inquiryItemRepository;
+            this.estimateRepository = estimateRepository;
         }
         private Inquiry CreateNewInquiry()
         {
@@ -107,10 +109,24 @@ namespace MPC.Implementation.MISServices
             estimateInquiryRepository.SaveChanges();
             return true;
         }
-
         public Inquiry GetInquiryById(int id)
         {
-            return estimateInquiryRepository.Find(id);
+            var estimateId = estimateRepository.GetEstimateIdOfInquiry(id);
+            Inquiry inquiry= estimateInquiryRepository.Find(id);
+            inquiry.EstimateId = estimateId;
+            return inquiry;
+        }
+
+        public void ProgressInquiryToEstimate(long inquiryId)
+        {
+            Inquiry inquiry = estimateInquiryRepository.Find(inquiryId);
+            if (inquiry != null)
+            {
+                inquiry.Status = 26;
+            }
+            estimateInquiryRepository.Update(inquiry);
+            estimateInquiryRepository.SaveChanges();
+            
         }
         #endregion
     }
