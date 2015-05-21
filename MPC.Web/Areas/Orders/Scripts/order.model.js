@@ -716,6 +716,13 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 name: specifiedDescription
             };
         },
+         // Pipeline Products Entity        
+        PipeLineProduct = function (specifiedId, specifiedDescription) {
+            return {
+                id: specifiedId,
+                name: specifiedDescription
+            };
+        },
         // Address Entity
         Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1, specifiedIsDefault) {
             return {
@@ -898,7 +905,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     var Inquiry = function (
         specifiedInquiryId, specifiedTitle, specifiedContactId, specifiedCreatedDate, specifiedSourceId, specifiedCompanyId, specifiedCompanyName,specifiedRequireByDate,
-        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId, specifiedFlagColor
+        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId, specifiedFlagColor, specifiedEstimateId
     ) {
         var self,
         inquiryId = ko.observable(specifiedInquiryId),
@@ -912,11 +919,12 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         systemUserId = ko.observable(specifiedSystemUserId),
         status = ko.observable(specifiedStatus),
         isDirectInquiry = ko.observable(specifiedIsDirectInquiry),
-        flagId = ko.observable(specifiedFlagId),
+        flagId = ko.observable(specifiedFlagId).extend({ required: true }),
         inquiryCode = ko.observable(specifiedInquiryCode),
         createdBy = ko.observable(specifiedCreatedBy),
         organisationId = ko.observable(specifiedOrganisationId),
         flagColor = ko.observable(specifiedFlagColor),
+        estimateId = ko.observable(specifiedEstimateId),
         inquiryAttachments = ko.observableArray([]),
         inquiryItems = ko.observableArray([]),
         // System Users
@@ -976,13 +984,18 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             }
         }),
         errors = ko.validation.group({
-
+            companyId: companyId,
+            flagId: flagId,
         }),
         // Is Valid 
         isValid = ko.computed(function () {
             return errors().length === 0 ? true : false;
         }),
-
+        // Show All Error Messages
+        showAllErrors = function () {
+            // Show Item Errors
+            errors.showAllMessages();
+        },
         // ReSharper disable once InconsistentNaming
         dirtyFlag = new ko.dirtyFlag({
             inquiryId: inquiryId,
@@ -998,39 +1011,39 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             flagId: flagId,
             inquiryCode: inquiryCode,
             createdBy: createdBy,
-            organisationId: organisationId
+            organisationId: organisationId,
+            inquiryItems: inquiryItems
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
             return dirtyFlag.isDirty();
         }),
         //Convert To Server
-            convertToServerData = function () {
-                return {
-                    InquiryId: inquiryId(),
-                    Title: title(),
-                    ContactId: contactId(),
-                    CreatedDate: createdDate() ? moment(createdDate()).format(ist.utcFormat) + 'Z' : undefined,
-                    SourceId: sourceId(),
-                    CompanyId: companyId(),
-                    RequireByDate: requireByDate() ? moment(requireByDate()).format(ist.utcFormat) + 'Z' : undefined,
-                    SystemUserId: systemUserId(),
-                    Status: status(),
-                    IsDirectInquiry: isDirectInquiry(),
-                    FlagId: flagId(),
-                    InquiryCode: inquiryCode(),
-                    CreatedBy: createdBy(),
-                    OrganisationId: organisationId(),
-                    InquiryAttachments: [],
-                    InquiryItems: []
-                };
-            },
-            // Reset
-            reset = function () {
-                dirtyFlag.reset();
+        convertToServerData = function () {
+            return {
+                InquiryId: inquiryId(),
+                Title: title(),
+                ContactId: contactId(),
+                CreatedDate: createdDate() ? moment(createdDate()).format(ist.utcFormat) + 'Z' : undefined,
+                SourceId: sourceId(),
+                CompanyId: companyId(),
+                RequireByDate: requireByDate() ? moment(requireByDate()).format(ist.utcFormat) + 'Z' : undefined,
+                SystemUserId: systemUserId(),
+                Status: status(),
+                IsDirectInquiry: isDirectInquiry(),
+                FlagId: flagId(),
+                InquiryCode: inquiryCode(),
+                CreatedBy: createdBy(),
+                OrganisationId: organisationId(),
+                InquiryAttachments: [],
+                InquiryItems: []
             };
-        //inquiryId title contactId createdDate sourceId companyId requireByDate systemUserId status
-        //isDirectInquiry flagId inquiryCode createdBy organisationId
+        },
+        // Reset
+        reset = function () {
+            dirtyFlag.reset();
+        };
+        
         self = {
             inquiryId: inquiryId,
             title: title,
@@ -1054,8 +1067,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             systemPipeLineByUser: systemPipeLineByUser,
             systemUsers: systemUsers,
             pipelineSources: pipelineSources,
+            estimateId: estimateId,
             isValid: isValid,
             errors: errors,
+            showAllErrors: showAllErrors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
@@ -1081,7 +1096,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               source.InquiryCode,
               source.CreatedBy,
               source.OrganisationId,
-            source.FlagColor
+            source.FlagColor,
+            source.EstimateId
             );
         // Map Items if any
         if (source.InquiryAttachments && source.InquiryAttachments.length > 0) {
@@ -1298,6 +1314,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return new PipeLineSource(source.SourceId, source.Description);
     };
 
+    // Pipeline Product Factory
+    PipeLineProduct.Create = function (source) {
+        return new PipeLineProduct(source.ProductId, source.Description);
+    };
+
     // Pre Payment Factory
     PrePayment.Create = function (source) {
         return new PrePayment(source.PrePaymentId, source.CustomerId, source.OrderId, source.Amount, source.PaymentDate, source.PaymentMethodId,
@@ -1322,6 +1343,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         SystemUser: SystemUser,
         // PipeLine Source Constructor
         PipeLineSource: PipeLineSource,
+        // PipeLine Product Constructor
+        PipeLineProduct: PipeLineProduct,
         // Status Enum
         Status: Status,
         // Pre Payment Constructor

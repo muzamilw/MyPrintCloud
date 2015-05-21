@@ -4,7 +4,7 @@
     //Activity
     Activity = function (specifiedActivityId, specifiedSystemUserId, specifiedActivityRef, specifiedActivityTypeId, specifiedContactCompanyId, specifiedContactId,
         specifiedProductTypeId, specifiedSourceId, specifiedFlagId, specifiedStartDateTime, specifiedEndDateTime, specifiedIsCustomerActivity, specifiedIsPrivate,
-        specifiedCompanyName, specifiedActivityNotes, specifiedIsCustomerType) {
+        specifiedCompanyName, specifiedActivityNotes, specifiedIsCustomerType, specifiedCreatedBy) {
         var
         self,
         //Activity Id
@@ -18,6 +18,7 @@
         productTypeId = ko.observable(specifiedProductTypeId),
         sourceId = ko.observable(specifiedSourceId),
         flagId = ko.observable(specifiedFlagId),
+        createdBy = ko.observable(specifiedCreatedBy),
          //Start Date Time
         startDateTime = ko.observable((specifiedStartDateTime === null || specifiedStartDateTime === undefined) ? new Date() : moment(specifiedStartDateTime, ist.utcFormat).toDate()),
         //End Date Time
@@ -58,6 +59,7 @@
                 ProductTypeId: productTypeId(),
                 SourceId: sourceId(),
                 FlagId: flagId(),
+                CreatedBy:createdBy(),
                 ActivityStartTime: startDateTime() === undefined || startDateTime() === null ? null : moment(startDateTime()).format(ist.utcFormat),
                 ActivityEndTime: endDateTime() === undefined || endDateTime() === null ? null : moment(endDateTime()).format(ist.utcFormat),
                 IsCustomerActivity: isCustomerActivity(),
@@ -86,6 +88,7 @@
             companyName: companyName,
             activityNotes: activityNotes,
             isInvalidPeriod: isInvalidPeriod,
+            createdBy:createdBy,
             isCustomerType: isCustomerType,
             dirtyFlag: dirtyFlag,
             isValid: isValid,
@@ -99,7 +102,7 @@
     //Activity Create 
     Activity.Create = function (source) {
         return new Activity(source.ActivityId, source.SystemUserId, source.ActivityRef, source.ActivityTypeId, source.CompanyId, source.ContactId, source.ProductTypeId, source.SourceId,
-            source.FlagId, source.ActivityStartTime, source.ActivityEndTime, source.IsCustomerActivity, source.IsPrivate, source.CompanyName, source.ActivityNotes, source.IsCustomerType);
+            source.FlagId, source.ActivityStartTime, source.ActivityEndTime, source.IsCustomerActivity, source.IsPrivate, source.CompanyName, source.ActivityNotes, source.IsCustomerType, source.CreatedBy);
     };
 
     Company = function (specifiedCompanyId, specifiedName, specifiedURL, specifiedCreationDate) {
@@ -144,7 +147,7 @@
             activityNotes = ko.observable(specifiedActivityNotes),
             startDateTime = ko.observable(specifiedActivityStartTime !== undefined ? moment(specifiedActivityStartTime).format(ist.dateTimePattern) : undefined),
             endDateTime = ko.observable(specifiedActivityEndTime !== undefined ? moment(specifiedActivityEndTime).format(ist.dateTimePattern) : undefined);
-        actionby = ko.observable(specifiedactionby);
+            actionby = ko.observable(specifiedactionby);
         self = {
             id: id,
             activityNotes: activityNotes,

@@ -60,6 +60,8 @@ define("invoice/invoice.viewModel",
                     // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
                     currentScreen = ko.observable(),
+                    // True, show status column in list view
+                    isShowStatusCloumn = ko.observable(true),
                     // #endregion
 
                     // #region Observables
@@ -72,6 +74,7 @@ define("invoice/invoice.viewModel",
                     selectedMarkup1 = ko.observable(0),
                     selectedCategoryId = ko.observable(),
                     currencySymbol = ko.observable(''),
+                    loggedInUserId = ko.observable(),
                     selectedCostCentre = ko.observable(),
                      sectionHeader = ko.observable(''),
                       counterForSection = -1000,
@@ -79,9 +82,14 @@ define("invoice/invoice.viewModel",
                     isEstimateScreen = ko.observable(false),
                     // Active Order
                     selectedInvoice = ko.observable(),
+                    selectedInvoiceForListView = ko.observable(),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedInvoice() && selectedInvoice().name() ? selectedInvoice().name() : 'Invoices';
+                        return selectedInvoice() && selectedInvoice().name() ? selectedInvoice().name() : 'Invoice';
+                    }),
+                     // Page Code 
+                    pageCode = ko.computed(function () {
+                        return selectedInvoice() && selectedInvoice().code() ? selectedInvoice().code() : '';
                     }),
                      defaultAddress = ko.observable(),
                     // Default Company Contact
@@ -146,6 +154,7 @@ define("invoice/invoice.viewModel",
                     }),
                     selecteditem = ko.observable(),
                     editInvoice = function (data) {
+                        selectedInvoiceForListView(data);
                         getInvoiceById(data.id(), openInvoiceEditor);
                     },
                     // Open Editor
@@ -179,7 +188,7 @@ define("invoice/invoice.viewModel",
                     // On Archive
                     onArchiveInvoice = function (invoice) {
                         confirmation.afterProceed(function () {
-                            archiveInvoice(invoice.id());
+                            // archiveInvoice(invoice.id());
                         });
                         confirmation.show();
                     },
@@ -253,15 +262,16 @@ define("invoice/invoice.viewModel",
                         }
 
                         var istatus = selectedInvoice().invoiceStatus();
-                        if (istatus == 19) //Awaiting Invoice
+                        if (istatus == 19 && selectedInvoice().id() !== 0 && selectedInvoice().id() !== undefined) //Awaiting Invoice
                         {
                             confirmation.messageText("Do you want to post the invoice.");
 
-                            confirmation.afterProceed(function() {
+                            confirmation.afterProceed(function () {
                                 selectedInvoice().invoiceStatus(20); //Posted Invoice                              
+                                selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id                             
                                 saveInvoice(closeInvoiceEditor, navigateCallback);
                             });
-                            confirmation.afterCancel(function() {
+                            confirmation.afterCancel(function () {
                                 saveInvoice(closeInvoiceEditor, navigateCallback);
                             });
                             confirmation.show();
@@ -473,19 +483,13 @@ define("invoice/invoice.viewModel",
                       // Gross Total
                     grossTotal = ko.computed(function () {
                         var total = 0;
-                        if (selectedInvoice() != undefined) {
-                            _.each(selectedInvoice().nonDeliveryItems(), function (item) {
-                                var val = item.qty1GrossTotal();
-                                total = total + parseFloat(val);
+                        if (selectedInvoice() != undefined && selectedInvoice().invoiceDetailItems().length === 0) {
+                            _.each(selectedInvoice().items(), function (item) {
+                                var val1 = (item.qty1GrossTotal() === undefined || item.qty1GrossTotal() === null) ? 0 : item.qty1GrossTotal();
+                                total = total + parseFloat(val1);
                             });
-                            _.each(selectedInvoice().deliveryItems(), function (item) {
-                                var val = item.qty1GrossTotal();
-                                total = total + parseFloat(val);
-                            });
-                            total = total.toFixed(2);
-                            selectedInvoice().estimateTotal(total);
+                            selectedInvoice().invoiceTotal(total);
                         }
-
                         return total;
                     }),
                     //#endregion
@@ -505,6 +509,7 @@ define("invoice/invoice.viewModel",
                                  ko.utils.arrayPushAll(systemUsers(), data.SystemUsers);
                                  systemUsers.valueHasMutated();
                                  currencySymbol(data.CurrencySymbol);
+                                 loggedInUserId(data.LoggedInUserId);
                                  costCentresBaseData.removeAll();
                                  if (data.CostCenters) {
                                      ko.utils.arrayPushAll(costCentresBaseData(), data.CostCenters);
@@ -539,31 +544,64 @@ define("invoice/invoice.viewModel",
                     },
 
                     setInvoiceDetailItems = function () {
+                        var removeItems = [];
                         _.each(selectedInvoice().items(), function (item) {
                             if (item.detailType !== undefined) {
                                 selectedInvoice().invoiceDetailItems.push(item);
+                                removeItems.push(item);
+                            }
+                        });
+                        _.each(removeItems, function (item) {
+                            if (item.detailType !== undefined) {
                                 selectedInvoice().items.remove(item);
                             }
                         });
                     },
+
+
                     // Save Invoice
                     saveInvoice = function (callback, navigateCallback) {
                         setInvoiceDetailItems();
                         var invoice = selectedInvoice().convertToServerData();
+                        _.each(selectedInvoice().invoiceDetailItems(), function (inv) {
+                            invoice.InvoiceDetails.push(inv.convertToServerData(inv));
+
+                        });
+
+                        var itemsArray = [];
+                        _.each(selectedInvoice().items(), function (obj) {
+                            var itemObj = obj.convertToServerData(); // item converted 
+                            var attArray = [];
+                            _.each(itemObj.ItemAttachment, function (att) {
+                                var attchment = att.convertToServerData(); // item converted 
+                                attchment.ContactId = selectedInvoice().contactId();
+                                attArray.push(attchment);
+                            });
+                            itemObj.ItemAttachments = attArray;
+                            itemsArray.push(itemObj);
+
+                        });
+
+                        invoice.Items = itemsArray;
                         dataservice.saveInvoice(invoice, {
                             success: function (data) {
                                 if (!selectedInvoice().id()) {
                                     // Update Id
                                     selectedInvoice().id(data.InvoiceId);
-
+                                    selectedInvoice().code(data.InvoiceCode);
+                                    var invoiceListViewItem = model.InvoicesListView();
+                                    invoiceListViewItem.code(data.InvoiceCode);
+                                    invoiceListViewItem.id(selectedInvoice().id());
+                                    updateInvoiceLitViewItem(invoiceListViewItem);
                                     // Add to top of list
-                                    invoices.splice(0, 0, selectedInvoice());
+                                    invoices.splice(0, 0, invoiceListViewItem);
                                 } else {
                                     // Get Order
                                     var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
                                     if (invoiceUpdated) {
-                                        selectedInvoice().code(data.InvoiceCode);
-                                        selectedInvoice().name(data.InvoiceName);
+                                        // invoiceUpdated.code(data.InvoiceCode);
+                                        //invoiceUpdated.name(data.InvoiceName);
+                                        updateInvoiceLitViewItem(invoiceUpdated);
                                     }
                                 }
                                 isDetailsVisible(false);
@@ -586,6 +624,22 @@ define("invoice/invoice.viewModel",
                         });
                     },
 
+                    updateInvoiceLitViewItem = function (invoiceListViewItem) {
+                        invoiceListViewItem.name(selectedInvoice().name());
+                        invoiceListViewItem.code(selectedInvoice().code());
+                        invoiceListViewItem.type(selectedInvoice().type());
+                        invoiceListViewItem.companyName(selectedInvoice().companyName());
+                        invoiceListViewItem.invoiceDate(selectedInvoice().invoiceDate());
+                        invoiceListViewItem.itemsCount(selectedInvoice().items().length + selectedInvoice().invoiceDetailItems().length);
+                        var sectionFlagItem = _.find(sectionFlags(), function (sFlag) {
+                            return sFlag.SectionFlagId === selectedInvoice().sectionFlagId();
+                        });
+                        if (sectionFlagItem !== undefined && sectionFlagItem !== null) {
+                            invoiceListViewItem.flagColor(sectionFlagItem.FlagColor);
+                        }
+
+                        invoiceListViewItem.invoiceTotal(selectedInvoice().invoiceTotal());
+                    },
                     //get Invoices Of Current Screen
                     getInvoicesOfCurrentScreen = function () {
                         getInvoices(currentScreen());
@@ -593,6 +647,11 @@ define("invoice/invoice.viewModel",
                     //Get Order Tab Changed Event
                     getInvoicesOnTabChange = function (currentTab) {
                         pager().reset();
+                        if (currentTab === 0) {
+                            isShowStatusCloumn(true);
+                        } else {
+                            isShowStatusCloumn(false);
+                        }
                         getInvoices(currentTab);
 
                     },
@@ -656,14 +715,18 @@ define("invoice/invoice.viewModel",
                                 if (data) {
                                     selectedInvoice(model.Invoice.Create(data));
 
-                                    _.each(data.InvoiceDetails, function (invDetial) {
-                                        selectedInvoice().items.push(model.InvoiceDetail.Create(invDetial));
-                                    });
-
                                     // Get Base Data For Company
                                     if (data.CompanyId) {
-                                        getBaseForCompany(data.CompanyId, 0);
+                                        var storeId = 0;
+                                        if (data.IsCustomer !== 3 && data.StoreId) {
+                                            storeId = data.StoreId;
+                                            selectedInvoice().storeId(storeId);
+                                        } else {
+                                            storeId = data.CompanyId;
+                                        }
+                                        getBaseForCompany(data.CompanyId, storeId);
                                     }
+
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
@@ -681,7 +744,7 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
-                    // Get Company Base Data
+                     // Get Company Base Data
                     getBaseForCompany = function (id, storeId) {
                         isCompanyBaseDataLoaded(false);
                         dataservice.getBaseDataForCompany({
@@ -694,9 +757,11 @@ define("invoice/invoice.viewModel",
                                 if (data) {
                                     if (data.CompanyAddresses) {
                                         mapList(companyAddresses, data.CompanyAddresses, model.Address);
+                                        setDefaultAddressForCompany();
                                     }
                                     if (data.CompanyContacts) {
                                         mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
+                                        setDefaultContactForCompany();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
                                 }
@@ -708,9 +773,34 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
+                     // Select Default Address For Company in case of new Invoice
+                    setDefaultAddressForCompany = function () {
+                        if (selectedInvoice().id() > 0) {
+                            return;
+                        }
+                        var defaultCompanyAddress = companyAddresses.find(function (address) {
+                            return address.isDefaultAddress;
+                        });
+                        if (defaultCompanyAddress) {
+                            selectedInvoice().addressId(defaultCompanyAddress.id);
+                        }
+                    },
+                     // Select Default Contact For Company in case of new Invoice
+                    setDefaultContactForCompany = function () {
+                        if (selectedInvoice().id() > 0) {
+                            return;
+                        }
+                        var defaultContact = companyContacts.find(function (contact) {
+                            return contact.isDefault;
+                        });
+                        if (defaultContact) {
+                            selectedInvoice().contactId(defaultContact.id);
+                        }
+                    },
                     createInvoice = function () {
                         selectedInvoice(model.Invoice.Create({}));
                         selectedInvoice().invoiceStatus(19);
+                        selectedInvoice().invoiceReportSignedBy(loggedInUserId());
                         selectedInvoice().isPostedInvoice(false);
                         openInvoiceEditor();
                     },
@@ -932,12 +1022,10 @@ define("invoice/invoice.viewModel",
                         }
                     }),
                     taxCalculateForInvoiceDetail = function () {
-                        var qty = selectedInvoiceDetail().qty1() !== undefined ? selectedInvoiceDetail().qty1() : 0;
-                        var itemCharge = selectedInvoiceDetail().itemCharge() !== undefined ? selectedInvoiceDetail().itemCharge() : 0;
-
-                        var taxCalculate1 = (((selectedInvoiceDetail().tax() !== undefined ? selectedInvoiceDetail().tax() : 0) / 100) * (itemCharge * qty));
+                        var qty = (selectedInvoiceDetail().qty1() !== undefined && selectedInvoiceDetail().qty1() !== null) ? selectedInvoiceDetail().qty1() : 0;
+                        var itemCharge = (selectedInvoiceDetail().itemCharge() !== undefined && selectedInvoiceDetail().itemCharge() !== null) ? selectedInvoiceDetail().itemCharge() : 0;
+                        var taxCalculate1 = ((((selectedInvoiceDetail().tax() !== undefined && selectedInvoiceDetail().tax() !== null) ? selectedInvoiceDetail().tax() : 0) / 100) * (itemCharge * qty));
                         selectedInvoiceDetail().itemTaxValue(taxCalculate1);
-
                         selectedInvoiceDetail().qty1GrossTotal((itemCharge * qty) + taxCalculate1);
                     },
                 //#endregion
@@ -1015,7 +1103,10 @@ define("invoice/invoice.viewModel",
                     onAddInvoiceDetail: onAddInvoiceDetail,
                     closeInvoiceDetailDialog: closeInvoiceDetailDialog,
                     onSaveInvoiceDetail: onSaveInvoiceDetail,
-                    gotoElement: gotoElement
+                    gotoElement: gotoElement,
+                    isShowStatusCloumn: isShowStatusCloumn,
+                    pageHeader: pageHeader,
+                    pageCode:pageCode
                     //#endregion
                 };
             })()

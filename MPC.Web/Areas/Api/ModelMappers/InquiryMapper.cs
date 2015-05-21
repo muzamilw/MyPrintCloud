@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MPC.MIS.Areas.Api.Models;
+using MPC.Models.ModelMappers;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -56,6 +58,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InquiryCode = source.InquiryCode,
                 CreatedBy = source.CreatedBy,
                 OrganisationId = source.OrganisationId,
+                EstimateId = source.EstimateId,
                 InquiryAttachments = source.InquiryAttachments != null ? source.InquiryAttachments.Select(x => x.CreateFrom()).ToList() : null,
                 InquiryItems = source.InquiryItems != null ? source.InquiryItems.Select(x => x.CreateFrom()).ToList() : null
             };
@@ -84,5 +87,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             };
         }
+
+       
     }
 }

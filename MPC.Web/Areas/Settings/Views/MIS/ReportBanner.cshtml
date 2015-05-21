@@ -12,13 +12,13 @@
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-12">
-                        <ol class="breadcrumb">
+                        <ol class="breadcrumb" style="padding-left:0px;">
                             <li><a href="~/Dashboard/Index">Home</a></li>
                             <li>Settings</li>                           
                             <li class="active"><span>Report Banner</span></li>
                         </ol>
                         <div class="clearfix">
-                            <h1 class="pull-left">Report Banners</h1>
+                            <h1 class="pull-left" style="padding-left:0px;">Report Banners</h1>
                             <div data-bind="visible:$root.errorList().length > 0" style="display: none;">
                                 <p> Please corresct these errors.</p>
                                 <table id="table">
@@ -30,9 +30,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
                 <div class="row" id="ReportBannerdata">
                     <a href="~/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right:10px;">Close</a>

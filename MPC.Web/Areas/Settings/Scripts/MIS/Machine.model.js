@@ -122,6 +122,7 @@
             deFaultPaperSizeName = ko.observable(),
             deFaultPlatesName = ko.observable(),
             MachineSpoilageItems = ko.observableArray([]),
+            MachineLookupMethods = ko.observableArray([]),
             MachineInkCoverages = ko.observableArray([]),
             gutterdepth = ko.observable(10),
             headdepth = ko.observable(10),
@@ -252,6 +253,7 @@
                 Minimumsheetwidth: Minimumsheetwidth,
                 LookupMethodId: LookupMethodId,
                 MachineSpoilageItems: MachineSpoilageItems,
+                MachineLookupMethods: MachineLookupMethods,
                 MachineInkCoverages: MachineInkCoverages
             }),
             hasChanges = ko.computed(function () {
@@ -342,6 +344,7 @@
             deFaultPaperSizeName: deFaultPaperSizeName,
             MachineInkCoverages: MachineInkCoverages,
             MachineSpoilageItems: MachineSpoilageItems,
+            MachineLookupMethods: MachineLookupMethods,
             onSelectStockItem: onSelectStockItem,
             CurrencySymbol: CurrencySymbol,
             WeightUnit: WeightUnit,
@@ -361,9 +364,19 @@
         self.MethodId = ko.observable(data.MethodId);
         self.Name = ko.observable(data.Name);
     }
+
+    var MachineLookupMethods = function (data) {
+        var self = this;
+        self.Id = ko.observable();
+        self.MachineId = ko.observable();
+        self.MethodId = ko.observable();
+        self.DefaultMethod = ko.observable();
+
+    }
+
   
 
-    var lookupMethodListClientMapper = function (source) {
+   var lookupMethodListClientMapper = function (source) {
         var olookup = new lookupMethod();
         olookup.MethodId(source.MethodId);
         olookup.Name(source.Name);
@@ -476,6 +489,8 @@
        // return new CreateStockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
     };
 
+
+
     var MachineSpoilageItemsMapper = function (source) {
         var 
             MachineSpoilageId = source.MachineSpoilageId,
@@ -516,6 +531,49 @@
         };
         
     }
+
+    var MachineLookupMethodsItemsMapper = function (source) {
+        var
+            Id = source.Id,
+            MachineId = source.MachineId,
+            MethodId = ko.observable(source.MethodId),
+            DefaultMethod = ko.observable(source.DefaultMethod),
+          
+             errors = ko.validation.group({
+             }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            dirtyFlag = new ko.dirtyFlag({
+                DefaultMethod: DefaultMethod
+       
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        return {
+            Id: Id,
+            MachineId: MachineId,
+            MethodId: MethodId,
+            DefaultMethod: DefaultMethod,
+           
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+
+    }
+
+
     var machineListServerMapper = function (source) {
         var result = {};
         result.Description= source.description;
@@ -662,6 +720,13 @@
             var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
             omachine.MachineInkCoverages.push(module);
 
+
+
+
+        })
+
+        _.each(source.machine.MachineLookupMethods, function (item) {
+            omachine.MachineLookupMethods.push(MachineLookupMethodsItemsMapper(item));
         })
 
           return omachine;
@@ -748,6 +813,13 @@
             var module = MachineSpoilageServerMapper(item);
             MachineSpoilageItemsList.push(module);
         });
+
+        var MachineLookupdsList = [];
+        _.each(machine.MachineLookupMethods(), function (item) {
+            var module = MachineLookupMethodsServerMapper(item);
+            omachine.MachineLookupMethods.push(module);
+        });
+
        
         return {
             machine: omachine,
@@ -873,6 +945,17 @@
         };
     };
 
+
+    //Convert Server To Client
+    var MachineLookupClientMapper = function (source) {
+        var machineLookup = new MachineLookupMethods();
+        machineLookup.Id(source.Id === null ? undefined : source.Id);
+        machineLookup.MachineId(source.MachineId === null ? undefined : source.MachineId);
+        machineLookup.MethodId(source.MethodId === null ? undefined : source.MethodId);
+        machineLookup.DefaultMethod(source.DefaultMethod === null ? undefined : source.DefaultMethod);
+        return machineLookup;
+    };
+
     var MachineSpoilageServerMapper = function (source) {
         var MachineSpoilageItem = {};
         MachineSpoilageItem.MachineSpoilageId = source.MachineSpoilageId;
@@ -881,6 +964,18 @@
         MachineSpoilageItem.RunningSpoilage = source.RunningSpoilage();
         MachineSpoilageItem.NoOfColors = source.NoOfColors;
         return MachineSpoilageItem;
+
+    }
+
+
+    var MachineLookupMethodsServerMapper = function (source) {
+        var MachineLookupItem = {};
+        MachineLookupItem.Id = source.Id;
+        MachineLookupItem.MachineId = source.MachineId;
+        MachineLookupItem.MethodId = source.MethodId;
+        MachineLookupItem.DefaultMethod = source.DefaultMethod;
+      
+        return MachineLookupItem;
 
     }
     var MachineInkCoveragesListServerMapper = function (source) {
@@ -911,6 +1006,7 @@
         newMachineClientMapper: newMachineClientMapper,
         newMachineSpoilageItemsMapper: newMachineSpoilageItemsMapper,
         newMachineInkCoveragesListClientMapper: newMachineInkCoveragesListClientMapper,
-        machineListClientMapperSelectedItem: machineListClientMapperSelectedItem
+        machineListClientMapperSelectedItem: machineListClientMapperSelectedItem,
+        MachineLookupClientMapper: MachineLookupClientMapper
     };
 });

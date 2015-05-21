@@ -4503,7 +4503,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // #region ______________  Field Variable  For Smart Form _________________
     var FieldVariableForSmartForm = function (specifiedVariableId, specifiedVariableName, specifiedVariableType,
-        specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedDefaultValue, specifiedVariableTitle, specifiedWaterMark) {
+        specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedDefaultValue, specifiedVariableTitle, specifiedWaterMark,specifiedScope) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName),
@@ -4511,6 +4511,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             variableTag = ko.observable(specifiedVariableTag),
             scopeName = ko.observable(specifiedScopeName),
             typeName = ko.observable(specifiedTypeName),
+            scope = ko.observable(specifiedScope),
             waterMark = ko.observable(specifiedWaterMark),
             defaultValue = ko.observable(specifiedDefaultValue === null ? "" : specifiedDefaultValue),
             title = ko.observable(specifiedVariableTitle === null ? "" : specifiedVariableTitle),
@@ -4526,6 +4527,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             typeName: typeName,
             defaultValue: defaultValue,
             waterMark: waterMark,
+            scope: scope,
             variableOptions: variableOptions
         };
         return self;
@@ -4540,7 +4542,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.ScopeName,
              source.TypeName,
              source.DefaultValue,
-        source.VariableTitle, source.WaterMark);
+        source.VariableTitle, source.WaterMark,source.Scope);
     };
     // #endregion ______________  Field Variable   _________________
 
