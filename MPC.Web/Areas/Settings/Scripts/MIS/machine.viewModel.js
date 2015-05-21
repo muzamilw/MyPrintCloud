@@ -327,11 +327,11 @@ define("machine/machine.viewModel",
                                     //Machine lookups
                                     machinelookups.removeAll();
                                     var machinesLookupList = [];
-                                    _.each(data.MachineLookupMethod, function (item) {
+                                    _.each(data.MachineLookupMethods, function (item) {
                                         var lookupmethods = new model.MachineLookupClientMapper(item);
                                         machinesLookupList.push(lookupmethods);
                                     });
-                                    ko.utils.arrayPushAll(lookupmethods(), machinesLookupList);
+                                    ko.utils.arrayPushAll(machinelookups(), machinesLookupList);
                                     machinelookups.valueHasMutated();
 
                                    
