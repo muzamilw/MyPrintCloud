@@ -85,7 +85,11 @@ define("invoice/invoice.viewModel",
                     selectedInvoiceForListView = ko.observable(),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedInvoice() && selectedInvoice().name() ? selectedInvoice().name() : 'Invoices';
+                        return selectedInvoice() && selectedInvoice().name() ? selectedInvoice().name() : 'Invoice';
+                    }),
+                     // Page Code 
+                    pageCode = ko.computed(function () {
+                        return selectedInvoice() && selectedInvoice().code() ? selectedInvoice().code() : '';
                     }),
                      defaultAddress = ko.observable(),
                     // Default Company Contact
@@ -1100,7 +1104,9 @@ define("invoice/invoice.viewModel",
                     closeInvoiceDetailDialog: closeInvoiceDetailDialog,
                     onSaveInvoiceDetail: onSaveInvoiceDetail,
                     gotoElement: gotoElement,
-                    isShowStatusCloumn: isShowStatusCloumn
+                    isShowStatusCloumn: isShowStatusCloumn,
+                    pageHeader: pageHeader,
+                    pageCode:pageCode
                     //#endregion
                 };
             })()
