@@ -45,7 +45,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             inquiryService.ProgressInquiryToEstimate(request.InquiryId);
             //Create Estimate
            
-            Estimate estimate = new Estimate {CompanyId = request.CompanyId, ContactId = request.ContactId, SectionFlagId = request.FlagId, EnquiryId = request.InquiryId, IsEstimate = true};
+            Estimate estimate = new Estimate {CompanyId = request.CompanyId, ContactId = request.ContactId, SectionFlagId = request.FlagId, EnquiryId = request.InquiryId, IsEstimate = true, StatusId = 1};
             return orderService.SaveOrder(estimate.CreateFrom()).CreateFrom();
         }
         #endregion
