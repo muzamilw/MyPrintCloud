@@ -328,6 +328,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryController.cs" />
+    <Compile Include="Areas\Api\Controllers\InquiryProgressController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDetailBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
@@ -3324,6 +3325,7 @@
     <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
+    <Folder Include="Areas\Api\Views\InquiryProgress\" />
     <Folder Include="Areas\Api\Views\Inquiry\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\ItemDetailBase\" />

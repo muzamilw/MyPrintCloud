@@ -249,6 +249,14 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public long GetEstimateIdOfInquiry(long inquiryId)
+        {
+            var firstOrDefault = DbSet.FirstOrDefault(x => x.EnquiryId == inquiryId);
+            if (firstOrDefault != null)
+                return firstOrDefault.EstimateId;
+            return 0;
+        }
+
         #endregion
     }
 }

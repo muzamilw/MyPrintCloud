@@ -28,6 +28,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionCostCentreRepository sectionCostCentreRepository;
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
         private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
+        private readonly IInvoiceDetailRepository invoiceDetailRepository;
 
         /// <summary>
         /// Creates New Item and assigns new generated code
@@ -135,6 +136,16 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Creates New Invoice Detail
+        /// </summary>
+        private InvoiceDetail CreateInvoiceDetail()
+        {
+            InvoiceDetail itemTarget = invoiceDetailRepository.Create();
+            invoiceDetailRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
         /// Delete Section Cost Centre Detail
         /// </summary>
         private void DeleteSectionCostCentreDetail(SectionCostCentreDetail item)
@@ -195,25 +206,25 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Save Item Attachments
         /// </summary>
-        private void SaveItemAttachments(Estimate estimate)
+        private void SaveItemAttachments(Invoice invoice)
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
-            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/");
+            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/" + invoice.CompanyId + "/Invoices/");
 
-            if (estimate.Items == null)
+            if (invoice.Items == null)
             {
                 return;
             }
 
-            foreach (Item item in estimate.Items)
+            foreach (Item item in invoice.Items)
             {
                 string attachmentMapPath = mapPath + item.ItemId;
-
+                DirectoryInfo directoryInfo = null;
                 // Create directory if not there
                 if (!Directory.Exists(attachmentMapPath))
                 {
-                    Directory.CreateDirectory(attachmentMapPath);
+                    directoryInfo = Directory.CreateDirectory(attachmentMapPath);
                 }
 
                 if (item.ItemAttachments == null)
@@ -223,9 +234,16 @@ namespace MPC.Implementation.MISServices
 
                 foreach (ItemAttachment itemAttachment in item.ItemAttachments)
                 {
-                    itemAttachment.FolderPath = SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
+                    string folderPath = directoryInfo != null ? directoryInfo.FullName : attachmentMapPath;
+                    int indexOf = folderPath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                    folderPath = folderPath.Substring(indexOf, folderPath.Length - indexOf);
+                    itemAttachment.FolderPath = folderPath;
+                    if (SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
                         itemAttachment.FileName,
-                        itemAttachment.FileSource, itemAttachment.FileSourceBytes);
+                        itemAttachment.FileSource, itemAttachment.FileSourceBytes) != null)
+                    {
+                        itemAttachment.FileName = itemAttachment.FileName;
+                    }
                 }
             }
         }
@@ -238,7 +256,7 @@ namespace MPC.Implementation.MISServices
         public InvoicesService(IInvoiceRepository invoiceRepository, ICostCentreRepository costCentreRepository, IItemRepository itemRepository,
             IPrefixRepository prefixRepository, IItemAttachmentRepository itemAttachmentRepository, IItemSectionRepository itemsectionRepository,
             ISectionCostCentreRepository sectionCostCentreRepository, ISectionInkCoverageRepository sectionInkCoverageRepository,
-            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository)
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IInvoiceDetailRepository invoiceDetailRepository)
         {
             this.invoiceRepository = invoiceRepository;
             CostCentreRepository = costCentreRepository;
@@ -250,6 +268,7 @@ namespace MPC.Implementation.MISServices
             this.sectionInkCoverageRepository = sectionInkCoverageRepository;
             this.sectionInkCoverageRepository = sectionInkCoverageRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
+            this.invoiceDetailRepository = invoiceDetailRepository;
         }
 
         #endregion
@@ -295,6 +314,8 @@ namespace MPC.Implementation.MISServices
             {
                 return SaveNewInvoice(request);
             }
+
+
         }
         private Invoice UpdateInvoice(Invoice invoice)
         {
@@ -333,53 +354,31 @@ namespace MPC.Implementation.MISServices
                 DeleteSectionInkCoverage = DeleteSectionInkCoverage,
                 CreateSectionCostCenterDetail = CreateSectionCostCentreDetail,
                 DeleteSectionCostCenterDetail = DeleteSectionCostCentreDetail,
+                CreateInvoiceDetail = CreateInvoiceDetail,
             });
-            return UpdateInvoiceDetails(invoice, oInvoice);
 
-        }
-        private Invoice UpdateInvoiceDetails(Invoice invoice, Invoice dbVersion)
-        {
-            InitializeInvoiceDetail(dbVersion);
-            if (invoice.InvoiceDetails != null)
-            {
-                foreach (var detail in invoice.InvoiceDetails)
-                {
-                    InvoiceDetail invDetailDB = dbVersion.InvoiceDetails.FirstOrDefault(i => i.InvoiceDetailId == detail.InvoiceDetailId);
-                    if (invDetailDB != null)
-                    {
-                        invDetailDB.InvoiceTitle = detail.InvoiceTitle;
-                        invDetailDB.ItemCharge = detail.ItemCharge;
-                        invDetailDB.FlagId = detail.FlagId;
-                        invDetailDB.Quantity = detail.Quantity;
-                        invDetailDB.ItemTaxValue = detail.ItemTaxValue;
-                        invDetailDB.Description = detail.Description;
-                        invDetailDB.TaxValue = detail.TaxValue;
-                        invDetailDB.ItemGrossTotal = detail.ItemGrossTotal;
-                    }
-                    else
-                    {
-                        detail.InvoiceDetailId = 0;
-                        detail.InvoiceId = invoice.InvoiceId;
-                        dbVersion.InvoiceDetails.Add(detail);
-                    }
-                }
-            }
+            // Save Changes
             invoiceRepository.SaveChanges();
-            return invoice;
+            // Save Item Attachments
+            SaveItemAttachments(oInvoice);
+
+            // Save Changes
+            invoiceRepository.SaveChanges();
+            return oInvoice;
         }
 
-        private void InitializeInvoiceDetail(Invoice dbVersion)
-        {
-            if (dbVersion.InvoiceDetails == null)
-            {
-                dbVersion.InvoiceDetails = new List<InvoiceDetail>();
-            }
-        }
+
         private Invoice SaveNewInvoice(Invoice invoice)
         {
             string invoiceCode = prefixRepository.GetNextInvoiceCodePrefix();
             invoice.InvoiceCode = invoiceCode;
             invoiceRepository.Add(invoice);
+            invoiceRepository.SaveChanges();
+
+            // Save Item Attachments
+            SaveItemAttachments(invoice);
+
+            // Save Changes
             invoiceRepository.SaveChanges();
             return invoice;
         }

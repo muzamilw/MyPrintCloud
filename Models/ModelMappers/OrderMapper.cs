@@ -41,6 +41,7 @@ namespace MPC.Models.ModelMappers
             target.FootNotes = source.FootNotes;
             target.isEstimate = source.isEstimate;
             target.Estimate_Total = source.Estimate_Total;
+            target.EnquiryId = source.EnquiryId;
 
             // Update Order Schedule
             UpdateOrderSchedule(source, target);

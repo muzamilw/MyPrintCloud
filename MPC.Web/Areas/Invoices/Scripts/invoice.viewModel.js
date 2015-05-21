@@ -563,11 +563,22 @@ define("invoice/invoice.viewModel",
                             invoice.InvoiceDetails.push(inv.convertToServerData(inv));
 
                         });
-                        _.each(selectedInvoice().items(), function (item) {
-                            invoice.Items.push(item.convertToServerData());
+
+                        var itemsArray = [];
+                        _.each(selectedInvoice().items(), function (obj) {
+                            var itemObj = obj.convertToServerData(); // item converted 
+                            var attArray = [];
+                            _.each(itemObj.ItemAttachment, function (att) {
+                                var attchment = att.convertToServerData(); // item converted 
+                                attchment.ContactId = selectedInvoice().contactId();
+                                attArray.push(attchment);
+                            });
+                            itemObj.ItemAttachments = attArray;
+                            itemsArray.push(itemObj);
+
                         });
 
-
+                        invoice.Items = itemsArray;
                         dataservice.saveInvoice(invoice, {
                             success: function (data) {
                                 if (!selectedInvoice().id()) {
