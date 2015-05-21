@@ -3851,3 +3851,11 @@ alter column createdby uniqueidentifier null
 
 alter table invoicedetail
 add ItemGrossTotal float null
+
+/* Execution Date: 21/05/2015 */
+
+alter table ItemSection 
+alter column PassesSide1 int null
+
+alter table ItemSection 
+alter column PassesSide2 int null
