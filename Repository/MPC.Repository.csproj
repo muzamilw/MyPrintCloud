@@ -217,8 +217,11 @@
     <Compile Include="Repositories\CompanyContactRoleRepository.cs" />
     <Compile Include="Repositories\CompanyCostCenterRepository.cs" />
     <Compile Include="Repositories\CostCentreAnswerRepository.cs" />
+    <Compile Include="Repositories\EstimateInquiryRepository.cs" />
     <Compile Include="Repositories\GoodRecieveNoteRepository.cs" />
     <Compile Include="Repositories\InkCoverageGroupRepository.cs" />
+    <Compile Include="Repositories\InquiryItemRepository.cs" />
+    <Compile Include="Repositories\InvoiceDetailRepository.cs" />
     <Compile Include="Repositories\ItemImageRepository.cs" />
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
     <Compile Include="Repositories\SectionCostCentreDetailRepository.cs" />

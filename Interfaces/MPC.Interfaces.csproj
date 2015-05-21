@@ -91,6 +91,7 @@
     <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="MISServices\IDeliveryCarriersService.cs" />
     <Compile Include="MISServices\IGoodsReceivedNoteService.cs" />
+    <Compile Include="MISServices\IInquiryService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
     <Compile Include="MISServices\IItemJobStatusService.cs" />
     <Compile Include="MISServices\IItemSectionService.cs" />
@@ -106,8 +107,11 @@
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\ICostCentreAnswerRepository.cs" />
     <Compile Include="Repository\IDeliveryNoteRepository.cs" />
+    <Compile Include="Repository\IEstimateInquiryRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />
+    <Compile Include="Repository\IInquiryItemRepository.cs" />
+    <Compile Include="Repository\IInvoiceDetailRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
     <Compile Include="Repository\ISectionCostCentreDetailRepository.cs" />

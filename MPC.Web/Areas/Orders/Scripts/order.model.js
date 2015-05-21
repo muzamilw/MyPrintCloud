@@ -18,7 +18,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedTargetPrintDate, specifiedOrderCreationDateTime, specifiedOrderManagerId, specifiedSalesPersonId, specifiedSourceId,
             specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
             specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
-            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes) {
+            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -214,6 +214,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : moment().toDate()),
                 // Foot Notes
                 footNotes = ko.observable(specifiedFootNotes || undefined),
+                //Enqiry Id
+                enquiryId = ko.observable(specifiedEnquiryId || undefined),
                 //Tax Rate
                 taxRate = ko.observable(undefined),
                 // Items
@@ -320,7 +322,18 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
                     if (itemInvalid) {
                         var nameElement = items.domElement;
-                        validationSummaryList.push({ name: itemInvalid.productName() + " has invalid data.", element: nameElement });
+                        // Show Item Section Errors
+                        var itemSectionInvalid = itemInvalid.itemSections.find(function (itemSection) {
+                            return !itemSection.isValid();
+                        });
+                        var invalidSectionName = '';
+                        if (itemSectionInvalid) {
+                            invalidSectionName = itemSectionInvalid.name();
+                        }
+                        validationSummaryList.push({
+                            name: itemInvalid.productName() + " has invalid data in Section named " + invalidSectionName,
+                            element: nameElement
+                        });
                     }
                 },
                 // True if the order has been changed
@@ -392,6 +405,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         FinishDeliveryDate: finishDeliveryDate() ? moment(finishDeliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
                         HeadNotes: headNotes(),
                         FootNotes: footNotes(),
+                        EnquiryId: enquiryId(),
                         TaxRate: taxRate(),
                         ArtworkByDate: artworkByDate() ? moment(artworkByDate()).format(ist.utcFormat) + 'Z' : undefined,
                         DataByDate: dataByDate() ? moment(dataByDate()).format(ist.utcFormat) + 'Z' : undefined,
@@ -447,6 +461,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 finishDeliveryDate: finishDeliveryDate,
                 headNotes: headNotes,
                 footNotes: footNotes,
+                enquiryId: enquiryId,
                 taxRate: taxRate,
                 artworkByDate: artworkByDate,
                 dataByDate: dataByDate,
@@ -590,7 +605,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         },
         // Shipping Information
         ShippingInformation = function (specifiedShippingId, specifiedItemId, specifiedAddressId, specifiedQuantity, specifiedPrice, specifiedDeliveryNoteRaised,
-            specifiedDeliveryDate, specifiedEstimateId) {
+            specifiedDeliveryDate, specifiedEstimateId, specifiedAddressName, specifiedItemName) {
             var // Unique key
                 shippingId = ko.observable(specifiedShippingId),
                 // Item ID
@@ -614,9 +629,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     }
                 }),
                 // Item Name
-                itemName = ko.observable(),
+                itemName = ko.observable(specifiedItemName || ''),
                 // Address Name
-                addressName = ko.observable(),
+                addressName = ko.observable(specifiedAddressName || ''),
                 //
                 isSelected = ko.observable(false),
                 // Estimate ID
@@ -705,6 +720,13 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 name: specifiedDescription
             };
         },
+         // Pipeline Products Entity        
+        PipeLineProduct = function (specifiedId, specifiedDescription) {
+            return {
+                id: specifiedId,
+                name: specifiedDescription
+            };
+        },
         // Address Entity
         Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1, specifiedIsDefault) {
             return {
@@ -736,7 +758,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.ArtworkByDate, source.DataByDate, source.PaperByDate, source.TargetBindDate, source.XeroAccessCode, source.TargetPrintDate,
         source.OrderCreationDateTime, source.SalesAndOrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
-        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
+        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId);
+
         estimate.statusId(source.StatusId);
         estimate.status(source.Status);
         estimate.systemUsers(constructorParams.SystemUsers);
@@ -887,7 +910,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     var Inquiry = function (
         specifiedInquiryId, specifiedTitle, specifiedContactId, specifiedCreatedDate, specifiedSourceId, specifiedCompanyId, specifiedCompanyName,specifiedRequireByDate,
-        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId
+        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId, specifiedFlagColor, specifiedEstimateId
     ) {
         var self,
         inquiryId = ko.observable(specifiedInquiryId),
@@ -895,26 +918,89 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         contactId = ko.observable(specifiedContactId),
         createdDate = ko.observable(specifiedCreatedDate),
         sourceId = ko.observable(specifiedSourceId),
-        companyId = ko.observable(specifiedCompanyId),
+        companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
         companyName = ko.observable(specifiedCompanyName),
         requireByDate = ko.observable(specifiedRequireByDate ? moment(specifiedRequireByDate).toDate() : moment().toDate()),
         systemUserId = ko.observable(specifiedSystemUserId),
         status = ko.observable(specifiedStatus),
         isDirectInquiry = ko.observable(specifiedIsDirectInquiry),
-        flagId = ko.observable(specifiedFlagId),
+        flagId = ko.observable(specifiedFlagId).extend({ required: true }),
         inquiryCode = ko.observable(specifiedInquiryCode),
         createdBy = ko.observable(specifiedCreatedBy),
         organisationId = ko.observable(specifiedOrganisationId),
-        inquiryAttachments = ko.observableArray(),
-        inquiryItems = ko.observableArray(),
+        flagColor = ko.observable(specifiedFlagColor),
+        estimateId = ko.observable(specifiedEstimateId),
+        inquiryAttachments = ko.observableArray([]),
+        inquiryItems = ko.observableArray([]),
+        // System Users
+        systemUsers = ko.observableArray([]),
+        //Pipe Line Sources
+        pipelineSources = ko.observableArray([]),
+        // Get User by Id
+        getUserById = function (userId) {
+            return systemUsers.find(function (user) {
+                return user.id === userId;
+            });
+        },
+        // System User Id Set By For User
+        systemUserIdByUser = ko.computed({
+            read: function () {
+                if (!systemUserId()) {
+                    return SystemUser.Create({});
+                }
+                return getUserById(systemUserId());
+            },
+            write: function (value) {
+                if (!value) {
+                    systemUserId(undefined);
+                    return;
+                }
+                var userId = value.id;
+                if (userId === systemUserId()) {
+                    return;
+                }
+                systemUserId(userId);
+            }
+        }),
+        // Get Pipe Line by Id
+        getpipeLineById = function (userId) {
+            return pipelineSources.find(function (source) {
+                return source.id === userId;
+            });
+        },
+        // System Pipe Line Id Set By For User
+        systemPipeLineByUser = ko.computed({
+            read: function () {
+                if (!sourceId()) {
+                    return SystemUser.Create({});
+                }
+                return getpipeLineById(sourceId());
+            },
+            write: function (value) {
+                if (!value) {
+                    sourceId(undefined);
+                    return;
+                }
+                var userId = value.id;
+                if (userId === sourceId()) {
+                    return;
+                }
+                sourceId(userId);
+            }
+        }),
         errors = ko.validation.group({
-
+            companyId: companyId,
+            flagId: flagId,
         }),
         // Is Valid 
         isValid = ko.computed(function () {
             return errors().length === 0 ? true : false;
         }),
-
+        // Show All Error Messages
+        showAllErrors = function () {
+            // Show Item Errors
+            errors.showAllMessages();
+        },
         // ReSharper disable once InconsistentNaming
         dirtyFlag = new ko.dirtyFlag({
             inquiryId: inquiryId,
@@ -930,37 +1016,40 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             flagId: flagId,
             inquiryCode: inquiryCode,
             createdBy: createdBy,
-            organisationId: organisationId
+            organisationId: organisationId,
+            inquiryItems: inquiryItems,
+            inquiryAttachments: inquiryAttachments
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
             return dirtyFlag.isDirty();
         }),
         //Convert To Server
-            convertToServerData = function () {
-                return {
-                    InquiryId: inquiryId(),
-                    Title: title(),
-                    ContactId: contactId(),
-                    CreatedDate: createdDate(),
-                    SourceId: sourceId(),
-                    CompanyId: companyId(),
-                    RequireByDate: requireByDate(),
-                    SystemUserId: systemUserId(),
-                    Status: status(),
-                    IsDirectInquiry: isDirectInquiry(),
-                    FlagId: flagId(),
-                    InquiryCode: inquiryCode(),
-                    CreatedBy: createdBy(),
-                    OrganisationId: organisationId(),
-                };
-            },
-            // Reset
-            reset = function () {
-                dirtyFlag.reset();
+        convertToServerData = function () {
+            return {
+                InquiryId: inquiryId(),
+                Title: title(),
+                ContactId: contactId(),
+                CreatedDate: createdDate() ? moment(createdDate()).format(ist.utcFormat) + 'Z' : undefined,
+                SourceId: sourceId(),
+                CompanyId: companyId(),
+                RequireByDate: requireByDate() ? moment(requireByDate()).format(ist.utcFormat) + 'Z' : undefined,
+                SystemUserId: systemUserId(),
+                Status: status(),
+                IsDirectInquiry: isDirectInquiry(),
+                FlagId: flagId(),
+                InquiryCode: inquiryCode(),
+                CreatedBy: createdBy(),
+                OrganisationId: organisationId(),
+                InquiryAttachments: [],
+                InquiryItems: []
             };
-        //inquiryId title contactId createdDate sourceId companyId requireByDate systemUserId status
-        //isDirectInquiry flagId inquiryCode createdBy organisationId
+        },
+        // Reset
+        reset = function () {
+            dirtyFlag.reset();
+        };
+        
         self = {
             inquiryId: inquiryId,
             title: title,
@@ -977,10 +1066,17 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             inquiryCode: inquiryCode,
             createdBy: createdBy,
             organisationId: organisationId,
+            flagColor: flagColor,
             inquiryAttachments: inquiryAttachments,
             inquiryItems: inquiryItems,
+            systemUserIdByUser: systemUserIdByUser,
+            systemPipeLineByUser: systemPipeLineByUser,
+            systemUsers: systemUsers,
+            pipelineSources: pipelineSources,
+            estimateId: estimateId,
             isValid: isValid,
             errors: errors,
+            showAllErrors: showAllErrors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
@@ -989,7 +1085,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return self;
     };
 
-    Inquiry.Create = function (source) {
+    Inquiry.Create = function (source, constructorParams) {
         var inquiry = new Inquiry(
               source.InquiryId,
               source.Title,
@@ -1005,8 +1101,36 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               source.FlagId,
               source.InquiryCode,
               source.CreatedBy,
-              source.OrganisationId
+              source.OrganisationId,
+            source.FlagColor,
+            source.EstimateId
             );
+        // Map Items if any
+        if (source.InquiryAttachments && source.InquiryAttachments.length > 0) {
+            var items = [];
+            _.each(source.InquiryAttachments, function (item) {
+                items.push(InquiryAttachment.Create(item));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(inquiry.inquiryAttachments(), items);
+            inquiry.inquiryAttachments.valueHasMutated();
+        }
+        if (source.InquiryItems && source.InquiryItems.length > 0) {
+             items = [];
+            _.each(source.InquiryItems, function (item) {
+                items.push(InquiryItem.Create(item));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(inquiry.inquiryItems(), items);
+            inquiry.inquiryItems.valueHasMutated();
+        }
+        if (constructorParams) {
+            inquiry.systemUsers(constructorParams.SystemUsers);
+            inquiry.pipelineSources(constructorParams.PipelineSources);
+        }
+        
         return inquiry;
     };
     //#endregion
@@ -1096,7 +1220,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         inquiryItemId = ko.observable(specifiedInquiryItemId),
         title = ko.observable(specifiedTitle),
         notes = ko.observable(specifiedNotes),
-        deliveryDate = ko.observable(specifiedDeliveryDate),
+        deliveryDate = ko.observable(specifiedDeliveryDate ? moment(specifiedDeliveryDate).toDate() : moment().toDate()),
         inquiryId = ko.observable(specifiedInquiryId),
         productId = ko.observable(specifiedProductId),
         errors = ko.validation.group({
@@ -1125,8 +1249,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 return {
                     InquiryItemId: inquiryItemId(),
                     Title: title(),
-                    AttachmentPath: attachmentPath(),
-                    DeliveryDate: deliveryDate(),
+                    Notes: notes(),
+                    DeliveryDate: deliveryDate() ? moment(deliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
                     InquiryId: inquiryId(),
                     ProductId: productId()
                 };
@@ -1158,9 +1282,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         var inquiryItem = new InquiryItem(
               source.InquiryItemId,
               source.Title,
-              source.AttachmentPath,
+              source.Notes,
+              source.DeliveryDate,
               source.InquiryId,
-              source.Extension
+              source.ProductId
             );
         return inquiryItem;
     };
@@ -1195,6 +1320,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return new PipeLineSource(source.SourceId, source.Description);
     };
 
+    // Pipeline Product Factory
+    PipeLineProduct.Create = function (source) {
+        return new PipeLineProduct(source.ProductId, source.Description);
+    };
+
     // Pre Payment Factory
     PrePayment.Create = function (source) {
         return new PrePayment(source.PrePaymentId, source.CustomerId, source.OrderId, source.Amount, source.PaymentDate, source.PaymentMethodId,
@@ -1202,7 +1332,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     };
 
     ShippingInformation.Create = function (source) {
-        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate, source.EstimateId);
+        return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised,
+            source.DeliveryDate, source.EstimateId, source.AddressName, source.ItemName);
     };
 
     return {
@@ -1218,6 +1349,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         SystemUser: SystemUser,
         // PipeLine Source Constructor
         PipeLineSource: PipeLineSource,
+        // PipeLine Product Constructor
+        PipeLineProduct: PipeLineProduct,
         // Status Enum
         Status: Status,
         // Pre Payment Constructor
