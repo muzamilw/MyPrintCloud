@@ -434,6 +434,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeZoneMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineGuillotineCalcMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineGuilotinePtvMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineLookupMethodMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineMeterPerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
@@ -547,6 +548,7 @@
     <Compile Include="Areas\Api\Models\MachineClickChargeZone.cs" />
     <Compile Include="Areas\Api\Models\MachineGuillotineCalc.cs" />
     <Compile Include="Areas\Api\Models\MachineGuilotinePtv.cs" />
+    <Compile Include="Areas\Api\Models\MachineLookupMethod.cs" />
     <Compile Include="Areas\Api\Models\MachineMeterPerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
@@ -1771,6 +1773,7 @@
     <Content Include="Scripts\App\dashboard.model.js" />
     <Content Include="Scripts\App\dashboard.view.js" />
     <Content Include="Scripts\App\dashboard.viewModel.js" />
+    <Content Include="Scripts\App\p71.js" />
     <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.js" />
     <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.min.js" />
     <Content Include="Scripts\knockout-3.1.0.debug.js" />

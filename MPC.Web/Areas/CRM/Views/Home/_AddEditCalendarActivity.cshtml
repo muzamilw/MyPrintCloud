@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">To Do Activity</h4>
+                <h4 class="modal-title">To Do Activity <span style="padding-left: 93px;" data-bind="visible: $root.createdByUserName"> Created By (<span data-bind="text:$root.createdByUserName"> </span>)</span>  </h4>
             </div>
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="col-lg-7">
@@ -32,7 +32,7 @@
                             <select style="width: 271px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
                                 <option style="width: 271px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
                             </select>
-                            @*<select class="form-control" id="product" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId"></select>*@
+                          
                         </div>
                     </div>
                     <div class="form-group">
@@ -59,7 +59,7 @@
                             <input type="text" class="form-control" id="endDateTime" data-bind="datetimepicker:endDateTime">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" data-bind="visible:$root.loggedInUserId()===systemUserId()">
                         <div class="col-lg-5 text-right">
                             <label class="control-label text-right tooltip-float"></label>
                         </div>

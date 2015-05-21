@@ -33,6 +33,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 ContactId = source.ContactId,
                 AddressId = source.AddressId,
+                StoreId = source.Company != null ? source.Company.StoreId : null,
+                IsCustomer = source.Company != null ? source.Company.IsCustomer : (short)0,
                 CompanyName = source.Company != null ? source.Company.Name : "",
                 InvoiceCode = source.InvoiceCode,
                 InvoiceName = source.InvoiceName,
@@ -104,6 +106,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InvoiceTotal = source.InvoiceTotal,
                 GrandTotal = source.GrandTotal != null ? Math.Round((double)source.GrandTotal, 2) : 0,
                 StatusId = source.Status != null ? source.Status.StatusId : 0,
+                Status = source.Status != null ? source.Status.StatusName : string.Empty,
                 FlagId = source.FlagID,
                 OrderNo = source.OrderNo,
                 ItemsCount = itemsTotal

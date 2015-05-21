@@ -69,7 +69,7 @@
 
                             <li><a href="#tab-pageeditor" data-toggle="tab">Store Layout</a></li>
                             <li><a href="#tab-DelvAddOns" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Shipping Options</a></li>
-                            <li><a href="#tab-specialoffer" data-toggle="tab">Discount & Loyalty Points</a></li>
+                            @*<li><a href="#tab-specialoffer" data-toggle="tab">Discount & Loyalty Points</a></li>*@
                             <li><a href="#tab-CMYKColors" data-toggle="tab">Spot Colors</a></li>
                             <li><a href="#tab-VariableDef" data-toggle="tab">Custom CRM Fields</a></li>
                             <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
@@ -260,7 +260,7 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;">Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.</div>
+                                                <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;">Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.</div>
                                                 <div class="profile-stars">
                                                     <span data-bind="value: type"></span>
                                                 </div>
@@ -541,7 +541,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-products">
-                                <div class="col-lg-5" data-bind="with: $root.selectedStore">
+                                <div class="col-lg-4" data-bind="with: $root.selectedStore">
                                     <div class="clearfix">
                                         <header>
                                             <h2 style="padding-right:5px;">
@@ -568,7 +568,7 @@
                                         </ol>
                                     </div>
                                 </div>
-                                <div class="col-lg-7">
+                                <div class="col-lg-8">
                                     <div class="clearfix">
                                         <header>
                                             <div class="text-left" style="margin-left:17px;">
@@ -733,9 +733,9 @@
                                                                                         <th class="col-lg-3">Company Default Shipping Address</th>
                                                                                         <!--/ko-->
                                                                                         <!--ko if: type() == 3-->
-                                                                                        <th class="col-lg-3">Territory Default Billing Address</th>
+                                                                                        <th class="col-lg-3">Default Territory Billing Address</th>
                                                                                         <!--/ko-->
-                                                                                        <th class="col-lg-3">Company Default Address</th>
+                                                                                        <th class="col-lg-3">Default Company Address</th>
 
                                                                                     </tr>
                                                                                 </thead>
@@ -996,7 +996,7 @@
                                                                             <div class="form-group">
                                                                                 <div class="col-lg-3 text-right">
                                                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Available Themes" data-original-title="" title="">
+                                                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select a theme from a list of readymade Corporate and Retail store themes. After applying the theme all existing CSS changes, background, banners and sprite image will be overwritten by the newly selected theme’s artifacts." data-original-title="" title="">
                                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                         </a>
                                                                                     </div>
@@ -1008,11 +1008,15 @@
 
                                                                                     <div class="form-control" id="ops_theme_dropdown" style="margin-right:7px;">
                                                                                         <div id="ops_theme_list">
-                                                                                            <a id="ops_theme_select" data-bind="text: $root.selectedThemeName" href="#"></a>
+                                                                                            <a style="color:black;" data-bind="text: $root.selectedThemeName" href="#">
+
+                                                                                              
+                                                                                            </a>
                                                                                             <ul style="display: none;">
                                                                                                 <!-- ko template: { name: 'themeListItemTemplate', foreach: $root.themes } -->
                                                                                                 <!-- /ko -->
                                                                                             </ul>
+                                                                                            <i class="fa fa-sort-desc" style="float: right;padding-right: 15px;padding-top: 2px;"></i>
                                                                                         </div>
                                                                                         <div class="clearfix"></div>
                                                                                     </div>
@@ -1051,12 +1055,12 @@
                                                                                         <img width="242" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
                                                                                         <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:242px;">
                                                                                             <div class="fileUpload btn btn-primary" data-bind="click:$root.showMediaLibraryDialogFromStoreBackground">
-                                                                                                <span>Upload </span>
+                                                                                                <span>Change Background</span>
                                                                                                 @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
                                                                                             </div>
 
                                                                                         </div>
-                                                                                        <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;width:242px;">Background image could be a PNG or JPG file. Behaviour of background  image is controlled using CSS.</div>
+                                                                                        <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;width:242px;text-align:center">Background image could be a PNG or JPG file. Behaviour of background  image is controlled using CSS.</div>
                                                                                         <div class="profile-stars">
                                                                                             <span data-bind="value: type"></span>
                                                                                         </div>
@@ -1382,12 +1386,12 @@
                                                                         <div class="col-md-9">
                                                                             <div class="form-group">
                                                                                 <div class="col-lg-3 text-right">
-                                                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                                                    @*<div class="bs-example-tooltips tooltip-float-width">
                                                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Download and make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings." data-original-title="" title="">
                                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                         </a>
                                                                                     </div>
-                                                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload New Sprite Image</label>
+                                                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload New Sprite Image</label>*@
                                                                                 </div>
                                                                                 <div class="col-lg-6">
 
@@ -1398,8 +1402,8 @@
                                                                                         @*<img width="250" id="idCostcenterimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
                                     <img width="250" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />*@
 
-                                                                                        <div class="col-lg-12">
-                                                                                            <div class="col-lg-6" style="margin-top: 5px;text-align:center;">
+                                                                                        <div class="col-lg-12" style="padding-left:0px;">
+                                                                                            <div class="col-lg-6" style="margin-top: 5px;text-align:center;padding-left: 0px;width: 200px;">
                                                                                                 <div class="fileUpload btn btn-primary">
                                                                                                     <span>Upload </span>
                                                                                                     <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.spriteImageLoadedCallback, fileFilter: 'image.*'}" />
@@ -1413,8 +1417,8 @@
 
                                     </div>*@
                                                                                         <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;">
-                                                                                            <div class="col-lg-6">
-                                                                                                New Sprite Image
+                                                                                            <div class="col-lg-6" style="width:200px;">
+                                                                                                Download and make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings.
                                                                                             </div>
 
                                                                                         </div>
@@ -1475,7 +1479,7 @@
                                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                         </a>
                                                                                     </div>
-                                                                                    <label class="control-label text-right tooltip-float">Display secondary pages</label>
+                                                                                    <label class="control-label text-right tooltip-float">User Defined Pages</label>
                                                                                 </div>
                                                                                 <div class="col-lg-6">
                                                                                     <div class="onoffswitch">
@@ -1534,7 +1538,7 @@
 
                                                                                                         <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
                                                                                                             <div data-bind="click:$root.onAddSecondaryPage" style="margin-right: 14px" class="btn btn-primary">
-                                                                                                                Add New SecondaryPage
+                                                                                                                Add New User Defined Page
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         @*<div class="main-box-body clearfix">
@@ -2185,11 +2189,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                             <div class="col-lg-9">
                                                                                 <div class="form-group" id="taxLabel">
                                                                                     <div class="col-lg-3 text-right">
-                                                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                                                        @*<div class="bs-example-tooltips tooltip-float-width">
                                                                                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="< No Text >" data-original-title="" title="">
                                                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                             </a>
-                                                                                        </div>
+                                                                                        </div>*@
                                                                                         <label class="control-label text-right tooltip-float">Tax Title/Label</label>
                                                                                     </div>
                                                                                     <div class="col-lg-6">
@@ -2201,11 +2205,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                                                                 <div class="form-group">
                                                                                     <div class="col-lg-3 text-right">
-                                                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                                                        @*<div class="bs-example-tooltips tooltip-float-width">
                                                                                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
                                                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                             </a>
-                                                                                        </div>
+                                                                                        </div>*@
                                                                                         @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Calculate Tax By external Service ?</label>*@
                                                                                     </div>
                                                                                     <div class="col-lg-6" style="padding-left:3px;">
@@ -2230,11 +2234,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                                                                 <div class="form-group">
                                                                                     <div class="col-lg-3 text-right">
-                                                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                                                        @*<div class="bs-example-tooltips tooltip-float-width">
                                                                                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default tax uplift (Defined also by individual products).  Does not apply to USA customers" data-original-title="" title="">
                                                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                             </a>
-                                                                                        </div>
+                                                                                        </div>*@
                                                                                         @*<label class="control-label text-right tooltip-float">Store Tax</label>*@
                                                                                     </div>
                                                                                     <div class="col-lg-6">
@@ -2247,11 +2251,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                                                                 <div class="form-group">
                                                                                     <div class="col-lg-3 text-right">
-                                                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                                                        @*<div class="bs-example-tooltips tooltip-float-width">
                                                                                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="By Setting no this will display the product prices without tax and tax will be calculated when checking out if Tax percentage is not zero." data-original-title="" title="">
                                                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                                             </a>
-                                                                                        </div>
+                                                                                        </div>*@
                                                                                         @*<label for="txtCompanyName" class="control-label text-right tooltip-float"></label>*@
                                                                                     </div>
                                                                                     <div class="col-lg-6" style="padding-left:3px;">
@@ -3562,7 +3566,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </li>
 </script>
 <script id="mediaLibraryItemTemplate" type="text/html">
-    <li class="col-md-3 col-sm-3 col-xs-6" style="padding-left:3px;">
+    <li class="col-md-3 col-sm-3 col-xs-6">
         <div class="photo-box image-link" style="padding-top: 0">
             <img class="photo-box image-link" style="padding-top: 0;height:127px !important" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
             <img class="photo-box image-link" style="padding-top: 0;height:127px !important" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />

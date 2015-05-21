@@ -33,7 +33,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                   return "( " + numberOfItems() + " ) Items";
               }),
               // Creation Date
-              invoiceDate = ko.observable(specifiedInvoiceDate ? moment(specifiedInvoiceDate).toDate() : undefined),
+              invoiceDate = ko.observable(specifiedInvoiceDate ? moment(specifiedInvoiceDate).toDate() : moment(new Date()).toDate()),
               // Flag Color
               flagColor = ko.observable(),
               // Estimate Total
@@ -353,32 +353,35 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     }
 
     // Address Entity
-    Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1) {
+    Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1, specifiedIsDefaultAddress) {
         return {
             id: specifiedId,
             name: specifiedName,
             address1: specifiedAddress1 || "",
             address2: specifiedAddress2 || "",
-            telephone1: specifiedTelephone1 || ""
+            telephone1: specifiedTelephone1 || "",
+            isDefaultAddress: specifiedIsDefaultAddress || ""
         };
     },
     // Company Contact Entity
-        CompanyContact = function (specifiedId, specifiedName, specifiedEmail) {
+        CompanyContact = function (specifiedId, specifiedName, specifiedEmail, specifiedIsDefaultContact) {
             // ReSharper restore InconsistentNaming
             return {
                 id: specifiedId,
                 name: specifiedName,
-                email: specifiedEmail || ""
+                email: specifiedEmail || "",
+                isDefault: specifiedIsDefaultContact || ""
+
             };
         };
     // Address Factory
     Address.Create = function (source) {
-        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1);
+        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1, source.IsDefaultAddress);
     };
 
     // Company Contact Factory
     CompanyContact.Create = function (source) {
-        return new CompanyContact(source.ContactId, source.Name, source.Email);
+        return new CompanyContact(source.ContactId, source.Name, source.Email, source.IsDefaultContact);
     };
     // Item Section Factory
     Invoice.Create = function (source) {
@@ -411,7 +414,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
 
     InvoicesListView = function (specifiedId, specifiedName, specifiedType, specifiedCode, specifiedCompanyName, specifiedInvoiceDate, specifiedItemsCount,
-                            specifiedFlagColor, specifiedInvoiceTotal, specifiedOrderNo) {
+                            specifiedFlagColor, specifiedInvoiceTotal, specifiedOrderNo, specifiedStatus) {
         var
             self,
             //Unique ID
@@ -425,6 +428,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             invoiceDate = ko.observable(specifiedInvoiceDate),
             itemsCount = ko.observable(specifiedItemsCount),
             flagColor = ko.observable(specifiedFlagColor),
+            status = ko.observable(specifiedStatus),
             invoiceTotal = ko.observable(specifiedInvoiceTotal).extend({ numberInput: ist.numberFormat }),
             isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
                 // Number of Items UI
@@ -445,6 +449,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             invoiceDate: invoiceDate,
             itemsCount: itemsCount,
             flagColor: flagColor,
+            status: status,
             invoiceTotal: invoiceTotal,
             convertToServerData: convertToServerData,
             isDirectSale: isDirectSale,
@@ -455,7 +460,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     InvoicesListView.Create = function (source) {
         return new InvoicesListView(source.InvoiceId, source.InvoiceName, source.InvoiceType, source.InvoiceCode,
-            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.InvoiceTotal, source.OrderNo);
+            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.InvoiceTotal, source.OrderNo, source.Status);
     };
 
     return {

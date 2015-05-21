@@ -31,6 +31,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsPrivate = source.IsPrivate,
                 ProductTypeId = source.ProductTypeId,
                 SystemUserId = source.SystemUserId,
+                CreatedBy= source.CreatedBy
             };
         }
 
@@ -56,7 +57,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductTypeId = source.ProductTypeId,
                 SystemUserId = source.SystemUserId,
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty,
-                IsCustomerType = source.Company != null ? source.Company.IsCustomer : 1
+                IsCustomerType = source.Company != null ? source.Company.IsCustomer : 1,
+                CreatedBy= source.CreatedBy
             };
         }
         
@@ -72,7 +74,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ActivityEndTime = source.ActivityEndTime,
                 ActivityStartTime = source.ActivityStartTime,
                 FlagId = source.FlagId,
-
+                SystemUserId = source.SystemUserId,
             };
         }
 

@@ -42,7 +42,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 deFaultPlatesName = source.deFaultPlatesName == null ? null : source.deFaultPlatesName,
                 CurrencySymbol = source.CurrencySymbol == null ? null : source.CurrencySymbol,
                 WeightUnit = source.WeightUnit == null ? null : source.WeightUnit,
-                LengthUnit = source.LengthUnit == null ? null : source.LengthUnit
+                LengthUnit = source.LengthUnit == null ? null : source.LengthUnit,
+                MachineLookupMethods = source.MachineLookupMethods == null ? null : source.MachineLookupMethods.Select(s => s.CreateFrom())
             };
 
         }
