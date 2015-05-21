@@ -3836,3 +3836,27 @@ alter table invoiceDetail
 add TaxValue float null
 
 --Executed on Staging, Preview, Australia and Europe Servers-----on 2015 05 19---
+/* Execution Date: 20/05/2015 */
+
+alter table activity
+drop constraint DF_tbl_activity_CreatedBy
+
+alter table activity
+alter column createdby nvarchar(max) null
+
+update activity
+set createdby = null
+
+alter table activity
+alter column createdby uniqueidentifier null
+
+alter table invoicedetail
+add ItemGrossTotal float null
+
+/* Execution Date: 21/05/2015 */
+
+alter table ItemSection 
+alter column PassesSide1 int null
+
+alter table ItemSection 
+alter column PassesSide2 int null

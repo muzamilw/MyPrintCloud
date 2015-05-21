@@ -44,6 +44,8 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(ct => ct.IsDisplay == true).ToList();
         }
+
+        
         #endregion
     }
 }

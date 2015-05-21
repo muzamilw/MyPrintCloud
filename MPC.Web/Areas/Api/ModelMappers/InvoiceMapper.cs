@@ -25,19 +25,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Domain invoice to web invoice mapper
         /// </summary>
-        public static Models.Invoice CreateFrom(this DomainModels.Invoice source)
+        public static Invoice CreateFrom(this DomainModels.Invoice source)
         {
-            return new Models.Invoice
+            return new Invoice
             {
                 InvoiceId = source.InvoiceId,
                 CompanyId = source.CompanyId,
                 ContactId = source.ContactId,
                 AddressId = source.AddressId,
+                StoreId = source.Company != null ? source.Company.StoreId : null,
+                IsCustomer = source.Company != null ? source.Company.IsCustomer : (short)0,
                 CompanyName = source.Company != null ? source.Company.Name : "",
                 InvoiceCode = source.InvoiceCode,
                 InvoiceName = source.InvoiceName,
                 IsArchive = source.IsArchive,
                 InvoiceDate = source.InvoiceDate,
+                InvoicePostedBy = source.InvoicePostedBy,
                 Status = source.Status != null ? source.Status.StatusName : "",
                 InvoiceStatus = source.InvoiceStatus,
                 InvoiceTotal = source.InvoiceTotal != null ? Math.Round((double)source.InvoiceTotal, 2) : 0,
@@ -74,6 +77,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OrderNo = source.OrderNo,
                 AccountNumber = source.AccountNumber,
                 ReportSignedBy = source.ReportSignedBy,
+                InvoicePostedBy = source.InvoicePostedBy,
                 HeadNotes = source.HeadNotes,
                 FootNotes = source.FootNotes,
                 InvoiceDetails = source.InvoiceDetails != null ? source.InvoiceDetails.Select(i => i.CreateFrom()).ToList() : null,
@@ -83,6 +87,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         private static InvoicesListModel CreateForList(this  DomainModels.Invoice source)
         {
+            int itemsTotal = 0;
+            if (source.InvoiceDetails != null)
+            {
+                itemsTotal = source.InvoiceDetails.Count();
+            }
+            if (source.Items != null)
+            {
+                itemsTotal = itemsTotal + source.Items.Count();
+            }
             return new InvoicesListModel
             {
                 InvoiceId = source.InvoiceId,
@@ -90,11 +103,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InvoiceCode = source.InvoiceCode,
                 InvoiceName = source.InvoiceName,
                 InvoiceDate = source.InvoiceDate,
+                InvoiceTotal = source.InvoiceTotal,
                 GrandTotal = source.GrandTotal != null ? Math.Round((double)source.GrandTotal, 2) : 0,
                 StatusId = source.Status != null ? source.Status.StatusId : 0,
+                Status = source.Status != null ? source.Status.StatusName : string.Empty,
                 FlagId = source.FlagID,
                 OrderNo = source.OrderNo,
-                ItemsCount = source.InvoiceDetails != null ? source.InvoiceDetails.Count() : 0
+                ItemsCount = itemsTotal
             };
         }
 

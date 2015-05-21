@@ -13,6 +13,7 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? ActivityStartTime { get; set; }
         public DateTime? ActivityEndTime { get; set; }
         public string ActivityNotes { get; set; }
+        public Guid? CreatedBy { get; set; }
         public bool? IsCustomerActivity { get; set; }
         public int? ContactId { get; set; }
         public Guid? SystemUserId { get; set; }

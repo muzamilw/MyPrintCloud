@@ -71,6 +71,11 @@ namespace MPC.Models.ModelMappers
         public Action<Item> DeleteItem { get; set; }
 
 
+        /// <summary>
+        /// Action to create an Invoice Detail Item
+        /// </summary>
+        public Func<InvoiceDetail> CreateInvoiceDetail { get; set; }
+
         #endregion
     }
 }

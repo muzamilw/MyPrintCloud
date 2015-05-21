@@ -40,7 +40,7 @@
           <Property Name="LastModifiedDate" Type="datetime" />
           <Property Name="LastModifiedtime" Type="datetime" />
           <Property Name="LastModifiedBy" Type="int" />
-          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" />
           <Property Name="CampaignId" Type="int" />
           <Property Name="IsLocked" Type="smallint" />
           <Property Name="LockedBy" Type="int" />
@@ -1390,6 +1390,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ItemType" Type="int" />
           <Property Name="TaxId" Type="int" />
           <Property Name="TaxValue" Type="float" />
+          <Property Name="ItemGrossTotal" Type="float" />
         </EntityType>
         <EntityType Name="ItemAddonCostCentre">
           <Key>
@@ -1882,8 +1883,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="PressIdSide2" Type="bigint" />
           <Property Name="Side1LookUp" Type="bigint" />
           <Property Name="Side2LookUp" Type="bigint" />
-          <Property Name="PassesSide1" Type="bigint" />
-          <Property Name="PassesSide2" Type="bigint" />
+          <Property Name="PassesSide1" Type="int" />
+          <Property Name="PassesSide2" Type="int" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -9230,8 +9231,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="PressIdSide2" Type="Int64" />
           <Property Name="Side1LookUp" Type="Int64" />
           <Property Name="Side2LookUp" Type="Int64" />
-          <Property Name="PassesSide1" Type="Int64" />
-          <Property Name="PassesSide2" Type="Int64" />
+          <Property Name="PassesSide1" Type="Int32" />
+          <Property Name="PassesSide2" Type="Int32" />
         </EntityType>
         <EntityType Name="ItemStockControl">
           <Key>
@@ -10029,6 +10030,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Invoice" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_invoices" FromRole="InvoiceDetail" ToRole="Invoice" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_items" FromRole="InvoiceDetail" ToRole="Item" />
           <Property Name="TaxValue" Type="Double" />
+          <Property Name="ItemGrossTotal" Type="Double" />
         </EntityType>
         <EntityType Name="LengthUnit">
           <Key>
@@ -12416,7 +12418,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="LastModifiedtime" Type="DateTime" Precision="3" />
           <Property Name="LastModifiedBy" Type="Int32" />
-          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedBy" Type="Guid" />
           <Property Name="CampaignId" Type="Int32" />
           <Property Name="IsLocked" Type="Int16" />
           <Property Name="LockedBy" Type="Int32" />
@@ -15814,6 +15816,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="InvoiceDetails">
             <EntityTypeMapping TypeName="DomainModels.InvoiceDetail">
               <MappingFragment StoreEntitySet="InvoiceDetail">
+                <ScalarProperty Name="ItemGrossTotal" ColumnName="ItemGrossTotal" />
                 <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
                 <ScalarProperty Name="TaxId" ColumnName="TaxId" />
                 <ScalarProperty Name="ItemType" ColumnName="ItemType" />
