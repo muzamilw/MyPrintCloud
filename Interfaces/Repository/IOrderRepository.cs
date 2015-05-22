@@ -66,7 +66,7 @@ namespace MPC.Interfaces.Repository
         void updateTaxInCloneItemForServic(long orderId, double TaxValue, StoreMode Mode);
         void DeleteCart(long CompanyID);
         void DeleteOrderBySP(long OrderID);
-        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds);
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId);
         bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
                                              string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, Estimate order, Prefix prefix);
 
@@ -121,6 +121,11 @@ namespace MPC.Interfaces.Repository
 
         void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
 
-
+         /// <summary>
+        /// This function return the delivery item also
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+        List<Item> GetAllOrderItems(long OrderId);
     }
 }
