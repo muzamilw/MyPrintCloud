@@ -137,16 +137,16 @@ namespace MPC.Webstore.Controllers
                 {
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
-                        BCDetail = new DashboardViewModel(2);
-                        // All Order History
+                        //BCDetail = new DashboardViewModel(2);
+                        //// All Order History
 
-                        BCDetail.Name = "All Orders" + AllCorpOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblAllOrderss");
+                        //BCDetail.Name = "All Orders" + AllCorpOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblAllOrderss");
 
-                        BCDetail.Description = "Description";// (string)GetGlobalResourceObject("MyResource", "ltrlviewrocompletedo");
-                        BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
-                        BCDetail.PageNavigateURl = "/ProductOrderHistory";
-                        BCDetail.IsChangePassword = false;
-                        BCDashBordItems.Add(BCDetail);
+                        //BCDetail.Description = "Description";// (string)GetGlobalResourceObject("MyResource", "ltrlviewrocompletedo");
+                        //BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
+                        //BCDetail.PageNavigateURl = "/ProductOrderHistory";
+                        //BCDetail.IsChangePassword = false;
+                        //BCDashBordItems.Add(BCDetail);
                         //// Pending Approvals
                         BCDetail = new DashboardViewModel(3);
 
