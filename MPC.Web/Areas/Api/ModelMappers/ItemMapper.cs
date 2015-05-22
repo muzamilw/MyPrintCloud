@@ -605,28 +605,27 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
-                // ReSharper disable once PossibleNullReferenceException
-                ProductCategoryName = source.ProductCategoryItems.Count > 0 ? source.ProductCategoryItems.FirstOrDefault().ProductCategory.CategoryName : null,
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,
                 MinPrice = source.MinPrice,
                 IsQtyRanged = source.IsQtyRanged,
-                DefaultItemTax = source.DefaultItemTax
+                DefaultItemTax = source.DefaultItemTax,
+                JobDescriptionTitle1 = source.JobDescriptionTitle1,
+                JobDescription1 = source.JobDescription1,
+                JobDescriptionTitle2 = source.JobDescriptionTitle2,
+                JobDescription2 = source.JobDescription2,
+                JobDescriptionTitle3 = source.JobDescriptionTitle3,
+                JobDescription3 = source.JobDescription3,
+                JobDescriptionTitle4 = source.JobDescriptionTitle4,
+                JobDescription4 = source.JobDescription4,
+                JobDescriptionTitle5 = source.JobDescriptionTitle5,
+                JobDescription5 = source.JobDescription5,
+                JobDescriptionTitle6 = source.JobDescriptionTitle6,
+                JobDescription6 = source.JobDescription6,
+                JobDescriptionTitle7 = source.JobDescriptionTitle7,
+                JobDescription7 = source.JobDescription7
             };
-
-            // Load Thumbnail Image
-            if (!string.IsNullOrEmpty(source.ThumbnailPath))
-            {
-                string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
-                if (File.Exists(thumbnailPath))
-                {
-
-                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
-                    item.ThumbnailPath = thumbnailPath;
-                }
-            }
-
             return item;
         }
     }

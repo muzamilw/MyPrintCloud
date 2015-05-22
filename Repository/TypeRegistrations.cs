@@ -129,6 +129,9 @@ namespace MPC.Repository
             unityContainer.RegisterType<IShippingInformationRepository, ShippingInformationRepository>();
             unityContainer.RegisterType<ISectionCostCentreDetailRepository, SectionCostCentreDetailRepository>();
             unityContainer.RegisterType<ITemplateVariableRepository, TemplateVariableRepository>();
+            unityContainer.RegisterType<IEstimateInquiryRepository, EstimateInquiryRepository>();
+            unityContainer.RegisterType<IInquiryItemRepository, InquiryItemRepository>();
+            unityContainer.RegisterType<IInvoiceDetailRepository, InvoiceDetailRepository>();
         }
     }
 }

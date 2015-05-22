@@ -3790,3 +3790,73 @@ alter Column creditLimitSetBy uniqueidentifier null
 alter table Estimate
 alter Column allowJobWoCreditCheckSetBy uniqueidentifier null
 /*Executed on Staging on 2015 05 14*/
+
+/* Execution Date: 19/05/2015 */
+
+alter table inquiry
+alter column SystemUserId nvarchar(max) null
+
+update inquiry
+set systemUserid = null
+
+alter table inquiry
+alter column SystemUserId uniqueidentifier null
+
+alter table inquiry
+alter column CreatedBy nvarchar(max) null
+
+update inquiry
+set createdBy = null
+
+alter table inquiry
+alter column CreatedBy uniqueidentifier null
+
+alter table itemSection
+add PressIdSide2 bigint null
+
+alter table itemSection
+add Side1LookUp bigint null
+
+alter table itemSection
+add Side2LookUp bigint null
+
+alter table itemSection
+add PassesSide1 bigint null
+
+alter table itemSection
+add PassesSide2 bigint null
+
+alter table inquiry
+alter column SourceId nvarchar(max) null
+
+alter table inquiry
+alter column SourceId int null
+
+alter table invoiceDetail
+add TaxValue float null
+
+--Executed on Staging, Preview, Australia and Europe Servers-----on 2015 05 19---
+/* Execution Date: 20/05/2015 */
+
+alter table activity
+drop constraint DF_tbl_activity_CreatedBy
+
+alter table activity
+alter column createdby nvarchar(max) null
+
+update activity
+set createdby = null
+
+alter table activity
+alter column createdby uniqueidentifier null
+
+alter table invoicedetail
+add ItemGrossTotal float null
+
+/* Execution Date: 21/05/2015 */
+
+alter table ItemSection 
+alter column PassesSide1 int null
+
+alter table ItemSection 
+alter column PassesSide2 int null

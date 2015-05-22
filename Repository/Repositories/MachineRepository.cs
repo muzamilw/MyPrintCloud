@@ -159,6 +159,7 @@ namespace MPC.Repository.Repositories
                 Markups = null,
                 StockItemforInk = GetAllStockItemforInk(),
                 MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
+                MachineLookupMethods = GetMachineLookupMethods(MachineID),
                 deFaultPaperSizeName = GetStockItemName(omachine.DefaultPaperId),
                 deFaultPlatesName = GetStockItemName(omachine.DefaultPlateId),
                 InkCoveragItems = GetInkCoveragItems(),
@@ -412,6 +413,11 @@ namespace MPC.Repository.Repositories
         public IEnumerable<MachineSpoilage> GetMachineSpoilageItems(long machineId)
         {
             return db.MachineSpoilages.Where(g => g.MachineId == machineId).ToList();
+        }
+
+        public IEnumerable<MachineLookupMethod> GetMachineLookupMethods(long machineId)
+        {
+            return db.MachineLookupMethods.Where(g => g.MachineId == machineId).ToList();
         }
 
         public IEnumerable<InkCoverageGroup> GetInkCoveragItems()

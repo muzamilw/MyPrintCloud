@@ -22,7 +22,8 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
-                                @Html.ActionLink("All Contacts", "Contacts", "Home")
+                                @*@Html.ActionLink("All Contacts", "Contacts", "Home")*@
+                                <a href="#tab-Contacts" data-toggle="tab">All Contacts</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 @Html.ActionLink("Companies", "Index", "Home")
@@ -34,12 +35,12 @@
                                 @Html.ActionLink("To Do Lists", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
-                                @*@Html.ActionLink("Calendar", "Calendar", "Home",)*@
-                                <a href="#tab-Calendar" data-toggle="tab">Calendar</a>
+                                @Html.ActionLink("Calendar", "Calendar", "Home")
+                                @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
 
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @Html.ActionLink("E-Marketing", "", "Home")
+                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
                             </li>
 
 
@@ -93,6 +94,14 @@
                                     </div>
                                 </div>
                                 @Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
+                            </div>
+                            <div class="tab-pane fade" id="tab-E-Marketing">
+                                <div class="row">
+                                    <div class="col-md-12" style="text-align: center;">
+
+                                        <img src="~/Content/Images/coming.jpg" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

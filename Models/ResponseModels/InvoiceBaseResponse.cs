@@ -27,5 +27,10 @@ namespace MPC.Models.ResponseModels
         /// Currency Symbol
         /// </summary>
         public string CurrencySymbol { get; set; }
+
+        /// <summary>
+        /// Logged In User Id
+        /// </summary>
+        public Guid LoggedInUserId { get; set; }
     }
 }
