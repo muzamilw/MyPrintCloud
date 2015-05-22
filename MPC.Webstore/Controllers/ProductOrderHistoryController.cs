@@ -66,7 +66,7 @@ namespace MPC.Webstore.Controllers
                     SearchOrder.DDOderStatus = new SelectList(list, "StatusId", "StatusName");
             }
 
-           BindGrid(0, _myClaimHelper.loginContactID(), SearchOrder);
+            BindGrid(0, _myClaimHelper.loginContactID(), SearchOrder);
             return SearchOrder;
         }
         public void BindGrid(long statusID, long contactID, SearchOrderViewModel model)
@@ -84,7 +84,6 @@ namespace MPC.Webstore.Controllers
             //    ordersList = _orderService.GetOrdersListExceptPendingOrdersByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
                 
             //}
-           
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID()== (int)Roles.Adminstrator)
             {
                 ordersList = _orderService.GetAllCorpOrders(_myClaimHelper.loginContactCompanyID(), status, model.FromData, model.ToDate, model.poSearch);
