@@ -183,7 +183,6 @@ function d1CompanyLogoToCanvas(x, y) {
     var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
     D1NIO = fabric.util.object.clone(TO[0]);
-    console.log(TO);
     D1NIO.ObjectId = --NCI;
     D1NIO.ObjectID = --NCI;
     D1NIO.ColorHex = "#000000";
@@ -263,7 +262,9 @@ function k35_load(DT) {
     D1NIO.PositionX = 0;
     D1NIO.PositionY = 0;
     D1NIO.ObjectType = 3;
-
+    if (DT.indexOf('.svg') != -1) {
+        D1NIO.ObjectType = 9;
+    }
     D1NIO.MaxHeight = IH;
     D1NIO.Height = IH;
     D1NIO.MaxWidth = IW;
@@ -432,7 +433,6 @@ function e3() {
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
-   // console.log(dfZ1l + " " + D1CS);
 }
 
 function e5() {
@@ -1851,14 +1851,12 @@ function j4(e) {
         } else if (DIAO && DIAO.type === 'image' && DIAO.IsQuickText == true) {
             // show the change image screen
         }
-        //alert();
     }
 }
 function j7(i, n) {
 
     $.getJSON("/designerapi/TemplateColorStyles/UpdateCorpColor/" + i + "/" + n,
 		function (DT) {
-		    //alert(DT);
 		    // var html = "<div class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "></div><div class='ColorPalletCorpName'>" + Sname + "</div>";
 		    //$('#DivColorContainer').append(html);
 		    if (n == "DeActive") {
@@ -1880,12 +1878,6 @@ function j7(i, n) {
 		        $("#pallet" + i).append(html);
 		    }
 		});
-
-
-    // alert(n);  // DeActive
-    //pallet
-    //textColor
-
 }
 function l2(event) {
     if (event.keyCode == ctrlKey) D1CD = false;
@@ -2341,7 +2333,6 @@ function pcL06() {
 function pcL06ULine() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-        alert();
         setActiveStyle('textDecoration', 'underline');
         pcL22_Sub(D1AO);
         // c2(D1AO);
@@ -2577,7 +2568,6 @@ function pcL20_new_MoveImg(src, percent, AcHei, AcWid) {
     //   $('.overlayHoverbox').css(position);
 }
 function pcL20_newCrop() {
-    //alert(crX + " " + crY + " " + crHe + " " + crWd);
     var XML = new XMLWriter();
     XML.BeginNode("Cropped");
 

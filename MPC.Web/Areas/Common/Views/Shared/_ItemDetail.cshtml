@@ -539,7 +539,7 @@
     </div>
 </div>
     <script id="orderItemAttachmentTemplate" type="text/html">
-        <li class="col-sm-3">
+        <li class="col-lg-2 col-sm-3">
             <div class="photo-box image-link" style="padding-top: 0; ">
                 <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()===undefined,attr: { src: '@Url.Content("~/")' + folderPath() }" alt="" />
                 <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()!==undefined,attr: { src: fileSourcePath }" />
@@ -551,7 +551,7 @@
  
 <script id="sectionItemTemplate" type="text/html">
     <!--ko if: !flagForAdd() -->
-    <li class="col-sm-3">
+    <li class="col-lg-2 col-sm-3">
         <div>
             <div style="float: left"><img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" /></div>
             <div style="font-size: small;float: right;margin-top: -87%;cursor: pointer; margin-right: -6%; width: 86%;" data-bind="click:$root.showSectionDetailEditor">

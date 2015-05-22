@@ -211,7 +211,12 @@
                                             }
                                         </div>
                                         <div class="product_detail_image_heading_IRI">
-                                            <label id="lblProductName">@item.ProductName</label>
+                                            <p style="  width: 180px;  float: left;  word-wrap: break-word;">
+                                                @item.ProductName
+                                            </p>
+                                            <div class="clearBoth">
+
+                                            </div>
                                         </div>
                                         <div class="product_detail_image_Pricing">
                                             <label id="lblPrice">@item.MinPrice</label>
@@ -342,9 +347,19 @@
                                             }
                                             else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
                                             {
-                                                <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
-                                                    <input type="button" value="Upload your design" class="create-design-button rounded_corners" />
-                                                </a>
+                                                if (item.isUploadImage == true)
+                                                {
+                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
+                                                        <input type="button" value="Upload your design" class="create-design-button rounded_corners" />
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
+                                                        <input type="button" value="Add to Cart" class="create-design-button rounded_corners" />
+                                                    </a>
+                                                }
+
                                             }
 
                                         </div>
