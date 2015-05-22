@@ -8,8 +8,7 @@ define("common/itemDetail.viewModel",
         var ist = window.ist || {};
         ist.itemDetail = {
             viewModel: (function () {
-                var
-                    //View
+                var //View
                     view,
                     //#region Observables
                     showItemDetailsSection = ko.observable(false),
@@ -19,8 +18,12 @@ define("common/itemDetail.viewModel",
                     bestPressList = ko.observableArray([]),
                     // User Cost Center List For Run Wizard
                     userCostCenters = ko.observableArray([]),
+                    // User Cost Center Copy List For Run Wizard | for search purpose
+                    userCostCentersCopy = ko.observableArray([]),
                     //selected Best Press From Wizard
                     selectedBestPressFromWizard = ko.observable(),
+                    // For seachring
+                    searchString = ko.observable(),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // Selected Section
@@ -107,7 +110,7 @@ define("common/itemDetail.viewModel",
                     //Is Estimate Screen
                     isEstimateScreen = ko.observable(false),
                     //#endregion  
-                     isSectionCostCenterDialogOpen = ko.observable(false),
+                    isSectionCostCenterDialogOpen = ko.observable(false),
                     isSectionVisible = ko.observable(false),
                     //#region Utility Functions
                     sectionCostCenterQty1Charge = ko.computed({
@@ -115,7 +118,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedSectionCostCenter()) {
                                 return 0;
                             }
-                            return selectedSectionCostCenter().qty1Charge();
+                            return selectedSectionCostCenter().qty1Charge() || 0;
                         },
                         write: function (value) {
                             if (!value || value === selectedSectionCostCenter().qty1Charge()) {
@@ -161,7 +164,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedSectionCostCenter()) {
                                 return 0;
                             }
-                            return selectedSectionCostCenter().qty2Charge();
+                            return selectedSectionCostCenter().qty2Charge() || 0;
                         },
                         write: function (value) {
                             if (!value || value === selectedSectionCostCenter().qty2Charge()) {
@@ -207,7 +210,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedSectionCostCenter()) {
                                 return 0;
                             }
-                            return selectedSectionCostCenter().qty3Charge();
+                            return selectedSectionCostCenter().qty3Charge() || 0;
                         },
                         write: function (value) {
                             if (!value || value === selectedSectionCostCenter().qty3Charge()) {
@@ -248,52 +251,52 @@ define("common/itemDetail.viewModel",
                             calculateSectionBaseCharge3();
                         }
                     }),
-                     sectionCostCenterQty3MarkUpId = ko.computed({
-                         read: function () {
-                             if (!selectedSectionCostCenter()) {
-                                 return 0;
-                             }
-                             return selectedSectionCostCenter().qty3MarkUpId();
-                         },
-                         write: function (value) {
-                             if (!value || value === selectedSectionCostCenter().qty3MarkUpId()) {
-                                 return;
-                             }
-                             selectedSectionCostCenter().qty3MarkUpId(value);
-                             var markupValue = 0;
-                             if (selectedQty() == 1) {
-                                 _.each(markups(), function (markup) {
-                                     if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
-                                         markupValue = markup.MarkUpRate;
-                                         selectedSectionCostCenter().qty1MarkUpValue(markupValue);
-                                         var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
-                                         selectedSectionCostCenter().qty1NetTotal(total);
-                                     }
-                                 });
-                             }
-                             if (selectedQty() == 2) {
-                                 _.each(markups(), function (markup) {
-                                     if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
-                                         markupValue = markup.MarkUpRate;
-                                         selectedSectionCostCenter().qty2MarkUpValue(markupValue);
-                                         var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
-                                         selectedSectionCostCenter().qty2NetTotal(total);
-                                     }
-                                 });
-                             }
-                             if (selectedQty() == 3) {
-                                 _.each(markups(), function (markup) {
-                                     if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
-                                         markupValue = markup.MarkUpRate;
-                                         selectedSectionCostCenter().qty3MarkUpValue(markupValue);
-                                         var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
-                                         selectedSectionCostCenter().qty3NetTotal(total);
-                                     }
-                                 });
-                             }
-                             calculateSectionBaseCharge3();
-                         }
-                     }),
+                    sectionCostCenterQty3MarkUpId = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty3MarkUpId();
+                        },
+                        write: function (value) {
+                            if (!value || value === selectedSectionCostCenter().qty3MarkUpId()) {
+                                return;
+                            }
+                            selectedSectionCostCenter().qty3MarkUpId(value);
+                            var markupValue = 0;
+                            if (selectedQty() == 1) {
+                                _.each(markups(), function (markup) {
+                                    if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
+                                        markupValue = markup.MarkUpRate;
+                                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
+                                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
+                                        selectedSectionCostCenter().qty1NetTotal(total);
+                                    }
+                                });
+                            }
+                            if (selectedQty() == 2) {
+                                _.each(markups(), function (markup) {
+                                    if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
+                                        markupValue = markup.MarkUpRate;
+                                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
+                                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
+                                        selectedSectionCostCenter().qty2NetTotal(total);
+                                    }
+                                });
+                            }
+                            if (selectedQty() == 3) {
+                                _.each(markups(), function (markup) {
+                                    if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
+                                        markupValue = markup.MarkUpRate;
+                                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
+                                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
+                                        selectedSectionCostCenter().qty3NetTotal(total);
+                                    }
+                                });
+                            }
+                            calculateSectionBaseCharge3();
+                        }
+                    }),
                     sectionCostCenterQty2MarkUpId = ko.computed({
                         read: function () {
                             if (!selectedSectionCostCenter()) {
@@ -386,9 +389,54 @@ define("common/itemDetail.viewModel",
                             calculateSectionBaseCharge1();
                         }
                     }),
-                      sectionVisibilityHandler = function () {
-                          isSectionVisible(!isSectionVisible());
-                      },
+                    sectionCostCenterQty1NetTotal = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty1NetTotal() || 0;
+                        },
+                        write: function (value) {
+                            if (!value || value === selectedSectionCostCenter().qty1NetTotal()) {
+                                return;
+                            }
+                            selectedSectionCostCenter().qty1NetTotal(value);
+                            calculateSectionBaseCharge1();
+                        }
+                    }),
+                    sectionCostCenterQty2NetTotal = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty2NetTotal() || 0;
+                        },
+                        write: function (value) {
+                            if (!value || value === selectedSectionCostCenter().qty2NetTotal()) {
+                                return;
+                            }
+                            selectedSectionCostCenter().qty2NetTotal(value);
+                            calculateSectionBaseCharge2();
+                        }
+                    }),
+                    sectionCostCenterQty3NetTotal = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty3NetTotal() || 0;
+                        },
+                        write: function (value) {
+                            if (!value || value === selectedSectionCostCenter().qty3NetTotal()) {
+                                return;
+                            }
+                            selectedSectionCostCenter().qty3NetTotal(value);
+                            calculateSectionBaseCharge3();
+                        }
+                    }),
+                    sectionVisibilityHandler = function () {
+                        isSectionVisible(!isSectionVisible());
+                    },
                     onSaveStockitemForSectionCostCenter = function () {
                         var containsStockItem = false;
                         _.each(selectedSection().sectionCostCentres(), function (costCenter) {
@@ -404,17 +452,14 @@ define("common/itemDetail.viewModel",
                             selectedQty(1);
                         }
 
-                        //sectionCostCenter.name(stockItemToCreate().name);
                         sectionCostCenter.name('Stock(s)');
-                        //sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
                         sectionCostCenter.costCentreType('139');
-                        //sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
-                        //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
-                        //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
                         sectionCostCenter.qty1EstimatedStockCost(0);
                         sectionCostCenter.qty2EstimatedStockCost(0);
                         sectionCostCenter.qty3EstimatedStockCost(0);
+                        setWorkInstructionsForStockCostCenter(sectionCostCenter);
                         sectionCostCenter.qty1Charge(stockItemToCreate().price);
+                        sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
                         sectionCostCenter.qty2Charge(0);
                         sectionCostCenter.qty3Charge(0);
                         view.hideCostCentersQuantityDialog();
@@ -424,10 +469,6 @@ define("common/itemDetail.viewModel",
                         sectionCostCenterDetail.stockId(stockItemToCreate().id);
                         sectionCostCenterDetail.costPrice(stockItemToCreate().price);
                         sectionCostCenterDetail.qty1(selectedCostCentre().quantity1());
-                        //sectionCostCenterDetail.qty1NetTotal(selectedCostCentre().quantity1());
-                        //sectionCostCenterDetail.qty2NetTotal(selectedCostCentre().quantity2());
-                        //sectionCostCenterDetail.qty2NetTotal(selectedCostCentre().quantity3());
-
                         sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         if (!containsStockItem) {
                             selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
@@ -435,19 +476,39 @@ define("common/itemDetail.viewModel",
                         } else {
                             var newCost = selectedSectionCostCenter().qty1Charge() + sectionCostCenterDetail.costPrice();
                             selectedSectionCostCenter().qty1Charge(newCost);
+                            selectedSectionCostCenter().qty1NetTotal(newCost);
+                            setWorkInstructionsForStockCostCenter(selectedSectionCostCenter());
                             selectedSectionCostCenter().sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
+                        }
+
+                        calculateSectionBaseCharge1();
+                        calculateSectionBaseCharge2();
+                        calculateSectionBaseCharge3();
+                    },
+                    // Set Work Instructions in case of Stock Cost Center
+                    setWorkInstructionsForStockCostCenter = function(sectionCostCenter) {
+                        if (!isEstimateScreen()) {
+                            sectionCostCenter.qty1WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
+                            sectionCostCenter.qty2WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
+                            sectionCostCenter.qty3WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
+                        } else {
+                            sectionCostCenter.qty1WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
+                            sectionCostCenter.qty2WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity2() + ")");
+                            sectionCostCenter.qty3WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity3() + ")");
                         }
                     },
                     //Show Item Detail
                     showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam, isEstimateScreenFlag) {
+
                         showSectionDetail(false);
                         showItemDetailsSection(true);
                         selectedProduct(selectedProductParam);
+                        selectedProduct().systemUsers(systemUsers());
                         selectedOrder(selectedOrderParam);
                         selectedSection(selectedProduct().itemSections()[0]);
                         isEstimateScreen(isEstimateScreenFlag);
-                        //selectedSection().productType(selectedProduct().productType());
                         closeItemDetailSection = closeItemDetailParam;
+                        //errorList.removeAll();
                     },
                     closeItemDetail = function () {
                         showItemDetailsSection(false);
@@ -458,7 +519,6 @@ define("common/itemDetail.viewModel",
                     selectJobDescription = function (jobDescription, e) {
                         selectedJobDescription(e.currentTarget.id);
                     },
-
                     updateSectionInkCoverageLists = function (side1Count, side2Count) {
                         if (getSide1Count() != side1Count) {
                             //If List is less then dropDown (Plate Ink)
@@ -629,7 +689,6 @@ define("common/itemDetail.viewModel",
                     addSection = function () {
                         // Open Product Selector Dialog
                     },
-
                     // Close Section Detail
                     closeSectionDetail = function () {
                         sectionHeader('');
@@ -781,8 +840,6 @@ define("common/itemDetail.viewModel",
 
                         }
                     },
-
-
                     // On Change Quantity 2 Markup
                     onChangeQty2MarkUpId = function () { //qtyMarkup
                         calculateSectionBaseCharge2();
@@ -821,7 +878,7 @@ define("common/itemDetail.viewModel",
                             if (!selectedProduct()) {
                                 return 0;
                             }
-                            return selectedProduct().qty1NetTotal();
+                            return selectedProduct().qty1NetTotal() || 0;
                         },
                         write: function (value) {
                             if ((value === undefined || value === null) || value === selectedProduct().qty1NetTotal()) {
@@ -830,14 +887,13 @@ define("common/itemDetail.viewModel",
                             selectedProduct().qty1NetTotal(value);
                             qty1GrossTotalForItem();
                         }
-
                     }),
                     calculateQty2NetTotalForItem = ko.computed({
                         read: function () {
                             if (!selectedProduct()) {
                                 return 0;
                             }
-                            return selectedProduct().qty2NetTotal();
+                            return selectedProduct().qty2NetTotal() || 0;
                         },
                         write: function (value) {
                             if ((value === undefined || value === null) || value === selectedProduct().qty2NetTotal()) {
@@ -846,14 +902,13 @@ define("common/itemDetail.viewModel",
                             selectedProduct().qty2NetTotal(value);
                             qty2GrossTotalForItem();
                         }
-
                     }),
                     calculateQty3NetTotalForItem = ko.computed({
                         read: function () {
                             if (!selectedProduct()) {
                                 return 0;
                             }
-                            return selectedProduct().qty3NetTotal();
+                            return selectedProduct().qty3NetTotal() || 0;
                         },
                         write: function (value) {
                             if ((value === undefined || value === null) || value === selectedProduct().qty3NetTotal()) {
@@ -862,10 +917,8 @@ define("common/itemDetail.viewModel",
                             selectedProduct().qty3NetTotal(value);
                             qty3GrossTotalForItem();
                         }
-
                     }),
-                qty1NetTotalForItem = function () {
-                    if (selectedSection() !== undefined) {
+                    qty1NetTotalForItem = function () {
                         baseCharge1TotalForItem = 0;
                         _.each(selectedProduct().itemSections(), function (itemSection) {
                             if (itemSection.baseCharge1() === undefined || itemSection.baseCharge1() === "" || itemSection.baseCharge1() === null || isNaN(itemSection.baseCharge1())) {
@@ -875,10 +928,8 @@ define("common/itemDetail.viewModel",
                         });
                         selectedProduct().qty1NetTotal(baseCharge1TotalForItem);
                         qty1GrossTotalForItem();
-                    }
-                },
-                qty2NetTotalForItem = function () {
-                    if (selectedSection() !== undefined) {
+                    },
+                    qty2NetTotalForItem = function () {
                         baseCharge2TotalForItem = 0;
                         _.each(selectedProduct().itemSections(), function (itemSection) {
                             if (itemSection.baseCharge2() === undefined || itemSection.baseCharge2() === "" || itemSection.baseCharge2() === null || isNaN(itemSection.baseCharge2())) {
@@ -888,10 +939,8 @@ define("common/itemDetail.viewModel",
                         });
                         selectedProduct().qty2NetTotal(baseCharge2TotalForItem);
                         qty2GrossTotalForItem();
-                    }
-                },
-                qty3NetTotalForItem = function () {
-                    if (selectedSection() !== undefined) {
+                    },
+                    qty3NetTotalForItem = function () {
                         baseCharge3TotalForItem = 0;
                         _.each(selectedProduct().itemSections(), function (itemSection) {
                             if (itemSection.baseCharge3() === undefined || itemSection.baseCharge3() === "" || itemSection.baseCharge3() === null || isNaN(itemSection.baseCharge3())) {
@@ -901,57 +950,59 @@ define("common/itemDetail.viewModel",
                         });
                         selectedProduct().qty3NetTotal(baseCharge3TotalForItem);
                         qty3GrossTotalForItem();
-                    }
-                },
-                qty1GrossTotalForItem = function () {
-                    var qty1NetTotal = parseFloat((selectedProduct().qty1NetTotal() !== undefined && selectedProduct().qty1NetTotal() !== null) ? selectedProduct().qty1NetTotal() : 0).toFixed(2);
-                    var tax = selectedProduct().tax1() !== undefined ? selectedProduct().tax1() : 0;
-                    if (selectedProduct().tax1() !== undefined && selectedProduct().tax1() !== null && selectedProduct().tax1() !== "") {
-                        var taxCalculate1 = ((tax / 100) * parseFloat(qty1NetTotal)).toFixed(2);
-                        var total1 = (parseFloat(taxCalculate1) + parseFloat(qty1NetTotal)).toFixed(2);
-                        selectedProduct().qty1GrossTotal(total1);
-                        selectedProduct().qty1Tax1Value(taxCalculate1);
-                    } else {
-                        selectedProduct().qty1GrossTotal(qty1NetTotal);
-                        selectedProduct().qty1Tax1Value(0);
-                    }
-                },
-                qty2GrossTotalForItem = function () {
-                    var qty2NetTotal = parseFloat((selectedProduct().qty2NetTotal() !== undefined && selectedProduct().qty2NetTotal() !== null) ? selectedProduct().qty2NetTotal() : 0).toFixed(2);
-                    var tax = selectedProduct().tax1() !== undefined ? selectedProduct().tax1() : 0;
-                    if (selectedProduct().tax1() !== undefined && selectedProduct().tax1() !== null && selectedProduct().tax1() !== "") {
-                        var taxCalculate2 = ((tax / 100) * (parseFloat(qty2NetTotal))).toFixed(2);
-                        var total2 = (parseFloat(taxCalculate2) + parseFloat(qty2NetTotal)).toFixed(2);
-                        selectedProduct().qty2GrossTotal(total2);
-                        selectedProduct().qty2Tax1Value(taxCalculate2);
+                    },
+                    qty1GrossTotalForItem = function () {
+                        var qty1NetTotal = parseFloat((selectedProduct().qty1NetTotal() !== undefined && selectedProduct().qty1NetTotal() !== null) ? selectedProduct().qty1NetTotal() : 0).toFixed(2);
+                        var tax = selectedProduct().tax1() !== undefined ? selectedProduct().tax1() : 0;
+                        if (selectedProduct().tax1() !== undefined && selectedProduct().tax1() !== null && selectedProduct().tax1() !== "") {
+                            var taxCalculate1 = ((tax / 100) * parseFloat(qty1NetTotal)).toFixed(2);
+                            var total1 = (parseFloat(taxCalculate1) + parseFloat(qty1NetTotal)).toFixed(2);
+                            selectedProduct().qty1GrossTotal(total1);
+                            selectedProduct().qty1Tax1Value(taxCalculate1);
+                        } else {
+                            selectedProduct().qty1GrossTotal(qty1NetTotal);
+                            selectedProduct().qty1Tax1Value(0);
+                        }
+                    },
+                    qty2GrossTotalForItem = function () {
+                        var qty2NetTotal = parseFloat((selectedProduct().qty2NetTotal() !== undefined && selectedProduct().qty2NetTotal() !== null) ? selectedProduct().qty2NetTotal() : 0).toFixed(2);
+                        var tax = selectedProduct().tax1() !== undefined ? selectedProduct().tax1() : 0;
+                        if (selectedProduct().tax1() !== undefined && selectedProduct().tax1() !== null && selectedProduct().tax1() !== "") {
+                            var taxCalculate2 = ((tax / 100) * (parseFloat(qty2NetTotal))).toFixed(2);
+                            var total2 = (parseFloat(taxCalculate2) + parseFloat(qty2NetTotal)).toFixed(2);
+                            selectedProduct().qty2GrossTotal(total2);
+                            selectedProduct().qty2Tax1Value(taxCalculate2);
 
-                    } else {
-                        selectedProduct().qty2GrossTotal(qty2NetTotal);
-                        selectedProduct().qty2Tax1Value(0);
-                    }
-                },
-                qty3GrossTotalForItem = function () {
-                    var qty3NetTotal = parseFloat((selectedProduct().qty3NetTotal() !== undefined && selectedProduct().qty3NetTotal() !== null) ? selectedProduct().qty3NetTotal() : 0).toFixed(2);
+                        } else {
+                            selectedProduct().qty2GrossTotal(qty2NetTotal);
+                            selectedProduct().qty2Tax1Value(0);
+                        }
+                    },
+                    qty3GrossTotalForItem = function () {
+                        var qty3NetTotal = parseFloat((selectedProduct().qty3NetTotal() !== undefined && selectedProduct().qty3NetTotal() !== null) ? selectedProduct().qty3NetTotal() : 0).toFixed(2);
 
-                    var tax = selectedProduct().tax1() !== undefined ? selectedProduct().tax1() : 0;
-                    if (selectedProduct().tax1() !== undefined && selectedProduct().tax1() !== null && selectedProduct().tax1() !== "") {
-                        var taxCalculate3 = ((tax / 100) * parseFloat(qty3NetTotal)).toFixed(2);
-                        var total3 = (parseFloat(taxCalculate3) + parseFloat(qty3NetTotal)).toFixed(2);
-                        selectedProduct().qty3GrossTotal(total3);
-                        selectedProduct().qty3Tax1Value(taxCalculate3);
+                        var tax = selectedProduct().tax1() !== undefined ? selectedProduct().tax1() : 0;
+                        if (selectedProduct().tax1() !== undefined && selectedProduct().tax1() !== null && selectedProduct().tax1() !== "") {
+                            var taxCalculate3 = ((tax / 100) * parseFloat(qty3NetTotal)).toFixed(2);
+                            var total3 = (parseFloat(taxCalculate3) + parseFloat(qty3NetTotal)).toFixed(2);
+                            selectedProduct().qty3GrossTotal(total3);
+                            selectedProduct().qty3Tax1Value(taxCalculate3);
 
-                    } else {
-                        selectedProduct().qty3GrossTotal(qty3NetTotal);
-                        selectedProduct().qty3Tax1Value(0);
-                    }
-                },
-                // Change on Tax Rate
+                        } else {
+                            selectedProduct().qty3GrossTotal(qty3NetTotal);
+                            selectedProduct().qty3Tax1Value(0);
+                        }
+                    },
+                    // Change on Tax Rate
                     calculateTax = ko.computed(function () {
+                        if (!selectedProduct()) {
+                            return;
+                        }
                         qty1GrossTotalForItem();
                         qty2GrossTotalForItem();
                         qty3GrossTotalForItem();
                     }),
-                // Map List
+                    // Map List
                     mapList = function (observableList, data, factory) {
                         var list = [];
                         _.each(data, function (item) {
@@ -963,7 +1014,7 @@ define("common/itemDetail.viewModel",
                         observableList.valueHasMutated();
                         //setDeliveryScheduleAddressName();
                     },
-                // Get Base Data
+                    // Get Base Data
                     getBaseData = function () {
                         dataservice.getBaseData({
                             success: function (data) {
@@ -1011,12 +1062,11 @@ define("common/itemDetail.viewModel",
                             }
                         });
                     },
-
-                // Calculates Section Charges 
+                    // Calculates Section Charges 
                     calculateSectionBaseCharge1 = function () {
                         baseCharge1Total(0);
 
-                        if (selectedSection() !== undefined && selectedSection().sectionCostCentres().length > 0) {
+                        if (selectedSection() !== undefined) {
                             _.each(selectedSection().sectionCostCentres(), function (item) {
                                 if (item.qty1NetTotal() === undefined || item.qty1NetTotal() === "" || item.qty1NetTotal() === null || isNaN(item.qty1NetTotal())) {
                                     item.qty1NetTotal(0);
@@ -1039,11 +1089,11 @@ define("common/itemDetail.viewModel",
 
 
                     },
-                // Calculates Section Charges 
+                    // Calculates Section Charges 
                     calculateSectionBaseCharge2 = function () {
                         baseCharge2Total(0);
 
-                        if (selectedSection() !== undefined && selectedSection().sectionCostCentres().length > 0) {
+                        if (selectedSection() !== undefined) {
                             _.each(selectedSection().sectionCostCentres(), function (item) {
                                 if (item.qty2NetTotal() === undefined || item.qty2NetTotal() === "" || item.qty2NetTotal() === null || isNaN(item.qty2NetTotal())) {
                                     item.qty2NetTotal(0);
@@ -1063,11 +1113,11 @@ define("common/itemDetail.viewModel",
                             qty2NetTotalForItem();
                         }
                     },
-                // Calculates Section Charges 
+                    // Calculates Section Charges 
                     calculateSectionBaseCharge3 = function () {
                         baseCharge3Total(0);
 
-                        if (selectedSection() !== undefined && selectedSection().sectionCostCentres().length > 0) {
+                        if (selectedSection() !== undefined) {
                             _.each(selectedSection().sectionCostCentres(), function (item) {
                                 if (item.qty3NetTotal() === undefined || item.qty3NetTotal() === "" || item.qty3NetTotal() === null || isNaN(item.qty3NetTotal())) {
                                     item.qty3NetTotal(0);
@@ -1088,7 +1138,7 @@ define("common/itemDetail.viewModel",
                         }
 
                     },
-                //Get PTV Calculation
+                    //Get PTV Calculation
                     getPtvCalculation = function () {
                         if (isPtvCalculationInProgress()) {
                             return;
@@ -1157,26 +1207,25 @@ define("common/itemDetail.viewModel",
                             calculateSectionBaseCharge2();
                             calculateSectionBaseCharge3();
                         }
-
                     }),
                     calculateBaseCharge1BySimilarSection = function () {
                         var newBaseCharge1Totaol = (selectedSection().baseCharge1() !== undefined ? selectedSection().baseCharge1() : 0) * parseFloat(selectedSection().similarSections());
                         selectedSection().baseCharge1(newBaseCharge1Totaol);
                         q1NetTotal();
                     },
-                calculateBaseCharge2BySimilarSection = function () {
-                    selectedSection().baseCharge2(((selectedSection().baseCharge2() !== undefined ? selectedSection().baseCharge2() : 0) * parseFloat(selectedSection().similarSections())));
-                    q2NetTotal();
-                },
-                calculateBaseCharge3BySimilarSection = function () {
-                    selectedSection().baseCharge3(((selectedSection().baseCharge3() !== undefined ? selectedSection().baseCharge3() : 0) * parseFloat(selectedSection().similarSections())));
-                    q3NetTotal();
-                },
-                //Side 1 Button Click
+                    calculateBaseCharge2BySimilarSection = function () {
+                        selectedSection().baseCharge2(((selectedSection().baseCharge2() !== undefined ? selectedSection().baseCharge2() : 0) * parseFloat(selectedSection().similarSections())));
+                        q2NetTotal();
+                    },
+                    calculateBaseCharge3BySimilarSection = function () {
+                        selectedSection().baseCharge3(((selectedSection().baseCharge3() !== undefined ? selectedSection().baseCharge3() : 0) * parseFloat(selectedSection().similarSections())));
+                        q3NetTotal();
+                    },
+                    //Side 1 Button Click
                     side1ButtonClick = function () {
                         showSide1Image(true);
                     },
-                //Side 2 Button Click
+                    //Side 2 Button Click
                     side2ButtonClick = function () {
                         showSide1Image(false);
                     },
@@ -1184,12 +1233,13 @@ define("common/itemDetail.viewModel",
                         errorList.removeAll();
                         if (!doBeforeRunningWizard()) {
                             selectedSection().errors.showAllMessages();
+                            view.goToValidationSummary();
                             return;
                         }
                         $('#myTab a[href="#tab-recomendation"]').tab('show');
                         getBestPress();
                     },
-                // Go To Element
+                    // Go To Element
                     gotoElement = function (validation) {
                         view.gotoElement(validation.element);
                     },
@@ -1205,7 +1255,7 @@ define("common/itemDetail.viewModel",
                             errorList.push({ name: "Sheet plan cannot be zero.", element: selectedSection().numberUp.domElement });
                             flag = false;
                         } else if (selectedSection().stockItemId() == null) {
-                            errorList.push({ name: "Please select stock.", element: selectedSection().stockItemName.domElement });
+                            errorList.push({ name: "Please select stock.", element: selectedSection().stockItemId.domElement });
                             flag = false;
                         }
                         return flag;
@@ -1214,6 +1264,7 @@ define("common/itemDetail.viewModel",
                         showEstimateRunWizard();
                         bestPressList.removeAll();
                         userCostCenters.removeAll();
+                        userCostCentersCopy.removeAll();
                         selectedBestPressFromWizard(undefined);
                         dataservice.getBestPress(selectedSection().convertToServerData(), {
                             success: function (data) {
@@ -1227,8 +1278,7 @@ define("common/itemDetail.viewModel",
                             }
                         });
                     },
-
-                // Map Best Press List
+                    // Map Best Press List
                     mapBestPressList = function (data) {
                         var list = [];
                         _.each(data, function (item) {
@@ -1257,7 +1307,7 @@ define("common/itemDetail.viewModel",
                         }
 
                     },
-                // Map User Cost Centers
+                    // Map User Cost Centers
                     mapUserCostCentersList = function (data) {
                         var list = [];
                         _.each(data, function (item) {
@@ -1267,7 +1317,20 @@ define("common/itemDetail.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(userCostCenters(), list);
                         userCostCenters.valueHasMutated();
+
                     },
+                    searchCostCenter = ko.computed(function () {
+                        userCostCentersCopy.removeAll();
+                        if (searchString()) {
+                            _.each(userCostCenters(), function (item) {
+                                if ((item.name().toLowerCase().indexOf(searchString().toLowerCase()) > -1))
+                                    userCostCentersCopy.push(item);
+                            });
+                        } else {
+                            ko.utils.arrayPushAll(userCostCentersCopy(), userCostCenters());
+                            userCostCentersCopy.valueHasMutated();
+                        }
+                    }),
                     getSectionSystemCostCenters = function () {
                         if (!selectedBestPressFromWizard()) {
                             return;
@@ -1303,14 +1366,9 @@ define("common/itemDetail.viewModel",
                                         }
                                     });
 
-
-                                    var charge1 = setDecimalPlaceValue(selectedSection().baseCharge1());
-                                    var charge2 = setDecimalPlaceValue(selectedSection().baseCharge2());
-                                    var charge3 = setDecimalPlaceValue(selectedSection().baseCharge3());
-                                    baseCharge1Total(charge1);
-                                    baseCharge2Total(charge2);
-                                    baseCharge3Total(charge3);
-
+                                    calculateSectionBaseCharge1();
+                                    calculateSectionBaseCharge2();
+                                    calculateSectionBaseCharge3();
                                 }
                             },
                             error: function (response) {
@@ -1489,8 +1547,13 @@ define("common/itemDetail.viewModel",
                         subscribeSectionChanges();
                         showSectionDetail(true);
                     },
-
                     closeSectionDetailEditor = function () {
+                        if (!selectedSection().isValid()) {
+                            selectedProduct().showAllErrors();
+                            selectedProduct().setValidationSummary(errorList);
+                            return;
+                        }
+                        errorList.removeAll();
                         showSectionDetail(false);
                         selectedSection(undefined);
                     },
@@ -1501,6 +1564,9 @@ define("common/itemDetail.viewModel",
                             selectedProduct().itemSections.remove(section);
                             showSectionDetail(false);
                             selectedSection(undefined);
+                            qty1NetTotalForItem();
+                            qty2NetTotalForItem();
+                            qty3NetTotalForItem();
                         });
                         confirmation.afterCancel(function () {
 
@@ -1547,7 +1613,7 @@ define("common/itemDetail.viewModel",
                         itemSection.id(counter);
                         itemSection.name("Text Sheet");
                         if (selectedProduct().itemSections().length > 0) {
-                            selectedProduct().itemSections.splice(length - 2, 0, itemSection);
+                            selectedProduct().itemSections.splice(-1, 0, itemSection);
                         } else {
                             selectedProduct().itemSections.push(itemSection);
                         }
@@ -1563,6 +1629,9 @@ define("common/itemDetail.viewModel",
                             view.hideSectionCostCenterDialogModel();
                             selectedSection().sectionCostCentres.remove(costCenter);
                             isSectionCostCenterDialogOpen(false);
+                            calculateSectionBaseCharge1();
+                            calculateSectionBaseCharge2();
+                            calculateSectionBaseCharge3();
                         });
                         confirmation.show();
                         return;
@@ -1667,6 +1736,7 @@ define("common/itemDetail.viewModel",
                     getSectionSystemCostCenters: getSectionSystemCostCenters,
                     bestPressList: bestPressList,
                     userCostCenters: userCostCenters,
+                    userCostCentersCopy: userCostCentersCopy,
                     selectBestPressFromWizard: selectBestPressFromWizard,
                     selectedBestPressFromWizard: selectedBestPressFromWizard,
                     clickOnWizardOk: clickOnWizardOk,
@@ -1680,6 +1750,9 @@ define("common/itemDetail.viewModel",
                     sectionCostCenterQty1MarkUpId: sectionCostCenterQty1MarkUpId,
                     sectionCostCenterQty2MarkUpId: sectionCostCenterQty2MarkUpId,
                     sectionCostCenterQty3MarkUpId: sectionCostCenterQty3MarkUpId,
+                    sectionCostCenterQty1NetTotal: sectionCostCenterQty1NetTotal,
+                    sectionCostCenterQty2NetTotal: sectionCostCenterQty2NetTotal,
+                    sectionCostCenterQty3NetTotal: sectionCostCenterQty3NetTotal,
                     openPhraseLibrary: openPhraseLibrary,
                     calculateBaseChargeBasedOnSimilarSectionsValue: calculateBaseChargeBasedOnSimilarSectionsValue,
                     calculateQty1NetTotalForItem: calculateQty1NetTotalForItem,
@@ -1692,7 +1765,8 @@ define("common/itemDetail.viewModel",
                     jobStatuses: jobStatuses,
                     systemUsers: systemUsers,
                     lengthUnit: lengthUnit,
-                    weightUnit: weightUnit
+                    weightUnit: weightUnit,
+                    searchString: searchString
                     //#endregion
                 };
             })()

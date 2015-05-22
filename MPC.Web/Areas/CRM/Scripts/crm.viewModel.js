@@ -54,6 +54,8 @@ define("crm/crm.viewModel",
                     isProspectOrCustomerScreen = ko.observable(false),
                     //Setting up computed method calling 
                     isUserAndAddressesTabOpened = ko.observable(false),
+                    //selected Company
+                    selectedCompany = ko.observable(),
                 //#endregion
 
                 //#region ___________ SUPPLIER SCREEN ____________
@@ -1513,7 +1515,11 @@ define("crm/crm.viewModel",
                                                 }
                                             });
                                         }
-
+                                        if (savedCompanyContact.isDefaultContact()) {
+                                            selectedCompany().defaultContactEmail(savedCompanyContact.email());
+                                            selectedCompany().defaultContact(savedCompanyContact.firstName() + " " + savedCompanyContact.lastName());
+                                        }
+                                        
                                         toastr.success("Saved Successfully");
                                         closeCompanyContact();
                                     }
@@ -1711,7 +1717,7 @@ define("crm/crm.viewModel",
                         getStoreForEditting(item.companyId());
                         getBaseData(item.companyId());
                     }
-
+                    isUserAndAddressesTabOpened(true);
                     //view.initializeForm();
 
                     //view.initializeLabelPopovers();
@@ -1719,6 +1725,7 @@ define("crm/crm.viewModel",
 
                 //On Edit Click Of Store
                 onEditItem = function (item) {
+                    selectedCompany(item);
                     openEditDialog(item);
                     $('#crmTabsId li:first-child a').tab('show');
                     $('#crmTabsId li:eq(0) a').tab('show');
@@ -1927,6 +1934,9 @@ define("crm/crm.viewModel",
                                         tempCustomerListView.status(data.Status);
                                         tempCustomerListView.statusClass(data.CompanyId);
                                         tempCustomerListView.storeImageFileBinary(data.StoreImagePath);
+                                        
+                                        tempCustomerListView.defaultContactEmail(data.DefaultContactEmail);
+                                        tempCustomerListView.defaultContact(data.DefaultContact);
 
                                         if (data.Status == 0) {
                                             tempCustomerListView.status("Inactive");
@@ -1974,6 +1984,8 @@ define("crm/crm.viewModel",
                                         tempItem.createdDate(data.CreationDate);
                                         tempItem.status(data.Status);
                                         tempItem.storeImageFileBinary(data.StoreImagePath);
+                                        tempItem.defaultContactEmail(data.DefaultContactEmail);
+                                        tempItem.defaultContact(data.DefaultContact);
                                         suppliers.splice(0, 0, tempItem);
                                     }
                                     else if (selectedStore().companyId() > 0) {
@@ -2051,6 +2063,7 @@ define("crm/crm.viewModel",
                                 addressCompanyTerritoriesFilter.push(territory);
                                 contactCompanyTerritoriesFilter.push(territory);
                                 addressTerritoryList.push(territory);
+                                selectedStore().companyTerritories.push(territory);
                             });
                             _.each(data.Addresses, function (item) {
                                 var address = new model.Address.Create(item);

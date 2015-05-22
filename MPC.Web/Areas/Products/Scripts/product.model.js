@@ -146,6 +146,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                             template().isCreatedManual(undefined);
                         }
                     }
+                    else {
+                        if (templateType() === 1) {
+                            template().isCreatedManual(true);
+                        }
+                    }
                 }
             }),
             // is vdp product
@@ -171,21 +176,21 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // meta keywords
             metaKeywords = ko.observable(specifiedMetaKeywords || undefined),
             // job description title1
-            jobDescriptionTitle1 = ko.observable(specifiedJobDescriptionTitle1 || undefined),
+            jobDescriptionTitle1 = ko.observable(specifiedJobDescriptionTitle1 || "Work Instruction"),
             // job description title2
-            jobDescriptionTitle2 = ko.observable(specifiedJobDescriptionTitle2 || undefined),
+            jobDescriptionTitle2 = ko.observable(specifiedJobDescriptionTitle2 || "Title"),
             // job description title3
-            jobDescriptionTitle3 = ko.observable(specifiedJobDescriptionTitle3 || undefined),
+            jobDescriptionTitle3 = ko.observable(specifiedJobDescriptionTitle3 || "Origination"),
             // job description title4
-            jobDescriptionTitle4 = ko.observable(specifiedJobDescriptionTitle4 || undefined),
+            jobDescriptionTitle4 = ko.observable(specifiedJobDescriptionTitle4 || "Colors"),
             // job description title5
-            jobDescriptionTitle5 = ko.observable(specifiedJobDescriptionTitle5 || undefined),
+            jobDescriptionTitle5 = ko.observable(specifiedJobDescriptionTitle5 || "Size"),
             // job description title6
-            jobDescriptionTitle6 = ko.observable(specifiedJobDescriptionTitle6 || undefined),
+            jobDescriptionTitle6 = ko.observable(specifiedJobDescriptionTitle6 || "Material"),
             // job description title7
-            jobDescriptionTitle7 = ko.observable(specifiedJobDescriptionTitle7 || undefined),
+            jobDescriptionTitle7 = ko.observable(specifiedJobDescriptionTitle7 || "Delivery"),
             // job description title8
-            jobDescriptionTitle8 = ko.observable(specifiedJobDescriptionTitle8 || undefined),
+            jobDescriptionTitle8 = ko.observable(specifiedJobDescriptionTitle8 || "Finishing"),
             // job description title9
             jobDescriptionTitle9 = ko.observable(specifiedJobDescriptionTitle9 || undefined),
             // job description title10
@@ -1184,6 +1189,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Show Template Errors
                 if (!template().isValid()) {
                     template().errors.showAllMessages();
+                    // Show Template Page Errors
+                    var templatePageErrors = template().templatePages.filter(function (templatePage) {
+                        return !templatePage.isValid();
+                    });
+                    if (templatePageErrors.length > 0) {
+                        _.each(templatePageErrors, function (templatePage) {
+                            templatePage.errors.showAllMessages();
+                        });
+                    }
                 }
                 // Show Item Section Errors
                 var itemSectionErrors = itemSections.filter(function (itemSection) {
@@ -1230,6 +1244,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (template().pdfTemplateHeight.error) {
                         var templatePdfHeightElement = template().pdfTemplateHeight.domElement;
                         validationSummaryList.push({ name: "Height is required in case of Blank Template", element: templatePdfHeightElement });
+                    }
+                    // Show Template Page Errors
+                    var templatePageInvalid = template().templatePages.find(function (templatePage) {
+                        return !templatePage.isValid();
+                    });
+                    if (templatePageInvalid) {
+                        if (templatePageInvalid.pageName.error) {
+                            validationSummaryList.push({ name: "Template Page Name", element: templatePageInvalid.pageName.domElement });
+                        }
                     }
                 }
                 // If Print Item and don't has Template Pages for Blank Template
@@ -1477,7 +1500,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsTemplateDesignMode: isTemplateDesignMode(),
                     IsCmyk: isCmyk() === 1,
                     Scalar: scalar(),
-                    ZoomFactor: zoomFactor(),
+                    ZoomFactor: 1,
                     DesignerCategoryId: designerCategoryId(),
                     TemplateType: templateType(),
                     TemplateTypeMode: templateTypeMode(),
@@ -2066,7 +2089,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Height
             height = ko.observable(specifiedHeight || undefined),
             // Page Name
-            pageName = ko.observable(specifiedPageName || undefined),
+            pageName = ko.observable(specifiedPageName || undefined).extend({required:true}),
             // Page No
             pageNo = ko.observable(specifiedPageNo || undefined),
             // Orientation
@@ -2075,6 +2098,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             productId = ko.observable(specifiedProductId || 0),
             // Errors
             errors = ko.validation.group({
+                pageName: pageName
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -2372,7 +2396,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Stock Item Name
             stockItemName = ko.observable(specifiedStockItemName || undefined),
             // Press Id
-            pressId = ko.observable(specifiedPressId || undefined).extend({ required: true }),
+            pressId = ko.observable(specifiedPressId || undefined),
             // Press Name
             pressName = ko.observable(specifiedPressName || undefined),
             // section size id
@@ -2416,7 +2440,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Errors
             errors = ko.validation.group({
                 name: name,
-                pressId: pressId,
                 stockItemId: stockItemId
             }),
             // Is Valid
@@ -3451,7 +3474,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         }
         
         // If Not a print product
-        if (item.isFinishedGoods !== 1) {
+        if (item.isFinishedGoodsUi() !== '1') {
             item.template().isCreatedManualUi(undefined);
         }
         

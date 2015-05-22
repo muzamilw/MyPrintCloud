@@ -40,7 +40,10 @@ namespace MPC.Models.ModelMappers
             target.HeadNotes = source.HeadNotes;
             target.FootNotes = source.FootNotes;
             target.isEstimate = source.isEstimate;
+
             target.Estimate_Total = source.Estimate_Total;
+
+            target.EnquiryId = source.EnquiryId;
 
             // Update Order Schedule
             UpdateOrderSchedule(source, target);
@@ -851,6 +854,7 @@ namespace MPC.Models.ModelMappers
             target.JobProgressedBy = source.JobProgressedBy;
             target.JobEstimatedStartDateTime = source.JobEstimatedStartDateTime;
             target.JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime;
+            target.JobCardPrintedBy = source.JobCardPrintedBy;
             target.JobCode = source.JobCode;
             
             // If Job Code is Already Assigned then skip

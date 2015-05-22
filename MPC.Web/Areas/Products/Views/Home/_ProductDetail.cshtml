@@ -53,7 +53,7 @@
                                                 <label for="txtCompanyName" class="control-label text-right"></label>
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="How to Add a Product ?" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Print product requires configuration of Print section and is always linked with a Design Template. Non Print products do not require print section configuration and Design template, can be directly ordered by user on store by selecting  quantity and refining options. Marketing brief product requires the user to fill in a Questionnaire which is submitted to the store’s sales manager by email, user can optionally attach files with marketing brief." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -88,7 +88,7 @@
                                             <div class="col-lg-3 text-right profileLabelPadding">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#"  data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -105,14 +105,14 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter a unique product code" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Product cost must be unique across the store and is used for data import/export to avoid duplication of data in import process." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
 
 
-                                                <label for="txtProductName" class="control-label text-right tooltip-float">Product Code</label>
+                                                <label for="txtProductCode" class="control-label text-right tooltip-float">Product Code</label>
 
                                             </div>
                                             <div class="col-lg-6">
@@ -136,7 +136,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Sort Order" data-bind="value: sortOrder">
-                                                
+
                                             </div>
                                         </div>
 
@@ -144,14 +144,14 @@
                                             <div class="col-lg-3 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="All the categories in which this product has been selected to appear accross store. Multiple categories can be selected." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="All the categories in which this product has been selected to appear accross store. Multiple categories can be selected." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
-                                                </div>
+                                                    </div>
 
 
-                                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Categories</label>*@
+                                                    <label for="txtSortOrder" class="control-label text-right tooltip-float">Categories</label>*@
 
                                             </div>
                                             <div class="col-lg-9">
@@ -160,23 +160,23 @@
                                                 <a href="#" style="margin-left:4px;" data-bind="click: $root.openProductCategoryDialog">
                                                     <i class="fa fa-lg"></i>&nbsp;Select Categories
                                                 </a>
-                                                
+
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="col-lg-3 col-md-4 col-sm-4">
                                         <div class=" clearfix">
-                                           
+
                                             <div class="main-box-body clearfix">
                                                
                                                 <img src="" alt="" data-bind="attr: { src: thumbnail }" class="img-responsive center-block" />
                                                 @*<div class="profile-label">
-                                                    <span class="label label-danger" data-bind="text: isArchived() ? 'In-Active' : 'Active', css:{ 'label-danger': isArchived, 'label-danger': !isArchived() }">Active</span>
-                                                </div>
-                                                <div class="profile-since">
+                                                        <span class="label label-danger" data-bind="text: isArchived() ? 'In-Active' : 'Active', css:{ 'label-danger': isArchived, 'label-danger': !isArchived() }">Active</span>
+                                                    </div>
+                                                    <div class="profile-since">
 
-                                                </div>*@
+                                                    </div>*@
                                                 <div class="margintop10">
                                                     <ul class="fa-ul">
                                                         <li><i class="fa" data-bind="css:{ 'fa-check': isPublished, 'fa-times': !isPublished() }"></i> Published on Web Store </li>
@@ -214,7 +214,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Product Dimension</h3>
@@ -222,21 +222,12 @@
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Weight" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-
-
                                                 <label for="txtItemWeight" class="control-label text-right tooltip-float">Item Weight</label>
 
                                             </div>
                                             <div class="col-lg-2">
                                                 <input type="text" class="form-control" id="txtItemWeight" placeholder="Enter Weight" data-bind="value: itemWeight">
-                                               
+
                                             </div>
                                             <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text: $root.weightUnit"></label> )
@@ -244,16 +235,11 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Length" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
                                                 <label for="txtItemLength" class="control-label text-right tooltip-float">Item Length</label>
                                             </div>
                                             <div class="col-lg-2">
                                                 <input type="text" class="form-control" id="txtItemLength" placeholder="Enter Length" data-bind="value: itemLength">
-                                                
+
                                             </div>
                                             <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text: $root.lengthUnit"></label> )
@@ -261,21 +247,13 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Width" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-
-
+                                              
                                                 <label for="txtItemWidth" class="control-label text-right tooltip-float">Item Width</label>
 
                                             </div>
                                             <div class="col-lg-2">
                                                 <input type="text" class="form-control" id="txtItemWidth" placeholder="Enter Width" data-bind="value: itemWidth">
-                                               
+
                                             </div>
                                             <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text: $root.lengthUnit"></label> )
@@ -283,21 +261,13 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Height" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-
-
+                                                
                                                 <label for="txtItemHeight" class="control-label text-right tooltip-float">Item Height</label>
 
                                             </div>
                                             <div class="col-lg-2">
                                                 <input type="text" class="form-control" id="txtItemHeight" placeholder="Enter Height" data-bind="value: itemHeight">
-                                               
+
                                             </div>
                                             <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text: $root.lengthUnit"></label> )
@@ -573,13 +543,13 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Xero Access Code" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Xero access code is a unique pairing of the API application and the organisation in Xero. If, under a separate login/instance of your application, a user attempts to authenticate a connection to the same organisation in Xero, this will replace the previous access token." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
 
-                                                <label for="txtProductName" class="control-label text-right tooltip-float">Xero Access Code</label>
+                                                <label for="txtZeroAccessCode" class="control-label text-right tooltip-float">Xero Access Code</label>
 
                                             </div>
                                             <div class="col-lg-6">
@@ -591,11 +561,9 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Xero Access Code" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                   
                                                 </div>
-                                                <label for="txtProductName" class="control-label text-right tooltip-float"> Access Code Format</label>
+                                                <label  class="control-label text-right tooltip-float">Xero Access Code Format</label>
                                             </div>
                                             <div class="col-lg-6">
                                                 <label for="txtProductName" class="control-label text-right">xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx</label>
@@ -642,7 +610,7 @@
 
                             <div class="tab-pane fade" id="tab-ProductDetailSection" data-bind="with: selectedProduct">
                                 <div class="col-md-12 form-horizontal">
-                                    <h3 class="group-header">Detail Page and Section</h3>
+                                    
                                     <div class="col-md-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -689,7 +657,7 @@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div class="col-md-2">
-                                                    <input type="text" disabled="disabled" style="width:95px;" class="form-control" id="txtSection" data-bind="value: itemSections().length">                                                   
+                                                    <input type="text" disabled="disabled" style="width:95px;" class="form-control" id="txtSection" data-bind="value: itemSections().length">
 
                                                 </div>
                                                 <div class="col-md-10">
@@ -698,19 +666,19 @@
                                                             <span class="fa"></span> +
                                                         </button>
                                                     </div>
-                                                    <div class ="col-md-1">
+                                                    <div class="col-md-1">
                                                         <button id="RemoveSection" type="button" style="float:right;display:none;" data-bind="visible: canRemoveItemSection, click: removeItemSection" class="btn btn-danger">
                                                             <span class="fa"></span>
                                                             -
                                                         </button>
                                                     </div>
-                                                    
+
                                                     <div class="col-md-4">
                                                         <span class="help-block">(up to 5 Permitted)</span>
                                                     </div>
-                                                    
+
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -724,21 +692,21 @@
                                                         <div class="rows">
                                                             <div class="col-md-2">
                                                                 <img src="~/Content/Images/Page.png" alt="Signature" style="position:relative; margin-left: -18px;" />
-                                                                <textarea rows="3" id="detailSectionName" class="form-control imgtext" data-bind="value: name, validationToolTip: name, validationOnElement: name"></textarea>
+                                                                <textarea  disabled="disabled" rows="3" id="detailSectionName" class="form-control imgtext" data-bind="value: name, validationToolTip: name, validationOnElement: name"></textarea>
                                                                 <a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary signaturemodify">
                                                                     <i class="fa fa-lg"></i>&nbsp;Modify
                                                                 </a>
                                                             </div>
                                                         </div>
-                                                        
+
                                                     </div>
-                                                    
+
                                                     <!-- /ko -->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
 
 
 
@@ -967,7 +935,7 @@
                             <div class="tab-pane fade" id="tab-StockLabels" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Selling Price Stock Attributes</h3>
-                                    
+
                                     <div class="row" style="margin-left:3px;">
                                         <span>You can select upto 11 stock attributes and each stock attribute can have its price matrix and multiple cost centers which can be marked mandatory or optional.</span>
                                     </div>
@@ -977,10 +945,10 @@
                                     <div class="row" style="margin-left:3px;">
                                         <span> It's cost centers and final price will be based on the stock options prices.</span>
                                     </div>
-                                    
+
                                     <div class="col-lg-12" style="text-align:right;">
                                         <button type="button" data-bind="click: addItemStockOption" class="btn btn-success">
-                                            Add Column
+                                            Add Price Column Attribute
                                         </button>
                                     </div>
                                 </div>
@@ -989,7 +957,7 @@
                             </div>
                             <div class="tab-pane fade" id="tab-pricetable" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Price Table Defaults</h3>
+                                   
                                     <div class="col-lg-9">
 
                                         <div class="form-group">
@@ -1015,9 +983,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Price Table Type" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                    
 
                                                 </div>
 
@@ -1041,94 +1007,94 @@
                                             </div>
                                         </div>
                                         @*<div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <label class="control-label text-right"></label>
-                                            </div>
-                                            <div class="col-lg-9 Label-Bold">
-                                                <label style="font-weight:bold" class="control-label" data-bind="visible: isQtyRangedUi() === '2'">Enter the Desired quantities and the associated costs, these prices will be published on the webstore</label>
-                                                <label style="font-weight:bold;display: none" class="control-label" data-bind="visible: isQtyRangedUi() === '1'">Edit the Price Table with Quantity Range. These prices will be published on the webstore</label>
+                                                <div class="col-lg-3 text-right">
+                                                    <label class="control-label text-right"></label>
+                                                </div>
+                                                <div class="col-lg-9 Label-Bold">
+                                                    <label style="font-weight:bold" class="control-label" data-bind="visible: isQtyRangedUi() === '2'">Enter the Desired quantities and the associated costs, these prices will be published on the webstore</label>
+                                                    <label style="font-weight:bold;display: none" class="control-label" data-bind="visible: isQtyRangedUi() === '1'">Edit the Price Table with Quantity Range. These prices will be published on the webstore</label>
 
-                                                <span class="help-block text-right"></span>
-                                            </div>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
 
-                                        </div>*@
+                                            </div>*@
 
 
 
-                                        
+
 
 
 
 
 
                                         @*<div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <div class="main-box no-header clearfix">
-                                                    <div class="main-box-body clearfix">
-                                                        <div class="table-responsive">
-                                                            <table id="tab-pricetable-itemPriceMatrix" class="table table-striped table-hover pricetable-itemPriceMatrix">
-                                                                
-                                                            </table>
+                                                <div class="col-lg-3 text-right">
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <div class="main-box no-header clearfix">
+                                                        <div class="main-box-body clearfix">
+                                                            <div class="table-responsive">
+                                                                <table id="tab-pricetable-itemPriceMatrix" class="table table-striped table-hover pricetable-itemPriceMatrix">
+
+                                                                </table>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>*@
-                                       
+                                            </div>*@
+
 
                                         @*<div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="State Tax" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-                                                <label id="stateTaxSectionLabel" class="control-label text-right">State Taxes</label>
-
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <header class="clearfix">
-                                                    <div class="filter-block pull-right">
-                                                        <a data-bind="click: addItemStateTax" class="btn btn-primary pull-right">
-                                                            Add State Tax
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="State Tax" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
+
                                                     </div>
-                                                </header>
-                                                <div class="main-box no-header clearfix">
-                                                    <div class="main-box-body clearfix">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-striped table-hover">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style="text-align:center;"><span>Country</span></th>
-                                                                        <th style="text-align:center;"><span> State</span></th>
-                                                                        <th style="text-align:center;"><span>Tax</span></th>
-                                                                        <th>&nbsp;</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <!-- ko template: { name: chooseTemplateForStateTax, foreach: itemStateTaxes } -->
-                                                                    <!-- /ko -->
-                                                                </tbody>
-                                                            </table>
+                                                    <label id="stateTaxSectionLabel" class="control-label text-right">State Taxes</label>
+
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <header class="clearfix">
+                                                        <div class="filter-block pull-right">
+                                                            <a data-bind="click: addItemStateTax" class="btn btn-primary pull-right">
+                                                                Add State Tax
+                                                            </a>
+                                                        </div>
+                                                    </header>
+                                                    <div class="main-box no-header clearfix">
+                                                        <div class="main-box-body clearfix">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="text-align:center;"><span>Country</span></th>
+                                                                            <th style="text-align:center;"><span> State</span></th>
+                                                                            <th style="text-align:center;"><span>Tax</span></th>
+                                                                            <th>&nbsp;</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <!-- ko template: { name: chooseTemplateForStateTax, foreach: itemStateTaxes } -->
+                                                                        <!-- /ko -->
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>*@
+                                            </div>*@
 
                                     </div>
-                                    <div class="col-lg-12 form-group" style="margin-top: 30px;">
+                                    <div class="col-lg-12 form-group" style="margin-top: 30px; padding-left:35px">
                                         <div style="background-color:gainsboro; border-radius:3px">
                                             <header class="main-box-header clearfix">
                                                 <div style="float:left;">
-                                                    <label style="font-size:15px;" data-bind="visible: isQtyRangedUi() === '2'">Enter the Desired quantities and the associated costs, these prices will be published on the webstore</label>
-                                                    <label style="font-size:15px; display: none" data-bind="visible: isQtyRangedUi() === '1'">Edit the Price Table with Quantity Range. These prices will be published on the webstore</label>
+                                                    <label style="font-size:15px;" data-bind="visible: isQtyRangedUi() === '2'">Enter the Desired quantities and the associated costs, these prices will be published on the webstore. Any quantities with zero will not be displayed on the web store. </label>
+                                                    <label style="font-size:15px; display: none" data-bind="visible: isQtyRangedUi() === '1'">Edit the Price Table with Quantity Range. These prices will be published on the webstore. Any quantities with zero will not be displayed on the web store. </label>
                                                 </div>
                                             </header>
                                             <div class="main-box-body clearfix">
@@ -1149,31 +1115,81 @@
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="form-group">
-                                            <div class="col-lg-3 text-right">
+                                            <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Weight Including Pakaging" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Weight is per individual Item e.g. for each business card . Based on the Qauntity the accumulative weight of ordered product is calculated, the accumulative weight is then used to colculate shipping cost from 3rd party shipping carriers." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
-                                                <label class="control-label text-right tooltip-float">Weight Including Pakaging </label>
+                                                <label class="control-label text-right tooltip-float">Weight Including Packaging </label>
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="col-xs-6" id="txtDiscountsContainer">
+                                                <div class="input-group" id="txtDiscountsContainer" style="width:50%;">
                                                     <input type="text" class="form-control textAlignRight" id="txtDiscounts" data-bind="value: packagingWeight" />
+                                                    <span class="input-group-addon" tabindex="-1" data-bind="click: function(){}" data-trigger="focus">Kg</span>
                                                 </div>
 
-                                                <div class="col-xs-6">
-                                                    <label class="control-label" id="packagingWeightUnitLabel">Kg</label>
-                                                </div>
+                                                @*<div class="col-xs-6">
+                                                        <label class="control-label" id="packagingWeightUnitLabel">Kg</label>
+                                                    </div>*@
                                             </div>
 
                                         </div>
 
                                         <div class="form-group">
-                                            <div class="col-lg-3 text-right">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                   
+
+                                                </div>
+
+                                                <label class="control-label text-right tooltip-float"> Product tax</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+
+                                                <div class="radio">
+                                                    <input type="radio" name="optionsRadiosFixed" id="optionStoreTaxDef" data-bind="checked: $root.isStoreTax" value="2">
+                                                    <label for="optionStoreTaxDef">
+                                                        Use store default tax applied on this product
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <input type="radio" name="optionsRadiosFixed" id="optionStoreTaxOver" data-bind="checked: $root.isStoreTax" value="1">
+                                                    <label for="optionStoreTaxOver">
+                                                        Override stores default tax
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group" data-bind="visible:$root.isStoreTax()==2">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+
+
+                                                </div>
+
+                                                <label class="control-label text-right tooltip-float">  Store Tax percentage</label>
+
+
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                @*data-bind="text:$root.selectedStore().taxRate"*@
+                                                <label class="control-label" data-bind="text:$root.defaultTaxRate"> </label>
+                                              
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" data-bind="visible:$root.isStoreTax()==1">
+                                            <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Tax" data-original-title="" title="">
@@ -1181,7 +1197,7 @@
                                                     </a>
 
                                                 </div>
-                                                <label class="control-label text-right tooltip-float">Override Store tax value</label>
+                                                <label class="control-label text-right tooltip-float">Override store tax value</label>
 
                                             </div>
                                             <div class="col-lg-6">
@@ -1197,13 +1213,13 @@
                             </div>
                             <div class="tab-pane fade" id="tab-supplierPrice" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Supplier Prices</h3>
+                                   
                                     <div class="col-lg-12 form-horizontal">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimate Production Time" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated production days will be used to calculate the approximate delivery date and displayed on store shopping cart page.  If there are multiple products in cart then production days of all products will be added including  weekend’s will be added to get a approximate delivery date." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -1211,10 +1227,10 @@
 
                                             </div>
                                             <div id="estProductionTimeContainer" class="col-lg-6">
-                                                <input type="text" class="form-control" data-bind="value: estimateProductionTime" id="txtEstProductionTime">
-                                                <span class="help-block text-right">day(s)</span>
+                                                <input type="text" style="width:21%" class="form-control pull-left marginR5" data-bind="value: estimateProductionTime" id="txtEstProductionTime">
+                                                <span class="help-block marginT7">day(s)</span>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                         <div class="form-group" data-bind="with: itemProductDetail">
                                             <div class="col-lg-2 text-right">
                                                 <div class="radio">
@@ -1229,7 +1245,7 @@
                                             </div>
 
                                         </div>
-                                       
+
                                         <div class="form-group" data-bind="with: itemProductDetail">
                                             <div class="col-lg-2 text-right">
                                                 <div class="radio">
@@ -1264,7 +1280,8 @@
                                                 </div>
 
                                             </div>
-                                            <div class="form-group">
+
+                                            <div class="form-group" data-bind="visible: itemProductDetail().isAutoCreateSupplierPo">
                                                 <div class="col-lg-3 text-right">
                                                     <label class="control-label text-right">Supplier 1</label>
 
@@ -1275,34 +1292,7 @@
 
                                             </div>
                                             <!-- ko with: itemProductDetail -->
-                                            <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-
-
-                                                </div>
-                                                <div class="col-lg-9">
-                                                    <div class="col-xs-2" id="switchAutoCreateGraterContainer">
-                                                        <div class="onoffswitch Float-Left">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" data-bind="checked: isQtyLimit" id="switchAutoCreateGreater">
-                                                            <label class="onoffswitch-label" for="switchAutoCreateGreater">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-3" id="qtyLimitLabel">
-                                                        <label class="control-label text-right">If Qty is greater then </label>
-                                                    </div>
-                                                    <div class="col-xs-3" id="qtyLimitInputContainer">
-                                                        <input type="text" data-bind="value: qtyLimit" class="form-control" id="txtQtyGreater" />
-                                                    </div>
-                                                    <div class="col-xs-4">
-                                                        <label class="control-label text-right">then Auto route to Supplier 2 </label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="form-group" id="Supp2" data-bind="visible: isQtyLimit">
+                                            <div class="form-group" id="Supp2" data-bind="visible: isQtyLimit && isAutoCreateSupplierPo">
                                                 <div class="col-lg-3 text-right">
                                                     <label class="control-label text-right">Supplier 2</label>
 
@@ -1312,8 +1302,36 @@
                                                 </div>
 
                                             </div>
+                                            <div class="form-group" data-bind="visible:isAutoCreateSupplierPo">
+                                                <div class="col-lg-3 text-right">
 
-                                            <div class="form-group">
+
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <div class="col-xs-2" id="switchAutoCreateGraterContainer">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" data-bind="checked: isQtyLimit" id="switchAutoCreateGreater">
+                                                            <label class="onoffswitch-label" for="switchAutoCreateGreater">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div data-bind="visible: isQtyLimit" class="col-xs-3" id="qtyLimitLabel">
+                                                        <label class="control-label text-right">If Qty is greater then </label>
+                                                    </div>
+                                                    <div data-bind="visible: isQtyLimit" class="col-xs-3" id="qtyLimitInputContainer">
+                                                        <input type="text" data-bind="value: qtyLimit" class="form-control" id="txtQtyGreater" />
+                                                    </div>
+                                                    <div data-bind="visible: isQtyLimit" class="col-xs-4">
+                                                        <label class="control-label text-right">then Auto route to Supplier 2 </label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="form-group" data-bind="visible:isAutoCreateSupplierPo">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
@@ -1326,12 +1344,12 @@
 
                                                 </div>
                                                 <div class="col-lg-6 deliveryTimeContiner">
-                                                    <input type="text" data-bind="value: deliveryTimeSupplier1" class="form-control" id="txtProductName" placeholder="Enter delivery time">
-                                                    <span class="help-block text-right">days(s)</span>
+                                                    <input type="text" data-bind="value: deliveryTimeSupplier1" style="width: 30%;" class="form-control pull-left marginR5" id="txtProductName" placeholder="Enter delivery time">
+                                                    <span class="help-block marginT7">days(s)</span>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                            <div class="form-group" data-bind="visible: isQtyLimit">
+                                                <div class="col-lg-3 text-right" data-bind="visible:isAutoCreateSupplierPo">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
@@ -1342,13 +1360,13 @@
                                                     <label for="txtProductName" class="control-label text-right tooltip-float">Supplier 2 est. delivery time</label>
 
                                                 </div>
-                                                <div class="col-lg-6 deliveryTimeContiner">
-                                                    <input type="text" data-bind="value: deliveryTimeSupplier2" class="form-control" id="txtProductName" placeholder="Enter delivery time">
-                                                    <span class="help-block text-right">days(s)</span>
+                                                <div class="col-lg-6 deliveryTimeContiner" data-bind="visible:isAutoCreateSupplierPo">
+                                                    <input type="text" data-bind="value: deliveryTimeSupplier2" style="width: 30%;" class="form-control pull-left marginR5" id="txtProductName" placeholder="Enter delivery time">
+                                                    <span class="help-block marginT7">days(s)</span>
                                                 </div>
                                             </div>
                                             <!-- /ko -->
-                                            <div class="clearfix" id="tabsHeader" style="margin-bottom:10px;">
+                                            <div class="clearfix" id="tabsHeader" style="margin-bottom:10px;" data-bind="visible: itemProductDetail().isAutoCreateSupplierPo">
                                                 <div class="tabs-wrapper profile-tabs">
                                                     <ul class="nav nav-tabs">
                                                         <li class="active"><a href="#tab-supplier1" data-toggle="tab">Supplier 1 Price Table</a></li>
@@ -1413,8 +1431,8 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-internalDescription" data-bind="with: selectedProduct">
-                                <div class="col-lg-12 form-horizontal">                                   
-                                    
+                                <div class="col-lg-12 form-horizontal">
+
                                     <div class="col-lg-12">
                                         <div class="clearfix" id="tabsHeader" style="height:387px">
                                             <div class="tabs-wrapper profile-tabs">
@@ -1429,7 +1447,7 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="tab-ProdSpec">
                                                         <div class="col-lg-12 form-horizontal">
-
+                                                            <p class="group-header-description">Product specifications are displayed on the Store’s Product detail and Product Options page. Text can be formatted using HTML tags. </p>
                                                             <div class="col-lg-12 Internal-Tab-Height">
 
                                                                 <textarea class="form-control textAreaHeight" id="txtareaProdSpec" rows="5" data-bind="value: webDescription"></textarea>
@@ -1440,7 +1458,7 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-MarketingTips">
                                                         <div class="col-lg-12 form-horizontal">
-
+                                                            <p class="group-header-description">Marketing tips are displayed on Store’s Product Detail page. Text can be formatted using HTML tags. </p>
                                                             <div class="col-lg-12 Internal-Tab-Height">
 
                                                                 <textarea class="form-control textAreaHeight" id="txtMarketintips" rows="5" data-bind="value: productSpecification"></textarea>
@@ -1454,7 +1472,7 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-MoreIdeas">
                                                         <div class="col-lg-12 form-horizontal">
-
+                                                            <p class="group-header-description">More Ideas are displayed on Store’s Product Detail page. Text can be formatted using HTML tags. </p>
                                                             <div class="col-lg-12 Internal-Tab-Height">
 
                                                                 <textarea class="form-control textAreaHeight" id="txtMoreIdeas" rows="5" data-bind="value: tipsAndHints"></textarea>
@@ -1467,15 +1485,16 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-ProductVideos">
                                                         <div class="col-lg-12 form-horizontal" style="height: 331px;overflow: auto; overflow-x:hidden;">
+                                                            <p class="group-header-description">Show a  YouTube video on Store’s product detail page by embedding its YouTube embed link and giving it a caption. </p>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right">
-                                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                                <div class="col-lg-3 text-right" style="margin-top: 6px;">
+                                                                    @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Meta Title" data-original-title="" title="">
                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                         </a>
 
-                                                                    </div>
+                                                                    </div>*@
 
                                                                     <label for="txtMetaTitle" class="control-label text-right tooltip-float">Product Videos</label>
 
@@ -1500,16 +1519,16 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-metaDescription">
                                                         <div class="col-lg-12 form-horizontal">
-
+                                                            <p class="group-header-description">Add SEO meta tags for this product which will be used on Store’s Product detail page. Meta title can contain max 160 characters, keep the Description concise and use main keywords in it. Keywords should correspond to this product and should not contain duplicates.  </p>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                                    @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Meta Title" data-original-title="" title="">
                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                         </a>
 
-                                                                    </div>
+                                                                    </div>*@
 
                                                                     <label for="txtMetaTitle" class="control-label text-right tooltip-float">Meta Title</label>
 
@@ -1522,13 +1541,13 @@
 
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                                    @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Contains Meta Discription" data-original-title="" title="">
                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                         </a>
 
-                                                                    </div>
+                                                                    </div>*@
 
                                                                     <label for="txtMetaDescription" class="control-label text-right tooltip-float">Meta Description</label>
 
@@ -1540,13 +1559,13 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                                    @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Contains Meta Keywords" data-original-title="" title="">
                                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                         </a>
 
-                                                                    </div>
+                                                                    </div>*@
 
 
                                                                     <label for="txtMetakeywords" class="control-label text-right tooltip-float">Meta Keywords</label>
@@ -1564,44 +1583,44 @@
 
                                                     <div class="tab-pane fade" id="tab-jobDescriptions">
                                                         <div class="col-lg-12 form-horizontal" style="height: 313px;overflow: auto;overflow-x:hidden;">
-
+                                                            <p class="group-header-description">Enter Job Description for Product which are part of Printed Job Card and Estimate/Order Report. </p>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1" />
+                                                                    <input type="text" class="form-control text-right" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1" />
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
-                                                                <div class="col-lg-6">
+                                                                <div class="col-lg-8">
 
-                                                                    <textarea class="form-control" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1" style="width:91%;float:left;" rows="3"></textarea>
+                                                                    <textarea class="form-control jobdescription" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1" rows="1"></textarea>
                                                                     <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                                        <i class="fa fa-lg"></i>Phrase Library
                                                                     </a>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle2" data-bind="value: jobDescriptionTitle2" placeholder="Enter Title 2">
+                                                                    <input type="text" class="form-control text-right" id="txtTitle2" data-bind="value: jobDescriptionTitle2" placeholder="Enter Title 2">
 
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
-                                                                <div class="col-lg-6">
-                                                                    <textarea class="form-control" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2" style="width:91%;float:left;" rows="3"></textarea>
+                                                                <div class="col-lg-8">
+                                                                    <textarea class="form-control jobdescription" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2"  rows="1"></textarea>
                                                                     <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                                        <i class="fa fa-lg"></i>Phrase Library
                                                                     </a>
                                                                     <span class="help-block text-right"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
+                                                                    <input type="text" class="form-control text-right" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
-                                                                <div class="col-lg-6">
-                                                                    <textarea class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" style="width:91%;float:left;" rows="3"></textarea>
+                                                                <div class="col-lg-8">
+                                                                    <textarea class="form-control jobdescription" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" rows="1"></textarea>
 
                                                                     <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                                        <i class="fa fa-lg"></i>Phrase Library
 
                                                                     </a>
                                                                     <span class="help-block text-right"></span>
@@ -1609,14 +1628,14 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
+                                                                    <input type="text" class="form-control text-right" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
-                                                                <div class="col-lg-6">
-                                                                    <textarea class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" style="width:91%;float:left;" rows="3"></textarea>
+                                                                <div class="col-lg-8">
+                                                                    <textarea class="form-control jobdescription" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" rows="1"></textarea>
 
                                                                     <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                                        <i class="fa fa-lg"></i>Phrase Library
 
                                                                     </a>
                                                                     <span class="help-block text-right"></span>
@@ -1624,14 +1643,14 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
+                                                                    <input type="text" class="form-control text-right" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
-                                                                <div class="col-lg-6">
-                                                                    <textarea class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" style="width:91%;float:left;" rows="3"></textarea>
+                                                                <div class="col-lg-8">
+                                                                    <textarea class="form-control  jobdescription" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" rows="1"></textarea>
 
                                                                     <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                                        <i class="fa fa-lg"></i>Phrase Library
 
                                                                     </a>
                                                                     <span class="help-block text-right"></span>
@@ -1639,14 +1658,14 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
+                                                                    <input type="text" class="form-control text-right" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
-                                                                <div class="col-lg-6">
-                                                                    <textarea class="form-control" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6" style="width:91%;float:left;" rows="3"></textarea>
+                                                                <div class="col-lg-8">
+                                                                    <textarea class="form-control jobdescription" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6" rows="1"></textarea>
 
                                                                     <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                                        <i class="fa fa-lg"></i>Phrase Library
 
                                                                     </a>
                                                                     <span class="help-block text-right"></span>
@@ -1654,14 +1673,14 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
+                                                                    <input type="text" class="form-control text-right" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
-                                                                <div class="col-lg-6">
-                                                                    <textarea class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" style="width:91%;float:left;" rows="3"></textarea>
+                                                                <div class="col-lg-8">
+                                                                    <textarea class="form-control jobdescription" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" rows="1"></textarea>
 
                                                                     <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                                        <i class="fa fa-lg"></i>Phrase Library
                                                                     </a>
 
                                                                     <span class="help-block text-right"></span>
@@ -1685,33 +1704,33 @@
                                         <div class="col-lg-12">
 
                                             @*<header class="clearfix">
-                                                <div class="filter-block pull-right">
+                                                    <div class="filter-block pull-right">
 
-                                                    <a class="btn btn-primary pull-right" data-bind="click: $root.onAddRelatedItem">
-                                                        Add Upsell Product
-                                                    </a>
-                                                </div>
-                                            </header>
-                                            <div class="clearfix">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th><span>Products</span></th>
+                                                        <a class="btn btn-primary pull-right" data-bind="click: $root.onAddRelatedItem">
+                                                            Add Upsell Product
+                                                        </a>
+                                                    </div>
+                                                </header>
+                                                <div class="clearfix">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th><span>Products</span></th>
 
-                                                                <th>&nbsp;</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <!-- ko template: { name: 'itemRelatedItemTemplate', foreach: itemRelatedItems } -->
-                                                            <!-- /ko -->
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>*@
+                                                                    <th>&nbsp;</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!-- ko template: { name: 'itemRelatedItemTemplate', foreach: itemRelatedItems } -->
+                                                                <!-- /ko -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>*@
 
                                             <div class="form-group">
-                                                
+
                                                 <div class="col-lg-12">
                                                     <div style="background-color:gainsboro; border-radius:3px">
                                                         <header class="main-box-header clearfix">
@@ -1751,12 +1770,15 @@
                             <!-- ko if: isTemplateTabsVisible -->
                             <div class="tab-pane fade" id="tab-tempProperties">
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Template Properties</h3>
+
                                     <p class="group-header-description">Define how this product will link to a designer template ( in case of print product ) and also control the behavior of template designer and output.</p>
+                                    <h3 class="group-header">Template type</h3>
                                     <div class="col-lg-9" data-bind="with: template">
+
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <label for="txtMaster Template" class="control-label text-right Label-Bold">Template type</label>
+
+                                                @*<label for="txtMaster Template" class="control-label text-right Label-Bold"></label>*@
 
                                             </div>
                                             <div class="col-lg-6">
@@ -1869,13 +1891,14 @@
                                             <div class="col-lg-6">
 
                                                 <div class="profile-message-btn center-block">
-                                                    <div class="fileUpload btn btn-success" data-bind="css: { errorFill: !isValid() }, validationOnElement: fileSource">
+                                                    <div class="fileUpload btn btn-primary" data-bind="validationOnElement: fileSource">
                                                         <i class="fa fa-file-pdf-o"></i>
                                                         Select PDF
                                                         <input type="file" class="upload" id="templateDesigner_file" data-bind="files: { onLoaded: onSelectFile }" />
                                                     </div>
+                                                    <label class="control-label" data-bind="text:fileName" ></label>
                                                 </div>
-                                                <span class="help-block text-right"></span>
+                                            
                                             </div>
 
                                         </div>
@@ -1911,7 +1934,7 @@
                                                     <label class="control-label text-right tooltip-float">Region</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control" data-bind="options: $root.categoryRegions, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $root.selectedRegionId"></select>
+                                                    <select class="form-control" data-bind="options: $root.categoryRegions, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select region', value: $root.selectedRegionId"></select>
                                                 </div>
                                             </div>
 
@@ -1926,7 +1949,7 @@
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Type</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control" data-bind="options: $root.categoryTypes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $root.selectedCategoryTypeId"></select>
+                                                    <select class="form-control" data-bind="options: $root.categoryTypes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select global source', value: $root.selectedCategoryTypeId"></select>
                                                 </div>
                                             </div>
 
@@ -1950,9 +1973,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Initial template designer Zoom level" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                    
                                                 </div>
                                                 <label class="control-label text-right tooltip-float"> Designer initial zoom level</label>
                                             </div>
@@ -1964,7 +1985,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Scale Factor is used to display scaled dimensions" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Scale factor is only using to display scaled dimensions of the template on designer canvas, this factor does not  effect  the designer output PDF." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -1975,14 +1996,18 @@
                                             </div>
                                         </div>
 
+
+
+
+
+                                        <h3 class="group-header">  End User Mode</h3>
                                         <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <label for="txtMaster Template" class="control-label text-right Label-Bold">End User Mode</label>
+                                            <div class="col-lg-12 text-right">
+                                               
+                                                @*<label for="txtMaster Template" class="control-label text-right Label-Bold">End User Mode</label>*@
 
                                             </div>
-                                            <div class="col-lg-6">
 
-                                            </div>
                                         </div>
 
                                         <div class="form-group">
@@ -2063,13 +2088,11 @@
 
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <label for="txtMaster Template" class="control-label text-right Label-Bold">PDF Output</label>
+                                            <div class="col-lg-12">
+                                                <h3 class="group-header">PDF Output</h3>
 
                                             </div>
-                                            <div class="col-lg-6">
 
-                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -2081,7 +2104,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios3" id="optionPDFOutputYes" data-bind="checked: $parent.isCmykUi" value="2">
                                                     <label for="optionPDFOutputYes">
-                                                        Support Spot Color
+                                                        Support spot color output
                                                     </label>
                                                 </div>
 
@@ -2100,7 +2123,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios3" id="optionPDFOutputNo" data-bind="checked: $parent.isCmykUi" value="1">
                                                     <label for="optionPDFOutputNo">
-                                                        Convert all colors to CMYK
+                                                        Convert all color to cmyk output
                                                     </label>
                                                 </div>
 
@@ -2110,20 +2133,20 @@
 
                                         </div>
                                         <div class="form-group" data-bind="visible: $root.selectedCompany" style="display: none">
-                                            <div class="col-lg-3 text-right">
-                                                <label class="control-label text-right Label-Bold">Smart From</label>
+                                            <div class="col-lg-12" data-bind="visible: $parent.isTemplateDesignModeUi() !== '4'">
+                                                <h3 class="group-header">
+                                                    Smart Form
+                                                </h3>
 
                                             </div>
-                                            <div class="col-lg-6">
-
-                                            </div>
+                                           
                                         </div>
                                         <div class="form-group" data-bind="if: $root.selectedCompany() && $root.isDesignerCategoryBaseDataLoaded()">
-                                            <div class="col-lg-3 text-right">
+                                            <div class="col-lg-3 text-right" >
 
                                             </div>
-                                            <div class="col-lg-6">
-                                                <select class="form-control" data-bind="options: $root.smartForms, optionsText: 'Name', optionsValue: 'SmartFormId', optionsCaption: 'Select...', value: $parent.smartFormId"></select>
+                                            <div class="col-lg-6" data-bind="visible: $parent.isTemplateDesignModeUi() !== '4'">
+                                                <select class="form-control" data-bind="options: $root.smartForms, optionsText: 'Name', optionsValue: 'SmartFormId', optionsCaption: 'Select smart form to load for this template', value: $parent.smartFormId"></select>
                                             </div>
 
                                         </div>
@@ -2134,74 +2157,69 @@
                             </div>
                             <div class="tab-pane fade" id="tab-tempPages" data-bind="visible: template().canAddTemplatePages">
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Template Pages</h3>
-                                    <div class="col-lg-12" data-bind="with: template">
-                                        <div class="clearfix">
-                                            <header class="main-box-header clearfix">
-                                                <div class="filter-block pull-right">
 
-                                                    <a href="#" id="addTemplatePageBtn" class="btn btn-primary pull-right" data-bind="click: addTemplatePage, validationOnElement: isCreatedManual">
-                                                        Add Page
-                                                    </a>
+                                    <p class="group-header-description">Design template pages are displayed below in case of blank template or PDF based template. Pages can be added, removed, assigned name, sorted and each page can have different dimensions in case of blank template. </p>
+                                        <div class="col-lg-12" data-bind="with: template">
+                                            <div class="clearfix">
+                                                <header class="main-box-header clearfix">
+                                                    <div class="filter-block pull-right">
+
+                                                        <a href="#" id="addTemplatePageBtn" class="btn btn-primary pull-right" data-bind="click: addTemplatePage, validationOnElement: isCreatedManual">
+                                                            Add Page
+                                                        </a>
+                                                    </div>
+                                                </header>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:175px;"><span>Page Name</span></th>
+                                                                <th><span>Height Inc. Bleed (<span data-bind="text:$root.lengthUnit()"></span> )</span> </th>
+                                                                <th><span>Width Inc. Bleed (<span data-bind="text:$root.lengthUnit()"></span> )</span></th>
+
+                                                                <th style="text-align:center;"><span>Page order</span></th>
+                                                                <th style="width: 114px;"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'templatePageTemplate', foreach: templatePages } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                            </header>
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width:175px;"><span>Page Name</span></th>
-                                                            <th><span>Height</span></th>
-                                                            <th><span>Width</span></th>
-
-                                                            <th style="text-align:center;"><span>Move Page</span></th>
-                                                            <th style="width: 114px;"></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- ko template: { name: 'templatePageTemplate', foreach: templatePages } -->
-                                                        <!-- /ko -->
-                                                    </tbody>
-                                                </table>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+</div>
                             </div>
                             <!-- /ko -->
                             <!-- /ko -->
 
                             <div class="tab-pane clearfix fade" id="tab-imageManagment" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Image Management</h3>
+                                    @*<h3 class="group-header">Image Management</h3>*@
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Thumbnail" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-                                                <label class="control-label text-right tooltip-float">Thumbnail</label>
+                                      
 
                                             </div>
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 text-center" >
                                                 <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: thumbnail }" />
-                                                <div class="col-lg-1" style="float: right">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>....</span>
+                                                <div>
+                                                    <div class="fileUpload btn btn-primary marginT5">
+                                                        <span>Upload</span>
                                                         <input type="file" class="upload" id="thumbnail_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 1); }, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
-                                                <span class="help-block text-right"></span>
+                                                <div class="help-block">Product Thumbnail (PNG,GIF,JPG) is displayed on Featured products widget, related products and on Category page. Dimensions depend upon the selected theme. </div>
+                                                
                                             </div>
 
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -2209,30 +2227,30 @@
 
                                                 </div>
 
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Product Page Banner</label>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Product Page Banner</label>*@
 
                                             </div>
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 text-center">
                                                 <!-- ko if: productDisplayOptionsUi() === '1' -->
                                                 <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: imagePath }" />
-                                                <div class="col-lg-1" style="float: right">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>....</span>
+                                                <div >
+                                                    <div class="fileUpload btn btn-primary marginT5">
+                                                        <span>Upload</span>
                                                         <input type="file" class="upload" id="imagePath_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 3); }, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
                                                 <!-- /ko -->
                                                 <!-- ko if: productDisplayOptionsUi() === '2' -->
                                                 <div class="col-lg-1">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>....</span>
+                                                    <div class="fileUpload btn btn-primary marginT5">
+                                                        <span>Upload</span>
                                                         <input type="file" class="upload" id="itemImageFiles" multiple data-bind="files: { onLoaded: onSelectItemImage, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
                                                 <!-- /ko -->
-                                                <span class="help-block text-right"></span>
-                                            </div>
+                                                <div class="help-block">Product Banner (PNG,GIF,JPG) is displayed on Store Product Detail page.  </div>
+                                                </div>
                                         </div>
                                         <div class="form-group" data-bind="visible: productDisplayOptionsUi() === '2'" style="display: none">
                                             <div class="col-lg-4 text-right"></div>
@@ -2249,32 +2267,32 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Grid Image Layout" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
-                                                <label class="control-label text-right tooltip-float">Grid Image Layout</label>
+                                                <label class="control-label text-right tooltip-float">Upload artwork instructions banner</label>*@
 
                                             </div>
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 text-center">
                                                 <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: gridImage }" />
-                                                <div class="col-lg-1" style="float: right">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>....</span>
+                                                <div >
+                                                    <div class="fileUpload btn btn-primary marginT5">
+                                                        <span>Upload</span>
                                                         <input type="file" class="upload" id="gridImage_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 2); }, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
-                                                <span class="help-block text-right"></span>
+                                                <div class="help-block">Grid Layout Image (PNG,GIF,JPG) is displayed on Store Product Detail page. </div>
                                             </div>
 
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Files" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -2282,19 +2300,19 @@
 
                                                 </div>
 
-                                                <label class="control-label text-right tooltip-float">Upload Files</label>
+                                                <label class="control-label text-right tooltip-float">Upload downloadable product stencils file format</label>*@
 
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div>
                                                     <div class="fileUpload btn btn-primary">
-                                                        <span>....</span>
+                                                        <span>Upload</span>
                                                         <input type="file" class="upload" id="Itemfiles_file" multiple data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 4); } }" />
                                                     </div>
                                                     <input type="button" class="btn btn-primary" value="Reset" data-bind="click: resetFiles" />
                                                 </div>
-                                                <span class="help-block text-right"></span>
+                                                <div class="help-block">Product Design Guide files (AI,PSD,PDF) are available for download using icons on Product detail page which serve as a blank stencils for custom artwork design in Photoshop, Illustrator etc.</div>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -2412,7 +2430,7 @@
     <script id="templatePageTemplate" type="text/html">
         <tr>
             <td style="width:25%;">
-                <input type="text" style="width:200px;" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName">
+                <input type="text" style="width:200px;" maxlength="15" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName, validationTooltip: pageName, validationOnElement: pageName">
             </td>
             <td>
                 <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="value: height">
@@ -2429,7 +2447,7 @@
                 <!-- /ko-->
             </td>
             <td class="text-center">
-                <a class="table-link danger" data-bind="click: $parent.removeTemplatePage.bind($data)">
+                <a class="table-link danger" data-bind="click: $root.onDeleteTemplatePage.bind($data)">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -2441,34 +2459,34 @@
 
     @* Stock Label *@
     <script id="stockLabelTemplate" type="text/html">
-            
-            @*<div class="col-lg-9">
-        <header class="clearfix">
-            <div class="filter-block pull-right">
-                <a data-bind="click: $parent.onAddItemCostCentre" class="btn btn-primary pull-right">
-                    Add Refining Options
-                </a>
-            </div>
-        </header>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th><a href="#"><span>Cost Center Name</span></a></th>
-                        <th><a href="#"><span>Cost Center Type</span></a></th>
-                        <th><a href="#"><span>Is Mandatory</span></a></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- ko template: { name: 'itemAddonCostCentreTemplate', foreach: itemAddonCostCentres } -->
-                    <!-- /ko -->
-                </tbody>
-            </table>
-        </div>
-    </div>*@
+
+        @*<div class="col-lg-9">
+                <header class="clearfix">
+                    <div class="filter-block pull-right">
+                        <a data-bind="click: $parent.onAddItemCostCentre" class="btn btn-primary pull-right">
+                            Add Refining Options
+                        </a>
+                    </div>
+                </header>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th><a href="#"><span>Cost Center Name</span></a></th>
+                                <th><a href="#"><span>Cost Center Type</span></a></th>
+                                <th><a href="#"><span>Is Mandatory</span></a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- ko template: { name: 'itemAddonCostCentreTemplate', foreach: itemAddonCostCentres } -->
+                            <!-- /ko -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>*@
 
         <div class="col-lg-12 form-horizontal" style="margin-top: 35px;">
-            <button type="button" style="margin-top: -10px; margin-right: 8px;" data-bind="click: $parent.removeItemStockOption, visible: $index() > 0" class="btn btn-danger pull-right">
+            <button type="button" style="margin-top: -10px; margin-right: 8px;" data-bind="click: $root.onDeleteItemStockOption, visible: $index() > 0" class="btn btn-danger pull-right">
                 <span class="fa fa-trash-o"></span>
             </button>
             <h3 class="group-header">Price Column Attribute <span data-bind="text: $index() + 1"></span></h3>
@@ -2476,9 +2494,9 @@
         <div class="col-lg-12 form-horizontal clearfix">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <div class="col-lg-4 text-right">
+                    <div class="col-lg-4 text-right profileLabelPadding">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Inventory Item" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Inventory Item" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>
@@ -2487,7 +2505,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div>
-                            <input type="text" disabled="disabled" style="height:60px;" class="form-control font24px" data-bind="value: stockItemName">
+                            <input type="text" disabled="disabled" style="height:60px;" class="form-control font24px" data-bind="value: stockItemName, click: $parent.chooseStockItem">
 
                         </div>
 
@@ -2505,7 +2523,7 @@
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>
-                        <label class="control-label text-right tooltip-float">Price column display name</label>
+                        <label class="control-label text-right tooltip-float">Price column name</label>
                     </div>
                     <div class="col-lg-6">
                         <div>
@@ -2513,7 +2531,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Inventory Description" data-original-title="" title="">
@@ -2527,34 +2545,27 @@
                             <textarea class="form-control notes" data-bind="value: stockItemDescription" placeholder="Notes"></textarea>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
             <div class="col-lg-5">
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        <label class="control-label text-right tooltip-float">Stock Option Image</label>
-                    </div>
-                    <div class="col-lg-6">
-                        @*<div id="dropzone1" class="dropzonepl" style="min-height: 150px; width: 200px;">
-                            <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 150px; width: 200px;" action="#">
-                                <div class="dz-default dz-message">
-                                    <span>Drop file here to upload</span>
-                                </div>
-                            </form>
-                        </div>*@
-                        <div class="pull-left">
-                            <img style="min-height: 150px; width: 175px;" data-bind="attr: { src: image }" />
+                @*<div class="form-group">
+                        <div class="col-lg-4 text-right">
+                            <label class="control-label text-right tooltip-float">Stock Option Image</label>
                         </div>
-                        <div class="fileUpload btn btn-primary pull-right">
-                            <span>....</span>
-                            <input type="file" class="upload" data-bind="files: { onLoaded: onSelectImage, fileFilter: 'image.*' }" />
+                        <div class="col-lg-6">
+                                                 <div class="pull-left">
+                                <img style="min-height: 150px; width: 175px;" data-bind="attr: { src: image }" />
+                            </div>
+                            <div class="fileUpload btn btn-primary pull-right">
+                                <span>....</span>
+                                <input type="file" class="upload" data-bind="files: { onLoaded: onSelectImage, fileFilter: 'image.*' }" />
+                            </div>
+                            <span class="help-block text-right"></span>
                         </div>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
+                    </div>*@
             </div>
         </div>
-        
+
         <div class="col-lg-12" style="margin-top: 30px; margin-bottom:10px;">
             <div class="col-lg-2">
                 &nbsp;
@@ -2717,7 +2728,7 @@
         <tr>
             <td data-bind="visible: $parent.isQtyRangedUi() === '2'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="form-control" data-bind="value: quantityUi, validationTooltip: quantity" />
+                <input type="text" class="form-control PaddingL5" data-bind="value: quantityUi, validationTooltip: quantity" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: quantity"></span>
@@ -2725,7 +2736,7 @@
             </td>
             <td data-bind="visible: $parent.isQtyRangedUi() === '1'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="form-control" data-bind="value: quantityRangedFromUi, validationTooltip: qtyRangedFrom" />
+                <input type="text" class="form-control PaddingL5" data-bind="value: quantityRangedFromUi, validationTooltip: qtyRangedFrom" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: qtyRangedFrom"></span>
@@ -2733,7 +2744,7 @@
             </td>
             <td data-bind="visible: $parent.isQtyRangedUi() === '1'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="form-control" data-bind="value: quantityRangedToUi, validationTooltip: qtyRangedTo" />
+                <input type="text" class="form-control PaddingL5" data-bind="value: quantityRangedToUi, validationTooltip: qtyRangedTo" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: qtyRangedTo"></span>
@@ -2743,7 +2754,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.pricePaperType1" />
+                    <input type="text" class="form-control text-right  PaddingL5" data-bind="numberValue: $parent.pricePaperType1" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2751,7 +2762,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.pricePaperType2" />
+                    <input type="text" class="form-control text-right PaddingL5" data-bind="numberValue: $parent.pricePaperType2" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2759,7 +2770,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.pricePaperType3" />
+                    <input type="text" class="form-control text-right PaddingL5" data-bind="numberValue: $parent.pricePaperType3" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2767,7 +2778,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType4" />
+                    <input type="text" class="form-control text-right PaddingL5" data-bind="numberValue: $parent.priceStockType4" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2775,7 +2786,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType5" />
+                    <input type="text" class="form-control text-right PaddingL5" data-bind="numberValue: $parent.priceStockType5" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2783,7 +2794,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType7" />
+                    <input type="text" class="form-control text-right  PaddingL5" data-bind="numberValue: $parent.priceStockType7" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2791,7 +2802,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType7" />
+                    <input type="text" class="form-control text-right PaddingL5" data-bind="numberValue: $parent.priceStockType7" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2799,7 +2810,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType8" />
+                    <input type="text" class="form-control text-right PaddingL5" data-bind="numberValue: $parent.priceStockType8" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2807,7 +2818,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType9" />
+                    <input type="text" class="form-control text-right PaddingL5" data-bind="numberValue: $parent.priceStockType9" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2815,7 +2826,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType10" />
+                    <input type="text" class="form-control text-right PaddingL5" data-bind="numberValue: $parent.priceStockType10" />
                 </div>
             </td>
             <!-- /ko -->
@@ -2823,7 +2834,7 @@
             <td>
                 <div class="input-group">
                     <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
-                    <input type="text" class="form-control text-right" data-bind="numberValue: $parent.priceStockType11" />
+                    <input type="text" class="form-control text-right PaddingL5" data-bind="numberValue: $parent.priceStockType11" />
                 </div>
             </td>
             <!-- /ko -->

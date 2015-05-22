@@ -3,8 +3,8 @@
 */
 define("stores/stores.viewModel",
     ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination",
-        "common/sharedNavigation.viewModel", "product/product.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, productViewModel) {
+        "common/sharedNavigation.viewModel", "product/product.viewModel", "p71"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, productViewModel, p71) {
         var ist = window.ist || {};
         ist.stores = {
             viewModel: (function () {
@@ -43,6 +43,13 @@ define("stores/stores.viewModel",
                     isEditorVisible = ko.observable(false),
                     // widget section header title
                     productsFilterHeading = ko.observable(),
+
+                      // widget section sub header title for ALL
+                    productsFilterSubHeadingAll = ko.observable(),
+
+                      // widget section sub header title for Selected
+                    productsFilterSubHeadingSelected = ko.observable(),
+
                     // Count of Users
                     userCount = ko.observable(0),
                     // Count of Orders
@@ -71,6 +78,9 @@ define("stores/stores.viewModel",
                     selectedItemForAdd = ko.observable(),
                     //selected tem For Remove
                     selectedItemForRemove = ko.observable(),
+                    //selected hex value for cmyk
+                    selectedHexValue = ko.observable(),
+
                     //Active offer Type
                     selectedOfferType = ko.observable(),
                     //Product Priority Radio Option
@@ -1155,6 +1165,140 @@ define("stores/stores.viewModel",
                 }
 
             },
+
+               calculateCyanValue = ko.computed({
+                   read: function () {
+                       if (!selectedCompanyCMYKColor()) {
+                           return 0;
+                       }
+
+                       var colorC = selectedCompanyCMYKColor().colorC();
+                       var colorM = selectedCompanyCMYKColor().colorM();
+                       var ColorY = selectedCompanyCMYKColor().colorY();
+                       var ColorK = selectedCompanyCMYKColor().colorK();
+
+                       var hex = getColorHex(colorC, colorM, ColorY, ColorK);
+
+                       selectedHexValue(hex);
+                       return selectedCompanyCMYKColor().colorC();
+                   },
+                   write: function (value) {
+                       if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorC()) {
+                           return;
+                       }
+
+                       var colorM = selectedCompanyCMYKColor().colorM();
+                       var ColorY = selectedCompanyCMYKColor().colorY();
+                       var ColorK = selectedCompanyCMYKColor().colorK();
+
+                       var hex = getColorHex(value, colorM, ColorY, ColorK);
+                       selectedHexValue(hex);
+
+                       selectedCompanyCMYKColor().colorC(value);
+                       return value;
+                      
+                   }
+               }),
+
+                calculateMagentaValue = ko.computed({
+                    read: function () {
+                        if (!selectedCompanyCMYKColor()) {
+                            return 0;
+                        }
+
+                        var colorC = selectedCompanyCMYKColor().colorC();
+                        var colorM = selectedCompanyCMYKColor().colorM();
+                        var ColorY = selectedCompanyCMYKColor().colorY();
+                        var ColorK = selectedCompanyCMYKColor().colorK();
+
+                        var hex = getColorHex(colorC, colorM, ColorY, ColorK);
+                        selectedHexValue(hex);
+                        return selectedCompanyCMYKColor().colorM();
+                    },
+                    write: function (value) {
+                        if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorM()) {
+                            return;
+                        }
+                        var colorC = selectedCompanyCMYKColor().colorC();
+                        var ColorY = selectedCompanyCMYKColor().colorY();
+                        var ColorK = selectedCompanyCMYKColor().colorK();
+
+                        var hex = getColorHex(colorC, value, ColorY, ColorK);
+                        selectedHexValue(hex);
+
+                        selectedCompanyCMYKColor().colorM(value);
+
+                        return value;
+                    }
+                }),
+
+
+                  calculateYellowValue = ko.computed({
+                      read: function () {
+                          if (!selectedCompanyCMYKColor()) {
+                              return 0;
+                          }
+
+                          var colorC = selectedCompanyCMYKColor().colorC();
+                          var colorM = selectedCompanyCMYKColor().colorM();
+                          var ColorY = selectedCompanyCMYKColor().colorY();
+                          var ColorK = selectedCompanyCMYKColor().colorK();
+
+                          var hex = getColorHex(colorC, colorM, ColorY, ColorK);
+                          selectedHexValue(hex);
+                          return selectedCompanyCMYKColor().colorY();
+                      },
+                      write: function (value) {
+                          if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorY()) {
+                              return;
+                          }
+
+                          var colorM = selectedCompanyCMYKColor().colorM();
+                          var ColorC = selectedCompanyCMYKColor().colorC();
+                          var ColorK = selectedCompanyCMYKColor().colorK();
+
+                          var hex = getColorHex(ColorC, colorM, value, ColorK);
+                          selectedHexValue(hex);
+
+                          selectedCompanyCMYKColor().colorY(value);
+                          return value;
+                      }
+                  }),
+
+                     calculateBlackValue = ko.computed({
+                         read: function () {
+                             if (!selectedCompanyCMYKColor()) {
+                                 return 0;
+                             }
+
+                             var colorC = selectedCompanyCMYKColor().colorC();
+                             var colorM = selectedCompanyCMYKColor().colorM();
+                             var ColorY = selectedCompanyCMYKColor().colorY();
+                             var ColorK = selectedCompanyCMYKColor().colorK();
+
+                             var hex = getColorHex(colorC, colorM, ColorY, ColorK);
+                             selectedHexValue(hex);
+
+                            
+                             return selectedCompanyCMYKColor().colorK();
+                         },
+                         write: function (value) {
+                             if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorK()) {
+                                 return;
+                             }
+                             var colorM = selectedCompanyCMYKColor().colorM();
+                             var ColorY = selectedCompanyCMYKColor().colorY();
+                             var ColorC = selectedCompanyCMYKColor().colorC();
+
+                             var hex = getColorHex(ColorC, colorM, ColorY, value);
+                             selectedHexValue(hex);
+
+                             selectedCompanyCMYKColor().colorK(value);
+                             return value;
+                            
+                         }
+                     }),
+
                 // #endregion ____________ C O M P A N Y    C M Y K   C O L O R  ___________________ 
 
                 //#region _________COMPANY BANNER AND COMPANY BANNER SET ________
@@ -3281,7 +3425,7 @@ define("stores/stores.viewModel",
                         success: function (data) {
                             if (data.ProductCategories != null) {
                                 _.each(data.ProductCategories, function (productCategory) {
-                                    $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.getCategoryChildListItems"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + productCategory.CategoryName + '</span><div class="nested-links col-sm-2"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
+                                    $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list cursorShape" ><i class="fa fa-chevron-circle-right " data-bind="click: $root.getCategoryChildListItems"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
                                     ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
                                     var category = {
                                         productCategoryId: productCategory.ProductCategoryId,
@@ -4634,7 +4778,7 @@ define("stores/stores.viewModel",
             getProducts = function () {
                 if (!isProductTabVisited()) {
                     isProductTabVisited(true);
-                    ist.product.viewModel.initializeForStore(selectedStore().companyId());
+                    ist.product.viewModel.initializeForStore(selectedStore().companyId(), selectedStore().taxRate());
                 }
             },
                 //#endregion 
@@ -4858,6 +5002,9 @@ define("stores/stores.viewModel",
                 //Open Dialog from Featured Product Row
             openItemsForWidgetsDialogFromFeatured = function () {
                 productsFilterHeading("Featured Products");
+                
+                productsFilterSubHeadingAll("All Featured Products");
+                productsFilterSubHeadingSelected("Selected Featured Products");
                 selectedOfferType(1);
                 resetItems();
                 view.showItemsForWidgetsDialog();
@@ -4865,6 +5012,10 @@ define("stores/stores.viewModel",
                 //Open Dialog from Popular Product Row
             openItemsForWidgetsDialogFromPopular = function () {
                 productsFilterHeading("Popular Products");
+
+                productsFilterSubHeadingAll("All Popular Products");
+                productsFilterSubHeadingSelected("Selected Popular Products");
+
                 selectedOfferType(2);
                 resetItems();
                 view.showItemsForWidgetsDialog();
@@ -4872,6 +5023,8 @@ define("stores/stores.viewModel",
                 //Open Dialog from Special Product Row
             openItemsForWidgetsDialogFromSpecial = function () {
                 productsFilterHeading("Special Products");
+                productsFilterSubHeadingAll("All Special Products");
+                productsFilterSubHeadingSelected("Selected Special Products");
                 selectedOfferType(3);
                 resetItems();
                 view.showItemsForWidgetsDialog();
@@ -5965,9 +6118,50 @@ define("stores/stores.viewModel",
                     }
                 }
             },
+
+
+             //// Ask for confirmation
+             //       confirmation.afterProceed(function () {
+             //           if (media.fakeId() < 0) {
+             //               var flag = true;
+             //               if (selectedStore().storeBackgroudImageImageSource() === media.fileSource()) {
+             //                   toastr.error("File used in Store background Image.", "", ist.toastrOptions);
+             //                   flag = false;
+             //               }
+             //               var item = _.find(companyBanners(), function (banner) {
+             //                   return banner.filePath() === media.id();
+             //               });
+             //               if (item) {
+             //                   toastr.error("File used in banner.", "", ist.toastrOptions);
+             //                   flag = false;
+             //               }
+             //               var secPage = _.find(newAddedSecondaryPage(), function (page) {
+             //                   return page.imageSrc() === media.fileSource();
+             //               });
+             //               if (secPage) {
+             //                   toastr.error("File used in Secondary Page.", "", ist.toastrOptions);
+             //                   flag = false;
+             //               }
+             //               if (flag) {
+             //                   selectedStore().mediaLibraries.remove(media);
+             //               }
+
+             //           } else {
+             //               deleteMediaFile(media);
+             //           }
+             //       });
+             //       confirmation.show();
+
+
                 //Remove Smart Form Item
-            deleteSmartFormItem = function (formItem) {
-                selectedSmartForm().smartFormDetails.remove(formItem);
+                deleteSmartFormItem = function (formItem) {
+
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        selectedSmartForm().smartFormDetails.remove(formItem);
+                    });
+                    confirmation.show();
+               
             },
                 //Save Smart Form
             onSaveSmartForm = function (smartForm) {
@@ -6484,6 +6678,8 @@ define("stores/stores.viewModel",
                     deleteSmartFormItem: deleteSmartFormItem,
                     onSaveSmartForm: onSaveSmartForm,
                     productsFilterHeading: productsFilterHeading,
+                    productsFilterSubHeadingAll: productsFilterSubHeadingAll,   
+                    productsFilterSubHeadingSelected: productsFilterSubHeadingSelected,
                     cmsPagesBaseData: cmsPagesBaseData,
                     smartForms: smartForms,
                     onEditSmartForm: onEditSmartForm,
@@ -6522,7 +6718,13 @@ define("stores/stores.viewModel",
                     selectedThemeName: selectedThemeName,
                     onDeleteMedia: onDeleteMedia,
                     defaultSortBy: defaultSortBy,
-                    currencySymbol: currencySymbol
+                    currencySymbol: currencySymbol,
+                    calculateCyanValue: calculateCyanValue,
+                    calculateBlackValue: calculateBlackValue,
+                    calculateYellowValue: calculateYellowValue,
+                    calculateMagentaValue: calculateMagentaValue,
+                    selectedHexValue:  selectedHexValue
+
                 };
                 //#endregion
             })()

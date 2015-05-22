@@ -15,19 +15,19 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-2" id="SectionDetailButtons">
-                        <input type="button" value="Side1" data-bind="click: $root.side1ButtonClick" />
+                        <input type="button" class="btn btn-primary" value="Side1" data-bind="click: $root.side1ButtonClick" />
                         <!-- ko if : $root.side2Image() != undefined -->
-                        <input type="button" value="Side2" data-bind="click: $root.side2ButtonClick" />
+                        <input type="button" class="btn btn-primary" value="Side2" data-bind="click: $root.side2ButtonClick" />
                         <!-- /ko -->
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row" id="SectionDetailImage">
                         <!-- ko if : $root.showSide1Image -->
-                        <div class="center-block"><img data-bind="attr:{src: $root.side1Image}" alt="" src=""></div>
+                        <div class="center-block"><img data-bind="attr:{src: $root.side1Image}" alt="" src="" style="max-width: 90%"></div>
                         <!-- /ko -->
                         <!-- ko if : !$root.showSide1Image() -->
-                        <div class="center-block"><img data-bind="attr:{src: $root.side2Image}" alt="" src=""></div>
+                        <div class="center-block"><img data-bind="attr:{src: $root.side2Image}" alt="" src="" style="max-width: 90%"></div>
                         <!-- /ko -->
                     </div>
                 </div>

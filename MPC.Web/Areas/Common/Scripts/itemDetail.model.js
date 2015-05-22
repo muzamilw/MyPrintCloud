@@ -1,13 +1,13 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
     var // #region Item Entity
         // ReSharper disable once InconsistentNaming
-        Item = function(specifiedId, specifiedName, specifiedCode, specifiedProductType, specifiedProductName, specifiedProductCode,
+        Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductType, specifiedProductName, specifiedProductCode,
             specifiedJobDescriptionTitle1, specifiedJobDescription1, specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3,
             specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
             specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6, specifiedJobDescriptionTitle7, specifiedJobDescription7,
-            specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty1NetTotal, specifiedItemNotes,
-            specifiedProductCategories, specifiedJobCode, specifiedJobCreationDateTime, specifiedJobManagerId, specifiedJobActualStartDateTime,
-            specifiedJobActualCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
+            specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty2, specifiedQty3, specifiedQty1NetTotal, specifiedItemNotes,
+            specifiedProductCategories, specifiedJobCode, specifiedJobCreationDateTime, specifiedJobManagerId, specifiedJobEstimatedStartDateTime,
+            specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
             specifiedTax1, specifiedItemType, specifiedEstimateId) {
@@ -66,7 +66,7 @@
                 qty1NetTotal = ko.observable(specifiedQty1NetTotal || 0),
                 // Qty1 NetTotal Computed 
                 qty1NetTotalComputed = ko.computed({
-                    read: function() {
+                    read: function () {
                         if (qty1NetTotal()) {
                             var val = parseFloat(qty1NetTotal());
                             if (!isNaN(val)) {
@@ -81,10 +81,14 @@
                             return 0.00;
                         }
                     },
-                    write: function(value) {
+                    write: function (value) {
                         qty1NetTotal(value);
                     }
                 }),
+                 // Qty 2
+                qty2 = ko.observable(specifiedQty2 || 0),
+                 // Qty 3
+                qty3 = ko.observable(specifiedQty3 || 0),
                 // Item Notes
                 itemNotes = ko.observable(specifiedItemNotes || undefined),
                 // Job Code
@@ -93,16 +97,94 @@
                 jobCreationDateTime = ko.observable(specifiedJobCreationDateTime ? moment(specifiedJobCreationDateTime).toDate() : undefined),
                 // Job Status Id
                 jobStatusId = ko.observable(specifiedJobStatusId || undefined),
+                // System Users
+                systemUsers = ko.observableArray([]),
+                // Get User by Id
+                getUserById = function (userId) {
+                    return systemUsers.find(function (user) {
+                        return user.id === userId;
+                    });
+                },
                 // Job Manager Id
                 jobManagerId = ko.observable(specifiedJobManagerId || undefined),
+                // Job Manager Set By For User
+                jobManagerUser = ko.computed({
+                    read: function () {
+                        if (!jobManagerId()) {
+                            return SystemUser.Create({});
+                        }
+                        return getUserById(jobManagerId());
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            jobManagerId(undefined);
+                            return;
+                        }
+                        var userId = value.id;
+                        if (userId === jobManagerId()) {
+                            return;
+                        }
+                        jobManagerId(userId);
+                    }
+                }),
                 // Job Progressed By
                 jobProgressedBy = ko.observable(specifiedJobProgressedBy || undefined),
+                // Set ProgressedBy
+                setJobProgressedBy = function (userId) {
+                    if (!userId) {
+                        return;
+                    }
+                    var user = getUserById(userId);
+                    if (user) {
+                        jobProgressedByUser(user);
+                    }
+                },
+                // Job Progressed By For User
+                jobProgressedByUser = ko.computed({
+                    read: function () {
+                        if (!jobProgressedBy()) {
+                            return SystemUser.Create({});
+                        }
+                        return getUserById(jobProgressedBy());
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            jobProgressedBy(undefined);
+                            return;
+                        }
+                        var userId = value.id;
+                        if (userId === jobProgressedBy()) {
+                            return;
+                        }
+                        jobProgressedBy(userId);
+                    }
+                }),
                 // Job Progressed By
                 jobSignedBy = ko.observable(specifiedJobSignedBy || undefined),
+                // Job Signed By For User
+                jobSignedByUser = ko.computed({
+                    read: function () {
+                        if (!jobSignedBy()) {
+                            return SystemUser.Create({});
+                        }
+                        return getUserById(jobSignedBy());
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            jobSignedBy(undefined);
+                            return;
+                        }
+                        var userId = value.id;
+                        if (userId === jobSignedBy()) {
+                            return;
+                        }
+                        jobSignedBy(userId);
+                    }
+                }),
                 // Job Actual Start DateTime
-                jobActualStartDateTime = ko.observable(specifiedJobActualStartDateTime ? moment(specifiedJobActualStartDateTime).toDate() : undefined),
+                jobActualStartDateTime = ko.observable(),
                 // Job ActualCompletion DateTime
-                jobActualCompletionDateTime = ko.observable(specifiedJobActualCompletionDateTime ? moment(specifiedJobActualCompletionDateTime).toDate() : undefined),
+                jobActualCompletionDateTime = ko.observable(),
                 // NominalCode Id
                 nominalCodeId = ko.observable(specifiedNominalCodeId || undefined),
                 // Invoice Description
@@ -110,13 +192,13 @@
                 // Product Categories
                 productCategories = ko.observableArray(specifiedProductCategories || []),
                 // Product Categories Ui
-                productCategoriesUi = ko.computed(function() {
+                productCategoriesUi = ko.computed(function () {
                     if (!productCategories || productCategories().length === 0) {
                         return "";
                     }
 
                     var categories = "";
-                    productCategories.each(function(category, index) {
+                    productCategories.each(function (category, index) {
                         var pcname = category;
                         if (index < productCategoryItems().length - 1) {
                             pcname = pcname + " || ";
@@ -138,7 +220,7 @@
                 qty2NetTotal = ko.observable(specifiedQty2NetTotal || 0),
                 // Qty2 NetTotal Computed 
                 qty2NetTotalComputed = ko.computed({
-                    read: function() {
+                    read: function () {
                         if (qty2NetTotal()) {
                             var val = parseFloat(qty2NetTotal());
                             if (!isNaN(val)) {
@@ -153,14 +235,14 @@
                             return 0.00;
                         }
                     },
-                    write: function(value) {
+                    write: function (value) {
                         qty2NetTotal(value);
                     }
                 }),
                 qty3NetTotal = ko.observable(specifiedQty3NetTotal || 0),
                 // Qty3 NetTotal Computed 
                 qty3NetTotalComputed = ko.computed({
-                    read: function() {
+                    read: function () {
                         if (qty3NetTotal()) {
                             var val = parseFloat(qty3NetTotal());
                             if (!isNaN(val)) {
@@ -175,7 +257,7 @@
                             return 0.00;
                         }
                     },
-                    write: function(value) {
+                    write: function (value) {
                         qty3NetTotal(value);
                     }
                 }),
@@ -192,9 +274,10 @@
                 // Estimate Id
                 estimateId = ko.observable(specifiedEstimateId || 0),
                 // Job Estimated Start Date Time
-                jobEstimatedStartDateTime = ko.observable(),
+                jobEstimatedStartDateTime = ko.observable(specifiedJobEstimatedStartDateTime ? moment(specifiedJobEstimatedStartDateTime).toDate() : undefined),
                 // Job Estimated Completion Date Time
-                jobEstimatedCompletionDateTime = ko.observable(),
+                jobEstimatedCompletionDateTime = ko.observable(specifiedJobEstimatedCompletionDateTime ?
+                    moment(specifiedJobEstimatedCompletionDateTime).toDate() : undefined),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
                 // Errors
@@ -202,29 +285,50 @@
                     productName: productName
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0 &&
-                        itemSections.filter(function(itemSection) {
-                            return !itemSection.isValid();
+                        itemSections.filter(function (itemSection) {
+                            return !itemSection.isValid() && !itemSection.flagForAdd();
                         }).length === 0;
                 }),
                 // Show All Error Messages
-                showAllErrors = function() {
+                showAllErrors = function () {
                     // Show Item Errors
                     errors.showAllMessages();
                     // Show Item Section Errors
-                    var itemSectionErrors = itemSections.filter(function(itemSection) {
-                        return !itemSection.isValid();
+                    var itemSectionErrors = itemSections.filter(function (itemSection) {
+                        return !itemSection.isValid() && !itemSection.flagForAdd();
                     });
                     if (itemSectionErrors.length > 0) {
-                        _.each(itemSectionErrors, function(itemSection) {
+                        _.each(itemSectionErrors, function (itemSection) {
                             itemSection.errors.showAllMessages();
                         });
                     }
                 },
                 // Set Validation Summary
-                setValidationSummary = function() {
-
+                setValidationSummary = function (validationSummaryList) {
+                    validationSummaryList.removeAll();
+                    // Show Item Section Errors
+                    var itemSectionInvalid = itemSections.find(function (itemSection) {
+                        return !itemSection.isValid() && !itemSection.flagForAdd();
+                    });
+                    if (itemSectionInvalid) {
+                        if (itemSectionInvalid.name.error) {
+                            validationSummaryList.push({ name: "Section Name", element: itemSectionInvalid.name.domElement });
+                        }
+                        if (itemSectionInvalid.stockItemId.error) {
+                            validationSummaryList.push({ name: "Section Paper / Board / Substrate", element: itemSectionInvalid.stockItemId.domElement });
+                        }
+                        if (itemSectionInvalid.itemSizeId.error) {
+                            validationSummaryList.push({ name: "Section Press Feed Sheet Size", element: itemSectionInvalid.itemSizeId.domElement });
+                        }
+                        if (itemSectionInvalid.sectionSizeId.error) {
+                            validationSummaryList.push({ name: "Section Trimed Item Size (flat)", element: itemSectionInvalid.sectionSizeId.domElement });
+                        }
+                        if (itemSectionInvalid.plateInkId.error) {
+                            validationSummaryList.push({ name: "Section Color", element: itemSectionInvalid.plateInkId.domElement });
+                        }
+                    }
                 },
                 // True if the product has been changed
                 // ReSharper disable InconsistentNaming
@@ -257,30 +361,30 @@
                     itemSections: itemSections
                 }),
                 // Item Section Changes
-                itemSectionHasChanges = ko.computed(function() {
-                    return itemSections.find(function(itemSection) {
+                itemSectionHasChanges = ko.computed(function () {
+                    return itemSections.find(function (itemSection) {
                         return itemSection.hasChanges();
                     }) != null;
                 }),
                 // Item Attachment Changes
-                itemAttachmentHasChanges = ko.computed(function() {
-                    return itemAttachments.find(function(itemAttachment) {
+                itemAttachmentHasChanges = ko.computed(function () {
+                    return itemAttachments.find(function (itemAttachment) {
                         return itemAttachment.hasChanges();
                     }) != null;
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty() || itemSectionHasChanges() || itemAttachmentHasChanges();
                 }),
                 // Reset
-                reset = function() {
-                    itemSections.each(function(itemSection) {
+                reset = function () {
+                    itemSections.each(function (itemSection) {
                         return itemSection.reset();
                     });
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     // id() < 0 ? id(0) : id();
                     return {
                         ItemId: id(),
@@ -314,13 +418,17 @@
                         JobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime() ?
                             moment(jobEstimatedCompletionDateTime()).format(ist.utcFormat) + "Z" : undefined,
                         JobManagerId: jobManagerId(),
+                        JobProgressedBy: jobProgressedBy(),
+                        JobCardPrintedBy: jobSignedBy(),
                         JobStatusId: jobStatusId(),
                         Qty1Tax1Value: qty1Tax1Value(),
                         Qty1GrossTotal: qty1GrossTotal(),
                         Qty1NetTotal: qty1NetTotal(),
                         Qty1: qty1(),
+                        Qty2: qty2(),
+                        Qty3: qty3(),
                         Tax1: tax1(),
-                        ItemSections: itemSections.map(function(itemSection, index) {
+                        ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
                             if (id() <= 0) {
@@ -362,6 +470,8 @@
                 qty1NetTotal: qty1NetTotal,
                 qty1NetTotalComputed: qty1NetTotalComputed,
                 qty1: qty1,
+                qty2: qty2,
+                qty3: qty3,
                 productCategoriesUi: productCategoriesUi,
                 jobCode: jobCode,
                 itemNotes: itemNotes,
@@ -396,6 +506,11 @@
                 taxRateIsDisabled: taxRateIsDisabled,
                 itemStockOptions: itemStockOptions,
                 itemPriceMatrices: itemPriceMatrices,
+                systemUsers: systemUsers,
+                jobManagerUser: jobManagerUser,
+                jobProgressedByUser: jobProgressedByUser,
+                setJobProgressedBy: setJobProgressedBy,
+                jobSignedByUser: jobSignedByUser,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -408,7 +523,7 @@
         },
         //#endregion
         //#region Item Section Entity
-        ItemSection = function(specifiedId, specifiedSectionNo, specifiedSectionName, specifiedSectionSizeId, specifiedItemSizeId, specifiedIsSectionSizeCustom,
+        ItemSection = function (specifiedId, specifiedSectionNo, specifiedSectionName, specifiedSectionSizeId, specifiedItemSizeId, specifiedIsSectionSizeCustom,
             specifiedSectionSizeHeight, specifiedSectionSizeWidth, specifiedIsItemSizeCustom, specifiedItemSizeHeight, specifiedItemSizeWidth,
             specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedGuillotineId, specifiedQty1, specifiedQty2,
             specifiedQty3, specifiedQty1Profit, specifiedQty2Profit, specifiedQty3Profit, specifiedBaseCharge1, specifiedBaseCharge2, specifiedBaseCharge3,
@@ -422,19 +537,31 @@
                 //Product Type
                 productType = ko.observable(specifiedProductType),
                 // name
-                name = ko.observable(specifiedSectionName || undefined).extend({ required: { onlyIf: function() { return productType() != 2; } } }),
+                name = ko.observable(specifiedSectionName || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Stock Item Id
-                stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: { onlyIf: function() { return productType() != 2; } } }),
+                stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Stock Item Name
                 stockItemName = ko.observable(specifiedStockItemName || undefined),
                 // Press Id
-                pressId = ko.observable(specifiedPressId || undefined).extend({ required: { onlyIf: function() { return productType() != 2; } } }),
+                pressId = ko.observable(specifiedPressId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Press Name
                 pressName = ko.observable(specifiedPressName || undefined),
                 // section size id
-                sectionSizeId = ko.observable(specifiedSectionSizeId || undefined),
+                sectionSizeId = ko.observable(specifiedSectionSizeId || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return productType() != 2;
+                        }
+                    }
+                }),
                 // Item size id
-                itemSizeId = ko.observable(specifiedItemSizeId || undefined),
+                itemSizeId = ko.observable(specifiedItemSizeId || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return productType() != 2;
+                        }
+                    }
+                }),
                 // Section No
                 sectionNo = ko.observable(specifiedSectionNo || undefined),
                 // Is Section Size Custom
@@ -493,10 +620,10 @@
                     (specifiedIsWorknTurn !== null || specifiedIsWorknTurn !== undefined ? (!specifiedIsWorknTurn ? 1 : 3) : 1)),
                 // Double Or Work n Turn
                 doubleWorknTurn = ko.computed({
-                    read: function() {
+                    read: function () {
                         return '' + doubleOrWorknTurn();
                     },
-                    write: function(value) {
+                    write: function (value) {
                         if (!value || value === doubleOrWorknTurn()) {
                             return;
                         }
@@ -523,7 +650,7 @@
                 // PrintViewLayoutLandscape
                 printViewLayoutLandscape = ko.observable(specifiedPrintViewLayoutLandscape || 0),
                 // Number Up
-                numberUp = ko.computed(function() {
+                numberUp = ko.computed(function () {
                     if (printViewLayoutPortrait() >= printViewLayoutLandscape()) {
                         printViewLayout(0);
                         return printViewLayoutPortrait();
@@ -537,7 +664,13 @@
                 side1Inks = ko.observable(specifiedSide1Inks),
                 side2Inks = ko.observable(specifiedSide2Inks),
                 // Plate Ink Id
-                plateInkId = ko.observable(specifiedPlateInkId || undefined),
+                plateInkId = ko.observable(specifiedPlateInkId || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return productType() != 2;
+                        }
+                    }
+                }),
                 // SimilarSections
                 similarSections = ko.observable(specifiedSimilarSections || 1),
                 // Section Cost Centres
@@ -550,7 +683,7 @@
                 qty2MarkUpId = ko.observable(specifiedQty2MarkUpID || undefined),
                 qty3MarkUpId = ko.observable(specifiedQty3MarkUpID || undefined),
                 // Select Stock Item
-                selectStock = function(stockItem) {
+                selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
                         return;
                     }
@@ -559,7 +692,7 @@
                     stockItemName(stockItem.name);
                 },
                 // Select Press
-                selectPress = function(press) {
+                selectPress = function (press) {
                     if (!press || pressId() === press.id) {
                         return;
                     }
@@ -568,13 +701,13 @@
                     pressName(press.name);
                 },
                 // Swap Section Height and Width
-                swapSectionHeightWidth = function() {
+                swapSectionHeightWidth = function () {
                     var sectionHeight = sectionSizeHeight();
                     sectionSizeHeight(sectionSizeWidth());
                     sectionSizeWidth(sectionHeight);
                 },
                 // Swap Item Size Height and Width
-                swapItemHeightWidth = function() {
+                swapItemHeightWidth = function () {
                     var itemHeight = itemSizeHeight();
                     itemSizeHeight(itemSizeWidth());
                     itemSizeWidth(itemHeight);
@@ -585,11 +718,12 @@
                 errors = ko.validation.group({
                     name: name,
                     stockItemId: stockItemId,
-                    plateInkId: plateInkId,
-                    numberUp: numberUp
+                    sectionSizeId: sectionSizeId,
+                    itemSizeId: itemSizeId,
+                    plateInkId: plateInkId
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 // True if the Item Section has been changed
@@ -622,15 +756,15 @@
                     productType: productType
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function(isNewSection) {
+                convertToServerData = function (isNewSection) {
                     return {
                         ItemSectionId: id(),
                         SectionName: name(),
@@ -672,14 +806,14 @@
                         Qty1MarkUpID: qty1MarkUpId(),
                         Qty2MarkUpID: qty2MarkUpId(),
                         Qty3MarkUpID: qty3MarkUpId(),
-                        SectionCostcentres: sectionCostCentres.map(function(scc) {
+                        SectionCostcentres: sectionCostCentres.map(function (scc) {
                             var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {
                                 sectionCc.ItemSectionId = 0;
                             }
                             return sectionCc;
                         }),
-                        SectionInkCoverages: sectionInkCoverageList.map(function(sic) {
+                        SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
                             var inkCoverage = sic.convertToServerData();
                             if (isNewSection) {
                                 inkCoverage.SectionId = 0;
@@ -756,7 +890,7 @@
         //#endregion
         //#region Section Cost Centre Entity
         // ReSharper disable InconsistentNaming
-        SectionCostCentre = function(specifiedId, specifiedName, specifiedCostCentreId, specifiedCostCentreType, specifiedOrder, specifiedIsDirectCost,
+        SectionCostCentre = function (specifiedId, specifiedName, specifiedCostCentreId, specifiedCostCentreType, specifiedOrder, specifiedIsDirectCost,
             specifiedIsOptionalExtra, specifiedIsPurchaseOrderRaised, specifiedStatus, specifiedQty1Charge, specifiedQty2Charge, specifiedQty3Charge,
             specifiedQty1MarkUpID, specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedQty1MarkUpValue, specifiedQty2MarkUpValue, specifiedQty3MarkUpValue,
             specifiedQty1NetTotal, specifiedQty2NetTotal, specifiedQty3NetTotal, specifiedQty1, specifiedQty2, specifiedQty3, specifiedCostCentreName,
@@ -833,27 +967,27 @@
                 sectionCostCentreResources = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({
-                    
+
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 // True if the Item Section has been changed
                 // ReSharper disable InconsistentNaming
                 dirtyFlag = new ko.dirtyFlag({
-                    
+
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function(isNewSectionCostCenter) {
+                convertToServerData = function (isNewSectionCostCenter) {
                     return {
                         ItemSectionId: itemSectionId(),
                         SectionCostcentreId: id(),
@@ -874,7 +1008,7 @@
                         Qty1MarkUpValue: qty1MarkUpValue(),
                         Qty2MarkUpValue: qty2MarkUpValue(),
                         Qty3MarkUpValue: qty3MarkUpValue(),
-                        SectionCostCentreDetails: sectionCostCentreDetails.map(function(scc) {
+                        SectionCostCentreDetails: sectionCostCentreDetails.map(function (scc) {
                             var sectionCc = scc.convertToServerData();
                             if (isNewSectionCostCenter) {
                                 sectionCc.SectionCostCentreId = 0;
@@ -929,7 +1063,7 @@
         },
         //#endregion
         //#region Section Cost Center Detail
-        SectionCostCenterDetail = function(
+        SectionCostCenterDetail = function (
             specifiedSectionCostCentreDetailId, specifiedSectionCostCentreId, specifiedStockId, specifiedSupplierId, specifiedQty1, specifiedQty2,
             specifiedQty3, specifiedCostPrice, specifiedActualQtyUsed, specifiedStockName, specifiedSupplier
         ) {
@@ -946,10 +1080,10 @@
                 supplier = ko.observable(specifiedSupplier),
                 // Errors
                 errors = ko.validation.group({
-                    
+
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 dirtyFlag = new ko.dirtyFlag({
@@ -965,15 +1099,15 @@
                     supplier: supplier
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         //            
                         SectionCostCentreDetailId: sectionCostCentreDetailId(),
@@ -1012,7 +1146,7 @@
         //#endregion
         //#region Item Attachment Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemAttachment = function(specifiedId, specifiedfileTitle, specifiedcompanyId, specifiedfileName, specifiedfolderPath) {
+        ItemAttachment = function (specifiedId, specifiedfileTitle, specifiedcompanyId, specifiedfileName, specifiedfolderPath) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -1030,10 +1164,10 @@
                 itemId = ko.observable(),
                 // Errors
                 errors = ko.validation.group({
-                    
+
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                     // ReSharper disable InconsistentNaming
                 }),
@@ -1047,15 +1181,15 @@
                     folderPath: folderPath
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         ItemAttachmentId: id(),
                         FileTitle: fileTitle(),
@@ -1085,7 +1219,7 @@
         //#endregion
         //#region Item Stock Option Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemStockOption = function(specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
+        ItemStockOption = function (specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
             specifiedOptionSequence, specifiedItemId, callbacks) {
             // ReSharper restore InconsistentNaming
             var // Unique key
@@ -1115,14 +1249,14 @@
                 // Added ItemAddonCostCentre Counter
                 itemAddonCostCentreCounter = -1,
                 // On Add ItemAddonCostCentre
-                onAddItemAddonCostCentre = function() {
+                onAddItemAddonCostCentre = function () {
                     activeItemAddonCostCentre(ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }, callbacks));
                 },
-                onEditItemAddonCostCentre = function(itemAddonCostCentre) {
+                onEditItemAddonCostCentre = function (itemAddonCostCentre) {
                     activeItemAddonCostCentre(itemAddonCostCentre);
                 },
                 // Save ItemAddonCostCentre
-                saveItemAddonCostCentre = function() {
+                saveItemAddonCostCentre = function () {
                     if (activeItemAddonCostCentre().id() === 0) { // Add
                         activeItemAddonCostCentre().id(itemAddonCostCentreCounter);
                         addItemAddonCostCentre(activeItemAddonCostCentre());
@@ -1131,15 +1265,15 @@
                     }
                 },
                 // Add Item Addon Cost Center
-                addItemAddonCostCentre = function(itemAddonCostCentre) {
+                addItemAddonCostCentre = function (itemAddonCostCentre) {
                     itemAddonCostCentres.splice(0, 0, itemAddonCostCentre);
                 },
                 // Remove ItemAddon Cost Centre
-                removeItemAddonCostCentre = function(itemAddonCostCentre) {
+                removeItemAddonCostCentre = function (itemAddonCostCentre) {
                     itemAddonCostCentres.remove(itemAddonCostCentre);
                 },
                 // Select Stock Item
-                selectStock = function(stockItem) {
+                selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
                         return;
                     }
@@ -1150,7 +1284,7 @@
                     label(stockItem.name);
                 },
                 // On Select File
-                onSelectImage = function(file, data) {
+                onSelectImage = function (file, data) {
                     image(data);
                     fileSource(data);
                     fileName(file.name);
@@ -1160,8 +1294,8 @@
                     label: label
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
-                    return errors().length === 0 && itemAddonCostCentres.filter(function(itemAddonCostCentre) {
+                isValid = ko.computed(function () {
+                    return errors().length === 0 && itemAddonCostCentres.filter(function (itemAddonCostCentre) {
                         return !itemAddonCostCentre.isValid();
                     }).length === 0;
                 }),
@@ -1174,21 +1308,21 @@
                     itemAddonCostCentres: itemAddonCostCentres
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
-                    return dirtyFlag.isDirty() || itemAddonCostCentres.find(function(itemAddonCostCentre) {
+                hasChanges = ko.computed(function () {
+                    return dirtyFlag.isDirty() || itemAddonCostCentres.find(function (itemAddonCostCentre) {
                         return itemAddonCostCentre.hasChanges();
                     }) != null;
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     // Reset Item Addon Cost Centres State to Un-Modified
-                    itemAddonCostCentres.each(function(itemAddonCostCentre) {
+                    itemAddonCostCentres.each(function (itemAddonCostCentre) {
                         return itemAddonCostCentre.reset();
                     });
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         ItemStockOptionId: id(),
                         StockLabel: label(),
@@ -1197,7 +1331,7 @@
                         FileSource: fileSource(),
                         FileName: fileName(),
                         OptionSequence: optionSequence(),
-                        ItemAddOnCostCentres: itemAddonCostCentres.map(function(itemAddonCostCentre) {
+                        ItemAddOnCostCentres: itemAddonCostCentres.map(function (itemAddonCostCentre) {
                             return itemAddonCostCentre.convertToServerData();
                         })
                     };
@@ -1234,7 +1368,7 @@
         //#endregion
         //#region Item Price Matrix Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemPriceMatrix = function(specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
+        ItemPriceMatrix = function (specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
             specifiedPricePaperType3, specifiedPriceStockType4, specifiedPriceStockType5, specifiedPriceStockType6, specifiedPriceStockType7, specifiedPriceStockType8,
             specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedSupplierSequence, specifiedItemId) {
             // ReSharper restore InconsistentNaming
@@ -1255,7 +1389,7 @@
                 // Price Paper Type1
                 pricePaperType1 = ko.observable(specifiedPricePaperType1 || 0),
                 // Price Paper Type1 Ui
-                pricePaperType1Ui = ko.computed(function() {
+                pricePaperType1Ui = ko.computed(function () {
                     if (!pricePaperType1()) {
                         return '$ 0.00';
                     }
@@ -1265,7 +1399,7 @@
                 // Price Paper Type2
                 pricePaperType2 = ko.observable(specifiedPricePaperType2 || 0),
                 // Price Paper Type2 Ui
-                pricePaperType2Ui = ko.computed(function() {
+                pricePaperType2Ui = ko.computed(function () {
                     if (!pricePaperType2()) {
                         return '$ 0.00';
                     }
@@ -1275,7 +1409,7 @@
                 // Price Paper Type3
                 pricePaperType3 = ko.observable(specifiedPricePaperType3 || 0),
                 // Price Paper Type3 Ui
-                pricePaperType3Ui = ko.computed(function() {
+                pricePaperType3Ui = ko.computed(function () {
                     if (!pricePaperType3()) {
                         return '$ 0.00';
                     }
@@ -1285,7 +1419,7 @@
                 // Price Stock Type4
                 priceStockType4 = ko.observable(specifiedPriceStockType4 || 0),
                 // Price Stock Type4 Ui
-                priceStockType4Ui = ko.computed(function() {
+                priceStockType4Ui = ko.computed(function () {
                     if (!priceStockType4()) {
                         return '$ 0.00';
                     }
@@ -1295,7 +1429,7 @@
                 // Price Stock Type5
                 priceStockType5 = ko.observable(specifiedPriceStockType5 || 0),
                 // Price Stock Type5 Ui
-                priceStockType5Ui = ko.computed(function() {
+                priceStockType5Ui = ko.computed(function () {
                     if (!priceStockType5()) {
                         return '$ 0.00';
                     }
@@ -1305,7 +1439,7 @@
                 // Price Stock Type6
                 priceStockType6 = ko.observable(specifiedPriceStockType6 || 0),
                 // Price Stock Type6 Ui
-                priceStockType6Ui = ko.computed(function() {
+                priceStockType6Ui = ko.computed(function () {
                     if (!priceStockType6()) {
                         return '$ 0.00';
                     }
@@ -1315,7 +1449,7 @@
                 // Price Stock Type7
                 priceStockType7 = ko.observable(specifiedPriceStockType7 || 0),
                 // Price Stock Type7 Ui
-                priceStockType7Ui = ko.computed(function() {
+                priceStockType7Ui = ko.computed(function () {
                     if (!priceStockType7()) {
                         return '$ 0.00';
                     }
@@ -1325,7 +1459,7 @@
                 // Price Stock Type8
                 priceStockType8 = ko.observable(specifiedPriceStockType8 || 0),
                 // Price Stock Type8 Ui
-                priceStockType8Ui = ko.computed(function() {
+                priceStockType8Ui = ko.computed(function () {
                     if (!priceStockType8()) {
                         return '$ 0.00';
                     }
@@ -1335,7 +1469,7 @@
                 // Price Stock Type9
                 priceStockType9 = ko.observable(specifiedPriceStockType9 || 0),
                 // Price Stock Type9 Ui
-                priceStockType9Ui = ko.computed(function() {
+                priceStockType9Ui = ko.computed(function () {
                     if (!priceStockType4()) {
                         return '$ 0.00';
                     }
@@ -1345,7 +1479,7 @@
                 // Price Stock Type10
                 priceStockType10 = ko.observable(specifiedPriceStockType10 || 0),
                 // Price Stock Type10 Ui
-                priceStockType10Ui = ko.computed(function() {
+                priceStockType10Ui = ko.computed(function () {
                     if (!priceStockType10()) {
                         return '$ 0.00';
                     }
@@ -1355,7 +1489,7 @@
                 // Price Stock Type11
                 priceStockType11 = ko.observable(specifiedPriceStockType11 || 0),
                 // Price Stock Type11 Ui
-                priceStockType11Ui = ko.computed(function() {
+                priceStockType11Ui = ko.computed(function () {
                     if (!priceStockType11()) {
                         return '$ 0.00';
                     }
@@ -1366,10 +1500,10 @@
                 itemId = ko.observable(specifiedItemId || 0),
                 // Errors
                 errors = ko.validation.group({
-                    
+
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 // True if the Item Vdp Price has been changed
@@ -1394,15 +1528,15 @@
                     priceStockType11: priceStockType11
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         PriceMatrixId: id(),
                         ItemId: itemId(),
@@ -1468,7 +1602,7 @@
         //#endregion
         //#region Item Addon Cost Centre Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemAddonCostCentre = function(specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
+        ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
             specifiedCostCentreType, specifiedTotalPrice, callbacks) {
             // ReSharper restore InconsistentNaming
             var // self reference
@@ -1487,10 +1621,10 @@
                 totalPrice = ko.observable(specifiedTotalPrice || undefined).extend({ numberInput: ist.numberFormat }),
                 // Cost Centre Id - On Change
                 costCentreId = ko.computed({
-                    read: function() {
+                    read: function () {
                         return internalCostCentreId();
                     },
-                    write: function(value) {
+                    write: function (value) {
                         if (!value || value === internalCostCentreId()) {
                             return;
                         }
@@ -1507,10 +1641,10 @@
                 isSelected = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
-                    
+
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                 }),
                 // True if the Item Vdp Price has been changed
@@ -1520,15 +1654,15 @@
                     costCentreId: costCentreId
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         ProductAddOnId: id(),
                         IsMandatory: isMandatory(),
@@ -1558,7 +1692,7 @@
         },
         //#endregion
         //#region Cost Center Entity
-        costCentre = function(specifiedId, specifiedname,
+        costCentre = function (specifiedId, specifiedname,
             specifiedDes, specifiedSetupcost, specifiedPpq, specifiedquantity1, specifiedquantity2, specifiedquantity3) {
 
             var self,
@@ -1571,10 +1705,10 @@
                 setupCost = ko.observable(specifiedSetupcost),
                 pricePerUnitQuantity = ko.observable(specifiedPpq),
                 errors = ko.validation.group({
-                    
+
                 }),
                 // Is Valid 
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0 ? true : false;
                 }),
                 // ReSharper disable InconsistentNaming
@@ -1589,11 +1723,11 @@
                     pricePerUnitQuantity: pricePerUnitQuantity
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 //Convert To Server
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         CostCentreId: id(),
                         Name: name(),
@@ -1603,7 +1737,7 @@
                     };
                 },
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 };
             self = {
@@ -1627,7 +1761,7 @@
         //#endregion
         //#region Section Ink Coverage Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        SectionInkCoverage = function(specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+        SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -1643,10 +1777,10 @@
                 side = ko.observable(specifiedSide),
                 // Errors
                 errors = ko.validation.group({
-                    
+
                 }),
                 // Is Valid
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0;
                     // ReSharper disable InconsistentNaming
                 }),
@@ -1660,15 +1794,15 @@
                     side: side
                 }),
                 // Has Changes
-                hasChanges = ko.computed(function() {
+                hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
                 }),
                 // Reset
-                reset = function() {
+                reset = function () {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         Id: id(),
                         SectionId: sectionId(),
@@ -1697,7 +1831,7 @@
         //#endregion
         //#region Ink Plate Side Entity
         // ReSharper disable InconsistentNaming
-        InkPlateSide = function(specifiedId, specifiedName, specifiedIsDoubleSided, specifiedPlateInkSide1, specifiedPlateInkSide2) {
+        InkPlateSide = function (specifiedId, specifiedName, specifiedIsDoubleSided, specifiedPlateInkSide1, specifiedPlateInkSide2) {
             // ReSharper restore InconsistentNaming
             return {
                 id: specifiedId,
@@ -1709,7 +1843,7 @@
         },
         //#endregion
         //#region Paper Size Entity
-        PaperSize = function(specifiedId, specifiedName, specifiedHeight, specifiedWidth) {
+        PaperSize = function (specifiedId, specifiedName, specifiedHeight, specifiedWidth) {
             // ReSharper restore InconsistentNaming
             return {
                 id: specifiedId,
@@ -1722,7 +1856,7 @@
         // #region Best Press Entity
         // Best Press Entity        
         // ReSharper disable InconsistentNaming
-        BestPress = function(specifiedMachineID, specifiedMachineName, specifiedQty1Cost, specifiedQty1RunTime, specifiedQty2Cost, specifiedQty2RunTime,
+        BestPress = function (specifiedMachineID, specifiedMachineName, specifiedQty1Cost, specifiedQty1RunTime, specifiedQty2Cost, specifiedQty2RunTime,
             // ReSharper restore InconsistentNaming
             specifiedQty3Cost, specifiedQty3RunTime, specifiedisSelected) {
             var qty1Cost = ko.observable(specifiedQty1Cost || 0).extend({ numberInput: ist.numberFormat });
@@ -1745,14 +1879,14 @@
 
         // User Cost Center Entity        
         // ReSharper disable InconsistentNaming
-        UserCostCenter = function(specifiedCostCentreId, specifiedName) {
+        UserCostCenter = function (specifiedCostCentreId, specifiedName) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedCostCentreId),
                 name = ko.observable(specifiedName),
                 isSelected = ko.observable(false),
                 // Convert To Server Data
-                convertToServerData = function() {
+                convertToServerData = function () {
                     return {
                         SectionCostcentreId: id(),
                     };
@@ -1768,15 +1902,15 @@
     //#region System User
         // System User Entity        
 // ReSharper disable InconsistentNaming
-        SystemUser = function(specifiedId, specifiedName, specifiedFullName) {
-// ReSharper restore InconsistentNaming
+        SystemUser = function (specifiedId, specifiedName, specifiedFullName) {
+            // ReSharper restore InconsistentNaming
             return {
                 id: specifiedId,
                 name: specifiedName,
                 fullName: specifiedFullName
             };
         };
-        //#endregion
+    //#endregion
 
     //#region ---
     //#endregion
@@ -1787,9 +1921,9 @@
             source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
-            source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1, source.Qty1NetTotal,
-            source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobActtualStartDateTime,
-            source.JobActualCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
+            source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1, source.Qty2, source.Qty3, source.Qty1NetTotal,
+            source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobEstimatedStartDateTime,
+            source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
             source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId);
 
@@ -1908,7 +2042,9 @@
     //#region Item Attachment Factory
     // ReSharper disable once InconsistentNaming
     ItemAttachment.Create = function (source) {
-        return new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath);
+        var itemAttachment = new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath);
+        itemAttachment.itemId(source.ItemId);
+        return itemAttachment;
     };
     //#endregion
     //#region Item Stock Option Factory
@@ -1997,7 +2133,7 @@
 
     //#region ---
     //#endregion
-    
+
     return {
         //#region Return
         Item: Item,

@@ -1,4 +1,4 @@
-﻿
+﻿ 
 <div class="main-box-body clearfix" data-bind="visible: $root.isOrganisationVisible" style="display:none;">
     <div class="col-md-12 form-horizontal" style="margin-top:20px;">
         <div style="margin-bottom:15px;">
@@ -40,7 +40,7 @@
                         </a>
 
                     </div>*@
-                    <label for="txtcompanyname" class="control-label text-right tooltip-float">addres line 1</label>
+                    <label for="txtcompanyname" class="control-label text-right tooltip-float">Addresss Line 1</label>
 
                 </div>
 
@@ -254,6 +254,8 @@
 
             </div>
 
+            </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     @*<div class="bs-example-tooltips tooltip-float-width">
@@ -264,16 +266,15 @@
                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Company Logo</label>
                 </div>
 
-                <div class="col-lg-8">
-                    <div class="col-lg-6" style="padding-left:0px;">
-                        <div>
+                <div class="col-lg-4">
+                    <div class="col-lg-12" style="padding-left:0px;">
+                        <div style="text-align:center;">
                             <!-- ko if: orgnizationImage() -->
-                            <img id="orgImage" alt="" src="" style="width:320px;height:200px;" data-bind="attr:{ src: orgnizationImage() }" />
+                            <img id="orgImage" alt="" src="" style="width:200px;height:120px;" data-bind="attr:{ src: orgnizationImage() }" />
                             <!-- /ko -->
                             <!-- ko ifnot: orgnizationImage() -->
-                            <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:310px;height:310px;" />
+                            <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:200px;height:180px;" />
                             <!-- /ko -->
-
                         </div>
                     </div>
                 </div>
@@ -283,7 +284,7 @@
                         &nbsp;
 
                     </div>
-                    <div class="col-lg-8 text-right">
+                    <div class="col-lg-6 text-right" style="margin-left:14px;">
                         <div class="fileUpload btn btn-primary">
                             <span>Upload</span>
                             <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
@@ -294,13 +295,12 @@
                 </div>
 
                 <div class="col-lg-10" style="margin-top:10px;">
-                    <div class="col-lg-5">
+                    <div class="col-lg-4">
                         &nbsp;
                     </div>
                     <div class="col-lg-7 text-center">
                         &nbsp;
                         <span>Company Logo for MIS Dashboard</span>
-
                     </div>
                 </div>
             </div>

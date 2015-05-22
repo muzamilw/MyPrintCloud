@@ -17,14 +17,20 @@
                         <li data-bind="css: $root.itemCodeHeader() != '' ?  'active'   :   '', visible:$root.itemCodeHeader() !== ''" style="display: none; cursor:pointer"><span data-bind="text:$root.itemCodeHeader()+'  '+$root.selectedOrder().companyName() + ' '+ $root.orderCodeHeader()"></span></li>
                     </ol>
                     <div class="clearfix">
-                        <h1 style="padding-left:7px !important;">Estimating</h1>
+                        <h1 style="padding-left:7px !important;" data-bind=" visible:  $root.currentScreen() != 8">Estimating</h1>
+                        <div style="display: none" data-bind=" visible:  $root.currentScreen() == 8">
+                            <h1 style="padding-left:7px !important;">Inquiry</h1>
+                        </div>
                         @*<h1 class="pull-left" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Estimates</h1>*@
                     </div>
-                    <div class="row" data-bind="visible: !isOrderDetailsVisible()">
+                    <div class="row" data-bind="visible: (!isOrderDetailsVisible() && !isDisplayInquiryDetailScreen())">
                         <div class="col-lg-12">
                             <div class="pull-right" style="margin-right:10px;">
-                                <button id="open-wizard" data-bind="click: createOrder" class="btn btn-primary pull-right">
+                                <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
                                     Add New Estimate
+                                </button>
+                                <button id="open-wizard" data-bind="click: createInquiry, visible: $root.currentScreen() == 8" class="btn btn-primary pull-right" style="display: none">
+                                    Add New Inquiry
                                 </button>
                             </div>
                         </div>
@@ -36,17 +42,16 @@
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
                                 <div class=" clearfix">
-                            </div>
+                                </div>
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
-                                        <ul class="nav nav-tabs">
+                                        <ul class="nav nav-tabs" id="estimateListTabs">
                                             <li id="all-orders" class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Estimates</a></li>
-                                            <li id="pending-orders"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Open Estimates</a></li>
-                                            <li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(5);}">Progressed to Orders</a></li>
-                                            <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(6);}">In Production</a></li>
-                                            <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(7);}">Invoiced</a></li>
-                                            <li><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(8);}">Inquiries</a></li>
-
+                                            <li id="pending-orders"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(1);}">Open Estimates</a></li>
+                                            <li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(39);}">Progressed to Orders</a></li>
+                                            <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(40);}">In Production</a></li>
+                                            <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(41);}">Invoiced</a></li>
+                                            <li><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.inqiriesTabClick();}">Inquiries</a></li>
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="tab-All">
@@ -70,7 +75,7 @@
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Invoiced">
-                                                <!-- ko template: { name: 'tabItemsList' } -->
+                                                <!-- ko template: { name: 'inquiryItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
 
@@ -96,7 +101,6 @@
                                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
                                             <i class="fa fa-search search-icon" data-bind="click: $root.getOrdersOfCurrentScreen"></i>
                                         </div>
-
                                     </div>
                                 </form>
                                 <div class="clearfix">
@@ -106,23 +110,23 @@
                         @* Action Template *@
                         <script id="orderActionTemplate" type="text/html">
                             @*<a href="#" class="table-link">
-                                    <span class="fa-stack">
-                                        <i class="fa fa-square fa-stack-2x"></i>
-                                        <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                                <a class="table-link" data-bind="click: $root.editOrder">
-                                    <span class="fa-stack">
-                                        <i class="fa fa-square fa-stack-2x"></i>
-                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                                <a href="#" class="table-link danger">
-                                    <span class="fa-stack">
-                                        <i class="fa fa-square fa-stack-2x"></i>
-                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>*@
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a class="table-link" data-bind="click: $root.editOrder">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="table-link danger">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>*@
                         </script>
                         @* List View Template *@
                         <script id="orderListViewTemplate" type="text/html">
@@ -148,12 +152,35 @@
                                     <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
                                 </td>
                                 <td>
+                                    <!--ko if: $root.currentScreen() != 8-->
                                     <span data-bind="text: orderCode"></span>
+                                    <!--/ko-->
                                 </td>
                                 @*<td style="width: 20%;">
-                                        <!-- ko template: { name: 'orderActionTemplate' } -->
-                                        <!-- /ko -->
-                                    </td>*@
+                        <!-- ko template: { name: 'orderActionTemplate' } -->
+                        <!-- /ko -->
+                    </td>*@
+                            </tr>
+                        </script>
+                        @* inquiries List View Template *@
+                        <script id="inquiriesListViewTemplate" type="text/html">
+                            <tr>
+                                <td>
+                                    <a data-bind="text: companyName, click: $root.editInquiry" style="cursor:pointer;" class="user-link"></a>
+                                    @*<span class="user-subhead">
+                                        <span data-bind="text: name"></span>
+                                        <span data-bind="text: ' '"></span>
+                                        <span data-bind="text: noOfItemsUi"></span>
+                                    </span>*@
+                                </td>
+                                <td>
+                                    <span data-bind="dateString: requireByDate, datePattern: 'DD/MM/YYYY'"></span>
+                                </td>
+                                <td>
+                                    <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
+                                </td>
+                                @*<td></td>*@
+
                             </tr>
                         </script>
                         @* Tab Items Lists*@
@@ -166,7 +193,11 @@
                                                 <th class="col-lg-4"><span>Customer</span></th>
                                                 <th class="col-lg-3"><span>Creation Date</span></th>
                                                 <th class="col-lg-2"><span>Flag</span></th>
-                                                <th class="col-lg-3"><span>Estimate Code</span></th>
+                                                <th class="col-lg-3">
+                                                    <!--ko if: $root.currentScreen() != 8-->
+                                                    <span>Estimate Code</span>
+                                                    <!--/ko-->
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -182,8 +213,35 @@
                                 <!-- /ko -->
                             </div>
                         </script>
+                        @* Inquiry Items List*@
+                        <script id="inquiryItemsList" type="text/html">
+                            <div>
+                                <div class="table-responsive">
+                                    <table id="OrderListtbl" class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-lg-4"><span>Customer</span></th>
+                                                <th class="col-lg-4"><span>Require By Date</span></th>
+                                                <th class="col-lg-4"><span>Flag</span></th>
+                                                @*<th class="col-lg-3"></th>*@
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- ko template: { name: 'inquiriesListViewTemplate', foreach: inquiries } -->
+                                            <!-- /ko -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="pagerDiv" class="pull-right">
+                                <!-- ko with: pager -->
+                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                <!-- /ko -->
+                            </div>
+                        </script>
                     </div>
                     @Html.Partial("EstimateDetail")
+                    @Html.Partial("~/Areas/Orders/Views/Home/_InquiryDetail.cshtml")
                 </div>
             </div>
         </div>

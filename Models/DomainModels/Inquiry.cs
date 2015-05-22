@@ -15,13 +15,14 @@ namespace MPC.Models.DomainModels
         public int? SourceId { get; set; }
         public long? CompanyId { get; set; }
         public DateTime? RequireByDate { get; set; }
-        public int? SystemUserId { get; set; }
+        public Guid? SystemUserId { get; set; }
         public int? Status { get; set; }
         public bool? IsDirectInquiry { get; set; }
         public int? FlagId { get; set; }
         public string InquiryCode { get; set; }
-        public int? CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         public long? OrganisationId { get; set; }
+        public long? EstimateId { get; set; }
         public virtual Company Company { get; set; }
         public virtual CompanyContact CompanyContact { get; set; }
         public virtual ICollection<InquiryAttachment> InquiryAttachments { get; set; }

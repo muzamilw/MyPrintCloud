@@ -15,32 +15,26 @@
                         </ul>
                     </div>
                 </div>
-                <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 16px">
+                <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 24px">
                     <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
                     <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
                 </div>
             </div>
 
-
             <div class="col-lg-12 PaddingZero PaddingStatuses">
                 <div class="col-xs-7">
-
                     <!-- here -->
-
                 </div>
                 <div class="col-xs-3">
-
 
                 </div>
                 <div class="col-xs-2">
 
-
-
                 </div>
-
             </div>
         </div>
+
         <div class="col-lg-12">
             <div class="row" data-bind="with: selectedOrder">
                 <div class="col-lg-12">
@@ -65,38 +59,46 @@
         </div>
     </div>
     <div class="row" id="user-profile">
-        <div class="col-lg-12 col-md-8 col-sm-8">
-            <div class="main-box clearfix my-tabsHeader">
+        <div class="col-lg-12 col-md-8 col-sm-8" style="padding-left: 22px; padding-right: 24px; ">
+            <div class="main-box clearfix my-tabsHeader ">
                 <div class="tabs-wrapper profile-tabs">
-                    <ul class="nav nav-tabs">
+
+                    <ul class="nav nav-tabs" style="margin-top: -1px">
                         <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Estimate Header</a></li>
                     </ul>
-                    <div class="tab-content" style="padding-top:10px;">
-                        <div class="tab-pane fade in active" id="tab-EstimateHeader" data-bind="with: selectedOrder">
-                            <div>
-                                <div class="col-lg-12 form-horizontal">                                   
+                    <div class="tab-content" style="padding-top:10px;" data-bind="with: selectedOrder">
+                        @*<button class="btn btn-success" style="float: right;margin-right: -9px;" data-bind="visible: enquiryId() != undefined, click: $root.showEstimateNotes">Notes</button>
+                        <input type="button" value="Show Panel D" onclick="ShowDFWD(true)">
+                        <input type="button" value="Hide Panel D" onclick="ShowDFWD(false)">
+                        <div id="dockfloatdivd" style="overflow: auto; position: absolute; left: 1158px; top: 22px; width: 180px; height: 334px; visibility: visible; z-index: 5; background-color: rgb(255, 255, 255);">
+                            This is a dockable/floatable panel, add any HTML contents here<br>
+                        </div>*@
+                        <div class="tab-pane fade in active" id="tab-EstimateHeader">
+                            <div class="col-lg-12" id="estimateSection">
+                                <div class="col-lg-12 form-horizontal">
                                     <div class="col-lg-6">
+
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                @* ReSharper disable UnknownCssClass *@
-                                                @*<label class="control-label tooltip-float">Customer</label>*@
-                                                <a data-bind="click: $root.openCompanyDialog" href="#" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-user"></i> 
-                                                </a>
+
                                             </div>
                                             <div class="col-lg-6">
-                                                <div>                                                    
-                                                    <input type="text" style="height: 60px;" data-bind="value: companyName" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
-                                                    
+                                                <div>
+                                                    @*<label class="control-label" id="txtCompany" style="font-size: 18px;" data-bind="text: companyName, validationOnElement: companyId"></label>*@
+                                                    <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedOrder().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                                                 </div>
                                             </div>
+                                            <div class="col-lg-1" style="padding-top:10px;">
+                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined) " href="#" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-user"></i>
+                                                </button>
+                                            </div>
+
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
-                                                @*<label class="control-label text-right tooltip-float">Attention</label>*@
                                             </div>
-
                                             <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
                                                 <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
                                                 <span class="help-block text-right"></span>
@@ -105,21 +107,19 @@
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
-                                                @*<label class="control-label text-right tooltip-float">Address Name</label>*@
                                             </div>
                                             <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
                                                 <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                             <div class="col-lg-1" data-bind="if: $root.isCompanyBaseDataLoaded">
-
                                                 <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
                                                     <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                                                 </a>
                                             </div>
-
                                         </div>
                                         <div id="popoveraddress" style="display:none;">
+                                            <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().address1!=='' && $root.selectedAddress().address1!== undefined-->
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <label class="control-label tooltip-float">&nbsp;</label>
@@ -130,6 +130,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--/ko-->
+                                            <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().telephone1!=='' && $root.selectedAddress().telephone1!== undefined-->
                                             <div class="form-group" style="margin-top: -20px;">
                                                 <div class="col-lg-4 text-right">
                                                     <label class="control-label tooltip-float">&nbsp;</label>
@@ -140,6 +142,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--/ko-->
+                                            <!-- ko if: $root.selectedCompanyContact()!==undefined && $root.selectedCompanyContact().email !=='' && $root.selectedCompanyContact().email !== undefined -->
                                             <div class="form-group" style="margin-top: -20px;">
                                                 <div class="col-lg-4 text-right">
                                                     <label class="control-label tooltip-float">&nbsp;</label>
@@ -150,86 +154,90 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--/ko-->
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-
-                                                @*<label class="control-label tooltip-float">Estimate Title</label>*@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" style="height: 60px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />
+                                                    <input type="text" style="height: 60px; width: 375px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                                
+                                            <div class="col-lg-4 text-right" style="padding-top:10px;">
+                                                &nbsp;
                                             </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" style="height: 60px;" readonly class="form-control font24px" id="code" data-bind="value: code" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
 
+                                            </div>
                                             <div class="col-lg-6">
                                                 <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: sectionFlagId"></select>
-                                                
+
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="row" style="margin-top: -15px;">
+                                                <div class=" col-lg-4 text-right">
+                                                    <label class="control-label text-right tooltip-float">&nbsp;</label>
+                                                </div>
+                                                <div class="col-lg-6 text-left" style="margin-bottom: -8px;">
+                                                    <ul style="list-style: none; border:none" class="form-control">
+                                                        <li class="product-has-nofeature" style="display: none">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4 text-right" style="margin-top:0px">
+                                                    <label class="control-label text-right tooltip-float">&nbsp;</label>
+                                                </div>
+                                                <div class="col-lg-6 text-left">
+                                                    <ul style="list-style: none; border:none" class="form-control">
+                                                        <li class="product-has-nofeature" style="display: none">
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
 
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                                
+                                        <div class="form-group" style="margin-top: 9px;">
+                                            <div class="col-lg-4 text-right" style="padding-top: 10px;">
+                                                <label class="control-label text-right tooltip-float">Estimate Date</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="orderDate" data-bind="datepicker: orderDate">
+                                                @*<input type="text" style="height: 60px;" data-bind="datepicker: orderDate" class="form-control font24px" id="EstimateTitle" />*@
+                                                <input type="text" style="height: 60px;" class="form-control font24px" id="orderDate" data-bind="datepicker: orderDate">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-7 text-right">
-                                                <div class="col-lg-7">
-                                                    @*<label class="control-label" id="orderType">Estimate Code</label>*@
-                                                </div>
-                                                <div class="col-lg-5 text-left">
-                                                    <label class="control-label" style="border:none" id="code" data-bind="text: orderCode"></label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-5">
-                                                <div class="col-lg-8 text-left">
-                                                    <div>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-
-                                        
-
-                                        @*<div class="form-group" style="margin-top:-17px">
-                                            <div class="col-lg-4 text-right">
-
-                                                <label class="control-label text-right tooltip-float">First Shipping Date</label>
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                                <input type="text" class="form-control" id="datepickerFinishDDate" data-bind="datepicker: finishDeliveryDate">
-
-                                            </div>
-                                        </div>*@
                                     </div>
-                                    
+
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <div class="col-lg-2 text-right">
-
                                                 @*<label class="control-label tooltip-float">Estimate Header</label>*@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div>
-                                                    <textarea class="form-control" placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                                                    <textarea class="form-control" id="" placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
                                                 </div>
                                             </div>
+                                            @*<div class="col-lg-1">
+                                                    <a id="P1" style="padding: 4px 8px;" class="btn btn-primary">
+                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                    </a>
+                                                </div>*@
                                         </div>
                                     </div>
                                 </div>
@@ -242,20 +250,29 @@
                                             <div class="col-lg-9">
                                                 <div style="background-color:gainsboro; border-radius:3px">
                                                     <header class="main-box-header clearfix">
-                                                        <div style="float:left;"><span class="font24px">Products in this Estimate</span></div>
+                                                        <div id="orderProducts" style="float: left; margin-top: 8px;" data-bind="validationOnElement: items"><span style="font-size:16px">Products in this Estimate</span></div>
                                                     </header>
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
                                                             <table class="table table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="col-lg-5"><span></span></th>
-                                                                        <th class="col-lg-3"><span>Qty</span></th>
-                                                                        <th class="col-lg-3"><span>Price inc. Tax</span></th>
+                                                                        <th class="col-lg-8"><span></span></th>
+                                                                        <th class="col-lg-2"><span>Qty</span></th>
+                                                                        <th class="col-lg-2 text-right"><span>Price inc. Tax</span></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <!-- ko template: { name: 'itemTemplate', foreach: items } -->
+                                                                    <!--ko if: nonDeliveryItems().length==0-->
+                                                                    <tr>
+                                                                        <td>
+                                                                            <span data-bind="text: 'No Items found!'"></span>
+                                                                        </td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <!-- /ko -->
+                                                                    <!-- ko template: { name: 'itemTemplate', foreach: nonDeliveryItems } -->
                                                                     <!-- /ko -->
                                                                 </tbody>
                                                             </table>
@@ -278,7 +295,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 form-horizontal">
+                                <div class="col-lg-12 form-horizontal" style="margin-top: 20px;">
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <div class="col-lg-2">
@@ -287,7 +304,7 @@
                                             <div class="col-lg-9">
                                                 <div style="background-color:gainsboro; border-radius:3px">
                                                     <header class="main-box-header clearfix">
-                                                        <div style="float:left;"><span class="font24px">Shipping Charge</span></div>
+                                                        <div style="float:left;"><span style="font-size: 16px;margin-top: 8px;">Shipping Charge</span></div>
                                                     </header>
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
@@ -296,26 +313,36 @@
                                                                     <tr>
                                                                         <th class="col-lg-5"><span></span></th>
                                                                         <th class="col-lg-3"><span></span></th>
-                                                                        <th class="col-lg-3"><span>Price inc. Tax</span></th>
+                                                                        <th class="col-lg-3 text-right"><span>Price inc. Tax</span></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <!--ko if: deliveryItems().length==0-->
+                                                                    <tr>
+                                                                        <td>
+                                                                            <span data-bind="text: 'No Items found!'"></span>
+                                                                        </td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <!-- /ko -->
                                                                     <!-- ko template: { name: 'deliveryItemTemplate', foreach: deliveryItems } -->
                                                                     <!-- /ko -->
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-7 btn-group" style="float:left;margin-top:10px; margin-left: -8px;">
-                                                        <button type="button" class="btn btn-primary">Add Shipping Charge</button>
+                                                </div>
+                                                <div class="col-lg-6 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                    <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
+                                                </div>
+                                                <div class="col-lg-6" style="margin-top:10px">
+                                                    <div class="col-lg-8 text-right">
+                                                        <label class="control-label text-right tooltip-float">Gross Total:</label>
                                                     </div>
-                                                    <div class="col-lg-3 form-group" style="margin-top:10px">
-                                                        <div class="col-lg-8 text-right" style=" margin-left: -5px;">
-                                                            <label class="control-label text-right tooltip-float">Gross Total:</label>
-                                                        </div>
-                                                        <div class="col-lg-2" style="margin-top:5px">
-                                                            <span data-bind="text: $root.currencySymbol() + $root.grossTotal()" style="font-weight: bold; font-size:20px;"></span>
-                                                        </div>
+                                                    <div class="col-lg-4 text-right" style="margin-top:5px">
+                                                        <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
+                                                        <span data-bind="numberInput: $root.grossTotal" style="font-weight: bold; font-size:20px;"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -326,7 +353,6 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <div class="col-lg-2 text-right">
-
                                                 @*<label class="control-label tooltip-float">Order Footer</label>*@
                                             </div>
                                             <div class="col-lg-9">
@@ -342,43 +368,36 @@
                                                 </label>
                                             </div>
                                             <div class="col-lg-3">
-                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsCaption: 'Select a system user', value: orderReportSignedBy"></select>
+                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select a system user', value: orderReportSignedByUser"></select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 @* Item Template *@
                                 <script id="itemTemplate" type="text/html">
-
                                     <tr data-bind=" click:  $root.editItem" style="cursor: pointer">
-                                        <td>
-                                            <a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>
+                                        <td style=" padding-top: 10px;">
+                                            <a href="#" style="font-size: 24px" data-bind="text: productName, click: $root.editItem"><span></span></a>
                                         </td>
                                         <td>
                                             <span style="font-size:20px;" data-bind="text: qty1"></span>
                                         </td>
                                         <td>
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
-                                        </td>                                        
+                                        </td>
                                     </tr>
-
                                 </script>
                                 <script id="deliveryItemTemplate" type="text/html">
                                     <tr>
-                                        <td>
-                                            <span style="font-size:20px;" data-bind="text: productName"></span>
+                                        <td style=" padding-top: 10px;">
+                                            <span style="font-size:24px;" data-bind="text: productName"></span>
                                         </td>
-                                        <td>
-                                            
-                                        </td>
+                                        <td></td>
                                         <td>
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
                                         </td>
-
                                     </tr>
                                 </script>
-                                
                             </div>
                         </div>
                     </div>
@@ -387,6 +406,7 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/Script/dsxDockFloatPro.js"></script>
 @Html.Partial("~/Areas/Orders/Views/Home/_AddEditPrePayment.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderCostCenterQuantity.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
@@ -394,7 +414,6 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_ItemDetail.cshtml")
 <!--/ko-->
 <script type="text/javascript">
-
     function addAddress() {
         var e = document.getElementById("popoveraddress");
         var p = document.getElementById("addresspullicon");
@@ -402,14 +421,76 @@
         if (e.style.display == "none") {
             p.className = "fa fa-chevron-circle-down drop-icon";
             e.style.display = "block";
-        }
-        else if (e.style.display == "block") {
+        } else if (e.style.display == "block") {
             p.className = "fa fa-chevron-circle-right drop-icon";
             e.style.display = "none";
-
         }
+
     }
 
 
+    //$(function section() {
+    //    var dfp;
+    //    var dfwa;
+    //    var dfwb;
+    //    var dfwc;
+    //    var dfwd;
 
+    //    function ShowDFWA(bshow) {
+    //        dfwa.setVisible(bshow);
+
+    //    }
+
+    //    function ShowDFWB(bshow) {
+    //        dfwb.setVisible(bshow);
+    //    }
+    //    function ShowDFWC(bshow) {
+    //        dfwc.setVisible(bshow);
+    //    }
+    //    function ShowDFWD(bshow) {
+    //        dfwd.setVisible(bshow);
+    //    }
+
+    //    function getStates() {
+    //        //  dfw.setVisible(true);
+
+
+    //    }
+
+    //    function onAVisiblity(bVi) {
+    //        var v = bVi;
+    //    }
+
+    //    function onADockStyleChanged(iStyle) {
+    //        var istyle = iStyle;
+    //    }
+
+    //    function init() {
+    //        debugger;
+    //        dfp = DSXDFUtil.createDSXDFUtil();
+    //        dfp.addFixedPanel(document.getElementById("centerdiv"), DSXDFUtil.fixedCenter);
+
+    //        dfwa = dfp.createDFPanel("Panel A");
+    //        //       dfwa.addEventListener("visibilityChanged", onAVisiblity);
+    //        //       dfwa.addEventListener("dockStyleChanged", onADockStyleChanged);
+    //        dfwa.addContentDiv(document.getElementById("dockfloatdiva"));
+    //        dfwa.initLayout(150, 300, 400, 200, DSXDFPanel.dockLeft);
+
+    //        dfwb = dfp.createDFPanel("Panel B");
+    //        dfwb.addContentDiv(document.getElementById("dockfloatdivb"));
+    //        dfwb.initLayout(150, 300, 200, 200, DSXDFPanel.dockBottom);
+
+
+    //        dfwc = dfp.createDFPanel("Panel C");
+    //        dfwc.addContentDiv(document.getElementById("dockfloatdivc"));
+    //        dfwc.initLayout(150, 300, 200, 200, DSXDFPanel.dockLeft);
+
+    //        dfwd = dfp.createDFPanel("Panel D");
+    //        dfwd.addContentDiv(document.getElementById("dockfloatdivd"));
+    //        dfwd.initLayout(150, 300, 200, 200, DSXDFPanel.dockRight);
+
+    //    }
+    //})();
+    
 </script>
+

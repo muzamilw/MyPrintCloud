@@ -60,6 +60,8 @@ define("invoice/invoice.viewModel",
                     // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
                     currentScreen = ko.observable(),
+                    // True, show status column in list view
+                    isShowStatusCloumn = ko.observable(true),
                     // #endregion
 
                     // #region Observables
@@ -72,11 +74,22 @@ define("invoice/invoice.viewModel",
                     selectedMarkup1 = ko.observable(0),
                     selectedCategoryId = ko.observable(),
                     currencySymbol = ko.observable(''),
+                    loggedInUserId = ko.observable(),
+                    selectedCostCentre = ko.observable(),
+                     sectionHeader = ko.observable(''),
+                      counterForSection = -1000,
+                      //Is Estimate Screen
+                    isEstimateScreen = ko.observable(false),
                     // Active Order
                     selectedInvoice = ko.observable(),
+                    selectedInvoiceForListView = ko.observable(),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedInvoice() && selectedInvoice().name() ? selectedInvoice().name() : 'Invoices';
+                        return selectedInvoice() && selectedInvoice().name() ? selectedInvoice().name() : 'Invoice';
+                    }),
+                     // Page Code 
+                    pageCode = ko.computed(function () {
+                        return selectedInvoice() && selectedInvoice().code() ? selectedInvoice().code() : '';
                     }),
                      defaultAddress = ko.observable(),
                     // Default Company Contact
@@ -113,7 +126,7 @@ define("invoice/invoice.viewModel",
                     //Is Cost Center dialog open for shipping
                     isCostCenterDialogForShipping = ko.observable(false),
                     //#endregion
-                    
+
                     //#region Utility Functions
                     // Selected Address
                     selectedAddress = ko.computed(function () {
@@ -141,10 +154,12 @@ define("invoice/invoice.viewModel",
                     }),
                     selecteditem = ko.observable(),
                     editInvoice = function (data) {
+                        selectedInvoiceForListView(data);
                         getInvoiceById(data.id(), openInvoiceEditor);
                     },
                     // Open Editor
                     openInvoiceEditor = function () {
+                        isItemDetailVisible(false);
                         isDetailsVisible(true);
                     },
                     // On Close Editor
@@ -155,7 +170,7 @@ define("invoice/invoice.viewModel",
                             confirmation.afterCancel(function () {
                                 selectedInvoice().reset();
                                 closeInvoiceEditor();
-                                invoiceCodeHeader('');                               
+                                invoiceCodeHeader('');
                                 isSectionDetailVisible(false);
                                 isItemDetailVisible(false);
                             });
@@ -173,13 +188,13 @@ define("invoice/invoice.viewModel",
                     // On Archive
                     onArchiveInvoice = function (invoice) {
                         confirmation.afterProceed(function () {
-                            archiveInvoice(invoice.id());
+                            // archiveInvoice(invoice.id());
                         });
                         confirmation.show();
                     },
                     // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, [0, 1], true);
+                        companySelector.show(onSelectCompany, [0, 1, 3], true);
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
@@ -193,15 +208,15 @@ define("invoice/invoice.viewModel",
 
                         selectedInvoice().companyId(company.id);
                         selectedInvoice().companyName(company.name);
-
+                        selectedCompany(company);
+                        if (company.isCustomer !== 3 && company.storeId) {
+                            selectedInvoice().storeId(company.storeId);
+                        }
                         // Get Company Address and Contacts
-                        getBaseForCompany(company.id, company.storeId);
+                        getBaseForCompany(company.id, (selectedInvoice().storeId() === null || selectedInvoice().storeId() === undefined) ? company.id :
+                            selectedInvoice().storeId());
                     },
-                    // Open Item Detail
-                    openItemDetail = function () {
-                        isItemDetailVisible(true);
-                        view.initializeLabelPopovers();
-                    },
+
                     vatList = ko.observableArray([
                         {
                             name: "VAT Free",
@@ -226,19 +241,34 @@ define("invoice/invoice.viewModel",
                     deleteProduct = function (item) {
                         selectedInvoice().items.remove(item);
                     },
+                    removeItemSectionWithAddFlagTrue = function () {
+                        _.each(selectedInvoice().items(), function (item) {
+                            if (item.detailType === undefined) {
+                                _.each(item.itemSections(), function (itemSection) {
+                                    if (itemSection.flagForAdd()) {
+                                        item.itemSections.remove(itemSection);
+                                    }
+                                });
+                            }
+
+                        });
+
+                    },
                     // On Save Order
                     onSaveInvoice = function (data, event, navigateCallback) {
+                        removeItemSectionWithAddFlagTrue();
                         if (!doBeforeSave()) {
                             return;
                         }
-                       
+
                         var istatus = selectedInvoice().invoiceStatus();
-                        if (istatus == 19)//Awaiting Invoice
+                        if (istatus == 19 && selectedInvoice().id() !== 0 && selectedInvoice().id() !== undefined) //Awaiting Invoice
                         {
                             confirmation.messageText("Do you want to post the invoice.");
 
                             confirmation.afterProceed(function () {
-                                selectedInvoice().invoiceStatus(20);//Posted Invoice                              
+                                selectedInvoice().invoiceStatus(20); //Posted Invoice                              
+                                selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id                             
                                 saveInvoice(closeInvoiceEditor, navigateCallback);
                             });
                             confirmation.afterCancel(function () {
@@ -246,10 +276,11 @@ define("invoice/invoice.viewModel",
                             });
                             confirmation.show();
                             return;
+                        } else {
+                            saveInvoice(closeInvoiceEditor, navigateCallback);
                         }
 
 
-                        
                     },
                     // Do Before Save
                     doBeforeSave = function () {
@@ -259,6 +290,7 @@ define("invoice/invoice.viewModel",
                             selectedInvoice().setValidationSummary(errorList);
                             flag = false;
                         }
+
                         return flag;
                     },
                     // Go To Element
@@ -266,58 +298,102 @@ define("invoice/invoice.viewModel",
                         view.gotoElement(validation.element);
                     },
                     saveSectionCostCenter = function (newItem, sectionCostCenter, selectedStockOptionParam, selectedProductQuanityParam) {
-                          //var orderNewItem = new model.Item.Create(newItem.convertToServerData());
-                          //newItem = orderNewItem;
-                          sectionCostCenter.name('Web Order Cost Center');
-                          sectionCostCenter.qty1EstimatedStockCost(0);
-                          sectionCostCenter.qty2EstimatedStockCost(0);
-                          sectionCostCenter.qty3EstimatedStockCost(0);
+                        //var orderNewItem = new model.Item.Create(newItem.convertToServerData());
+                        //newItem = orderNewItem;
+                        sectionCostCenter.name('Web Order Cost Center');
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
 
-                          sectionCostCenter.qty2Charge(0);
-                          sectionCostCenter.qty3Charge(0);
-                          sectionCostCenter.qty1(selectedProductQuanityParam);
-                          selectedSectionCostCenter(sectionCostCenter);
-                          selectedQty(1);
+                        sectionCostCenter.qty2Charge(0);
+                        sectionCostCenter.qty3Charge(0);
+                        sectionCostCenter.qty1(selectedProductQuanityParam);
+                        selectedSectionCostCenter(sectionCostCenter);
+                        selectedQty(1);
 
-                          //Item's Quantity
-                          newItem.qty1(selectedProductQuanityParam);
-                          //Item's Section Quantity
-                          newItem.itemSections()[0].qty1(selectedProductQuanityParam);
-                          newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
+                        //Item's Quantity
+                        newItem.qty1(selectedProductQuanityParam);
+                        //Item's Section Quantity
+                        newItem.itemSections()[0].qty1(selectedProductQuanityParam);
+                        newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
 
-                          itemDetailVm.updateOrderData(selectedInvoice(), newItem, selectedSectionCostCenter(), selectedQty(), newItem.itemSections()[0]);
+                        itemDetailVm.updateOrderData(selectedInvoice(), newItem, selectedSectionCostCenter(), selectedQty(), newItem.itemSections()[0]);
 
-                          //#region Add Selected Addons as Cost Centers
-                          if (selectedStockOptionParam != undefined && selectedStockOptionParam.itemAddonCostCentres().length > 0) {
-                              _.each(selectedStockOptionParam.itemAddonCostCentres(), function (stockOption) {
-                                  if (stockOption.isSelected()) {
-                                      sectionCostCenter = itemModel.SectionCostCentre.Create({});
-                                      sectionCostCenter.costCentreId(stockOption.costCentreId());
-                                      sectionCostCenter.name(stockOption.costCentreName());
-                                      sectionCostCenter.qty1EstimatedStockCost(0);
-                                      sectionCostCenter.qty2EstimatedStockCost(0);
-                                      sectionCostCenter.qty3EstimatedStockCost(0);
-                                      sectionCostCenter.qty1Charge(stockOption.totalPrice());
-                                      sectionCostCenter.qty2Charge(0);
-                                      sectionCostCenter.qty3Charge(0);
-                                      sectionCostCenter.qty1(1);
+                        //#region Add Selected Addons as Cost Centers
+                        if (selectedStockOptionParam != undefined && selectedStockOptionParam.itemAddonCostCentres().length > 0) {
+                            _.each(selectedStockOptionParam.itemAddonCostCentres(), function (stockOption) {
+                                if (stockOption.isSelected()) {
+                                    sectionCostCenter = itemModel.SectionCostCentre.Create({});
+                                    sectionCostCenter.costCentreId(stockOption.costCentreId());
+                                    sectionCostCenter.name(stockOption.costCentreName());
+                                    sectionCostCenter.qty1EstimatedStockCost(0);
+                                    sectionCostCenter.qty2EstimatedStockCost(0);
+                                    sectionCostCenter.qty3EstimatedStockCost(0);
+                                    sectionCostCenter.qty1Charge(stockOption.totalPrice());
+                                    sectionCostCenter.qty2Charge(0);
+                                    sectionCostCenter.qty3Charge(0);
+                                    sectionCostCenter.qty1(1);
 
-                                      sectionCostCenter.qty1NetTotal(stockOption.totalPrice());
-                                      selectedSectionCostCenter(sectionCostCenter);
-                                      selectedQty(1);
-                                      newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
-                                  }
-                              });
-                          }
-                          //#endregion
+                                    sectionCostCenter.qty1NetTotal(stockOption.totalPrice());
+                                    selectedSectionCostCenter(sectionCostCenter);
+                                    selectedQty(1);
+                                    newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
+                                }
+                            });
+                        }
+                        //#endregion
                     },
                     createitemForRetailStoreProduct = function (selectedItem) {
                         var item = selectedItem.convertToServerData();
                         //item.EstimateId = orderId;
                         selectedSection(undefined);
                         var newItem = itemModel.Item.Create(item);
-
+                        applyProductTax(newItem);
                         return newItem;
+                    },
+                    // Edit Item
+                    editItem = function (item) {
+                        // For Invoice Detail Item
+                        if (item.detailType !== undefined) {
+                            selectedInvoiceDetail(item);
+                            view.showInvoiceDetailDialog();
+                        } else {
+                            // For Items
+                            itemCodeHeader(item.code());
+                            var itemSection = _.find(item.itemSections(), function (itemSec) {
+                                return itemSec.flagForAdd() === true;
+                            });
+                            if (itemSection === undefined) {
+                                var itemSectionForAddView = itemModel.ItemSection.Create({});
+                                counterForSection = counterForSection - 1;
+                                itemSectionForAddView.id(counterForSection);
+                                itemSectionForAddView.flagForAdd(true);
+                                item.itemSections.push(itemSectionForAddView);
+                            }
+                            selectedProduct(item);
+                            var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
+                            editSection(section);
+                            openItemDetail();
+                        }
+
+
+                    },
+                     // Open Item Detail
+                    openItemDetail = function () {
+                        isItemDetailVisible(true);
+                        itemDetailVm.showItemDetail(selectedProduct(), selectedInvoice(), closeItemDetail, isEstimateScreen());
+                        view.initializeLabelPopovers();
+                    },
+                    // Edit Section
+                    editSection = function (item) {
+                        sectionHeader("SECTION - " + item.sectionNo());
+                        selectedSection(item);
+                        openSectionDetail();
+
+                    },
+                    // Open Section Detail
+                    openSectionDetail = function () {
+                        view.initializeLabelPopovers();
                     },
                     //#region Add Blank Print Product
                     onCreateNewBlankPrintProduct = function () {
@@ -329,14 +405,96 @@ define("invoice/invoice.viewModel",
                         newItem.qty1GrossTotal(0);
 
                         var itemSection = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSection.id(counterForSection);
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                         itemSection.productType(2);
                         newItem.itemSections.push(itemSection);
-                        selectedInvoice().invoiceDetailItems.splice(0, 0, newItem);
+                        selectedInvoice().items.splice(0, 0, newItem);
                     },
+                    //Product From Cost Center
+                     createNewCostCenterProduct = function () {
+                         view.hideCostCentersQuantityDialog();
+                         //selectedCostCentre(costCenter);
+                         var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id() });
+                         applyProductTax(item);
+                         selectedProduct(item);
+                         item.productName(selectedCostCentre().name());
+                         item.qty1(selectedCostCentre().quantity1());
+                         item.qty2(selectedCostCentre().quantity2());
+                         item.qty3(selectedCostCentre().quantity3());
+                         item.qty1NetTotal(selectedCostCentre().setupCost());
+                         //Req: Item Product code is set to '2', so while editting item's section is non mandatory
+                         item.productType(2);
+
+                         var itemSection = itemModel.ItemSection.Create({});
+                         counterForSection = counterForSection - 1;
+                         itemSection.id(counterForSection);
+                         itemSection.name("Text Sheet");
+                         itemSection.qty1(selectedCostCentre().quantity1());
+                         itemSection.qty2(selectedCostCentre().quantity2());
+                         itemSection.qty3(selectedCostCentre().quantity3());
+                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                         itemSection.productType(2);
+                         itemSection.baseCharge1(selectedCostCentre().setupCost());
+
+                         var sectionCostCenter = itemModel.SectionCostCentre.Create({});
+                         sectionCostCenter.qty1(selectedCostCentre().quantity1());
+                         sectionCostCenter.qty2(selectedCostCentre().quantity2());
+                         sectionCostCenter.qty3(selectedCostCentre().quantity3());
+                         sectionCostCenter.qty1EstimatedStockCost(0);
+                         sectionCostCenter.qty2EstimatedStockCost(0);
+                         sectionCostCenter.qty3EstimatedStockCost(0);
+                         sectionCostCenter.costCentreId(selectedCostCentre().id());
+                         sectionCostCenter.costCentreName(selectedCostCentre().name());
+                         sectionCostCenter.name(selectedCostCentre().name());
+
+                         //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
+                         sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
+
+                         selectedSectionCostCenter(sectionCostCenter);
+                         selectedQty(1);
+                         itemSection.sectionCostCentres.push(sectionCostCenter);
+
+                         item.itemSections.push(itemSection);
+                         var itemSectionForAddView = itemModel.ItemSection.Create({});
+                         counterForSection = counterForSection - 1;
+                         itemSectionForAddView.id(counterForSection);
+                         itemSectionForAddView.flagForAdd(true);
+                         item.itemSections.push(itemSectionForAddView);
+                         if (isCostCenterDialogForShipping()) {
+                             item.itemType(2); // Delivery Item
+                             var deliveryItem = _.find(selectedInvoice().items(), function (itemWithType2) {
+                                 return itemWithType2.itemType() === 2;
+                             });
+                             if (deliveryItem !== undefined) {
+                                 selectedInvoice().items.remove(deliveryItem);
+                             }
+
+                         }
+
+                         selectedInvoice().items.splice(0, 0, item);
+
+                         selectedSection(itemSection);
+
+                         //this method is calling to update orders list view total prices etc by trigering computed in item's detail view
+                         itemDetailVm.updateOrderData(selectedInvoice(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                     },
+                      // Gross Total
+                    grossTotal = ko.computed(function () {
+                        var total = 0;
+                        if (selectedInvoice() != undefined && selectedInvoice().invoiceDetailItems().length === 0) {
+                            _.each(selectedInvoice().items(), function (item) {
+                                var val1 = (item.qty1GrossTotal() === undefined || item.qty1GrossTotal() === null) ? 0 : item.qty1GrossTotal();
+                                total = total + parseFloat(val1);
+                            });
+                            selectedInvoice().invoiceTotal(total);
+                        }
+                        return total;
+                    }),
                     //#endregion
                     //#endregion
-                    
+
                     // #region ServiceCalls
                     // Get Base Data
                      getBaseData = function () {
@@ -351,14 +509,14 @@ define("invoice/invoice.viewModel",
                                  ko.utils.arrayPushAll(systemUsers(), data.SystemUsers);
                                  systemUsers.valueHasMutated();
                                  currencySymbol(data.CurrencySymbol);
-
+                                 loggedInUserId(data.LoggedInUserId);
                                  costCentresBaseData.removeAll();
                                  if (data.CostCenters) {
                                      ko.utils.arrayPushAll(costCentresBaseData(), data.CostCenters);
                                      costCentresBaseData.valueHasMutated();
                                  }
                                  // view.initializeLabelPopovers();
-                                
+
                              },
                              error: function (response) {
                                  toastr.error("Failed to load base data" + response);
@@ -384,26 +542,70 @@ define("invoice/invoice.viewModel",
                             return invoice.id() === id;
                         });
                     },
-                    
+
+                    setInvoiceDetailItems = function () {
+                        var removeItems = [];
+                        _.each(selectedInvoice().items(), function (item) {
+                            if (item.detailType !== undefined) {
+                                selectedInvoice().invoiceDetailItems.push(item);
+                                removeItems.push(item);
+                            }
+                        });
+                        _.each(removeItems, function (item) {
+                            if (item.detailType !== undefined) {
+                                selectedInvoice().items.remove(item);
+                            }
+                        });
+                    },
+
+
                     // Save Invoice
-                    saveInvoice = function (callback, navigateCallback) {                        
-                        var invoice = selectedInvoice().convertToServerData();                        
+                    saveInvoice = function (callback, navigateCallback) {
+                        setInvoiceDetailItems();
+                        var invoice = selectedInvoice().convertToServerData();
+                        _.each(selectedInvoice().invoiceDetailItems(), function (inv) {
+                            invoice.InvoiceDetails.push(inv.convertToServerData(inv));
+
+                        });
+
+                        var itemsArray = [];
+                        _.each(selectedInvoice().items(), function (obj) {
+                            var itemObj = obj.convertToServerData(); // item converted 
+                            var attArray = [];
+                            _.each(itemObj.ItemAttachment, function (att) {
+                                var attchment = att.convertToServerData(); // item converted 
+                                attchment.ContactId = selectedInvoice().contactId();
+                                attArray.push(attchment);
+                            });
+                            itemObj.ItemAttachments = attArray;
+                            itemsArray.push(itemObj);
+
+                        });
+
+                        invoice.Items = itemsArray;
                         dataservice.saveInvoice(invoice, {
                             success: function (data) {
                                 if (!selectedInvoice().id()) {
                                     // Update Id
                                     selectedInvoice().id(data.InvoiceId);
-
+                                    selectedInvoice().code(data.InvoiceCode);
+                                    var invoiceListViewItem = model.InvoicesListView();
+                                    invoiceListViewItem.code(data.InvoiceCode);
+                                    invoiceListViewItem.id(selectedInvoice().id());
+                                    updateInvoiceLitViewItem(invoiceListViewItem);
                                     // Add to top of list
-                                    invoices.splice(0, 0, selectedInvoice());
+                                    invoices.splice(0, 0, invoiceListViewItem);
                                 } else {
                                     // Get Order
                                     var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
                                     if (invoiceUpdated) {
-                                        selectedInvoice().code(data.InvoiceCode);
-                                        selectedInvoice().name(data.InvoiceName);
+                                        // invoiceUpdated.code(data.InvoiceCode);
+                                        //invoiceUpdated.name(data.InvoiceName);
+                                        updateInvoiceLitViewItem(invoiceUpdated);
                                     }
                                 }
+                                isDetailsVisible(false);
+                                isItemDetailVisible(true);
 
                                 toastr.success("Saved Successfully.");
 
@@ -421,7 +623,23 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
-                 
+
+                    updateInvoiceLitViewItem = function (invoiceListViewItem) {
+                        invoiceListViewItem.name(selectedInvoice().name());
+                        invoiceListViewItem.code(selectedInvoice().code());
+                        invoiceListViewItem.type(selectedInvoice().type());
+                        invoiceListViewItem.companyName(selectedInvoice().companyName());
+                        invoiceListViewItem.invoiceDate(selectedInvoice().invoiceDate());
+                        invoiceListViewItem.itemsCount(selectedInvoice().items().length + selectedInvoice().invoiceDetailItems().length);
+                        var sectionFlagItem = _.find(sectionFlags(), function (sFlag) {
+                            return sFlag.SectionFlagId === selectedInvoice().sectionFlagId();
+                        });
+                        if (sectionFlagItem !== undefined && sectionFlagItem !== null) {
+                            invoiceListViewItem.flagColor(sectionFlagItem.FlagColor);
+                        }
+
+                        invoiceListViewItem.invoiceTotal(selectedInvoice().invoiceTotal());
+                    },
                     //get Invoices Of Current Screen
                     getInvoicesOfCurrentScreen = function () {
                         getInvoices(currentScreen());
@@ -429,6 +647,11 @@ define("invoice/invoice.viewModel",
                     //Get Order Tab Changed Event
                     getInvoicesOnTabChange = function (currentTab) {
                         pager().reset();
+                        if (currentTab === 0) {
+                            isShowStatusCloumn(true);
+                        } else {
+                            isShowStatusCloumn(false);
+                        }
                         getInvoices(currentTab);
 
                     },
@@ -491,13 +714,19 @@ define("invoice/invoice.viewModel",
                             success: function (data) {
                                 if (data) {
                                     selectedInvoice(model.Invoice.Create(data));
-                                    
-
 
                                     // Get Base Data For Company
                                     if (data.CompanyId) {
-                                        getBaseForCompany(data.CompanyId, 0);
+                                        var storeId = 0;
+                                        if (data.IsCustomer !== 3 && data.StoreId) {
+                                            storeId = data.StoreId;
+                                            selectedInvoice().storeId(storeId);
+                                        } else {
+                                            storeId = data.CompanyId;
+                                        }
+                                        getBaseForCompany(data.CompanyId, storeId);
                                     }
+
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
@@ -515,7 +744,7 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
-                    // Get Company Base Data
+                     // Get Company Base Data
                     getBaseForCompany = function (id, storeId) {
                         isCompanyBaseDataLoaded(false);
                         dataservice.getBaseDataForCompany({
@@ -528,9 +757,11 @@ define("invoice/invoice.viewModel",
                                 if (data) {
                                     if (data.CompanyAddresses) {
                                         mapList(companyAddresses, data.CompanyAddresses, model.Address);
+                                        setDefaultAddressForCompany();
                                     }
                                     if (data.CompanyContacts) {
                                         mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
+                                        setDefaultContactForCompany();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
                                 }
@@ -542,9 +773,34 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
-                    createInvoice = function () {                     
+                     // Select Default Address For Company in case of new Invoice
+                    setDefaultAddressForCompany = function () {
+                        if (selectedInvoice().id() > 0) {
+                            return;
+                        }
+                        var defaultCompanyAddress = companyAddresses.find(function (address) {
+                            return address.isDefaultAddress;
+                        });
+                        if (defaultCompanyAddress) {
+                            selectedInvoice().addressId(defaultCompanyAddress.id);
+                        }
+                    },
+                     // Select Default Contact For Company in case of new Invoice
+                    setDefaultContactForCompany = function () {
+                        if (selectedInvoice().id() > 0) {
+                            return;
+                        }
+                        var defaultContact = companyContacts.find(function (contact) {
+                            return contact.isDefault;
+                        });
+                        if (defaultContact) {
+                            selectedInvoice().contactId(defaultContact.id);
+                        }
+                    },
+                    createInvoice = function () {
                         selectedInvoice(model.Invoice.Create({}));
                         selectedInvoice().invoiceStatus(19);
+                        selectedInvoice().invoiceReportSignedBy(loggedInUserId());
                         selectedInvoice().isPostedInvoice(false);
                         openInvoiceEditor();
                     },
@@ -554,60 +810,229 @@ define("invoice/invoice.viewModel",
                             toastr.error("Please select customer.");
                         } else {
                             var companyId = 0;
-                            if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3 && selectedCompany().storeId !== null) {
-                                companyId = selectedCompany().storeId;
+                            if (selectedInvoice().storeId()) {
+                                companyId = selectedInvoice().storeId();
                             } else {
                                 companyId = selectedInvoice().companyId();
                             }
-                            addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedInvoice().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
+                            addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedInvoice().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), invoiceCodeHeader(), 'Invoice');
                         }
-                        addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedInvoice().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
                     },
-                    addItemFromRetailStore = function (newItem) {
-                        selectedProduct(newItem);
-                        selectedInvoice().invoiceDetailItems.splice(0, 0, newItem);
-                        itemDetailVm.updateOrderData(selectedInvoice(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
-                    },
+                     addItemFromRetailStore = function (newItem) {
+                         var itemSectionForAddView = itemModel.ItemSection.Create({});
+                         counterForSection = counterForSection - 1;
+                         itemSectionForAddView.id(counterForSection);
+                         itemSectionForAddView.flagForAdd(true);
+                         newItem.itemSections.push(itemSectionForAddView);
+                         selectedProduct(newItem);
+                         selectedInvoice().items.splice(0, 0, newItem);
+                         itemDetailVm.updateOrderData(selectedInvoice(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                     },
 
-                    // Open Stock Item Dialog For Adding product
-                    openStockItemDialogForAddingProduct = function () {
-                        isAddProductFromInventory(true);
-                        isAddProductForSectionCostCenter(false);
-                        stockDialog.show(function (stockItem) {
-                            createNewInventoryProduct(stockItem);
-                        }, stockCategory.paper, false, currencySymbol());
-                    },
+
+                     // Open Stock Item Dialog For Adding product
+                     openStockItemDialogForAddingProduct = function () {
+                         isAddProductFromInventory(true);
+                         isAddProductForSectionCostCenter(false);
+                         if (selectedInvoice().companyId() === undefined) {
+                             toastr.error("Please select customer.");
+                         } else {
+                             stockDialog.show(function (stockItem) {
+                                 createNewInventoryProduct(stockItem);
+                             }, stockCategory.paper, false, currencySymbol(), selectedCompanyTaxRate());
+                         }
+                     },
                     createNewInventoryProduct = function (stockItem) {
                         var costCenter = itemModel.costCentre.Create({});
                         selectedCostCentre(costCenter);
-
                         view.showCostCentersQuantityDialog();
                         inventoryStockItemToCreate(stockItem);
                     },
+                    getStockCostCenterId = function (type) {
+                        var costCentreId;
+                        _.each(costCentresBaseData(), function (costCenter) {
+                            if (costCenter.Type == type) {
+                                costCentreId = costCenter.CostCentreId;
+                            }
+                        });
+                        return costCentreId;
+                    },
+                    applyProductTax = function (item) {
+                        if (item.tax1() === undefined) {
+                            if (item.defaultItemTax() !== undefined && item.defaultItemTax() !== null) {
+                                item.tax1(item.defaultItemTax());
+                            } else if (selectedCompanyTaxRate() !== undefined && selectedCompanyTaxRate() !== null) {
+                                item.tax1(selectedCompanyTaxRate());
+                            } else {
+                                item.tax1(0);
+                                item.taxRateIsDisabled(true);
+                            }
+                        }
+                    },
+                    onSaveProductInventory = function () {
+                        var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id() });
+                        applyProductTax(item);
+                        item.productName(inventoryStockItemToCreate().name);
+                        item.qty1(selectedCostCentre().quantity1());
+                        item.qty2(selectedCostCentre().quantity2());
+                        item.qty3(selectedCostCentre().quantity3());
+                        //Req: Item Product type is set to '2', so while editting item's section is non mandatory
+                        item.productType(2);
+                        item.qty1NetTotal(inventoryStockItemToCreate().price);
+                        item.qty1GrossTotal(inventoryStockItemToCreate().priceWithTax);
 
+                        selectedProduct(item);
+                        var itemSection = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSection.id(counterForSection);
+                        itemSection.name("Text Sheet");
+                        itemSection.qty1(selectedCostCentre().quantity1());
+                        itemSection.qty2(selectedCostCentre().quantity2());
+                        itemSection.qty3(selectedCostCentre().quantity3());
+                        itemSection.baseCharge1(inventoryStockItemToCreate().price);
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
+
+                        var sectionCostCenter = itemModel.SectionCostCentre.Create({});
+                        sectionCostCenter.qty1(selectedCostCentre().quantity1());
+                        sectionCostCenter.qty2(selectedCostCentre().quantity2());
+                        sectionCostCenter.qty3(selectedCostCentre().quantity3());
+                        sectionCostCenter.costCentreId(getStockCostCenterId(139));
+                        sectionCostCenter.costCentreName(selectedCostCentre().name());
+                        sectionCostCenter.name('Stock(s)');
+                        sectionCostCenter.qty1NetTotal(inventoryStockItemToCreate().price);
+                        sectionCostCenter.qty2NetTotal(0);
+                        sectionCostCenter.qty2NetTotal(0);
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
+                        sectionCostCenter.qty1Charge(inventoryStockItemToCreate().price);
+                        sectionCostCenter.qty2Charge(0);
+                        sectionCostCenter.qty3Charge(0);
+                        sectionCostCenter.costCentreType('139');
+
+                        var sectionCostCenterDetail = itemModel.SectionCostCenterDetail.Create({});
+                        sectionCostCenterDetail.stockName(inventoryStockItemToCreate().name);
+                        sectionCostCenterDetail.costPrice(inventoryStockItemToCreate().price);
+                        sectionCostCenterDetail.qty1(inventoryStockItemToCreate().packageQty);
+
+                        sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
+
+                        selectedSectionCostCenter(sectionCostCenter);
+                        selectedQty(1);
+
+                        itemSection.sectionCostCentres.push(sectionCostCenter);
+                        item.itemSections.push(itemSection);
+                        var itemSectionForAddView = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSectionForAddView.id(counterForSection);
+                        itemSectionForAddView.flagForAdd(true);
+                        item.itemSections.push(itemSectionForAddView);
+
+                        view.hideCostCentersQuantityDialog();
+                        selectedInvoice().items.splice(0, 0, item);
+                        selectedSection(itemSection);
+
+                    },
+                      //Opens Cost Center dialog for Shipping
+                    onShippingChargesClick = function () {
+                        if (selectedInvoice().companyId() === undefined) {
+                            toastr.error("Please select customer.");
+                        } else {
+                            isAddProductFromInventory(false);
+                            isCostCenterDialogForShipping(true);
+                            onAddCostCenter();
+                        }
+
+                    },
+                    onAddCostCenter = function () {
+                        var companyId = 0;
+                        if (selectedInvoice().storeId()) {
+                            companyId = selectedInvoice().storeId();
+                        } else {
+                            companyId = selectedInvoice().companyId();
+                        }
+                        addCostCenterVM.show(afterSelectCostCenter, companyId, true, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
+                    },
                     //Opens Cost Center dialog for Cost Center
                     onCostCenterClick = function () {
                         isAddProductFromInventory(false);
                         isCostCenterDialogForShipping(false);
                         onAddCostCenterForProduct();
                     },
-                     onAddCostCenterForProduct = function () {
-                         getCostCentersForProduct();
-                         // view.showCostCentersDialog();
-                     },
-                      getCostCentersForProduct = function () {
-                          addCostCenterVM.show(afterSelectCostCenter, selectedInvoice().companyId(), false, currencySymbol());
-                      },
-                      afterSelectCostCenter = function (costCenter) {
-                          selectedCostCentre(costCenter);
-                          view.showCostCentersQuantityDialog();
-                      },
+                    onAddCostCenterForProduct = function () {
+                        getCostCentersForProduct();
+                        // view.showCostCentersDialog();
+                    },
+                  getCostCentersForProduct = function () {
+                      addCostCenterVM.show(afterSelectCostCenter, selectedInvoice().companyId(), false, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
+                  },
+                    afterSelectCostCenter = function (costCenter) {
+                        selectedCostCentre(costCenter);
+                        view.showCostCentersQuantityDialog();
+                    },
                     //#endregion
 
+                    //#region Invoice Detail
+                    // Active Invoice Detail Item
+                    selectedInvoiceDetail = ko.observable(),
+                    counterForInvoiceDetail = 0,
+                    // Add New Invoice Detail Item
+                    onAddInvoiceDetail = function () {
+                        var invoiceDetail = model.InvoiceDetail();
+                        if (selectedCompanyTaxRate() !== undefined && selectedCompanyTaxRate() !== null) {
+                            invoiceDetail.tax(selectedCompanyTaxRate());
+                        } else {
+                            invoiceDetail.tax(0);
+                        }
+                        invoiceDetail.detailType(1);
+                        invoiceDetail.itemType(1);
+                        selectedInvoiceDetail(invoiceDetail);
+                        view.showInvoiceDetailDialog();
+                    },
+                    // Close Invoice Detail Dialog
+                    closeInvoiceDetailDialog = function () {
+                        view.hideInvoiceDetailDialog();
+                    },
+                    // Save Invoice Detail
+                    onSaveInvoiceDetail = function (invoiceDetail) {
+                        if (!dobeforeSaveInvoiceDetail()) {
+                            return;
+                        }
+
+                        if (invoiceDetail.id() == undefined) {
+                            counterForInvoiceDetail = counterForInvoiceDetail = -1;
+                            invoiceDetail.id(counterForInvoiceDetail);
+                            selectedInvoice().items.splice(0, 0, invoiceDetail);
+                        }
+                        view.hideInvoiceDetailDialog();
+                    },
+                    dobeforeSaveInvoiceDetail = function () {
+                        var flag = true;
+                        if (!selectedInvoiceDetail().isValid()) {
+                            selectedInvoiceDetail().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+
+                    calculateInvoiceDetailTaxValue = ko.computed(function () {
+                        if (selectedInvoiceDetail() !== undefined) {
+                            taxCalculateForInvoiceDetail();
+                        }
+                    }),
+                    taxCalculateForInvoiceDetail = function () {
+                        var qty = (selectedInvoiceDetail().qty1() !== undefined && selectedInvoiceDetail().qty1() !== null) ? selectedInvoiceDetail().qty1() : 0;
+                        var itemCharge = (selectedInvoiceDetail().itemCharge() !== undefined && selectedInvoiceDetail().itemCharge() !== null) ? selectedInvoiceDetail().itemCharge() : 0;
+                        var taxCalculate1 = ((((selectedInvoiceDetail().tax() !== undefined && selectedInvoiceDetail().tax() !== null) ? selectedInvoiceDetail().tax() : 0) / 100) * (itemCharge * qty));
+                        selectedInvoiceDetail().itemTaxValue(taxCalculate1);
+                        selectedInvoiceDetail().qty1GrossTotal((itemCharge * qty) + taxCalculate1);
+                    },
+                //#endregion
                 //Initialize method to call in every screen
                 initializeScreen = function (specifiedView) {
                     view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);                   
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
                     // Get Base Data
                     getBaseData();
                 },
@@ -617,13 +1042,13 @@ define("invoice/invoice.viewModel",
                     pager(new pagination.Pagination({ PageSize: 10 }, invoices, getInvoices));
                     getInvoices();
                 };
-                
+
                 //#endregion
 
                 return {
 
                     //#region Observables
-                    initialize:initialize,
+                    initialize: initialize,
                     selectedInvoice: selectedInvoice,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
@@ -643,6 +1068,12 @@ define("invoice/invoice.viewModel",
                     orderTypeFilter: orderTypeFilter,
                     invoiceCodeHeader: invoiceCodeHeader,
                     selectedCompany: selectedCompany,
+                    selectedCostCentre: selectedCostCentre,
+                    currencySymbol: currencySymbol,
+                    isAddProductFromInventory: isAddProductFromInventory,
+                    isAddProductForSectionCostCenter: isAddProductForSectionCostCenter,
+                    sectionHeader: sectionHeader,
+                    selectedInvoiceDetail: selectedInvoiceDetail,
                     //selectedOrder: selectedOrder,
                     //#endregion
 
@@ -662,7 +1093,20 @@ define("invoice/invoice.viewModel",
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
                     createitemForRetailStoreProduct: createitemForRetailStoreProduct,
                     openStockItemDialogForAddingProduct: openStockItemDialogForAddingProduct,
-                    onCostCenterClick: onCostCenterClick
+                    onCostCenterClick: onCostCenterClick,
+                    openCompanyDialog: openCompanyDialog,
+                    onSaveProductInventory: onSaveProductInventory,
+                    createNewCostCenterProduct: createNewCostCenterProduct,
+                    onShippingChargesClick: onShippingChargesClick,
+                    editItem: editItem,
+                    grossTotal: grossTotal,
+                    onAddInvoiceDetail: onAddInvoiceDetail,
+                    closeInvoiceDetailDialog: closeInvoiceDetailDialog,
+                    onSaveInvoiceDetail: onSaveInvoiceDetail,
+                    gotoElement: gotoElement,
+                    isShowStatusCloumn: isShowStatusCloumn,
+                    pageHeader: pageHeader,
+                    pageCode:pageCode
                     //#endregion
                 };
             })()

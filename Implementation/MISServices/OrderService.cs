@@ -61,17 +61,25 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
         private readonly IShippingInformationRepository shippingInformationRepository;
         private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
+        private readonly IPipeLineProductRepository pipeLineProductRepository;
 
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
-        private Estimate CreateNewOrder()
+        private Estimate CreateNewOrder(bool isEstimate = false)
         {
-            string orderCode = prefixRepository.GetNextOrderCodePrefix();
+            string orderCode = !isEstimate ? prefixRepository.GetNextOrderCodePrefix() : prefixRepository.GetNextEstimateCodePrefix();
             Estimate itemTarget = estimateRepository.Create();
             estimateRepository.Add(itemTarget);
             itemTarget.CreationDate = itemTarget.CreationTime = DateTime.Now;
-            itemTarget.Order_Code = orderCode;
+            if (isEstimate)
+            {
+                itemTarget.Estimate_Code = orderCode;
+            }
+            else
+            {
+                itemTarget.Order_Code = orderCode;    
+            }
             itemTarget.OrganisationId = orderRepository.OrganisationId;
             return itemTarget;
         }
@@ -288,7 +296,7 @@ namespace MPC.Implementation.MISServices
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
-            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/");
+            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/" + estimate.CompanyId + "/Products/");
 
             if (estimate.Items == null)
             {
@@ -298,11 +306,11 @@ namespace MPC.Implementation.MISServices
             foreach (Item item in estimate.Items)
             {
                 string attachmentMapPath = mapPath + item.ItemId;
-
+                DirectoryInfo directoryInfo = null;
                 // Create directory if not there
                 if (!Directory.Exists(attachmentMapPath))
                 {
-                    Directory.CreateDirectory(attachmentMapPath);
+                    directoryInfo = Directory.CreateDirectory(attachmentMapPath);
                 }
 
                 if (item.ItemAttachments == null)
@@ -312,13 +320,20 @@ namespace MPC.Implementation.MISServices
 
                 foreach (ItemAttachment itemAttachment in item.ItemAttachments)
                 {
-                    itemAttachment.FolderPath = SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
+                    string folderPath = directoryInfo != null ? directoryInfo.FullName : attachmentMapPath;
+                    int indexOf = folderPath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                    folderPath = folderPath.Substring(indexOf, folderPath.Length - indexOf);
+                    itemAttachment.FolderPath = folderPath;
+                    if (SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
                         itemAttachment.FileName,
-                        itemAttachment.FileSource, itemAttachment.FileSourceBytes);
+                        itemAttachment.FileSource, itemAttachment.FileSourceBytes) != null)
+                    {
+                        itemAttachment.FileName = itemAttachment.FileName;
+                    }
                 }
             }
         }
-
+        
         #endregion
         #region Constructor
 
@@ -334,7 +349,7 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository,
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
-            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository)
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository)
         {
             if (estimateRepository == null)
             {
@@ -446,6 +461,7 @@ namespace MPC.Implementation.MISServices
             this.sectionInkCoverageRepository = sectionInkCoverageRepository;
             this.shippingInformationRepository = shippingInformationRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
+            this.pipeLineProductRepository = pipeLineProductRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
         }
 
@@ -489,12 +505,11 @@ namespace MPC.Implementation.MISServices
         public Estimate SaveOrder(Estimate estimate)
         {
             // Get Order if exists else create new
-            Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder();
+            Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder(estimate.isEstimate == true);
 
             // Update Order
             estimate.UpdateTo(order, new OrderMapperActions
                                      {
-                                         CreateNewOrder = CreateNewOrder,
                                          CreatePrePayment = CreateNewPrePayment,
                                          DeletePrePayment = DeletePrePayment,
                                          CreateItem = CreateItem,
@@ -543,6 +558,7 @@ namespace MPC.Implementation.MISServices
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
                        // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
+                       PipeLineProducts = pipeLineProductRepository.GetAll(),
                        LoggedInUser = organisationRepository.LoggedInUserId
                    };
         }

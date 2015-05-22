@@ -15,6 +15,8 @@ namespace MPC.MIS.Areas.Api.Models
         public long? EstimateId { get; set; }
         public bool? DeliveryNoteRaised { get; set; }
         public DateTime DeliveryDate { get; set; }
+        public string ItemName { get; set; }
+        public string AddressName { get; set; }
 
     }
 }

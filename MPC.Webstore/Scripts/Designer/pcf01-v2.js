@@ -765,6 +765,7 @@ function d5_sub(pageID, isloading) {
     SP = pageID;
     $(".menuItemContainer").removeClass("selectedItem");
     $("." + pageID).addClass("selectedItem");
+    var SelPagObj;
     $.each(TP, function (i, IT) {
         if (IT.ProductPageID == SP) {
             canvas.clear();
@@ -772,7 +773,8 @@ function d5_sub(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-            pcl41_ApplyDimensions(IT);
+            SelPagObj = IT;
+           
           //  if (IT.Orientation == 1) {
                 if (IT.Height != null && IT.Height != 0) {
                     canvas.setHeight(IT.Height * dfZ1l);
@@ -856,6 +858,7 @@ function d5_sub(pageID, isloading) {
                 canvas.renderAll();
             }
             c7(pageID);
+            pcl41_ApplyDimensions(SelPagObj);
             if (!objectsSelectable)
             {
                 var height = 0,width = 0;
@@ -895,7 +898,7 @@ function d6(width, height, showguides) {
         var rightline = i4([width - 1, 0, width - 1, cutmargin + height - cutmargin], -982, '#EBECED', cutmargin * 2);
         var bottomline = i4([cutmargin + 0.39, height, cutmargin + width - 0.39 - cutmargin * 2, height], -983, '#EBECED', cutmargin * 2);
 
-        var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 100, 10, 'Bleed Area', -975, 0, 'gray');
+        var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 150, 10, 'Bleed Area', -975, 0, 'gray');
         var leftCutMarginTxt = i5(height / 2, width - (12 * dfZ1l), 17, 100, 10, 'Bleed Area', -974, 90, 'gray');
         var rightCutMarginTxt = i5(height / 2, (13 * dfZ1l), 17, 100, 10, 'Bleed Area', -973, -90, 'gray');
         var bottomCutMarginTxt = i5(height - 6, width / 2, 17, 100, 10, 'Bleed Area', -972, 0, 'gray');
@@ -1562,6 +1565,13 @@ function b3_lDimensions() {
     //h = h * Template.ScaleFactor;
     //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
     $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
+    var OBS = canvas.getObjects();
+    $.each(OBS, function (i, IT) {
+        if(IT.ObjectID == -975)
+        {
+            IT.text = $(".dimentionsBC").html();
+        }
+    });
   //  $(".dimentionsBC").append("<br /><span class='spanZoomContainer'> Zoom - " + D1CS * 100 + " % </span>");
  //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
 }
@@ -1740,7 +1750,7 @@ function fu05_ClHtml(c, m, y, k, Sname, IsACT, PID) {
 //        fu11();
 //    });
 //}
-function fu06_SvcCallback(DT, fname) {
+function fu06_SvcCallback(DT, fname,mode) {
     $.each(DT, function (i, IT) {
         b1(fname, IT.FontName, IT.FontName);
         a0(IT.FontName, IT.FontFile, IT.FontPath);
@@ -1771,7 +1781,9 @@ function fu06_SvcCallback(DT, fname) {
         canvas.calcOffset();
     });
     $("#canvasDocument").css("width", $(window).width() - 430);
-    d5(TP[0].ProductPageID, true);
+    if (mode == true) {
+        d5(TP[0].ProductPageID, true);
+    }
 }
 function fu07() {
     var dm = '<span class="marker" style="left: 0px; width: 72px;"></span>';
@@ -1801,7 +1813,10 @@ function fu07() {
             left: leftPos,
             width: newWidth
         });
+
     });
+
+    $("#documentMenu").css("left", $("#documentTitleAndMenu").width() / 2 - $("#documentMenu").width()/2 + "px");
 }
 
 function fu09_SvcCallBack(DT) {
@@ -2076,9 +2091,12 @@ function h9() {
         },
         active: function () {
             // stop loading and  load page
+            //            alert()
+            d5(TP[0].ProductPageID, true);
         },
         inactive: function () {
             alert("error while loading fonts");
+            d5(TP[0].ProductPageID, true);
         }
     };
     var wf = document.createElement('script');
@@ -4179,7 +4197,15 @@ function pcl41_ApplyDimensions(Tpage) {
     } else {
         $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
     }
-    
+    var OBS = canvas.getObjects(); 
+    $.each(OBS, function (i, IT) {
+      
+        if (IT.ObjectID == -975) {
+            IT.text = $(".dimentionsBC").html();
+            canvas.renderAll();
+        }
+    });
+   
     //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
    
 }

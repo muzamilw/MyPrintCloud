@@ -132,7 +132,7 @@ namespace MPC.Webstore.Controllers
                         clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
                     }
                 }
-                ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList();
+                ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                 referenceItemId = Convert.ToInt64(ItemId);
                 ViewData["Templates"] = null;
             }
@@ -146,7 +146,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList();
+                    ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                     ViewData["Templates"] = null;
                 }
 
@@ -247,7 +247,7 @@ namespace MPC.Webstore.Controllers
                     ccObjectList = new List<AddOnCostsCenter>();
 
                     AddOnCostsCenter ccObject = null;
-
+                    double AddOnPrices = 0;
                     foreach (var addOn in selectedAddOnsList)
                     {
                         ccObject = new AddOnCostsCenter();
@@ -274,11 +274,12 @@ namespace MPC.Webstore.Controllers
                             //}
                             ccObject.Qty1NetTotal = addOn.ActualPrice;
 
-
+                            AddOnPrices += addOn.ActualPrice;
                        // }
 
                         ccObjectList.Add(ccObject);
                     }
+                    cartObject.AddOnPrice = AddOnPrices.ToString();
                 }
 
                 //double itemPrice = Convert.ToDouble(cartObject.ItemPrice);
@@ -358,7 +359,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Mode = "";
             }
 
-            clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId);
+            clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId, UserCookieManager.WEBOrganisationID);
 
             if (listOfCostCentres == null || listOfCostCentres.Count == 0)
             {
@@ -385,8 +386,8 @@ namespace MPC.Webstore.Controllers
                         {
                             // var objCS = objSettings.Where(g => g.CostCentreID == cItem.CostCentreId).ToList();
 
-                            if (addOn.Type == 4)
-                            {
+                            //if (addOn.Type == 4)
+                            //{
                                 AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
                                 {
                                     Id = addOn.ProductAddOnID,
@@ -404,25 +405,25 @@ namespace MPC.Webstore.Controllers
                                     //   CostCenterModifiedJson =  objCS
                                 };
                                 AddonObjectList.Add(addOnsObject);
-                            }
-                            else
-                            {
-                                AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
-                                {
-                                    Id = addOn.ProductAddOnID,
-                                    CostCenterId = addOn.CostCenterID,
-                                    Type = addOn.Type,
-                                    SetupCost = addOn.SetupCost,
-                                    MinimumCost = addOn.MinimumCost,
-                                    ActualPrice = addOn.AddOnPrice ?? 0.0,
-                                    StockOptionId = addOn.ItemStockId,
-                                    Description = "",
-                                    isChecked = true,
-                                    QuantitySourceType = addOn.QuantitySourceType,
-                                    TimeSourceType = addOn.TimeSourceType
-                                };
-                                AddonObjectList.Add(addOnsObject);
-                            }
+                            //}
+                            //else
+                            //{
+                            //    AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                            //    {
+                            //        Id = addOn.ProductAddOnID,
+                            //        CostCenterId = addOn.CostCenterID,
+                            //        Type = addOn.Type,
+                            //        SetupCost = addOn.SetupCost,
+                            //        MinimumCost = addOn.MinimumCost,
+                            //        ActualPrice = addOn.AddOnPrice ?? 0.0,
+                            //        StockOptionId = addOn.ItemStockId,
+                            //        Description = "",
+                            //        isChecked = true,
+                            //        QuantitySourceType = addOn.QuantitySourceType,
+                            //        TimeSourceType = addOn.TimeSourceType
+                            //    };
+                            //    AddonObjectList.Add(addOnsObject);
+                            //}
 
                             isAddedToList = true;
                             break;
@@ -481,44 +482,18 @@ namespace MPC.Webstore.Controllers
             }
 
             PriceMatrixObjectList = new List<ProductPriceMatrixViewModel>();
-
-            foreach (var matrixItem in referenceItem.ItemPriceMatrices.ToList())
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
             {
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                if (StoreBaseResopnse.Company.isIncludeVAT == true)
                 {
-                    if (StoreBaseResopnse.Company.isIncludeVAT == true)
+                    ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
+                    if (referenceItem.DefaultItemTax != null)
                     {
-                        ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
-                        if (referenceItem.DefaultItemTax != null)
-                        {
-                            ViewBag.TaxRate = Convert.ToDouble(referenceItem.DefaultItemTax);
-
-                        }
-                        else if (Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
-                        {
-                            ViewBag.TaxRate = Convert.ToDouble(StoreBaseResopnse.Company.TaxRate);
-
-                        }
-                        else
-                        {
-                            ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
-                            ViewBag.TaxRate = 0;
-
-                        }
+                        ViewBag.TaxRate = Convert.ToDouble(referenceItem.DefaultItemTax);
 
                     }
-                    else
+                    else if (Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
                     {
-                        ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
-                        ViewBag.TaxRate = 0;
-
-                    }
-                }
-                else
-                {
-                    if (StoreBaseResopnse.Company.isIncludeVAT == true)
-                    {
-                        ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
                         ViewBag.TaxRate = Convert.ToDouble(StoreBaseResopnse.Company.TaxRate);
 
                     }
@@ -528,6 +503,39 @@ namespace MPC.Webstore.Controllers
                         ViewBag.TaxRate = 0;
 
                     }
+
+                }
+                else
+                {
+                    ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
+                    ViewBag.TaxRate = 0;
+
+                }
+            }
+            else
+            {
+                if (StoreBaseResopnse.Company.isIncludeVAT == true)
+                {
+                    ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
+                    ViewBag.TaxRate = Convert.ToDouble(StoreBaseResopnse.Company.TaxRate);
+
+                }
+                else
+                {
+                    ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
+                    ViewBag.TaxRate = 0;
+
+                }
+            }
+            foreach (var matrixItem in referenceItem.ItemPriceMatrices.ToList())
+            {
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                {
+                   
+                }
+                else
+                {
+                   
                     matrixItem.PricePaperType1 = matrixItem.PricePaperType1;
                     matrixItem.PricePaperType2 = matrixItem.PricePaperType2;
                     matrixItem.PricePaperType3 = matrixItem.PricePaperType3;

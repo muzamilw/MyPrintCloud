@@ -112,7 +112,9 @@ namespace MPC.Repository.Repositories
 
                 long itemSectionId = db.ItemSections.Where(i => i.ItemId == ItemId && i.SectionNo == 1).Select(i => i.ItemSectionId).FirstOrDefault();
 
-                return db.SectionCostcentres.Where(s => s.ItemSectionId == itemSectionId && s.CostCentreId != 216).ToList();
+                
+
+                return db.SectionCostcentres.Where(s => s.ItemSectionId == itemSectionId).ToList();
 
             }
             catch (Exception ex)

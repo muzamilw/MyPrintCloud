@@ -101,12 +101,12 @@ define("myOrganization/myOrganization.viewModel",
                         else if(page == "R")
                         {
                             //getRegionalSettings();
-                            HeadingName("Regional Settings");
+                            HeadingName("Currency, Size & Weight Settings");
                             isRegionalSettingVisible(true);
                         }
                         else if(page == "L")
                         {
-                            HeadingName("Edit Regional Languages");
+                            HeadingName("Edit Web Store Dictionary");
                             isLanguageEditorVisible(true);
                         }
                         else if(page == "M")

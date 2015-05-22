@@ -330,7 +330,7 @@ function svcCall4_img(n, tID, imgtype) {
             k35_load(DT);
         });
 }
-function fu06() {
+function fu06(mode) {
     //CustomerID = parent.CustomerID;
     //ContactID = parent.ContactID;
     var str = '<option value="">(select)</option>';
@@ -341,7 +341,7 @@ function fu06() {
     $('#' + fname).html(str);
     $.getJSON("/designerapi/TemplateFonts/GetFontsList/" + tID + "/" + CustomerID + "/" + organisationId,
         function (DT) {
-            fu06_SvcCallback(DT, fname);
+            fu06_SvcCallback(DT, fname,mode);
         });
 }
 
@@ -396,6 +396,7 @@ function pcl42_svc(data, cId) {
 }
 
 function SvcLoad2ndTemplate() {
+   
     $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
      function (DT) {
          DT.ProductID = DT.ProductId;
@@ -415,9 +416,9 @@ function SvcLoad2ndTemplate() {
                 IT.ProductID = IT.ProductId;
                 IT.ObjectID = IT.ObjectId;
                 IT.ProductPageId = IT.ProductPageId;
-            });
+            }); 
             TO = DT;
-            fu06();
+            fu06(true);
             fu07();
         });
      });

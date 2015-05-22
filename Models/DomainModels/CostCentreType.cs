@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Cost Centre Type Domain Model
     /// </summary>
+    /// 
+    [Serializable()]
     public class CostCentreType
     {
         public int TypeId { get; set; }

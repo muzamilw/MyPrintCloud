@@ -1352,7 +1352,7 @@ namespace MPC.Repository.Repositories
                 {
                     CostCentreId = addOn.CostCenterID,
                     IsOptionalExtra = 1,
-                    Qty1Charge = addOn.ActualPrice,
+                    Qty1Charge = addOn.Qty1NetTotal,
                     Qty1NetTotal = addOn.Qty1NetTotal,
                     Qty1WorkInstructions = addOn.CostCentreDescription,
                     Qty2WorkInstructions = addOn.CostCentreJsonData,
@@ -2147,6 +2147,7 @@ namespace MPC.Repository.Repositories
                     {
                         if (clonedItem.DefaultItemTax != null)
                         {
+                            clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
                             double TaxAppliedOnItemTotal = ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); //(itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax) / 100);
                             double TaxAppliedOnCostCentreTotal = ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
                             //itemPrice = itemPrice - (currTax - (currTax * Convert.ToDouble(clonedItem.DefaultItemTax) / 100));
@@ -2160,6 +2161,7 @@ namespace MPC.Repository.Repositories
                         }
                         else
                         {
+                            clonedItem.Tax1 = Convert.ToInt32(TaxRate);
                             double TaxAppliedOnItemTotal = (itemPrice * TaxRate / 100);
                             double TaxAppliedOnCostCentreTotal = (addonsPrice * TaxRate / 100);
                             itemPrice = itemPrice;// - (currTax - Math.Ceiling(((currTax * TaxRate) / 100)));
@@ -2172,6 +2174,7 @@ namespace MPC.Repository.Repositories
                     }
                     else 
                     {
+                        clonedItem.Tax1 = Convert.ToInt32(TaxRate);
                         netTotal = itemPrice + addonsPrice;
 
                         netTotal = netTotal + markupRate ?? 0;

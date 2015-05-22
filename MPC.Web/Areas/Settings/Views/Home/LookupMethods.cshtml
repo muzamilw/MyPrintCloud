@@ -35,14 +35,14 @@
        
         <div class="row">
             <div class="col-lg-12">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb" style="padding-left:0px;">
                     <li><a href="~/Dashboard/Index">Settings</a></li>
                     <li>Home</li>
 
                     <li class="active"><span>Lookup Methods</span></li>
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Machine Lookup Methods</h1>
+                    <h1 class="pull-left" style="padding-left:0px;">Machine Lookup Methods</h1>
                     <div>
                         <table id="table">
                             <tbody></tbody>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="row" id="prefixesdata" style="float:right;">
-            <div class="input-group" style="margin-right: 8px;">
+            <div class="input-group" style="margin-right: 8px;margin-bottom:10px;">
                 <a href="~/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;">Close</a>
                 <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" data-bind="click: $root.saveLookup, css: { 'btn-warning': hasChanges }, enable: $root.hasChanges" id="saveBtn">Save</button>
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Add Lookup <span class="caret"></span></button>
@@ -84,7 +84,7 @@
                        
                         @*Div For TreeView*@
                         <div style="display:inline;position:relative;">
-                            <ol class="dd-list">
+                            @*<ol class="dd-list">
                                 <li class="dd-item dd-item-list" id="treeviewClickCharge">
                                     <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div>
                                     <div class="dd-handle" data-bind="text:lookupClickCharge">
@@ -112,7 +112,7 @@
                                     <!-- ko template: { name: 'lookupTemplate' , foreach: lookupPerHourList } -->
                                     <!-- /ko -->
                                 </li>
-                            </ol>
+                            </ol>*@
 
 
                             <ol class="dd-list">

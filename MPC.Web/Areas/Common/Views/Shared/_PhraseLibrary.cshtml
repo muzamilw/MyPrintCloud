@@ -1,14 +1,14 @@
-﻿<div class="modal-content" style="background-color:#FFFFFF;border-radius:5px;" id="phraseLibraryDialog">
+﻿<div class="modal-content partial-contents" style="background-color:#FFFFFF;border-radius:5px;" id="phraseLibraryDialog">
     <div class="modal-header" id="child-dialog-title">
-        <h4 class="modal-title">Edit Phrase Library</h4>
+        <span class="modal-title" style="font-size:12pt;">Edit Phrase Library</span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="col-lg-12">
         <div class="col-lg-12 clearfix">
-            <h3 id="description-phraselibrary" style="border-bottom:none;">Configure text for titles, description and labels</h3>
-            <div class="col-lg-5" style="margin-top:44px;">
+            <h3 id="description-phraselibrary" style="border-bottom:none;margin-left:10px;">Configure text for titles, description and labels</h3>
+            <div class="col-lg-5" style="margin-top:20px;">
                 <br />
                 <div class="table-responsive">
-                    
                     <table class="table" id="phrase-section-table">
                         <thead>
                             <tr>
@@ -19,7 +19,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="border:none;padding-top: 14px;">
+                                <td style="border:none;padding-top:7px;">
                                     <div class="category" id="nestable2" style="margin-top: 0px; border-top-width: 1px;">
                                         <ol class="dd-list" id="child-phrase">
                                             <!-- ko template: { name: 'sectionIemTemplate', foreach: $root.sections }-->
@@ -40,7 +40,7 @@
                             Add New Phrase
                         </button>
                         <button type="button" class="btn btn-primary" data-bind="click:$root.savePhraseLibrary,visible:$root.isOpenFromPhraseLibrary">Save</button>*@
-                        <a href="~/Settings" class="btn btn-default" id="phrase-libraryCloseButton"style="float: right;margin-bottom: 10px;visibility:visible;">Close</a>
+                      
                     </div>
                    
                     <br />
@@ -51,11 +51,6 @@
                             </tr>
                         </thead>
                         <tbody id="tbody-phrase-records">
-                            <tr style="text-align:center;" id="phrase-null-span">
-                                <td>
-                                    <span>No Phrases Exist</span>
-                                </td>
-                            </tr>
                             <!-- ko template: { name: $root.templateToUse , foreach: $root.phrases } -->
                             <!-- /ko -->
                         </tbody>
@@ -65,7 +60,8 @@
         </div>
     </div>
     <div class="modal-footer">
-
+        <a class="btn btn-default" aria-hidden="true" data-dismiss="modal" id="phrase-libraryCloseButton" style="float: right;margin-bottom: 10px;visibility:visible;">Close</a>
+       
     </div>
 </div>
 
@@ -146,53 +142,36 @@
             $.unblockUI(spinner);
         }, 1000);
 
-        $("#child-phrase").click(function ()
-        {
-            $("#phrase-null-span").hide();
-            setTimeout(Countingphraserows, 1000);
-        });
-
+        
+        
         page = Request.QueryString("status").toString();
 
         if (page != null)
         {
             if (page == 'phraselibrary')
             {
+
+                $(".partial-contents").addClass("main-box-body clearfix");
+                $(".partial-contents").removeClass("modal-content");
+
                 $("#child-dialog-title").hide();
                 
-                $("#phraseLibraryDialog").addClass("main-box-body clearfix");
-                $("#phraseLibraryDialog").removeClass("modal-content");
-
                 $("#phrase-libraryCloseButton").css("visibility", "hidden");
-
-                
             }
             else if(page == 'null')
             {
+                
+
+                $(".partial-contents").removeClass("main-box-body clearfix");
+                $(".partial-contents").addClass("modal-content");
+
                 $("#child-dialog-title").show();
 
-                $("#phraseLibraryDialog").removeClass("main-box-body clearfix");
-                $("#phraseLibraryDialog").addClass("modal-content");
-
                 $("#phrase-libraryCloseButton").css("visibility", "visible");
+
+                
             }
         }
     });
-
-    
-
-    function Countingphraserows()
-    {
-        var rows = $('#phrase-records tbody tr.phrase-rows').length;
-
-        if (rows == 0)
-        {
-            $("#phrase-null-span").show();
-        }
-        else if (rows != 0)
-        {
-           $("#phrase-null-span").hide();
-        }
-    }
 </script>
 

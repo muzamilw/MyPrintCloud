@@ -46,13 +46,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css"));
             }
-
+            string defaultContact = null;
+            string email = null;
+            DomainModels.CompanyContact companyContact = source.CompanyContacts != null ? 
+                source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1) : null;
+            if (companyContact != null)
+            {
+                defaultContact = companyContact.FirstName + " " + companyContact.LastName;
+                email = companyContact.Email;
+            }
             return new Company
             {
                 CompanyId = source.CompanyId,
                 Name = source.Name,
                 StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
                 AccountNumber = source.AccountNumber,
+                DefaultContactEmail = email,
+                DefaultContact = defaultContact,
                 URL = source.URL,
                 CreditReference = source.CreditReference,
                 CreditLimit = source.CreditLimit,
@@ -272,6 +282,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MapImageUrl = source.MapImageUrl,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
+                CompanyTerritories =
+                    source.CompanyTerritories != null
+                       ? source.CompanyTerritories.Take(1).Select(x => x.CreateFrom()).ToList()
+                        : null,
                 Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyContacts =
                     source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,

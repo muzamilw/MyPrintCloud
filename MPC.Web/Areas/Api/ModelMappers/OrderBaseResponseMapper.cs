@@ -30,6 +30,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 string.Empty,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(s => s.CreateFrom()).ToList() : new List<ChartOfAccount>(),
                 CostCenters = source.CostCenters != null ? source.CostCenters.Select(x=>x.CreateFrom()).ToList(): new List<CostCentre>(),
+                PipeLineProducts = source.PipeLineProducts != null ? source.PipeLineProducts.Select(x=>x.CreateFrom()).ToList(): new List<PipeLineProduct>(),
                 LoggedInUser = source.LoggedInUser
             };
         }

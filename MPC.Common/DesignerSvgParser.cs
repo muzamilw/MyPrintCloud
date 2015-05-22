@@ -32,6 +32,7 @@ namespace MPC.Common
         public static byte[] ImageToByteArraybyImageConverter(Bitmap image)
         {
             ImageConverter imageConverter = new ImageConverter();
+            
             byte[] imageByte = (byte[])imageConverter.ConvertTo(image, typeof(byte[]));
             return imageByte;
         }
@@ -148,6 +149,61 @@ namespace MPC.Common
                 }
             }
 
+        }
+        /// <summary>
+        ///  Recursive fill function to change the color of a selected node and all of its children.
+        /// </summary>
+        /// <param name="element">The current element been resolved.</param>
+        /// <param name="sourceColor">The source color to search for.</param>
+        /// <param name="replaceColor">The color to be replaced the source color with.</param>
+        public static string UpdateSvg(string srcUrl, float height, float width)
+        {
+            SvgDocument document = SvgDocument.Open(srcUrl);
+           // double width = oObject.MaxWidth.Value, height = oObject.MaxHeight.Value;
+            if (!document.Width.IsEmpty)
+                width = document.Width;
+            if (!document.Height.IsEmpty)
+                height = document.Height;
+
+            SvgUnit objUnit = new SvgUnit(SvgUnitType.Percentage, 100);
+            document.Width = objUnit;
+            document.Height = objUnit;
+
+            SvgViewBox vb = new SvgViewBox(0, 0, width, height);
+            document.ViewBox = vb;
+            document.AspectRatio.Align = Svg.SvgPreserveAspectRatio.none;
+            string ext = Path.GetExtension(srcUrl);
+            string sourcePath = srcUrl;
+            string[] results = sourcePath.Split(new string[] { ext }, StringSplitOptions.None);
+            string destPath = results[0] + "_modified" + ext;
+            document.Write(destPath);
+            return destPath;
+
+        }
+        public static void GetSvgHieghtAndWidth(string srcUrl, out double width, out double height)
+        {
+            width = 0;
+            height = 0;
+            //SvgDocument document = SvgDocument.Open(srcUrl);
+            //if (MaximumSize.Height != 0 && MaximumSize.Width != 0)
+            //{
+
+            //    if (document.Height > MaximumSize.Height)
+            //    {
+            //        width = (int)((document.Width / (double)document.Height) * MaximumSize.Height);
+            //        height = MaximumSize.Height;
+            //    }
+            //}else
+            //{
+            //    if (!document.Width.IsEmpty)
+            //        width = document.Width;
+            //    if (!document.Height.IsEmpty)
+            //        height = document.Height;
+            //}
+            var bitmap = GetBitmapFromSVG(srcUrl, "");
+            width = bitmap.Width;
+            height = bitmap.Height;
+         
         }
     }
 }

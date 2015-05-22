@@ -228,7 +228,7 @@ namespace MPC.Repository.Repositories
                     (item.Order_Code.Contains(request.SearchString)))
                     &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value)  &&
-                    item.StatusId != (int)OrderStatus.ShoppingCart &&
+                    (item.StatusId != (int)OrderStatus.ShoppingCart && item.StatusId != (int)OrderStatus.PendingCorporateApprovel) &&
                     item.OrganisationId == OrganisationId;
 
             IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateId).Take(5).ToList()
@@ -247,6 +247,14 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
+        }
+
+        public long GetEstimateIdOfInquiry(long inquiryId)
+        {
+            var firstOrDefault = DbSet.FirstOrDefault(x => x.EnquiryId == inquiryId);
+            if (firstOrDefault != null)
+                return firstOrDefault.EstimateId;
+            return 0;
         }
 
         #endregion
