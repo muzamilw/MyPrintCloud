@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="pull-right top-page-ui">
+                        <div class="pull-right top-page-ui" style="padding-right:10PX;">
                             <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: $root.hasChangesOnInventory, css: { 'btn-warning': $root.hasChangesOnInventory }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
                         </div>
@@ -39,7 +39,7 @@
                     <br />
                 </div>
             </div>
-            <div class="row" data-bind="with:selectedInventory">
+            <div class="row" data-bind="with:selectedInventory" style="padding-left:7px;padding-right:10px;">
                 <div class="col-lg-12">
                     <div class="main-box no-header clearfix">
                         
@@ -101,21 +101,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group " data-bind="visible:itemId()!==0">
-                                            <div class="col-lg-5 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Creation Date" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="paperType" class="control-label text-right tooltip-float">Creation Date</label>
-                                            </div>
-                                            <div class="col-lg-7">
-                                                <label class="control-label" data-bind="dateString: createdDate, datePattern: 'DD/MM/YYYY'" ></label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group " data-bind="visible:itemId()!== 0">
@@ -409,7 +395,7 @@
                             <!--new portion-->
                             <div class="col-lg-6 form-horizontal" style="background-color:#d9d9d9;margin-top:20px;margin-bottom:20px;padding-top:20px;">
                                 <div class="form-group">
-                                    <div class="col-lg-4 text-right">
+                                    <div class="col-lg-5 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
                                             
 
