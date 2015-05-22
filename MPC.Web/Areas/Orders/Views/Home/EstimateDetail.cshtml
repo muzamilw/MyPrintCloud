@@ -21,7 +21,7 @@
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
                 </div>
             </div>
-             
+
             <div class="col-lg-12 PaddingZero PaddingStatuses">
                 <div class="col-xs-7">
                     <!-- here -->
@@ -34,6 +34,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-12">
             <div class="row" data-bind="with: selectedOrder">
                 <div class="col-lg-12">
@@ -59,14 +60,21 @@
     </div>
     <div class="row" id="user-profile">
         <div class="col-lg-12 col-md-8 col-sm-8" style="padding-left: 22px; padding-right: 24px; ">
-            <div class="main-box clearfix my-tabsHeader">
+            <div class="main-box clearfix my-tabsHeader ">
                 <div class="tabs-wrapper profile-tabs">
+
                     <ul class="nav nav-tabs" style="margin-top: -1px">
                         <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Estimate Header</a></li>
                     </ul>
-                    <div class="tab-content" style="padding-top:10px;">
-                        <div class="tab-pane fade in active" id="tab-EstimateHeader" data-bind="with: selectedOrder">
-                            <div>
+                    <div class="tab-content" style="padding-top:10px;" data-bind="with: selectedOrder">
+                        @*<button class="btn btn-success" style="float: right;margin-right: -9px;" data-bind="visible: enquiryId() != undefined, click: $root.showEstimateNotes">Notes</button>
+                        <input type="button" value="Show Panel D" onclick="ShowDFWD(true)">
+                        <input type="button" value="Hide Panel D" onclick="ShowDFWD(false)">
+                        <div id="dockfloatdivd" style="overflow: auto; position: absolute; left: 1158px; top: 22px; width: 180px; height: 334px; visibility: visible; z-index: 5; background-color: rgb(255, 255, 255);">
+                            This is a dockable/floatable panel, add any HTML contents here<br>
+                        </div>*@
+                        <div class="tab-pane fade in active" id="tab-EstimateHeader">
+                            <div class="col-lg-12" id="estimateSection">
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="col-lg-6">
 
@@ -150,7 +158,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                            </div>  
+                                            </div>
                                             <div class="col-lg-6">
                                                 <div>
                                                     <input type="text" style="height: 60px; width: 375px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />
@@ -164,7 +172,7 @@
                                                 &nbsp;
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" style="height: 60px;"  readonly class="form-control font24px" id="code" />
+                                                <input type="text" style="height: 60px;" readonly class="form-control font24px" id="code" data-bind="value: code" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -200,7 +208,7 @@
                                                 </div>
                                             </div>
 
-                                        </div>        
+                                        </div>
                                         <div class="form-group" style="margin-top: 9px;">
                                             <div class="col-lg-4 text-right" style="padding-top: 10px;">
                                                 <label class="control-label text-right tooltip-float">Estimate Date</label>
@@ -210,7 +218,7 @@
                                                 <input type="text" style="height: 60px;" class="form-control font24px" id="orderDate" data-bind="datepicker: orderDate">
                                             </div>
                                         </div>
-                           
+
                                     </div>
 
                                 </div>
@@ -222,14 +230,14 @@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div>
-                                                    <textarea class="form-control" id=""placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                                                    <textarea class="form-control" id="" placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
                                                 </div>
                                             </div>
                                             @*<div class="col-lg-1">
-                                                <a id="P1" style="padding: 4px 8px;" class="btn btn-primary">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                            </div>*@
+                                                    <a id="P1" style="padding: 4px 8px;" class="btn btn-primary">
+                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                    </a>
+                                                </div>*@
                                         </div>
                                     </div>
                                 </div>
@@ -341,7 +349,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @*</div>*@
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="col-lg-12">
                                         <div class="form-group">
@@ -391,7 +398,6 @@
                                         </td>
                                     </tr>
                                 </script>
-
                             </div>
                         </div>
                     </div>
@@ -400,6 +406,7 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/Script/dsxDockFloatPro.js"></script>
 @Html.Partial("~/Areas/Orders/Views/Home/_AddEditPrePayment.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderCostCenterQuantity.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
@@ -407,7 +414,6 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_ItemDetail.cshtml")
 <!--/ko-->
 <script type="text/javascript">
-
     function addAddress() {
         var e = document.getElementById("popoveraddress");
         var p = document.getElementById("addresspullicon");
@@ -415,14 +421,76 @@
         if (e.style.display == "none") {
             p.className = "fa fa-chevron-circle-down drop-icon";
             e.style.display = "block";
-        }
-        else if (e.style.display == "block") {
+        } else if (e.style.display == "block") {
             p.className = "fa fa-chevron-circle-right drop-icon";
             e.style.display = "none";
-
         }
+
     }
 
 
+    //$(function section() {
+    //    var dfp;
+    //    var dfwa;
+    //    var dfwb;
+    //    var dfwc;
+    //    var dfwd;
 
+    //    function ShowDFWA(bshow) {
+    //        dfwa.setVisible(bshow);
+
+    //    }
+
+    //    function ShowDFWB(bshow) {
+    //        dfwb.setVisible(bshow);
+    //    }
+    //    function ShowDFWC(bshow) {
+    //        dfwc.setVisible(bshow);
+    //    }
+    //    function ShowDFWD(bshow) {
+    //        dfwd.setVisible(bshow);
+    //    }
+
+    //    function getStates() {
+    //        //  dfw.setVisible(true);
+
+
+    //    }
+
+    //    function onAVisiblity(bVi) {
+    //        var v = bVi;
+    //    }
+
+    //    function onADockStyleChanged(iStyle) {
+    //        var istyle = iStyle;
+    //    }
+
+    //    function init() {
+    //        debugger;
+    //        dfp = DSXDFUtil.createDSXDFUtil();
+    //        dfp.addFixedPanel(document.getElementById("centerdiv"), DSXDFUtil.fixedCenter);
+
+    //        dfwa = dfp.createDFPanel("Panel A");
+    //        //       dfwa.addEventListener("visibilityChanged", onAVisiblity);
+    //        //       dfwa.addEventListener("dockStyleChanged", onADockStyleChanged);
+    //        dfwa.addContentDiv(document.getElementById("dockfloatdiva"));
+    //        dfwa.initLayout(150, 300, 400, 200, DSXDFPanel.dockLeft);
+
+    //        dfwb = dfp.createDFPanel("Panel B");
+    //        dfwb.addContentDiv(document.getElementById("dockfloatdivb"));
+    //        dfwb.initLayout(150, 300, 200, 200, DSXDFPanel.dockBottom);
+
+
+    //        dfwc = dfp.createDFPanel("Panel C");
+    //        dfwc.addContentDiv(document.getElementById("dockfloatdivc"));
+    //        dfwc.initLayout(150, 300, 200, 200, DSXDFPanel.dockLeft);
+
+    //        dfwd = dfp.createDFPanel("Panel D");
+    //        dfwd.addContentDiv(document.getElementById("dockfloatdivd"));
+    //        dfwd.initLayout(150, 300, 200, 200, DSXDFPanel.dockRight);
+
+    //    }
+    //})();
+    
 </script>
+

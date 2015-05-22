@@ -220,7 +220,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                <div class="bs-example-tooltips tooltip-float-width" style="width: 25px;">
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
@@ -236,12 +236,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="main-box-body">
-                                            <div id="gallery-photos-lightbox">
-                                                <ul class="clearfix gallery-photos col-lg-12">
-                                                    <!-- ko template: { name: 'inquiryAttachmentsTemplate' , foreach: inquiryAttachments  } -->
-                                                    <!-- /ko -->
-                                                </ul>
+                                        <div class="col-lg-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <div class="main-box-body" style="margin-left: -36px;">
+                                                <div id="gallery-photos-lightbox">
+                                                    <ul class="clearfix gallery-photos col-lg-12">
+                                                        <!-- ko template: { name: 'inquiryAttachmentsTemplate' , foreach: inquiryAttachments  } -->
+                                                        <!-- /ko -->
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -317,10 +322,10 @@
 </div>
 
 <script id="inquiryAttachmentsTemplate" type="text/html">
-    <li class="col-md-2 col-sm-3 col-xs-6">
-        <div class="photo-box image-link" style="padding-top: 0; ">
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()===undefined" alt="" />   @*,attr: { src: '@Url.Content("~/")' + folderPath() }*@
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentPath()!==undefined,attr: { src: attachmentPath }" />
+    <li class="col-md-3 col-sm-3 col-xs-6">
+        <div class="photo-box image-link" style="padding-top: 0; background-color: white">
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()===undefined,attr: { src: attachmentPath }"/>  
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()!==undefined,attr: { src:'/mis/' + attachmentPath() }" /> 
         </div>
         <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
     </li>
