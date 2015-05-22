@@ -739,7 +739,12 @@ function ViewOrderPopUp(Type, panelHtml) {
 
     var left = 0;
     var container = "";
-    if (bws.width <= 481) {
+    if (bws.width >= 481 && bws.width <= 558)
+    {
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
+    }
+    else if (bws.width <= 481) {
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
 
