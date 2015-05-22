@@ -16,12 +16,13 @@
                     </div>
                 </div>
                 <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 24px">
+                    
                     <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
                     <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
                 </div>
             </div>
-             
+
             <div class="col-lg-12 PaddingZero PaddingStatuses">
                 <div class="col-xs-7">
                     <!-- here -->
@@ -34,6 +35,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-12">
             <div class="row" data-bind="with: selectedOrder">
                 <div class="col-lg-12">
@@ -59,14 +61,16 @@
     </div>
     <div class="row" id="user-profile">
         <div class="col-lg-12 col-md-8 col-sm-8" style="padding-left: 22px; padding-right: 24px; ">
-            <div class="main-box clearfix my-tabsHeader">
+            <div class="main-box clearfix my-tabsHeader ">
                 <div class="tabs-wrapper profile-tabs">
+
                     <ul class="nav nav-tabs" style="margin-top: -1px">
                         <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Estimate Header</a></li>
                     </ul>
-                    <div class="tab-content" style="padding-top:10px;">
-                        <div class="tab-pane fade in active" id="tab-EstimateHeader" data-bind="with: selectedOrder">
-                            <div>
+                    <div class="tab-content" style="padding-top:10px;" data-bind="with: selectedOrder">
+                       
+                        <div class="tab-pane fade in active" id="tab-EstimateHeader">
+                            <div class="col-lg-12" id="estimateSection">
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="col-lg-6">
 
@@ -150,7 +154,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                            </div>  
+                                            </div>
                                             <div class="col-lg-6">
                                                 <div>
                                                     <input type="text" style="height: 60px; width: 375px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />
@@ -164,7 +168,26 @@
                                                 &nbsp;
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" style="height: 60px;"  readonly class="form-control font24px" id="code" />
+                                                <input type="text" style="height: 60px;" readonly class="form-control font24px" id="code" data-bind="value: code" />
+                                                <button class=" btn btn-primary" id="notes-Button" onclick="showLeftPanel();" data-bind="click: $root.getInquiryItems, visible: enquiryId() != undefined">Notes</button>
+                                                <div id="left-panel" class="this that the other thing" onclick="showLeftPanel();" style="overflow-x: hidden">
+                                                    <button type="button" class="close"><span>×</span></button>
+                                                    <h1>Inquiry Notes</h1>
+                                                    <!-- ko if: $root.selectedOrder().inquiryItems().length > 0-->
+                                                    <div data-bind="foreach: $root.selectedOrder().inquiryItems">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading" id="panel-heading">
+                                                                <h3 class="panel-title" id="panel-title"><b data-bind="text: title"></b></h3>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <b>Delivery Date </b><b data-bind="dateString: deliveryDate"></b><br/>
+                                                                <b data-bind="text: notes"></b>
+                                                            </div>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                    <!--/ko-->
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -200,7 +223,7 @@
                                                 </div>
                                             </div>
 
-                                        </div>        
+                                        </div>
                                         <div class="form-group" style="margin-top: 9px;">
                                             <div class="col-lg-4 text-right" style="padding-top: 10px;">
                                                 <label class="control-label text-right tooltip-float">Estimate Date</label>
@@ -210,7 +233,7 @@
                                                 <input type="text" style="height: 60px;" class="form-control font24px" id="orderDate" data-bind="datepicker: orderDate">
                                             </div>
                                         </div>
-                           
+
                                     </div>
 
                                 </div>
@@ -222,14 +245,14 @@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div>
-                                                    <textarea class="form-control" id=""placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                                                    <textarea class="form-control" id="" placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
                                                 </div>
                                             </div>
                                             @*<div class="col-lg-1">
-                                                <a id="P1" style="padding: 4px 8px;" class="btn btn-primary">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                            </div>*@
+                                                    <a id="P1" style="padding: 4px 8px;" class="btn btn-primary">
+                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                    </a>
+                                                </div>*@
                                         </div>
                                     </div>
                                 </div>
@@ -341,7 +364,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @*</div>*@
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="col-lg-12">
                                         <div class="form-group">
@@ -380,6 +402,11 @@
                                         </td>
                                     </tr>
                                 </script>
+                                @* Item Template *@
+                                <script id="inquiryItemsTemplate" type="text/html">
+                                    <tr style="cursor: pointer">
+                                       
+                                </script>
                                 <script id="deliveryItemTemplate" type="text/html">
                                     <tr>
                                         <td style=" padding-top: 10px;">
@@ -391,7 +418,6 @@
                                         </td>
                                     </tr>
                                 </script>
-
                             </div>
                         </div>
                     </div>
@@ -407,7 +433,6 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_ItemDetail.cshtml")
 <!--/ko-->
 <script type="text/javascript">
-
     function addAddress() {
         var e = document.getElementById("popoveraddress");
         var p = document.getElementById("addresspullicon");
@@ -415,14 +440,17 @@
         if (e.style.display == "none") {
             p.className = "fa fa-chevron-circle-down drop-icon";
             e.style.display = "block";
-        }
-        else if (e.style.display == "block") {
+        } else if (e.style.display == "block") {
             p.className = "fa fa-chevron-circle-right drop-icon";
             e.style.display = "none";
-
         }
+
     }
-
-
+    
+    function showLeftPanel() {
+      var elem = document.getElementById("left-panel");
+      elem.classList.toggle("show");
+  }
 
 </script>
+

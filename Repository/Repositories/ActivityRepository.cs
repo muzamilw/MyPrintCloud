@@ -43,7 +43,15 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<Activity> GetActivitiesByUserId(Guid userId, DateTime? startDateTime, DateTime? endDateTime)
         {
-            return DbSet.Where(a => a.SystemUserId == userId && a.ActivityStartTime >= startDateTime && a.ActivityEndTime < endDateTime).ToList();
+            if (userId.ToString() == "00000000-0000-0000-0000-000000000000")
+            {
+                return DbSet.Where(a => a.ActivityStartTime >= startDateTime && a.ActivityEndTime < endDateTime).ToList();
+            }
+            else
+            {
+                return DbSet.Where(a => a.SystemUserId == userId && a.ActivityStartTime >= startDateTime && a.ActivityEndTime < endDateTime).ToList();
+            }
+            
         }
         #endregion
     }

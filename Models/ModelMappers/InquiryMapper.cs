@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MPC.Models.DomainModels;
 
 namespace MPC.Models.ModelMappers
 {
@@ -95,7 +96,69 @@ namespace MPC.Models.ModelMappers
 
         private static void UpdateInquiryAttachments(DomainModels.Inquiry source, DomainModels.Inquiry target, InquiryMapperActions actions)
         {
+            InitializeInquiryAttachments(source);
+            InitializeInquiryAttachments(target);
 
+            UpdateOrAddInquiryAttachments(source, target, actions);
+            DeleteInquiryAttachments(source, target, actions);
+        }
+        /// <summary>
+        /// Delete Attachments no longer needed
+        /// </summary>
+        private static void DeleteInquiryAttachments(Inquiry source, Inquiry target, InquiryMapperActions actions)
+        {
+            List<InquiryAttachment> linesToBeRemoved = target.InquiryAttachments.Where(
+                ii => !IsNewItemAttachment(ii) && source.InquiryAttachments.All(attachment => attachment.AttachmentId != ii.AttachmentId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.InquiryAttachments.Remove(line);
+                actions.DeleteInquiryAttachment(line);
+            });
+        }
+        /// <summary>
+        /// Update or add Inquiry Attachments
+        /// </summary>
+        private static void UpdateOrAddInquiryAttachments(Inquiry source, Inquiry target, InquiryMapperActions actions)
+        {
+            foreach (InquiryAttachment sourceLine in source.InquiryAttachments.ToList())
+            {
+                UpdateOrAddInquiryAttachment(sourceLine, target, actions);
+            }
+        }
+        /// <summary>
+        /// Update target Attachments 
+        /// </summary>
+        private static void UpdateOrAddInquiryAttachment(InquiryAttachment sourceItemAttachment, Inquiry target, InquiryMapperActions actions)
+        {
+            InquiryAttachment targetLine;
+            if (IsNewItemAttachment(sourceItemAttachment))
+            {
+                targetLine = actions.CreateInquiryAttachment();
+                target.InquiryAttachments.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.InquiryAttachments.FirstOrDefault(attachment => attachment.AttachmentId == sourceItemAttachment.AttachmentId);
+            }
+            sourceItemAttachment.UpdateTo(targetLine);
+        }
+        /// <summary>
+        /// True if the InquiryAttachment is new
+        /// </summary>
+        private static bool IsNewItemAttachment(InquiryAttachment sourceItemAttachment)
+        {
+            return sourceItemAttachment.AttachmentId == 0;
+        }
+        /// <summary>
+        /// Initialize target InquiryAttachments
+        /// </summary>
+        private static void InitializeInquiryAttachments(Inquiry inquiry)
+        {
+            if (inquiry.InquiryAttachments== null)
+            {
+                inquiry.InquiryAttachments = new List<InquiryAttachment>();
+            }
         }
         private static void InitializeInquiryItems(DomainModels.Inquiry item)
         {

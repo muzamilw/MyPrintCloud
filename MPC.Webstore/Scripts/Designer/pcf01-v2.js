@@ -343,8 +343,7 @@ function c2_01(OPT) {
             if (OPT.type == "path-group") {
                 //IT.textStyles = OPT.toDataURL(); 
                 
-            } //console.log(IT.ContentString + " " + OPT.type);
-           // console.log(OPT.toSVG());
+            } 
             if (OPT.textAlign == "left")
                 IT.Allignment = 1;
             else if (OPT.textAlign == "center")
@@ -405,6 +404,7 @@ function c2_del(obj) {
 function c7(PageID) {
     $.each(TO, function (i, IT) {
         if (IT.ProductPageId == PageID) {
+         
             if (IT.ObjectType == 2) {
                 c0(canvas, IT);
             }
@@ -418,7 +418,7 @@ function c7(PageID) {
             else if (IT.ObjectType == 7) {
                 c8(canvas, IT);
             }
-            else if (IT.ObjectType == 9) {
+            else if (IT.ObjectType == 9) {  
                 d1SvgOl(canvas, IT);
             }
             else if (IT.ObjectType == 8) {
@@ -517,7 +517,9 @@ function c9(cCanvas, RO) {
 }
 function d1SvgOl(cCanvas, IO) {
     TIC += 1;
-    fabric.loadSVGFromURL(IO.ContentString, function (objects, options) {
+    if (IO.ContentString.indexOf("MPC_Content"))
+        IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
+    fabric.loadSVGFromURL("/MPC_Content/" + IO.ContentString, function (objects, options) {
 
         var loadedObject = fabric.util.groupSVGElements(objects, options);
         loadedObject.set({
@@ -2090,8 +2092,6 @@ function h9() {
             urls: T0FU
         },
         active: function () {
-            // stop loading and  load page
-            //            alert()
             d5(TP[0].ProductPageID, true);
         },
         inactive: function () {
@@ -2109,8 +2109,6 @@ function h9() {
     s.parentNode.insertBefore(wf, s);
 } 
 function h9_newFont() {
-    console.log(T0FN);
-    console.log(T0FU);
     WebFontConfig = {
         custom: {
             families: T0FN,
@@ -3098,7 +3096,6 @@ function k16(TempImgType, ImC, Caller) {
     oldHtml = $("." + strName).html() + "";
     $.getJSON(jsonPath,
             function (DT) {
-                // alert(DT);
                 if (Caller != "Loader") {
                     stopInlineLoader();
                 }
@@ -3986,7 +3983,6 @@ function pcL36(mode, arrayControls) {  // panels logic do here
 
 }
 function pcl40(xdata) {
-   // alert(xdata);
     $("#divVarList").html("");
     var sc = "";
     var html = "";
@@ -4087,8 +4083,6 @@ function pcl40_updateDropdownDefaultValues() {
             } else {
                 if (IT.FieldVariable.VariableType == 1) {
                     $("#txtSmart" + IT.FieldVariable.VariableId).val(IT.FieldVariable.DefaultValue);
-                   // alert($("#txtSmart" + IT.FieldVariable.VariableId).val());
-
                 } 
             }
         }
