@@ -24,7 +24,7 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                   
                     // Define request to get Inquiries
                     amplify.request.define('getInquiries', 'ajax', {
                         url: ist.siteUrl + '/Api/Inquiry',
@@ -126,6 +126,13 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+
+                    // Define request to Get Inquiry Items
+                    amplify.request.define('getInquiryItems', 'ajax', {
+                        url: ist.siteUrl + '/Api/InquiryItem',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -153,6 +160,16 @@ define("order/order.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getOrder',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // Get Get Inquiry Items
+            getInquiryItems = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getInquiryItems',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error,
@@ -305,6 +322,7 @@ define("order/order.dataservice", function () {
             getInventoriesList: getInventoriesList,
             deleteOrder: deleteOrder,
             progressInquiryToEstimate: progressInquiryToEstimate,
+            getInquiryItems: getInquiryItems,
             downloadOrderArtwork: downloadOrderArtwork
         };
     })();

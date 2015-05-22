@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using MPC.Interfaces.MISServices;
 
 namespace MPC.MIS.Areas.Production.Controllers
 {
@@ -8,6 +9,11 @@ namespace MPC.MIS.Areas.Production.Controllers
     /// </summary>
     public class HomeController : Controller
     {
+        private readonly ILiveJobsService liveJobsService;
+        public HomeController(ILiveJobsService liveJobsService)
+        {
+            this.liveJobsService = liveJobsService;
+        }
         // GET: Production/Home
         public ActionResult Index()
         {
@@ -24,10 +30,27 @@ namespace MPC.MIS.Areas.Production.Controllers
             return View();
         }
 
+<<<<<<< HEAD
         public ActionResult ItemLateStart()
         {
             ViewBag.IsLateScreen = "Late";
             return View();
         }
+=======
+        // GET: Production/LiveJobs
+        public ActionResult LiveJobs()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public FileResult Test()
+        {
+            var stream = liveJobsService.DownloadArtwork();
+            stream.Position = 0;
+            return File(stream, "application/zip", "download.zip");
+
+        }
+>>>>>>> 7d39f74b6820af7129204717618a03f637c28b80
     }
 }

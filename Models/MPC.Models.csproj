@@ -420,7 +420,11 @@
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
     <Compile Include="RequestModels\GoodsReceivedNoteRequestModel.cs" />
     <Compile Include="RequestModels\InvoicesRequestModel.cs" />
+<<<<<<< HEAD
     <Compile Include="RequestModels\ItemJobRequestModel.cs" />
+=======
+    <Compile Include="RequestModels\LiveJobsRequestModel.cs" />
+>>>>>>> 7d39f74b6820af7129204717618a03f637c28b80
     <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
@@ -465,6 +469,8 @@
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
     <Compile Include="ResponseModels\ItemDetailBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemForItemJobStatus.cs" />
+    <Compile Include="ResponseModels\LiveJobItem.cs" />
+    <Compile Include="ResponseModels\LiveJobsSearchResponse.cs" />
     <Compile Include="ResponseModels\LookupMethodListResponse.cs" />
     <Compile Include="ResponseModels\LookupMethodResponse.cs" />
     <Compile Include="ResponseModels\MachineResponseModel.cs" />
