@@ -30,13 +30,6 @@ namespace MPC.MIS.Areas.Production.Controllers
             return View();
         }
 
-<<<<<<< HEAD
-        public ActionResult ItemLateStart()
-        {
-            ViewBag.IsLateScreen = "Late";
-            return View();
-        }
-=======
         // GET: Production/LiveJobs
         public ActionResult LiveJobs()
         {
@@ -51,6 +44,13 @@ namespace MPC.MIS.Areas.Production.Controllers
             return File(stream, "application/zip", "download.zip");
 
         }
->>>>>>> 7d39f74b6820af7129204717618a03f637c28b80
+
+        public ActionResult ItemLateStart()
+        {
+            ViewBag.IsLateScreen = "Late";
+            return View();
+        }
+      
+       
     }
 }

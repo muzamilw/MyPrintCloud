@@ -2136,12 +2136,9 @@
     <Content Include="Areas\Orders\Views\Home\_InquiryDetailItem.cshtml" />
     <Content Include="Areas\Invoices\Views\Home\AddEditInvoiceDetailDialog.cshtml" />
     <Content Include="Areas\CRM\Views\Home\EMarketing.cshtml" />
-<<<<<<< HEAD
     <Content Include="Areas\Production\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Production\Views\Home\ItemLateStart.cshtml" />
-=======
     <Content Include="Areas\Production\Views\Home\LiveJobs.cshtml" />
->>>>>>> 7d39f74b6820af7129204717618a03f637c28b80
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
