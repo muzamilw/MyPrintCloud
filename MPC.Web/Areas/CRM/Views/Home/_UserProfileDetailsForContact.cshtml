@@ -84,10 +84,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
-                                                            <div class="col-lg-6 text-right">
+                                                            <div class="col-lg-5 text-right">
                                                                 <label for="switchNewsLetter" class="control-label text-right tooltip-float">Newsletter Subscription</label>
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-7">
                                                                 <div class="onoffswitch">
                                                                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchNewsLetter" data-bind="checked: isNewsLetterSubscription">
                                                                     <label class="onoffswitch-label" for="switchNewsLetter">
@@ -98,10 +98,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
-                                                            <div class="col-lg-6 text-right">
+                                                            <div class="col-lg-5 text-right">
                                                                 <label for="switchMailLetter" class="control-label text-right tooltip-float">Mail Subscription</label>
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-7">
                                                                 <div class="onoffswitch">
                                                                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchMailLetter" data-bind="checked: isEmailSubscription">
                                                                     <label class="onoffswitch-label" for="switchMailLetter">
@@ -131,7 +131,7 @@
 
                                                             </div>
                                                             <div class="col-lg-6" style="text-align: center;">
-                                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: image }" />
+                                                                <img style="min-height: 170px; width: 170px; border:1px solid rgb(238, 238, 238)" data-bind="attr: { src: image }" />
                                                                 <div>
                                                                     <div class="fileUpload btn btn-primary marginT5">
                                                                         <span>Upload</span>
@@ -174,8 +174,11 @@
                                                                 <input type="text" class="form-control" id="txtSecrtAns" data-bind="value: secretAnswer">
                                                             </div>
                                                         </div>
+
                                                     </div>
+                                                    <div class="form-group ">
                                                     </div>
+                                                 </div>
                                                     <h3 class="group-header">Smart form CRM variables that can be auto populated on templates</h3>
                                                     <div class="col-lg-12 clearfix">
                                                         <div class="col-lg-6">
@@ -293,6 +296,8 @@
                                                                     <input type="text" class="form-control" id="txtQOtherID" data-bind="value:quickOtherId">
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="form-group ">
                                                         </div>
                                                     </div>
                                                     <h3 class="group-header">Additional Information</h3>
@@ -439,6 +444,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group ">
+                                                        </div>
                                                     </div>
                                                 </div>
                                         </div>
@@ -446,86 +453,88 @@
                                     <div class="tab-pane fade" id="tab-UserAddressInfoForContact">
                                         <div class="col-lg-12">
                                             <div class=" form-horizontal clearfix">
-                                                <div class="col-lg-6 addressbox">
+                                               
+                                                 <div class="col-lg-6 addressbox">
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
+                                                        <div class="col-lg-4 text-right">
                                                             
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <label for="ddbussinessAddress" class="control-label">Bussiness Address</label>
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
+                                                        <div class="col-lg-4 text-right">
                                                           
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',value: bussinessAddressId, validationToolTip: bussinessAddressId"></select>
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
+                                                        <div class="col-lg-4 text-right">
                                                             <label for="txtBAredd" class="control-label text-right tooltip-float">Address</label>
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <input type="text" class="form-control" id="txtBAredd" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined && $root.selectedBussinessAddress().addressName() != undefined ? $root.selectedBussinessAddress().addressName():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
+                                                        <div class="col-lg-4 text-right">
                                                             <label for="txtBAddCity" class="control-label text-right tooltip-float">City</label>
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <input type="text" class="form-control" id="txtBAddCity" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().city() != undefined ? $root.selectedBussinessAddress().city():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
+                                                        <div class="col-lg-4 text-right">
                                                             <label for="txtBAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().stateName() != undefined ? $root.selectedBussinessAddress().stateName():''">
                                                         </div>
                                                     </div>
                                                 </div>
+                                               
                                                 <div class="col-lg-6 addressbox">
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
-                                                           
+                                                        <div class="col-lg-4 text-right">
+
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <label for="ddshippingAddress" class="control-label">Shipping Address</label>
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
-                                                            
+                                                        <div class="col-lg-4 text-right">
+
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <select class="form-control " id="ddTerritory" data-bind="options:$root.shippingAddresses,optionsText:'addressName',optionsValue:'addressId',value: shippingAddressId"></select>  @*,optionsCaption: 'Choose...'*@
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
+                                                        <div class="col-lg-4 text-right">
                                                             <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address</label>
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().addressName() != undefined ? $root.selectedShippingAddress().addressName():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
+                                                        <div class="col-lg-4 text-right">
                                                             <label for="txtShippAddCity" class="control-label text-right tooltip-float">City</label>
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <input type="text" class="form-control" id="txtShippAddCity" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().city() != undefined ? $root.selectedShippingAddress().city():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
+                                                        <div class="col-lg-4 text-right">
                                                             <label for="txtShippAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-8">
                                                             <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().stateName() != undefined ? $root.selectedShippingAddress().stateName():''">
                                                         </div>
                                                     </div>

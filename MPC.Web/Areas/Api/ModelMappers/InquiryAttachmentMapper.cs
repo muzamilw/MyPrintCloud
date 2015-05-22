@@ -1,4 +1,6 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System;
+using System.Globalization;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -16,9 +18,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AttachmentPath = source.AttachmentPath,
                 Extension = source.Extension,
                 InquiryId = source.InquiryId,
-                OrignalFileName = source.OrignalFileName
+                OrignalFileName = source.OrignalFileName,
+                FileSource = source.AttachmentPath
             };
         }
+
         /// <summary>
         /// Create From Domain Model
         /// </summary>
@@ -26,14 +30,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <returns></returns>
         public static InquiryAttachment CreateFrom(this DomainModels.InquiryAttachment source)
         {
+            string filePath = !string.IsNullOrEmpty(source.AttachmentPath) ? source.AttachmentPath : string.Empty;
+            string fileName = !string.IsNullOrEmpty(source.OrignalFileName) ? source.OrignalFileName + "?" + DateTime.Now.ToString(CultureInfo.InvariantCulture) : string.Empty;
+            filePath += "/" + fileName;
             return new InquiryAttachment
             {
                 AttachmentId = source.AttachmentId,
-                AttachmentPath = source.AttachmentPath,
+                AttachmentPath = filePath,
                 Extension = source.Extension,
                 InquiryId = source.InquiryId,
                 OrignalFileName = source.OrignalFileName
             };
         }
+
+
     }
 }
