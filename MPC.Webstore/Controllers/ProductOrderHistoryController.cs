@@ -21,13 +21,15 @@ namespace MPC.Webstore.Controllers
         private readonly IStatusService _StatusService;
         private readonly IOrderService _orderService;
         private readonly ICompanyService _CompanyService;
-
-        public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService, IOrderService _orderService, ICompanyService _CompanyService)
+        private readonly IItemService _itemService;
+        public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService,
+            IOrderService _orderService, ICompanyService _CompanyService, IItemService itemService)
         {
             this._myClaimHelper = _myClaimHelper;
             this._StatusService =_StatusService;
             this._orderService = _orderService;
             this._CompanyService = _CompanyService;
+            this._itemService = itemService;
         }
         public ActionResult Index()
         {
@@ -66,7 +68,7 @@ namespace MPC.Webstore.Controllers
                     SearchOrder.DDOderStatus = new SelectList(list, "StatusId", "StatusName");
             }
 
-           BindGrid(0, _myClaimHelper.loginContactID(), SearchOrder);
+            BindGrid(0, _myClaimHelper.loginContactID(), SearchOrder);
             return SearchOrder;
         }
         public void BindGrid(long statusID, long contactID, SearchOrderViewModel model)
@@ -84,7 +86,6 @@ namespace MPC.Webstore.Controllers
             //    ordersList = _orderService.GetOrdersListExceptPendingOrdersByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
                 
             //}
-           
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID()== (int)Roles.Adminstrator)
             {
                 ordersList = _orderService.GetAllCorpOrders(_myClaimHelper.loginContactCompanyID(), status, model.FromData, model.ToDate, model.poSearch);
@@ -199,7 +200,7 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public JsonResult OrderResult(long OrderId)
         {
-              long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID);
+            long UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
               UserCookieManager.WEBOrderId = UpdatedOrder;
           
               return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);

@@ -104,7 +104,7 @@ namespace MPC.Webstore.Controllers
 
                 if (!string.IsNullOrEmpty(Email))
                 {
-                    user = _myCompanyService.GetContactByEmail(Email, StoreBaseResopnse.Organisation.OrganisationId);
+                    user = _myCompanyService.GetContactByEmail(Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId);
                 }
                 else
                 {
@@ -148,7 +148,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    user = _myCompanyService.GetRetailUser(model.Email, model.Password, UserCookieManager.WEBOrganisationID);
+                    user = _myCompanyService.GetRetailUser(model.Email, model.Password, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                 }
 
                 if (user != null)
@@ -225,8 +225,9 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
+                        Response.Redirect("/");
                      //Response.Redirect("/");
-                        ControllerContext.HttpContext.Response.Redirect("/");
+                      //  ControllerContext.HttpContext.Response.Redirect("/");
                       // return RedirectToAction("Index", "Home");
                     }
                     return null;
