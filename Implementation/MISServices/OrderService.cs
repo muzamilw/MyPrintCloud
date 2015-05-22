@@ -248,9 +248,10 @@ namespace MPC.Implementation.MISServices
         /// <param name="fileName">Name of file being saved</param>
         /// <param name="fileSource">Base64 representation of file being saved</param>
         /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
+        /// <param name="fileNameWithoutExtension">File Name without extension to be set for Item Attachemt Record</param>
         /// <returns>Path of File being saved</returns>
         private string SaveImage(string mapPath, string existingImage, string caption, string fileName,
-            string fileSource, byte[] fileSourceBytes)
+            string fileSource, byte[] fileSourceBytes, out string fileNameWithoutExtension)
         {
             if (!string.IsNullOrEmpty(fileSource))
             {
@@ -280,12 +281,11 @@ namespace MPC.Implementation.MISServices
                 // First Time Upload
                 string imageurl = mapPath + "\\" + caption + fileName;
                 File.WriteAllBytes(imageurl, fileSourceBytes);
-
-                int indexOf = imageurl.LastIndexOf("MPC_Content", StringComparison.Ordinal);
-                imageurl = imageurl.Substring(indexOf, imageurl.Length - indexOf);
-                return imageurl;
+                fileNameWithoutExtension = Path.GetFileNameWithoutExtension(imageurl);
+                return Path.GetExtension(imageurl);
             }
 
+            fileNameWithoutExtension = string.Empty;
             return null;
         }
 
@@ -324,11 +324,14 @@ namespace MPC.Implementation.MISServices
                     int indexOf = folderPath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                     folderPath = folderPath.Substring(indexOf, folderPath.Length - indexOf);
                     itemAttachment.FolderPath = folderPath;
-                    if (SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
+                    string fileNameWithoutExtension;
+                    string fileExtension = SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
                         itemAttachment.FileName,
-                        itemAttachment.FileSource, itemAttachment.FileSourceBytes) != null)
+                        itemAttachment.FileSource, itemAttachment.FileSourceBytes, out fileNameWithoutExtension);
+                    if (fileExtension != null)
                     {
-                        itemAttachment.FileName = itemAttachment.FileName;
+                        itemAttachment.FileName = fileNameWithoutExtension;
+                        itemAttachment.FileType = fileExtension;
                     }
                 }
             }
