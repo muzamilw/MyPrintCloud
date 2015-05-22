@@ -193,6 +193,21 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             };
         }
+
+        /// <summary>
+        /// Used In Order
+        /// </summary>
+        public static APIDomainModels.Machine CreateFromForOrder(this Machine source)
+        {
+            return new APIDomainModels.Machine
+            {
+                MachineId = source.MachineId,
+                MachineName = source.MachineName,
+                MachineCatId = source.MachineCatId,
+                maximumsheetheight = source.maximumsheetheight,
+                maximumsheetwidth = source.maximumsheetwidth
+            };
+        }
         #endregion
 
     }

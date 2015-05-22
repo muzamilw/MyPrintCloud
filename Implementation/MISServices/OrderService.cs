@@ -581,7 +581,8 @@ namespace MPC.Implementation.MISServices
                 SystemUsers = systemUserRepository.GetAll(),
                 LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
                 WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
-                LoggedInUser = organisationRepository.LoggedInUserId
+                LoggedInUser = organisationRepository.LoggedInUserId,
+                Machines = MachineRepository.GetAll()
             };
 
         }

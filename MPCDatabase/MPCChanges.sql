@@ -3860,3 +3860,15 @@ alter column PassesSide1 int null
 
 alter table ItemSection 
 alter column PassesSide2 int null
+
+/* Execution Date: 22/05/2015 */
+
+alter table itemsection
+alter column Side1LookUp int null
+
+alter table itemsection
+alter column Side2LookUp int null
+
+exec sp_rename 'ItemSection.Side1LookUp', 'ImpressionCoverageSide1'
+
+exec sp_rename 'ItemSection.Side2LookUp', 'ImpressionCoverageSide2'
