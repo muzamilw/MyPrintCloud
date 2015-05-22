@@ -60,6 +60,13 @@ define("order/order.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
+                    // Define request to progress Inquiry To Estimate
+                    amplify.request.define('progressInquiryToEstimate', 'ajax', {
+                        url: ist.siteUrl + '/Api/InquiryProgress',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'GET'
+                    });
 
                     // Define request to save Order
                     amplify.request.define('saveOrder', 'ajax', {
@@ -156,6 +163,16 @@ define("order/order.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getInquiry',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            //progress Inquiry To Estimate
+            progressInquiryToEstimate = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'progressInquiryToEstimate',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error,
@@ -287,6 +304,7 @@ define("order/order.dataservice", function () {
             getCostCenters: getCostCenters,
             getInventoriesList: getInventoriesList,
             deleteOrder: deleteOrder,
+            progressInquiryToEstimate: progressInquiryToEstimate,
             downloadOrderArtwork: downloadOrderArtwork
         };
     })();

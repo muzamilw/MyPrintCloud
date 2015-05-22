@@ -2174,10 +2174,10 @@
                                                         <thead>
                                                             <tr>
                                                                 <th style="width:175px;"><span>Page Name</span></th>
-                                                                <th><span>Height (<span data-bind="text:$root.lengthUnit()"></span> )</span> </th>
-                                                                <th><span>Width (<span data-bind="text:$root.lengthUnit()"></span> )</span></th>
+                                                                <th><span>Height Inc. Bleed (<span data-bind="text:$root.lengthUnit()"></span> )</span> </th>
+                                                                <th><span>Width Inc. Bleed (<span data-bind="text:$root.lengthUnit()"></span> )</span></th>
 
-                                                                <th style="text-align:center;"><span>page order</span></th>
+                                                                <th style="text-align:center;"><span>Page order</span></th>
                                                                 <th style="width: 114px;"></th>
                                                             </tr>
                                                         </thead>
@@ -2430,7 +2430,7 @@
     <script id="templatePageTemplate" type="text/html">
         <tr>
             <td style="width:25%;">
-                <input type="text" style="width:200px;" maxlength="15" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName">
+                <input type="text" style="width:200px;" maxlength="15" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName, validationTooltip: pageName, validationOnElement: pageName">
             </td>
             <td>
                 <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="value: height">

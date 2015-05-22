@@ -534,6 +534,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                         toastr.success("Successfully Saved.");
                         view.hideCostCentreQuestionDialog();
+                        view.showAddEditQuestionMenu();
                     },
                     error: function (response) {
                         toastr.error("Failed to Save Question" + response);

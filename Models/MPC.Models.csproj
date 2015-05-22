@@ -190,6 +190,7 @@
     <Compile Include="DomainModels\MachineClickChargeZone.cs" />
     <Compile Include="DomainModels\MachineGuillotineCalc.cs" />
     <Compile Include="DomainModels\MachineGuilotinePtv.cs" />
+    <Compile Include="DomainModels\MachineLookupMethod.cs" />
     <Compile Include="DomainModels\MachineMeterPerHourLookup.cs" />
     <Compile Include="DomainModels\MachinePerHourLookup.cs" />
     <Compile Include="DomainModels\MachineSpeedWeightLookup.cs" />
@@ -363,6 +364,12 @@
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="ModelMappers\InquiryAttachmentMapper.cs" />
+    <Compile Include="ModelMappers\InquiryItemMapper.cs" />
+    <Compile Include="ModelMappers\InquiryMapper.cs" />
+    <Compile Include="ModelMappers\InvoiceDomainMapper.cs" />
+    <Compile Include="ModelMappers\InvoiceMapperActions.cs" />
+    <Compile Include="ModelMappers\InquiryMapperActions.cs" />
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="ModelMappers\ShippingInformationMapper.cs" />
@@ -422,6 +429,7 @@
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
+    <Compile Include="RequestModels\ProgressInquiryToEstimateParams.cs" />
     <Compile Include="RequestModels\PTVRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
     <Compile Include="RequestModels\ReportNoteRequestModel.cs" />

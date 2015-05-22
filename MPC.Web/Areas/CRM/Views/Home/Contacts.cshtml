@@ -40,7 +40,7 @@
                             </li>
 
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @Html.ActionLink("E-Marketing", "", "Home")
+                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
                             </li>
 
 
@@ -94,6 +94,14 @@
                                     </div>
                                 </div>
                                 @Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
+                            </div>
+                            <div class="tab-pane fade" id="tab-E-Marketing">
+                                <div class="row">
+                                    <div class="col-md-12" style="text-align: center;">
+
+                                        <img src="~/Content/Images/coming.jpg" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

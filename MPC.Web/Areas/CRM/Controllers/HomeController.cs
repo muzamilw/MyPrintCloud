@@ -53,6 +53,11 @@ namespace MPC.MIS.Areas.CRM.Controllers
             ViewBag.ActiveTab = ActiveModuleMenuItem.ToDoList;
             return View();
         }
+        public ActionResult EMarketing()
+        {
+            ViewBag.ActiveTab = ActiveModuleMenuItem.EMarketing;
+            return View();
+        }
 
 
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
