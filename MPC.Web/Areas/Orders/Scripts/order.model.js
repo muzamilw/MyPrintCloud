@@ -18,7 +18,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedTargetPrintDate, specifiedOrderCreationDateTime, specifiedOrderManagerId, specifiedSalesPersonId, specifiedSourceId,
             specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
             specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
-            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes) {
+            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -214,6 +214,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : moment().toDate()),
                 // Foot Notes
                 footNotes = ko.observable(specifiedFootNotes || undefined),
+                //Enqiry Id
+                enquiryId = ko.observable(specifiedEnquiryId || undefined),
                 //Tax Rate
                 taxRate = ko.observable(undefined),
                 // Items
@@ -403,6 +405,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         FinishDeliveryDate: finishDeliveryDate() ? moment(finishDeliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
                         HeadNotes: headNotes(),
                         FootNotes: footNotes(),
+                        EnquiryId: enquiryId(),
                         TaxRate: taxRate(),
                         ArtworkByDate: artworkByDate() ? moment(artworkByDate()).format(ist.utcFormat) + 'Z' : undefined,
                         DataByDate: dataByDate() ? moment(dataByDate()).format(ist.utcFormat) + 'Z' : undefined,
@@ -458,6 +461,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 finishDeliveryDate: finishDeliveryDate,
                 headNotes: headNotes,
                 footNotes: footNotes,
+                enquiryId: enquiryId,
                 taxRate: taxRate,
                 artworkByDate: artworkByDate,
                 dataByDate: dataByDate,
@@ -754,7 +758,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.ArtworkByDate, source.DataByDate, source.PaperByDate, source.TargetBindDate, source.XeroAccessCode, source.TargetPrintDate,
         source.OrderCreationDateTime, source.SalesAndOrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
-        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
+        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId);
+
         estimate.statusId(source.StatusId);
         estimate.status(source.Status);
         estimate.systemUsers(constructorParams.SystemUsers);
@@ -1012,7 +1017,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             inquiryCode: inquiryCode,
             createdBy: createdBy,
             organisationId: organisationId,
-            inquiryItems: inquiryItems
+            inquiryItems: inquiryItems,
+            inquiryAttachments: inquiryAttachments
         }),
         // Has Changes
         hasChanges = ko.computed(function () {

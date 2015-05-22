@@ -11,7 +11,7 @@
             </div>*@
         <div class="row" id="user-profile" data-bind="with: $root.selectedSection">
 
-            <div class="col-lg-12">
+            <div class="col-lg-10" style="width: 86%;">
                 <div class="clearfix" style="padding-top:20px;">
                     <div class="col-lg-12 form-horizontal">
                         <div class="col-lg-2"></div>
@@ -23,6 +23,20 @@
                                     </div>
                                     <div class="col-lg-3"></div>
                                     <div class="col-lg-1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="radio col-lg-3" style="margin-left: 6px">
+                                        <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_1" value="1">
+                                        <label for="optionsRadiosFirst_1">
+                                            Sheet Bed
+                                        </label>
+                                    </div>
+                                    <div class="radio col-lg-3">
+                                        <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2">
+                                        <label for="optionsRadiosFirst_2">
+                                            Rod Bed
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -45,55 +59,100 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="form-group" style="margin-bottom: 0px;">
-                                    <div class="col-lg-6" style="margin-right: 3%;">
-                                        <label>Paper / Board / Substrate</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 form-horizontal">
+                        <div class="form-group" style="margin-top: -10px;">
+                            <div class="col-xs-2" style="text-align: right;">
+                                <label class="control-label">Colors</label>
+                            </div>
+                            <div class="col-xs-5" style="width: 27.3%; margin-left: 1%;">
+                                <select class="form-control" data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select ink colors', value: plateInkId, validationOnElement: plateInkId,event:{change:$root.availableInkPalteChange}"></select>
+
+                            </div>
+                            <div class="col-xs-1" style="margin-left: 5.1%;">
+                                <a class=" btn btn-primary pull-right" data-bind="click: $root.openInkDialog">
+                                    <i class="fa fa-lg"></i>&nbsp;Color
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 form-horizontal">
+                        <div class="form-group" style="margin-top: -10px;">
+                            <div class="col-xs-2" style="text-align: right;">
+                                <label class="control-label">Press / Picture</label>
+                            </div>
+                            <div class="col-lg-9" style="margin-left: 1%; margin-top: 1%;">
+                                <div class="col-lg-5" id="OrderDialogSection1" style=" padding-top: 1%; margin-right: 3%;">
+                                    <div class="col-lg-11" style="margin-top: 4%; margin-left: 4%;">
+                                        <select class="form-control" @*data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select ink colors', value: plateInkId, validationOnElement: plateInkId,event:{change:$root.availableInkPalteChange}"*@></select>
                                     </div>
-                                    <div class="col-xs-2">
-                                        <div class="checkbox-nice">
-                                            <input type="checkbox" id="checkbox-1" data-bind="checked: isPaperSupplied" />
-                                            <label for="checkbox-1">
-                                                Supplied
-                                            </label>
+                                    <br />
+                                    <hr style="margin-top: 15%;" />
+                                    <div class="col-lg-11" style="margin-top: -2%; margin-left: 4%;">
+                                        <select class="form-control" @*data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select ink colors', value: plateInkId, validationOnElement: plateInkId,event:{change:$root.availableInkPalteChange}"*@></select>
+                                    </div>
+                                    <div class="col-lg-11">
+                                        <div class="form-group">
+                                            <div class="col-lg-6" style="padding-right: 0px;">
+                                                <label class="control-label" style="font-size: 12px; margin-left: 15%; margin-top: 12%;">Pause Then Press</label>
+                                            </div>
+                                            <div class="col-lg-6" style="padding-right: 2%; margin-top: 5%;">
+                                                <input type="text" style="text-align: right;" class="form-control" @*data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue"*@ id="qty3" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-xs-8">
-                                        <input type="text" style="width:81%;margin-right:5px;" data-bind="value: stockItemName, validationDependsOn: stockItemId, enable: false, validationOnElement: stockItemId" class="form-control OpenStockPopup-Class" id="txtStock">
-                                        <a data-bind="click: $root.openStockItemDialog" href="#" class="btn btn-primary pull-right">
-                                            <i class="fa fa-lg"></i>&nbsp;....
-                                        </a>
-
+                                <div class="col-lg-5" id="OrderDialogSection1" style="padding-top: 1%;">
+                                    <div class="col-lg-11" style="margin-top: 4%; margin-left: 4%;">
+                                        <select class="form-control" @*data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select ink colors', value: plateInkId, validationOnElement: plateInkId,event:{change:$root.availableInkPalteChange}"*@></select>
                                     </div>
-                                </div>
-                                <div class="form-group" style="margin-bottom: 0px;">
-                                    <div class="col-lg-6" style="margin-right: 3%">
-                                        <label>Press Feed Sheet Size</label>
+                                    <br />
+                                    <hr style="margin-top: 15%;" />
+                                    <div class="col-lg-11" style="margin-top: -2%; margin-left: 4%;">
+                                        <select class="form-control" @*data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select ink colors', value: plateInkId, validationOnElement: plateInkId,event:{change:$root.availableInkPalteChange}"*@></select>
                                     </div>
-                                    <div class="col-xs-2" style="width:95px;">
-                                        <div class="checkbox-nice">
-                                            <input type="checkbox" id="checkbox-5" checked="checked" data-bind="checked: isSectionSizeCustom" />
-                                            <label for="checkbox-5">
-                                                Custom
-                                            </label>
+                                    <div class="col-lg-11">
+                                        <div class="form-group">
+                                            <div class="col-lg-6" style="padding-right: 0px;">
+                                                <label class="control-label" style="font-size: 12px; margin-left: 15%; margin-top: 12%;">Pause Then Press</label>
+                                            </div>
+                                            <div class="col-lg-6" style="padding-right: 2%; margin-top: 5%;">
+                                                <input type="text" style="text-align: right;" class="form-control" @*data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue"*@ id="qty3" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group" data-bind="visible:!isSectionSizeCustom()">
-                                    <div class="col-xs-8">
-                                        <select class=" form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId"></select>
-                                    </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-lg-12 form-horizontal">
+                        <div class="form-group" style="">
+                            <div class="col-xs-2" style="text-align: right;">
+                                <label class="control-label">Number Up</label>
+                            </div>
+                            <div class="col-lg-8" style="margin-left: 1.8%; margin-top: 1%; padding: 1%; width: 63.5%; padding-right: 0px;" id="OrderDialogSection1">
+                                <div class="col-lg-6">
+                                    <label style="margin-left: 4%;">Feed Size</label>
                                 </div>
-                                <div class="form-group" data-bind="visible:isSectionSizeCustom">
-                                    <div class="col-lg-8">
+                                <div class="col-lg-5" style="padding-left: 6.5%;">
+                                    <label>Trim Size(Flat)</label>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="col-lg-7" data-bind="visible:!isSectionSizeCustom()">
+                                        <select style="margin-left: 2%; padding-right: 0px; width: 101%;" class=" form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId"></select>
+                                    </div>
+                                    <div class="col-lg-7" data-bind="visible:isSectionSizeCustom" style="padding-right: 1.2%">
                                         <div class="col-xs-5" style="padding-left: 0px;">
                                             <input type="text" class="form-control" data-bind="value: sectionSizeHeight, enable: isSectionSizeCustom" id="qty11" />
                                             <label class="help-block" style="margin-left:30%;">Height ( <span data-bind="text:$root.lengthUnit"></span> )</label>
                                         </div>
                                         <div class="col-xs-2 text-center">
-                                            <button data-bind="click: swapSectionHeightWidth, enable: isSectionSizeCustom" class="btn btn-primary btn-Toggle">
+                                            <button style="margin-left: -15px; width: 36PX; PADDING: 7PX; padding-right: 32px;" data-bind="click: swapSectionHeightWidth, enable: isSectionSizeCustom" class="btn btn-primary btn-Toggle">
                                                 <i class="fa fa-lg"></i>&nbsp;< >
                                             </button>
                                         </div>
@@ -102,20 +161,48 @@
                                             <label class="help-block" style="margin-left:30%;">Width ( <span data-bind="text:$root.lengthUnit()"></span> )</label>
                                         </div>
                                     </div>
-                                    @*<div class="col-xs-2" style="width:95px;">
-                                            <div class="checkbox-nice">
-                                                <input type="checkbox" id="checkbox-5" checked="checked" data-bind="checked: isSectionSizeCustom" />
-                                                <label for="checkbox-5">
-                                                    Custom
-                                                </label>
-                                            </div>
-                                        </div>*@
-                                </div>
-                                <div class="form-group" style="margin-bottom: 0px;">
-                                    <div class="col-lg-6" style="margin-right: 3%">
-                                        <label>Trimed Item Size (flat)</label>
+                                    <div class="col-lg-2" style="width: 90px; padding-left: 2px;">
+                                        <div class="checkbox-nice">
+                                            <input type="checkbox" id="checkbox-5" checked="checked" data-bind="checked: isSectionSizeCustom" />
+                                            <label for="checkbox-5">
+                                                Custom
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-2" style="width:95px;">
+                                    <br />
+                                    <div class="col-lg-6" style="width: 42%; margin-left: 1.3%; padding-top: 8px;">
+                                        <input type="text" class="form-control" data-bind="value: numberUp, validationOnElement: numberUp, validationTooltip: numberUp" id="numberUpTextBox" />
+                                    </div>
+                                    <div class="col-lg-5"  style="padding-right: 0px; padding-top: 2.5%; margin-left: 2%;">
+                                        <a href="#" class="btn btn-primary pull-right" style="width: 110%" data-bind="click: $root.getPtvPlan">
+                                            <i class="fa fa-lg"></i>View Layout
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-5" style=" margin-left: 3.7%; padding-right: 0px;">
+                                    <div class="col-lg-7" style="padding-right: 0px; width: 63%; margin-right: 2px;" data-bind="visible:!isItemSizeCustom()">
+                                        <select style="width: 101.7%; margin-left: -3%; padding-right: 0px;" class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId" style="width: 100%"></select>
+                                    </div>
+                                    <div class="col-lg-7" data-bind="visible:isItemSizeCustom" style=" padding-left: 0px; margin-left: 2px; padding-right: 0px; width: 63%;">
+                                        <div class="col-xs-5" style="padding-left: 0px; padding-right: 0px; width: 35%;">
+
+                                            <input type="text" class="form-control" data-bind="value: itemSizeHeight, enable: isItemSizeCustom" id="qty11" />
+                                            <label class="help-block" style="margin-left:30%;">Height ( <span data-bind="text:$root.lengthUnit"></span> )</label>
+                                        </div>
+                                        <div class="col-xs-2 text-center" style="padding-left: 0px;margin-left: 1px;">
+                                            <button style="padding: 8px; padding-bottom: 6px;" data-bind="click: swapItemHeightWidth, enable: isItemSizeCustom" class="btn btn-primary btn-Toggle">
+                                                <i class="fa fa-lg"></i>&nbsp;< >
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-5" style=" width: 52px; padding-left: 0px; padding-right: 0px; margin-left: 15px;">
+                                            <input type="text" class="form-control" data-bind="value: itemSizeWidth, enable: isItemSizeCustom" id="qty31" />
+                                            <label class="help-block" style="margin-left:30%;">Width ( <span data-bind="text:$root.lengthUnit"></span> )</label>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" style="padding-right: 0px; padding-left: 2px">
                                         <div class="checkbox-nice">
                                             <input type="checkbox" id="checkbox-4" data-bind="checked: isItemSizeCustom" />
                                             <label for="checkbox-4">
@@ -124,296 +211,253 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group" data-bind="visible:!isItemSizeCustom()">
-                                    <div class="col-xs-8">
-                                        <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId" style="width: 100%"></select>
-                                    </div>
-
-                                </div>
-                                <div class="form-group" data-bind="visible:isItemSizeCustom">
-                                    <div class="col-lg-8">
-                                        <div class="col-xs-5" style="padding-left: 0px;">
-
-                                            <input type="text" class="form-control" data-bind="value: itemSizeHeight, enable: isItemSizeCustom" id="qty11" />
-                                            <label class="help-block" style="margin-left:30%;">Height ( <span data-bind="text:$root.lengthUnit"></span> )</label>
-                                        </div>
-                                        <div class="col-xs-2 text-center">
-                                            <button data-bind="click: swapItemHeightWidth, enable: isItemSizeCustom" class="btn btn-primary btn-Toggle">
-                                                <i class="fa fa-lg"></i>&nbsp;< >
-                                            </button>
-                                        </div>
-                                        <div class="col-xs-5" style="padding-right: 0px;">
-                                            <input type="text" class="form-control" data-bind="value: itemSizeWidth, enable: isItemSizeCustom" id="qty31" />
-                                            <label class="help-block" style="margin-left:30%;">Width ( <span data-bind="text:$root.lengthUnit"></span> )</label>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3" style="max-height: 334px;overflow-y: auto">
-                                <ul style="list-style:none">
-                                    <!-- ko template: { name: 'sectionEditItemTemplate' , foreach: $root.selectedProduct().itemSections  } -->
-                                    <!-- /ko -->
-                                    @*<li>
-                                            <div>
-                                                <div style="float: left"><img style="width: 53%;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>
-                                            </div>
-                                            <div class="btn btn-primary" style="font-size: x-small;margin-left:8px;" data-bind="click:$root.createNewItemSectionFormSectionDetail">
-                                                Add Sheets
-                                            </div>
-                                        </li>*@
-                                </ul>
-                            </div>
-
-                        </div>
-                        <div class="col-lg-12 ">
-                            <div class="col-lg-2" style="width: 15%"></div>
-                            <div class="col-lg-7 form-horizontal" style="background-color:#d9d9d9;margin-bottom:20px;padding-top:20px;">
-                                <div class="col-lg-10">
-                                    <div class="form-group">
-                                        <div class="col-lg-12" style="padding-left: 0px">
-                                            @*<div class="col-xs-2" style="width: 41%;padding-left: 4%;">
-                                                    <label class="control-label">Number Up</label>
-                                                </div>*@
-
-                                            <div class="col-lg-2 text-right" style="width: 26%">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">
-                                                    Number Up
-                                                </label>
-
-                                            </div>
-                                            <div class="col-lg-1" style="width:15%">
-
-                                            </div>
-                                            <div class="col-xs-6" style="width: 25%">
-                                                <input type="text" class="form-control" data-bind="value: numberUp, validationOnElement: numberUp, validationTooltip: numberUp" id="numberUpTextBox" />
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <a href="#" class="btn btn-primary pull-right" style="width:115px" data-bind="click: $root.getPtvPlan">
-                                                    <i class="fa fa-lg"></i>Sheet Plan
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
 
                             </div>
                         </div>
-                        <div class="col-lg-2"></div>
-                        <div class="col-lg-9" style="margin-bottom: 12px">
-                            <!--here-->
-                            <div class="form-group" style="margin-top: -10px;">
-                                <div class="col-lg-8">
-                                    <div class="col-xs-3" style="width:17%">
-                                        <label class="control-label"># Colors</label>
-                                    </div>
-                                    <div class="col-xs-5" style="width: 50%">
-                                        <select class="form-control" data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select ink colors', value: plateInkId, validationOnElement: plateInkId,event:{change:$root.availableInkPalteChange}"></select>
+                    </div>
 
-                                    </div>
-                                    <div class="col-xs-2" style="padding-right: 0px;">
-                                        <a class=" btn btn-primary pull-right" data-bind="click: $root.openInkDialog">
-                                            <i class="fa fa-lg"></i>&nbsp;Color
-                                        </a>
+                    <div class="col-lg-12 form-horizontal">
+                        <div class="form-group" style="margin-top: -10px;">
+                            <div class="col-xs-2" style="text-align: right; padding-top: 1%;">
+                                <label class="control-label">Paper / Board</label>
+                            </div>
+                            <div class="col-lg-9" style="margin-left: 1%; margin-top: 1%;">
+                                <div class="col-xs-6" style="padding-left: 0px;">
+                                    <input type="text" style="width:81%;margin-right:5px;" data-bind="value: stockItemName, validationDependsOn: stockItemId, enable: false, validationOnElement: stockItemId" class="form-control OpenStockPopup-Class" id="txtStock">
+                                    <a data-bind="click: $root.openStockItemDialog" href="#" class="btn btn-primary pull-right">
+                                        <i class="fa fa-lg"></i>&nbsp;....
+                                    </a>
+                                </div>
+                                <div class="col-xs-2" style="padding-left: 2.7%;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="checkbox-1" data-bind="checked: isPaperSupplied" />
+                                        <label for="checkbox-1">
+                                            Supplied
+                                        </label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-9" style="text-align: center;">
-                                <img class="photo-box image-link" src="~/Content/Images/OrderSection-down-arrow.jpg" style="height:50px" />
-                                @*<img data-bind="event:{click:$root.sectionVisibilityHandler}, visible: $root.isSectionVisible()" class="photo-box image-link" src="~/Content/Images/OrderSection-down-arrow.jpg" style="height:50px" title="Hide Section" />
-                                    <img data-bind="event:{click:$root.sectionVisibilityHandler}, visible: !$root.isSectionVisible()" class="photo-box image-link" src="~/Content/Images/OrderSection-right-arrow.jpg" style="height:50px" title="Show Section" />*@
-
                             </div>
                         </div>
-                        <div>
-                            <div class="col-lg-12 ">
-                                <div class="col-lg-2" style="width: 15%">
+                    </div>
 
-                                </div>
-                                <div class="col-lg-7 form-horizontal" style="background-color:#d9d9d9;margin-top:20px;margin-bottom:20px;padding-top:20px;">
-
-                                    <div class="form-group">
-                                        <div class="col-lg-12" style="padding-left: 0px">
-
-                                            <div class="col-xs-3" style="width:15%;text-align: right;">
-                                                <label class="control-label">Quantities</label>
-                                            </div>
-                                            <div class="col-xs-2">
-
-                                            </div>
-                                            <div class="col-xs-2" style="width: 20%;margin-left: 3%">
-                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
-                                            </div>
-                                            <!--ko if: $root.isEstimateScreen()-->
-                                            <div class="col-xs-2" style="width: 20%; margin-left: 1%;">
-                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />
-                                            </div>
-                                            <div class="col-xs-2" style="width: 20%; margin-left: 1%;">
-                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty3, validationOnElement: qty3" id="qty3" />
-                                            </div>
-                                            <!--/ko-->
-                                        </div>
-
-                                    </div>
+                    <div class="col-lg-12 form-horizontal">
+                        <div class="form-group" style="margin-top: -10px;">
+                            <div class="col-xs-2" style="text-align: right; padding-top: 1%;">
+                                <label class="control-label">1st Trim</label>
+                            </div>
+                            <div class="col-lg-9" style="margin-left: 1%; margin-top: 1%;">
+                                <div class="checkbox-nice">
+                                    <input type="checkbox" id="checkbox-Trim1" />
+                                    <label for="checkbox-Trim1">
+                                        &nbsp;
+                                    </label>
                                 </div>
                             </div>
-                            <div class="col-lg-9  pull-right" style="width: 70%">
-                                <a href="#" style="width: 40%; text-align: center;" class="btn btn-primary" data-bind="click:$root.runWizard">
-                                    <i class="fa fa-lg"></i>&nbsp;Run Best Press Wizard
-                                </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 form-horizontal">
+                        <div class="form-group" style="margin-top: -10px;">
+                            <div class="col-xs-2" style="text-align: right; padding-top: 1%;">
+                                <label class="control-label">2nd Trim</label>
                             </div>
-                            <div class="col-lg-12 form-horizontal" style="margin-top:12px">
+                            <div class="col-lg-9" style="margin-left: 1%; margin-top: 1%;">
+                                <div class="checkbox-nice">
+                                    <input type="checkbox" id="checkbox-Trim2" />
+                                    <label for="checkbox-Trim2">
+                                        &nbsp;
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 form-horizontal">
+                        <div class="col-lg-10 form-horizontal" style=" background-color: #d9d9d9; margin-top: 20px; margin-bottom: 20px; padding-top: 20px;">
+                            <div class="form-group">
+                                <div class="col-xs-3" style="padding-right: 7%; text-align: right;">
+                                    <label class="control-label">Quantities</label>
+                                </div>
+                                <div class="col-xs-2" style="width: 7%;">
 
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <div class="col-lg-2" style="width: 15%">
+                                </div>
+                                <div class="col-xs-2" style=" width: 19%; margin-left: 3%;">
+                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
+                                </div>
+                                <!--ko if: $root.isEstimateScreen()-->
+                                <div class="col-xs-2" style="width: 19%; margin-left: 1%;">
+                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />
+                                </div>
+                                <div class="col-xs-2" style="width: 19%; margin-left: 1%;">
+                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty3, validationOnElement: qty3" id="qty3" />
+                                </div>
+                                <!--/ko-->
+                            </div>
+                        </div>
+                        <div class="col-lg-9  pull-right" style="width: 70%; display: none">
+                            <a href="#" style="width: 40%; text-align: center;" class="btn btn-primary" data-bind="click:$root.runWizard">
+                                <i class="fa fa-lg"></i>&nbsp;Run Best Press Wizard
+                            </a>
+                        </div>
+                        <div class="col-lg-12 form-horizontal" style="margin-top:12px">
 
-                                        </div>
-                                        <div class="col-lg-7" style="padding-left: 0px;padding-right: 0px;">
-                                            <div style=" background-color:gainsboro; border-radius:3px">
-                                                <header class="main-box-header clearfix">
-                                                    <div id="orderProducts" style="float:left;padding-left: 1.1%"><span style="font-size:24px">Cost center breakdown</span></div>
-                                                </header>
-                                                <div class="clearfix">
+                            <div class="col-lg-12">
+                                <div class="form-group">
 
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <div class="col-lg-11" style="margin-left: 4%">
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-striped table-hover">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th class="col-lg-1 text-left">
-                                                                                </th>
-                                                                                <th class="col-lg-1 ">
+                                    <div class="col-lg-10" style="padding-left: 0px;padding-right: 0px;">
+                                        <div style=" background-color:gainsboro; border-radius:3px">
+                                            <header class="main-box-header clearfix" style="padding-left: 0%;">
+                                                <div id="orderProducts" style="padding-top: 2%; float: left; padding-left: 8.1%;"><span style="font-size: 12px; font-weight: inherit;">Cost center line total</span></div>
+                                            </header>
+                                            <div class="clearfix">
 
-                                                                                </th>
-                                                                                <th class="col-lg-1">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-11" style="padding-right: 2%; margin-left: 4%;">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="col-lg-1 text-left">
+                                                                            </th>
+                                                                            <th class="col-lg-1 " style="width: 10.9%;">
 
-                                                                                </th>
-                                                                                <th class="col-lg-1">
+                                                                            </th>
+                                                                            <th class="col-lg-1">
 
-                                                                                </th>
+                                                                            </th>
+                                                                            <th class="col-lg-1">
 
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <!--ko if:sectionCostCentres().length==0-->
-                                                                            <tr>
-                                                                                <td class="col-lg-2">
-                                                                                    <span>No Items found!</span>
-                                                                                </td>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td></td>
+                                                                            </th>
 
-                                                                            </tr>
-                                                                            <!-- /ko -->
-                                                                            <!-- ko template: { name: 'sectionCostCentreItemTemplate', foreach: sectionCostCentres } -->
-                                                                            <!-- /ko -->
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <!--ko if:sectionCostCentres().length==0-->
+                                                                        <tr>
+                                                                            <td class="col-lg-2">
+                                                                                <span>No Items found!</span>
+                                                                            </td>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td></td>
+
+                                                                        </tr>
+                                                                        <!-- /ko -->
+                                                                        <!-- ko template: { name: 'sectionCostCentreItemTemplate', foreach: sectionCostCentres } -->
+                                                                        <!-- /ko -->
+                                                                    </tbody>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
 
                                             </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-12" style="padding-left: 15%; padding-bottom: 1%;">
+
+                                                    <div class="col-lg-3" style="width: 13%; padding-left: 0px;">
+                                                        <a class="btn btn-primary" data-bind="click: $root.openStockItemDialogForAddingStock">
+                                                            <i class="fa fa-lg"></i>&nbsp;Add Stock
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-lg-3" style=" padding-left: 5%; width: 27%;">
+                                                        <a href="#" class="btn btn-primary">
+                                                            <i class="fa fa-lg"></i>Add Pre-Press Cost Centres
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-lg-4" style="padding-left: 12.3%; width: 27.5%; ">
+                                                        <a href="#" class="btn btn-primary">
+                                                            <i class="fa fa-lg"></i>Add Post-Press Cost Centres
+                                                        </a>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 form-horizontal" style="margin-top:12px">
-                                <div class="form-group">
-                                    <div class="col-lg-12 text-left">
-                                        <div class="col-lg-2" style="width: 15%">
+                        </div>
 
-                                        </div>
-                                        <div class="col-lg-9" style="padding-left: 0px;">
-
-                                            <div class="col-lg-4" style="width: 11%; padding-left: 0px;">
-                                                <a class="btn btn-primary" data-bind="click: $root.openStockItemDialogForAddingStock">
-                                                    <i class="fa fa-lg"></i>&nbsp;Add Stock
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-3" style="padding-left: 14px; width: 27%;">
-                                                <a href="#" class="btn btn-primary">
-                                                    <i class="fa fa-lg"></i>Add Pre-Press Cost Centres
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <a href="#" class="btn btn-primary">
-                                                    <i class="fa fa-lg"></i>Add Post-Press Cost Centres
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                        @*<div class="col-lg-12">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-10">
+                            <div class="form-group">
+                                <div class="col-lg-2" style="width: 22%">
+                                    <label class="control-label" style="font-size:12px;">Components like this</label>
+                                </div>
+                                <div class="col-lg-1">
+                                    <input type="text" class="form-control" data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue" id="qty3" />
                                 </div>
                             </div>
+
+                        </div>
+                    </div>*@
+                        <div class="col-lg-12">
                             <div class="col-lg-12">
-                                <div class="col-lg-2"></div>
-                                <div class="col-lg-10">
-                                    <div class="form-group">
-                                        <div class="col-lg-2" style="width: 22%">
-                                            <label class="control-label" style="font-size:12px;">Components like this</label>
-                                        </div>
-                                        <div class="col-lg-1">
-                                            <input type="text" class="form-control" data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue" id="qty3" />
-                                        </div>
+                                <div class="form-group" style="padding-left: 6.8%;">
+                                    <div class="col-lg-3" style="width: 20.5%; padding-left: 3.5%;">
+                                        <label class="control-label"> MarkUp</label>
                                     </div>
-
+                                    <div class="col-xs-3" style="padding-right: 2.8%; width: 22%; ">
+                                        <select class="form-control col-lg-4" style="padding-left: 0px;padding-right: 0px" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}"></select>
+                                    </div>
+                                    <!--ko if: $root.isEstimateScreen()-->
+                                    <div class="col-xs-2" style="padding-left: 0.6%; width: 19.6%; margin-right: 2%;">
+                                        <select class="form-control col-lg-4" style=" padding-left: 0px; padding-right: 0px; margin-left: -19px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId,event:{ change: $root.onChangeQty2MarkUpId}"></select>
+                                    </div>
+                                    <div class="col-xs-2" style=" padding-left: 0.5%; width: 19%;">
+                                        <select class="form-control col-lg-4" style="padding-left: 0px; padding-right: 0px; margin-left: -40px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty3MarkUpId,event:{ change: $root.onChangeQty3MarkUpId}"></select>
+                                    </div>
+                                    <!--/ko-->
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-lg-12">
                             <div class="col-lg-12">
-                                <div class="col-lg-2"></div>
-                                <div class="col-lg-10">
-                                    <div class="form-group">
-                                        <div class="col-lg-2" style="width: 22%;">
-                                            <label class="control-label"> MarkUp</label>
-                                        </div>
-                                        <div class="col-xs-2" style="width: 16%">
-                                            <select class="form-control col-lg-4" style="padding-left: 0px;padding-right: 0px" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}"></select>
-                                        </div>
-                                        <!--ko if: $root.isEstimateScreen()-->
-                                        <div class="col-xs-2" style="width: 15%;margin-right: 2%;margin-left: 2%">
-                                            <select class="form-control col-lg-4" style=" padding-left: 0px; padding-right: 0px; margin-left: -19px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId,event:{ change: $root.onChangeQty2MarkUpId}"></select>
-                                        </div>
-                                        <div class="col-xs-2" style="width: 16%">
-                                            <select class="form-control col-lg-4" style="padding-left: 0px; padding-right: 0px; margin-left: -40px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty3MarkUpId,event:{ change: $root.onChangeQty3MarkUpId}"></select>
-                                        </div>
-                                        <!--/ko-->
+                                <div class="form-group" style="padding-left: 3.2%;">
+                                    <div class="col-lg-2" style="padding-left: 1.5%; width: 13%; ">
+                                        <label class="control-label"> Sections like this</label>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-2" style="width: 22%">
-                                            <label class="control-label">Total</label>
-                                        </div>
-                                        <div class="col-xs-2 txtBox-contentAlignRight" style="width: 18%">
-                                            <label class="control-label" style="padding-right:22px"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge1"></span></label>
-                                        </div>
-                                        <!--ko if: $root.isEstimateScreen()-->
-                                        <div class="col-xs-2 txtBox-contentAlignRight" style="width: 12%">
-                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge2"></span></label>
-                                        </div>
-                                        <div class="col-xs-2 txtBox-contentAlignRight" style="width: 16%">
-                                            <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge3"></span></label>
-                                        </div>
-                                        <!--/ko-->
+                                    <div class="col-xs-1" style="width: 7%; ">
+                                        <input type="text" class="form-control" data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue" id="qty3" />
                                     </div>
+                                    <div class="col-lg-1" style="width: 9.3%; ">
+                                        <label class="control-label">Total</label>
+                                    </div>
+                                    <div class="col-xs-1 txtBox-contentAlignRight" style="width: 15.5%;">
+                                        <label class="control-label" style="padding-right:22px"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge1"></span></label>
+                                    </div>
+                                    <!--ko if: $root.isEstimateScreen()-->
+                                    <div class="col-xs-2 txtBox-contentAlignRight" style="width: 15%;">
+                                        <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge2"></span></label>
+                                    </div>
+                                    <div class="col-xs-2 txtBox-contentAlignRight" style="width: 17.5%;">
+                                        <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge3"></span></label>
+                                    </div>
+                                    <!--/ko-->
                                 </div>
                             </div>
-                        </div> <!-- section visibility flag ends-->
+                        </div>
+
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-2" style="overflow-y: auto; width: 14%; padding: 0px; height: 1170px;">
+                <ul style="padding-top: 12%; list-style: none; padding-left: 0px;">
+                    <li style="padding-bottom: 50%;">
+                        <div>
+                            <div style="float: left"><img style="width: 53%;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" /></div>
+                        </div>
+                        <div class="btn btn-success" style="font-size: x-small;" data-bind="click:$root.createNewItemSection">
+                            Add Sheets
+                        </div>
+                    </li>
+                    <!-- ko template: { name: 'sectionEditItemTemplate' , foreach: $root.selectedProduct().itemSections  } -->
+                    <!-- /ko -->
+                   
+                </ul>
             </div>
         </div>
     </div>
@@ -426,14 +470,14 @@
             <td>
                 <a href="#" data-bind="text: name, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
             </td>
-            <td style="text-align: right">
+            <td style="text-align: right; padding-right: 0.5%;">
                 <span data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" style="margin-left: 0px" data-bind="numberInput: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
             </td>
             <!--ko if: $root.isEstimateScreen()-->
             <td style="text-align: right">
                 <span data-bind="text:$root.currencySymbol" style="color: #3498db"></span> <a href="#" data-bind="numberInput: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
             </td>
-            <td style="text-align: right">
+            <td style="text-align: right; padding-right: 1.8%;">
                 <span data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" data-bind="numberInput: qty3NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 3)}"></a>
             </td>
             <!--/ko-->
@@ -457,27 +501,11 @@
                 <span class="form-control" data-bind=" text:name,click:$root.showSectionDetailEditor" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 20%;padding-left: 0px;"></span>
             </div>
         </div>
-        <div class="btn btn-primary" style="font-size: x-small;padding-right: 4px;padding-left: 4px; margin-left: 6%;" data-bind="visible:!flagForAdd() && $root.selectedSection().id()!==id(),click:$root.showSectionDetailEditor">
-            View Details
-        </div>
-
+       
     </li>
     <!--/ko-->
     <!--ko if: flagForAdd()  -->
-    <li>
-        <div>
-            <div style="float: left"><img style="width: 53%;cursor: pointer" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
-            @*<div style="font-size: small;width: 57%;margin-right: 38%;float: right;cursor: pointer;margin-top: -45%;padding-right: 5%;" class="itemSectionName">
-                <span class="form-control" style="text-align: center;border: none;background-color: transparent;padding-right: 20%;padding-left: 0px;"></span>
-            </div>*@
-
-        </div>
-
-        <div class="btn btn-success" style="font-size: x-small; padding-right: 4px;padding-left: 4px; margin-left: 7%;" data-bind="visible:flagForAdd,click:$root.createNewItemSection">
-            Add Sheets
-        </div>
-
-    </li>
+   
     <!--/ko-->
     <!--ko if: !flagForAdd() && $root.selectedSection().id()===id() -->
     <li>
