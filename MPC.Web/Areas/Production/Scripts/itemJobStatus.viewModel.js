@@ -130,12 +130,12 @@ define("itemJobStatus/itemJobStatus.viewModel",
                         inInvoiceAndShippedTotal(0);
                         _.each(items(), function (item) {
                            var  qty1NetTotal = item.qty1NetTotal() === undefined || item.qty1NetTotal() === null ? 0 : item.qty1NetTotal();
-                            if (item.statusId() === 11) {
+                           if (item.statusId() === 11 || item.statusId() === 1) {
                                 var total = (parseFloat(needAssigningTotal()) + parseFloat(qty1NetTotal));
                                 total.toFixed(2);
                                 needAssigningTotal(total);
                             }
-                            else if (item.statusId() === 12) {
+                           else if (item.statusId() === 12 || item.statusId() === 2) {
                                 var total1 = (parseFloat(inStudioTotal()) + parseFloat(qty1NetTotal));
                                 total1.toFixed(2);
                                 inStudioTotal(total1);
@@ -161,10 +161,12 @@ define("itemJobStatus/itemJobStatus.viewModel",
                                 inInvoiceAndShippedTotal(total5);
                             }
                         });
-                    });
-                // Get Base
+                    }),
+                // Get Items job status 
                 getItems = function () {
                     dataservice.getItems({
+                        IsLateItemScreen: $("#HiddenFlag_12").val() !== undefined ? true : false,
+                    }, {
                         success: function (data) {
                             if (data !== null && data !== undefined) {
                                 currencySymbol(data.CurrencySymbol);
@@ -182,6 +184,7 @@ define("itemJobStatus/itemJobStatus.viewModel",
                         }
                     });
                 },
+                    
                 //Initialize
                initialize = function (specifiedView) {
                    view = specifiedView;
