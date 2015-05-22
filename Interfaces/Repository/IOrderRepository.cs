@@ -121,6 +121,11 @@ namespace MPC.Interfaces.Repository
 
         void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
 
-
+         /// <summary>
+        /// This function return the delivery item also
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+        List<Item> GetAllOrderItems(long OrderId);
     }
 }

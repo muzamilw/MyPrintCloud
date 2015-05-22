@@ -6806,6 +6806,22 @@ namespace MPC.Repository.Repositories
             return template;
         }
         #endregion
+        /// <summary>
+        /// This function return the delivery item also
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+        public List<Item> GetAllOrderItems(long OrderId)
+        {
+            try
+            {
+                return db.Items.Where(i => i.EstimateId == OrderId && i.IsOrderedItem == true).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         
     }
 

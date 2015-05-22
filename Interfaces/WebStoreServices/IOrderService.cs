@@ -81,7 +81,7 @@ namespace MPC.Interfaces.WebStoreServices
         Order GetOrderAndDetails(long orderID);
         Address GetBillingAddress(long BillingAddressId);
         Address GetdeliveryAddress(long ShippingAddressId);
-        long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId);
+      //  long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId, long StoreId);
 
         long GetOrderID(long CompanyID, long ContactID, string orderTitle, long OrganisationId);
 
