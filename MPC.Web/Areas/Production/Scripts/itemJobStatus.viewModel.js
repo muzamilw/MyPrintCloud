@@ -129,16 +129,17 @@ define("itemJobStatus/itemJobStatus.viewModel",
                         inReadyForShippingTotal(0);
                         inInvoiceAndShippedTotal(0);
                         _.each(items(), function (item) {
-                           var  qty1NetTotal = item.qty1NetTotal() === undefined || item.qty1NetTotal() === null ? 0 : item.qty1NetTotal();
+                            var qty1NetTotal = item.qty1NetTotal() === undefined || item.qty1NetTotal() === null ? 0 : item.qty1NetTotal();
+                            // 1 -> Late started  2-> Late delivery 
                            if (item.statusId() === 11 || item.statusId() === 1) {
                                 var total = (parseFloat(needAssigningTotal()) + parseFloat(qty1NetTotal));
                                 total.toFixed(2);
-                                needAssigningTotal(total);
+                                needAssigningTotal(total);  // also being used in  late start sectoin as total 
                             }
                            else if (item.statusId() === 12 || item.statusId() === 2) {
                                 var total1 = (parseFloat(inStudioTotal()) + parseFloat(qty1NetTotal));
                                 total1.toFixed(2);
-                                inStudioTotal(total1);
+                                inStudioTotal(total1);    // also being used in late delivery section as total 
                             }
                             else if (item.statusId() === 13) {
                                 var total2 = (parseFloat(inPrintTotal()) + parseFloat(qty1NetTotal));
