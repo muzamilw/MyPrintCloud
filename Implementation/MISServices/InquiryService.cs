@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Web;
@@ -22,74 +23,6 @@ namespace MPC.Implementation.MISServices
         private readonly IEstimateRepository estimateRepository;
         private readonly IInquiryAttachmentRepository inquiryAttachmentRepository;
 
-        #endregion
-        #region Constructor
-        public InquiryService(IOrganisationRepository organisationRepository, IEstimateInquiryRepository estimateInquiryRepository, IPrefixRepository prefixRepository, IInquiryItemRepository inquiryItemRepository, IEstimateRepository estimateRepository, IInquiryAttachmentRepository inquiryAttachmentRepository)
-        {
-            this.organisationRepository = organisationRepository;
-            this.estimateInquiryRepository = estimateInquiryRepository;
-            this.prefixRepository = prefixRepository;
-            this.inquiryItemRepository = inquiryItemRepository;
-            this.estimateRepository = estimateRepository;
-            this.inquiryAttachmentRepository = inquiryAttachmentRepository;
-        }
-        private Inquiry CreateNewInquiry()
-        {
-            string inquiryCode = prefixRepository.GetNextInquiryCodePrefix();
-            Inquiry itemTarget = estimateInquiryRepository.Create();
-            estimateInquiryRepository.Add(itemTarget);
-            itemTarget.CreatedDate = itemTarget.CreatedDate = DateTime.Now;
-            itemTarget.InquiryCode = inquiryCode;
-            itemTarget.OrganisationId = estimateInquiryRepository.OrganisationId;
-            return itemTarget;
-        }
-        #endregion
-
-        #region Public
-        /// <summary>
-        /// Get All Orders
-        /// </summary>
-        public GetInquiryResponse GetAll(GetInquiryRequest request)
-        {
-            return estimateInquiryRepository.GetInquiries(request);
-        }
-        /// <summary>
-        /// Add Inquiry
-        /// </summary>
-        /// <param name="inquiry"></param>
-        /// <returns></returns>
-        public Inquiry Add(Inquiry inquiry)
-        {
-            inquiry.OrganisationId = organisationRepository.OrganisationId;
-            inquiry.InquiryCode = prefixRepository.GetNextInquiryCodePrefix();
-            estimateInquiryRepository.Add(inquiry);
-            estimateInquiryRepository.SaveChanges();
-            return inquiry;
-        }
-
-        /// <summary>
-        /// Update Inquiry
-        /// </summary>
-        public Inquiry Update(Inquiry recievedInquiry)
-        {
-            Inquiry inquiry = GetInquiryById(recievedInquiry.InquiryId) ?? CreateNewInquiry();
-            // Update Inquiry
-            recievedInquiry.UpdateTo(inquiry, new InquiryMapperActions
-            {
-                CreateInquiryItem = CreateNewInquiryItem,
-                DeleteInquiryItem = DeleteInquiryItem,
-                CreateInquiryAttachment = CreateInquiryAttachment,
-                DeleteInquiryAttachment = DeleteInquiryAttachment,
-            });
-            SaveInquiryAttachments(inquiry);
-            // Save Changes
-            estimateInquiryRepository.SaveChanges();
-            return inquiry;
-
-        }
-        /// <summary>
-        /// Creates New Inquiry Attachment new generated code
-        /// </summary>
         private InquiryAttachment CreateInquiryAttachment()
         {
             InquiryAttachment inquiryAttachment = inquiryAttachmentRepository.Create();
@@ -176,9 +109,9 @@ namespace MPC.Implementation.MISServices
                     return imageurl;
                 }
                 // First Time Upload
-                
 
-               
+
+
             }
 
             return null;
@@ -200,6 +133,74 @@ namespace MPC.Implementation.MISServices
         {
             inquiryItemRepository.Delete(inquiryItem);
         }
+        #endregion
+        #region Constructor
+        public InquiryService(IOrganisationRepository organisationRepository, IEstimateInquiryRepository estimateInquiryRepository, IPrefixRepository prefixRepository, IInquiryItemRepository inquiryItemRepository, IEstimateRepository estimateRepository, IInquiryAttachmentRepository inquiryAttachmentRepository)
+        {
+            this.organisationRepository = organisationRepository;
+            this.estimateInquiryRepository = estimateInquiryRepository;
+            this.prefixRepository = prefixRepository;
+            this.inquiryItemRepository = inquiryItemRepository;
+            this.estimateRepository = estimateRepository;
+            this.inquiryAttachmentRepository = inquiryAttachmentRepository;
+        }
+        private Inquiry CreateNewInquiry()
+        {
+            string inquiryCode = prefixRepository.GetNextInquiryCodePrefix();
+            Inquiry itemTarget = estimateInquiryRepository.Create();
+            estimateInquiryRepository.Add(itemTarget);
+            itemTarget.CreatedDate = itemTarget.CreatedDate = DateTime.Now;
+            itemTarget.InquiryCode = inquiryCode;
+            itemTarget.OrganisationId = estimateInquiryRepository.OrganisationId;
+            return itemTarget;
+        }
+        #endregion
+        #region Public
+        /// <summary>
+        /// Get All Orders
+        /// </summary>
+        public GetInquiryResponse GetAll(GetInquiryRequest request)
+        {
+            return estimateInquiryRepository.GetInquiries(request);
+        }
+        /// <summary>
+        /// Add Inquiry
+        /// </summary>
+        /// <param name="inquiry"></param>
+        /// <returns></returns>
+        public Inquiry Add(Inquiry inquiry)
+        {
+            inquiry.OrganisationId = organisationRepository.OrganisationId;
+            inquiry.InquiryCode = prefixRepository.GetNextInquiryCodePrefix();
+            estimateInquiryRepository.Add(inquiry);
+            estimateInquiryRepository.SaveChanges();
+            return inquiry;
+        }
+
+        /// <summary>
+        /// Update Inquiry
+        /// </summary>
+        public Inquiry Update(Inquiry recievedInquiry)
+        {
+            Inquiry inquiry = GetInquiryById(recievedInquiry.InquiryId) ?? CreateNewInquiry();
+            // Update Inquiry
+            recievedInquiry.UpdateTo(inquiry, new InquiryMapperActions
+            {
+                CreateInquiryItem = CreateNewInquiryItem,
+                DeleteInquiryItem = DeleteInquiryItem,
+                CreateInquiryAttachment = CreateInquiryAttachment,
+                DeleteInquiryAttachment = DeleteInquiryAttachment,
+            });
+            SaveInquiryAttachments(inquiry);
+            // Save Changes
+            estimateInquiryRepository.SaveChanges();
+            return inquiry;
+
+        }
+        /// <summary>
+        /// Creates New Inquiry Attachment new generated code
+        /// </summary>
+
         /// <summary>
         /// Delete Inquiry
         /// </summary>
@@ -215,11 +216,10 @@ namespace MPC.Implementation.MISServices
         public Inquiry GetInquiryById(int id)
         {
             var estimateId = estimateRepository.GetEstimateIdOfInquiry(id);
-            Inquiry inquiry= estimateInquiryRepository.Find(id);
+            Inquiry inquiry = estimateInquiryRepository.Find(id);
             inquiry.EstimateId = estimateId;
             return inquiry;
         }
-
         public void ProgressInquiryToEstimate(long inquiryId)
         {
             Inquiry inquiry = estimateInquiryRepository.Find(inquiryId);
@@ -229,7 +229,17 @@ namespace MPC.Implementation.MISServices
             }
             estimateInquiryRepository.Update(inquiry);
             estimateInquiryRepository.SaveChanges();
-            
+
+        }
+
+        /// <summary>
+        /// Get Inquiry Items By Inquiry Id
+        /// </summary>
+        /// <param name="inquiryId"></param>
+        /// <returns></returns>
+        public IEnumerable<InquiryItem> GetInquiryItems(int inquiryId)
+        {
+            return estimateInquiryRepository.GetInquiryItems(inquiryId);
         }
         #endregion
     }

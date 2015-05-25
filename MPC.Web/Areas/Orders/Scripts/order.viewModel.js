@@ -1293,6 +1293,32 @@ define("order/order.viewModel",
                             }
                         });
                     },
+                    //Get Inquiry Items 
+                    getInquiryItems = function(id) {
+                        if ((selectedOrder() == undefined && selectedOrder().enquiryId() == undefined) || selectedOrder().isInquiryItemLoaded()) {
+                            return;
+                        } else {
+                            dataservice.getInquiryItems({
+                                id: selectedOrder().enquiryId()
+                            }, {
+                                success: function (data) {
+                                    selectedOrder().isInquiryItemLoaded(true);
+                                    if (data.InquiryItems && data.InquiryItems.length > 0) {
+                                        var items = [];
+                                        _.each(data.InquiryItems, function (item) {
+                                            items.push(model.InquiryItem.Create(item));
+                                        });
+
+                                        ko.utils.arrayPushAll(selectedOrder().inquiryItems(), items);
+                                        selectedOrder().inquiryItems.valueHasMutated();
+                                    }
+                                },
+                                error: function(response) {
+                                    toastr.error('Failed to Load Inquiry Items: ' + response);
+                                }
+                            });
+                        }
+                    },
                     // #endregion Service Calls
                     //#region Dialog Product Section
                     orderProductItems = ko.observableArray([]),
@@ -1958,7 +1984,7 @@ define("order/order.viewModel",
                         selectedInquiry(model.Inquiry.Create({}, { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }));
                         //When creating new inquiry by default the inquiry is "Draft Inquiry" and its status is 25(Status Table)
                         selectedInquiry().status(25);
-                        selectedInquiry().reset();
+                       
                         companyContacts.removeAll();
                         openOrderEditor();
                     },
@@ -1986,7 +2012,8 @@ define("order/order.viewModel",
                         selectedInquiryItem(model.InquiryItem.Create({}));
                         view.showInquiryDetailItemDialog();
                     },
-                    editInquiry = function(inquiry) {
+                    editInquiry = function (inquiry) {
+                        errorList.removeAll();
                         isLoadingOrders(true);
                         isCompanyBaseDataLoaded(false);
                         companyContacts.removeAll();
@@ -2057,7 +2084,7 @@ define("order/order.viewModel",
                         var flag = true;
                         if (!selectedInquiry().isValid()) {
                             selectedInquiry().showAllErrors();
-                            //selectedInquiry().setValidationSummary(errorList);
+                            selectedInquiry().setValidationSummary(errorList);
                             flag = false;
                         }
                         return flag;
@@ -2346,6 +2373,7 @@ define("order/order.viewModel",
                     showEstimateNotes: showEstimateNotes,
                     //#endregion
                     //#region Utility Functions
+                    getInquiryItems: getInquiryItems,
                     onCreateNewBlankPrintProduct: onCreateNewBlankPrintProduct,
                     grossTotal: grossTotal,
                     onOrderStatusChange: onOrderStatusChange,

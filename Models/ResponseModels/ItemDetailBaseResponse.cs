@@ -54,5 +54,10 @@ namespace MPC.Models.ResponseModels
         /// Logged In User
         /// </summary>
         public Guid LoggedInUser { get; set; }
+
+        /// <summary>
+        /// Machines
+        /// </summary>
+        public IEnumerable<Machine> Machines { get; set; }
     }
 }

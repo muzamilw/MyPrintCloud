@@ -6,17 +6,19 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.Repository
 {
-    public interface IOrderRepository : IBaseRepository<Estimate,long>
+    public interface IOrderRepository : IBaseRepository<Estimate, long>
     {
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
         List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber);
         string FormatDateValue(DateTime? dateTimeValue);
         ShoppingCart ExtractShoppingCartForOrder(Estimate tblEstimate);
-        bool ApplyCurrentTax(List<Item> ClonedITem, double TaxValue,int TaxID);
+        bool ApplyCurrentTax(List<Item> ClonedITem, double TaxValue, int TaxID);
         string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime OrderCreationDate);
         string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate);
         bool RollBackDiscountedItemsWithdbContext(List<Item> clonedItems, double StateTax);
@@ -66,7 +68,7 @@ namespace MPC.Interfaces.Repository
         void updateTaxInCloneItemForServic(long orderId, double TaxValue, StoreMode Mode);
         void DeleteCart(long CompanyID);
         void DeleteOrderBySP(long OrderID);
-        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds);
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId);
         bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
                                              string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, Estimate order, Prefix prefix);
 
@@ -75,14 +77,14 @@ namespace MPC.Interfaces.Repository
         bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
         Estimate GetLastOrderByContactID(long contactID);
 
-        List<Order> GetOrdersListByContactID(long contactUserID, OrderStatus? orderStatus,string fromDate, string  toDate, string orderRefNumber, int pageSize, int pageNumber) ;
+        List<Order> GetOrdersListByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber);
         List<Order> GetOrdersListExceptPendingOrdersByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber);
 
         Order GetOrderAndDetails(long orderID);
         Address GetAddress(long AddressId);
         void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin);
         bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath);
-        void  CopyAttachments(long itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
+        void CopyAttachments(long itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
         long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId);
         Estimate GetShoppingCartOrderByContactID(long contactID, OrderStatus orderStatus);
 
@@ -96,12 +98,12 @@ namespace MPC.Interfaces.Repository
 
         Estimate GetOrderByOrderID(long OrderID);
 
-       // List<Item> GetItemsByOrderID(long orderID);
+        // List<Item> GetItemsByOrderID(long orderID);
 
         List<Estimate> GetCartOrdersByCompanyID(long CompanyID);
         void DeleteOrder(long orderId);
 
-      //  string GenerateOrderArtworkArchive(int OrderID, string sZipName);
+        //  string GenerateOrderArtworkArchive(int OrderID, string sZipName);
 
         /// <summary>
         /// Get Estimates For Item Job Status
@@ -121,6 +123,19 @@ namespace MPC.Interfaces.Repository
 
         void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
 
-
+        /// <summary>
+        /// Search Estimates For Live Jobs
+        /// </summary>
+        LiveJobsSearchResponse GetEstimatesForLiveJobs(LiveJobsRequestModel request);
+        
+          /// <summary>
+        /// This function return the delivery item also
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+        List<Item> GetAllOrderItems(long OrderId);
     }
 }
+
+
+   

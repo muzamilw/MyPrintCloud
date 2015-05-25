@@ -17,14 +17,15 @@ namespace MPC.Webstore.Controllers
 
         private readonly IWebstoreClaimsHelperService _webstoreclaimHelper;
         private readonly ICompanyService _myCompanyService;
-
+        private readonly IStatusService _StatusService;
+        private readonly IOrderService _orderservice;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public DashboardController(IWebstoreClaimsHelperService webstoreClaimHelper, ICompanyService myCompanyService)
+        public DashboardController(IWebstoreClaimsHelperService webstoreClaimHelper, ICompanyService myCompanyService, IStatusService _StatusService, IOrderService _orderservice)
         {
 
             if (webstoreClaimHelper == null)
@@ -37,6 +38,8 @@ namespace MPC.Webstore.Controllers
             }
             this._myCompanyService = myCompanyService;
             this._webstoreclaimHelper = webstoreClaimHelper;
+            this._StatusService = _StatusService;
+            this._orderservice = _orderservice;
         }
 
         #endregion
@@ -87,9 +90,6 @@ namespace MPC.Webstore.Controllers
                     Detail.IsChangePassword = false;
                     BCDashBordItems.Add(Detail);
 
-                
-
-
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail || (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User)))
                 {
                     Detail = new DashboardViewModel(4);
@@ -137,29 +137,29 @@ namespace MPC.Webstore.Controllers
                 {
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
-                        BCDetail = new DashboardViewModel(2);
-                        // All Order History
+                        //BCDetail = new DashboardViewModel(2);
+                        //// All Order History
 
-                        BCDetail.Name = "All Orders" + AllCorpOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblAllOrderss");
+                        //BCDetail.Name = "All Orders" + AllCorpOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblAllOrderss");
 
-                        BCDetail.Description = "Description";// (string)GetGlobalResourceObject("MyResource", "ltrlviewrocompletedo");
-                        BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
-                        BCDetail.PageNavigateURl = "/ProductOrderHistory";
-                        BCDetail.IsChangePassword = false;
-                        BCDashBordItems.Add(BCDetail);
+                        //BCDetail.Description = "Description";// (string)GetGlobalResourceObject("MyResource", "ltrlviewrocompletedo");
+                        //BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
+                        //BCDetail.PageNavigateURl = "/ProductOrderHistory";
+                        //BCDetail.IsChangePassword = false;
+                        //BCDashBordItems.Add(BCDetail);
                         //// Pending Approvals
                         BCDetail = new DashboardViewModel(3);
 
                         BCDetail.Description = "Orders Pending Approval"; //(string)GetGlobalResourceObject("MyResource", "lblOrderApprovalDesc");
                         BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
-                        if (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager)
-                        {
-                            BCDetail.Name = "Orders Pending Approval" + CorpCustomerPendingOrdersCountForManagers(); //(string)GetGlobalResourceObject("MyResource", "lblPendingApprovalsBtn") + CorpCustomerPendingOrdersCountForManagers();
-                        }
-                        else
-                        {
+                       // if (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager)
+                        //{
+                        //    BCDetail.Name = "Orders Pending Approval" + CorpCustomerPendingOrdersCountForManagers(); //(string)GetGlobalResourceObject("MyResource", "lblPendingApprovalsBtn") + CorpCustomerPendingOrdersCountForManagers();
+                       // }
+                       // else
+                        //{
                             BCDetail.Name = "Orders Pending Approval" + CorpCustomerPendingOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblPendingApprovalsBtn") + CorpCustomerPendingOrdersCount();
-                        }
+                      //  }
 
                         BCDetail.PageNavigateURl = "/ProductPendingOrders";
 
@@ -295,7 +295,23 @@ namespace MPC.Webstore.Controllers
 
         public string UpdateOrdersInProductionCount()
         {
-            return "(" + _myCompanyService.GetOrdersCountByStatus(_webstoreclaimHelper.loginContactID(), OrderStatus.InProduction).ToString() + ")";
+            SearchOrderViewModel SearchOrder = new SearchOrderViewModel();
+            
+               List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(2);
+               List<Status> list = new List<Status>();
+               List<Order> ordersList = new List<Order>();
+              SearchOrder.DDOderStatus = new SelectList(statusList, "StatusId", "StatusName");
+
+              if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
+              {
+                  ordersList = _orderservice.GetAllCorpOrders(_webstoreclaimHelper.loginContactCompanyID(), 0, SearchOrder.FromData, SearchOrder.ToDate, SearchOrder.poSearch);
+              }
+              else
+              {
+                  ordersList = _orderservice.GetOrdersListByContactID(_webstoreclaimHelper.loginContactID(), 0, SearchOrder.FromData, SearchOrder.ToDate, SearchOrder.poSearch, 0, 0);
+              }
+
+              return "(" + ordersList.Count+ ")";
         }
 
 
@@ -305,8 +321,63 @@ namespace MPC.Webstore.Controllers
         }
         public string CorpCustomerPendingOrdersCount()
         {
-            return "(" + _myCompanyService.GetAllPendingOrders(_webstoreclaimHelper.loginContactID(), OrderStatus.PendingCorporateApprovel).ToString() + ")";
+            long TotalPendingOrders=0;
+            if (_webstoreclaimHelper.isUserLoggedIn())
+            {
+                bool ApproveOrders = false;
+                CompanyContact LoginContact = _myCompanyService.GetContactByID(_webstoreclaimHelper.loginContactID());
+                if (LoginContact != null)
+                {
+                    if (LoginContact.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || LoginContact.ContactRoleId == Convert.ToInt32(Roles.Manager))
+                    {
+                        ApproveOrders = true;
+                    }
+                    else
+                    {
+                        ApproveOrders = false;
+                    }
+                }
+                 List<Order> ManagerordersList = new List<Order>();
+                 List<Order> ordersList = _myCompanyService.GetPendingApprovelOrdersList(_webstoreclaimHelper.loginContactID(), ApproveOrders);
+                 if (ordersList == null || ordersList.Count == 0)
+                 {
+                     // do nothing
+                 }
+                 else
+                 {
+                     if (LoginContact.ContactRoleId == Convert.ToInt32(Roles.Manager))
+                     {
+                     foreach (var o in ordersList)
+                     {
+                        if (o.ContactTerritoryID == LoginContact.TerritoryId)
+                        {
+                            ManagerordersList.Add(o);
+                        }
+                     }
+                    if (ManagerordersList == null || ManagerordersList.Count == 0)
+                    {
+                        
+                    }
+                    else
+                    {
+                        
+                        TotalPendingOrders = ManagerordersList.Count;
+                    }
+                   }
+                     else
+                     {
+                        
+                        TotalPendingOrders = ordersList.Count;
+                     
+                     }
+                 }
+
+             }
+            return "(" + TotalPendingOrders + ")";
         }
+
+            
+        
 
         public string AllCorpOrdersCount()
         {

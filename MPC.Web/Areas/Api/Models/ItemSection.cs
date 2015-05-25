@@ -53,10 +53,12 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsFirstTrim { get; set; }
         public bool? IsSecondTrim { get; set; }
         public long? PressIdSide2 { get; set; }
-        public long? Side1LookUp { get; set; }
-        public long? Side2LookUp { get; set; }
+        public int? ImpressionCoverageSide1 { get; set; }
+        public int? ImpressionCoverageSide2 { get; set; }
         public int? PassesSide1 { get; set; }
         public int? PassesSide2 { get; set; }
+        public int? PrintingType { get; set; }
+        
         public virtual Item Item { get; set; }
         public virtual StockItem StockItem { get; set; }
         public virtual Machine Machine { get; set; }

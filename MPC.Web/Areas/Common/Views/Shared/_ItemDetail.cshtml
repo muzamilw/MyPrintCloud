@@ -194,7 +194,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input style="text-align: right;" type="text" class="form-control" id="txtTitle1" placeholder="Enter Title 1">
+                                            <input style="text-align: right;" type="text" class="form-control" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -213,7 +213,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle2" placeholder="Enter Title 2">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle2" data-bind="value: jobDescriptionTitle2" placeholder="Enter Title 2">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -232,7 +232,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle3" placeholder="Enter Title 3">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -251,7 +251,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle4" placeholder="Enter Title 4">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -270,7 +270,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle5" placeholder="Enter Title 5">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -289,7 +289,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle6" placeholder="Enter Title 6">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -308,7 +308,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle7" placeholder="Enter Title 7">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -539,7 +539,7 @@
     </div>
 </div>
     <script id="orderItemAttachmentTemplate" type="text/html">
-        <li class="col-sm-3">
+        <li class="col-lg-2 col-sm-3">
             <div class="photo-box image-link" style="padding-top: 0; ">
                 <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()===undefined,attr: { src: '@Url.Content("~/")' + folderPath() }" alt="" />
                 <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()!==undefined,attr: { src: fileSourcePath }" />
@@ -551,7 +551,7 @@
  
 <script id="sectionItemTemplate" type="text/html">
     <!--ko if: !flagForAdd() -->
-    <li class="col-sm-3">
+    <li class="col-lg-2 col-sm-3">
         <div>
             <div style="float: left"><img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" /></div>
             <div style="font-size: small;float: right;margin-top: -87%;cursor: pointer; margin-right: -6%; width: 86%;" data-bind="click:$root.showSectionDetailEditor">
