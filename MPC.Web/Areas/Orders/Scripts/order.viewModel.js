@@ -1819,7 +1819,10 @@ define("order/order.viewModel",
                         return true;
                     },
                     // Set Deliver Schedule Fields Like Item Name, Address Name for List View
-                    setDeliveryScheduleFields = function() {
+                    setDeliveryScheduleFields = function () {
+                        if (!selectedDeliverySchedule()) {
+                            return;
+                        }
                         var selectedItem = _.find(selectedOrder().items(), function(item) {
                             return item.id() === selectedDeliverySchedule().itemId();
                         });
@@ -1887,7 +1890,8 @@ define("order/order.viewModel",
                     },
 
                     // Delete Delivery Schedule
-                    onDeleteDeliveryScheduleItem = function() {
+                    onDeleteDeliveryScheduleItem = function (deliverySchedule, e) {
+                        selectDeliverySchedule(deliverySchedule);
                         if (selectedDeliverySchedule().deliveryNoteRaised()) {
                             toastr.error("Raised item cannot be deleted.");
                         } else {
@@ -1899,7 +1903,7 @@ define("order/order.viewModel",
                             confirmation.show();
                             return;
                         }
-
+                        e.stopImmediatePropagation();
                     },
                     deleteDeliverySchedule = function() {
                         selectedOrder().deliverySchedules.remove(selectedDeliverySchedule());
