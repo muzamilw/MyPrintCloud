@@ -562,6 +562,8 @@
     <Compile Include="Areas\Api\Models\OrderRetailItemDetail.cs" />
     <Compile Include="Areas\Api\Models\OrderStatusesResponse.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
+    <Compile Include="Areas\Api\Models\ProductMarketBriefAnswer.cs" />
+    <Compile Include="Areas\Api\Models\ProductMarketBriefQuestion.cs" />
     <Compile Include="Areas\Api\Models\PtvDTO.cs" />
     <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
