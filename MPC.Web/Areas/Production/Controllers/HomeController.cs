@@ -99,5 +99,13 @@ namespace MPC.MIS.Areas.Production.Controllers
             }
             return list;
         }
+
+        public ActionResult ItemLateStart()
+        {
+            ViewBag.IsLateScreen = "Late";
+            return View();
+        }
+      
+       
     }
 }

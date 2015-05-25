@@ -49,7 +49,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 new List<SystemUserDropDown>(),
                 LengthUnit = source.LengthUnit,
                 WeightUnit = source.WeightUnit,
-                LoggedInUser = source.LoggedInUser
+                LoggedInUser = source.LoggedInUser,
+                Machines = source.Machines != null ? source.Machines.Select(cc => cc.CreateFromForOrder()) : new List<Machine>()
             };
         }
 

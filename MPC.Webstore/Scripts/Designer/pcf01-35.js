@@ -2929,18 +2929,19 @@ function pcl42() {
             pcl42_svc(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], $("#smartFormSelectUserProfile").val());// save variables
         }
         else {
-            pcl42_updateVariables(smartFormData.scopeVariables);
-            pcl42_svc(smartFormData.scopeVariables,ContactID);// save variables
+            pcl42_updateVariables(smartFormData.scopeVariables); 
+            pcl42_svc(smartFormData.scopeVariables, ContactID);// save variables
         }
         pcl42_UpdateTO();
         bleedPrinted = false;
         d5_sub(SP,true);
-       
     } else
     {
         alert("Variable validation failed");
-    }
-    StopLoader();
+    } 
+
+    clearInterval(var2);
+    $("#MainLoader").css("display", "none");
 }
 function pcl42_updateVariables(data) {
     

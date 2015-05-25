@@ -79,7 +79,7 @@
                                             <div class="col-lg-6">
                                                 <div>
                                                     <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedInquiry().inquiryId() ? $root.openCompanyDialog : undefined" readonly="" placeholder="Select Customer" class="form-control font24px" id="inquiryCompany">
-                                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-lg-1" style="padding-top:10px;">
@@ -157,7 +157,7 @@
                                                 UnProcessed Inquiry
                                                 <!--/ko-->
                                                 <!--ko if: status() == 26 -->
-                                                Progressed To Estimate - <br/> <a href="#" data-bind="click: $root.viewEstimateFromInquiry" >View Estimate</a>
+                                                Progressed To Estimate - <br /> <a href="#" data-bind="click: $root.viewEstimateFromInquiry">View Estimate</a>
                                                 <!--/ko-->
                                             </div>
                                         </div>
@@ -326,8 +326,12 @@
 <script id="inquiryAttachmentsTemplate" type="text/html">
     <li class="col-md-3 col-sm-3 col-xs-6">
         <div class="photo-box image-link" style="padding-top: 0; background-color: white">
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()===undefined,attr: { src: attachmentPath }"/>  
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()!==undefined,attr: { src:'/mis/' + attachmentPath() }" /> 
+            <!-- ko if:attachmentId()===undefined -->
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()===undefined,attr: { src: attachmentPath }" />
+            <!--/ko-->
+            <!-- ko if:attachmentId()!==undefined -->
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()!==undefined,attr: { src:'/mis/' + attachmentPath() }" />
+            <!--/ko-->
         </div>
         <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
     </li>
