@@ -25,19 +25,19 @@
                 //Product Type
                 productType = ko.observable(specifiedProductType || undefined),
                 // job description title1
-                jobDescriptionTitle1 = ko.observable(specifiedJobDescriptionTitle1 || undefined),
+                jobDescriptionTitle1 = ko.observable(specifiedJobDescriptionTitle1 || "Origination"),
                 // job description title2
-                jobDescriptionTitle2 = ko.observable(specifiedJobDescriptionTitle2 || undefined),
+                jobDescriptionTitle2 = ko.observable(specifiedJobDescriptionTitle2 || "Artwork"),
                 // job description title3
-                jobDescriptionTitle3 = ko.observable(specifiedJobDescriptionTitle3 || undefined),
+                jobDescriptionTitle3 = ko.observable(specifiedJobDescriptionTitle3 || "Color"),
                 // job description title4
-                jobDescriptionTitle4 = ko.observable(specifiedJobDescriptionTitle4 || undefined),
+                jobDescriptionTitle4 = ko.observable(specifiedJobDescriptionTitle4 || "Stock"),
                 // job description title5
-                jobDescriptionTitle5 = ko.observable(specifiedJobDescriptionTitle5 || undefined),
+                jobDescriptionTitle5 = ko.observable(specifiedJobDescriptionTitle5 || "Size"),
                 // job description title6
-                jobDescriptionTitle6 = ko.observable(specifiedJobDescriptionTitle6 || undefined),
+                jobDescriptionTitle6 = ko.observable(specifiedJobDescriptionTitle6 || "Special Instr."),
                 // job description title7
-                jobDescriptionTitle7 = ko.observable(specifiedJobDescriptionTitle7 || undefined),
+                jobDescriptionTitle7 = ko.observable(specifiedJobDescriptionTitle7 || "Shipping"),
                 // job description 1
                 jobDescription1 = ko.observable(specifiedJobDescription1 || undefined),
                 // job description 2
