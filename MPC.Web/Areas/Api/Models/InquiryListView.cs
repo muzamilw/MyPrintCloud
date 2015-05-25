@@ -20,5 +20,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string InquiryCode { get; set; }
         public Guid? CreatedBy { get; set; }
         public long? OrganisationId { get; set; }
+        public int InquiryItemsCount { get; set; }
     }
 }

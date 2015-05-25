@@ -42,6 +42,18 @@ define("common/itemDetail.viewModel",
                     markups = ko.observableArray([]),
                     // System Users
                     systemUsers = ko.observableArray([]),
+                    // Press list
+                    presses = ko.observableArray([]),
+                    // Impression Coverages
+                    impressionCoverages = ko.observableArray([{
+                        Name: "High", Id: 1
+                    },
+                    {
+                        Name: "Medium", Id: 2
+                    },
+                    {
+                        Name: "Low", Id: 3
+                    }]),
                     // Job Statuses
                     jobStatuses = ko.observableArray([
                         {
@@ -486,7 +498,7 @@ define("common/itemDetail.viewModel",
                         calculateSectionBaseCharge3();
                     },
                     // Set Work Instructions in case of Stock Cost Center
-                    setWorkInstructionsForStockCostCenter = function(sectionCostCenter) {
+                    setWorkInstructionsForStockCostCenter = function (sectionCostCenter) {
                         if (!isEstimateScreen()) {
                             sectionCostCenter.qty1WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
                             sectionCostCenter.qty2WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
@@ -711,7 +723,9 @@ define("common/itemDetail.viewModel",
                             if (value !== selectedSection().isDoubleSided()) {
                                 selectedSection().isDoubleSided(value);
                             }
-
+                            if (selectedSection().printingTypeUi() === '2') {
+                                return;
+                            }
                             getPtvCalculation();
                         });
 
@@ -720,7 +734,9 @@ define("common/itemDetail.viewModel",
                             if (value !== selectedSection().isWorknTurn()) {
                                 selectedSection().isWorknTurn(value);
                             }
-
+                            if (selectedSection().printingTypeUi() === '2') {
+                                return;
+                            }
                             getPtvCalculation();
                         });
 
@@ -738,8 +754,12 @@ define("common/itemDetail.viewModel",
                                 selectedSection().sectionSizeHeight(paperSize.height);
                                 selectedSection().sectionSizeWidth(paperSize.width);
 
+                                if (selectedSection().printingTypeUi() === '2') {
+                                    return;
+                                }
+                                
                                 // Get Ptv Calculation
-                                getPtvCalculation();
+                                getPtvCalculation(getSectionSystemCostCenters);
                             }
                         });
 
@@ -749,7 +769,7 @@ define("common/itemDetail.viewModel",
                                 selectedSection().sectionSizeHeight(value);
                             }
 
-                            if (!selectedSection().isSectionSizeCustom()) {
+                            if (!selectedSection().isSectionSizeCustom() || selectedSection().printingTypeUi() === '2') {
                                 return;
                             }
 
@@ -762,7 +782,7 @@ define("common/itemDetail.viewModel",
                                 selectedSection().sectionSizeWidth(value);
                             }
 
-                            if (!selectedSection().isSectionSizeCustom()) {
+                            if (!selectedSection().isSectionSizeCustom() || selectedSection().printingTypeUi() === '2') {
                                 return;
                             }
 
@@ -783,8 +803,12 @@ define("common/itemDetail.viewModel",
                                 selectedSection().itemSizeHeight(paperSize.height);
                                 selectedSection().itemSizeWidth(paperSize.width);
 
+                                if (selectedSection().printingTypeUi() === '2') {
+                                    return;
+                                }
+
                                 // Get Ptv Calculation
-                                getPtvCalculation();
+                                getPtvCalculation(getSectionSystemCostCenters);
                             }
                         });
 
@@ -794,7 +818,7 @@ define("common/itemDetail.viewModel",
                                 selectedSection().itemSizeHeight(value);
                             }
 
-                            if (!selectedSection().isItemSizeCustom()) {
+                            if (!selectedSection().isItemSizeCustom() || selectedSection().printingTypeUi() === '2') {
                                 return;
                             }
 
@@ -807,7 +831,7 @@ define("common/itemDetail.viewModel",
                                 selectedSection().itemSizeWidth(value);
                             }
 
-                            if (!selectedSection().isItemSizeCustom()) {
+                            if (!selectedSection().isItemSizeCustom() || selectedSection().printingTypeUi() === '2') {
                                 return;
                             }
 
@@ -820,7 +844,41 @@ define("common/itemDetail.viewModel",
                                 selectedSection().includeGutter(value);
                             }
 
+                            if (selectedSection().printingTypeUi() === '2') {
+                                return;
+                            }
+
                             getPtvCalculation();
+                        });
+                        
+                        // On Press Change set Section Size Width to Press Max Width
+                        selectedSection().pressId.subscribe(function (value) {
+                            if (value !== selectedSection().pressId()) {
+                                selectedSection().pressId(value);
+                            }
+
+                            var press = getPressById(value);
+                            if (!press) {
+                                return;
+                            }
+
+                            selectedSection().sectionSizeWidth(press.maxSheetWidth || 0);
+                            getSectionSystemCostCenters();
+                        });
+                        
+                        // On Press Side 2 Change set Section Size Width to Press Max Width
+                        selectedSection().pressIdSide2.subscribe(function (value) {
+                            if (value !== selectedSection().pressIdSide2()) {
+                                selectedSection().pressIdSide2(value);
+                            }
+
+                            getSectionSystemCostCenters();
+                        });
+                    },
+                    // Get Press By Id
+                    getPressById = function(pressId) {
+                        return presses.find(function(press) {
+                            return press.id === pressId;
                         });
                     },
                     // On Change Quantity 1 Markup
@@ -1050,6 +1108,11 @@ define("common/itemDetail.viewModel",
                                 if (data.SystemUsers) {
                                     mapList(systemUsers, data.SystemUsers, model.SystemUser);
                                 }
+                                // Machines
+                                presses.removeAll();
+                                if (data.Machines) {
+                                    mapList(presses, data.Machines, model.Machine);
+                                }
                                 currencySymbol(data.CurrencySymbol);
                                 lengthUnit(data.LengthUnit || '');
                                 weightUnit(data.WeightUnit || '');
@@ -1139,7 +1202,7 @@ define("common/itemDetail.viewModel",
 
                     },
                     //Get PTV Calculation
-                    getPtvCalculation = function () {
+                    getPtvCalculation = function (callback) {
                         if (isPtvCalculationInProgress()) {
                             return;
                         }
@@ -1182,6 +1245,9 @@ define("common/itemDetail.viewModel",
                                     // selectedSection().printViewLayout = data.LandscapePTV > data.PortraitPTV ? 1 : 0;
                                 }
                                 isPtvCalculationInProgress(false);
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             },
                             error: function (response) {
                                 isPtvCalculationInProgress(false);
@@ -1332,11 +1398,18 @@ define("common/itemDetail.viewModel",
                         }
                     }),
                     getSectionSystemCostCenters = function () {
-                        if (!selectedBestPressFromWizard()) {
+                        if (!selectedSection().pressId()) {
+                            toastr.info("Please Select Side 1 Press in order to get Cost Centers");
+                            return;
+                        }
+                        else if (selectedSection().numberUp() <= 0) {
+                            toastr.info("Sheet plan cannot be zero in order to get Cost Centers");
                             return;
                         }
                         var currSec = selectedSection().convertToServerData();
-                        currSec.PressId = selectedBestPressFromWizard().id;
+                        if (currSec.SectionInkCoverages == null || currSec.SectionInkCoverages == undefined) {
+                            currSec.SectionInkCoverages = [];
+                        }
                         dataservice.getUpdatedSystemCostCenters(currSec, {
                             success: function (data) {
                                 if (data != null) {
@@ -1766,7 +1839,9 @@ define("common/itemDetail.viewModel",
                     systemUsers: systemUsers,
                     lengthUnit: lengthUnit,
                     weightUnit: weightUnit,
-                    searchString: searchString
+                    searchString: searchString,
+                    presses: presses,
+                    impressionCoverages: impressionCoverages
                     //#endregion
                 };
             })()

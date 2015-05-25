@@ -45,6 +45,16 @@ namespace MPC.Repository.Repositories
             this.organisationRepository = organisationRepository;
         }
         #endregion
+
+        /// <summary>
+        /// Get All Machines
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<Machine> GetAll()
+        {
+            return DbSet.Where(machine => machine.OrganisationId == OrganisationId).OrderBy(machine => machine.MachineName).ToList();
+        }
+
         public MachineListResponseModel GetAllMachine(MachineRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;

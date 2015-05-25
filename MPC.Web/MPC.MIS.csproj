@@ -328,8 +328,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryController.cs" />
+    <Compile Include="Areas\Api\Controllers\InquiryItemController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryProgressController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDetailBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\LiveJobsController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -430,6 +432,8 @@
     <Compile Include="Areas\Api\ModelMappers\InvoiceDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\LiveJobItemMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\LiveJobsSearchResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeZoneMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineGuillotineCalcMapper.cs" />
@@ -533,6 +537,7 @@
     <Compile Include="Areas\Api\Models\Inquiry.cs" />
     <Compile Include="Areas\Api\Models\InquiryAttachment.cs" />
     <Compile Include="Areas\Api\Models\InquiryItem.cs" />
+    <Compile Include="Areas\Api\Models\InquiryItemsResponse.cs" />
     <Compile Include="Areas\Api\Models\InquiryListView.cs" />
     <Compile Include="Areas\Api\Models\InvoiceDetail.cs" />
     <Compile Include="Areas\Api\Models\InvoiceListResponseModel.cs" />
@@ -541,6 +546,7 @@
     <Compile Include="Areas\Api\Models\ItemDetailBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
+    <Compile Include="Areas\Api\Models\LiveJobItem.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
@@ -930,9 +936,13 @@
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
     <Content Include="Areas\Orders\Scripts\order.viewModel.js" />
+    <Content Include="Areas\Production\Scripts\liveJobs.dataservice.js" />
     <Content Include="Areas\Production\Scripts\itemJobStatus.dataservice.js" />
+    <Content Include="Areas\Production\Scripts\liveJobs.model.js" />
     <Content Include="Areas\Production\Scripts\itemJobStatus.model.js" />
+    <Content Include="Areas\Production\Scripts\liveJobs.view.js" />
     <Content Include="Areas\Production\Scripts\itemJobStatus.view.js" />
+    <Content Include="Areas\Production\Scripts\liveJobs.viewModel.js" />
     <Content Include="Areas\Production\Scripts\itemJobStatus.viewModel.js" />
     <Content Include="Areas\Products\Scripts\product.dataservice.js" />
     <Content Include="Areas\Products\Scripts\product.model.js" />
@@ -2126,6 +2136,9 @@
     <Content Include="Areas\Orders\Views\Home\_InquiryDetailItem.cshtml" />
     <Content Include="Areas\Invoices\Views\Home\AddEditInvoiceDetailDialog.cshtml" />
     <Content Include="Areas\CRM\Views\Home\EMarketing.cshtml" />
+    <Content Include="Areas\Production\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Production\Views\Home\ItemLateStart.cshtml" />
+    <Content Include="Areas\Production\Views\Home\LiveJobs.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3328,6 +3341,7 @@
     <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
+    <Folder Include="Areas\Api\Views\InquiryItem\" />
     <Folder Include="Areas\Api\Views\InquiryProgress\" />
     <Folder Include="Areas\Api\Views\Inquiry\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
