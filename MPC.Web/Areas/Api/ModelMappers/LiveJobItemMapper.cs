@@ -20,6 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateDate = source.Estimate != null ? source.Estimate.EstimateDate : null,
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty,
                 ProductName = source.ProductName,
+                CompanyId = source.Estimate != null ? source.Estimate.CompanyId : 0,
                 Qty1 = source.Qty1,
                 JobManagerId = source.JobManagerId,
                 JobCode = source.JobCode,

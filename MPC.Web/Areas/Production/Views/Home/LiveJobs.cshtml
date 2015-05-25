@@ -83,8 +83,19 @@
         <div class="filter-block pull-right">
             <div class="form-group pull-left">
                 <div class="form-group pull-left">
-                    @using (Ajax.BeginForm("Test", "Home", new AjaxOptions { HttpMethod = "POST" }))
+                    @using (Ajax.BeginForm("LiveJobsDownload", "Home", new AjaxOptions { HttpMethod = "POST" }))
                     {
+                        <input type="hidden" id="item0" name="item0" value=null />
+                        <input type="hidden" id="item1" name="item1" value=null />
+                        <input type="hidden" id="item2" name="item2" value=null />
+                        <input type="hidden" id="item3" name="item3" value=null />
+                        <input type="hidden" id="item4" name="item4" value=null />
+                        <input type="hidden" id="item5" name="item5" value=null />
+                        <input type="hidden" id="item6" name="item6" value="" />
+                        <input type="hidden" id="item7" name="item7" value="" />
+                        <input type="hidden" id="item8" name="item8" value="" />
+                        <input type="hidden" id="item9" name="item9" value="" />
+
                         <button id="open-wizard" class="btn btn-primary pull-right">
                             Download Artwork for selected Items
                         </button>
@@ -141,7 +152,7 @@
             <span data-bind="text: qty1"></span>
         </td>
         <td>
-            <div class="checkbox-nice">
+            <div class="checkbox-nice" data-bind="click:$root.selectItem">
                 <input type="checkbox" data-bind="checked: isSelected,attr: { id: 'group' + $index() }">
                 <label data-bind="attr: { for: 'group' + $index() }"></label>
             </div>

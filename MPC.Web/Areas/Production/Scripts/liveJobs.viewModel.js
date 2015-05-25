@@ -26,6 +26,7 @@ define("liveJobs/liveJobs.viewModel",
                     sortOn = ko.observable(1),
                     //Sort In Ascending
                     sortIsAsc = ko.observable(true),
+
                     // #endregion
 
                 // Get Items
@@ -70,11 +71,29 @@ define("liveJobs/liveJobs.viewModel",
                         });
 
                     },
+                    // on click on checkbox
+                    selectItem = function (item) {
+                        var index = items.indexOf(item);
+                        if (item.isSelected()) {
+                            item.isSelected(false);
+                            $("#item" + index).val(null);
+                        } else {
+                            item.isSelected(true);
+                            $("#item" + index).val(item.id());
+                        }
+                    },
+                    // Reset Hidden Fields
+                    resetHeiddenFields = function () {
+                        for (i = 0; i < 10; i++) {
+                            $("#item" + i).val(null);
+                        }
+                    },
                     //Initialize
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         pager(new pagination.Pagination({ PageSize: 5 }, items, getItems));
+                        resetHeiddenFields();
                         getItems();
 
                     };
@@ -88,7 +107,7 @@ define("liveJobs/liveJobs.viewModel",
                     items: items,
                     getItems: getItems,
                     downloadArtwork: downloadArtwork,
-
+                    selectItem: selectItem
 
                 };
             })()
