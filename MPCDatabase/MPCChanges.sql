@@ -3872,3 +3872,25 @@ alter column Side2LookUp int null
 exec sp_rename 'ItemSection.Side1LookUp', 'ImpressionCoverageSide1'
 
 exec sp_rename 'ItemSection.Side2LookUp', 'ImpressionCoverageSide2'
+
+/* Execution Date: 25/05/2105 */
+
+alter table Machine
+add SetupSpoilage int null
+
+alter table Machine
+add RunningSpoilage float null
+
+alter table Machine
+add CoverageHigh float null
+
+alter table Machine
+add CoverageMedium float null
+
+alter table Machine
+add CoverageLow float null
+
+alter table Machine
+add constraint FK_Machine_LookupMethod
+foreign key (LookupMethodId)
+references LookupMethod (MethodId)
