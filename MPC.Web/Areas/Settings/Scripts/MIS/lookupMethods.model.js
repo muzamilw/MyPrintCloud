@@ -147,7 +147,7 @@
             SheetCost1 = ko.observable(source.SheetCost1),
             SheetPrice1 = ko.observable(source.SheetPrice1),
             From2 = ko.observable(source.From2),
-            To2 = ko.observable(source.To2),
+            To2 = ko.observable(source.To2).extend({number:true}),
             Sheets2 = ko.observable(source.Sheets2),
             SheetCost2 = ko.observable(source.SheetCost2),
             SheetPrice2 = ko.observable(source.SheetPrice2),

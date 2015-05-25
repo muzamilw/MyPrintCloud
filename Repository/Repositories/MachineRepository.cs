@@ -158,11 +158,11 @@ namespace MPC.Repository.Repositories
                 lookupMethods = GetAllLookupMethodList(IsGuillotine),
                 Markups = null,
                 StockItemforInk = GetAllStockItemforInk(),
-                MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
+               // MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
                 MachineLookupMethods = GetMachineLookupMethods(MachineID),
                 deFaultPaperSizeName = GetStockItemName(omachine.DefaultPaperId),
                 deFaultPlatesName = GetStockItemName(omachine.DefaultPlateId),
-                InkCoveragItems = GetInkCoveragItems(),
+               // InkCoveragItems = GetInkCoveragItems(),
                 CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol,
                 WeightUnit = organisation == null ? null : organisation.WeightUnit.UnitName,
                 LengthUnit = organisation == null ? null : organisation.LengthUnit.UnitName
@@ -235,7 +235,7 @@ namespace MPC.Repository.Repositories
                 omachine.MarkupId = machine.MarkupId;
                 omachine.PressSizeRatio = machine.PressSizeRatio;
                 omachine.Description = machine.Description;
-                omachine.Priority = machine.Priority;
+                omachine.Priority = 10000;
                 omachine.DirectCost = machine.DirectCost;
                 omachine.Image = machine.Image;
                 omachine.MinimumCharge = machine.MinimumCharge;
@@ -344,7 +344,7 @@ namespace MPC.Repository.Repositories
                 omachine.MarkupId = machine.MarkupId;
                 omachine.PressSizeRatio = machine.PressSizeRatio;
                 omachine.Description = machine.Description;
-                omachine.Priority = machine.Priority;
+                omachine.Priority = 10000;
                 omachine.DirectCost = machine.DirectCost;
                 omachine.Image = machine.Image;
                 omachine.MinimumCharge = machine.MinimumCharge;

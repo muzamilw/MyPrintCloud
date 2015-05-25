@@ -698,9 +698,9 @@
        
         
         
-        _.each(source.MachineSpoilageItems, function (item) {
-            omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
-        });
+        //_.each(source.MachineSpoilageItems, function (item) {
+        //    omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
+        //});
 
 
         
@@ -709,21 +709,21 @@
         ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
         StockItemforInkList.valueHasMutated();
 
-        var InkCoveragItemsList = ko.observableArray([]);
-        InkCoveragItemsList.removeAll();
-        ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        InkCoveragItemsList.valueHasMutated();
+        //var InkCoveragItemsList = ko.observableArray([]);
+        //InkCoveragItemsList.removeAll();
+        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+        //InkCoveragItemsList.valueHasMutated();
        
 
 
-        _.each(source.machine.MachineInkCoverages, function (item) {
-            var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
-            omachine.MachineInkCoverages.push(module);
+        //_.each(source.machine.MachineInkCoverages, function (item) {
+        //    var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
+        //    omachine.MachineInkCoverages.push(module);
 
 
 
 
-        })
+        //})
 
         _.each(source.machine.MachineLookupMethods, function (item) {
             omachine.MachineLookupMethods.push(MachineLookupMethodsItemsMapper(item));
@@ -801,18 +801,18 @@
         omachine.Minimumsheetwidth = machine.Minimumsheetwidth();
         omachine.LookupMethodId = machine.LookupMethodId();
 
-        omachine.MachineInkCoverages = [];
-        _.each(machine.MachineInkCoverages(), function (item) {
-            var module = MachineInkCoveragesListServerMapper(item);
-            omachine.MachineInkCoverages.push(module);
-        });
+        //omachine.MachineInkCoverages = [];
+        //_.each(machine.MachineInkCoverages(), function (item) {
+        //    var module = MachineInkCoveragesListServerMapper(item);
+        //    omachine.MachineInkCoverages.push(module);
+        //});
        
 
-        var MachineSpoilageItemsList = [];
-        _.each(machine.MachineSpoilageItems(), function (item) {
-            var module = MachineSpoilageServerMapper(item);
-            MachineSpoilageItemsList.push(module);
-        });
+        //var MachineSpoilageItemsList = [];
+        //_.each(machine.MachineSpoilageItems(), function (item) {
+        //    var module = MachineSpoilageServerMapper(item);
+        //    MachineSpoilageItemsList.push(module);
+        //});
 
         var MachineLookupdsList = [];
         _.each(machine.MachineLookupMethods(), function (item) {
@@ -823,7 +823,7 @@
        
         return {
             machine: omachine,
-            MachineSpoilages: MachineSpoilageItemsList
+           // MachineSpoilages: MachineSpoilageItemsList
         }
         
     };
@@ -841,25 +841,25 @@
         omachine.WeightUnit(source.WeightUnit);
         omachine.LengthUnit(source.LengthUnit);
 
-        for (i = 0; i < 8; i++) {
-            omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
-          }
+        //for (i = 0; i < 8; i++) {
+        //    omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
+        //  }
 
         var StockItemforInkList = ko.observableArray([]);
         StockItemforInkList.removeAll();
         ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
         StockItemforInkList.valueHasMutated();
 
-        var InkCoveragItemsList = ko.observableArray([]);
-        InkCoveragItemsList.removeAll();
-        ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        InkCoveragItemsList.valueHasMutated();
+        //var InkCoveragItemsList = ko.observableArray([]);
+        //InkCoveragItemsList.removeAll();
+        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+        //InkCoveragItemsList.valueHasMutated();
 
 
 
-        for (i = 0; i < 8; i++) {
-            omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
-        }
+        //for (i = 0; i < 8; i++) {
+        //    omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
+        //}
 
         return omachine;
     };

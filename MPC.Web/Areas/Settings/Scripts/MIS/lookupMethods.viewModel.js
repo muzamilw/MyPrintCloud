@@ -61,6 +61,8 @@
                          ko.applyBindings(view.viewModel, view.bindingRoot);
 
                          GetLookupList();
+                        // isClickChargeZonesEditorVisible(true);
+
                      },
                      AddGuiltineLookup = function () {
                          selectedGuillotineClickCharge().GuillotinePTVList.push(model.GuillotineClickPTV());
@@ -407,28 +409,33 @@
                         }
                     });
                 },
-                GetMachineLookupById = function (olookup) {
-                    $('[data-toggle="popover"]').popover('hide');
-                    //view.initializeLabelPopovers();
-                    if (isClickChargeEditorVisible() || isSpeedWeightEditorVisible() || isPerHourEditorVisible() || isClickChargeZonesEditorVisible() || isGuillotineClickChargeEditorVisible() || isMeterPerHourClickChargeEditorVisible()) {
+                //GetMachineLookupById = function (olookup) {
+                //    $('[data-toggle="popover"]').popover('hide');
+                //    //view.initializeLabelPopovers();
+                //    if (isClickChargeEditorVisible() || isSpeedWeightEditorVisible() || isPerHourEditorVisible() || isClickChargeZonesEditorVisible() || isGuillotineClickChargeEditorVisible() || isMeterPerHourClickChargeEditorVisible()) {
 
-                        return oncloseEditor(olookup);
+                //        return oncloseEditor(olookup);
 
-                    } else {
-                        onCancal(olookup);
+                //    } else {
+                //        onCancal(olookup);
 
-                    }
+                //    }
+                //},
 
+                 GetMachineLookupById = function (mMethodId) {
+                     $('[data-toggle="popover"]').popover('hide');
+                     //view.initializeLabelPopovers();
+                     if (isClickChargeEditorVisible() || isSpeedWeightEditorVisible() || isPerHourEditorVisible() || isClickChargeZonesEditorVisible() || isGuillotineClickChargeEditorVisible() || isMeterPerHourClickChargeEditorVisible()) {
 
+                         return oncloseEditor(mMethodId);
 
+                     } else {
+                         onCancal(mMethodId);
 
+                     }
+                 },
 
-
-
-
-
-                },
-                onCancal = function (olookup) {
+                onCancal = function (mMethodId) {
                     selectedSpeedWeight(null);
                     selectedClickCharge(null);
                     selectedClickChargeZones(null);
@@ -443,11 +450,11 @@
                     isMeterPerHourClickChargeEditorVisible(false);
                     IsSelected(false);
                     dataservice.GetLookup({
-                        MethodId: olookup.MethodId(),
+                        MethodId: mMethodId,
                     }, {
                         success: function (data) {
                             
-                            selectedlookup(olookup);
+                         //   selectedlookup(olookup);
                             IsSelected(true);
                             
                             if (data.ClickChargeLookup != null) {
