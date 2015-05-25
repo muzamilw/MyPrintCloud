@@ -14,6 +14,8 @@ define("liveJobs/liveJobs.viewModel",
                     // #region Arrays
                     //Items
                     items = ko.observableArray([]),
+                    // System Users
+                    systemUsers = ko.observableArray([]),
 
                     // #endregion
                     // #region Observables
@@ -39,15 +41,23 @@ define("liveJobs/liveJobs.viewModel",
                         IsAsc: sortIsAsc()
                     }, {
                         success: function (data) {
+                            resetHiddenFields();
                             items.removeAll();
                             if (data !== null && data !== undefined) {
                                 var itemList = [];
                                 _.each(data.Items, function (item) {
-                                    itemList.push(model.Item.Create(item));
+                                    var itemModel = model.Item.Create(item);
+                                    var user = _.find(systemUsers(), function (sysUser) {
+                                        return sysUser.SystemUserId === itemModel.jobManagerId();
+                                    });
+                                    if (user !== null && user !== undefined) {
+                                        itemModel.jobManagerName(user.FullName);
+                                    }
+                                    itemList.push(itemModel);
+
                                 });
                                 ko.utils.arrayPushAll(items(), itemList);
                                 items.valueHasMutated();
-
                                 pager().totalCount(data.TotalCount);
                             }
 
@@ -58,6 +68,19 @@ define("liveJobs/liveJobs.viewModel",
                     });
                 },
 
+                 // Get Items
+                getBaseData = function () {
+                    dataservice.getBaseData({
+                        success: function (data) {
+                            ko.utils.arrayPushAll(systemUsers(), data);
+                            systemUsers.valueHasMutated();
+                            getItems();
+                        },
+                        error: function () {
+                            toastr.error("Failed to Base data.");
+                        }
+                    });
+                },
                         // Get Items
                     downloadArtwork = function () {
                         dataservice.downloadArtwork({
@@ -83,7 +106,7 @@ define("liveJobs/liveJobs.viewModel",
                         }
                     },
                     // Reset Hidden Fields
-                    resetHeiddenFields = function () {
+                    resetHiddenFields = function () {
                         for (i = 0; i < 10; i++) {
                             $("#item" + i).val(null);
                         }
@@ -92,9 +115,9 @@ define("liveJobs/liveJobs.viewModel",
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
-                        pager(new pagination.Pagination({ PageSize: 5 }, items, getItems));
-                        resetHeiddenFields();
-                        getItems();
+                        pager(new pagination.Pagination({ PageSize: 10 }, items, getItems));
+                        getBaseData();
+
 
                     };
                 //#endregion 
@@ -105,6 +128,7 @@ define("liveJobs/liveJobs.viewModel",
                     searchFilter: searchFilter,
                     pager: pager,
                     items: items,
+                    systemUsers: systemUsers,
                     getItems: getItems,
                     downloadArtwork: downloadArtwork,
                     selectItem: selectItem

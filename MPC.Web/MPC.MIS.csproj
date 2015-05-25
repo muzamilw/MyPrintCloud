@@ -331,6 +331,7 @@
     <Compile Include="Areas\Api\Controllers\InquiryItemController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryProgressController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDetailBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\LiveJobsBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\LiveJobsController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
@@ -543,6 +544,7 @@
     <Compile Include="Areas\Api\Models\InvoiceListResponseModel.cs" />
     <Compile Include="Areas\Api\Models\InvoicesListModel.cs" />
     <Compile Include="Areas\Api\Models\ItemAttachment.cs" />
+    <Compile Include="Areas\Api\Models\ItemAttachmentForLiveJobs.cs" />
     <Compile Include="Areas\Api\Models\ItemDetailBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
@@ -999,6 +1001,15 @@
     <Content Include="Areas\Stores\Scripts\Stores.model.js" />
     <Content Include="Areas\Stores\Scripts\Stores.view.js" />
     <Content Include="Areas\Stores\Scripts\Stores.viewModel.js" />
+    <Content Include="Content\Attachments\icoGif.png" />
+    <Content Include="Content\Attachments\IcoIllustrator.png" />
+    <Content Include="Content\Attachments\Icoindesign.png" />
+    <Content Include="Content\Attachments\icoJPG.png" />
+    <Content Include="Content\Attachments\IcoPhotoshop.png" />
+    <Content Include="Content\Attachments\icoPNG.png" />
+    <Content Include="Content\Attachments\Page_excel.png" />
+    <Content Include="Content\Attachments\Page_pdf.png" />
+    <Content Include="Content\Attachments\Page_word.png" />
     <Content Include="Content\colorpicker.css" />
     <Content Include="Content\CSS\bootstrap\bootstrap-responsive.css" />
     <Content Include="Content\CSS\bootstrap\bootstrap-responsive.min.css" />

@@ -23,6 +23,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private readonly IOrderRepository orderRepository;
         private readonly IItemAttachmentRepository itemAttachmentRepository;
+        private readonly ISystemUserRepository systemUserRepository;
 
         #endregion
 
@@ -31,10 +32,11 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public LiveJobsService(IOrderRepository orderRepository, IItemAttachmentRepository itemAttachmentRepository)
+        public LiveJobsService(IOrderRepository orderRepository, IItemAttachmentRepository itemAttachmentRepository, ISystemUserRepository systemUserRepository)
         {
             this.orderRepository = orderRepository;
             this.itemAttachmentRepository = itemAttachmentRepository;
+            this.systemUserRepository = systemUserRepository;
         }
 
         #endregion
@@ -75,6 +77,14 @@ namespace MPC.Implementation.MISServices
             }
             zip.Save(outputStream);
             return outputStream;
+        }
+
+        /// <summary>
+        /// Get System Users
+        /// </summary>
+        public IEnumerable<SystemUser> GetSystemUsers()
+        {
+            return systemUserRepository.GetAll();
         }
 
         #endregion

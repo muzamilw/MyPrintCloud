@@ -13,7 +13,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             string filePath = !string.IsNullOrEmpty(source.FolderPath) ? source.FolderPath : string.Empty;
             string fileType = !string.IsNullOrEmpty(source.FileName) ? source.FileType : string.Empty;
-            string fileName = !string.IsNullOrEmpty(source.FileName) ? source.FileName + fileType + "?" + 
+            string fileName = !string.IsNullOrEmpty(source.FileName) ? source.FileName + fileType + "?" +
                 DateTime.Now.ToString(CultureInfo.InvariantCulture) : string.Empty;
             filePath += "/" + fileName;
             return new ItemAttachment
@@ -42,6 +42,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FileName = source.FileName,
                 ContactId = source.ContactId,
                 FileSource = source.FolderPath
+            };
+        }
+        /// <summary>
+        /// Server to Client Mapper
+        /// </summary>
+        public static ItemAttachmentForLiveJobs CreateFromForLiveJobs(this MPC.Models.DomainModels.ItemAttachment source)
+        {
+
+            return new ItemAttachmentForLiveJobs
+            {
+                FileType = source.FileType,
             };
         }
     }

@@ -18,6 +18,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string StatusName { get; set; }
         public string JobCode { get; set; }
         public Guid? JobManagerId { get; set; }
-        public List<ItemAttachment> ItemAttachments { get; set; }
+        public List<ItemAttachmentForLiveJobs> ItemAttachments { get; set; }
     }
 }
