@@ -3894,3 +3894,14 @@ alter table Machine
 add constraint FK_Machine_LookupMethod
 foreign key (LookupMethodId)
 references LookupMethod (MethodId)
+
+alter table ProductMarketBriefQuestion
+alter column ItemId bigint null
+
+update ProductMarketBriefQuestion
+set ItemId = null
+
+alter table ProductMarketBriefQuestion
+add constraint FK_ProductMarketBriefQuestion_Item
+foreign key (ItemId)
+references Items (ItemId)

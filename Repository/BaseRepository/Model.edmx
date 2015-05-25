@@ -2902,7 +2902,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
             <PropertyRef Name="MarketBriefQuestionId" />
           </Key>
           <Property Name="MarketBriefQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" />
+          <Property Name="ItemId" Type="bigint" />
           <Property Name="QuestionDetail" Type="nvarchar" MaxLength="500" />
           <Property Name="SortOrder" Type="int" Nullable="false" />
           <Property Name="isMultipleSelction" Type="bit" />
@@ -4708,6 +4708,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductMarketBriefQuestion_Item">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="ProductMarketBriefQuestion" Type="Self.ProductMarketBriefQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PurchaseID">
           <End Role="Purchase" Type="Self.Purchase" Multiplicity="0..1" />
           <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
@@ -6484,6 +6496,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductMarketBriefQuestion_Item" Association="Self.FK_ProductMarketBriefQuestion_Item">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
+          </AssociationSet>
           <AssociationSet Name="FK_PurchaseID" Association="Self.FK_PurchaseID">
             <End Role="Purchase" EntitySet="Purchase" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
@@ -7658,6 +7674,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_Machine_LookupMethod" Association="DomainModels.FK_Machine_LookupMethod">
             <End Role="LookupMethod" EntitySet="LookupMethods" />
             <End Role="Machine" EntitySet="Machines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMarketBriefQuestion_Item" Association="DomainModels.FK_ProductMarketBriefQuestion_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -9080,6 +9100,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsRealStateProduct" Type="Boolean" />
           <Property Name="ProductDisplayOptions" Type="Int32" />
           <NavigationProperty Name="ShippingInformations" Relationship="DomainModels.FK_ShippingInformation_Items" FromRole="Item" ToRole="ShippingInformation" />
+          <NavigationProperty Name="ProductMarketBriefQuestions" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="Item" ToRole="ProductMarketBriefQuestion" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -11229,11 +11250,12 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <PropertyRef Name="MarketBriefQuestionId" />
           </Key>
           <Property Name="MarketBriefQuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" />
+          <Property Name="ItemId" Type="Int64" />
           <Property Name="QuestionDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="IsMultipleSelection" Type="Boolean" />
           <NavigationProperty Name="ProductMarketBriefAnswers" Relationship="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" FromRole="ProductMarketBriefQuestion" ToRole="ProductMarketBriefAnswer" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="ProductMarketBriefQuestion" ToRole="Item" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -14057,6 +14079,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="Machine">
               <PropertyRef Name="LookupMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMarketBriefQuestion_Item">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.ProductMarketBriefQuestion" Role="ProductMarketBriefQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
