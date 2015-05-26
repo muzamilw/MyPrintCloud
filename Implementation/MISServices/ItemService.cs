@@ -59,6 +59,44 @@ namespace MPC.Implementation.MISServices
         private readonly ISmartFormRepository smartFormRepository;
         private readonly ILengthConversionService lengthConversionService;
         private readonly ITemplateObjectRepository templateObjectRepository;
+        private readonly IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository;
+        private readonly IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository;
+
+        /// <summary>
+        /// Create ProductMarketBriefQuestion
+        /// </summary>
+        private ProductMarketBriefQuestion CreateProductMarketBriefQuestion()
+        {
+            ProductMarketBriefQuestion line = productMarketBriefQuestionRepository.Create();
+            productMarketBriefQuestionRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete ProductMarketBriefQuestion
+        /// </summary>
+        private void DeleteProductMarketBriefQuestion(ProductMarketBriefQuestion line)
+        {
+            productMarketBriefQuestionRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Create ProductMarketBriefAnswer
+        /// </summary>
+        private ProductMarketBriefAnswer CreateProductMarketBriefAnswer()
+        {
+            ProductMarketBriefAnswer line = productMarketBriefAnswerRepository.Create();
+            productMarketBriefAnswerRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete ProductMarketBriefAnswer
+        /// </summary>
+        private void DeleteProductMarketBriefAnswer(ProductMarketBriefAnswer line)
+        {
+            productMarketBriefAnswerRepository.Delete(line);
+        }
 
         /// <summary>
         /// Delete Template Object
@@ -1692,7 +1730,8 @@ namespace MPC.Implementation.MISServices
             IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
             IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository,
             IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository,
-            ILengthConversionService lengthConversionService, ITemplateObjectRepository templateObjectRepository)
+            ILengthConversionService lengthConversionService, ITemplateObjectRepository templateObjectRepository, 
+            IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository, IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository)
         {
             if (itemRepository == null)
             {
@@ -1818,11 +1857,21 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("templateObjectRepository");
             }
+            if (productMarketBriefQuestionRepository == null)
+            {
+                throw new ArgumentNullException("productMarketBriefQuestionRepository");
+            }
+            if (productMarketBriefAnswerRepository == null)
+            {
+                throw new ArgumentNullException("productMarketBriefAnswerRepository");
+            }
 
             this.organizationRepository = organizationRepository;
             this.smartFormRepository = smartFormRepository;
             this.lengthConversionService = lengthConversionService;
             this.templateObjectRepository = templateObjectRepository;
+            this.productMarketBriefQuestionRepository = productMarketBriefQuestionRepository;
+            this.productMarketBriefAnswerRepository = productMarketBriefAnswerRepository;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
@@ -2012,7 +2061,11 @@ namespace MPC.Implementation.MISServices
                 DeleteItemSection = DeleteItemSection,
                 CreateItemImage = CreateItemImage,
                 DeleteItemImage = DeleteItemImage,
-                DeleteTemplateObject = DeleteTemplateObject
+                DeleteTemplateObject = DeleteTemplateObject,
+                CreateProductMarketBriefQuestion = CreateProductMarketBriefQuestion,
+                DeleteProductMarketBriefQuestion = DeleteProductMarketBriefQuestion,
+                CreateProductMarketBriefAnswer = CreateProductMarketBriefAnswer,
+                DeleteProductMarketBriefAnswer = DeleteProductMarketBriefAnswer
             });
 
             // Save Changes

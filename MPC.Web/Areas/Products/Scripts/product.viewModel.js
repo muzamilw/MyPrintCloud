@@ -146,6 +146,12 @@ define("product/product.viewModel",
                         },
                         onSelectPressItem: function () {
                             closePressDialog();
+                        },
+                        onDeleteProductMarketBriefQuestion: function(onProceed) {
+                            onDeleteProductMarketBriefQuestion(onProceed);
+                        },
+                        onDeleteProductMarketBriefAnswer: function(onProceed) {
+                            onDeleteProductMarketBriefAnswer(onProceed);
                         }
                     },
                     // Item State Tax Constructor Params
@@ -562,8 +568,26 @@ define("product/product.viewModel",
                             });
                             confirmation.show();
                         },
-
-                      
+                    // On Delete Product Market Brief Question
+                    onDeleteProductMarketBriefQuestion = function(onProceed) {
+                        confirmation.messageText("Do you want to delete this market brief question?");
+                        confirmation.afterProceed(function () {
+                            if (onProceed && typeof onProceed === "function") {
+                                onProceed();
+                            }
+                        });
+                        confirmation.show();
+                    },
+                    // On Delete Product Market Brief Answer
+                    onDeleteProductMarketBriefAnswer = function (onProceed) {
+                        confirmation.messageText("Do you want to delete this market brief answer?");
+                        confirmation.afterProceed(function () {
+                            if (onProceed && typeof onProceed === "function") {
+                                onProceed();
+                            }
+                        });
+                        confirmation.show();
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView, isOnStoreScreen) {
                         view = specifiedView;

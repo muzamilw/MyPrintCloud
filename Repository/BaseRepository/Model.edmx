@@ -1267,6 +1267,24 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="TerritoryID" Type="bigint" />
           <Property Name="ImageId" Type="bigint" />
         </EntityType>
+        <EntityType Name="ImpositionProfile">
+          <Key>
+            <PropertyRef Name="ImpositionId" />
+          </Key>
+          <Property Name="ImpositionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" />
+          <Property Name="SheetSizeId" Type="bigint" />
+          <Property Name="SheetHeight" Type="float" />
+          <Property Name="SheetWidth" Type="float" />
+          <Property Name="ItemSizeId" Type="bigint" />
+          <Property Name="ItemHeight" Type="float" />
+          <Property Name="ItemWidth" Type="float" />
+          <Property Name="Area" Type="float" />
+          <Property Name="PTV" Type="int" />
+          <Property Name="Region" Type="varchar" MaxLength="50" />
+          <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="isPortrait" Type="bit" />
+        </EntityType>
         <EntityType Name="InkCoverageGroup">
           <Key>
             <PropertyRef Name="CoverageGroupId" />
@@ -2297,6 +2315,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CoverageHigh" Type="float" />
           <Property Name="CoverageMedium" Type="float" />
           <Property Name="CoverageLow" Type="float" />
+          <Property Name="isSheetFed" Type="bit" />
+          <Property Name="Passes" Type="int" />
         </EntityType>
         <EntityType Name="MachineCategory">
           <Key>
@@ -5880,6 +5900,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="GoodsReceivedNoteDetail" EntityType="Self.GoodsReceivedNoteDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImagePermissions" EntityType="Self.ImagePermissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImpositionProfile" EntityType="Self.ImpositionProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InkCoverageGroup" EntityType="Self.InkCoverageGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InkPlateSide" EntityType="Self.InkPlateSide" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquiry" EntityType="Self.Inquiry" Schema="dbo" store:Type="Tables" />
@@ -7679,6 +7700,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Item" EntitySet="Items" />
             <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
           </AssociationSet>
+          <EntitySet Name="ImpositionProfiles" EntityType="DomainModels.ImpositionProfile" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -12157,6 +12179,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CoverageMedium" Type="Double" />
           <Property Name="CoverageLow" Type="Double" />
           <NavigationProperty Name="LookupMethod" Relationship="DomainModels.FK_Machine_LookupMethod" FromRole="Machine" ToRole="LookupMethod" />
+          <Property Name="isSheetFed" Type="Boolean" />
+          <Property Name="Passes" Type="Int32" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -14094,6 +14118,24 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ImpositionProfile">
+          <Key>
+            <PropertyRef Name="ImpositionId" />
+          </Key>
+          <Property Name="ImpositionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SheetSizeId" Type="Int64" />
+          <Property Name="SheetHeight" Type="Double" />
+          <Property Name="SheetWidth" Type="Double" />
+          <Property Name="ItemSizeId" Type="Int64" />
+          <Property Name="ItemHeight" Type="Double" />
+          <Property Name="ItemWidth" Type="Double" />
+          <Property Name="Area" Type="Double" />
+          <Property Name="PTV" Type="Int32" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="isPortrait" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -17223,6 +17265,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="Passes" ColumnName="Passes" />
+                <ScalarProperty Name="isSheetFed" ColumnName="isSheetFed" />
                 <ScalarProperty Name="CoverageLow" ColumnName="CoverageLow" />
                 <ScalarProperty Name="CoverageMedium" ColumnName="CoverageMedium" />
                 <ScalarProperty Name="CoverageHigh" ColumnName="CoverageHigh" />
@@ -18656,6 +18700,25 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="MethodId" ColumnName="MethodId" />
                 <ScalarProperty Name="MachineId" ColumnName="MachineId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImpositionProfiles">
+            <EntityTypeMapping TypeName="DomainModels.ImpositionProfile">
+              <MappingFragment StoreEntitySet="ImpositionProfile">
+                <ScalarProperty Name="isPortrait" ColumnName="isPortrait" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="PTV" ColumnName="PTV" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="ItemWidth" ColumnName="ItemWidth" />
+                <ScalarProperty Name="ItemHeight" ColumnName="ItemHeight" />
+                <ScalarProperty Name="ItemSizeId" ColumnName="ItemSizeId" />
+                <ScalarProperty Name="SheetWidth" ColumnName="SheetWidth" />
+                <ScalarProperty Name="SheetHeight" ColumnName="SheetHeight" />
+                <ScalarProperty Name="SheetSizeId" ColumnName="SheetSizeId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ImpositionId" ColumnName="ImpositionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
