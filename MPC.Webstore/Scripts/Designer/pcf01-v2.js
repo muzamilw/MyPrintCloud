@@ -1438,6 +1438,9 @@ function fu02UI() {
         $(".maskingControls ").css("display", "block");
     
     }
+    if ($.browser.Chrome) {
+        $(".TextObjectPropertyPanal").css("right", "-35px");
+    }
 }
 function fu02() {
     //cID = parseInt(fu01('c'));
