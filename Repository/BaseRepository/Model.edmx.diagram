@@ -317,6 +317,8 @@
         <EntityTypeShape EntityType="DomainModels.MachineLookupMethod" Width="1.5" PointX="37.625" PointY="60.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_lookup_methods" />
         <AssociationConnector Association="DomainModels.FK_Machine_LookupMethod" />
+        <AssociationConnector Association="DomainModels.FK_ProductMarketBriefQuestion_Item" />
+        <EntityTypeShape EntityType="DomainModels.ImpositionProfile" Width="1.5" PointX="41.375" PointY="7.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

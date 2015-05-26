@@ -116,6 +116,7 @@
     <Compile Include="Common\CostCentreResults.cs" />
     <Compile Include="Common\ActiveModuleMenuItem.cs" />
     <Compile Include="Common\CustomerByColumn.cs" />
+    <Compile Include="Common\DeliveryNoteByColumn.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
     <Compile Include="Common\DesignerPostSettings.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
+    <Compile Include="DomainModels\ImpositionProfile.cs" />
     <Compile Include="DomainModels\InkPlateSide.cs" />
     <Compile Include="DomainModels\JobCardReportView.cs" />
     <Compile Include="DomainModels\JobPreference.cs" />
@@ -371,6 +373,8 @@
     <Compile Include="ModelMappers\InvoiceMapperActions.cs" />
     <Compile Include="ModelMappers\InquiryMapperActions.cs" />
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
+    <Compile Include="ModelMappers\ProductMarketBriefAnswerMapper.cs" />
+    <Compile Include="ModelMappers\ProductMarketBriefQuestionMapper.cs" />
     <Compile Include="ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="ModelMappers\SectionInkCoverageMapper.cs" />
@@ -411,6 +415,7 @@
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
+    <Compile Include="RequestModels\DeliveryNotesRequest.cs" />
     <Compile Include="RequestModels\FieldVariableRequestModel.cs" />
     <Compile Include="RequestModels\GetCostCentresRequest.cs" />
     <Compile Include="RequestModels\GetInquiryRequest.cs" />
@@ -457,6 +462,7 @@
     <Compile Include="ResponseModels\CostCentreResponse.cs" />
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
     <Compile Include="ResponseModels\CrmContactResponse.cs" />
+    <Compile Include="ResponseModels\DeliveryNoteBaseResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />

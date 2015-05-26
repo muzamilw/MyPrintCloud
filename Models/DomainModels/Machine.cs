@@ -76,6 +76,8 @@ namespace MPC.Models.DomainModels
         public double? CoverageHigh { get; set; }
         public double? CoverageMedium { get; set; }
         public double? CoverageLow { get; set; }
+        public bool? isSheetFed { get; set; }
+        public int? Passes { get; set; }
 
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }
