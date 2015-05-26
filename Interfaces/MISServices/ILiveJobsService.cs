@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -14,6 +16,14 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         LiveJobsSearchResponse GetItemsForLiveJobs(LiveJobsRequestModel request);
 
-        Stream DownloadArtwork();
+        /// <summary>
+        /// Download Artwork
+        /// </summary>
+        Stream DownloadArtwork(List<long?> itemList);
+
+        /// <summary>
+        /// Get System Users
+        /// </summary>
+        IEnumerable<SystemUser> GetSystemUsers();
     }
 }
