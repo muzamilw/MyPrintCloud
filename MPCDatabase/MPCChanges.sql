@@ -3860,7 +3860,8 @@ alter column PassesSide1 int null
 
 alter table ItemSection 
 alter column PassesSide2 int null
-
+--Executed on Staging------
+--Executed on Preview, Aus, Eu servers on 2015 05 26------
 /* Execution Date: 22/05/2015 */
 
 alter table itemsection
