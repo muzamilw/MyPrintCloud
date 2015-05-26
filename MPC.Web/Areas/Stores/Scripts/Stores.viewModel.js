@@ -1196,7 +1196,7 @@ define("stores/stores.viewModel",
 
                        selectedCompanyCMYKColor().colorC(value);
                        return value;
-                      
+
                    }
                }),
 
@@ -1279,7 +1279,7 @@ define("stores/stores.viewModel",
                              var hex = getColorHex(colorC, colorM, ColorY, ColorK);
                              selectedHexValue(hex);
 
-                            
+
                              return selectedCompanyCMYKColor().colorK();
                          },
                          write: function (value) {
@@ -1295,7 +1295,7 @@ define("stores/stores.viewModel",
 
                              selectedCompanyCMYKColor().colorK(value);
                              return value;
-                            
+
                          }
                      }),
 
@@ -3006,7 +3006,7 @@ define("stores/stores.viewModel",
                 //selectedShippingAddressId(getDefaultShippingAddress());
                 //for the first time of contact creation make default shipping address and default billing address, as the selected shipping and billing respectively.
 
-                if (selectedStore().companyId() !== undefined && selectedCompanyContact().contactId() === undefined) {
+                if (selectedStore().companyId() !== undefined && (selectedCompanyContact().contactId() === undefined || selectedCompanyContact().contactId() < 0)) {
                     var scope = 2;
                     getCompanyContactVariable(scope);
                 }
@@ -5002,7 +5002,7 @@ define("stores/stores.viewModel",
                 //Open Dialog from Featured Product Row
             openItemsForWidgetsDialogFromFeatured = function () {
                 productsFilterHeading("Featured Products");
-                
+
                 productsFilterSubHeadingAll("All Featured Products");
                 productsFilterSubHeadingSelected("Selected Featured Products");
                 selectedOfferType(1);
@@ -5659,7 +5659,7 @@ define("stores/stores.viewModel",
             },
             updateSmartFormVariables = function (fieldVariable) {
                 var fieldvariableOfSmartForm = _.find(fieldVariablesForSmartForm(), function (item) {
-                    return item.id() === fieldVariable.fakeId();
+                    return item.id() === fieldVariable.id();
                 });
                 if (fieldvariableOfSmartForm) {
                     updateSmartFormVariable(fieldvariableOfSmartForm, fieldVariable);
@@ -5677,6 +5677,7 @@ define("stores/stores.viewModel",
                 fieldvariableOfSmartForm.variableName(fieldVariable.variableName());
                 fieldvariableOfSmartForm.variableTag(fieldVariable.variableTag());
                 fieldvariableOfSmartForm.scopeName(fieldVariable.scopeName());
+                fieldvariableOfSmartForm.scope(fieldVariable.scope());
                 fieldvariableOfSmartForm.typeName(fieldVariable.typeName());
                 fieldvariableOfSmartForm.waterMark(fieldVariable.waterMark());
                 fieldvariableOfSmartForm.variableType(fieldVariable.variableType());
@@ -5695,6 +5696,7 @@ define("stores/stores.viewModel",
                 fieldVariableForSmartForm.variableName(fieldVariable.variableName());
                 fieldVariableForSmartForm.variableTag(fieldVariable.variableTag());
                 fieldVariableForSmartForm.scopeName(fieldVariable.scopeName());
+                fieldVariableForSmartForm.scope(fieldVariable.scope());
                 fieldVariableForSmartForm.typeName(fieldVariable.typeName());
                 fieldVariableForSmartForm.waterMark(fieldVariable.waterMark());
                 fieldVariableForSmartForm.variableType(fieldVariable.variableType());
@@ -5868,7 +5870,7 @@ define("stores/stores.viewModel",
                             field.variableTag(item.VariableTag);
                             fieldVariables.push(field);
                         });
-                        //fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
+                        fieldVariablePager().totalCount(data.RowCount);
                     },
                     error: function (response) {
                         toastr.error("Failed To Load Users" + response, "", ist.toastrOptions);
@@ -6044,6 +6046,35 @@ define("stores/stores.viewModel",
                 contactVariable.value(contactVariable.optionId());
             },
 
+            onRemoveFieldVariable = function (variable) {
+                confirmation.afterProceed(function () {
+                    deleteFieldVariable(variable.convertToServerData(variable));
+                });
+                confirmation.afterCancel();
+                confirmation.show();
+            },
+            deleteFieldVariable = function (fieldVariable) {
+                dataservice.deleteFieldVariable(fieldVariable, {
+                    success: function (data) {
+                        fieldVariables.remove(selectedFieldVariable());
+                        view.hideVeriableDefinationDialog();
+                        toastr.success("Successfully removed.");
+                    },
+                    error: function (exceptionMessage, exceptionType) {
+
+                        if (exceptionType === ist.exceptionType.MPCGeneralException) {
+
+                            toastr.error(exceptionMessage, "", ist.toastrOptions);
+
+                        } else {
+
+                            toastr.error("Failed to remove.", "", ist.toastrOptions);
+                        }
+
+                    }
+                });
+
+            },
                 //#endregion ________ Field Variable___________
 
                 //#region ________ Smart Form___________
@@ -6161,8 +6192,8 @@ define("stores/stores.viewModel",
                         selectedSmartForm().smartFormDetails.remove(formItem);
                     });
                     confirmation.show();
-               
-            },
+
+                },
                 //Save Smart Form
             onSaveSmartForm = function (smartForm) {
                 if (doBeforeSaveSmartForm()) {
@@ -6242,13 +6273,15 @@ define("stores/stores.viewModel",
                     success: function (data) {
 
                         smartForms.removeAll();
-                        _.each(data.SmartFormResponse.SmartForms, function (item) {
+                        _.each(data.SmartForms, function (item) {
                             var smartForm = model.SmartForm();
                             smartForm.id(item.SmartFormId);
                             smartForm.name(item.Name);
                             smartForm.heading(item.Heading);
                             smartForms.push(smartForm);
                         });
+
+                        smartFormPager().totalCount(data.TotalCount);
                     },
                     error: function (response) {
                         toastr.error("Failed To Load Smart Forms.", "", ist.toastrOptions);
@@ -6678,7 +6711,7 @@ define("stores/stores.viewModel",
                     deleteSmartFormItem: deleteSmartFormItem,
                     onSaveSmartForm: onSaveSmartForm,
                     productsFilterHeading: productsFilterHeading,
-                    productsFilterSubHeadingAll: productsFilterSubHeadingAll,   
+                    productsFilterSubHeadingAll: productsFilterSubHeadingAll,
                     productsFilterSubHeadingSelected: productsFilterSubHeadingSelected,
                     cmsPagesBaseData: cmsPagesBaseData,
                     smartForms: smartForms,
@@ -6723,7 +6756,8 @@ define("stores/stores.viewModel",
                     calculateBlackValue: calculateBlackValue,
                     calculateYellowValue: calculateYellowValue,
                     calculateMagentaValue: calculateMagentaValue,
-                    selectedHexValue:  selectedHexValue
+                    selectedHexValue: selectedHexValue,
+                    onRemoveFieldVariable: onRemoveFieldVariable
 
                 };
                 //#endregion
