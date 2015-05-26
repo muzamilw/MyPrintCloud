@@ -16,19 +16,23 @@
 
     }), 25);
 }
-function StopLoader() {
-    var3 = 99;
-    loaderLoading = false;
-    $(".progressValue").css("width", 100 + "%");
-    $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
-    function (e) {
-        if (!loaderLoading) {
-            $("#MainLoader").css("display", "none");
+function StopLoader(forceStop) {
+        var3 = 99;
+        loaderLoading = false;
+        $(".progressValue").css("width", 100 + "%");
+        $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend ',
+        function (e) {
+            if (!loaderLoading) {
+                $("#MainLoader").css("display", "none");
+                    clearInterval(var2);
+            }
+        });
+        if(forceStop == true)
+        {
             clearInterval(var2);
+            $("#MainLoader").css("display", "none");
+            
         }
-    });
-
-
 }
 function startInlineLoader(divID) {
     if (divID == 1) {
@@ -404,7 +408,7 @@ function c2_del(obj) {
 function c7(PageID) {
     $.each(TO, function (i, IT) {
         if (IT.ProductPageId == PageID) {
-         
+            hasObjects = true;
             if (IT.ObjectType == 2) {
                 c0(canvas, IT);
             }
@@ -720,7 +724,7 @@ function d2() {
             isloadingNew = false;
             StopLoader();
             m0();
-        }
+        } 
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
               //  if (ite.Orientation == 1) {
@@ -858,7 +862,7 @@ function d5_sub(pageID, isloading) {
                 var colorHex = getColorHex(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK);
                 canvas.backgroundColor = colorHex;
                 canvas.renderAll();
-            }
+            } hasObjects = false;
             c7(pageID);
             pcl41_ApplyDimensions(SelPagObj);
             if (!objectsSelectable)

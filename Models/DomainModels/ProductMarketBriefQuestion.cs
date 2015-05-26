@@ -8,11 +8,11 @@ namespace MPC.Models.DomainModels
     public class ProductMarketBriefQuestion
     {
         public int MarketBriefQuestionId { get; set; }
-        public int? ItemId { get; set; }
+        public long? ItemId { get; set; }
         public string QuestionDetail { get; set; }
         public int SortOrder { get; set; }
         public bool? IsMultipleSelection { get; set; }
-
+        public virtual Item Item { get; set; }
         public virtual ICollection<ProductMarketBriefAnswer> ProductMarketBriefAnswers { get; set; }
     }
 }
