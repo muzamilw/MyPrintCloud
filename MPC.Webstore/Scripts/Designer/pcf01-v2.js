@@ -323,6 +323,11 @@ function c2_01(OPT) {
             }
             IT.RotationAngle = OPT.getAngle();
             if (OPT.type != "text" && OPT.type != "i-text") {
+                //   alert(IT.textStyles);
+                if (OPT.customStyles != null)
+                {
+                    IT.textStyles = JSON.stringify(OPT.customStyles, null, 2);
+                }
                 IT.MaxWidth = OPT.width * orgSx;
                 IT.MaxHeight = OPT.height * orgSy;
                 OPT.maxWidth = OPT.width * OPT.scaleX;
@@ -571,6 +576,7 @@ function d1SvgOl(cCanvas, IO) {
 
         TotalImgLoaded += 1;
         d2();
+
     });
 }
 function d1Svg(cCanvas, IO, isCenter) {
@@ -581,8 +587,10 @@ function d1Svg(cCanvas, IO, isCenter) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
-    fabric.loadSVGFromURL(IO.ContentString, function (objects, options) {
-
+    if (IO.ContentString.indexOf("MPC_Content"))
+        IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
+    fabric.loadSVGFromURL("/MPC_Content/" + IO.ContentString, function (objects, options) {
+       
         var loadedObject = fabric.util.groupSVGElements(objects, options);
         loadedObject.set({
             left: IO.PositionX + IO.MaxWidth / 2,
@@ -633,7 +641,33 @@ function d1Svg(cCanvas, IO, isCenter) {
 
         TotalImgLoaded += 1;
         d2();
+        var colors = [];
+        // get colors 
+        if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
+            clr = (loadedObject.get('fill'));
+            var objClr = {
+                OriginalColor: clr,
+                PathIndex: 0,
+                ModifiedColor: ''
+            }
+            colors.push(objClr);
+        }
+        else if (loadedObject.paths) {
+            for (var i = 0; i < loadedObject.paths.length; i++) {
+                clr = (loadedObject.paths[i].get('fill'));
+                var objClr = {
+                    OriginalColor: clr,
+                    PathIndex: i,
+                    ModifiedColor: ''
+                }
+                colors.push(objClr);
+            }
+        }
+        loadedObject.customStyles = colors;
+       // IO.textStyles = JSON.stringify(colors, null, 2);
+     //   console.log(IO.textStyles);
     });
+
 }
 function d1(cCanvas, IO, isCenter) {
     TIC += 1;
@@ -2333,11 +2367,11 @@ function j9(e, url1, id) {
         } else {
             if (src.indexOf(".svg") == -1) {
                 b4(src);
-                d1ToCanvasCC(src, IW, IH);
+                d1ToCanvasCC(src, IW, IH); 
             } else {
                 d1SvgToCCC(src, IW, IH);
             }
-        }
+        } 
     }
 }
 function j9_21(DT) {
