@@ -32,7 +32,7 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-                   
+
                     // Define request to get product category childs
                     amplify.request.define('getProductCategoryChilds', 'ajax', {
                         url: ist.siteUrl + '/Api/ProductCategory',
@@ -58,7 +58,7 @@
                         type: 'DELETE',
                         decoder: amplify.request.decoders.istStatusDecoder
                     });
-                    
+
                     // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
@@ -203,6 +203,15 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Delete Field Variable
+                    amplify.request.define('deleteFieldVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariable',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
+                    });
+
+
                     // Define request to save Secondary Page
                     amplify.request.define('saveSecondaryPage', 'ajax', {
                         url: ist.siteUrl + '/Api/SecondaryPage',
@@ -210,7 +219,7 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-                    
+
                     // Define request to Create Store
                     amplify.request.define('createStore', 'ajax', {
                         url: ist.siteUrl + '/Api/ImportExportOrganisation/ImportStore?parameter1={parameter1}&parameter2={parameter2}&parameter3={parameter3}',
@@ -343,7 +352,7 @@
                     data: params
                 });
             },
-            
+
             // get Items For Widgets
             getItemsForWidgets = function (callbacks) {
                 initialize();
@@ -362,7 +371,7 @@
                     error: callbacks.error,
                 });
             },
-            
+
              // get Store
             getStores = function (params, callbacks) {
                 initialize();
@@ -414,7 +423,7 @@
                     data: params
                 });
             },
-            
+
              //Get Smart Form Detail By Smart Form Id
                 getSmartFormDetailBySmartFormId = function (params, callbacks) {
                     initialize();
@@ -669,7 +678,7 @@
                     data: param
                 });
             },
-            
+
             // Delete Company Contact
             deleteCompanyContact = function (param, callbacks) {
                 initialize();
@@ -690,7 +699,7 @@
                     data: param
                 });
             },
-            
+
             deleteCompanyPermanent = function (param, callbacks) {
                 initialize();
                 return amplify.request({
@@ -711,6 +720,17 @@
                 data: param
             });
         },
+        // Delete Field Variable
+        deleteFieldVariable = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'deleteFieldVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+
           // save Secondary Page
         saveSecondaryPage = function (param, callbacks) {
             initialize();
@@ -782,6 +802,7 @@
             deleteCompanyAddress: deleteCompanyAddress,
             deleteCompanyContact: deleteCompanyContact,
             saveFieldVariable: saveFieldVariable,
+            deleteFieldVariable: deleteFieldVariable,
             getFieldVariableDetailById: getFieldVariableDetailById,
             getSmartFormDetailBySmartFormId: getSmartFormDetailBySmartFormId,
             getScopeVaribableByContactId: getScopeVaribableByContactId,
@@ -797,7 +818,7 @@
             deleteCompanyPermanent: deleteCompanyPermanent,
             deleteMediaLibraryItemById: deleteMediaLibraryItemById,
             saveSecondaryPage: saveSecondaryPage,
-            deleteSecondaryPage:deleteSecondaryPage
+            deleteSecondaryPage: deleteSecondaryPage
         };
     })();
 
