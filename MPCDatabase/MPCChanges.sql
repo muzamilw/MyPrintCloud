@@ -3906,3 +3906,44 @@ alter table ProductMarketBriefQuestion
 add constraint FK_ProductMarketBriefQuestion_Item
 foreign key (ItemId)
 references Items (ItemId)
+
+/* Execution Date: 26/05/2015 */
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[ImpositionProfile](
+ [ImpositionId] [bigint] IDENTITY(1,1) NOT NULL,
+ [Title] [nvarchar](200) NULL,
+ [SheetSizeId] [bigint] NULL,
+ [SheetHeight] [float] NULL,
+ [SheetWidth] [float] NULL,
+ [ItemSizeId] [bigint] NULL,
+ [ItemHeight] [float] NULL,
+ [ItemWidth] [float] NULL,
+ [Area] [float] NULL,
+ [PTV] [int] NULL,
+ [Region] [varchar](50) NULL,
+ [OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_ImpositionProfile] PRIMARY KEY CLUSTERED 
+(
+ [ImpositionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+alter table machine add isSheetFed bit null
+alter table machine add Passes int null
+alter table impositionProfile add isPortrait bit null

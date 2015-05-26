@@ -106,7 +106,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
                 new List<ItemSection>(),
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>(),
-                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
+                ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ?
+                source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList() : null
             };
 
             // Load Thumbnail Image
@@ -349,7 +350,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ItemSection>(),
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()).ToList() :
-                new List<DomainModels.ItemImage>()
+                new List<DomainModels.ItemImage>(),
+                ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ? source.ProductMarketBriefQuestions.Select(pci => pci.CreateFrom()).ToList() :
+                new List<DomainModels.ProductMarketBriefQuestion>()
             };
         }
 
