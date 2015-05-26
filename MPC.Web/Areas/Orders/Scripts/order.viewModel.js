@@ -1265,7 +1265,7 @@ define("order/order.viewModel",
                         });
                     },
                     // Get Company Base Data
-                    getBaseForCompany = function(id, storeId) {
+                    getBaseForCompany = function(id, storeId) { 
                         isCompanyBaseDataLoaded(false);
                         dataservice.getBaseDataForCompany({
                             id: id,

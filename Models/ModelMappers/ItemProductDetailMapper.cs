@@ -33,6 +33,8 @@ namespace MPC.Models.ModelMappers
             target.DeliveryTimeSupplier1 = source.DeliveryTimeSupplier1;
             target.DeliveryTimeSupplier2 = source.DeliveryTimeSupplier2;
             target.isPrintItem = source.isPrintItem;
+            target.isAllowMarketBriefAttachment = source.isAllowMarketBriefAttachment;
+            target.MarketBriefSuccessMessage = source.MarketBriefSuccessMessage;
         }
 
         #endregion
