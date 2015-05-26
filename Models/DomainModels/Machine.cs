@@ -71,10 +71,16 @@ namespace MPC.Models.DomainModels
         public double? ReelMakereadyTime { get; set; }
         public long? LookupMethodId { get; set; }
         public long? OrganisationId { get; set; }
+        public int? SetupSpoilage { get; set; }
+        public double? RunningSpoilage { get; set; }
+        public double? CoverageHigh { get; set; }
+        public double? CoverageMedium { get; set; }
+        public double? CoverageLow { get; set; }
 
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }
         public virtual ICollection<ItemSection> ItemSections { get; set; }
         public virtual ICollection<MachineLookupMethod> MachineLookupMethods { get; set; }
+        public virtual LookupMethod LookupMethod { get; set; }
     }
 }

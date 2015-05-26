@@ -1,15 +1,18 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
-using MPC.Models.RequestModels;
+using MPC.MIS.Areas.Api.Models;
 
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
+
     /// <summary>
-    /// Live Jobs API Controller
+    /// Live Jobs Base API Controller 
     /// </summary>
-    public class LiveJobsController : ApiController
+    public class LiveJobsBaseController : ApiController
     {
         #region Private
 
@@ -23,22 +26,25 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public LiveJobsController(ILiveJobsService liveJobsService)
+        public LiveJobsBaseController(ILiveJobsService liveJobsService)
         {
             this.liveJobsService = liveJobsService;
         }
+
+
 
         #endregion
 
         #region Public
 
         /// <summary>
-        ///   Get Items For Live Jobs
+        /// Base Data
         /// </summary>
-        public LiveJobsSearchResponse Get([FromUri] LiveJobsRequestModel request)
+        public IEnumerable<SystemUserDropDown> Get()
         {
-            return liveJobsService.GetItemsForLiveJobs(request).CreateFrom();
+            return liveJobsService.GetSystemUsers().Select(user => user.CreateFrom());
         }
+
         #endregion
     }
 }

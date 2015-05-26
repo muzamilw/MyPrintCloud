@@ -21,13 +21,13 @@
                                     <th><span>Description</span></th>
                                     <th><a href="#"><span>Date</span></a></th>
                                     <th><span>Paid By </span></th>
-                                    <th><span>Gross Total</span></th>
+                                    <th style="text-align: right"><span>Gross Total</span></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--ko if:prePayments().length==0-->
+                                <!--ko if:prePayments().length===0-->
                                 <tr>
-                                    <td colspan="2">
+                                    <td colspan="5">
                                         <span>No Items found!</span>
                                     </td>
                                 </tr>
@@ -48,15 +48,7 @@
             <td data-bind="text:paymentDescription"></td>
             <td><span data-bind="visible:formattedPaymentDate()!==undefined">Paid on </span><span data-bind="dateString:paymentDate,datePattern: 'DD/MM/YYYY'"></span></td>
             <td data-bind="text:paymentMethodName"></td>
-            <td><span data-bind="visible:amount()!==undefined,text:$root.currencySymbol,"></span><span data-bind="numberInput:amount"></span></td>
-            @*<td class="text-right">
-                <a href="" class="table-link" data-bind="">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-            </td>*@
+            <td style="text-align: right"><span data-bind="visible:amount()!==undefined,text:$root.currencySymbol,"></span><span data-bind="numberInput:amount"></span></td>
         </tr>
     </script>
 </div>
