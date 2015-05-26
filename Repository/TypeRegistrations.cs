@@ -132,6 +132,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IEstimateInquiryRepository, EstimateInquiryRepository>();
             unityContainer.RegisterType<IInquiryItemRepository, InquiryItemRepository>();
             unityContainer.RegisterType<IInvoiceDetailRepository, InvoiceDetailRepository>();
+            unityContainer.RegisterType<IDeliveryNoteRepository, DeliveryNoteRepository>();
         }
     }
 }

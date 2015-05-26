@@ -327,6 +327,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\DeliveryNoteBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeliveryNotesController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryItemController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryProgressController.cs" />
@@ -424,6 +426,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DeliveryNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GetInquiryResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryAttachmentMapper.cs" />
@@ -531,6 +534,9 @@
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
     <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CrmContactResponse.cs" />
+    <Compile Include="Areas\Api\Models\DeliverNotesResposne.cs" />
+    <Compile Include="Areas\Api\Models\DeliveryNoteBaseResponse.cs" />
+    <Compile Include="Areas\Api\Models\DeliveryNotes.cs" />
     <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
@@ -932,6 +938,10 @@
     <Content Include="Areas\CRM\Views\Home\AddEditSecondaryPage.cshtml" />
     <Content Include="Areas\CRM\Views\Home\AddStore.cshtml" />
     <Content Include="Areas\CRM\Views\Home\AddStoreWizard.cshtml" />
+    <Content Include="Areas\DeliveryNotes\Scripts\deliveryNotes.dataservice.js" />
+    <Content Include="Areas\DeliveryNotes\Scripts\deliveryNotes.model.js" />
+    <Content Include="Areas\DeliveryNotes\Scripts\deliveryNotes.view.js" />
+    <Content Include="Areas\DeliveryNotes\Scripts\deliveryNotes.viewModel.js" />
     <Content Include="Areas\Invoices\Scripts\invoice.dataservice.js" />
     <Content Include="Areas\Invoices\Scripts\invoice.model.js" />
     <Content Include="Areas\Invoices\Scripts\invoice.view.js" />
@@ -3351,6 +3361,7 @@
     <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
+    <Folder Include="Areas\Api\Views\DeliveryNoteBase\" />
     <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
@@ -3377,7 +3388,6 @@
     <Folder Include="Areas\Common\Views\Report\" />
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\DeliveryNotes\Models\" />
-    <Folder Include="Areas\DeliveryNotes\Scripts\" />
     <Folder Include="Areas\Orders\Models\" />
     <Folder Include="Areas\Production\Models\" />
     <Folder Include="Areas\Products\Models\" />
