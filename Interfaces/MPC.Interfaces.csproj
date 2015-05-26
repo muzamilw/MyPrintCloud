@@ -115,6 +115,8 @@
     <Compile Include="Repository\IInvoiceDetailRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
+    <Compile Include="Repository\IProductMarketBriefAnswerRepository.cs" />
+    <Compile Include="Repository\IProductMarketBriefQuestionRepository.cs" />
     <Compile Include="Repository\ISectionCostCentreDetailRepository.cs" />
     <Compile Include="Repository\IShippingInformationRepository.cs" />
     <Compile Include="Repository\ISectionInkCoverageRepository.cs" />

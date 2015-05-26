@@ -183,6 +183,7 @@
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
+    <Compile Include="DomainModels\ImpositionProfile.cs" />
     <Compile Include="DomainModels\InkPlateSide.cs" />
     <Compile Include="DomainModels\JobCardReportView.cs" />
     <Compile Include="DomainModels\JobPreference.cs" />
@@ -371,6 +372,8 @@
     <Compile Include="ModelMappers\InvoiceMapperActions.cs" />
     <Compile Include="ModelMappers\InquiryMapperActions.cs" />
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
+    <Compile Include="ModelMappers\ProductMarketBriefAnswerMapper.cs" />
+    <Compile Include="ModelMappers\ProductMarketBriefQuestionMapper.cs" />
     <Compile Include="ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="ModelMappers\SectionInkCoverageMapper.cs" />
