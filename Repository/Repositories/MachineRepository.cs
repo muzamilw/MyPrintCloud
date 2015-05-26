@@ -278,6 +278,11 @@ namespace MPC.Repository.Repositories
                 omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
                 omachine.LookupMethodId = machine.LookupMethodId;
                 omachine.OrganisationId = OrganisationId;
+                omachine.RunningSpoilage = machine.RunningSpoilage;
+                omachine.SetupSpoilage = machine.SetupSpoilage;
+                omachine.CoverageHigh = machine.CoverageHigh;
+                omachine.CoverageLow = machine.CoverageLow;
+                omachine.CoverageMedium = machine.CoverageMedium;
                 db.Machines.Add(omachine);
                 db.SaveChanges();
 
@@ -319,7 +324,7 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        public bool UpdateMachine(Machine machine)
         {
             try
             {
@@ -387,22 +392,27 @@ namespace MPC.Repository.Repositories
                 omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
                 omachine.LookupMethodId = machine.LookupMethodId;
                 // omachine.OrganisationId = machine.OrganisationId;
+                omachine.RunningSpoilage = machine.RunningSpoilage;
+                omachine.SetupSpoilage = machine.SetupSpoilage;
+                omachine.CoverageHigh = machine.CoverageHigh;
+                omachine.CoverageLow = machine.CoverageLow;
+                omachine.CoverageMedium = machine.CoverageMedium;
 
 
-                foreach (var item in machine.MachineInkCoverages)
-                {
-                    MachineInkCoverage obj = db.MachineInkCoverages.Where(g => g.Id == item.Id).SingleOrDefault();
-                    obj.SideInkOrder = item.SideInkOrder;
-                    obj.SideInkOrderCoverage = item.SideInkOrderCoverage;
-                }
+                //foreach (var item in machine.MachineInkCoverages)
+                //{
+                //    MachineInkCoverage obj = db.MachineInkCoverages.Where(g => g.Id == item.Id).SingleOrDefault();
+                //    obj.SideInkOrder = item.SideInkOrder;
+                //    obj.SideInkOrderCoverage = item.SideInkOrderCoverage;
+                //}
 
-                foreach (var item in MachineSpoilages)
-                {
-                    MachineSpoilage obj = db.MachineSpoilages.Where(g => g.MachineSpoilageId == item.MachineSpoilageId).SingleOrDefault();
-                    obj.RunningSpoilage = item.RunningSpoilage;
-                    obj.SetupSpoilage = item.SetupSpoilage;
+                //foreach (var item in MachineSpoilages)
+                //{
+                //    MachineSpoilage obj = db.MachineSpoilages.Where(g => g.MachineSpoilageId == item.MachineSpoilageId).SingleOrDefault();
+                //    obj.RunningSpoilage = item.RunningSpoilage;
+                //    obj.SetupSpoilage = item.SetupSpoilage;
 
-                }
+                //}
 
                 if (db.SaveChanges() > 0)
                 {

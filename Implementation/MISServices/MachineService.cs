@@ -28,9 +28,9 @@ namespace MPC.Implementation.MISServices
         {
             return machine;
         }
-        public bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        public bool UpdateMachine(Machine machine)
         {
-            return _machineRepository.UpdateMachine(machine, MachineSpoilages);
+            return _machineRepository.UpdateMachine(machine);
         }
         public long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
         {

@@ -10,7 +10,7 @@ namespace MPC.Interfaces.MISServices
     {
         MachineListResponseModel GetAll(MachineRequestModel request);
         Machine Add(Machine machine);
-        bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
+        bool UpdateMachine(Machine machine);
         long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
         
         bool archiveMachine(long machineId);

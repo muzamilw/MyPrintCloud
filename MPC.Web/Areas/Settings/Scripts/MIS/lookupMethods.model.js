@@ -1014,11 +1014,14 @@
         GuilotinePtv.GuilotineId = GuillotineClickChargePTV.GuilotineId();
         return GuilotinePtv;
     }
-    var lookupServerMapper = function (olookup, ClickCharge, ClickChargeZone, SpeedWeight, PerHour, MeterPerHourClickCharge, GuillotineClickCharge, GuillotineClickChargePTV) {
-        var oLookupMethod = {};
-        oLookupMethod.MethodId = olookup.MethodId();
-        oLookupMethod.Name = olookup.Name();
-        oLookupMethod.Type = olookup.Type();
+    var lookupServerMapper = function (lookupMethodId,olookup, ClickCharge, ClickChargeZone, SpeedWeight, PerHour, MeterPerHourClickCharge, GuillotineClickCharge, GuillotineClickChargePTV) {
+        var oMethodId = 0;
+        oMethodId = lookupMethodId;
+
+        //var oLookupMethod = {};
+        //oLookupMethod.MethodId = olookup.MethodId();
+        //oLookupMethod.Name = olookup.Name();
+        //oLookupMethod.Type = olookup.Type();
 
         var ClickChargeLookup = {};
         if (ClickCharge != undefined) {
@@ -1213,14 +1216,16 @@
 
 
         return {
-            LookupMethod: oLookupMethod,
+            lookupMethodId: oMethodId,
+            //LookupMethod: oLookupMethod,
             ClickChargeLookup: ClickChargeLookup,
             ClickChargeZone: ClickChargeZoneLookup,
             SpeedWeightLookup: SpeedWeightLookup,
             PerHourLookup: PerHourLookup,
             MeterPerHourLookup: MeterPerHourClickChargelookup,
             GuillotineCalc: GuillotineClickChargelookup,
-            GuilotinePtv: GuillotineClickChargePTVlookup
+            GuilotinePtv: GuillotineClickChargePTVlookup,
+
         }
 
 

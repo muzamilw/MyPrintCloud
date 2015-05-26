@@ -159,6 +159,11 @@
             TimePerCut = ko.observable(),
             MakeReadyTime = ko.observable(),
             WashupTime = ko.observable(),
+            RunningSpoilage = ko.observable(),
+            SetupSpoilage = ko.observable(),
+            CoverageHigh = ko.observable(),
+            CoverageMedium = ko.observable(),
+            CoverageLow = ko.observable(),
             ReelMakereadyTime = ko.observable(),
             Maximumsheetweight = ko.observable(),
             Maximumsheetheight = ko.observable(),
@@ -245,6 +250,11 @@
                 TimePerCut: TimePerCut,
                 MakeReadyTime: MakeReadyTime,
                 WashupTime: WashupTime,
+                RunningSpoilage: RunningSpoilage,
+                SetupSpoilage: SetupSpoilage,
+                CoverageHigh: CoverageHigh,
+                CoverageMedium: CoverageMedium,
+                CoverageLow: CoverageLow,
                 ReelMakereadyTime: ReelMakereadyTime,
                 Maximumsheetweight: Maximumsheetweight,
                 Maximumsheetheight: Maximumsheetheight,
@@ -333,6 +343,11 @@
             Minimumsheetheight : Minimumsheetheight,
             Minimumsheetwidth : Minimumsheetwidth,
             LookupMethodId: LookupMethodId,
+            RunningSpoilage: RunningSpoilage,
+            SetupSpoilage: SetupSpoilage,
+            CoverageHigh: CoverageHigh,
+            CoverageMedium: CoverageMedium,
+            CoverageLow: CoverageLow,
             lookupList: lookupList,
             dirtyFlag: dirtyFlag,
             errors: errors,
@@ -680,6 +695,12 @@
         omachine.MakeReadyTime(source.machine.MakeReadyTime);
         omachine.WashupTime(source.machine.WashupTime);
         omachine.ReelMakereadyTime(source.machine.ReelMakereadyTime);
+        omachine.RunningSpoilage(source.machine.RunningSpoilage);
+        omachine.SetupSpoilage(source.machine.SetupSpoilage);
+        omachine.CoverageHigh(source.machine.CoverageHigh);
+        omachine.CoverageMedium(source.machine.CoverageMedium);
+        omachine.CoverageLow(source.machine.CoverageLow);
+
         //omachine.Maximumsheetweight(source.machine.Maximumsheetweight);
         //omachine.Maximumsheetheight(source.machine.Maximumsheetheight);
         //omachine.Maximumsheetwidth(source.machine.Maximumsheetwidth);
@@ -800,6 +821,11 @@
         omachine.Minimumsheetheight = machine.Minimumsheetheight();
         omachine.Minimumsheetwidth = machine.Minimumsheetwidth();
         omachine.LookupMethodId = machine.LookupMethodId();
+        omachine.SetupSpoilage = machine.SetupSpoilage();
+        omachine.RunningSpoilage = machine.RunningSpoilage();
+        omachine.CoverageHigh = machine.CoverageHigh();
+        omachine.CoverageMedium = machine.CoverageMedium();
+        omachine.CoverageLow = machine.CoverageLow();
 
         //omachine.MachineInkCoverages = [];
         //_.each(machine.MachineInkCoverages(), function (item) {

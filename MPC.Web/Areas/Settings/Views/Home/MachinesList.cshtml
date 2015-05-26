@@ -18,7 +18,7 @@
                     <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left: 15px;">Close</a>
                         <a class="btn btn-primary" data-bind="click: $root.createNewMachine">
                         <i class="fa  fa-lg"></i>&nbsp;
-                        <span id="btnCreateNewMachine"> Create New Press </span>
+                        <span id="btnCreateNewMachine"></span>
                         </a>
                       
                         <div id="addMachine">
@@ -181,6 +181,10 @@
                     $("#liPress").css("display", "block");
                     $('#pressClick').click();
 
+                    $("#clickChargeZoneSection").css("display", "block");
+                    $("#GuillotineSection").css("display", "none");
+                       
+                    $("#btnCreateNewMachine").html("Create New Press");
                    
                 }
                 else if(page == 'guillotine')
@@ -194,6 +198,11 @@
                     $("#liPress").css("display", "none");
                     //$('#guillotineClick').click();
                     $('#guillotineClick').trigger('click');
+
+                    $("#GuillotineSection").css("display", "block");
+                    $("#clickChargeZoneSection").css("display", "none");
+
+                    $("#btnCreateNewMachine").html("Create New Guillotine");
                 }
             
             }
