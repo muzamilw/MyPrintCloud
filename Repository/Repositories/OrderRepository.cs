@@ -1,6 +1,10 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System.Linq.Expressions;
+using GrapeCity.ActiveReports.PageReportModel;
+using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System;
 using System.Collections.Generic;
@@ -25,6 +29,7 @@ using System.Xml;
 using MPC.Common;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using Image = System.Drawing.Image;
 
 namespace MPC.Repository.Repositories
 {
@@ -40,7 +45,7 @@ namespace MPC.Repository.Repositories
         private readonly IOrganisationRepository _Organisationrepository;
         private readonly ITemplateRepository _TemplateRepository;
         private readonly ITemplatePageRepository _TemplatePageRepository;
-       
+
         public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository, IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService, ITemplateRepository _TemplateRepository, ITemplatePageRepository _TemplatePageRepository)
             : base(container)
         {
@@ -967,7 +972,7 @@ namespace MPC.Repository.Repositories
             {
                 DateTime StartDate = AddBusinessdays(1, DateTime.Now);
                 tblOrder.StartDeliveryDate = StartDate;
-                tblOrder.FinishDeliveryDate = AddBusinessdays(2, StartDate);
+                tblOrder.FinishDeliveryDate = StartDate;//AddBusinessdays(2, StartDate);
             }
 
 
@@ -1280,7 +1285,7 @@ namespace MPC.Repository.Repositories
                     List<Guid> StockManagerIds = new List<Guid>();
                     if (mode == StoreMode.Retail)
                     {
-                        long? StoreId =  db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).Select(s => s.StoreId).FirstOrDefault();
+                        long? StoreId = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).Select(s => s.StoreId).FirstOrDefault();
                         if (StoreId != null && StoreId > 0)
                         {
                             Company Store = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
@@ -1298,7 +1303,7 @@ namespace MPC.Repository.Repositories
                             }
                         }
                     }
-                    else 
+                    else
                     {
                         Company Store = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
                         if (Store != null)
@@ -1314,7 +1319,7 @@ namespace MPC.Repository.Repositories
                             org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
                         }
                     }
-                  
+
                     // Approve the credit after user has pay online
                     tblOrder.IsCreditApproved = 1;
 
@@ -1905,18 +1910,31 @@ namespace MPC.Repository.Repositories
         /// <param name="orderStatus"></param>
         /// <param name="currentStoreMode"></param>
         /// <returns></returns>
-        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds)
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId)
         {
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
             tblOrder.StatusId = (short)orderStatus;
             tblOrder.Order_Date = DateTime.Now;
-            if (ManagerIds != null && ManagerIds.Count > 0) 
+            tblOrder.ArtworkByDate = DateTime.Now.AddDays(2);
+            tblOrder.DataByDate = DateTime.Now.AddDays(2);
+            tblOrder.PaperByDate = DateTime.Now.AddDays(2);
+            tblOrder.TargetPrintDate = DateTime.Now.AddDays(2);
+            tblOrder.TargetBindDate = DateTime.Now.AddDays(2);
+            if (ManagerIds != null && ManagerIds.Count > 0)
             {
                 tblOrder.SalesPersonId = ManagerIds[0];
+                tblOrder.OfficialOrderSetBy = ManagerIds[0];
+                tblOrder.CreditLimitSetBy = ManagerIds[0];
             }
+            Company oCompany = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
+            if(oCompany != null)
+            {
+                tblOrder.OrderManagerId = oCompany.AccountManagerId;
+            }
+           
             UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode, Org, ManagerIds);
-           // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
+            // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
 
             db.SaveChanges();
 
@@ -4391,7 +4409,7 @@ namespace MPC.Repository.Repositories
         //    return sFilePath;
         //}
 
-     
+
 
 
         //public bool MakeOrderArtworkProductionReady(Estimate oOrder)
@@ -4465,7 +4483,7 @@ namespace MPC.Repository.Repositories
         public bool IsRealCustomerOrder(long orderId, long contactId, long companyId)
         {
             Estimate order = db.Estimates.Where(e => e.EstimateId == orderId).FirstOrDefault();
-            if(order != null)
+            if (order != null)
             {
                 if (contactId > 0)
                 {
@@ -4478,7 +4496,7 @@ namespace MPC.Repository.Repositories
                         return false;
                     }
                 }
-                else 
+                else
                 {
                     return true; // me
                 }
@@ -4742,7 +4760,7 @@ namespace MPC.Repository.Repositories
         //                                    System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
         //                                }
 
-                                      
+
 
         //                                if (oPage.hasOverlayObjects == true)
         //                                {
@@ -6793,7 +6811,46 @@ namespace MPC.Repository.Repositories
             return template;
         }
         #endregion
-        
+        /// <summary>
+        /// This function return the delivery item also
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+        public List<Item> GetAllOrderItems(long OrderId)
+        {
+            try
+            {
+                return db.Items.Where(i => i.EstimateId == OrderId && i.IsOrderedItem == true).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Search Estimates For Live Jobs
+        /// </summary>
+        public LiveJobsSearchResponse GetEstimatesForLiveJobs(LiveJobsRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<Estimate, bool>> query =
+                estimate =>
+                    (string.IsNullOrEmpty(request.SearchString) || (estimate.Company.Name.Contains(request.SearchString)) ||
+                     (estimate.Estimate_Name.Contains(request.SearchString))) && (
+                         (estimate.OrganisationId == OrganisationId && estimate.StatusId == (int)OrderStatus.InProduction));
+
+            IQueryable<Item> estimates = DbSet.Where(query).SelectMany(est => est.Items);
+
+            List<Item> items = estimates.OrderBy(est => est.EstimateId)
+           .Skip(fromRow)
+            .Take(toRow)
+            .ToList();
+
+            return new LiveJobsSearchResponse { Items = items, TotalCount = estimates.Count() };
+        }
+
     }
 
 

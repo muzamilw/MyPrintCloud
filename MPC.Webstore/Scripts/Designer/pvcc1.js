@@ -32,6 +32,7 @@ var highlightEditableText = false; var IsInputSelected = false;
 var isBkPnlUploads = false;
 var TempOB = [];
 //old vars
+var hasObjects = false;
 var IsEmbedded = true;   //l1
 var IsCalledFrom = 3;
 var Territory = 0;

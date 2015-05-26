@@ -459,4 +459,13 @@ namespace MPC.Models.Common
 
     }
 
+    /// <summary>
+    /// Impression Coverage (Used in Order - Item Section)
+    /// </summary>
+    public enum ImpressionCoverageEnum
+    {
+        High = 1,
+        Medium = 2,
+        Low = 3
+    }
 }

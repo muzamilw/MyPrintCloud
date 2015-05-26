@@ -244,6 +244,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 prePayments = ko.observableArray([]),
                 // Deliver Schedule
                 deliverySchedules = ko.observableArray([]),
+                //Inquiry Items
+                inquiryItems = ko.observableArray([]),
+                //Is Inquiry Item Loaded Flag
+                isInquiryItemLoaded = ko.observable(false),
                 // Status Id
                 statusId = ko.observable(undefined),
                 // Status
@@ -507,6 +511,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 officialOrderSetByUser: officialOrderSetByUser,
                 setOrderReportSignedBy: setOrderReportSignedBy,
                 orderReportSignedByUser: orderReportSignedByUser,
+                inquiryItems: inquiryItems,
+                isInquiryItemLoaded: isInquiryItemLoaded,
                 systemUsers: systemUsers
             };
         },
@@ -910,7 +916,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     var Inquiry = function (
         specifiedInquiryId, specifiedTitle, specifiedContactId, specifiedCreatedDate, specifiedSourceId, specifiedCompanyId, specifiedCompanyName,specifiedRequireByDate,
-        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId, specifiedFlagColor, specifiedEstimateId
+        specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId, specifiedFlagColor, specifiedEstimateId, specifiedInquiryItemsCount
     ) {
         var self,
         inquiryId = ko.observable(specifiedInquiryId),
@@ -930,6 +936,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         organisationId = ko.observable(specifiedOrganisationId),
         flagColor = ko.observable(specifiedFlagColor),
         estimateId = ko.observable(specifiedEstimateId),
+        inquiryItemsCount = ko.observable(specifiedInquiryItemsCount),
         inquiryAttachments = ko.observableArray([]),
         inquiryItems = ko.observableArray([]),
         // System Users
@@ -961,6 +968,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 }
                 systemUserId(userId);
             }
+        }),
+        // Number of Inquiry Items
+        noOfInquiryItems = ko.computed(function () {
+            return "( " + inquiryItemsCount() + " ) Items";
         }),
         // Get Pipe Line by Id
         getpipeLineById = function (userId) {
@@ -1000,6 +1011,18 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         showAllErrors = function () {
             // Show Item Errors
             errors.showAllMessages();
+        },
+         // Set Validation Summary
+        setValidationSummary = function (validationSummaryList) {
+            validationSummaryList.removeAll();
+
+            if (companyId.error) {
+                validationSummaryList.push({ name: "Customer", element: companyId.domElement });
+            }
+            if (flagId.error) {
+                validationSummaryList.push({ name: "Inquiry Flag ", element: flagId.domElement });
+            }
+
         },
         // ReSharper disable once InconsistentNaming
         dirtyFlag = new ko.dirtyFlag({
@@ -1063,6 +1086,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             status: status,
             isDirectInquiry: isDirectInquiry,
             flagId: flagId,
+            inquiryItemsCount: inquiryItemsCount,
             inquiryCode: inquiryCode,
             createdBy: createdBy,
             organisationId: organisationId,
@@ -1074,9 +1098,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             systemUsers: systemUsers,
             pipelineSources: pipelineSources,
             estimateId: estimateId,
+            noOfInquiryItems: noOfInquiryItems,
             isValid: isValid,
             errors: errors,
             showAllErrors: showAllErrors,
+            setValidationSummary: setValidationSummary,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
@@ -1103,7 +1129,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               source.CreatedBy,
               source.OrganisationId,
             source.FlagColor,
-            source.EstimateId
+            source.EstimateId,
+            source.InquiryItemsCount
             );
         // Map Items if any
         if (source.InquiryAttachments && source.InquiryAttachments.length > 0) {

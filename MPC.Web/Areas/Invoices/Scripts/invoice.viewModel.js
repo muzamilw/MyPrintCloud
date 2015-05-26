@@ -85,7 +85,7 @@ define("invoice/invoice.viewModel",
                     selectedInvoiceForListView = ko.observable(),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedInvoice() && selectedInvoice().name() ? selectedInvoice().name() : 'Invoice';
+                        return selectedInvoice() && selectedInvoice().name() ? selectedInvoice().name() : 'Invoices';
                     }),
                      // Page Code 
                     pageCode = ko.computed(function () {

@@ -194,10 +194,10 @@ namespace MPC.Implementation.MISServices
 
                 //Model.LookupMethods.MethodDTO oModelLookUpMethod = BLL.LookupMethods.Method.GetMachineLookUpMethod(GlobalData, oItemSection.SelectedPressCalculationMethodID);
                 LookupMethod oModelLookUpMethod = new LookupMethod();
-                if (isPressSide2)
-                    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side2LookUp));
-                else
-                    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side1LookUp));
+                //if (isPressSide2)
+                //    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side2LookUp));
+                //else
+                //    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side1LookUp));
                 //oItemSection.SelectedPressCalculationMethodId = Convert.ToInt32(oPressDTO.LookupMethodId); // Commented when applied press for side 2 logic on 2015 05 20
 
                 //Get LookupMethod Query
@@ -1071,10 +1071,10 @@ namespace MPC.Implementation.MISServices
 
                 //Model.LookupMethods.MethodDTO oModelLookUpMethod = BLL.LookupMethods.Method.GetMachineLookUpMethod(GlobalData, oItemSection.SelectedPressCalculationMethodID);
                 LookupMethod oModelLookUpMethod = new LookupMethod();
-                if(isPressSide2)
-                    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side2LookUp));
-                else
-                    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side1LookUp));
+                //if(isPressSide2)
+                //    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side2LookUp));
+                //else
+                //    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side1LookUp));
                 //oItemSection.SelectedPressCalculationMethodId = Convert.ToInt32(oPressDTO.LookupMethodId); // Commented when applied press for side 2 logic on 2015 05 20
 
                 //Get LookupMethod Query

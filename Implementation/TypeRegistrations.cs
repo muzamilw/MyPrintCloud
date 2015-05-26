@@ -83,13 +83,15 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ILengthConversionService, LengthConversionService>();
             unityContainer.RegisterType<IItemJobStatusService, ItemJobStatusService>();
             unityContainer.RegisterType<ICostCentreMatrixServices, CostCentreMatrixServices>();
-             unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
-             unityContainer.RegisterType<ISystemUserService, SystemUserService>();
-             unityContainer.RegisterType<IReportService, ReportService>();
-             unityContainer.RegisterType<IItemSectionService, ItemSectionService>();
-             unityContainer.RegisterType<ITemplateVariableService, TemplateVariableService>();
-             unityContainer.RegisterType<IInquiryService, InquiryService>();
-            
+            unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
+            unityContainer.RegisterType<ISystemUserService, SystemUserService>();
+            unityContainer.RegisterType<IReportService, ReportService>();
+            unityContainer.RegisterType<IItemSectionService, ItemSectionService>();
+            unityContainer.RegisterType<ITemplateVariableService, TemplateVariableService>();
+            unityContainer.RegisterType<IInquiryService, InquiryService>();
+            unityContainer.RegisterType<ILiveJobsService, LiveJobsService>();
+            unityContainer.RegisterType<IDeliveryNotesService, DeliveryNotesService>();
+
         }
     }
 }

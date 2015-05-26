@@ -1881,8 +1881,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="StockQueue" Type="ntext" />
           <Property Name="CostCentreQueue" Type="ntext" />
           <Property Name="PressIdSide2" Type="bigint" />
-          <Property Name="Side1LookUp" Type="bigint" />
-          <Property Name="Side2LookUp" Type="bigint" />
+          <Property Name="ImpressionCoverageSide1" Type="int" />
+          <Property Name="ImpressionCoverageSide2" Type="int" />
           <Property Name="PassesSide1" Type="int" />
           <Property Name="PassesSide2" Type="int" />
         </EntityType>
@@ -2292,6 +2292,11 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ReelMakereadyTime" Type="float" />
           <Property Name="LookupMethodId" Type="bigint" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="SetupSpoilage" Type="int" />
+          <Property Name="RunningSpoilage" Type="float" />
+          <Property Name="CoverageHigh" Type="float" />
+          <Property Name="CoverageMedium" Type="float" />
+          <Property Name="CoverageLow" Type="float" />
         </EntityType>
         <EntityType Name="MachineCategory">
           <Key>
@@ -2897,7 +2902,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
             <PropertyRef Name="MarketBriefQuestionId" />
           </Key>
           <Property Name="MarketBriefQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" />
+          <Property Name="ItemId" Type="bigint" />
           <Property Name="QuestionDetail" Type="nvarchar" MaxLength="500" />
           <Property Name="SortOrder" Type="int" Nullable="false" />
           <Property Name="isMultipleSelction" Type="bit" />
@@ -4569,6 +4574,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Machine_LookupMethod">
+          <End Role="LookupMethod" Type="Self.LookupMethod" Multiplicity="0..1" />
+          <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupMethod">
+              <PropertyRef Name="MethodId" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="LookupMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MediaLibrary_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="MediaLibrary" Type="Self.MediaLibrary" Multiplicity="*" />
@@ -4688,6 +4705,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="ProductCategoryItem">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMarketBriefQuestion_Item">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="ProductMarketBriefQuestion" Type="Self.ProductMarketBriefQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6423,6 +6452,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVideo" EntitySet="ItemVideo" />
           </AssociationSet>
+          <AssociationSet Name="FK_Machine_LookupMethod" Association="Self.FK_Machine_LookupMethod">
+            <End Role="LookupMethod" EntitySet="LookupMethod" />
+            <End Role="Machine" EntitySet="Machine" />
+          </AssociationSet>
           <AssociationSet Name="FK_MediaLibrary_Company" Association="Self.FK_MediaLibrary_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="MediaLibrary" EntitySet="MediaLibrary" />
@@ -6462,6 +6495,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_ProductCategoryItem_ProductCategory" Association="Self.FK_ProductCategoryItem_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMarketBriefQuestion_Item" Association="Self.FK_ProductMarketBriefQuestion_Item">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
           </AssociationSet>
           <AssociationSet Name="FK_PurchaseID" Association="Self.FK_PurchaseID">
             <End Role="Purchase" EntitySet="Purchase" />
@@ -7633,6 +7670,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_machines_tbl_machine_lookup_methods" Association="DomainModels.FK_tbl_machines_tbl_machine_lookup_methods">
             <End Role="Machine" EntitySet="Machines" />
             <End Role="MachineLookupMethod" EntitySet="MachineLookupMethods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Machine_LookupMethod" Association="DomainModels.FK_Machine_LookupMethod">
+            <End Role="LookupMethod" EntitySet="LookupMethods" />
+            <End Role="Machine" EntitySet="Machines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMarketBriefQuestion_Item" Association="DomainModels.FK_ProductMarketBriefQuestion_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -9055,6 +9100,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsRealStateProduct" Type="Boolean" />
           <Property Name="ProductDisplayOptions" Type="Int32" />
           <NavigationProperty Name="ShippingInformations" Relationship="DomainModels.FK_ShippingInformation_Items" FromRole="Item" ToRole="ShippingInformation" />
+          <NavigationProperty Name="ProductMarketBriefQuestions" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="Item" ToRole="ProductMarketBriefQuestion" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -9229,10 +9275,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_SectionCostcentre_ItemSection" FromRole="ItemSection" ToRole="SectionCostcentre" />
           <NavigationProperty Name="SectionInkCoverages" Relationship="DomainModels.FK_SectionInkCoverage_ItemSection" FromRole="ItemSection" ToRole="SectionInkCoverage" />
           <Property Name="PressIdSide2" Type="Int64" />
-          <Property Name="Side1LookUp" Type="Int64" />
-          <Property Name="Side2LookUp" Type="Int64" />
           <Property Name="PassesSide1" Type="Int32" />
           <Property Name="PassesSide2" Type="Int32" />
+          <Property Name="ImpressionCoverageSide1" Type="Int32" />
+          <Property Name="ImpressionCoverageSide2" Type="Int32" />
         </EntityType>
         <EntityType Name="ItemStockControl">
           <Key>
@@ -11204,11 +11250,12 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <PropertyRef Name="MarketBriefQuestionId" />
           </Key>
           <Property Name="MarketBriefQuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" />
+          <Property Name="ItemId" Type="Int64" />
           <Property Name="QuestionDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="IsMultipleSelection" Type="Boolean" />
           <NavigationProperty Name="ProductMarketBriefAnswers" Relationship="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" FromRole="ProductMarketBriefQuestion" ToRole="ProductMarketBriefAnswer" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="ProductMarketBriefQuestion" ToRole="Item" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -12032,6 +12079,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="MachineMeterPerHourLookups" Relationship="DomainModels.FK_tbl_lookup_methods_tbl_machine_meterperhourlookup" FromRole="LookupMethod" ToRole="MachineMeterPerHourLookup" />
           <NavigationProperty Name="MachinePerHourLookups" Relationship="DomainModels.FK_tbl_lookup_methods_tbl_machine_perhourlookup" FromRole="LookupMethod" ToRole="MachinePerHourLookup" />
           <NavigationProperty Name="MachineSpeedWeightLookups" Relationship="DomainModels.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" FromRole="LookupMethod" ToRole="MachineSpeedWeightLookup" />
+          <NavigationProperty Name="Machines" Relationship="DomainModels.FK_Machine_LookupMethod" FromRole="LookupMethod" ToRole="Machine" />
         </EntityType>
         <EntityType Name="Machine">
           <Key>
@@ -12103,6 +12151,12 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="MarkupId" Type="Int64" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="MachineLookupMethods" Relationship="DomainModels.FK_tbl_machines_tbl_machine_lookup_methods" FromRole="Machine" ToRole="MachineLookupMethod" />
+          <Property Name="SetupSpoilage" Type="Int32" />
+          <Property Name="RunningSpoilage" Type="Double" />
+          <Property Name="CoverageHigh" Type="Double" />
+          <Property Name="CoverageMedium" Type="Double" />
+          <Property Name="CoverageLow" Type="Double" />
+          <NavigationProperty Name="LookupMethod" Relationship="DomainModels.FK_Machine_LookupMethod" FromRole="Machine" ToRole="LookupMethod" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -14016,6 +14070,30 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Machine_LookupMethod">
+          <End Type="DomainModels.LookupMethod" Role="LookupMethod" Multiplicity="0..1" />
+          <End Type="DomainModels.Machine" Role="Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupMethod">
+              <PropertyRef Name="MethodId" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="LookupMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMarketBriefQuestion_Item">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.ProductMarketBriefQuestion" Role="ProductMarketBriefQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15142,10 +15220,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="ItemSections">
             <EntityTypeMapping TypeName="DomainModels.ItemSection">
               <MappingFragment StoreEntitySet="ItemSection">
+                <ScalarProperty Name="ImpressionCoverageSide2" ColumnName="ImpressionCoverageSide2" />
+                <ScalarProperty Name="ImpressionCoverageSide1" ColumnName="ImpressionCoverageSide1" />
                 <ScalarProperty Name="PassesSide2" ColumnName="PassesSide2" />
                 <ScalarProperty Name="PassesSide1" ColumnName="PassesSide1" />
-                <ScalarProperty Name="Side2LookUp" ColumnName="Side2LookUp" />
-                <ScalarProperty Name="Side1LookUp" ColumnName="Side1LookUp" />
                 <ScalarProperty Name="PressIdSide2" ColumnName="PressIdSide2" />
                 <ScalarProperty Name="SimilarSections" ColumnName="SimilarSections" />
                 <ScalarProperty Name="PlateInkId" ColumnName="PlateInkId" />
@@ -17145,6 +17223,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="CoverageLow" ColumnName="CoverageLow" />
+                <ScalarProperty Name="CoverageMedium" ColumnName="CoverageMedium" />
+                <ScalarProperty Name="CoverageHigh" ColumnName="CoverageHigh" />
+                <ScalarProperty Name="RunningSpoilage" ColumnName="RunningSpoilage" />
+                <ScalarProperty Name="SetupSpoilage" ColumnName="SetupSpoilage" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="MarkupId" ColumnName="MarkupId" />
                 <ScalarProperty Name="LookupMethodId" ColumnName="LookupMethodId" />

@@ -116,6 +116,7 @@
     <Compile Include="Common\CostCentreResults.cs" />
     <Compile Include="Common\ActiveModuleMenuItem.cs" />
     <Compile Include="Common\CustomerByColumn.cs" />
+    <Compile Include="Common\DeliveryNoteByColumn.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
     <Compile Include="Common\DesignerPostSettings.cs" />
@@ -411,6 +412,7 @@
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
+    <Compile Include="RequestModels\DeliveryNotesRequest.cs" />
     <Compile Include="RequestModels\FieldVariableRequestModel.cs" />
     <Compile Include="RequestModels\GetCostCentresRequest.cs" />
     <Compile Include="RequestModels\GetInquiryRequest.cs" />
@@ -420,6 +422,8 @@
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
     <Compile Include="RequestModels\GoodsReceivedNoteRequestModel.cs" />
     <Compile Include="RequestModels\InvoicesRequestModel.cs" />
+    <Compile Include="RequestModels\ItemJobRequestModel.cs" />
+    <Compile Include="RequestModels\LiveJobsRequestModel.cs" />
     <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
@@ -455,6 +459,7 @@
     <Compile Include="ResponseModels\CostCentreResponse.cs" />
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
     <Compile Include="ResponseModels\CrmContactResponse.cs" />
+    <Compile Include="ResponseModels\DeliveryNoteBaseResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />
@@ -464,6 +469,8 @@
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
     <Compile Include="ResponseModels\ItemDetailBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemForItemJobStatus.cs" />
+    <Compile Include="ResponseModels\LiveJobItem.cs" />
+    <Compile Include="ResponseModels\LiveJobsSearchResponse.cs" />
     <Compile Include="ResponseModels\LookupMethodListResponse.cs" />
     <Compile Include="ResponseModels\LookupMethodResponse.cs" />
     <Compile Include="ResponseModels\MachineResponseModel.cs" />
