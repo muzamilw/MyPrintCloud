@@ -211,14 +211,14 @@
 <script id="deliveryNotesListViewTemplate" type="text/html">
     <tr data-bind="click:$root.onEditDeliverNote" style="cursor: pointer">
         <td>
-            <a href="#" class="user-link patial-edit" data-bind="text:contactCompany"></a>
+            <a href="#" class="user-link patial-edit" data-bind="text:companyName"></a>
             <span class="user-subhead" data-bind="text:orderReff"></span>
         </td>
         <td>
             <span data-bind="dateString: deliveryDate, datePattern: 'DD/MM/YYYY'"></span>
         </td>
         <td class="text-center">
-            <span class="label label-warning"><i class="fa fa-flag"></i></span>
+            <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
         </td>
         <td>
             <span data-bind="text:code"></span>
@@ -235,7 +235,7 @@
 
 @section Scripts{
     <script>
-        require(["deliveryNotes/deliveryNotes.view", "common/companySelector.view"]);
+        require(["deliveryNotes/deliveryNotes.view", "common/companySelector.view", , "common/confirmation.view"]);
         $(document).ready(function () {
             $('#lishipping').addClass('active');
         });
