@@ -1265,7 +1265,7 @@ define("order/order.viewModel",
                         });
                     },
                     // Get Company Base Data
-                    getBaseForCompany = function(id, storeId) {
+                    getBaseForCompany = function(id, storeId) { 
                         isCompanyBaseDataLoaded(false);
                         dataservice.getBaseDataForCompany({
                             id: id,
@@ -1292,6 +1292,32 @@ define("order/order.viewModel",
                                 toastr.error("Failed to load details for selected company" + response);
                             }
                         });
+                    },
+                    //Get Inquiry Items 
+                    getInquiryItems = function(id) {
+                        if ((selectedOrder() == undefined && selectedOrder().enquiryId() == undefined) || selectedOrder().isInquiryItemLoaded()) {
+                            return;
+                        } else {
+                            dataservice.getInquiryItems({
+                                id: selectedOrder().enquiryId()
+                            }, {
+                                success: function (data) {
+                                    selectedOrder().isInquiryItemLoaded(true);
+                                    if (data.InquiryItems && data.InquiryItems.length > 0) {
+                                        var items = [];
+                                        _.each(data.InquiryItems, function (item) {
+                                            items.push(model.InquiryItem.Create(item));
+                                        });
+
+                                        ko.utils.arrayPushAll(selectedOrder().inquiryItems(), items);
+                                        selectedOrder().inquiryItems.valueHasMutated();
+                                    }
+                                },
+                                error: function(response) {
+                                    toastr.error('Failed to Load Inquiry Items: ' + response);
+                                }
+                            });
+                        }
                     },
                     // #endregion Service Calls
                     //#region Dialog Product Section
@@ -1793,7 +1819,10 @@ define("order/order.viewModel",
                         return true;
                     },
                     // Set Deliver Schedule Fields Like Item Name, Address Name for List View
-                    setDeliveryScheduleFields = function() {
+                    setDeliveryScheduleFields = function () {
+                        if (!selectedDeliverySchedule()) {
+                            return;
+                        }
                         var selectedItem = _.find(selectedOrder().items(), function(item) {
                             return item.id() === selectedDeliverySchedule().itemId();
                         });
@@ -1861,7 +1890,8 @@ define("order/order.viewModel",
                     },
 
                     // Delete Delivery Schedule
-                    onDeleteDeliveryScheduleItem = function() {
+                    onDeleteDeliveryScheduleItem = function (deliverySchedule, e) {
+                        selectDeliverySchedule(deliverySchedule);
                         if (selectedDeliverySchedule().deliveryNoteRaised()) {
                             toastr.error("Raised item cannot be deleted.");
                         } else {
@@ -1873,7 +1903,7 @@ define("order/order.viewModel",
                             confirmation.show();
                             return;
                         }
-
+                        e.stopImmediatePropagation();
                     },
                     deleteDeliverySchedule = function() {
                         selectedOrder().deliverySchedules.remove(selectedDeliverySchedule());
@@ -1958,7 +1988,7 @@ define("order/order.viewModel",
                         selectedInquiry(model.Inquiry.Create({}, { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }));
                         //When creating new inquiry by default the inquiry is "Draft Inquiry" and its status is 25(Status Table)
                         selectedInquiry().status(25);
-                        selectedInquiry().reset();
+                       
                         companyContacts.removeAll();
                         openOrderEditor();
                     },
@@ -1986,7 +2016,8 @@ define("order/order.viewModel",
                         selectedInquiryItem(model.InquiryItem.Create({}));
                         view.showInquiryDetailItemDialog();
                     },
-                    editInquiry = function(inquiry) {
+                    editInquiry = function (inquiry) {
+                        errorList.removeAll();
                         isLoadingOrders(true);
                         isCompanyBaseDataLoaded(false);
                         companyContacts.removeAll();
@@ -2057,7 +2088,7 @@ define("order/order.viewModel",
                         var flag = true;
                         if (!selectedInquiry().isValid()) {
                             selectedInquiry().showAllErrors();
-                            //selectedInquiry().setValidationSummary(errorList);
+                            selectedInquiry().setValidationSummary(errorList);
                             flag = false;
                         }
                         return flag;
@@ -2346,6 +2377,7 @@ define("order/order.viewModel",
                     showEstimateNotes: showEstimateNotes,
                     //#endregion
                     //#region Utility Functions
+                    getInquiryItems: getInquiryItems,
                     onCreateNewBlankPrintProduct: onCreateNewBlankPrintProduct,
                     grossTotal: grossTotal,
                     onOrderStatusChange: onOrderStatusChange,

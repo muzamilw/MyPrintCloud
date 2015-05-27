@@ -38,12 +38,13 @@ define("itemJobStatus/itemJobStatus.dataservice", function () {
                     data: param
                 });
             },
-            getItems = function (callbacks) {
+            getItems = function (param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getItems',
                     success: callbacks.success,
-                    error: callbacks.error
+                    error: callbacks.error,
+                    data: param
                 });
             };
 

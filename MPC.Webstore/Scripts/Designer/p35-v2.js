@@ -73,16 +73,21 @@ $("#btnAdd").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    if (canvas) {
+    try {
 
-        var a0 = canvas.getActiveObject();
-        if (a0) {
-            if (a0.type != "image") {
-                canvas.discardActiveObject();
+        if (canvas && canvas != undefined) {
+            var a0 = canvas.getActiveObject();
+            if (a0) {
+                if (a0.type != "image") {
+                    canvas.discardActiveObject();
+                }
+
             }
-
-        }
-    } $(".collapseDesignerMenu").css("display", "list-item");
+        } $(".collapseDesignerMenu").css("display", "list-item");
+    }
+    catch (err) {
+      
+    }
     //var D1AO = canvas.getActiveObject();
     //var D1AG = canvas.getActiveGroup();
     //if (D1AG) canvas.discardActiveGroup();
@@ -1254,20 +1259,34 @@ $('input, textarea, select').focus(function () {
     IsInputSelected = false;
 });
 $('body').keydown(function (e) {
-    var DIA0 = canvas.getActiveObject();
-    if (DIA0 && DIA0.isEditing) {
-        return
-    } else {
-        l3(e);
+    try {
+        if (canvas && canvas != undefined) {
+
+            var DIA0 = canvas.getActiveObject();
+            if (DIA0 && DIA0.isEditing) {
+                return
+            } else {
+                l3(e);
+            }
+        }
+    } catch (err) {
+        //document.getElementById("demo").innerHTML = err.message;
     }
 });
 
 $('body').keyup(function (event) {
-    var DIA0 = canvas.getActiveObject();
-    if (DIA0 && DIA0.isEditing) {
-        return
-    } else {
-        l2(event);
+    try {
+        if (canvas && canvas != undefined) {
+            var DIA0 = canvas.getActiveObject();
+            if (DIA0 && DIA0.isEditing) {
+                return
+            } else {
+                l2(event);
+            }
+        }
+    }
+    catch (err) {
+        //document.getElementById("demo").innerHTML = err.message;
     }
 
 });

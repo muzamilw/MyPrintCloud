@@ -45,6 +45,16 @@ namespace MPC.Repository.Repositories
             this.organisationRepository = organisationRepository;
         }
         #endregion
+
+        /// <summary>
+        /// Get All Machines
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<Machine> GetAll()
+        {
+            return DbSet.Where(machine => machine.OrganisationId == OrganisationId).OrderBy(machine => machine.MachineName).ToList();
+        }
+
         public MachineListResponseModel GetAllMachine(MachineRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
@@ -158,11 +168,11 @@ namespace MPC.Repository.Repositories
                 lookupMethods = GetAllLookupMethodList(IsGuillotine),
                 Markups = null,
                 StockItemforInk = GetAllStockItemforInk(),
-                MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
+               // MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
                 MachineLookupMethods = GetMachineLookupMethods(MachineID),
                 deFaultPaperSizeName = GetStockItemName(omachine.DefaultPaperId),
                 deFaultPlatesName = GetStockItemName(omachine.DefaultPlateId),
-                InkCoveragItems = GetInkCoveragItems(),
+               // InkCoveragItems = GetInkCoveragItems(),
                 CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol,
                 WeightUnit = organisation == null ? null : organisation.WeightUnit.UnitName,
                 LengthUnit = organisation == null ? null : organisation.LengthUnit.UnitName
@@ -235,7 +245,7 @@ namespace MPC.Repository.Repositories
                 omachine.MarkupId = machine.MarkupId;
                 omachine.PressSizeRatio = machine.PressSizeRatio;
                 omachine.Description = machine.Description;
-                omachine.Priority = machine.Priority;
+                omachine.Priority = 10000;
                 omachine.DirectCost = machine.DirectCost;
                 omachine.Image = machine.Image;
                 omachine.MinimumCharge = machine.MinimumCharge;
@@ -268,6 +278,11 @@ namespace MPC.Repository.Repositories
                 omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
                 omachine.LookupMethodId = machine.LookupMethodId;
                 omachine.OrganisationId = OrganisationId;
+                omachine.RunningSpoilage = machine.RunningSpoilage;
+                omachine.SetupSpoilage = machine.SetupSpoilage;
+                omachine.CoverageHigh = machine.CoverageHigh;
+                omachine.CoverageLow = machine.CoverageLow;
+                omachine.CoverageMedium = machine.CoverageMedium;
                 db.Machines.Add(omachine);
                 db.SaveChanges();
 
@@ -309,7 +324,7 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        public bool UpdateMachine(Machine machine)
         {
             try
             {
@@ -344,7 +359,7 @@ namespace MPC.Repository.Repositories
                 omachine.MarkupId = machine.MarkupId;
                 omachine.PressSizeRatio = machine.PressSizeRatio;
                 omachine.Description = machine.Description;
-                omachine.Priority = machine.Priority;
+                omachine.Priority = 10000;
                 omachine.DirectCost = machine.DirectCost;
                 omachine.Image = machine.Image;
                 omachine.MinimumCharge = machine.MinimumCharge;
@@ -377,22 +392,27 @@ namespace MPC.Repository.Repositories
                 omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
                 omachine.LookupMethodId = machine.LookupMethodId;
                 // omachine.OrganisationId = machine.OrganisationId;
+                omachine.RunningSpoilage = machine.RunningSpoilage;
+                omachine.SetupSpoilage = machine.SetupSpoilage;
+                omachine.CoverageHigh = machine.CoverageHigh;
+                omachine.CoverageLow = machine.CoverageLow;
+                omachine.CoverageMedium = machine.CoverageMedium;
 
 
-                foreach (var item in machine.MachineInkCoverages)
-                {
-                    MachineInkCoverage obj = db.MachineInkCoverages.Where(g => g.Id == item.Id).SingleOrDefault();
-                    obj.SideInkOrder = item.SideInkOrder;
-                    obj.SideInkOrderCoverage = item.SideInkOrderCoverage;
-                }
+                //foreach (var item in machine.MachineInkCoverages)
+                //{
+                //    MachineInkCoverage obj = db.MachineInkCoverages.Where(g => g.Id == item.Id).SingleOrDefault();
+                //    obj.SideInkOrder = item.SideInkOrder;
+                //    obj.SideInkOrderCoverage = item.SideInkOrderCoverage;
+                //}
 
-                foreach (var item in MachineSpoilages)
-                {
-                    MachineSpoilage obj = db.MachineSpoilages.Where(g => g.MachineSpoilageId == item.MachineSpoilageId).SingleOrDefault();
-                    obj.RunningSpoilage = item.RunningSpoilage;
-                    obj.SetupSpoilage = item.SetupSpoilage;
+                //foreach (var item in MachineSpoilages)
+                //{
+                //    MachineSpoilage obj = db.MachineSpoilages.Where(g => g.MachineSpoilageId == item.MachineSpoilageId).SingleOrDefault();
+                //    obj.RunningSpoilage = item.RunningSpoilage;
+                //    obj.SetupSpoilage = item.SetupSpoilage;
 
-                }
+                //}
 
                 if (db.SaveChanges() > 0)
                 {

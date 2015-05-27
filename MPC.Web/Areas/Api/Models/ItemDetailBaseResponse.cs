@@ -55,6 +55,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// Logged In User
         /// </summary>
         public Guid LoggedInUser { get; set; }
+
+        /// <summary>
+        /// Machines
+        /// </summary>
+        public IEnumerable<Machine> Machines { get; set; }
         
     }
 }

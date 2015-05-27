@@ -134,6 +134,12 @@ namespace MPC.Interfaces.MISServices
         /// Delete Secondary Page
         /// </summary>
         void DeleteSecondaryPage(long pageId);
+
+        /// <summary>
+        /// Delete Field Variable
+        /// </summary>
+        void DeleteFieldVariable(long variableId);
+
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);

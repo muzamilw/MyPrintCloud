@@ -16,6 +16,7 @@
                     </div>
                 </div>
                 <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 24px">
+                    
                     <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
                     <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
@@ -67,12 +68,7 @@
                         <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Estimate Header</a></li>
                     </ul>
                     <div class="tab-content" style="padding-top:10px;" data-bind="with: selectedOrder">
-                        @*<button class="btn btn-success" style="float: right;margin-right: -9px;" data-bind="visible: enquiryId() != undefined, click: $root.showEstimateNotes">Notes</button>
-                        <input type="button" value="Show Panel D" onclick="ShowDFWD(true)">
-                        <input type="button" value="Hide Panel D" onclick="ShowDFWD(false)">
-                        <div id="dockfloatdivd" style="overflow: auto; position: absolute; left: 1158px; top: 22px; width: 180px; height: 334px; visibility: visible; z-index: 5; background-color: rgb(255, 255, 255);">
-                            This is a dockable/floatable panel, add any HTML contents here<br>
-                        </div>*@
+                       
                         <div class="tab-pane fade in active" id="tab-EstimateHeader">
                             <div class="col-lg-12" id="estimateSection">
                                 <div class="col-lg-12 form-horizontal">
@@ -173,6 +169,25 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" style="height: 60px;" readonly class="form-control font24px" id="code" data-bind="value: code" />
+                                                <button class=" btn btn-primary" id="notes-Button" onclick="showLeftPanel();" data-bind="click: $root.getInquiryItems, visible: enquiryId() != undefined">Notes</button>
+                                                <div id="left-panel" class="this that the other thing" onclick="showLeftPanel();" style="overflow-x: hidden">
+                                                    <button type="button" class="close"><span>×</span></button>
+                                                    <h1>Inquiry Notes</h1>
+                                                    <!-- ko if: $root.selectedOrder().inquiryItems().length > 0-->
+                                                    <div data-bind="foreach: $root.selectedOrder().inquiryItems">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading" id="panel-heading">
+                                                                <h3 class="panel-title" id="panel-title"><b data-bind="text: title"></b></h3>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <b>Delivery Date </b><b data-bind="dateString: deliveryDate"></b><br/>
+                                                                <b data-bind="text: notes"></b>
+                                                            </div>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                    <!--/ko-->
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -387,6 +402,11 @@
                                         </td>
                                     </tr>
                                 </script>
+                                @* Item Template *@
+                                <script id="inquiryItemsTemplate" type="text/html">
+                                    <tr style="cursor: pointer">
+                                       
+                                </script>
                                 <script id="deliveryItemTemplate" type="text/html">
                                     <tr>
                                         <td style=" padding-top: 10px;">
@@ -406,7 +426,6 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/Script/dsxDockFloatPro.js"></script>
 @Html.Partial("~/Areas/Orders/Views/Home/_AddEditPrePayment.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderCostCenterQuantity.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
@@ -427,70 +446,11 @@
         }
 
     }
-
-
-    //$(function section() {
-    //    var dfp;
-    //    var dfwa;
-    //    var dfwb;
-    //    var dfwc;
-    //    var dfwd;
-
-    //    function ShowDFWA(bshow) {
-    //        dfwa.setVisible(bshow);
-
-    //    }
-
-    //    function ShowDFWB(bshow) {
-    //        dfwb.setVisible(bshow);
-    //    }
-    //    function ShowDFWC(bshow) {
-    //        dfwc.setVisible(bshow);
-    //    }
-    //    function ShowDFWD(bshow) {
-    //        dfwd.setVisible(bshow);
-    //    }
-
-    //    function getStates() {
-    //        //  dfw.setVisible(true);
-
-
-    //    }
-
-    //    function onAVisiblity(bVi) {
-    //        var v = bVi;
-    //    }
-
-    //    function onADockStyleChanged(iStyle) {
-    //        var istyle = iStyle;
-    //    }
-
-    //    function init() {
-    //        debugger;
-    //        dfp = DSXDFUtil.createDSXDFUtil();
-    //        dfp.addFixedPanel(document.getElementById("centerdiv"), DSXDFUtil.fixedCenter);
-
-    //        dfwa = dfp.createDFPanel("Panel A");
-    //        //       dfwa.addEventListener("visibilityChanged", onAVisiblity);
-    //        //       dfwa.addEventListener("dockStyleChanged", onADockStyleChanged);
-    //        dfwa.addContentDiv(document.getElementById("dockfloatdiva"));
-    //        dfwa.initLayout(150, 300, 400, 200, DSXDFPanel.dockLeft);
-
-    //        dfwb = dfp.createDFPanel("Panel B");
-    //        dfwb.addContentDiv(document.getElementById("dockfloatdivb"));
-    //        dfwb.initLayout(150, 300, 200, 200, DSXDFPanel.dockBottom);
-
-
-    //        dfwc = dfp.createDFPanel("Panel C");
-    //        dfwc.addContentDiv(document.getElementById("dockfloatdivc"));
-    //        dfwc.initLayout(150, 300, 200, 200, DSXDFPanel.dockLeft);
-
-    //        dfwd = dfp.createDFPanel("Panel D");
-    //        dfwd.addContentDiv(document.getElementById("dockfloatdivd"));
-    //        dfwd.initLayout(150, 300, 200, 200, DSXDFPanel.dockRight);
-
-    //    }
-    //})();
     
+    function showLeftPanel() {
+      var elem = document.getElementById("left-panel");
+      elem.classList.toggle("show");
+  }
+
 </script>
 

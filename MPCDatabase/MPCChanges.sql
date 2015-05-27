@@ -3860,3 +3860,90 @@ alter column PassesSide1 int null
 
 alter table ItemSection 
 alter column PassesSide2 int null
+--Executed on Staging------
+--Executed on Preview, Aus, Eu servers on 2015 05 26------
+/* Execution Date: 22/05/2015 */
+
+alter table itemsection
+alter column Side1LookUp int null
+
+alter table itemsection
+alter column Side2LookUp int null
+
+exec sp_rename 'ItemSection.Side1LookUp', 'ImpressionCoverageSide1'
+
+exec sp_rename 'ItemSection.Side2LookUp', 'ImpressionCoverageSide2'
+
+/* Execution Date: 25/05/2105 */
+
+alter table Machine
+add SetupSpoilage int null
+
+alter table Machine
+add RunningSpoilage float null
+
+alter table Machine
+add CoverageHigh float null
+
+alter table Machine
+add CoverageMedium float null
+
+alter table Machine
+add CoverageLow float null
+
+alter table Machine
+add constraint FK_Machine_LookupMethod
+foreign key (LookupMethodId)
+references LookupMethod (MethodId)
+
+alter table ProductMarketBriefQuestion
+alter column ItemId bigint null
+
+update ProductMarketBriefQuestion
+set ItemId = null
+
+alter table ProductMarketBriefQuestion
+add constraint FK_ProductMarketBriefQuestion_Item
+foreign key (ItemId)
+references Items (ItemId)
+
+/* Execution Date: 26/05/2015 */
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[ImpositionProfile](
+ [ImpositionId] [bigint] IDENTITY(1,1) NOT NULL,
+ [Title] [nvarchar](200) NULL,
+ [SheetSizeId] [bigint] NULL,
+ [SheetHeight] [float] NULL,
+ [SheetWidth] [float] NULL,
+ [ItemSizeId] [bigint] NULL,
+ [ItemHeight] [float] NULL,
+ [ItemWidth] [float] NULL,
+ [Area] [float] NULL,
+ [PTV] [int] NULL,
+ [Region] [varchar](50) NULL,
+ [OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_ImpositionProfile] PRIMARY KEY CLUSTERED 
+(
+ [ImpositionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+alter table machine add isSheetFed bit null
+alter table machine add Passes int null
+alter table impositionProfile add isPortrait bit null
