@@ -147,11 +147,20 @@ define("product/product.viewModel",
                         onSelectPressItem: function () {
                             closePressDialog();
                         },
+                        onAddProductMarketBriefQuestion: function () {
+                            onAddProductMarketBriefQuestion();
+                        },
+                        onEditProductMarketBriefQuestion: function () {
+                            onEditProductMarketBriefQuestion();
+                        },
                         onDeleteProductMarketBriefQuestion: function(onProceed) {
                             onDeleteProductMarketBriefQuestion(onProceed);
                         },
                         onDeleteProductMarketBriefAnswer: function(onProceed) {
                             onDeleteProductMarketBriefAnswer(onProceed);
+                        },
+                        onDeleteItemRelatedItem: function (onProceed) {
+                            onDeleteItemRelatedItem(onProceed);
                         }
                     },
                     // Item State Tax Constructor Params
@@ -259,6 +268,7 @@ define("product/product.viewModel",
                     closeProductEditor = function () {
                         selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
                         resetVideoCounter();
+                        resetProductMarketBriefQuestionCounter();
                         isProductDetailsVisible(false);
                         selectedDesignerCategory(undefined);
                         selectedRegionId(undefined);
@@ -421,11 +431,14 @@ define("product/product.viewModel",
                     },
                      changeIcon = function (event) {
                          if (event.target.classList.contains("fa-chevron-circle-right")) {
+// ReSharper disable Html.TagNotResolved
                              event.target.classList.remove("fa-chevron-circle-right");
+
                              event.target.classList.add("fa-chevron-circle-down");
                          } else {
                              event.target.classList.remove("fa-chevron-circle-down");
                              event.target.classList.add("fa-chevron-circle-right");
+                             // ReSharper restore Html.TagNotResolved
                          }
                      },
                     // Toggle Child Categories
@@ -467,7 +480,9 @@ define("product/product.viewModel",
                     },
                     // Open Phrase Library
                     openPhraseLibrary = function () {
+// ReSharper disable Html.IdNotResolved
                         $("#idheadingPhraseLibrary").html("Select a phrase");
+// ReSharper restore Html.IdNotResolved
                         phraseLibrary.show(function (phrase) {
                             updateJobDescription(phrase);
                         });
@@ -547,27 +562,59 @@ define("product/product.viewModel",
                         });
                         confirmation.show();
                     },
-                     onDeleteTemplatePage = function (templatePage) {
-                         confirmation.messageText("Do you want to delete the template page?");
-                         confirmation.afterProceed(function () {
-                             selectedProduct().template().removeTemplatePage(templatePage);
-                         });
-                         confirmation.show();
-                     },
-                      onDeleteItemAddonCostCentre = function () {
-                          confirmation.messageText("Do you want to delete this refining option?");
-                          confirmation.afterProceed(function () {
-                              selectedProduct().activeStockOption().removeItemAddonCostCentre();
-                          });
-                          confirmation.show();
-                      },
-                        onDeleteItemStockOption = function (itemStockOption) {
-                            confirmation.messageText("Do you want to delete this price column attribute?");
-                            confirmation.afterProceed(function () {
-                                selectedProduct().removeItemStockOption(itemStockOption);
-                            });
-                            confirmation.show();
-                        },
+                    onDeleteTemplatePage = function (templatePage) {
+                        confirmation.messageText("Do you want to delete the template page?");
+                        confirmation.afterProceed(function () {
+                            selectedProduct().template().removeTemplatePage(templatePage);
+                        });
+                        confirmation.show();
+                    },
+                    onDeleteItemAddonCostCentre = function () {
+                        confirmation.messageText("Do you want to delete this refining option?");
+                        confirmation.afterProceed(function () {
+                            selectedProduct().activeStockOption().removeItemAddonCostCentre();
+                        });
+                        confirmation.show();
+                    },
+                    onDeleteItemStockOption = function (itemStockOption) {
+                        confirmation.messageText("Do you want to delete this price column attribute?");
+                        confirmation.afterProceed(function () {
+                            selectedProduct().removeItemStockOption(itemStockOption);
+                        });
+                        confirmation.show();
+                    },
+                    // Added ProductMarketBriefQuestion Counter
+                    productMarketBriefQuestionCounter = -1,
+                    // Reset ProductMarketBriefQuestion Counter
+                    resetProductMarketBriefQuestionCounter = function () {
+                        productMarketBriefQuestionCounter = -1;
+                    },
+                    // Open Market Brief Question Dialog
+                    openProductMarketBriefQuestionDialog = function() {
+                        view.showMarketBriefQuestionDialog();
+                    },
+                    // Close Market Brief Question Dialog
+                    closeProductMarketBriefQuestionDialog = function () {
+                        view.hideMarketBriefQuestionDialog();
+                    },
+                    // On Add ProductMarketBriefQuestion
+                    onAddProductMarketBriefQuestion = function () {
+                        // Open ProductMarketBriefQuestion Dialog  
+                        openProductMarketBriefQuestionDialog();
+                    },
+                    onEditProductMarketBriefQuestion = function () {
+                        // Open ProductMarketBriefQuestion Dialog  
+                        openProductMarketBriefQuestionDialog();
+                    },
+                    // Save Market Brief Question
+                    saveProductMarketBriefQuestion = function () {
+                        if (selectedProduct().activeProductMarketQuestion().id() === 0) { // Add
+                            selectedProduct().activeProductMarketQuestion().id(productMarketBriefQuestionCounter);
+                            selectedProduct().addProductMarketBriefQuestion();
+                            productMarketBriefQuestionCounter -= 1;
+                        }
+                        closeProductMarketBriefQuestionDialog();
+                    },
                     // On Delete Product Market Brief Question
                     onDeleteProductMarketBriefQuestion = function(onProceed) {
                         confirmation.messageText("Do you want to delete this market brief question?");
@@ -575,12 +622,23 @@ define("product/product.viewModel",
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
                             }
+                            closeProductMarketBriefQuestionDialog();
                         });
                         confirmation.show();
                     },
                     // On Delete Product Market Brief Answer
                     onDeleteProductMarketBriefAnswer = function (onProceed) {
                         confirmation.messageText("Do you want to delete this market brief answer?");
+                        confirmation.afterProceed(function () {
+                            if (onProceed && typeof onProceed === "function") {
+                                onProceed();
+                            }
+                        });
+                        confirmation.show();
+                    },
+                    // On Delete Item Related Item
+                    onDeleteItemRelatedItem = function (onProceed) {
+                        confirmation.messageText("Do you want to delete this upsell product?");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -1465,10 +1523,11 @@ define("product/product.viewModel",
                     defaultTaxRate: defaultTaxRate,
                     onDeleteTemplatePage: onDeleteTemplatePage,
                     onDeleteItemAddonCostCentre: onDeleteItemAddonCostCentre,
-                    onDeleteItemStockOption: onDeleteItemStockOption
+                    onDeleteItemStockOption: onDeleteItemStockOption,
+                    saveProductMarketBriefQuestion: saveProductMarketBriefQuestion,
+                    closeProductMarketBriefQuestionDialog: closeProductMarketBriefQuestionDialog
                     // For Store
                     // Utility Methods
-
                 };
             })()
         };

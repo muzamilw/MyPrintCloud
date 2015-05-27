@@ -833,6 +833,7 @@ namespace MPC.Models.DomainModels
             target.IsDigitalDownload = IsDigitalDownload;
             target.IsRealStateProduct = IsRealStateProduct;
             target.SmartFormId = SmartFormId;
+            target.ItemType = ItemType;
             
             // Copy Internal Descriptions
             CloneInternalDescriptions(target);
@@ -866,7 +867,36 @@ namespace MPC.Models.DomainModels
             target.JobDescription7 = JobDescription7;
         }
 
-        
+        /// <summary>
+        /// Makes a copy of Item
+        /// </summary>
+        public void CloneForOrder(Item target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemClone_InvalidItem, "target");
+            }
+
+            Clone(target);
+
+            // Copy Internal Descriptions
+            CloneInternalDescriptions(target);
+
+            target.Qty1 = Qty1;
+            target.Qty1NetTotal = Qty1NetTotal;
+            target.Qty1Tax1Value = Qty1Tax1Value;
+            target.Qty1GrossTotal = Qty1GrossTotal;
+            target.Qty2 = Qty2;
+            target.Qty2NetTotal = Qty2NetTotal;
+            target.Qty2Tax1Value = Qty2Tax1Value;
+            target.Qty2GrossTotal = Qty2GrossTotal;
+            target.Qty3 = Qty3;
+            target.Qty3NetTotal = Qty3NetTotal;
+            target.Qty3Tax1Value = Qty3Tax1Value;
+            target.Qty3GrossTotal = Qty3GrossTotal;
+            target.InvoiceDescription = InvoiceDescription;
+            target.ItemNotes = ItemNotes;
+        }
 
         #endregion
 

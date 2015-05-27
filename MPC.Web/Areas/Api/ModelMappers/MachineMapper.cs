@@ -117,6 +117,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
                 LookupMethodId = source.LookupMethodId,
+                RunningSpoilage = source.RunningSpoilage,
+                SetupSpoilage = source.SetupSpoilage,
+                CoverageHigh = source.CoverageHigh,
+                CoverageLow = source.CoverageLow,
+                CoverageMedium = source.CoverageMedium,
+                isSheetFed = source.isSheetFed,
+                Passes = source.Passes,
                 MachineInkCoverages = source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList()
 
             };
@@ -188,6 +195,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
                 LookupMethodId = source.LookupMethodId,
+                RunningSpoilage = source.RunningSpoilage,
+                SetupSpoilage = source.SetupSpoilage,
+                CoverageHigh = source.CoverageHigh,
+                CoverageLow = source.CoverageLow,
+                CoverageMedium = source.CoverageMedium,
+                isSheetFed = source.isSheetFed,
+                Passes = source.Passes,
                 MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null
 
 

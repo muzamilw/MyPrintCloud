@@ -76,7 +76,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         
         {
 
-            return _machineService.UpdateMachine(request.machine.CreateFrom(), request.MachineSpoilages.Select(g=>g.CreateFrom()));
+            return _machineService.UpdateMachine(request.machine.CreateFrom());
            
 
 

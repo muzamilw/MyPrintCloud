@@ -90,7 +90,7 @@ namespace MPC.Repository.Repositories
             {
                 var objList = from p in db.VariableSections
                               join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == null))
+                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory))
                               orderby p.VariableSectionId,es.VariableTag, es.VariableType, es.SortOrder
                               select new
                               {

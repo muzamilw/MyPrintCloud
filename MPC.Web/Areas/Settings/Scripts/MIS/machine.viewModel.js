@@ -2,8 +2,8 @@
     Module with the view model for the Machine List.
 */
 define("machine/machine.viewModel",
-    ["jquery", "amplify", "ko", "machine/machine.dataservice", "machine/machine.model", "common/confirmation.viewModel", "common/pagination", "common/stockItem.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, stockDialog) {
+    ["jquery", "amplify", "ko", "machine/machine.dataservice", "machine/machine.model", "common/confirmation.viewModel", "common/pagination", "common/stockItem.viewModel", "lookupMethods/lookupMethods.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, stockDialog,lookupMethodViewModel) {
         var ist = window.ist || {};
         ist.machine = {
             viewModel: (function () {
@@ -13,7 +13,7 @@ define("machine/machine.viewModel",
                     machineList = ko.observableArray([]),
                     errorList = ko.observableArray([]),
                     stockItemList = ko.observableArray([]),
-                    
+
                     stockItemgPager = ko.observable(),
                     // #region Busy Indicators
                     isLoadingMachineList = ko.observable(false),
@@ -32,35 +32,36 @@ define("machine/machine.viewModel",
                     categoryID = ko.observable(),
                     isGuillotineList = ko.observable(),
                     UpdatedPapperStockID = ko.observable(),
+                    MachineName = ko.observable(),
                    // templateToUse = 'itemMachineTemplate',
                     makeEditable = ko.observable(false),
                    gotoElement = function (validation) {
-                        view.gotoElement(validation.element);
-                    },
+                       view.gotoElement(validation.element);
+                   },
                      setValidationSummary = function (selectedItem) {
                          errorList.removeAll();
                          if (selectedItem.Description.error) {
                              errorList.push({ name: "Description is Required", element: selectedItem.Description.error });
                          }
-                         
+
                      },
                     GetMachineListForGuillotine = function () {
                         $("#btnCreateNewMachine").html('Create New Guillotine');
                         isGuillotineList(true);
-                       getMachines();
+                        getMachines();
                     },
                     GetMachineListForAll = function () {
                         $("#btnCreateNewMachine").html('Create New Press');
-                         isGuillotineList(false);
-                         getMachines();
-                     },
+                        isGuillotineList(false);
+                        getMachines();
+                    },
                     onArchiveMachine = function (oMachine) {
                         if (!oMachine.MachineId()) {
                             machineList.remove(oMachine);
                             return;
                         }
                         // Ask for confirmation
-  
+
                         confirmation.messageText("Do you want to Archive this Machine?");
                         confirmation.afterProceed(function () {
                             dataservice.deleteMachine({
@@ -70,7 +71,7 @@ define("machine/machine.viewModel",
                                 success: function (data) {
                                     machineList.remove(oMachine);
                                     toastr.success(" Deleted Successfully !");
-                                    
+
                                 },
                                 error: function (response) {
                                     toastr.error("Failed to Delete Machine" + response);
@@ -97,7 +98,7 @@ define("machine/machine.viewModel",
                                         var stockItem = model.StockItemMapper(item)
                                         stockItemList.push(stockItem);
                                     });
-                                    
+
                                 }
                             },
                             error: function (response) {
@@ -118,7 +119,7 @@ define("machine/machine.viewModel",
                             success: function (data) {
                                 machineList.removeAll();
                                 if (data != null) {
-                                    
+
                                     _.each(data.machine, function (item) {
                                         var module = model.machineListClientMapper(item);
                                         machineList.push(module);
@@ -157,39 +158,42 @@ define("machine/machine.viewModel",
                         CloseMachineEditor();
                     },
                     CloseMachineEditor = function () {
-                       isEditorVisible(false);
+                        isEditorVisible(false);
                         errorList.removeAll();
                     },
-                    createNewMachine = function (oMachine) {
-                         errorList.removeAll();
-                         dataservice.getMachineById({
-                             IsGuillotine: isGuillotineList(),
-                         }, {
-                             success: function (data) {
-                                 if (data != null) {
-                                     selectedMachine(model.newMachineClientMapper(data));
-                                     selectedMachine().reset();
-                                     showMachineDetail();
+                 
 
-                                 }
-                             },
-                             error: function (response) {
-                                 toastr.error("Failed to load Detail . Error: ");
-                             }
-                         });
-                     },
+                    createNewMachine = function (oMachine) {
+                        errorList.removeAll();
+                        dataservice.getMachineById({
+                            IsGuillotine: isGuillotineList(),
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    selectedMachine(model.newMachineClientMapper(data));
+                                    selectedMachine().reset();
+                                    showMachineDetail();
+
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load Detail . Error: ");
+                            }
+                        });
+                    },
                     //Save Machine
                     saveMachine = function (item) {
                         if (selectedMachine() != undefined && doBeforeSave()) {
                             if (selectedMachine().MachineId() > 0) {
                                 saveEdittedMachine();
+                                lookupMethodViewModel.saveEdittedLookup(selectedMachine().LookupMethodId(), lookupMethodViewModel.selectedClickChargeZones(), lookupMethodViewModel.selectedGuillotineClickCharge(), lookupMethodViewModel.selectedMeterPerHourClickCharge());
                             }
                             else {
                                 if (isGuillotineList()) {
                                     selectedMachine().MachineCatId(4);
-                                        } else {
+                                } else {
                                     selectedMachine().MachineCatId(2);
-                                        }
+                                }
                                 saveNewMachine();
                             }
                         }
@@ -209,13 +213,13 @@ define("machine/machine.viewModel",
                         }
                     },
                     oniswashupusedChange = function () {
-                         if (selectedMachine() != undefined && selectedMachine().iswashupused()) {
-                             selectedMachine().WashupPrice(0);
-                         }
-                     },
+                        if (selectedMachine() != undefined && selectedMachine().iswashupused()) {
+                            selectedMachine().WashupPrice(0);
+                        }
+                    },
                     //Save EDIT Machine
                     saveEdittedMachine = function () {
-                       
+
                         dataservice.saveMachine(model.machineServerMapper(selectedMachine()), {
                             success: function (data) {
                                 errorList.removeAll();
@@ -236,11 +240,11 @@ define("machine/machine.viewModel",
                                                 }
 
                                             });
-                                         }
+                                        }
 
                                     }
                                 });
-                               
+
                             },
                             error: function (exceptionMessage, exceptionType) {
                                 if (exceptionType === ist.exceptionType.MPCGeneralException) {
@@ -252,38 +256,38 @@ define("machine/machine.viewModel",
                         });
                     },
                     saveNewMachine = function () {
-                         
-                         dataservice.saveNewMachine(model.machineServerMapper(selectedMachine()), {
-                             success: function (data) {
-                                 selectedMachine().reset();
-                                 errorList.removeAll();
-                                 
-                                 selectedMachine().MachineId(data);
-                                 isEditorVisible(false);
 
-                                 toastr.success("Successfully save.");
-                                 var module = model.machineListClientMapperSelectedItem(selectedMachine());
-                                 
-                                     _.each(selectedMachine().lookupList(), function (lookupItm) {
-                                         if (lookupItm && lookupItm.MethodId == selectedMachine().LookupMethodId()) {
-                                             module.LookupMethodName(lookupItm.Name);
-                                         }
+                        dataservice.saveNewMachine(model.machineServerMapper(selectedMachine()), {
+                            success: function (data) {
+                                selectedMachine().reset();
+                                errorList.removeAll();
 
-                                     });
-                                 
-                                 machineList.push(module);
-                                
+                                selectedMachine().MachineId(data);
+                                isEditorVisible(false);
 
-                             },
-                             error: function (exceptionMessage, exceptionType) {
-                                 if (exceptionType === ist.exceptionType.MPCGeneralException) {
-                                     toastr.error(exceptionMessage);
-                                 } else {
-                                     toastr.error("Failed to save.");
-                                 }
-                             }
-                         });
-                     },
+                                toastr.success("Successfully save.");
+                                var module = model.machineListClientMapperSelectedItem(selectedMachine());
+
+                                _.each(selectedMachine().lookupList(), function (lookupItm) {
+                                    if (lookupItm && lookupItm.MethodId == selectedMachine().LookupMethodId()) {
+                                        module.LookupMethodName(lookupItm.Name);
+                                    }
+
+                                });
+
+                                machineList.push(module);
+
+
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                    toastr.error(exceptionMessage);
+                                } else {
+                                    toastr.error("Failed to save.");
+                                }
+                            }
+                        });
+                    },
                     onPapperSizeStockItemPopup = function () {
                         openStockItemDialog(1);//for Paper
                     },
@@ -298,16 +302,16 @@ define("machine/machine.viewModel",
 
                      // Delete a Markup
                     onDeleteLookup = function (lookup) {
-                       
+
 
                         machinelookups.remove(lookup);
                         _.each(machinelookups(), function (item) {
                             if ((item.id() === lookup.id())) {
                                 machinelookups.remove(item);
-                                }
-                            });
-                            
-                        
+                            }
+                        });
+
+
                     },
 
 
@@ -319,24 +323,38 @@ define("machine/machine.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedMachine(model.machineClientMapper(data));
+
+                                    if (data.machine.isSheetFed == true)
+                                    {
+                                        $("#meterPerHour").css("display", "block");
+                                        $("#clickChargeZoneSection").css("display", "none");
+                                       
+                                    }
+                                    else
+                                    {
+                                       
+                                        $("#meterPerHour").css("display", "none");
+                                        $("#clickChargeZoneSection").css("display", "block");
+                                    }
                                     selectedMachine().reset();
                                     showMachineDetail();
 
 
+                                    lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
 
-                                    //Machine lookups
-                                    machinelookups.removeAll();
-                                    var machinesLookupList = [];
-                                    _.each(data.MachineLookupMethods, function (item) {
-                                        var lookupmethods = new model.MachineLookupClientMapper(item);
-                                        machinesLookupList.push(lookupmethods);
-                                    });
-                                    ko.utils.arrayPushAll(machinelookups(), machinesLookupList);
-                                    machinelookups.valueHasMutated();
+                                    ////Machine lookups
+                                    //machinelookups.removeAll();
+                                    //var machinesLookupList = [];
+                                    //_.each(data.MachineLookupMethods, function (item) {
+                                    //    var lookupmethods = new model.MachineLookupClientMapper(item);
+                                    //    machinesLookupList.push(lookupmethods);
+                                    //});
+                                    //ko.utils.arrayPushAll(machinelookups(), machinesLookupList);
+                                    //machinelookups.valueHasMutated();
 
-                                   
-                                    
-                                    
+
+
+
                                 }
                             },
                             error: function (response) {
@@ -345,23 +363,62 @@ define("machine/machine.viewModel",
                         });
                     },
 
-                     onCreateNewMachineLookupMethodId = function () {
-                         var lookups = machinelookups()[0];
-                         if ((machinelookups().length === 0) || (lookups !== undefined && lookups !== null && lookups.MachineId() !== undefined && lookups.MethodId() !== undefined && lookups.isValid())) {
-                             //var newMarkup = model.Markup();
-                             //newMarkup.id(idCounter() - 1);
-                             //newMarkup.rate(0);
-                             ////New Id
-                             //idCounter(idCounter() - 1);
-                             //markups.splice(0, 0, newMarkup);
-                             //filteredMarkups.splice(0, 0, newMarkup);
-                             //selectedMarkup(filteredMarkups()[0]);
-                             //selectedMyOrganization().flagForChanges("Changes occur");
-                         }
-                         if (lookups !== undefined && lookups !== null && !lookups.isValid()) {
-                             lookups.errors.showAllMessages();
-                         }
-                     },
+
+
+
+                    onLookupMethodTabClick = function (oMachine) {
+
+
+                        var pagetype = Request.QueryString("type").toString();
+
+                        if (pagetype != null) {
+                            if (pagetype == 'press') {
+
+                                
+
+                                lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(true);
+
+                                //lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
+                                //lookupMethodViewModel.GetMachineLookupById(oMachine.LookupMethodId());
+                               // lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
+
+
+                            }
+                            else if (pagetype == 'guillotine') {
+                                lookupMethodViewModel.isGuillotineClickChargeEditorVisible(true);
+
+
+                            }
+                            if (oMachine.MachineId() > 0)
+                            {
+                                lookupMethodViewModel.GetMachineLookupById(oMachine.LookupMethodId());
+                            }
+                           
+                        }
+                       
+                    },
+
+
+
+
+
+                     //onCreateNewMachineLookupMethodId = function () {
+                     //    var lookups = machinelookups()[0];
+                     //    if ((machinelookups().length === 0) || (lookups !== undefined && lookups !== null && lookups.MachineId() !== undefined && lookups.MethodId() !== undefined && lookups.isValid())) {
+                     //        //var newMarkup = model.Markup();
+                     //        //newMarkup.id(idCounter() - 1);
+                     //        //newMarkup.rate(0);
+                     //        ////New Id
+                     //        //idCounter(idCounter() - 1);
+                     //        //markups.splice(0, 0, newMarkup);
+                     //        //filteredMarkups.splice(0, 0, newMarkup);
+                     //        //selectedMarkup(filteredMarkups()[0]);
+                     //        //selectedMyOrganization().flagForChanges("Changes occur");
+                     //    }
+                     //    if (lookups !== undefined && lookups !== null && !lookups.isValid()) {
+                     //        lookups.errors.showAllMessages();
+                     //    }
+                     //},
 
 
                     closeEditDialog = function () {
@@ -380,8 +437,18 @@ define("machine/machine.viewModel",
                     closeMachineDetail = function () {
                         isEditorVisible(false);
                     },
+                    isLookupMethodInitialize = false,
                     showMachineDetail = function () {
-                        isEditorVisible(true);
+
+                        //if (!isLookupMethodInitialize)
+                        //{
+                            ko.cleanNode($("#divlookupMethodBinding")[0]);
+                            ko.applyBindings(ist.lookupMethods.view.viewModel, $("#divlookupMethodBinding")[0]);
+                            isLookupMethodInitialize = true;
+                       // }
+                        
+                            isEditorVisible(true);
+                        
                         view.initializeLabelPopovers();
                     },
                      // #region Observables
@@ -390,8 +457,27 @@ define("machine/machine.viewModel",
                         isGuillotineList(false);
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
+
+                        
                         pager(pagination.Pagination({ PageSize: 10 }, machineList, getMachines));
-                        getMachines();
+
+                        var pagetype = Request.QueryString("type").toString();
+
+                        if (pagetype != null) {
+                            if (pagetype == 'press') {
+                                MachineName("Click Charge Name");
+                                isGuillotineList(false);
+                                getMachines();
+
+
+                            }
+                            else if (pagetype == 'guillotine')
+                            {
+                                MachineName("Guillotine Name");
+                                isGuillotineList(true);
+                                getMachines();
+                            }
+                        }
                     };
 
                 return {
@@ -439,7 +525,10 @@ define("machine/machine.viewModel",
                     saveNewMachine: saveNewMachine,
                     machinelookups: machinelookups,
                     onDeleteLookup: onDeleteLookup,
-                    onCreateNewMachineLookupMethodId: onCreateNewMachineLookupMethodId
+                   // onCreateNewMachineLookupMethodId: onCreateNewMachineLookupMethodId,
+                    MachineName: MachineName,
+                    lookupMethodViewModel: lookupMethodViewModel,
+                    onLookupMethodTabClick: onLookupMethodTabClick
                   
                 };
             })()

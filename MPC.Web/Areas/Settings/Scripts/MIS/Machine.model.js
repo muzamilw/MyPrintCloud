@@ -159,6 +159,13 @@
             TimePerCut = ko.observable(),
             MakeReadyTime = ko.observable(),
             WashupTime = ko.observable(),
+            RunningSpoilage = ko.observable(),
+            SetupSpoilage = ko.observable(),
+            CoverageHigh = ko.observable(),
+            CoverageMedium = ko.observable(),
+            CoverageLow = ko.observable(),
+            isSheetFed = ko.observable(),
+            Passes = ko.observable(),
             ReelMakereadyTime = ko.observable(),
             Maximumsheetweight = ko.observable(),
             Maximumsheetheight = ko.observable(),
@@ -245,6 +252,13 @@
                 TimePerCut: TimePerCut,
                 MakeReadyTime: MakeReadyTime,
                 WashupTime: WashupTime,
+                RunningSpoilage: RunningSpoilage,
+                SetupSpoilage: SetupSpoilage,
+                CoverageHigh: CoverageHigh,
+                CoverageMedium: CoverageMedium,
+                CoverageLow: CoverageLow,
+                isSheetFed: isSheetFed,
+                Passes: Passes,
                 ReelMakereadyTime: ReelMakereadyTime,
                 Maximumsheetweight: Maximumsheetweight,
                 Maximumsheetheight: Maximumsheetheight,
@@ -333,6 +347,13 @@
             Minimumsheetheight : Minimumsheetheight,
             Minimumsheetwidth : Minimumsheetwidth,
             LookupMethodId: LookupMethodId,
+            RunningSpoilage: RunningSpoilage,
+            SetupSpoilage: SetupSpoilage,
+            CoverageHigh: CoverageHigh,
+            CoverageMedium: CoverageMedium,
+            CoverageLow: CoverageLow,
+            isSheetFed: isSheetFed,
+            Passes: Passes,
             lookupList: lookupList,
             dirtyFlag: dirtyFlag,
             errors: errors,
@@ -680,6 +701,13 @@
         omachine.MakeReadyTime(source.machine.MakeReadyTime);
         omachine.WashupTime(source.machine.WashupTime);
         omachine.ReelMakereadyTime(source.machine.ReelMakereadyTime);
+        omachine.RunningSpoilage(source.machine.RunningSpoilage);
+        omachine.SetupSpoilage(source.machine.SetupSpoilage);
+        omachine.CoverageHigh(source.machine.CoverageHigh);
+        omachine.CoverageMedium(source.machine.CoverageMedium);
+        omachine.CoverageLow(source.machine.CoverageLow);
+        omachine.isSheetFed(source.machine.isSheetFed);
+        omachine.Passes(source.machine.Passes);
         //omachine.Maximumsheetweight(source.machine.Maximumsheetweight);
         //omachine.Maximumsheetheight(source.machine.Maximumsheetheight);
         //omachine.Maximumsheetwidth(source.machine.Maximumsheetwidth);
@@ -698,9 +726,9 @@
        
         
         
-        _.each(source.MachineSpoilageItems, function (item) {
-            omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
-        });
+        //_.each(source.MachineSpoilageItems, function (item) {
+        //    omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
+        //});
 
 
         
@@ -709,21 +737,21 @@
         ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
         StockItemforInkList.valueHasMutated();
 
-        var InkCoveragItemsList = ko.observableArray([]);
-        InkCoveragItemsList.removeAll();
-        ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        InkCoveragItemsList.valueHasMutated();
+        //var InkCoveragItemsList = ko.observableArray([]);
+        //InkCoveragItemsList.removeAll();
+        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+        //InkCoveragItemsList.valueHasMutated();
        
 
 
-        _.each(source.machine.MachineInkCoverages, function (item) {
-            var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
-            omachine.MachineInkCoverages.push(module);
+        //_.each(source.machine.MachineInkCoverages, function (item) {
+        //    var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
+        //    omachine.MachineInkCoverages.push(module);
 
 
 
 
-        })
+        //})
 
         _.each(source.machine.MachineLookupMethods, function (item) {
             omachine.MachineLookupMethods.push(MachineLookupMethodsItemsMapper(item));
@@ -800,19 +828,25 @@
         omachine.Minimumsheetheight = machine.Minimumsheetheight();
         omachine.Minimumsheetwidth = machine.Minimumsheetwidth();
         omachine.LookupMethodId = machine.LookupMethodId();
-
-        omachine.MachineInkCoverages = [];
-        _.each(machine.MachineInkCoverages(), function (item) {
-            var module = MachineInkCoveragesListServerMapper(item);
-            omachine.MachineInkCoverages.push(module);
-        });
+        omachine.SetupSpoilage = machine.SetupSpoilage();
+        omachine.RunningSpoilage = machine.RunningSpoilage();
+        omachine.CoverageHigh = machine.CoverageHigh();
+        omachine.CoverageMedium = machine.CoverageMedium();
+        omachine.CoverageLow = machine.CoverageLow();
+        omachine.isSheetFed = machine.isSheetFed();
+        omachine.Passes = machine.Passes();
+        //omachine.MachineInkCoverages = [];
+        //_.each(machine.MachineInkCoverages(), function (item) {
+        //    var module = MachineInkCoveragesListServerMapper(item);
+        //    omachine.MachineInkCoverages.push(module);
+        //});
        
 
-        var MachineSpoilageItemsList = [];
-        _.each(machine.MachineSpoilageItems(), function (item) {
-            var module = MachineSpoilageServerMapper(item);
-            MachineSpoilageItemsList.push(module);
-        });
+        //var MachineSpoilageItemsList = [];
+        //_.each(machine.MachineSpoilageItems(), function (item) {
+        //    var module = MachineSpoilageServerMapper(item);
+        //    MachineSpoilageItemsList.push(module);
+        //});
 
         var MachineLookupdsList = [];
         _.each(machine.MachineLookupMethods(), function (item) {
@@ -823,7 +857,7 @@
        
         return {
             machine: omachine,
-            MachineSpoilages: MachineSpoilageItemsList
+           // MachineSpoilages: MachineSpoilageItemsList
         }
         
     };
@@ -841,25 +875,25 @@
         omachine.WeightUnit(source.WeightUnit);
         omachine.LengthUnit(source.LengthUnit);
 
-        for (i = 0; i < 8; i++) {
-            omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
-          }
+        //for (i = 0; i < 8; i++) {
+        //    omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
+        //  }
 
         var StockItemforInkList = ko.observableArray([]);
         StockItemforInkList.removeAll();
         ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
         StockItemforInkList.valueHasMutated();
 
-        var InkCoveragItemsList = ko.observableArray([]);
-        InkCoveragItemsList.removeAll();
-        ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        InkCoveragItemsList.valueHasMutated();
+        //var InkCoveragItemsList = ko.observableArray([]);
+        //InkCoveragItemsList.removeAll();
+        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+        //InkCoveragItemsList.valueHasMutated();
 
 
 
-        for (i = 0; i < 8; i++) {
-            omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
-        }
+        //for (i = 0; i < 8; i++) {
+        //    omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
+        //}
 
         return omachine;
     };

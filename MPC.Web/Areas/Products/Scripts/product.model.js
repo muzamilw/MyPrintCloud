@@ -176,19 +176,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // meta keywords
             metaKeywords = ko.observable(specifiedMetaKeywords || undefined),
             // job description title1
-            jobDescriptionTitle1 = ko.observable(specifiedJobDescriptionTitle1 || "Work Instruction"),
+            jobDescriptionTitle1 = ko.observable(specifiedJobDescriptionTitle1 || "Origination"),
             // job description title2
-            jobDescriptionTitle2 = ko.observable(specifiedJobDescriptionTitle2 || "Title"),
+            jobDescriptionTitle2 = ko.observable(specifiedJobDescriptionTitle2 || "Artwork"),
             // job description title3
-            jobDescriptionTitle3 = ko.observable(specifiedJobDescriptionTitle3 || "Origination"),
+            jobDescriptionTitle3 = ko.observable(specifiedJobDescriptionTitle3 || "Color"),
             // job description title4
-            jobDescriptionTitle4 = ko.observable(specifiedJobDescriptionTitle4 || "Colors"),
+            jobDescriptionTitle4 = ko.observable(specifiedJobDescriptionTitle4 || "Stock"),
             // job description title5
             jobDescriptionTitle5 = ko.observable(specifiedJobDescriptionTitle5 || "Size"),
             // job description title6
-            jobDescriptionTitle6 = ko.observable(specifiedJobDescriptionTitle6 || "Material"),
+            jobDescriptionTitle6 = ko.observable(specifiedJobDescriptionTitle6 || "Special Instr."),
             // job description title7
-            jobDescriptionTitle7 = ko.observable(specifiedJobDescriptionTitle7 || "Delivery"),
+            jobDescriptionTitle7 = ko.observable(specifiedJobDescriptionTitle7 || "Shipping"),
             // job description title8
             jobDescriptionTitle8 = ko.observable(specifiedJobDescriptionTitle8 || "Finishing"),
             // job description title9
@@ -849,6 +849,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     callbacks.onSelectRelatedItem();
                 }
             },
+            // On Remove Item Related Item
+            onRemoveItemRelatedItem = function(item) {
+                if (callbacks && callbacks.onDeleteItemRelatedItem && typeof callbacks.onDeleteItemRelatedItem === "function") {
+                    callbacks.onDeleteItemRelatedItem(function () {
+                        removeItemRelatedItem(item);
+                    });
+                }
+            },
             // Remove Item Related Item
             removeItemRelatedItem = function (item) {
                 itemRelatedItems.remove(item);
@@ -1148,24 +1156,44 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 file5FileName(undefined);
             },
             // Move ProductMarketBriefQuestion Page Up
-            moveProductMarketBriefQuestionUp = function (productMarketBriefQuestion) {
+            moveProductMarketBriefQuestionUp = function (productMarketBriefQuestion, e) {
                 var i = productMarketBriefQuestions.indexOf(productMarketBriefQuestion);
                 if (i >= 1) {
                     var array = productMarketBriefQuestions();
                     productMarketBriefQuestions.splice(i - 1, 2, array[i], array[i - 1]);
                 }
+                e.stopImmediatePropagation();
             },
             // Move ProductMarketBriefQuestion Page Down
-            moveProductMarketBriefQuestionDown = function (productMarketBriefQuestion) {
+            moveProductMarketBriefQuestionDown = function (productMarketBriefQuestion, e) {
                 var i = productMarketBriefQuestions.indexOf(productMarketBriefQuestion);
                 var array = productMarketBriefQuestions();
                 if (i < array.length) {
                     productMarketBriefQuestions.splice(i, 2, array[i + 1], array[i]);
                 }
+                e.stopImmediatePropagation();
+            },
+            // Active Product Market Question
+            activeProductMarketQuestion = ko.observable(ProductMarketBriefQuestion.Create({ ItemId: id() }, callbacks)),
+            // On Add Product Market Brief Question
+            onAddProductMarketBriefQuestion = function () {
+                activeProductMarketQuestion(ProductMarketBriefQuestion.Create({ ItemId: id() }, callbacks));
+                if (callbacks && callbacks.onAddProductMarketBriefQuestion && typeof callbacks.onAddProductMarketBriefQuestion === "function") {
+                    callbacks.onAddProductMarketBriefQuestion();
+                }
             },
             // Add ProductMarketBriefQuestion
             addProductMarketBriefQuestion = function () {
-                productMarketBriefQuestions.push(ProductMarketBriefQuestion.Create({ ItemId: id() }, callbacks));
+                productMarketBriefQuestions.push(activeProductMarketQuestion());
+                activeProductMarketQuestion().reset();
+            },
+            // On Edit Product Market Brief Question
+            onEditProductMarketBriefQuestion = function (productMarketBriefQuestion) {
+                activeProductMarketQuestion(productMarketBriefQuestion);
+                activeProductMarketQuestion().reset();
+                if (callbacks && callbacks.onEditProductMarketBriefQuestion && typeof callbacks.onEditProductMarketBriefQuestion === "function") {
+                    callbacks.onEditProductMarketBriefQuestion();
+                }
             },
             // On Delete Product Market Brief Question
             onDeleteProductMarketBriefQuestion = function (productMarketBriefQuestion) {
@@ -1178,6 +1206,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Remove ProductMarketBriefQuestion
             removeProductMarketBriefQuestion = function (productMarketBriefQuestion) {
                 productMarketBriefQuestions.remove(productMarketBriefQuestion);
+                activeProductMarketQuestion(ProductMarketBriefQuestion.Create({ ItemId: id() }, callbacks));
             },
             // Errors
             errors = ko.validation.group({
@@ -1614,7 +1643,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ItemImages: itemImages.map(function (itemImage) {
                         return itemImage.convertToServerData();
                     }),
-                    ProductMarketBriefQuestions: productMarketBriefQuestions.map(function (productMarketBriefQuestion) {
+                    ProductMarketBriefQuestions: productMarketBriefQuestions.map(function (productMarketBriefQuestion, index) {
                         var question = productMarketBriefQuestion.convertToServerData();
                         question.SortOrder = index + 1;
                         return question;
@@ -1800,6 +1829,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             addProductMarketBriefQuestion: addProductMarketBriefQuestion,
             removeProductMarketBriefQuestion: removeProductMarketBriefQuestion,
             onDeleteProductMarketBriefQuestion: onDeleteProductMarketBriefQuestion,
+            activeProductMarketQuestion: activeProductMarketQuestion,
+            onAddProductMarketBriefQuestion: onAddProductMarketBriefQuestion,
+            onEditProductMarketBriefQuestion: onEditProductMarketBriefQuestion,
+            onRemoveItemRelatedItem: onRemoveItemRelatedItem,
             reset: reset,
             convertToServerData: convertToServerData
         };
@@ -3344,7 +3377,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ProductMarketBriefQuestion = function (specifiedId, specifiedQuestionDetail, specifiedIsMultipleSelection, specifiedSortOrder, specifiedItemId, callbacks) {
         // ReSharper restore InconsistentNaming
         var // Unique key
-            id = ko.observable(specifiedId),
+            id = ko.observable(specifiedId || 0),
             // Question Detail
             questionDetail = ko.observable(specifiedQuestionDetail || undefined).extend({ required: true }),
             // is Multiple Selection
@@ -3357,7 +3390,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             productMarketBriefAnswers = ko.observableArray([]),
             // Add productMarketBriefAnswer
             addProductMarketBriefAnswer = function () {
-                productMarketBriefAnswers.push(ProductMarketBriefAnswer.Create({ MarketBriefQuestionId: id() }));
+                productMarketBriefAnswers.push(ProductMarketBriefAnswer.Create({ MarketBriefQuestionId: id() }, callbacks));
             },
             // On Delete Product Market Brief Answer
             onDeleteProductMarketBriefAnswer = function (productMarketBriefAnswer) {
@@ -3411,7 +3444,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsMultipleSelection: isMultipleSelection(),
                     ItemId: itemId(),
                     ProductMarketBriefAnswers: productMarketBriefAnswers.map(function (answer) {
-                        return answer.convertToServerData();
+                        var answerServer = answer.convertToServerData();
+                        answerServer.MarketBriefQuestionId = id();
+                        return answerServer;
                     })
                 };
             };
@@ -3780,7 +3815,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             var productMarketBriefQuestions = [];
 
             _.each(source.ProductMarketBriefQuestions, function (productMarketBriefQuestion) {
-                productMarketBriefQuestions.push(ProductMarketBriefQuestion.Create(productMarketBriefQuestion));
+                productMarketBriefQuestions.push(ProductMarketBriefQuestion.Create(productMarketBriefQuestion, callbacks));
             });
 
             // Push to Original Item
@@ -3876,12 +3911,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             var productMarketBriefAnswers = [];
 
             _.each(source.ProductMarketBriefAnswers, function (productMarketBriefAnswer) {
-                productMarketBriefAnswers.push(ProductMarketBriefAnswer.Create(productMarketBriefAnswer));
+                productMarketBriefAnswers.push(ProductMarketBriefAnswer.Create(productMarketBriefAnswer, callbacks));
             });
 
             // Push to Original Item
-            ko.utils.arrayPushAll(item.productMarketBriefAnswers(), productMarketBriefAnswers);
-            item.productMarketBriefAnswers.valueHasMutated();
+            ko.utils.arrayPushAll(marketBriefQuestion.productMarketBriefAnswers(), productMarketBriefAnswers);
+            marketBriefQuestion.productMarketBriefAnswers.valueHasMutated();
         }
 
         return marketBriefQuestion;
