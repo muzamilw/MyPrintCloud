@@ -515,6 +515,10 @@ function e5() {
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
 }
+function f2_ChangeSVGColor(pathIndex) {
+    selectedPathIndex = pathIndex;
+    pcL02_main2();
+}
 function f2(c, m, y, k, ColorHex, Sname) {
 
     var D1AO = canvas.getActiveObject();
@@ -559,17 +563,38 @@ function f2(c, m, y, k, ColorHex, Sname) {
             $("#txtAreaUpdateTxt").css("color", ColorHex);
             var hexStr = D1AO.fill;
             var hex = parseInt(hexStr.substring(1), 16);
-            pcL22_Sub(D1AO);
+            pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
         } else if (D1AO.type == 'i-text') {
             setActiveStyle("color", ColorHex, c, m, y, k);
-            pcL22_Sub(D1AO);
-        } else if (D1AO.type == 'ellipse' || D1AO.type == 'rect' || D1AO.type == 'path-group' || D1AO.type == 'path') {
+            pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
+        } else if (D1AO.type == 'ellipse' || D1AO.type == 'rect' ) {
             D1AO.set('fill', ColorHex);
             D1AO.C = c;
             D1AO.M = m;
             D1AO.Y = y;
             D1AO.K = k;
-            pcL22_Sub(D1AO);
+            pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
+        } else if (D1AO.type == 'path-group' || D1AO.type == 'path') {
+            $.each(D1AO.customStyles, function (i, IT) {
+                if (i == selectedPathIndex)
+                {
+                    IT.ModifiedColor = ColorHex;
+                    $(".BtnChngeSvgClr" + i).css("background-color", ColorHex);
+                }
+               
+            });
+            if (D1AO.isSameColor && D1AO.isSameColor() || !D1AO.paths) {
+                D1AO.setFill(ColorHex);
+            }
+            else if (D1AO.paths) {
+                for (var i = 0; i < D1AO.paths.length; i++) {
+                    if(i == selectedPathIndex)
+                    {
+                        D1AO.paths[i].setFill(ColorHex);
+                    }
+                }
+            }
+            //alert();
         }
 
         canvas.renderAll();
@@ -582,7 +607,7 @@ function f2(c, m, y, k, ColorHex, Sname) {
                 }
             });
         }
-        $(".BtnChngeClr").css("background-color", ColorHex);
+        
 
     } else {
         canvas.backgroundColor = ColorHex;
@@ -1524,6 +1549,7 @@ function g2_22(mode) {
                 //pcL36('show', '#ImagePropertyPanel');
                 //DisplayDiv('1');
             }
+            $(".svgColorPanel").css("display", "none");
        // }
     } else if (mode == 3) {
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
@@ -1540,7 +1566,19 @@ function g2_22(mode) {
                 m0();
             } 
         }
-    }else {
+        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden");
+        $(".svgColorContainer").html("");
+        if (D1AO.customStyles != null) {
+            $.each(D1AO.customStyles, function (i, IT) {
+                var clr = IT.OriginalColor;
+                if (IT.ModifiedColor != "")
+                    clr = IT.ModifiedColor;
+                $(".svgColorContainer").append('<button id="" class="BtnChngeClr btnChangeShapeColor BtnChngeSvgClr'+i+'" title="Color picker" style="display: inline-block; background-color:' + clr + ' " onclick="f2_ChangeSVGColor(' + IT.PathIndex + ');"> Color</button>');
+            });
+        } 
+    } else {
+        $("#AddColorShape").css("visibility", "visible");
+        $(".svgColorPanel").css("display", "none");
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
             $(".rotateSlider").slider("option", "value", D1AO.getAngle());

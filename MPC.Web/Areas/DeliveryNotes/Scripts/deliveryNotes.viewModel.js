@@ -104,12 +104,11 @@ define("deliveryNotes/deliveryNotes.viewModel",
                 getDetaildeliveryNote = function (id) {
                     isCompanyBaseDataLoaded(false);
                     dataservice.getDetaildeliveryNote({
-                       deliverNoteId:id
+                        deliverNoteId: id
                     }, {
                         success: function (deliveryNote) {
                             if (deliveryNote !== null && deliveryNote !== undefined) {
-
-                                var dNote = model.deliverNoteDetail.Create(deliveryNote);
+                                var dNote = model.DeliveryNote.Create(deliveryNote);
                                 selectedDeliveryNote(dNote);
                             }
                         },
@@ -141,7 +140,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         getDetaildeliveryNote(item.deliveryNoteId());
                         isEditorVisible(true);
                     },
-                    onCloseEditor=function() {
+                    onCloseEditor = function () {
                         isEditorVisible(false);
                     },
                      // Open Company Dialog
@@ -153,16 +152,16 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         if (!company) {
                             return;
                         }
-                            if (selectedDeliveryNote().companyId() === company.id) {
-                                return;
-                            }
+                        if (selectedDeliveryNote().companyId() === company.id) {
+                            return;
+                        }
 
-                            selectedDeliveryNote().companyId(company.id);
-                            selectedDeliveryNote().companyName(company.name);
-                            selectedCompany(company);
-                           
-                            // Get Company Address and Contacts
-                            getBaseForCompany(company.id,  company.id );
+                        selectedDeliveryNote().companyId(company.id);
+                        selectedDeliveryNote().companyName(company.name);
+                        selectedCompany(company);
+
+                        // Get Company Address and Contacts
+                        getBaseForCompany(company.id, company.id);
 
                     },
                     // Get Company Base Data
@@ -229,21 +228,26 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         }
                     },
                      getBaseData = function () {
-                         dataservice.getBaseData({},{
+                         dataservice.getBaseData({}, {
                              success: function (data) {
-                                
+
                                  if (data.SectionFlags) {
                                      mapList(sectionFlags, data.SectionFlags, model.SectionFlag);
                                  }
                                  if (data.SystemUsers) {
                                      mapList(systemUsers, data.SystemUsers, model.SystemUser);
                                  }
-                                
+
                              },
                              error: function (response) {
                                  toastr.error("Failed to load base data" + response);
                              }
                          });
+                     },
+                     // Add New Delivery Notes
+                     addDeliveryNotes = function () {
+                         selectedDeliveryNote(model.DeliveryNote());
+                         isEditorVisible(true);
                      },
                     //Initialize
                     initialize = function (specifiedView) {
@@ -259,9 +263,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                 return {
                     initialize: initialize,
                     searchFilter: searchFilter,
-                    onEditDeliverNote:onEditDeliverNote,
+                    onEditDeliverNote: onEditDeliverNote,
                     searchData: searchData,
-                    selectedDeliveryNote:selectedDeliveryNote,
+                    selectedDeliveryNote: selectedDeliveryNote,
                     pager: pager,
                     deliverNoteListView: deliverNoteListView,
                     getdeliveryNotes: getdeliveryNotes,
@@ -277,7 +281,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     selectedCompanyContact: selectedCompanyContact,
                     sectionFlags: sectionFlags,
                     systemUsers: systemUsers,
-                    getBaseData: getBaseData
+                    getBaseData: getBaseData,
+                    addDeliveryNotes:addDeliveryNotes
 
 
                 };
