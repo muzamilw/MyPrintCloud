@@ -2,8 +2,8 @@
     Module with the view model for the live Jobs.
 */
 define("deliveryNotes/deliveryNotes.viewModel",
-    ["jquery", "amplify", "ko", "deliveryNotes/deliveryNotes.dataservice", "deliveryNotes/deliveryNotes.model", "common/pagination", "common/companySelector.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, companySelector) {
+    ["jquery", "amplify", "ko", "deliveryNotes/deliveryNotes.dataservice", "deliveryNotes/deliveryNotes.model", "common/pagination", "common/companySelector.viewModel", "common/confirmation.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, companySelector, confirmation) {
         var ist = window.ist || {};
         ist.deliveryNotes = {
             viewModel: (function () {
@@ -22,13 +22,21 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     sectionFlags = ko.observableArray([]),
                     // System Users
                     systemUsers = ko.observableArray([]),
+                    // Delivery Carriers
+                    deliveryCarriers = ko.observableArray([]),
+                    // Errors List
+                    errorList = ko.observableArray([]),
                     // #endregion
                     // is editor visible 
                     isEditorVisible = ko.observable(false),
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
                     // #region Observables
-                    selectedDeliveryNote = ko.observable(),
+                    selectedDeliveryNote = ko.observable(model.DeliveryNote()),
+                    // For List View
+                    selectedDeliveryNoteForListView = ko.observable(),
+                    // Active Delivery Note Detail
+                    selectedDeliveryNoteDetail = ko.observable(),
                     // Search Filter
                     searchFilter = ko.observable(),
                     //Pager
@@ -100,16 +108,28 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     });
                 },
 
-                // Get Item to edit 
+                // Get Delivery Note By ID
                 getDetaildeliveryNote = function (id) {
                     isCompanyBaseDataLoaded(false);
                     dataservice.getDetaildeliveryNote({
                         deliverNoteId: id
                     }, {
-                        success: function (deliveryNote) {
-                            if (deliveryNote !== null && deliveryNote !== undefined) {
-                                var dNote = model.DeliveryNote.Create(deliveryNote);
+                        success: function (data) {
+                            if (data !== null && data !== undefined) {
+                                var dNote = model.DeliveryNote.Create(data);
                                 selectedDeliveryNote(dNote);
+                                selectedDeliveryNote().companyName(data.CompanyName);
+                                // Get Base Data For Company
+                                if (data.CompanyId) {
+                                    var storeId = 0;
+                                    if (data.IsCustomer !== 3 && data.StoreId) {
+                                        storeId = data.StoreId;
+                                        selectedDeliveryNote().storeId(storeId);
+                                    } else {
+                                        storeId = data.CompanyId;
+                                    }
+                                    getBaseForCompany(data.CompanyId, storeId);
+                                }
                             }
                         },
                         error: function () {
@@ -117,7 +137,6 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         }
                     });
                 },
-
                         // Get Items
                     downloadArtwork = function () {
                         dataservice.downloadArtwork({
@@ -136,7 +155,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         getdeliveryNotes();
                     },
                     onEditDeliverNote = function (item) {
-                        getBaseData();
+                        selectedDeliveryNoteForListView(item);
                         getDetaildeliveryNote(item.deliveryNoteId());
                         isEditorVisible(true);
                     },
@@ -160,9 +179,12 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         selectedDeliveryNote().companyName(company.name);
                         selectedCompany(company);
 
+                        if (company.isCustomer !== 3 && company.storeId) {
+                            selectedDeliveryNote().storeId(company.storeId);
+                        }
                         // Get Company Address and Contacts
-                        getBaseForCompany(company.id, company.id);
-
+                        getBaseForCompany(company.id, (selectedDeliveryNote().storeId() === null || selectedDeliveryNote().storeId() === undefined) ? company.id :
+                            selectedDeliveryNote().storeId());
                     },
                     // Get Company Base Data
                     getBaseForCompany = function (id, storeId) {
@@ -203,7 +225,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(observableList(), list);
                         observableList.valueHasMutated();
-                    }, // Select Default Address For Company in case of new order
+                    }, // Select Default Address For Company in case of new Delivery Note
                     setDefaultAddressForCompany = function () {
                         if (selectedDeliveryNote().deliveryNoteId() > 0) {
                             return;
@@ -215,7 +237,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                             selectedDeliveryNote().addressId(defaultCompanyAddress.id);
                         }
                     },
-                    // Select Default Contact For Company in case of new order
+                    // Select Default Contact For Company in case of new Delivery Note
                     setDefaultContactForCompany = function () {
                         if (selectedDeliveryNote().deliveryNoteId() > 0) {
                             return;
@@ -237,6 +259,10 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                  if (data.SystemUsers) {
                                      mapList(systemUsers, data.SystemUsers, model.SystemUser);
                                  }
+                                 if (data.DeliveryCarriers) {
+                                     ko.utils.arrayPushAll(deliveryCarriers(), data.DeliveryCarriers);
+                                     deliveryCarriers.valueHasMutated();
+                                 }
 
                              },
                              error: function (response) {
@@ -246,17 +272,125 @@ define("deliveryNotes/deliveryNotes.viewModel",
                      },
                      // Add New Delivery Notes
                      addDeliveryNotes = function () {
-                         selectedDeliveryNote(model.DeliveryNote());
+                         var deliveryNotes = model.DeliveryNote();
+                         deliveryNotes.isStatus(19);
+                         selectedDeliveryNote(deliveryNotes);
                          isEditorVisible(true);
                      },
-                    //Initialize
-                    initialize = function (specifiedView) {
-                        view = specifiedView;
-                        ko.applyBindings(view.viewModel, view.bindingRoot);
-                        pager(new pagination.Pagination({ PageSize: 5 }, deliverNoteListView, getdeliveryNotes));
-                        getdeliveryNotes();
+                     // add Delivery Note Detail
+                     addDeliveryNoteDetail = function () {
+                         var deliveyNoteDetail = model.DeliveryNoteDetail();
+                         selectedDeliveryNoteDetail(deliveyNoteDetail);
+                         selectedDeliveryNote().deliveryNoteDetails.splice(0, 0, deliveyNoteDetail);
+                     },
+                     // Template Chooser For Delivery Note Detail
+                    templateToUseDeliveryNoteDetail = function (deliveryNoteDetail) {
+                        return (deliveryNoteDetail === selectedDeliveryNoteDetail() ? 'editDeliveryNoteDetailemplate' : 'itemDeliveryNoteDetailTemplate');
+                    },
+                    selectDeliveryNoteDetail = function (deliveryNoteDetail) {
+                        selectedDeliveryNoteDetail(deliveryNoteDetail);
+                    },
+                    // Delete Delivery Notes
+                    onDeleteDeliveryNoteDetail = function (deliveryNoteDetail) {
+                        selectedDeliveryNote().deliveryNoteDetails.remove(deliveryNoteDetail);
+                    },
+                    // Save Delivery Notes
+                    onSaveDeliveryNotes = function (deliveryNote) {
+                        if (!dobeforeSave()) {
+                            return;
+                        }
+                        var deliveryNotes = selectedDeliveryNote().convertToServerData();
+                        _.each(selectedDeliveryNote().deliveryNoteDetails(), function (item) {
+                            deliveryNotes.DeliveryNoteDetails.push(item.convertToServerData(item));
+                        });
+                        saveDeliveryNote(deliveryNotes);
+                    },
+                    onPostDeliveryNote = function (deliveryNote) {
+                        if (!dobeforeSave()) {
+                            return;
+                        }
+                        selectedDeliveryNote().isStatus(20);
+                        var deliveryNotes = selectedDeliveryNote().convertToServerData();
+                        _.each(selectedDeliveryNote().deliveryNoteDetails(), function (item) {
+                            deliveryNotes.DeliveryNoteDetails.push(item.convertToServerData(item));
+                        });
+                        saveDeliveryNote(deliveryNotes);
+                    },
+                    // Delete Delivry Notes
+                onDeleteDeliveryNote = function () {
+                    confirmation.afterProceed(function () {
+                        deleteDeliveryNote(selectedDeliveryNote().convertToServerData());
+                    });
+                    confirmation.afterCancel(function () {
 
-                    };
+                    });
+                    confirmation.show();
+                    return;
+                },
+                deleteDeliveryNote = function (deliveryNote) {
+                    dataservice.deleteDeliveryNote(deliveryNote, {
+                        success: function (data) {
+                            deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                            isEditorVisible(false);
+                            toastr.success("Delete Successfully.");
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                toastr.error(exceptionMessage);
+                            } else {
+                                toastr.error("Failed to delete.");
+                            }
+                        }
+                    });
+                }
+                // Save Delivery Notes
+                saveDeliveryNote = function (deliveryNote) {
+                    dataservice.saveDeliveryNote(deliveryNote, {
+                        success: function (data) {
+                            //For Add New
+                            if (selectedDeliveryNote().deliveryNoteId() === undefined || selectedDeliveryNote().deliveryNoteId() === 0) {
+                                deliverNoteListView.splice(0, 0, model.deliverNoteListView.Create(data));
+                            } else {
+                                selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
+                                selectedDeliveryNoteForListView().flagId(data.FlagId);
+                                selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
+                                selectedDeliveryNoteForListView().orderReff(data.OrderReff);
+                                selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
+                            }
+                            isEditorVisible(false);
+                            toastr.success("Saved Successfully.");
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                toastr.error(exceptionMessage);
+                            } else {
+                                toastr.error("Failed to save.");
+                            }
+                        }
+                    });
+                },
+                dobeforeSave = function () {
+                    var flag = true;
+                    if (!selectedDeliveryNote().isValid()) {
+                        selectedDeliveryNote().showAllErrors();
+                        selectedDeliveryNote().setValidationSummary(errorList);
+                        flag = false;
+                    }
+                    return flag;
+                },
+                // Go To Element
+                gotoElement = function (validation) {
+                    view.gotoElement(validation.element);
+                },
+                //Initialize
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    pager(new pagination.Pagination({ PageSize: 5 }, deliverNoteListView, getdeliveryNotes));
+                    getBaseData();
+                    getdeliveryNotes();
+
+                };
                 //#endregion 
 
 
@@ -266,6 +400,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     onEditDeliverNote: onEditDeliverNote,
                     searchData: searchData,
                     selectedDeliveryNote: selectedDeliveryNote,
+                    selectedDeliveryNoteDetail: selectedDeliveryNoteDetail,
                     pager: pager,
                     deliverNoteListView: deliverNoteListView,
                     getdeliveryNotes: getdeliveryNotes,
@@ -281,10 +416,18 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     selectedCompanyContact: selectedCompanyContact,
                     sectionFlags: sectionFlags,
                     systemUsers: systemUsers,
+                    errorList: errorList,
                     getBaseData: getBaseData,
-                    addDeliveryNotes:addDeliveryNotes
-
-
+                    addDeliveryNotes: addDeliveryNotes,
+                    addDeliveryNoteDetail: addDeliveryNoteDetail,
+                    templateToUseDeliveryNoteDetail: templateToUseDeliveryNoteDetail,
+                    selectDeliveryNoteDetail: selectDeliveryNoteDetail,
+                    onDeleteDeliveryNoteDetail: onDeleteDeliveryNoteDetail,
+                    onSaveDeliveryNotes: onSaveDeliveryNotes,
+                    gotoElement: gotoElement,
+                    deliveryCarriers: deliveryCarriers,
+                    onDeleteDeliveryNote: onDeleteDeliveryNote,
+                    onPostDeliveryNote: onPostDeliveryNote
                 };
             })()
         };
