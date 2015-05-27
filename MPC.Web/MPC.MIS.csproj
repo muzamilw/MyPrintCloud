@@ -2161,7 +2161,6 @@
     <Content Include="Areas\Orders\Views\Home\_InquiryDetailItem.cshtml" />
     <Content Include="Areas\Invoices\Views\Home\AddEditInvoiceDetailDialog.cshtml" />
     <Content Include="Areas\CRM\Views\Home\EMarketing.cshtml" />
-    <Content Include="Areas\Production\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Production\Views\Home\ItemLateStart.cshtml" />
     <Content Include="Areas\Production\Views\Home\LiveJobs.cshtml" />
     <None Include="config\Web.connectionstrings.config">
