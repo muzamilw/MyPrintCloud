@@ -833,9 +833,13 @@ This make ready charge is not to be confused with the press set up charge for â€
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" placeholder="Enter Setup Sheets" data-bind="value:SetupSpoilage">
-                                                <span class=" help-block text-right"></span>
-                                            </div>
+                                                <div class="col-lg-3" style="padding-left:0px;">
+
+                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:SetupSpoilage">
+                                                    <span class=" help-block text-right"></span>
+                                                </div>
+
+                                                </div>
 
                                         </div>
                                          
@@ -875,12 +879,36 @@ This make ready charge is not to be confused with the press set up charge for â€
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" placeholder="Enter Running Spoilage" data-bind="value:RunningSpoilage">
-                                                <span class=" help-block text-right"></span>
+                                                <div class="col-lg-3" style="padding-left:0px;">
+                                                    <input type="text" class="form-control"  style="text-align:right;" data-bind="value:RunningSpoilage">
+                                                    <span class=" help-block text-right"></span>
+                                                </div>
+                                                </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Passes</label>
+
+                                            </div>
+
+                                            <div class="col-lg-6" style="padding-left:0px;">
+                                                <div class="col-lg-3" style="padding-right:0px;">
+                                                    <input type="text" class="form-control" style="text-align:right;" value="1" data-bind="autoNumeric:Passes, settings:{mDec:0,vMin:0,vMax:9} ">
+                                                    
+                                                </div>
+
                                             </div>
 
                                         </div>
-
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
@@ -896,22 +924,24 @@ This make ready charge is not to be confused with the press set up charge for â€
                                             </div>
 
                                             <div class="col-lg-6" style="padding-left:0px;">
-                                                <div class="col-lg-3">
-                                                    <input type="text" class="form-control" placeholder="Heavy" data-bind="value:CoverageHigh">
+                                                <div class="col-lg-3" style="padding-right:0px;">
+                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageHigh">
                                                     <span class=" help-block text-right">Heavy</span>
-                                                 </div>
-                                                <div class="col-lg-3">
-                                                    <input type="text" class="form-control" placeholder="Medium" data-bind="value:CoverageMedium">
+                                                </div>
+                                                <div class="col-lg-3" style="padding-right:0px;">
+                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageMedium">
                                                     <span class=" help-block text-right">Medium</span>
                                                 </div>
-                                                <div class="col-lg-3">
-                                                    <input type="text" class="form-control" placeholder="Light" data-bind="value:CoverageLow">
+                                                <div class="col-lg-3" style="padding-right:0px;">
+                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageLow">
                                                     <span class=" help-block text-right">Light</span>
                                                 </div>
                                             </div>
 
                                         </div>
 
+
+                                      
                                     </div>
                                     <div class="col-md-12">
                                         <!-- ko stopBinding: true -->
@@ -924,9 +954,9 @@ This make ready charge is not to be confused with the press set up charge for â€
                                             <div id="GuillotineSection">
                                                 @Html.Partial("_GuillotineClickCharge")
                                             </div>
-                                            @*<div id="clickChargeZoneSection">
+                                            <div id="meterPerHour">
                                                 @Html.Partial("_MeterPerHour")
-                                            </div>*@
+                                            </div>
                                         </div>
                                         
                                         <!-- /ko -->

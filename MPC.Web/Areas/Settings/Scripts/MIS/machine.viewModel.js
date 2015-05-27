@@ -323,8 +323,22 @@ define("machine/machine.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedMachine(model.machineClientMapper(data));
+
+                                    if (data.machine.isSheetFed == true)
+                                    {
+                                        $("#meterPerHour").css("display", "block");
+                                        $("#clickChargeZoneSection").css("display", "none");
+                                       
+                                    }
+                                    else
+                                    {
+                                       
+                                        $("#meterPerHour").css("display", "none");
+                                        $("#clickChargeZoneSection").css("display", "block");
+                                    }
                                     selectedMachine().reset();
                                     showMachineDetail();
+
 
                                     lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
 
@@ -433,7 +447,8 @@ define("machine/machine.viewModel",
                             isLookupMethodInitialize = true;
                        // }
                         
-                        isEditorVisible(true);
+                            isEditorVisible(true);
+                        
                         view.initializeLabelPopovers();
                     },
                      // #region Observables
