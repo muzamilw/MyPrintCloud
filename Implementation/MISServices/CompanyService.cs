@@ -3181,7 +3181,7 @@ namespace MPC.Implementation.MISServices
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
         {
-            var organisation = organisationRepository.Find( fieldVariableRepository.OrganisationId);
+            var organisation = organisationRepository.Find(fieldVariableRepository.OrganisationId);
             return new CompanyBaseResponse
             {
                 SystemUsers = systemUserRepository.GetAll(),
@@ -3314,6 +3314,23 @@ namespace MPC.Implementation.MISServices
             return companyResponse.Company;
         }
 
+        /// <summary>
+        /// Delete Field Variable
+        /// </summary>
+        public void DeleteFieldVariable(long variableId)
+        {
+            FieldVariable fieldVariable = fieldVariableRepository.Find(variableId);
+            if (fieldVariable != null)
+            {
+                if (fieldVariable.VariableOptions.Any() || fieldVariable.SmartFormDetails.Any() || fieldVariable.ScopeVariables.Any())
+                {
+                    throw new MPCException("It cannot be deleted because it is used in Smart Form, Contact or Address.", fieldVariableRepository.OrganisationId);
+                }
+
+                fieldVariableRepository.Delete(fieldVariable);
+                fieldVariableRepository.SaveChanges();
+            }
+        }
 
         /// <summary>
         /// Save Field Variable

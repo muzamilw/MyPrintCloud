@@ -100,7 +100,7 @@ namespace MPC.Implementation.MISServices
                                 CompanyName = item.Company != null ? item.Company.Name : string.Empty,
                                 ProductName = item.ProductName,
                                 Qty1 = item.Qty1,
-                                StatusId = item.JobEstimatedStartDateTime < DateTime.Now ? 1:2,
+                                StatusId = item.JobEstimatedStartDateTime < DateTime.Now ? 1:2,   // 1 -> Late started  2-> Late delivery 
                                 JobEstimatedStartDateTime = item.JobEstimatedStartDateTime,
                                 JobEstimatedCompletionDateTime = item.JobEstimatedCompletionDateTime,
                                 Qty1NetTotal = item.Qty1NetTotal

@@ -40,13 +40,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         public ItemJobStatusResponse Get([FromUri] ItemJobRequestModel request)
         {
-            IEnumerable<ItemForItemJobStatus> items = request.IsLateItemScreen ? itemJobStatusService.GetItemsForLateItems() : itemJobStatusService.GetItemsForItemJobStatus();
-           var obj =  new ItemJobStatusResponse
+          IEnumerable<ItemForItemJobStatus> items = request.IsLateItemScreen ? itemJobStatusService.GetItemsForLateItems() :
+          itemJobStatusService.GetItemsForItemJobStatus();
+          return new ItemJobStatusResponse
             {
                 Items = items,
                 CurrencySymbol = itemJobStatusService.GetCurrencySymbol()
             };
-            return obj;
         }
 
 

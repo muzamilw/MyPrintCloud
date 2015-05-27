@@ -681,6 +681,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<MachineLookupMethod> MachineLookupMethods { get; set; }
 
         /// <summary>
+        /// Imposition Profile DbSet
+        /// </summary>
+        public DbSet<ImpositionProfile> ImpositionProfiles { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

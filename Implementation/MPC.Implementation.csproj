@@ -187,6 +187,7 @@
     <Compile Include="MISServices\CustomerService.cs" />
     <Compile Include="MISServices\DashboardService.cs" />
     <Compile Include="MISServices\DeliveryCarrierService.cs" />
+    <Compile Include="MISServices\DeliveryNotesService.cs" />
     <Compile Include="MISServices\GoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\InquiryService.cs" />
     <Compile Include="MISServices\InvoicesService.cs" />
