@@ -105,7 +105,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCategoryItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()) : new List<ProductCategoryItem>(),
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
                 new List<ItemSection>(),
-                ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>()
+                ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>(),
                 ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ?
                 source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList() : null
             };
