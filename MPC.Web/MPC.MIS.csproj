@@ -2126,6 +2126,13 @@
     <Content Include="Areas\Orders\Views\Home\_InquiryDetailItem.cshtml" />
     <Content Include="Areas\Invoices\Views\Home\AddEditInvoiceDetailDialog.cshtml" />
     <Content Include="Areas\CRM\Views\Home\EMarketing.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_Products.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StockProductItemAddonCostCentre.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductAddVideo.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductRelatedProductDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductStockDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

@@ -250,19 +250,20 @@
                                                     <h2><label data-bind="text: name"></label></h2>
                                                 </header>*@
                                             <div class="clearfix">
-                                                <div  class="col-lg-12">
-                                                    <img id="idCostcenterimage" style="width:250px;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                                    <img style="width:250px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                                <div  class="col-lg-12"  style="text-align:center;">
+                                                    <img id="idCostcenterimage" style="width:250px;height:130px;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                                    <img style="width:250px;height:130px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
                                                 </div>
                                                
-                                                <div  class="col-lg-12" style="margin-top: 5px;text-align:center;width:250px;">
+                                                <div  class="col-lg-12" style="text-align:center;margin-top:10px;">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>Upload </span>
                                                         <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
-
                                                 </div>
-                                                <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;width:250px;">Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.</div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.
+                                                </div>
                                                 <div class="profile-stars">
                                                     <span data-bind="value: type"></span>
                                                 </div>
@@ -1049,20 +1050,20 @@
                                                                                     @*<label class="control-label text-right tooltip-float">Background Image</label>
                                 <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels) </label>*@
                                                                                 </div>
-                                                                                <div class="col-lg-3">
+                                                                                <div class="col-lg-3" style="text-align:center;">
 
                                                                                     <div class="clearfix">
 
-                                                                                        <img width="242" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
-                                                                                        <img width="242" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
-                                                                                        <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:242px;">
+                                                                                        <img style="width:240px;height:130px;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
+                                                                                        <img style="width:250px;height:130px;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
+                                                                                        <div class="col-lg-12" style="margin-top: 5px;text-align:center;">
                                                                                             <div class="fileUpload btn btn-primary" data-bind="click:$root.showMediaLibraryDialogFromStoreBackground">
                                                                                                 <span>Change Background</span>
                                                                                                 @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
                                                                                             </div>
 
                                                                                         </div>
-                                                                                        <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;width:242px;text-align:center">Background image could be a PNG or JPG file. Behaviour of background  image is controlled using CSS.</div>
+                                                                                        <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important; ">Background image could be a PNG or JPG file. Behaviour of background  image is controlled using CSS.</div>
                                                                                         <div class="profile-stars">
                                                                                             <span data-bind="value: type"></span>
                                                                                         </div>
@@ -1123,20 +1124,20 @@
                                                                                     </div>
                                                                                     <!--ko if: isShowGoogleMap()=='3' -->
                                                                                     <div class="form-group">
-                                                                                        <div class="col-lg-6">
+                                                                                        <div class="col-lg-4" style="margin-top:15px;text-align:center;">
                                                                                             
-                                                                                            <div class="clearfix">
+                                                                                            <div class="clearfix" style="padding-left:10px;">
 
-                                                                                                <img width="200" data-bind="visible:mapImageUrlBinary()===undefined,attr: { src: '@Url.Content("~/")' +mapImageUrl() }" />
-                                                                                                <img width="200" data-bind="visible:mapImageUrlBinary()!==undefined,attr: { src: mapImageUrlBinary }" />
-                                                                                                <div class="col-lg-12" style="margin-top: 5px;text-align:center;">
+                                                                                                <img width="240" height="130" data-bind="visible:mapImageUrlBinary()===undefined,attr: { src: '@Url.Content("~/")' +mapImageUrl() }" />
+                                                                                                <img width="240" height="130" data-bind="visible:mapImageUrlBinary()!==undefined,attr: { src: mapImageUrlBinary }" />
+                                                                                                <div class="col-lg-8" style="margin-top: 5px;text-align:center;text-align:right;">
                                                                                                     <div class="fileUpload btn btn-primary">
                                                                                                         <span>Upload </span>
                                                                                                         <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeMapImageLoadedCallback, fileFilter: 'image.*'}" />
                                                                                                     </div>
 
                                                                                                 </div>
-                                                                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center; margin-top:10px !important;">Upoad Your Map.</div>
+                                                                                                <div class="col-lg-9 ThoumbnailCostCenter" style="text-align:right;margin-top:10px !important;padding-right:10px;">Upoad Your Map.</div>
                                                                                                 <div class="profile-stars">
                                                                                                     <span data-bind="value: type"></span>
                                                                                                 </div>
@@ -1198,11 +1199,14 @@
                                                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload media files</label>
                                                                                 </div>
                                                                                 <div class="col-lg-6">
-                                                                                    <div class="col-lg-1" style="padding-left:0px;">
-                                                                                        <div class="fileUpload btn btn-primary">
+                                                                                    <div class="col-lg-8" style="padding-left:0px;">
+                                                                                        <div class="fileUpload btn btn-primary" style="width:192px;">
                                                                                             <span>Upload Multiple Files</span>
                                                                                             <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
                                                                                         </div>
+                                                                                    </div>
+                                                                                    <div class="col-lg-5 ThoumbnailCostCenter" style="margin-top:10px;padding-left:0px;text-align:center;">
+                                                                                        Upload Media files (JPG,GIF,PNG) here which can be used throughout store in Home Page banners,  user defined pages banners etc.
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1399,13 +1403,13 @@
 
 
                                                                                     <div class="clearfix">
-                                                                                        <img alt="" style="border: dotted; border-width: 1px;float:left; width: 200px; height: 150px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
+                                                                                        <img alt="" style="border: dotted; border-width: 1px;float:left; width: 240px; height: 120px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
 
                                                                                         @*<img width="250" id="idCostcenterimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
                                     <img width="250" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />*@
 
                                                                                         <div class="col-lg-12" style="padding-left:0px;">
-                                                                                            <div class="col-lg-6" style="margin-top: 5px;text-align:center;padding-left: 0px;width: 200px;">
+                                                                                            <div class="col-lg-6" style="margin-top: 5px;text-align:center;">
                                                                                                 <div class="fileUpload btn btn-primary">
                                                                                                     <span>Upload </span>
                                                                                                     <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.spriteImageLoadedCallback, fileFilter: 'image.*'}" />
@@ -1418,10 +1422,10 @@
                                                                                         @*<div class="col-lg-3" style="margin-top: 5px;text-align:center;">
 
                                     </div>*@
-                                                                                        <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;">
-                                                                                            <div class="col-lg-6" style="width:200px;">
+                                                                                        <div class="col-lg-6 ThoumbnailCostCenter" style="text-align:center;margin-top:10px;">
+                                                                                            
                                                                                                 Download and make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings.
-                                                                                            </div>
+                                                                                            
 
                                                                                         </div>
                                                                                         <div class="profile-stars">
