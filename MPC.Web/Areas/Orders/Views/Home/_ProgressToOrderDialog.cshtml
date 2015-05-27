@@ -1,0 +1,359 @@
+﻿@using Microsoft.Ajax.Utilities
+<div class="modal fade my-modal" id="progressToOrderDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.estimateToBeProgressed">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Progress To Order</h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="main-box clearfix" id="tabsHeaderProgressToOrder" style="margin-bottom: 0">
+                        <div class="tabs-wrapper profile-tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab-EstimateDetail" data-toggle="tab">Estimate Details</a></li>
+                                <li><a href="#tab-ItemsDetails" data-toggle="tab">Items Details</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="tab-EstimateDetail">
+                                    <div class="col-lg-12">
+                                        <div class=" form-horizontal clearfix">
+
+                                            <h3 class="group-header">Order Information</h3>
+                                            <div class="col-lg-12 clearfix">
+                                                <div class="form-group ">
+                                                    <div class="col-lg-4 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="This title will be displayed in the footer menu as a hyperlink." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="orderDateProgress" class="control-label text-right tooltip-float">Order Date</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" class="form-control" id="orderDateProgress" data-bind="datepicker: orderDate">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="col-lg-4 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Order Manager." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="orderManagerIdProgress" class="control-label text-right tooltip-float">Order Manager</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <select class="form-control" id="orderManagerIdProgress" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id',optionsValue: 'id', optionsCaption: 'Select Order Manager', value: orderManagerId"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <h3 class="group-header">Official Order</h3>
+                                            <div class="form-group">
+                                                <div class="col-lg-4 text-right">
+                                                    <label class="control-label text-right">Official Order received from customer</label>
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableProductOfficial" data-bind="checked: isOfficialOrder">
+                                                        <label class="onoffswitch-label" for="switchEnableProductOfficial">
+                                                            <div class="onoffswitch-inner"></div>
+                                                            <div class="onoffswitch-switch"></div>
+                                                        </label>
+                                                    </div>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group" data-bind="visible:isOfficialOrder" style="display: none;">
+                                                <div class="col-lg-4 text-right">
+                                                    <label class="control-label tooltip-float">Customer PO Ref</label>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div>
+                                                        <input type="text" class="form-control" id="customerPoRef" data-bind="value: customerPo, enable: isOfficialOrder" disabled="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" data-bind="visible:isOfficialOrder" style="display: none;">
+                                                <div class="col-lg-4 text-right">
+                                                    <label class="control-label tooltip-float">Set By</label>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div>
+                                                        <label class="control-label" data-bind="text: officialOrderSetByUser() ? officialOrderSetByUser().fullName : ''"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" data-bind="visible:isOfficialOrder" style="display: none;">
+                                                <div class="col-lg-4 text-right">
+                                                    <label class="control-label tooltip-float">On</label>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div>
+                                                        <label class="control-label" id="datepickerOnOfficialOrders" data-bind="dateString: officialOrderSetOnDateTime"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <h3 class="group-header">Scheduling Information</h3>
+                                            <div class="col-lg-12 clearfix">
+                                                <div class="form-group ">
+                                                    <div class="col-lg-4 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Art Work By." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="artworkByDate" class="control-label text-right tooltip-float">Art Work By</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" class="form-control" id="artworkByDate" data-bind="datepicker: artworkByDate">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="col-lg-4 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select File/Data By Date." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="dataBy" class="control-label text-right tooltip-float">File/Data By</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" class="form-control" id="dataBy" data-bind="datepicker: dataByDate">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="col-lg-4 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Paper By Date." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="paperByDate" class="control-label text-right tooltip-float">Paper By</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" class="form-control" id="paperByDate" data-bind="datepicker: paperByDate">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="col-lg-4 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Target Print Date." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="targetPrintDate" class="control-label text-right tooltip-float">Target Delivery</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" class="form-control" id="targetPrintDate" data-bind="datepicker: targetPrintDate">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="col-lg-4 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Estimated Delivery Date." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="startDeliveryDate" class="control-label text-right tooltip-float">Estimated Delivery</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" class="form-control" id="startDeliveryDate" data-bind="datepicker: startDeliveryDate">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="col-lg-4 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select End Delivery Date." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="finishDeliveryDate" class="control-label text-right tooltip-float">End Delivery</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" class="form-control" id="finishDeliveryDate" data-bind="datepicker: finishDeliveryDate">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <h3 class="group-header">Credit Approval</h3>
+                                            <div class="col-lg-12 clearfix">
+                                                <div class="form-group">
+                                                    <div class="col-lg-4 text-right">
+                                                        <label class="control-label text-right">Credit Approved</label>
+                                                    </div>
+
+                                                    <div class="col-lg-4">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCreditApproved" data-bind="checked: isCreditApproved">
+                                                            <label class="onoffswitch-label" for="switchCreditApproved">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group" data-bind="visible:isCreditApproved">
+                                                    <div class="col-lg-4 text-right">
+                                                        <label class="control-label tooltip-float">Set By</label>
+
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div>
+                                                            <label class="control-label" data-bind="text: creditLimitSetByUser() ? creditLimitSetByUser().fullName : ''"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" data-bind="visible:isCreditApproved">
+                                                    <div class="col-lg-4 text-right">
+                                                        <label class="control-label tooltip-float">On</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div>
+                                                            <label class="control-label" id="datepickerOnCreditApprove" data-bind="dateString: creditLimitSetOnDateTime"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-4 text-right">
+                                                        <label class="control-label text-right">Proceed without Credit Check</label>
+                                                    </div>
+
+                                                    <div class="col-lg-4">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableCredit" data-bind="checked: isJobAllowedWoCreditCheck">
+                                                            <label class="onoffswitch-label" for="switchEnableCredit">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group" data-bind="visible:isJobAllowedWoCreditCheck" style="display: none;">
+                                                    <div class="col-lg-4 text-right">
+                                                        <label class="control-label tooltip-float">Set By</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div>
+                                                            <label class="control-label" data-bind="text: allowJobWoCreditCheckSetByUser() ? allowJobWoCreditCheckSetByUser().fullName : ''"></label>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" data-bind="visible:isJobAllowedWoCreditCheck" style="display: none;">
+                                                    <div class="col-lg-4 text-right">
+                                                        <label class="control-label tooltip-float">On</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div>
+                                                            <label class="control-label" id="datepickerOnCreditApprove2" data-bind="dateString: allowJobWoCreditCheckSetOnDateTime"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-ItemsDetails" class="tab-pane fade in ">
+                                    <div class=" form-horizontal clearfix">
+
+                                        <h3 class="group-header">Item Information</h3>
+                                        <div class="col-lg-12 clearfix">
+                                            <!-- ko template: { name: 'itemTemplateProgress', foreach: items } -->
+                                            <!-- /ko -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding-left: 0px; padding-right: 7px;">
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveEstimateProgressedToOrder, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+            </div>
+        </div>
+    </div>
+    <script id="itemTemplateProgress" type="text/html">
+        <div class="form-group col-lg-12 ">
+            <div class="col-lg-4 text-right">
+                <label for="itemName" class="control-label" style="font-size:20px;">Name</label>
+            </div>
+            <div class="col-lg-5">
+                <label id="itemName" class="control-label" data-bind="text: productName" style="font-size:20px;text-align: left"></label>
+            </div>
+        </div>
+        <div class="form-group col-lg-12">
+            <div class="col-lg-4 text-right ">
+                <label for="invoiceDescription" class="control-label">Description</label>
+            </div>
+            <div class="col-lg-5">
+                <label id="invoiceDescription" class="control-label " data-bind="text: invoiceDescription" style="text-align: left"></label>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-8">
+                <div class="col-lg-12">
+                    <div class="radio col-lg-3">
+                        <input type="radio" name="optionsRadiosJobSelectedQty" id="optionsRadios1" value=1 data-bind="checked: jobSelectedQty, attr:{ name: 'optionsRadiosJobSelectedQty' + $index(), id: 'optionsRadios1' + $index() }">
+                        <label data-bind="attr: { for: 'optionsRadios1' + $index() }">
+                            Quantity 1
+                        </label>
+                    </div>
+                    <div class="radio col-lg-3">
+                        <input type="radio" name="optionsRadiosJobSelectedQty" id="optionsRadios2" value=2 data-bind="checked: jobSelectedQty, attr:{ name: 'optionsRadiosJobSelectedQty' + $index(), id: 'optionsRadios2' + $index() }">
+                        <label data-bind="attr: { for: 'optionsRadios2' + $index() }">
+                            Quantity 2
+                        </label>
+                        <span class="help-block text-right"></span>
+                    </div>
+                    <div class="radio col-lg-3">
+                        <input type="radio" name="optionsRadiosJobSelectedQty" id="optionsRadios3" value=3 data-bind="checked: jobSelectedQty, attr:{ name: 'optionsRadiosJobSelectedQty' + $index(), id: 'optionsRadios3' + $index() }">
+                        <label data-bind="attr: { for: 'optionsRadios3' + $index() }">
+                            Quantity 3
+                        </label>
+                        <span class="help-block text-right"></span>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="col-lg-3" style="text-align: center">
+                        <label class="control-label" data-bind="text: qty1"></label>
+                    </div>
+                    <div class="col-lg-3" style="text-align: center">
+                        <label class="control-label" data-bind="text: qty2"></label>
+                    </div>
+                    <div class="col-lg-3" style="text-align: center">
+                        <label class="control-label" data-bind="text: qty3"></label>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="col-lg-3" style="text-align: center">
+                        <span data-bind="text: $root.currencySymbol()"></span>
+                        <label class="control-label" data-bind="text: qty1GrossTotal"></label>
+                    </div>
+                    <div class="col-lg-3" style="text-align: center">
+                        <span data-bind="text: $root.currencySymbol()"></span>
+                        <label class="control-label" data-bind="text: qty2GrossTotal"></label>
+                    </div>
+                    <div class="col-lg-3" style="text-align: center">
+                        <span data-bind="text: $root.currencySymbol()"></span>
+                        <label class="control-label" data-bind="text: qty3GrossTotal"></label>
+                    </div>
+                </div>
+            </div>          
+        </div>
+    </script>
+</div>

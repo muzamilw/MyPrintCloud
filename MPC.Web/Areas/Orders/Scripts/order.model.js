@@ -18,7 +18,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedTargetPrintDate, specifiedOrderCreationDateTime, specifiedOrderManagerId, specifiedSalesPersonId, specifiedSourceId,
             specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
             specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
-            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId) {
+            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -216,6 +216,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 footNotes = ko.observable(specifiedFootNotes || undefined),
                 //Enqiry Id
                 enquiryId = ko.observable(specifiedEnquiryId || undefined),
+                //Reference Estimate Id
+                refEstimateId = ko.observable(specifiedRefEstimateId || undefined),
                 //Tax Rate
                 taxRate = ko.observable(undefined),
                 // Items
@@ -253,7 +255,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Status
                 status = ko.observable(undefined),
                 // Order signed by
-                orderReportSignedBy = ko.observable(undefined),
+                //orderReportSignedBy = ko.observable(undefined),
+                orderReportSignedBy = ko.observable(specifiedOrderReportSignedBy),
                 // Set Credit Limit Set By
                 setOrderReportSignedBy = function (userId) {
                     if (!userId) {
@@ -501,6 +504,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 setValidationSummary: setValidationSummary,
                 convertToServerData: convertToServerData,
                 statusId: statusId,
+                refEstimateId: refEstimateId,
                 status: status,
                 storeId: storeId,
                 setCreditiLimitSetBy: setCreditiLimitSetBy,
@@ -764,7 +768,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.ArtworkByDate, source.DataByDate, source.PaperByDate, source.TargetBindDate, source.XeroAccessCode, source.TargetPrintDate,
         source.OrderCreationDateTime, source.SalesAndOrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
-        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId);
+        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId, source.OrderReportSignedBy);
 
         estimate.statusId(source.StatusId);
         estimate.status(source.Status);
