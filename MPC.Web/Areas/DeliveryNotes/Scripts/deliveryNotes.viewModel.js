@@ -128,6 +128,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                     } else {
                                         storeId = data.CompanyId;
                                     }
+                                    selectedDeliveryNote().reset();
                                     getBaseForCompany(data.CompanyId, storeId);
                                 }
                             }
@@ -206,6 +207,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                         setDefaultContactForCompany();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
+                                    selectedDeliveryNote().reset();
                                 }
                                 isCompanyBaseDataLoaded(true);
                             },
@@ -354,6 +356,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                 selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
                                 selectedDeliveryNoteForListView().flagId(data.FlagId);
                                 selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
+                                selectedDeliveryNoteForListView().companyName(data.CompanyName);
+                                selectedDeliveryNoteForListView().flagColor(data.FlagColor);
                                 selectedDeliveryNoteForListView().orderReff(data.OrderReff);
                                 selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
                             }

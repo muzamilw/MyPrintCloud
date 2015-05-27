@@ -120,7 +120,7 @@ namespace MPC.Repository.Repositories
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
                 }
 
-                string nextPrefix = prefix.DeliveryNNext + "-001-" + prefix.DeliveryNNext;
+                string nextPrefix = prefix.DeliveryNPrefix + "-001-" + prefix.DeliveryNNext;
 
                 // Update Order Next
                 prefix.DeliveryNNext += 1;

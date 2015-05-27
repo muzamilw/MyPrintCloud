@@ -136,6 +136,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                       comments: comments,
                       contactId: contactId,
                       supplierId: supplierId,
+                      userNotes: userNotes,
                       supplierTelNo: supplierTelNo,
                       csNo: csNo,
                       raisedBy: raisedBy,

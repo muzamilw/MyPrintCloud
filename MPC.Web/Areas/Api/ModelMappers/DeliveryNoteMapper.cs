@@ -49,7 +49,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryDate = source.DeliveryDate,
                 FlagId = source.FlagId,
                 ContactCompany = source.ContactCompany,
-                FlagColor = source.FlagColor,
+                FlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : string.Empty,
                 OrderReff = source.OrderReff,
                 CreationDateTime = source.CreationDateTime
             };
