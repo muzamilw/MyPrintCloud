@@ -61,6 +61,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
         private readonly IShippingInformationRepository shippingInformationRepository;
         private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
+        private readonly IItemSectionRepository itemSectionRepository;
         private readonly IPipeLineProductRepository pipeLineProductRepository;
 
         /// <summary>
@@ -78,7 +79,7 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                itemTarget.Order_Code = orderCode;    
+                itemTarget.Order_Code = orderCode;
             }
             itemTarget.OrganisationId = orderRepository.OrganisationId;
             return itemTarget;
@@ -336,7 +337,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
         }
-        
+
         #endregion
         #region Constructor
 
@@ -352,7 +353,7 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository,
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
-            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository)
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository)
         {
             if (estimateRepository == null)
             {
@@ -465,6 +466,7 @@ namespace MPC.Implementation.MISServices
             this.shippingInformationRepository = shippingInformationRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
             this.pipeLineProductRepository = pipeLineProductRepository;
+            this.itemSectionRepository = itemSectionRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
         }
 
@@ -733,15 +735,213 @@ namespace MPC.Implementation.MISServices
                 throw ex;
             }
         }
+
+        public bool ProgressEstimateToOrder(ProgressEstimateRequestModel requestModel)
+        {
+            try
+            {
+                var estimate = estimateRepository.Find(requestModel.EstimateId);
+                var order = estimateRepository.Find(requestModel.OrderId);
+                //update Estimate Reference and status
+                estimate.RefEstimateId = requestModel.OrderId;
+                estimate.StatusId = 39;
+                //update order refence of estimate
+                order.RefEstimateId = requestModel.EstimateId;
+
+                estimateRepository.Update(estimate);
+                estimateRepository.Update(order);
+                estimateRepository.SaveChanges();
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                return false;
+
+            }
+        }
+
+        public Estimate CloneOrder(Estimate source)
+        {
+            Estimate target = CreateNewOrder();
+            target.isEstimate = false;
+            target.StatusId = (short)OrderStatus.PendingOrder;
+
+            Estimate est_Source = GetById(source.EstimateId);
+            est_Source.StatusId = 39;
+            
+            target = UpdateEstimeteOnCloning(est_Source, target, source);
+            target.RefEstimateId = source.EstimateId;
+
+            estimateRepository.SaveChanges();
+
+            est_Source.RefEstimateId = target.EstimateId;
+            estimateRepository.SaveChanges();
+
+            return target;
+        }
+
+        public Estimate UpdateEstimeteOnCloning(Estimate source, Estimate target, Estimate clientSource)
+        {
+            // Clone Estimate
+            source.Clone(target);
+            target.Order_Date = clientSource.Order_Date;
+            target.OrderManagerId = clientSource.OrderManagerId;
+            target.IsOfficialOrder = clientSource.IsOfficialOrder;
+            target.CustomerPO = clientSource.CustomerPO;
+            target.ArtworkByDate = clientSource.ArtworkByDate;
+            target.DataByDate = clientSource.DataByDate;
+            target.PaperByDate = clientSource.PaperByDate;
+            target.DataByDate = clientSource.DataByDate;
+            target.TargetBindDate = clientSource.TargetPrintDate;
+            target.StartDeliveryDate = clientSource.StartDeliveryDate;
+            target.FinishDeliveryDate = clientSource.FinishDeliveryDate;
+            target.IsCreditApproved = clientSource.IsCreditApproved;
+            target.IsJobAllowedWOCreditCheck = clientSource.IsJobAllowedWOCreditCheck;
+
+            CloneItems(source, target, clientSource);
+
+            return target;
+        }
+        private void CloneItems(Estimate source, Estimate target, Estimate clientSource)
+        {
+            if (source.Items == null)
+            {
+                return;
+            }
+            if (target.Items == null)
+            {
+                target.Items = new List<Item>();
+            }
+            foreach (Item item in source.Items.ToList())
+            {
+                Item targetItem = itemRepository.Create();
+                itemRepository.Add(targetItem);
+                target.Items.Add(targetItem);
+                item.CloneForOrder(targetItem);
+                var targetItemSource = clientSource.Items.FirstOrDefault(x => x.ItemId == item.ItemId);
+                if (targetItemSource != null)
+                {
+                    targetItem.JobSelectedQty = targetItemSource.JobSelectedQty;
+                }
+                if (item.JobSelectedQty != null && targetItem.ItemType != 2)
+                {
+                    if (item.JobSelectedQty == 1)
+                    {
+                        targetItem.Qty1 = item.Qty1;
+                        targetItem.Qty2 = 0;
+                        targetItem.Qty3 = 0;
+                    }
+                    else if (item.JobSelectedQty == 2)
+                    {
+                        targetItem.Qty1 = item.Qty2;
+                        targetItem.Qty2 = 0;
+                        targetItem.Qty3 = 0;
+                    }
+                    else if (item.JobSelectedQty == 3)
+                    {
+                        targetItem.Qty1 = item.Qty3;
+                        targetItem.Qty2 = 0;
+                        targetItem.Qty3 = 0;
+                    }
+                }
+
+                // Clone Item Sections
+                CloneItemSections(item, targetItem);
+            }
+        }
+
+        /// <summary>
+        /// Copy Item Sections
+        /// </summary>
+        private void CloneItemSections(Item source, Item target)
+        {
+            if (source.ItemSections == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemSections == null)
+            {
+                target.ItemSections = new List<ItemSection>();
+            }
+
+            foreach (ItemSection itemSection in source.ItemSections.ToList())
+            {
+                ItemSection targetItemSection = itemSectionRepository.Create();
+                itemSectionRepository.Add(targetItemSection);
+                targetItemSection.ItemId = target.ItemId;
+                target.ItemSections.Add(targetItemSection);
+                itemSection.CloneForOrder(targetItemSection);
+                if (source.JobSelectedQty != null && target.ItemType != 2)
+                {
+                    targetItemSection.Qty1 = source.Qty1;
+                    targetItemSection.Qty2 = 0;
+                    targetItemSection.Qty3 = 0;
+                }
+                CloneSectionCostCenter(itemSection, targetItemSection);
+            }
+        }
+        private void CloneSectionCostCenter(ItemSection source, ItemSection target)
+        {
+            if (source.SectionCostcentres == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.SectionCostcentres == null)
+            {
+                target.SectionCostcentres = new List<SectionCostcentre>();
+            }
+
+            foreach (SectionCostcentre sectionCostcentre in source.SectionCostcentres.ToList())
+            {
+                SectionCostcentre targetSectionCostcentre = sectionCostCentreRepository.Create();
+                sectionCostCentreRepository.Add(targetSectionCostcentre);
+                targetSectionCostcentre.ItemSectionId = target.ItemSectionId;
+                target.SectionCostcentres.Add(targetSectionCostcentre);
+                sectionCostcentre.Clone(targetSectionCostcentre);
+                targetSectionCostcentre.Qty1 = source.Qty1;
+                targetSectionCostcentre.Qty2 = 0;
+                targetSectionCostcentre.Qty3 = 0;
+                CloneSectionCostCenterDetail(sectionCostcentre, targetSectionCostcentre);
+            }
+        }
+        private void CloneSectionCostCenterDetail(SectionCostcentre source, SectionCostcentre target)
+        {
+            if (source.SectionCostCentreDetails == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.SectionCostCentreDetails == null)
+            {
+                target.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
+            }
+
+            foreach (SectionCostCentreDetail sectionCostCentreDetail in source.SectionCostCentreDetails.ToList())
+            {
+                SectionCostCentreDetail targetSectionCostCentreDetail = sectionCostCentreDetailRepository.Create();
+                sectionCostCentreDetailRepository.Add(targetSectionCostCentreDetail);
+                targetSectionCostCentreDetail.SectionCostCentreId = target.SectionCostcentreId;
+                target.SectionCostCentreDetails.Add(targetSectionCostCentreDetail);
+                sectionCostCentreDetail.Qty1 = source.Qty1;
+                sectionCostCentreDetail.Qty2 = 0;
+                sectionCostCentreDetail.Qty3 = 0;
+                sectionCostCentreDetail.Clone(targetSectionCostCentreDetail);
+            }
+        }
+
         #endregion
-
-
 
         #region Download Artwork
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-          //  return GenerateOrderArtworkArchive(OrderID, sZipName);
+            //  return GenerateOrderArtworkArchive(OrderID, sZipName);
             return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
         }
 

@@ -436,6 +436,7 @@
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
+    <Compile Include="RequestModels\ProgressEstimateRequestModel.cs" />
     <Compile Include="RequestModels\ProgressInquiryToEstimateParams.cs" />
     <Compile Include="RequestModels\PTVRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
