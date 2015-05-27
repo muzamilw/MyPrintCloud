@@ -164,6 +164,8 @@
             CoverageHigh = ko.observable(),
             CoverageMedium = ko.observable(),
             CoverageLow = ko.observable(),
+            isSheetFed = ko.observable(),
+            Passes = ko.observable(),
             ReelMakereadyTime = ko.observable(),
             Maximumsheetweight = ko.observable(),
             Maximumsheetheight = ko.observable(),
@@ -255,6 +257,8 @@
                 CoverageHigh: CoverageHigh,
                 CoverageMedium: CoverageMedium,
                 CoverageLow: CoverageLow,
+                isSheetFed: isSheetFed,
+                Passes: Passes,
                 ReelMakereadyTime: ReelMakereadyTime,
                 Maximumsheetweight: Maximumsheetweight,
                 Maximumsheetheight: Maximumsheetheight,
@@ -348,6 +352,8 @@
             CoverageHigh: CoverageHigh,
             CoverageMedium: CoverageMedium,
             CoverageLow: CoverageLow,
+            isSheetFed: isSheetFed,
+            Passes: Passes,
             lookupList: lookupList,
             dirtyFlag: dirtyFlag,
             errors: errors,
@@ -700,7 +706,8 @@
         omachine.CoverageHigh(source.machine.CoverageHigh);
         omachine.CoverageMedium(source.machine.CoverageMedium);
         omachine.CoverageLow(source.machine.CoverageLow);
-
+        omachine.isSheetFed(source.machine.isSheetFed);
+        omachine.Passes(source.machine.Passes);
         //omachine.Maximumsheetweight(source.machine.Maximumsheetweight);
         //omachine.Maximumsheetheight(source.machine.Maximumsheetheight);
         //omachine.Maximumsheetwidth(source.machine.Maximumsheetwidth);
@@ -826,7 +833,8 @@
         omachine.CoverageHigh = machine.CoverageHigh();
         omachine.CoverageMedium = machine.CoverageMedium();
         omachine.CoverageLow = machine.CoverageLow();
-
+        omachine.isSheetFed = machine.isSheetFed();
+        omachine.Passes = machine.Passes();
         //omachine.MachineInkCoverages = [];
         //_.each(machine.MachineInkCoverages(), function (item) {
         //    var module = MachineInkCoveragesListServerMapper(item);

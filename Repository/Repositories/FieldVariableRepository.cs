@@ -110,7 +110,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<FieldVariable> GetSystemVariables()
         {
-            return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null && fv.Scope == null).ToList();
+            return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null && (fv.Scope == (int)FieldVariableScopeType.SystemStore || fv.Scope == (int)FieldVariableScopeType.SystemContact || fv.Scope == (int)FieldVariableScopeType.SystemAddress || fv.Scope == (int)FieldVariableScopeType.SystemTerritory)).ToList();
         }
 
         /// <summary>

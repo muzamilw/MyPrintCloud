@@ -397,7 +397,7 @@ namespace MPC.Repository.Repositories
                 omachine.CoverageHigh = machine.CoverageHigh;
                 omachine.CoverageLow = machine.CoverageLow;
                 omachine.CoverageMedium = machine.CoverageMedium;
-
+                omachine.Passes = machine.Passes;
 
                 //foreach (var item in machine.MachineInkCoverages)
                 //{
