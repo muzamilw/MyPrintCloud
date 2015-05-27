@@ -150,4 +150,10 @@
   <data name="ProductCategoryItemClone_InvalidItem" xml:space="preserve">
     <value>Product Category Item is null.</value>
   </data>
+  <data name="ItemClone_InvalidProductMarketBriefQuestion" xml:space="preserve">
+    <value>Market Brief Question is null.</value>
+  </data>
+  <data name="ItemClone_InvalidProductMarketBriefAnswer" xml:space="preserve">
+    <value>Market Brief Answer is null.</value>
+  </data>
 </root>
