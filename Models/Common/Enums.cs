@@ -13,6 +13,10 @@ namespace MPC.Models.Common
         Territory = 4,
         RealEstate = 5,
         RealEstateImages = 6,
+        SystemStore = 7,
+        SystemContact = 8,
+        SystemAddress = 9,
+        SystemTerritory = 10,
     }
 
     public enum StoreMode : int
