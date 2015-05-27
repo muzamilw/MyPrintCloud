@@ -5,9 +5,9 @@
 }
 <div class="row" id="estimateBinding">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader()!=='' ? 'HOME' :''"></a></li>
@@ -23,7 +23,7 @@
                         @*<h1 class="pull-left" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Estimates</h1>*@
                     </div>
                     <div class="row" data-bind="visible: (!isOrderDetailsVisible() && !isDisplayInquiryDetailScreen())">
-                        <div class="col-lg-12">
+                        <div class="col-sm-12">
                             <div class="pull-right" style="margin-right:10px;">
                                 <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
                                     Add New Estimate
@@ -37,7 +37,7 @@
                             &nbsp;
                         </div>
                         <div>
-                            <div class="col-lg-12" style="padding-right: 17px;padding-left:15px;">
+                            <div class="col-sm-12" style="padding-right: 17px;padding-left:15px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
                                 <div class=" clearfix">
@@ -180,13 +180,13 @@
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-lg-4"><span>Customer</span></th>
-                                                <th class="col-lg-2"><span>Creation Date</span></th>
-                                                <th class="col-lg-2"><span>Flag</span></th>
+                                                <th class="col-sm-4"><span>Customer</span></th>
+                                                <th class="col-sm-2"><span>Creation Date</span></th>
+                                                <th class="col-sm-2"><span>Flag</span></th>
                                                 <!--ko if: $root.currentScreen() == 0|| $root.currentScreen() == undefined-->
-                                                <th class="col-lg-2"><span>Status</span></th>
+                                                <th class="col-sm-2"><span>Status</span></th>
                                                 <!--/ko-->
-                                                <th class="col-lg-2">
+                                                <th class="col-sm-2">
                                                     <!--ko if: $root.currentScreen() != 8-->
                                                     <span>Estimate Code</span>
                                                     <!--/ko-->
@@ -213,10 +213,10 @@
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-lg-4"><span>Customer</span></th>
-                                                <th class="col-lg-4"><span>Require By Date</span></th>
-                                                <th class="col-lg-4"><span>Flag</span></th>
-                                                @*<th class="col-lg-3"></th>*@
+                                                <th class="col-sm-4"><span>Customer</span></th>
+                                                <th class="col-sm-4"><span>Require By Date</span></th>
+                                                <th class="col-sm-4"><span>Flag</span></th>
+                                                @*<th class="col-sm-3"></th>*@
                                             </tr>
                                         </thead>
                                         <tbody>
