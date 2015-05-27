@@ -51,5 +51,7 @@ namespace MPC.Models.ResponseModels
         /// Expected Shipping Date
         /// </summary>
         public DateTime? JobEstimatedCompletionDateTime { get; set; }
+
+        public DateTime? JobEstimatedStartDateTime { get; set; }
     }
 }

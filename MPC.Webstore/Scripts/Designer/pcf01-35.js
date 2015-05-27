@@ -67,8 +67,8 @@ function d1ToCanvas(src, x, y, IW, IH) {
 
 }
 function d1SvgToCCC(src, IW, IH) {
-    var canvasHeight = Math.floor(canvas.height);
-    var canvasWidth = Math.floor(canvas.width);
+  //  var canvasHeight = Math.floor(canvas.height);
+ //   var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
     var n = src;
     while (n.indexOf('/') != -1)
@@ -250,44 +250,81 @@ function d1ContactLogoToCanvas(x, y) {
 }
 function k35_load(DT) {
     // src = DT;
-   // StopLoader();
-    D1NIO = fabric.util.object.clone(TO[0]);
-    D1NIO.ObjectID = --NCI;
-    D1NIO.ColorHex = "#000000";
-    D1NIO.IsBold = false;
-    D1NIO.IsItalic = false;
-    D1NIO.ProductPageId = SP;
-    D1NIO.MaxWidth = 100;
-    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-    D1NIO.PositionX = 0;
-    D1NIO.PositionY = 0;
-    D1NIO.ObjectType = 3;
-    if (DT.indexOf('.svg') != -1) {
+    // StopLoader();
+    if (DT.indexOf('.svg') == -1) {
+        D1NIO = fabric.util.object.clone(TO[0]);
+        D1NIO.ObjectID = --NCI;
+        D1NIO.ColorHex = "#000000";
+        D1NIO.IsBold = false;
+        D1NIO.IsItalic = false;
+        D1NIO.ProductPageId = SP;
+        D1NIO.MaxWidth = 100;
+        D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+        D1NIO.PositionX = 0;
+        D1NIO.PositionY = 0;
+        D1NIO.ObjectType = 3;
+
+
+        D1NIO.MaxHeight = IH;
+        D1NIO.Height = IH;
+        D1NIO.MaxWidth = IW;
+        D1NIO.Width = IW;
+
+        if (IH < 50) {
+            D1NIO.MaxHeight = 50;
+            D1NIO.Height = 50;
+        }
+        else if (IW < 50) {
+            D1NIO.MaxWidth = 50;
+            D1NIO.Width = 50;
+        }
+        D1NIO.ContentString = DT;
+        D1NIO.DisplayOrder = TO.length + 1;
+        if (D1NIO.ObjectType == 9) {
+            d1Svg(canvas, D1NIO, true);
+        } else {
+            d1(canvas, D1NIO, true);
+        }
+        var OBS = canvas.getObjects();
+
+        D1NIO.DisplayOrderPdf = OBS.length;
+        canvas.renderAll();
+        TO.push(D1NIO);
+        k27();
+        lAObj = D1NIO.ObjectID;
+    } else 
+    {
+        var D1NIO = {};
+        D1NIO = fabric.util.object.clone(TO[0]);
+        D1NIO.ObjectID = --NCI;
+        D1NIO.ColorHex = "#000000";
+        D1NIO.IsBold = false;
+        D1NIO.IsItalic = false;
+        D1NIO.ProductPageId = SP;
+        D1NIO.MaxWidth = 100;
+        D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+        D1NIO.PositionX = 0;
+        D1NIO.PositionY = 0;
         D1NIO.ObjectType = 9;
-    }
-    D1NIO.MaxHeight = IH;
-    D1NIO.Height = IH;
-    D1NIO.MaxWidth = IW;
-    D1NIO.Width = IW;
+        D1NIO.ColorC = 0;
+        D1NIO.ColorM = 0;
+        D1NIO.ColorY = 0;
+        D1NIO.ColorK = 100;
+        D1NIO.MaxHeight = 100;
+        D1NIO.Height = 100;
+        D1NIO.MaxWidth = 100;
+        D1NIO.Width = 100;
 
-    if (IH < 50) {
-        D1NIO.MaxHeight = 50;
-        D1NIO.Height = 50;
+        D1NIO.ContentString = DT;
+        D1NIO.DisplayOrder = TO.length + 1;
+        d1Svg(canvas, D1NIO, true);
+        var OBS = canvas.getObjects();
+        lAObj = D1NIO.ObjectID;
+        D1NIO.DisplayOrderPdf = OBS.length;
+        canvas.renderAll();
+        TO.push(D1NIO);
+        //d1SvgToCCC(DT, 50, 50);
     }
-    else if (IW < 50) {
-        D1NIO.MaxWidth = 50;
-        D1NIO.Width = 50;
-    }
-    D1NIO.ContentString = DT;
-    D1NIO.DisplayOrder = TO.length + 1;
-    d1(canvas, D1NIO, true);
-    var OBS = canvas.getObjects();
-
-    D1NIO.DisplayOrderPdf = OBS.length;
-    canvas.renderAll();
-    TO.push(D1NIO);
-    k27();
-    lAObj = D1NIO.ObjectID;
     //  $("#ImgCarouselDiv").tabs("option", "active", 1); 
     // $("#BkImgContainer").tabs("option", "active", 1);
 }
@@ -478,6 +515,10 @@ function e5() {
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
 }
+function f2_ChangeSVGColor(pathIndex) {
+    selectedPathIndex = pathIndex;
+    pcL02_main2();
+}
 function f2(c, m, y, k, ColorHex, Sname) {
 
     var D1AO = canvas.getActiveObject();
@@ -522,17 +563,38 @@ function f2(c, m, y, k, ColorHex, Sname) {
             $("#txtAreaUpdateTxt").css("color", ColorHex);
             var hexStr = D1AO.fill;
             var hex = parseInt(hexStr.substring(1), 16);
-            pcL22_Sub(D1AO);
+            pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
         } else if (D1AO.type == 'i-text') {
             setActiveStyle("color", ColorHex, c, m, y, k);
-            pcL22_Sub(D1AO);
-        } else if (D1AO.type == 'ellipse' || D1AO.type == 'rect' || D1AO.type == 'path-group' || D1AO.type == 'path') {
+            pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
+        } else if (D1AO.type == 'ellipse' || D1AO.type == 'rect' ) {
             D1AO.set('fill', ColorHex);
             D1AO.C = c;
             D1AO.M = m;
             D1AO.Y = y;
             D1AO.K = k;
-            pcL22_Sub(D1AO);
+            pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
+        } else if (D1AO.type == 'path-group' || D1AO.type == 'path') {
+            $.each(D1AO.customStyles, function (i, IT) {
+                if (i == selectedPathIndex)
+                {
+                    IT.ModifiedColor = ColorHex;
+                    $(".BtnChngeSvgClr" + i).css("background-color", ColorHex);
+                }
+               
+            });
+            if (D1AO.isSameColor && D1AO.isSameColor() || !D1AO.paths) {
+                D1AO.setFill(ColorHex);
+            }
+            else if (D1AO.paths) {
+                for (var i = 0; i < D1AO.paths.length; i++) {
+                    if(i == selectedPathIndex)
+                    {
+                        D1AO.paths[i].setFill(ColorHex);
+                    }
+                }
+            }
+            //alert();
         }
 
         canvas.renderAll();
@@ -545,7 +607,7 @@ function f2(c, m, y, k, ColorHex, Sname) {
                 }
             });
         }
-        $(".BtnChngeClr").css("background-color", ColorHex);
+        
 
     } else {
         canvas.backgroundColor = ColorHex;
@@ -1430,8 +1492,9 @@ function g2_1(e) {
         $(".BtnChngeClr").css("background-color", clr);
 
     } else if (D1AO && (D1AO.type === 'path-group' || D1AO.type === 'path')) {
-        g2_22(2); var clr = D1AO.fill + " !important";
-        $(".BtnChngeClr").css("background-color", clr);
+        g2_22(3);
+       // var clr = D1AO.fill + " !important";
+       // $(".BtnChngeClr").css("background-color", clr);
     }
 
     
@@ -1486,8 +1549,36 @@ function g2_22(mode) {
                 //pcL36('show', '#ImagePropertyPanel');
                 //DisplayDiv('1');
             }
+            $(".svgColorPanel").css("display", "none");
        // }
+    } else if (mode == 3) {
+        if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
+        } else {
+            $(".rotateSlider").slider("option", "value", D1AO.getAngle());
+            $("#imgThumbPreview").attr("src", D1AO.toDataURL()); $("#AddColorShape").css("display", "inline-block"); $(".OpacityBtn").css("display", "none");
+            $("#BtnCropImg2").css("display", "none");
+            $(".imgthumbPreviewSliderBtn").css("display", "none");
+
+            if (IsCalledFrom == 3) {
+                $(".toolbarImage").css("display", "none");
+                $(".toolbarImage").css("opacity", "0"); $(".spanRectColour").css("background-color", D1AO.fill);
+                $(".shapeTools").css("display", "block"); $(".imgtool").css("display", "none");
+                m0();
+            } 
+        }
+        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden");
+        $(".svgColorContainer").html("");
+        if (D1AO.customStyles != null) {
+            $.each(D1AO.customStyles, function (i, IT) {
+                var clr = IT.OriginalColor;
+                if (IT.ModifiedColor != "")
+                    clr = IT.ModifiedColor;
+                $(".svgColorContainer").append('<button id="" class="BtnChngeClr btnChangeShapeColor BtnChngeSvgClr'+i+'" title="Color picker" style="display: inline-block; background-color:' + clr + ' " onclick="f2_ChangeSVGColor(' + IT.PathIndex + ');"> Color</button>');
+            });
+        } 
     } else {
+        $("#AddColorShape").css("visibility", "visible");
+        $(".svgColorPanel").css("display", "none");
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
             $(".rotateSlider").slider("option", "value", D1AO.getAngle());
@@ -2929,18 +3020,19 @@ function pcl42() {
             pcl42_svc(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], $("#smartFormSelectUserProfile").val());// save variables
         }
         else {
-            pcl42_updateVariables(smartFormData.scopeVariables);
-            pcl42_svc(smartFormData.scopeVariables,ContactID);// save variables
+            pcl42_updateVariables(smartFormData.scopeVariables); 
+            pcl42_svc(smartFormData.scopeVariables, ContactID);// save variables
         }
         pcl42_UpdateTO();
         bleedPrinted = false;
         d5_sub(SP,true);
-       
     } else
     {
         alert("Variable validation failed");
-    }
-    StopLoader();
+    } 
+
+    clearInterval(var2);
+    $("#MainLoader").css("display", "none");
 }
 function pcl42_updateVariables(data) {
     

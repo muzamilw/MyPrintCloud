@@ -115,6 +115,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Side2Inks = source.Side2Inks,
                 IsFirstTrim = source.IsFirstTrim,
                 IsSecondTrim = source.IsSecondTrim,
+                PressIdSide2 = source.PressIdSide2,
+                PassesSide1 = source.PassesSide1,
+                PassesSide2 = source.PassesSide2,
+                ImpressionCoverageSide1 = source.ImpressionCoverageSide1,
+                ImpressionCoverageSide2 = source.ImpressionCoverageSide2,
+                PrintingType = source.PrintingType,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :  new List<SectionCostcentre>(),
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()) : new List<SectionInkCoverage>()
             };
@@ -164,9 +170,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Side2Inks = source.Side2Inks,
                 IsFirstTrim = source.IsFirstTrim,
                 IsSecondTrim = source.IsSecondTrim,
+                PressIdSide2 = source.PressIdSide2,
+                PassesSide1 = source.PassesSide1,
+                PassesSide2 = source.PassesSide2,
+                ImpressionCoverageSide1 = source.ImpressionCoverageSide1,
+                ImpressionCoverageSide2 = source.ImpressionCoverageSide2,
+                PrintingType = source.PrintingType,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null,
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
-
             };
         }
 

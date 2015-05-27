@@ -10,7 +10,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         imagePath: 3,
         file: 4
     },
-    
+
     // Stock Category 
     stockCategory = {
         paper: 1,
@@ -18,7 +18,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         films: 3,
         plates: 4
     },
-    
+
     // Item Entity
     // ReSharper disable InconsistentNaming
     Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode, specifiedThumbnail, specifiedMinPrice,
@@ -398,7 +398,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (productDisplayOptionValue === productDisplayOptions()) {
                         return;
                     }
-                    
+
                     productDisplayOptions(productDisplayOptionValue);
                 }
             }),
@@ -456,6 +456,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             productCategoryItems = ko.observableArray([]),
             // Item Images
             itemImages = ko.observableArray([]),
+            // Product Market Brief Questions
+            productMarketBriefQuestions = ko.observableArray([]),
             // Available Product Category items
             availableProductCategoryItems = ko.computed(function () {
                 if (productCategoryItems().length === 0) {
@@ -478,7 +480,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Item Sections
             itemSections = ko.observableArray([]),
             // Can Add Item Section
-            canAddItemSection = ko.computed(function() {
+            canAddItemSection = ko.computed(function () {
                 return itemProductDetail().isPrintItemUi() === '1' && itemSections().length < 5;
             }),
             // Can Remove Item Section
@@ -503,7 +505,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Cover Sheet" }));
                     }
                 }
-                
+
                 return;
             }),
             // Item Price Matrices for Current Flag
@@ -754,7 +756,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 if (activeStockOption() !== stockOption) {
                     activeStockOption(stockOption);
                 }
-                
+
                 // Set Stock Item Selection Callback
                 selectStockItemCallback = selectStockItemForStockOption;
             },
@@ -786,7 +788,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 if (activeItemSection() !== itemSection) {
                     activeItemSection(itemSection);
                 }
-                
+
                 // Set Stock Item Selection Callback
                 selectStockItemCallback = selectStockItemForSection;
             },
@@ -1062,7 +1064,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             },
             // Remove Item Section
-            removeItemSection = function() {
+            removeItemSection = function () {
                 if (!canRemoveItemSection()) {
                     return;
                 }
@@ -1122,7 +1124,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
             },
             // Add Item Image
-            onSelectItemImage = function(file, data) {
+            onSelectItemImage = function (file, data) {
                 var itemImage = ItemImage.Create({ ItemId: id() });
                 itemImage.onSelectImage(file, data);
                 itemImages.push(itemImage);
@@ -1144,6 +1146,38 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 file5(undefined);
                 file5FileSource(undefined);
                 file5FileName(undefined);
+            },
+            // Move ProductMarketBriefQuestion Page Up
+            moveProductMarketBriefQuestionUp = function (productMarketBriefQuestion) {
+                var i = productMarketBriefQuestions.indexOf(productMarketBriefQuestion);
+                if (i >= 1) {
+                    var array = productMarketBriefQuestions();
+                    productMarketBriefQuestions.splice(i - 1, 2, array[i], array[i - 1]);
+                }
+            },
+            // Move ProductMarketBriefQuestion Page Down
+            moveProductMarketBriefQuestionDown = function (productMarketBriefQuestion) {
+                var i = productMarketBriefQuestions.indexOf(productMarketBriefQuestion);
+                var array = productMarketBriefQuestions();
+                if (i < array.length) {
+                    productMarketBriefQuestions.splice(i, 2, array[i + 1], array[i]);
+                }
+            },
+            // Add ProductMarketBriefQuestion
+            addProductMarketBriefQuestion = function () {
+                productMarketBriefQuestions.push(ProductMarketBriefQuestion.Create({ ItemId: id() }, callbacks));
+            },
+            // On Delete Product Market Brief Question
+            onDeleteProductMarketBriefQuestion = function (productMarketBriefQuestion) {
+                if (callbacks && callbacks.onDeleteProductMarketBriefQuestion && typeof callbacks.onDeleteProductMarketBriefQuestion === "function") {
+                    callbacks.onDeleteProductMarketBriefQuestion(function () {
+                        removeProductMarketBriefQuestion(productMarketBriefQuestion);
+                    });
+                }
+            },
+            // Remove ProductMarketBriefQuestion
+            removeProductMarketBriefQuestion = function (productMarketBriefQuestion) {
+                productMarketBriefQuestions.remove(productMarketBriefQuestion);
             },
             // Errors
             errors = ko.validation.group({
@@ -1372,7 +1406,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemStateTaxes: itemStateTaxes,
                 productCategoryItems: productCategoryItems,
                 itemSections: itemSections,
-                itemImages: itemImages
+                itemImages: itemImages,
+                productMarketBriefQuestions: productMarketBriefQuestions
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {
@@ -1416,10 +1451,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return itemImage.hasChanges();
                 }) != null;
             }),
+            // Product Market Brief Question Changes
+            productMarketBriefQuestionHasChanges = ko.computed(function () {
+                return productMarketBriefQuestions.find(function (productMarketBriefQuestion) {
+                    return productMarketBriefQuestion.hasChanges();
+                }) != null;
+            }),
             // Has Changes
             hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty() || itemVdpPriceListHasChanges() || itemVideosHasChanges() || template().hasChanges() || itemStockOptionHasChanges() ||
-                    itemPriceMatrixHasChanges() || itemStateTaxesHasChanges() || itemProductDetail().hasChanges() || itemSectionHasChanges() || itemImageHasChanges();
+                    itemPriceMatrixHasChanges() || itemStateTaxesHasChanges() || itemProductDetail().hasChanges() || itemSectionHasChanges() || itemImageHasChanges() ||
+                    productMarketBriefQuestionHasChanges();
             }),
             // Reset
             reset = function () {
@@ -1438,11 +1480,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemStateTaxes.each(function (itemStateTax) {
                     return itemStateTax.reset();
                 });
-                itemSections.each(function(itemSection) {
+                itemSections.each(function (itemSection) {
                     return itemSection.reset();
                 });
                 itemImages.each(function (itemImage) {
                     return itemImage.reset();
+                });
+                productMarketBriefQuestions.each(function (question) {
+                    return question.reset();
                 });
                 template().reset();
                 itemProductDetail().reset();
@@ -1568,6 +1613,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }),
                     ItemImages: itemImages.map(function (itemImage) {
                         return itemImage.convertToServerData();
+                    }),
+                    ProductMarketBriefQuestions: productMarketBriefQuestions.map(function (productMarketBriefQuestion) {
+                        var question = productMarketBriefQuestion.convertToServerData();
+                        question.SortOrder = index + 1;
+                        return question;
                     })
                 };
             };
@@ -1744,6 +1794,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             hasChanges: hasChanges,
             itemVdpPriceListHasChanges: itemVdpPriceListHasChanges,
             updateQuantitiesForSupplier: updateQuantitiesForSupplier,
+            productMarketBriefQuestions: productMarketBriefQuestions,
+            moveProductMarketBriefQuestionUp: moveProductMarketBriefQuestionUp,
+            moveProductMarketBriefQuestionDown: moveProductMarketBriefQuestionDown,
+            addProductMarketBriefQuestion: addProductMarketBriefQuestion,
+            removeProductMarketBriefQuestion: removeProductMarketBriefQuestion,
+            onDeleteProductMarketBriefQuestion: onDeleteProductMarketBriefQuestion,
             reset: reset,
             convertToServerData: convertToServerData
         };
@@ -1923,10 +1979,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 (!specifiedId ? true : undefined)),
             // Is Created Manual Changed
             isCreatedManualUi = ko.computed({
-                read: function() {
+                read: function () {
                     return isCreatedManual();
                 },
-                write: function(value) {
+                write: function (value) {
                     if (value === isCreatedManual()) {
                         return;
                     }
@@ -2089,7 +2145,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Height
             height = ko.observable(specifiedHeight || undefined),
             // Page Name
-            pageName = ko.observable(specifiedPageName || undefined).extend({required:true}),
+            pageName = ko.observable(specifiedPageName || undefined).extend({ required: true }),
             // Page No
             pageNo = ko.observable(specifiedPageNo || undefined),
             // Orientation
@@ -2381,7 +2437,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return self;
     },
-    
+
     // Item Section Entity
     ItemSection = function (specifiedId, specifiedSectionNo, specifiedSectionName, specifiedSectionSizeId, specifiedItemSizeId, specifiedIsSectionSizeCustom,
         specifiedSectionSizeHeight, specifiedSectionSizeWidth, specifiedIsItemSizeCustom, specifiedItemSizeHeight, specifiedItemSizeWidth,
@@ -2528,7 +2584,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             description: specifiedDescription
         };
     },
-    
+
     // Machine Entity        
     Machine = function (specifiedId, specifiedName, specifiedDefaultPageId, specifiedMaxSheetHeight, specifiedMaxSheetWeight, specifiedMaxSheetWidth,
         specifiedMinSheetHeight, specifiedMinSheetWidth, specifiedMachineCatId) {
@@ -2599,7 +2655,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             name: specifiedName
         };
     },
-    
+
     // Product Category For Template Entity        
     ProductCategoryForTemplate = function (specifiedId, specifiedName, specifiedRegionId, specifiedCategoryTypeId, specifiedZoomFactor,
         specifiedScalarFactor) {
@@ -2612,7 +2668,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             scalarFactor: specifiedScalarFactor
         };
     },
-    
+
     // Category Region Entity        
     CategoryRegion = function (specifiedId, specifiedName) {
         return {
@@ -2620,7 +2676,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             name: specifiedName
         };
     },
-    
+
     // Company Type Entity        
     CategoryType = function (specifiedId, specifiedName) {
         return {
@@ -2648,10 +2704,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qtyRangedTo = ko.observable(specifiedQtyRangedTo || 0).extend({ number: true }),
             // Qty Change 
             quantityUi = ko.computed({
-                read: function() {
+                read: function () {
                     return quantity();
                 },
-                write: function(value) {
+                write: function (value) {
                     if ((value === null || value === undefined) || value === quantity()) {
                         return;
                     }
@@ -3055,7 +3111,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Product Detail Entity
     ItemProductDetail = function (specifiedId, specifiedIsInternalActivity, specifiedIsAutoCreateSupplierPO, specifiedIsQtyLimit, specifiedQtyLimit,
-        specifiedDeliveryTimeSupplier1, specifiedDeliveryTimeSupplier2, specifiedIsPrintItem, specifiedItemId) {
+        specifiedDeliveryTimeSupplier1, specifiedDeliveryTimeSupplier2, specifiedIsPrintItem, specifiedIsAllowMarketBriefAttachment, specifiedMarketBriefSuccessMessage,
+        specifiedItemId) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -3073,10 +3130,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             deliveryTimeSupplier2 = ko.observable(specifiedDeliveryTimeSupplier2 || undefined),
             // Is Internal Activity Ui
             isInternalActivityUi = ko.computed({
-                read: function() {
+                read: function () {
                     return '' + isInternalActivity();
                 },
-                write: function(value) {
+                write: function (value) {
                     if (!value || value === isInternalActivity()) {
                         return;
                     }
@@ -3099,6 +3156,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     isPrintItem(value);
                 }
             }),
+            // Is Allow Market Brief Attachment
+            isAllowMarketBriefAttachment = ko.observable(specifiedIsAllowMarketBriefAttachment || false),
+            // Market Brief Success Message
+            marketBriefSuccessMessage = ko.observable(specifiedMarketBriefSuccessMessage || undefined),
             // Item Id
             itemId = ko.observable(specifiedItemId || 0),
             // Errors
@@ -3138,7 +3199,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     QtyLimit: qtyLimit(),
                     IsPrintItem: isPrintItemUi() === '1',
                     DeliveryTimeSupplier1: deliveryTimeSupplier1(),
-                    DeliveryTimeSupplier2: deliveryTimeSupplier2()
+                    DeliveryTimeSupplier2: deliveryTimeSupplier2(),
+                    IsAllowMarketBriefAttachment: isAllowMarketBriefAttachment(),
+                    MarketBriefSuccessMessage: marketBriefSuccessMessage()
                 };
             };
 
@@ -3154,6 +3217,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             deliveryTimeSupplier2: deliveryTimeSupplier2,
             isPrintItem: isPrintItem,
             isPrintItemUi: isPrintItemUi,
+            marketBriefSuccessMessage: marketBriefSuccessMessage,
+            isAllowMarketBriefAttachment: isAllowMarketBriefAttachment,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -3208,7 +3273,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             convertToServerData: convertToServerData
         };
     },
-    
+
     // Item Image Entity
     ItemImage = function (specifiedId, specifiedImage, specifiedItemId) {
         // ReSharper restore InconsistentNaming
@@ -3266,6 +3331,152 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             fileSource: fileSource,
             fileName: fileName,
             onSelectImage: onSelectImage,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+    },
+
+    // Product Market Brief Question Entity
+    ProductMarketBriefQuestion = function (specifiedId, specifiedQuestionDetail, specifiedIsMultipleSelection, specifiedSortOrder, specifiedItemId, callbacks) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // Question Detail
+            questionDetail = ko.observable(specifiedQuestionDetail || undefined).extend({ required: true }),
+            // is Multiple Selection
+            isMultipleSelection = ko.observable(specifiedIsMultipleSelection || false),
+            // Sort Order
+            sortOrder = ko.observable(specifiedSortOrder || undefined),
+            // Item Id
+            itemId = ko.observable(specifiedItemId || 0),
+            // Product Market Brief Answers
+            productMarketBriefAnswers = ko.observableArray([]),
+            // Add productMarketBriefAnswer
+            addProductMarketBriefAnswer = function () {
+                productMarketBriefAnswers.push(ProductMarketBriefAnswer.Create({ MarketBriefQuestionId: id() }));
+            },
+            // On Delete Product Market Brief Answer
+            onDeleteProductMarketBriefAnswer = function (productMarketBriefAnswer) {
+                if (callbacks && callbacks.onDeleteProductMarketBriefAnswer && typeof callbacks.onDeleteProductMarketBriefAnswer === "function") {
+                    callbacks.onDeleteProductMarketBriefAnswer(function () {
+                        removeProductMarketBriefAnswer(productMarketBriefAnswer);
+                    });
+                }
+            },
+            // Remove productMarketBriefAnswer
+            removeProductMarketBriefAnswer = function (productMarketBriefAnswer) {
+                productMarketBriefAnswers.remove(productMarketBriefAnswer);
+            },
+            // Errors
+            errors = ko.validation.group({
+                questionDetail: questionDetail
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0 && productMarketBriefAnswers.filter(function (productMarketBriefAnswer) {
+                    return !productMarketBriefAnswer.isValid();
+                }).length === 0;
+            }),
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                isMultipleSelection: isMultipleSelection,
+                questionDetail: questionDetail,
+                sortOrder: sortOrder,
+                productMarketBriefAnswers: productMarketBriefAnswers
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty() || productMarketBriefAnswers.find(function (productMarketBriefAnswer) {
+                    return productMarketBriefAnswer.hasChanges();
+                }) != null;
+            }),
+            // Reset
+            reset = function () {
+                // Reset productMarketBriefAnswers State to Un-Modified
+                productMarketBriefAnswers.each(function (productMarketBriefAnswer) {
+                    return productMarketBriefAnswer.reset();
+                });
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    MarketBriefQuestionId: id(),
+                    QuestionDetail: questionDetail(),
+                    SortOrder: sortOrder(),
+                    IsMultipleSelection: isMultipleSelection(),
+                    ItemId: itemId(),
+                    ProductMarketBriefAnswers: productMarketBriefAnswers.map(function (answer) {
+                        return answer.convertToServerData();
+                    })
+                };
+            };
+
+        return {
+            id: id,
+            isMultipleSelection: isMultipleSelection,
+            questionDetail: questionDetail,
+            sortOrder: sortOrder,
+            itemId: itemId,
+            productMarketBriefAnswers: productMarketBriefAnswers,
+            addProductMarketBriefAnswer: addProductMarketBriefAnswer,
+            removeProductMarketBriefAnswer: removeProductMarketBriefAnswer,
+            onDeleteProductMarketBriefAnswer: onDeleteProductMarketBriefAnswer,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+    },
+
+    // Product Market Brief Answer Entity
+    ProductMarketBriefAnswer = function (specifiedId, specifiedMarketBriefQuestionId, specifiedAnswerDetail) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // Answer Detail
+            detail = ko.observable(specifiedAnswerDetail || undefined),
+            // Product Id
+            marketingBriefQuestionId = ko.observable(specifiedMarketBriefQuestionId || 0),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                detail: detail
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    MarketBriefAnswerId: id(),
+                    MarketBriefQuestionId: marketingBriefQuestionId(),
+                    AnswerDetail: detail()
+                };
+            };
+
+        return {
+            id: id,
+            marketingBriefQuestionId: marketingBriefQuestionId,
+            detail: detail,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -3378,7 +3589,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Product Detail Factory
     ItemProductDetail.Create = function (source) {
         var itemProductDetail = new ItemProductDetail(source.ItemDetailId, source.IsInternalActivity, source.IsAutoCreateSupplierPO, source.IsQtyLimit, source.QtyLimit,
-            source.DeliveryTimeSupplier1, source.DeliveryTimeSupplier2, source.IsPrintItem, source.ItemId);
+            source.DeliveryTimeSupplier1, source.DeliveryTimeSupplier2, source.IsPrintItem, source.IsAllowMarketBriefAttachment, source.MarketBriefSuccessMessage,
+            source.ItemId);
 
         return itemProductDetail;
     };
@@ -3389,7 +3601,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return productCategoryItem;
     };
-    
+
     // Item Section Factory
     ItemSection.Create = function (source) {
         var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
@@ -3398,7 +3610,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return itemSection;
     };
-    
+
     // Item Image Factory
     ItemImage.Create = function (source) {
         return new ItemImage(source.ProductImageId, source.ImageUrlSource, source.ItemId);
@@ -3472,12 +3684,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 item.template().isCreatedManualUi(undefined);
             }
         }
-        
+
         // If Not a print product
         if (item.isFinishedGoodsUi() !== '1') {
             item.template().isCreatedManualUi(undefined);
         }
-        
+
         // Map Item Stock Options if any
         if (source.ItemStockOptions && source.ItemStockOptions.length > 0) {
             var itemStockOptions = [];
@@ -3536,7 +3748,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             ko.utils.arrayPushAll(item.productCategoryItems(), productCategoryItems);
             item.productCategoryItems.valueHasMutated();
         }
-        
+
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {
             var itemSections = [];
@@ -3549,7 +3761,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             ko.utils.arrayPushAll(item.itemSections(), itemSections);
             item.itemSections.valueHasMutated();
         }
-        
+
         // Map Item Images if any
         if (source.ItemImages && source.ItemImages.length > 0) {
             var itemImages = [];
@@ -3561,6 +3773,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Push to Original Item
             ko.utils.arrayPushAll(item.itemImages(), itemImages);
             item.itemImages.valueHasMutated();
+        }
+
+        // Map Product Market Brief Question if any
+        if (source.ProductMarketBriefQuestions && source.ProductMarketBriefQuestions.length > 0) {
+            var productMarketBriefQuestions = [];
+
+            _.each(source.ProductMarketBriefQuestions, function (productMarketBriefQuestion) {
+                productMarketBriefQuestions.push(ProductMarketBriefQuestion.Create(productMarketBriefQuestion));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(item.productMarketBriefQuestions(), productMarketBriefQuestions);
+            item.productMarketBriefQuestions.valueHasMutated();
         }
 
         // Return item with dirty state if New
@@ -3610,17 +3835,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return productCategory;
     };
-    
+
     // Category Region Factory
     CategoryRegion.Create = function (source) {
         return new CategoryRegion(source.RegionId, source.RegionName);
     };
-    
+
     // Category Type Factory
     CategoryType.Create = function (source) {
         return new CategoryType(source.TypeId, source.TypeName);
     };
-    
+
     // Product Category For Template Factory
     ProductCategoryForTemplate.Create = function (source) {
         var productCategory = new ProductCategoryForTemplate(source.ProductCategoryId, source.CategoryName, source.RegionId, source.CategoryTypeId,
@@ -3628,16 +3853,43 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return productCategory;
     };
-    
+
     // Machine Factory
     Machine.Create = function (source) {
         return new Machine(source.MachineId, source.MachineName, source.DefaultPageId, source.Maximumsheetheight, source.Maximumsheetweight,
         source.Maximumsheetwidth, source.Minimumsheetheight, source.Minimumsheetweight, source.MachineCatId);
     };
-    
+
     // Paper Size Factory
     PaperSize.Create = function (source) {
         return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width);
+    };
+    
+    // Product Market Brief Question Factory
+    ProductMarketBriefQuestion.Create = function (source, callbacks) {
+        var marketBriefQuestion =
+            new ProductMarketBriefQuestion(source.MarketBriefQuestionId, source.QuestionDetail, source.IsMultipleSelection, source.SortOrder, source.ItemId,
+            callbacks);
+        
+        // Map Product Market Brief Answer if any
+        if (source.ProductMarketBriefAnswers && source.ProductMarketBriefAnswers.length > 0) {
+            var productMarketBriefAnswers = [];
+
+            _.each(source.ProductMarketBriefAnswers, function (productMarketBriefAnswer) {
+                productMarketBriefAnswers.push(ProductMarketBriefAnswer.Create(productMarketBriefAnswer));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(item.productMarketBriefAnswers(), productMarketBriefAnswers);
+            item.productMarketBriefAnswers.valueHasMutated();
+        }
+
+        return marketBriefQuestion;
+    };
+
+    // Product Market Brief Answer Factory
+    ProductMarketBriefAnswer.Create = function (source, callbacks) {
+        return new ProductMarketBriefAnswer(source.MarketBriefAnswerId, source.MarketBriefQuestionId, source.AnswerDetail, callbacks);
     };
 
     return {
@@ -3684,6 +3936,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Machine Constructor
         Machine: Machine,
         // Paper Size Constructor
-        PaperSize: PaperSize
+        PaperSize: PaperSize,
+        // Product Market Brief Question Constructor
+        ProductMarketBriefQuestion: ProductMarketBriefQuestion,
+        // Product Market Brief Answer Constructor
+        ProductMarketBriefAnswer: ProductMarketBriefAnswer
     };
 });

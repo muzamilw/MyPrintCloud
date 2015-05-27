@@ -136,6 +136,26 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         public Action<List<TemplatePage>> DeleteTemplateObject { get; set; }
 
+        /// <summary>
+        /// Action to create a Product Market Brief Question
+        /// </summary>
+        public Func<ProductMarketBriefQuestion> CreateProductMarketBriefQuestion { get; set; }
+
+        /// <summary>
+        /// Action to delete a Product MarketBrief Question
+        /// </summary>
+        public Action<ProductMarketBriefQuestion> DeleteProductMarketBriefQuestion { get; set; }
+
+        /// <summary>
+        /// Action to create a Product Market Brief Answer
+        /// </summary>
+        public Func<ProductMarketBriefAnswer> CreateProductMarketBriefAnswer { get; set; }
+
+        /// <summary>
+        /// Action to delete a Product MarketBrief Answer
+        /// </summary>
+        public Action<ProductMarketBriefAnswer> DeleteProductMarketBriefAnswer { get; set; }
+
         #endregion
     }
 }

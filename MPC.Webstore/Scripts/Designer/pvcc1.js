@@ -32,6 +32,7 @@ var highlightEditableText = false; var IsInputSelected = false;
 var isBkPnlUploads = false;
 var TempOB = [];
 //old vars
+var hasObjects = false;
 var IsEmbedded = true;   //l1
 var IsCalledFrom = 3;
 var Territory = 0;
@@ -152,6 +153,7 @@ var userVariableData = null;
 var smartFormClicked = true;
 var productDimensionUpdated = false;
 var objectsSelectable = true;
+var selectedPathIndex = 0;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];
