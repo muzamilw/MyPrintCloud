@@ -217,7 +217,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PrintCropMarks = source.printCropMarks,
                 DrawWaterMarkTxt = source.drawWaterMarkTxt,
                 TemplateId = source.TemplateId,
-                TemplateType = source.TemplateType
+                TemplateType = source.TemplateType,
+                ProductType = source.ProductType
             };
 
             // Load Thumbnail Image
