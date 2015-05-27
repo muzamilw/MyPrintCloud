@@ -3947,3 +3947,15 @@ GO
 alter table machine add isSheetFed bit null
 alter table machine add Passes int null
 alter table impositionProfile add isPortrait bit null
+
+
+/* Execution Date: 27/05/2015 */
+
+alter table productmarketbriefanswer
+drop constraint FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions
+
+alter table productmarketbriefanswer
+add constraint FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion
+foreign key (MarketBriefQuestionId)
+references ProductMarketBriefQuestion (MarketBriefQuestionId)
+on delete cascade
