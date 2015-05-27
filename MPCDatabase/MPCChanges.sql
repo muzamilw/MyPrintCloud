@@ -3959,3 +3959,22 @@ add constraint FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion
 foreign key (MarketBriefQuestionId)
 references ProductMarketBriefQuestion (MarketBriefQuestionId)
 on delete cascade
+
+
+
+ update fieldVariable set Scope = 7 where RefTableName = 'Company'  
+
+  update fieldVariable set Scope = 8 where RefTableName = 'CompanyContact'  
+
+
+  update fieldVariable set Scope = 9 where RefTableName = 'addresses' 
+
+
+  update fieldVariable set Scope = 9 where RefTableName = 'address' 
+
+
+
+  update fieldVariable set Scope = 7 where RefTableName = 'tbl_section_flags' 
+
+
+  update fieldVariable set Scope = 8 where RefTableName = 'tbl_ContactDepartments' 
