@@ -563,7 +563,7 @@ function d1SvgOl(cCanvas, IO) {
             loadedObject.lockScalingY = true;
             loadedObject.lockRotation = true;
         }
-
+        loadedObject.customStyles = JSON.parse(IO.textStyles);
         loadedObject.set({
             borderColor: 'red',
             cornerColor: 'orange',
