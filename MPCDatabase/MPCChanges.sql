@@ -3947,7 +3947,7 @@ GO
 alter table machine add isSheetFed bit null
 alter table machine add Passes int null
 alter table impositionProfile add isPortrait bit null
-
+----Executed on Staging on 26/05/2015---------
 
 /* Execution Date: 27/05/2015 */
 

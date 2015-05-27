@@ -468,6 +468,8 @@ namespace MPC.Implementation.MISServices
                             //    dblPrintRun[i] = Convert.ToInt32(dblPassFront * intWorkSheetQty[i] / intPrintChgeCZ[i]);
                             //}
 
+                            //To include press High, Low, Medium Imposition multiplier 
+
                             dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
                             dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) + oPressDTO.SetupCharge));
                             dblPrintRun[i] = Convert.ToInt32(dblPressPass * intWorkSheetQty[i] / intPrintChgeCZ[i]);
@@ -6294,13 +6296,13 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
+                updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
             }
 
             if(updatedSection.IsDoubleSided == true)
             {
                 if(updatedSection.PressIdSide2 != null && updatedSection.PressIdSide2 > 0)
-                    updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, true);
+                    updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, true);
             }
 
             if (updatedSection.IsSecondTrim == true)
