@@ -3978,3 +3978,14 @@ on delete cascade
 
 
   update fieldVariable set Scope = 8 where RefTableName = 'tbl_ContactDepartments' 
+
+alter table machine
+add IsSpotColor bit null
+
+update DeliveryNote
+set FlagId = null
+
+alter table DeliveryNote
+add constraint FK_DeliveryNote_SectionFlag
+foreign key (FlagId)
+references SectionFlag (SectionFlagId)
