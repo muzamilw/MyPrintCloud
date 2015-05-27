@@ -10,7 +10,7 @@
             specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-            specifiedTax1, specifiedItemType, specifiedEstimateId) {
+            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -273,6 +273,8 @@
                 itemType = ko.observable(specifiedItemType || undefined),
                 // Estimate Id
                 estimateId = ko.observable(specifiedEstimateId || 0),
+                //Job Selected Qty
+                jobSelectedQty = ko.observable(specifiedJobSelectedQty),
                 // Job Estimated Start Date Time
                 jobEstimatedStartDateTime = ko.observable(specifiedJobEstimatedStartDateTime ? moment(specifiedJobEstimatedStartDateTime).toDate() : undefined),
                 // Job Estimated Completion Date Time
@@ -428,6 +430,8 @@
                         Qty2: qty2(),
                         Qty3: qty3(),
                         Tax1: tax1(),
+                        JobSelectedQty: jobSelectedQty(),
+                        InvoiceDescription: invoiceDescription(),
                         ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
@@ -501,6 +505,7 @@
                 qty2GrossTotal: qty2GrossTotal,
                 qty3GrossTotal: qty3GrossTotal,
                 tax1: tax1,
+                jobSelectedQty: jobSelectedQty,
                 itemType: itemType,
                 estimateId: estimateId,
                 taxRateIsDisabled: taxRateIsDisabled,
@@ -1989,7 +1994,7 @@
             source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobEstimatedStartDateTime,
             source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
-            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId);
+            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId, source.JobSelectedQty);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {

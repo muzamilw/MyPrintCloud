@@ -332,6 +332,7 @@
     <Compile Include="Areas\Api\Controllers\InquiryProgressController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDetailBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\LiveJobsController.cs" />
+    <Compile Include="Areas\Api\Controllers\ProgressEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -2139,6 +2140,7 @@
     <Content Include="Areas\Production\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Production\Views\Home\ItemLateStart.cshtml" />
     <Content Include="Areas\Production\Views\Home\LiveJobs.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_ProgressToOrderDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3353,6 +3355,7 @@
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Api\Views\ProductCostCenter\" />
+    <Folder Include="Areas\Api\Views\ProgressEstimate\" />
     <Folder Include="Areas\Api\Views\PTVCalculation\" />
     <Folder Include="Areas\Api\Views\ReportManager\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />

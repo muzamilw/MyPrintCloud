@@ -892,9 +892,6 @@ namespace MPC.MIS.Areas.Api.Models
 
         public IEnumerable<ItemImage> ItemImages { get; set; }
 
-        public  ICollection<ItemAttachment> ItemAttachments { get; set; }
-
-
         #endregion
     }
 }
