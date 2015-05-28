@@ -382,14 +382,43 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     taxRate: taxRate,
                     sectionFlagId: sectionFlagId,
                     statusId: statusId
-                    //estimateTotal: estimateTotal
                 }),
+                // Item Has Changes
+                itemHasChanges = function() {
+                    var itemChanges = items.find(function(item) {
+                        return item.hasChanges();
+                    });
+                    return itemChanges !== null && itemChanges !== undefined;
+                },
+                // Pre payment Has Changes
+                prepaymentHasChanges = function () {
+                    var prepaymentChanges = prePayments.find(function (item) {
+                        return item.hasChanges();
+                    });
+                    return prepaymentChanges !== null && prepaymentChanges !== undefined;
+                },
+                // Delivery Schedule Has Changes
+                deliveryScheduleHasChanges = function () {
+                    var deliveryScheduleChange = deliverySchedules.find(function (item) {
+                        return item.hasChanges();
+                    });
+                    return deliveryScheduleChange !== null && deliveryScheduleChange !== undefined;
+                },
                 // Has Changes
                 hasChanges = ko.computed(function () {
-                    return dirtyFlag.isDirty();
+                    return dirtyFlag.isDirty() || itemHasChanges() || deliveryScheduleHasChanges() || prepaymentHasChanges();
                 }),
                 // Reset
                 reset = function () {
+                    items.each(function (item) {
+                        return item.reset();
+                    });
+                    prePayments.each(function (item) {
+                        return item.reset();
+                    });
+                    deliverySchedules.each(function (item) {
+                        return item.reset();
+                    });
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
