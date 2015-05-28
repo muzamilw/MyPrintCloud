@@ -2047,6 +2047,16 @@ $("#BtnPrintObj").click(function () {
         });
     }
 });
+$("#BtnPrintImage").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (thisCheck.is(':checked')) {
+        D1AO.IsHidden = true;
+    }
+    else {
+        D1AO.IsHidden = false;
+    }
+});
 $("#TxtQSequence").keydown(function (event) {
     // Allow: backspace, delete, tab, escape, and enter
     if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
@@ -2216,4 +2226,7 @@ $("#btnContactImage").click(function () {
 });
 $("#btnGoToLandingPage").click(function () {
     window.location.href = "/ProductOptions/0/" + item.RefItemId + "/UploadDesign";
+});
+$("#btnImagePlaceHolder").click(function () {
+    d1PlaceHoldToCanvas();
 });

@@ -4,27 +4,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Banner Detail</h4>
+                <h4 class="modal-title">Add/Edit Banner</h4>
             </div>
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label class="control-label text-right tooltip-float">Banner main Image</label>
+                    <div class="col-lg-4 text-right">
+                       
                     </div>
                     <div class="col-lg-4">
 
                         <div class="clearfix">
 
-                            <img height="200" width="270" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
-                            <img height="200" width="270" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
-                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;">
+                            <img style="width:240px;height:130px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
+                            <img style="width:240px;height:130px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
+                            <div class="col-lg-11" style="margin-top: 5px;text-align:center;">
                                 
                                     <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
                                         <span>Upload</span>
@@ -33,7 +26,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;">Banner Image.</div>
+                            <div class="col-lg-11 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;">Banner Image.</div>
                             @*<div class="profile-stars">
                                 <span data-bind="value: type"></span>
                             </div>*@
@@ -58,7 +51,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
+                    <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
 
                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Product Type" data-original-title="" title="">
@@ -78,7 +71,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
+                    <div class="col-lg-4 text-right">
 
                         <div class="bs-example-tooltips tooltip-float-width">
 
@@ -99,7 +92,7 @@
 
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
+                    <div class="col-lg-4 text-right">
 
                         <div class="bs-example-tooltips tooltip-float-width">
 
@@ -120,7 +113,7 @@
 
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
+                    <div class="col-lg-4 text-right">
 
                         <div class="bs-example-tooltips tooltip-float-width">
 
@@ -141,7 +134,7 @@
 
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
+                    <div class="col-lg-4 text-right">
 
                         <div class="bs-example-tooltips tooltip-float-width">
 
