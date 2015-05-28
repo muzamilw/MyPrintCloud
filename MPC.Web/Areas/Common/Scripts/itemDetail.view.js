@@ -54,6 +54,14 @@ define("common/itemDetail.view",
                 hideEstimateRunWizard = function () {
                     $("#estimateRunWizard").modal('hide');
                 },
+                //Show Attachment Modal
+                showAttachmentModal = function () {
+                    $("#attachmentModal").modal('show');
+                },
+                //Hide Attachment Modal
+                hideAttachmentModal = function () {
+                    $("#attachmentModal").modal('hide');
+                },
                 // Go To Element with Validation Errors
                 gotoElement = function (element) {
                     var tab = $(element).closest(".tab-pane");
@@ -126,6 +134,8 @@ define("common/itemDetail.view",
                 gotoElement: gotoElement,
                 showEstimateRunWizard: showEstimateRunWizard,
                 hideEstimateRunWizard: hideEstimateRunWizard,
+                showAttachmentModal: showAttachmentModal,
+                hideAttachmentModal: hideAttachmentModal,
                 initializeLabelPopovers: initializeLabelPopovers,
                 goToValidationSummary: goToValidationSummary
             };

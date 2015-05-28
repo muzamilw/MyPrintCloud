@@ -22,9 +22,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FileTitle = source.FileTitle,
                 CompanyId = source.CompanyId,
                 FileName = source.FileName,
+                FileType = source.FileType,
                 ItemId = source.ItemId,
                 ContactId = source.ContactId,
-                FolderPath = filePath
+                Comments = source.Comments,
+                FolderPath = filePath,
+                Parent = source.Parent,
+                Type = source.Type
             };
         }
 
@@ -41,7 +45,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemId = source.ItemId,
                 FileName = source.FileName,
                 ContactId = source.ContactId,
-                FileSource = source.FolderPath
+                FileSource = source.FolderPath,
+                Parent = source.Parent,
+                Type = source.Type,
+                Comments = source.Comments,
+
+
             };
         }
         /// <summary>

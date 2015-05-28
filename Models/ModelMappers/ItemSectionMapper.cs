@@ -91,6 +91,7 @@ namespace MPC.Models.ModelMappers
             target.ImpressionCoverageSide1 = source.ImpressionCoverageSide1;
             target.ImpressionCoverageSide2 = source.ImpressionCoverageSide2;
             target.PrintingType = source.PrintingType;
+            target.isWorknTurn = source.isWorknTurn;
         }
 
         #endregion

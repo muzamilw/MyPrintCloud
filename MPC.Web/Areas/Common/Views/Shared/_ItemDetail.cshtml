@@ -53,7 +53,7 @@
                                                 <input type="text" style="font-size: 24px;height: 60px;border-bottom: 2px dashed black !important;font-weight: bold;padding-left: 0px;border-top: none;border-left: none;border-right: none;" class="form-control" placeholder="Product Name" data-bind="value: productName, validationTooltip: productName, validationOnElement: productName" />
                                             </div>
                                         </div>
-                                      
+
                                         <div class="form-group">
 
                                             <div class="col-sm-2">&nbsp;</div>
@@ -66,9 +66,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-2">
-                                                    <div >
-                                                        <div style="float: left"><img class="photo-box" style="padding-top: 7px; cursor: pointer; height: 153px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
-                                                    </div>
+                                                <div>
+                                                    <div style="float: left"><img class="photo-box" style="padding-top: 7px; cursor: pointer; height: 153px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
+                                                </div>
                                                 <div class="btn btn-success" style="font-size: x-small;margin-left: 10%;" data-bind="click:$root.createNewItemSection">
                                                     Add Sheets
                                                 </div>
@@ -89,11 +89,11 @@
                                                             <label class="control-label tooltip-float">Qty</label>
                                                         </div>
                                                         <div class="col-sm-2" style="text-align: right; margin-top: 7px;">
-                                                            <span  data-bind="text:qty1" style="margin-right: 12px;" />
+                                                            <span data-bind="text:qty1" style="margin-right: 12px;" />
                                                         </div>
                                                         <!--ko if: $root.isEstimateScreen()-->
-                                                        <div class="col-sm-2" style="text-align: right; margin-top: 7px;" >
-                                                            <span  data-bind="text:qty2" style="margin-right: 12px;" />
+                                                        <div class="col-sm-2" style="text-align: right; margin-top: 7px;">
+                                                            <span data-bind="text:qty2" style="margin-right: 12px;" />
                                                         </div>
                                                         <div class="col-sm-2" style="text-align: right; margin-top: 7px;">
                                                             <span data-bind="text:qty3" style="margin-right: 12px;" />
@@ -188,7 +188,7 @@
                                             <h3 style="color:black;">Descriptions to Appear on Estimates for combined components</h3>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <div class="col-sm-2">
                                             &nbsp;
@@ -503,17 +503,29 @@
                                                 <div class="col-sm-1">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.itemAttachmentFileLoadedCallback }" />
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="click:$root.uploadItemAttachment" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="main-box-body">
-                                            <div id="gallery-photos-lightbox">
-                                                <ul class="clearfix gallery-photos">
-                                                    <!-- ko template: { name: 'orderItemAttachmentTemplate' , foreach: itemAttachments  } -->
-                                                    <!-- /ko -->
-                                                </ul>
+                                            <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
+                                                <table class="table user-list">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="col-lg-1"><span></span></th>
+                                                            <th class="col-lg-5"><span>Title</span></th>
+                                                            <th class="col-lg-5"><span>Type</span></th>
+                                                            <th class="col-lg-1"><span></span></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- ko template: { name: 'orderItemAttachmentTemplate' , foreach: itemAttachments  } -->
+                                                        <!-- /ko -->
+                                                    </tbody>
+                                                </table>
+
                                             </div>
                                         </div>
                                     </div>
@@ -530,25 +542,67 @@
                 </div>
 
             </div>
-           
-        </div>
 
+        </div>
+        @Html.Partial("~/Areas/Orders/Views/Home/_AttachmentDialog.cshtml")
         @Html.Partial("~/Areas/Common/Views/Shared/_CostCenterQuantity.cshtml")
         @Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
         @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
     </div>
 </div>
-    <script id="orderItemAttachmentTemplate" type="text/html">
-        <li class="col-lg-2 col-sm-3">
-            <div class="photo-box image-link" style="padding-top: 0; ">
-                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()===undefined,attr: { src: '@Url.Content("~/")' + folderPath() }" alt="" />
-                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()!==undefined,attr: { src: fileSourcePath }" />
-            </div>
-            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
-        </li>
-    </script>
+<script id="orderItemAttachmentTemplate" type="text/html">
+    <tr>
+        <td>
+            <!-- ko if: fileType()=== ".pdf" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".doc" -->
+            <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".png" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoPNG.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".jpg" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoJPG.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".xlsx" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
+            <!-- /ko
+                <!-- ko if: fileType()=== ".gif" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoGif.png")" alt="" />
+            <!-- /ko -->
 
- 
+        </td>
+
+        <td>
+            <a data-bind="text: fileTitle" class="user-link"></a>
+            <span class="user-subhead">
+                <span>Uploaded on :</span>
+                <span data-bind="dateString: uploadDate, datePattern: 'DD/MM/YYYY'"></span>
+            </span>
+
+        </td>
+        <td data-bind="text:type"></td>
+        <td>
+            <a href="#" class="table-link" title="Donwload">
+                <span class="fa-stack">
+                    <i class="fa fa-square-o fa-stack-2x"></i>
+                    <i class="fa fa-download fa-stack-1x"></i>
+                </span>
+            </a>
+            <a href="#" class="table-link danger" title="Delete">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+
+    </tr>
+
+</script>
+
+
 <script id="sectionItemTemplate" type="text/html">
     <!--ko if: !flagForAdd() -->
     <li class="col-lg-2 col-sm-3">
