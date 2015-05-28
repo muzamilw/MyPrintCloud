@@ -316,6 +316,7 @@ namespace MPC.Repository.Repositories
                 omachine.CoverageMedium = machine.CoverageMedium;
                 omachine.isSheetFed = machine.isSheetFed;
                 omachine.Passes = machine.Passes;
+                omachine.IsSpotColor = machine.IsSpotColor;
                 db.Machines.Add(omachine);
               //  db.SaveChanges();
 
@@ -574,7 +575,7 @@ namespace MPC.Repository.Repositories
                 omachine.CoverageLow = machine.CoverageLow;
                 omachine.CoverageMedium = machine.CoverageMedium;
                 omachine.Passes = machine.Passes;
-
+                omachine.IsSpotColor = machine.IsSpotColor;
                 //foreach (var item in machine.MachineInkCoverages)
                 //{
                 //    MachineInkCoverage obj = db.MachineInkCoverages.Where(g => g.Id == item.Id).SingleOrDefault();

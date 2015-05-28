@@ -228,6 +228,8 @@ define("machine/machine.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedMachine(model.newMachineClientMapper(data));
+                                    selectedMachine().isSheetFed("true");
+                                    selectedMachine().IsSpotColor("true");
                                     selectedMachine().reset();
                                     showMachineDetail();
                                    
@@ -441,6 +443,15 @@ define("machine/machine.viewModel",
 
                                         //lookupMethodViewModel.isClickChargeZonesEditorVisible(false);
                                         //lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(true);
+                                    }
+
+                                    if (data.machine.IsSpotColor == true) {
+                                       
+                                        selectedMachine().IsSpotColor("true");
+                                    }
+                                    else {
+
+                                        selectedMachine().IsSpotColor("false");
                                     }
                                     selectedMachine().reset();
                                     showMachineDetail();

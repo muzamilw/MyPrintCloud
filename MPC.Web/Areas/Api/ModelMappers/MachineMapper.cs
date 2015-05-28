@@ -124,6 +124,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CoverageMedium = source.CoverageMedium,
                 isSheetFed = source.isSheetFed,
                 Passes = source.Passes,
+                IsSpotColor = source.IsSpotColor,
                 MachineInkCoverages = source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList()
 
             };
@@ -202,6 +203,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CoverageMedium = source.CoverageMedium,
                 isSheetFed = source.isSheetFed,
                 Passes = source.Passes,
+                IsSpotColor = source.IsSpotColor,
                 MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null
 
 

@@ -166,7 +166,7 @@
             CoverageHigh = ko.observable(),
             CoverageMedium = ko.observable(),
             CoverageLow = ko.observable(),
-            isSheetFed = ko.observable(true),
+            isSheetFed = ko.observable(),
             Passes = ko.observable(),
             ReelMakereadyTime = ko.observable(),
             Maximumsheetweight = ko.observable(),
@@ -178,6 +178,7 @@
             CurrencySymbol = ko.observable(),
             WeightUnit = ko.observable(),
             LengthUnit = ko.observable(),
+            IsSpotColor = ko.observable(),
             onSelectStockItem = function (ostockItem) {
                 if (ostockItem.category == "Plates") {
                     deFaultPlatesName(ostockItem.name);
@@ -261,6 +262,7 @@
                 CoverageLow: CoverageLow,
                 isSheetFed: isSheetFed,
                 Passes: Passes,
+                IsSpotColor: IsSpotColor,
                 ReelMakereadyTime: ReelMakereadyTime,
                 Maximumsheetweight: Maximumsheetweight,
                 Maximumsheetheight: Maximumsheetheight,
@@ -341,7 +343,8 @@
             SetupTime : SetupTime,
             TimePerCut : TimePerCut,
             MakeReadyTime : MakeReadyTime,
-            WashupTime : WashupTime,
+            WashupTime: WashupTime,
+            IsSpotColor: IsSpotColor,
             ReelMakereadyTime  : ReelMakereadyTime,    
             Maximumsheetweight : Maximumsheetweight,
             Maximumsheetheight : Maximumsheetheight,
@@ -711,6 +714,7 @@
         omachine.CoverageLow(source.machine.CoverageLow);
         omachine.isSheetFed(source.machine.isSheetFed);
         omachine.Passes(source.machine.Passes);
+        omachine.IsSpotColor(source.machine.IsSpotColor);
         //omachine.Maximumsheetweight(source.machine.Maximumsheetweight);
         //omachine.Maximumsheetheight(source.machine.Maximumsheetheight);
         //omachine.Maximumsheetwidth(source.machine.Maximumsheetwidth);
@@ -841,6 +845,7 @@
         omachine.CoverageLow = machine.CoverageLow();
         omachine.isSheetFed = machine.isSheetFed();
         omachine.Passes = machine.Passes();
+        omachine.IsSpotColor = machine.IsSpotColor();
         //omachine.MachineInkCoverages = [];
         //_.each(machine.MachineInkCoverages(), function (item) {
         //    var module = MachineInkCoveragesListServerMapper(item);
@@ -1023,7 +1028,7 @@
         omachine.CurrencySymbol(source.CurrencySymbol);
         omachine.WeightUnit(source.WeightUnit);
         omachine.LengthUnit(source.LengthUnit);
-
+        omachine.isSheetFed(true);
         //for (i = 0; i < 8; i++) {
         //    omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
         //  }
