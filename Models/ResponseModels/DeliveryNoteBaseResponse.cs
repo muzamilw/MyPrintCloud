@@ -20,6 +20,11 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public IEnumerable<SystemUser> SystemUsers { get; set; }
 
+        /// <summary>
+        /// Delivery Carriers
+        /// </summary>
+        public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
+
        
     }
 }

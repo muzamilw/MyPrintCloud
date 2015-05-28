@@ -468,9 +468,34 @@ namespace MPC.Implementation.MISServices
                             //    dblPrintRun[i] = Convert.ToInt32(dblPassFront * intWorkSheetQty[i] / intPrintChgeCZ[i]);
                             //}
 
-                            dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
-                            dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) + oPressDTO.SetupCharge));
-                            dblPrintRun[i] = Convert.ToInt32(dblPressPass * intWorkSheetQty[i] / intPrintChgeCZ[i]);
+                            //Check the coverage high, medium and low and set multiplier.
+                            double dblCoverageMultiple = 1;
+                            if(isPressSide2)
+                            {
+                                if (oItemSection.ImpressionCoverageSide2 == 1)
+                                    dblCoverageMultiple = oPressDTO.CoverageHigh??1;
+                                else if(oItemSection.ImpressionCoverageSide2 == 2)
+                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                                else if (oItemSection.ImpressionCoverageSide2 == 3)
+                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            }
+                            else
+                            {
+                                if (oItemSection.ImpressionCoverageSide1 == 1)
+                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                                else if (oItemSection.ImpressionCoverageSide1 == 2)
+                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                                else if (oItemSection.ImpressionCoverageSide1 == 3)
+                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            }
+
+
+                            //dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
+                            //dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) + oPressDTO.SetupCharge));
+                            //dblPrintRun[i] = Convert.ToInt32(dblPressPass * intWorkSheetQty[i] / intPrintChgeCZ[i]);
+                            dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) * dblCoverageMultiple)) + oPressDTO.SetupCharge));
+                            dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) * dblCoverageMultiple)) + oPressDTO.SetupCharge));
+                            dblPrintRun[i] = Convert.ToInt32(dblPressPass * ((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCoverageMultiple));
                         }
 
                         if (PressReRunMode == (int)PressReRunModes.NotReRun)
@@ -6294,13 +6319,13 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
+                updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
             }
 
             if(updatedSection.IsDoubleSided == true)
             {
                 if(updatedSection.PressIdSide2 != null && updatedSection.PressIdSide2 > 0)
-                    updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, true);
+                    updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, true);
             }
 
             if (updatedSection.IsSecondTrim == true)

@@ -849,6 +849,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     callbacks.onSelectRelatedItem();
                 }
             },
+            // On Remove Item Related Item
+            onRemoveItemRelatedItem = function(item) {
+                if (callbacks && callbacks.onDeleteItemRelatedItem && typeof callbacks.onDeleteItemRelatedItem === "function") {
+                    callbacks.onDeleteItemRelatedItem(function () {
+                        removeItemRelatedItem(item);
+                    });
+                }
+            },
             // Remove Item Related Item
             removeItemRelatedItem = function (item) {
                 itemRelatedItems.remove(item);
@@ -1824,6 +1832,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             activeProductMarketQuestion: activeProductMarketQuestion,
             onAddProductMarketBriefQuestion: onAddProductMarketBriefQuestion,
             onEditProductMarketBriefQuestion: onEditProductMarketBriefQuestion,
+            onRemoveItemRelatedItem: onRemoveItemRelatedItem,
             reset: reset,
             convertToServerData: convertToServerData
         };

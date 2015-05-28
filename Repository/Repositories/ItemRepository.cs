@@ -97,6 +97,8 @@ namespace MPC.Repository.Repositories
                               .Include("ItemVideos")
                               .Include("ItemProductDetails")
                               .Include("ItemPriceMatrices")
+                              .Include("ProductMarketBriefQuestions")
+                              .Include("ProductMarketBriefQuestions.ProductMarketBriefAnswers")
                               .FirstOrDefault(item => item.ItemId == itemId);
             }
             catch (Exception ex)
