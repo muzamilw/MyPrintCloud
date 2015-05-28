@@ -1088,20 +1088,23 @@ define("stores/stores.viewModel",
                 // #endregion __________________ C O M P A N Y   T E R R I T O R Y __________________
 
                 // #region _________C O M P A N Y    C M Y K   C O L O R  ________
-            newCompanyCmykId = -1,
-            addNewCompanyCmykId = function () {
-                newCompanyCmykId = newCompanyCmykId - 1;
-            },
+                newCompanyCmykId = -1,
+                // Editor View Model
+                companyCmykColoreditorViewModel = new ist.ViewModel(model.CompanyCMYKColor),
+
+                addNewCompanyCmykId = function () {
+                    newCompanyCmykId = newCompanyCmykId - 1;
+                },
                 //Selected Company CMYK Color
                 // ReSharper disable InconsistentNaming
-            selectedCompanyCMYKColor = ko.observable(),
-            isSavingNew = ko.observable(false),
+                selectedCompanyCMYKColor = companyCmykColoreditorViewModel.itemForEditing,
+                isSavingNew = ko.observable(false),
                 // Template Chooser For Company CMYK Color
-            templateToUseCompanyCMYKColors = function (companyCMYKColor) {
+                templateToUseCompanyCMYKColors = function (companyCMYKColor) {
                 return (companyCMYKColor === selectedCompanyCMYKColor() ? 'editCompanyCMYKColorTemplate' : 'itemCompanyCMYKColorTemplate');
             },
                 //Create Stock Sub Category
-            onCreateNewCompanyCMYKColor = function () {
+                onCreateNewCompanyCMYKColor = function () {
                 var companyCMYKColor = new model.CompanyCMYKColor();
                 selectedCompanyCMYKColor(companyCMYKColor);
                 view.showCompanyCMYKColorDialog();
@@ -1124,81 +1127,96 @@ define("stores/stores.viewModel",
                 //}
             },
                 // Delete a company CMYK Color
-            onDeleteCompanyCMYKColors = function (companyCMYKColor) {
-                // Ask for confirmation
-                confirmation.afterProceed(function () {
-                    selectedStore().companyCMYKColors.remove(companyCMYKColor);
-                    view.hideCompanyCMYKColorDialog();
-                });
-                confirmation.show();
+                onDeleteCompanyCMYKColors = function (companyCMYKColor) {
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        selectedStore().companyCMYKColors.remove(companyCMYKColor);
+                        view.hideCompanyCMYKColorDialog();
+                    });
+                    confirmation.show();
 
-                return;
-            },
-            onEditCompanyCMYKColor = function (companyCMYKColor) {
-                selectedCompanyCMYKColor(companyCMYKColor);
-                view.showCompanyCMYKColorDialog();
-            },
-            onCloseCompanyCMYKColor = function () {
-                view.hideCompanyCMYKColorDialog();
-                isSavingNew(false);
-            },
+                    return;
+                },
+                //On Edit
+                onEditCompanyCMYKColor = function (companyCMYKColor) {
+                    //selectedCompanyCMYKColor(companyCMYKColor);
+                    companyCmykColoreditorViewModel.selectItem(companyCMYKColor);
+                    view.showCompanyCMYKColorDialog();
+                },
+                //On Close
+                onCloseCompanyCMYKColor = function () {
+                    //revert method is of no use
+                    //companyCmykColoreditorViewModel.revertItem();
+                    view.hideCompanyCMYKColorDialog();
+                    isSavingNew(false);
+                },
                 //Do Before Save Rave Review
-            doBeforeSaveCompanyCMYKColor = function () {
-                var flag = true;
-                if (!selectedCompanyCMYKColor().isValid()) {
-                    selectedCompanyCMYKColor().errors.showAllMessages();
-                    flag = false;
-                }
-                return flag;
-            },
-            onSaveCompanyCMYKColor = function () {
-                if (doBeforeSaveCompanyCMYKColor() && isSavingNew() === true) {
-                    selectedCompanyCMYKColor().colorId(newCompanyCmykId);
-                    addNewCompanyCmykId();
-                    selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
-                    view.hideCompanyCMYKColorDialog();
-                    isSavingNew(false);
-                }
-                if (doBeforeSaveCompanyCMYKColor() && isSavingNew() !== true) {
-                    view.hideCompanyCMYKColorDialog();
-                    isSavingNew(false);
-                }
+                doBeforeSaveCompanyCMYKColor = function () {
+                    var flag = true;
+                    if (!selectedCompanyCMYKColor().isValid()) {
+                        selectedCompanyCMYKColor().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+                //On Save
+                onSaveCompanyCMYKColor = function () {
+                    if (doBeforeSaveCompanyCMYKColor() && isSavingNew() === true) {
+                        selectedCompanyCMYKColor().colorId(newCompanyCmykId);
+                        addNewCompanyCmykId();
+                        selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                        //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
+                        view.hideCompanyCMYKColorDialog();
+                        isSavingNew(false);
+                    }
+                    if (doBeforeSaveCompanyCMYKColor() && isSavingNew() !== true) {
+                        //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
+                        
+                        _.each(selectedStore().companyCMYKColors(), function(color) {
+                            if (color.colorId() == selectedCompanyCMYKColor().colorId()) {
+                                selectedStore().companyCMYKColors.remove(color);
+                                selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                            }
+                        });
+                        view.hideCompanyCMYKColorDialog();
+                        isSavingNew(false);
+                    }
 
-            },
+                },
 
-               calculateCyanValue = ko.computed({
-                   read: function () {
-                       if (!selectedCompanyCMYKColor()) {
-                           return 0;
-                       }
+                calculateCyanValue = ko.computed({
+                    read: function () {
+                        if (!selectedCompanyCMYKColor()) {
+                            return 0;
+                        }
 
-                       var colorC = selectedCompanyCMYKColor().colorC();
-                       var colorM = selectedCompanyCMYKColor().colorM();
-                       var ColorY = selectedCompanyCMYKColor().colorY();
-                       var ColorK = selectedCompanyCMYKColor().colorK();
+                        var colorC = selectedCompanyCMYKColor().colorC();
+                        var colorM = selectedCompanyCMYKColor().colorM();
+                        var ColorY = selectedCompanyCMYKColor().colorY();
+                        var ColorK = selectedCompanyCMYKColor().colorK();
 
-                       var hex = getColorHex(colorC, colorM, ColorY, ColorK);
+                        var hex = getColorHex(colorC, colorM, ColorY, ColorK);
 
-                       selectedHexValue(hex);
-                       return selectedCompanyCMYKColor().colorC();
-                   },
-                   write: function (value) {
-                       if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorC()) {
-                           return;
-                       }
+                        selectedHexValue(hex);
+                        return selectedCompanyCMYKColor().colorC();
+                    },
+                    write: function (value) {
+                        if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorC()) {
+                            return;
+                        }
 
-                       var colorM = selectedCompanyCMYKColor().colorM();
-                       var ColorY = selectedCompanyCMYKColor().colorY();
-                       var ColorK = selectedCompanyCMYKColor().colorK();
+                        var colorM = selectedCompanyCMYKColor().colorM();
+                        var ColorY = selectedCompanyCMYKColor().colorY();
+                        var ColorK = selectedCompanyCMYKColor().colorK();
 
-                       var hex = getColorHex(value, colorM, ColorY, ColorK);
-                       selectedHexValue(hex);
+                        var hex = getColorHex(value, colorM, ColorY, ColorK);
+                        selectedHexValue(hex);
 
-                       selectedCompanyCMYKColor().colorC(value);
-                       return value;
+                        selectedCompanyCMYKColor().colorC(value);
+                        return value;
 
-                   }
-               }),
+                    }
+                }),
 
                 calculateMagentaValue = ko.computed({
                     read: function () {
@@ -1233,71 +1251,71 @@ define("stores/stores.viewModel",
                 }),
 
 
-                  calculateYellowValue = ko.computed({
-                      read: function () {
-                          if (!selectedCompanyCMYKColor()) {
-                              return 0;
-                          }
+                calculateYellowValue = ko.computed({
+                    read: function () {
+                        if (!selectedCompanyCMYKColor()) {
+                            return 0;
+                        }
 
-                          var colorC = selectedCompanyCMYKColor().colorC();
-                          var colorM = selectedCompanyCMYKColor().colorM();
-                          var ColorY = selectedCompanyCMYKColor().colorY();
-                          var ColorK = selectedCompanyCMYKColor().colorK();
+                        var colorC = selectedCompanyCMYKColor().colorC();
+                        var colorM = selectedCompanyCMYKColor().colorM();
+                        var ColorY = selectedCompanyCMYKColor().colorY();
+                        var ColorK = selectedCompanyCMYKColor().colorK();
 
-                          var hex = getColorHex(colorC, colorM, ColorY, ColorK);
-                          selectedHexValue(hex);
-                          return selectedCompanyCMYKColor().colorY();
-                      },
-                      write: function (value) {
-                          if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorY()) {
-                              return;
-                          }
+                        var hex = getColorHex(colorC, colorM, ColorY, ColorK);
+                        selectedHexValue(hex);
+                        return selectedCompanyCMYKColor().colorY();
+                    },
+                    write: function (value) {
+                        if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorY()) {
+                            return;
+                        }
 
-                          var colorM = selectedCompanyCMYKColor().colorM();
-                          var ColorC = selectedCompanyCMYKColor().colorC();
-                          var ColorK = selectedCompanyCMYKColor().colorK();
+                        var colorM = selectedCompanyCMYKColor().colorM();
+                        var ColorC = selectedCompanyCMYKColor().colorC();
+                        var ColorK = selectedCompanyCMYKColor().colorK();
 
-                          var hex = getColorHex(ColorC, colorM, value, ColorK);
-                          selectedHexValue(hex);
+                        var hex = getColorHex(ColorC, colorM, value, ColorK);
+                        selectedHexValue(hex);
 
-                          selectedCompanyCMYKColor().colorY(value);
-                          return value;
-                      }
-                  }),
+                        selectedCompanyCMYKColor().colorY(value);
+                        return value;
+                    }
+                }),
 
-                     calculateBlackValue = ko.computed({
-                         read: function () {
-                             if (!selectedCompanyCMYKColor()) {
-                                 return 0;
-                             }
+                calculateBlackValue = ko.computed({
+                    read: function () {
+                        if (!selectedCompanyCMYKColor()) {
+                            return 0;
+                        }
 
-                             var colorC = selectedCompanyCMYKColor().colorC();
-                             var colorM = selectedCompanyCMYKColor().colorM();
-                             var ColorY = selectedCompanyCMYKColor().colorY();
-                             var ColorK = selectedCompanyCMYKColor().colorK();
+                        var colorC = selectedCompanyCMYKColor().colorC();
+                        var colorM = selectedCompanyCMYKColor().colorM();
+                        var ColorY = selectedCompanyCMYKColor().colorY();
+                        var ColorK = selectedCompanyCMYKColor().colorK();
 
-                             var hex = getColorHex(colorC, colorM, ColorY, ColorK);
-                             selectedHexValue(hex);
+                        var hex = getColorHex(colorC, colorM, ColorY, ColorK);
+                        selectedHexValue(hex);
 
 
-                             return selectedCompanyCMYKColor().colorK();
-                         },
-                         write: function (value) {
-                             if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorK()) {
-                                 return;
-                             }
-                             var colorM = selectedCompanyCMYKColor().colorM();
-                             var ColorY = selectedCompanyCMYKColor().colorY();
-                             var ColorC = selectedCompanyCMYKColor().colorC();
+                        return selectedCompanyCMYKColor().colorK();
+                    },
+                    write: function (value) {
+                        if ((value === null || value === undefined) || value === selectedCompanyCMYKColor().colorK()) {
+                            return;
+                        }
+                        var colorM = selectedCompanyCMYKColor().colorM();
+                        var ColorY = selectedCompanyCMYKColor().colorY();
+                        var ColorC = selectedCompanyCMYKColor().colorC();
 
-                             var hex = getColorHex(ColorC, colorM, ColorY, value);
-                             selectedHexValue(hex);
+                        var hex = getColorHex(ColorC, colorM, ColorY, value);
+                        selectedHexValue(hex);
 
-                             selectedCompanyCMYKColor().colorK(value);
-                             return value;
+                        selectedCompanyCMYKColor().colorK(value);
+                        return value;
 
-                         }
-                     }),
+                    }
+                }),
 
                 // #endregion ____________ C O M P A N Y    C M Y K   C O L O R  ___________________ 
 
@@ -6443,6 +6461,7 @@ define("stores/stores.viewModel",
                     onSaveRaveReview: onSaveRaveReview,
                     //#endregion Rave Reviews
                     //#region Company CMYK Color
+                    companyCMYKColoreditorViewModel: companyCmykColoreditorViewModel,
                     templateToUseCompanyCMYKColors: templateToUseCompanyCMYKColors,
                     selectedCompanyCMYKColor: selectedCompanyCMYKColor,
                     onCreateNewCompanyCMYKColor: onCreateNewCompanyCMYKColor,
