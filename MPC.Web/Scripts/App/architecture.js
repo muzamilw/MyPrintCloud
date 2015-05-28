@@ -842,6 +842,14 @@ require(["ko", "knockout-validation"], function (ko) {
         },
         message: 'The fields must have the same value'
     };
+    //Validation Rules
+    ko.validation.rules['variableTagRule'] = {
+        validator: function (val) {
+            var regExp = new RegExp("^{{[a-zA-Z0-9]*}}$");
+            return regExp.test(val);
+        },
+        message: 'Tag must start with {{, shouldnt contain space and end with }}'
+    };
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {
         var popovers = $('.popover').not('.in');
