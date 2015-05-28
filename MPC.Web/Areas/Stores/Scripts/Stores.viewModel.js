@@ -41,6 +41,7 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
+                   
                     // widget section header title
                     productsFilterHeading = ko.observable(),
 
@@ -1969,9 +1970,25 @@ define("stores/stores.viewModel",
                 //    });
                 //}
             }),
+                    
                 //Get State Name By State Id
                 //Method to be called on user and addresses tab selection
             userAndAddressesTabSelected = function () {
+                
+                // Resetting filter for Company Contact
+                if ((searchCompanyContactFilter() !== "" && searchCompanyContactFilter() !== undefined) ) {
+                    searchCompanyContactFilter('');
+                }
+               
+                // Resetting filter for Territory
+                if (searchCompanyTerritoryFilter() !== undefined && searchCompanyTerritoryFilter() !== '') {
+                    searchCompanyTerritoryFilter('');
+                }
+                // Resetting filter for Address
+                if ((searchAddressFilter() !== "" && searchAddressFilter() !== undefined)) {
+                    searchAddressFilter('');
+                }
+                
                 isUserAndAddressesTabOpened(true);
             },
                 //Address Pager
@@ -2789,7 +2806,7 @@ define("stores/stores.viewModel",
 
                 //companyContactFilter
             companyContactFilter = ko.observable(),
-            contactCompanyTerritoryFilter = ko.observable(),
+            contactCompanyTerritoryFilter = ko.observable(undefined),
                 //Deleted Company Contact 
             deletedCompanyContacts = ko.observableArray([]),
             edittedCompanyContacts = ko.observableArray([]),
@@ -4794,6 +4811,13 @@ define("stores/stores.viewModel",
                 //#region _________P R O D U C T S ______________________
             isProductTabVisited = ko.observable(false),
             getProducts = function () {
+                
+                // Resetting Filter on tab chnage 
+                if (ist.product.viewModel.filterText() !== undefined && ist.product.viewModel.filterText() !== '') {
+                    ist.product.viewModel.filterText('');
+                    isProductTabVisited(false);
+                }
+               
                 if (!isProductTabVisited()) {
                     isProductTabVisited(true);
                     ist.product.viewModel.initializeForStore(selectedStore().companyId(), selectedStore().taxRate());
