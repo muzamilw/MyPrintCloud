@@ -698,6 +698,9 @@ div#spinner {
 #storesBinding .form-group-closer {
   margin-bottom: 0px;
 }
+#storesBinding #productMarketBriefQuestionDialog #addMarketBriefAnswerBtn {
+  margin-right: 14px;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;

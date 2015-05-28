@@ -77,6 +77,7 @@ define("order/order.view",
                 hideSectionDetailDialog = function () {
                     $("#orderSectionDetailDialog").modal('hide');
                 },
+                
                // Show Cost Centers Quantity the dialog
                 showCostCentersQuantityDialog = function () {
                     $("#orderCostCentersQuanity").modal("show");
@@ -91,10 +92,6 @@ define("order/order.view",
                         // set up an array to hold the order Status
                         var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Ready For Shipping", "Shipped & Invoiced", "Cancelled"];
 
-                        // If Is Order is From Estimate then add Status "Revert to Estimate"
-                        if (isFromEstimate) {
-                            orderStatusArray.splice(0, 0, "Revert to Estimate");
-                        }
 
                         $(".slider").slider().slider("pips");
                         $(".slider")

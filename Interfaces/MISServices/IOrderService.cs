@@ -59,5 +59,7 @@ namespace MPC.Interfaces.MISServices
         string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat);
 
         string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
+        bool ProgressEstimateToOrder(ProgressEstimateRequestModel requestModel);
+        Estimate CloneOrder(Estimate source);
     }
 }

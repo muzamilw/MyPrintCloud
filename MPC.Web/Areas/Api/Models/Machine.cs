@@ -77,6 +77,9 @@ namespace MPC.MIS.Areas.Api.Models
         public double? CoverageMedium { get; set; }
         public double? CoverageLow { get; set; }
 
+        public bool? isSheetFed { get; set; }
+        public int? Passes { get; set; }
+
         public IEnumerable<MachineInkCoverage> MachineInkCoverages { get; set; }
        // public virtual ICollection<MachineResource> MachineResources { get; set; }
     }

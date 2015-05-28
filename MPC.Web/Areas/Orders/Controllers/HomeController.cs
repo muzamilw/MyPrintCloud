@@ -39,8 +39,9 @@ namespace MPC.MIS.Areas.Orders.Controllers
             return View();
 
         }
-        public ActionResult EstimatesList()
+        public ActionResult EstimatesList(int? id)
         {
+            ViewBag.OrderId = id ?? 0;
             return View();
         }
       

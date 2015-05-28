@@ -2351,7 +2351,7 @@
                                                 <label class="control-label">Success Message</label>
                                             </div>
                                             <div class="col-lg-3">
-                                                <input type="text" data-bind="value: marketBriefSuccessMessage">
+                                                <textarea class="form-control" data-bind="value: marketBriefSuccessMessage"></textarea>
                                             </div>
                                             <div class="col-lg-3 text-right">
                                                 <label class="control-label">Allow Upload Attachment</label>
@@ -2371,7 +2371,7 @@
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
 
-                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: addProductMarketBriefQuestion">
+                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: onAddProductMarketBriefQuestion">
                                                         Add Question
                                                     </a>
                                                 </div>
@@ -2384,7 +2384,6 @@
                                                             <th><span>Multiple Section</span> </th>
                                                             <th><span>Title</span></th>
                                                             <th style="text-align:center;"><span>Order</span></th>
-                                                            <th style="width: 114px;"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -2481,7 +2480,7 @@
         <tr>
             <td data-bind="text: relatedItemName"></td>
             <td class="text-right">
-                <a href="#" class="table-link danger" data-bind="click: $parent.removeItemRelatedItem.bind($data)">
+                <a href="#" class="table-link danger" data-bind="click: $parent.onRemoveItemRelatedItem.bind($data)">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -2965,12 +2964,14 @@
     
     @* Marketing Brief Question Template *@
     <script id="marketingBriefQuestionTemplate" type="text/html">
-        <tr>
+        <tr data-bind="click: $parent.onEditProductMarketBriefQuestion.bind($data)" style="cursor: pointer">
             <td>
-                <span data-bind="text: $index"></span>
+                <span data-bind="text: $index() + 1"></span>
             </td>
             <td>
-                <span data-bind="text: isMultipleSelection() ? 'Yes' : 'No'"></span>
+                <div class="type">
+                    <span class="label" data-bind="text: isMultipleSelection() ? 'Yes' : 'No' , css: { 'label-success': isMultipleSelection, 'label-danger': !isMultipleSelection() }"></span>
+                </div>
             </td>
             <td>
                 <span data-bind="text: questionDetail"></span>
@@ -2983,14 +2984,6 @@
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowUp.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionUp" />
                 <!-- /ko-->
             </td>
-            <td class="text-center">
-                <a class="table-link danger" data-bind="click: $root.onDeleteProductMarketBriefQuestion.bind($data)">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-            </td>
         </tr>
     </script>
 
@@ -3001,6 +2994,7 @@
     @Html.Partial("~/Areas/Products/Views/Home/_ItemAddonCostCentre.cshtml")
     @Html.Partial("~/Areas/Products/Views/Home/_SignatureEdit.cshtml")
     @Html.Partial("~/Areas/Products/Views/Home/_PressDialog.cshtml")
+    @Html.Partial("~/Areas/Products/Views/Home/_AddProductMarketBriefQuestion.cshtml")
     <!-- /ko -->
     @Html.Partial("~/Areas/Products/Views/Home/_ProductCategoryDialog.cshtml")
 </div>

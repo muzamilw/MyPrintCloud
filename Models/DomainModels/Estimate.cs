@@ -101,5 +101,53 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<PrePayment> PrePayments { get; set; }
         public virtual SectionFlag SectionFlag { get; set; }
         public virtual ICollection<ShippingInformation> ShippingInformations { get; set; }
+
+        public void Clone(Estimate target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ProductCategoryItemClone_InvalidItem, "target");
+            }
+            
+            target.CompanyId = CompanyId;
+            target.Estimate_Code = Estimate_Code;
+            target.Estimate_Name = Estimate_Name;
+            target.EnquiryId = EnquiryId;
+            target.SectionFlagId = SectionFlagId;
+            target.ContactId = ContactId;
+            target.AddressId = AddressId;
+            target.isDirectSale = isDirectSale;
+            target.IsCreditApproved = IsCreditApproved;
+            target.IsOfficialOrder = IsOfficialOrder;
+            target.Order_Date = Order_Date;
+            target.StartDeliveryDate = StartDeliveryDate;
+            target.FinishDeliveryDate = FinishDeliveryDate;
+            target.HeadNotes = HeadNotes;
+            target.FootNotes = FootNotes;
+            target.ArtworkByDate = ArtworkByDate;
+            target.DataByDate = DataByDate;
+            target.PaperByDate = PaperByDate;
+            target.TargetBindDate = TargetBindDate;
+            target.XeroAccessCode = XeroAccessCode;
+            target.TargetPrintDate = TargetPrintDate;
+            target.Order_CreationDateTime = Order_CreationDateTime;
+            target.SalesPersonId = SalesPersonId;
+            target.SourceId = SourceId;
+            target.CreditLimitForJob = CreditLimitForJob;
+            target.CreditLimitSetBy = CreditLimitSetBy;
+            target.CreditLimitSetOnDateTime = CreditLimitSetOnDateTime;
+            target.IsJobAllowedWOCreditCheck = IsJobAllowedWOCreditCheck;
+            target.AllowJobWOCreditCheckSetOnDateTime = AllowJobWOCreditCheckSetOnDateTime;
+            target.AllowJobWOCreditCheckSetBy = AllowJobWOCreditCheckSetBy;
+            target.CustomerPO = CustomerPO;
+            target.OfficialOrderSetBy = OfficialOrderSetBy;
+            target.OfficialOrderSetOnDateTime = OfficialOrderSetOnDateTime;
+            target.OrderReportSignedBy = OrderReportSignedBy;
+            target.Estimate_Total = Estimate_Total;
+            target.CreationDate = CreationDate;
+            target.CreationTime = CreationTime;
+            target.RefEstimateId = RefEstimateId;
+        }
     }
+
 }

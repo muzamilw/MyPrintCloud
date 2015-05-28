@@ -4378,6 +4378,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DeliveryNote_SectionFlag">
+          <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="0..1" />
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="FlagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Estimate_SectionFlag">
           <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="1" />
           <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
@@ -4725,6 +4737,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="ProductCategoryItem">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion">
+          <End Role="ProductMarketBriefQuestion" Type="Self.ProductMarketBriefQuestion" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductMarketBriefAnswer" Type="Self.ProductMarketBriefAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefAnswer">
+              <PropertyRef Name="MarketBriefQuestionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5535,18 +5561,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="ProductCategory">
               <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
-          <End Role="ProductMarketBriefQuestion" Type="Self.ProductMarketBriefQuestion" Multiplicity="0..1" />
-          <End Role="ProductMarketBriefAnswer" Type="Self.ProductMarketBriefAnswer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductMarketBriefQuestion">
-              <PropertyRef Name="MarketBriefQuestionId" />
-            </Principal>
-            <Dependent Role="ProductMarketBriefAnswer">
-              <PropertyRef Name="MarketBriefQuestionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6401,6 +6415,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Company" EntitySet="Company" />
             <End Role="DeliveryNote" EntitySet="DeliveryNote" />
           </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SectionFlag" Association="Self.FK_DeliveryNote_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlag" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+          </AssociationSet>
           <AssociationSet Name="FK_Estimate_SectionFlag" Association="Self.FK_Estimate_SectionFlag">
             <End Role="SectionFlag" EntitySet="SectionFlag" />
             <End Role="Estimate" EntitySet="Estimate" />
@@ -6516,6 +6534,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_ProductCategoryItem_ProductCategory" Association="Self.FK_ProductCategoryItem_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" Association="Self.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion">
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
+            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswer" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductMarketBriefQuestion_Item" Association="Self.FK_ProductMarketBriefQuestion_Item">
             <End Role="Items" EntitySet="Items" />
@@ -6780,10 +6802,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="Self.FK_tbl_ProductCategory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
             <End Role="ProductCategory" EntitySet="ProductCategory" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" Association="Self.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
-            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
-            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswer" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_report_notes_tbl_reportcategory" Association="Self.FK_tbl_report_notes_tbl_reportcategory">
             <End Role="ReportCategory" EntitySet="ReportCategory" />
@@ -7256,10 +7274,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="ProductMarketBriefAnswers" EntityType="DomainModels.ProductMarketBriefAnswer" />
           <EntitySet Name="ProductMarketBriefQuestions" EntityType="DomainModels.ProductMarketBriefQuestion" />
           <EntitySet Name="Roles" EntityType="DomainModels.Role" />
-          <AssociationSet Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" Association="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
-            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
-            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswers" />
-          </AssociationSet>
           <EntitySet Name="ProductCategoryItems" EntityType="DomainModels.ProductCategoryItem" />
           <AssociationSet Name="FK_ProductCategoryItem_Items" Association="DomainModels.FK_ProductCategoryItem_Items">
             <End Role="Item" EntitySet="Items" />
@@ -7701,6 +7715,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
           </AssociationSet>
           <EntitySet Name="ImpositionProfiles" EntityType="DomainModels.ImpositionProfile" />
+          <AssociationSet Name="FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" Association="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion">
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
+            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SectionFlag" Association="DomainModels.FK_DeliveryNote_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlags" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8435,6 +8457,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Section" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="SectionFlag" ToRole="Section" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_Estimate_SectionFlag" FromRole="SectionFlag" ToRole="Estimate" />
+          <NavigationProperty Name="DeliveryNotes" Relationship="DomainModels.FK_DeliveryNote_SectionFlag" FromRole="SectionFlag" ToRole="DeliveryNote" />
         </EntityType>
         <Association Name="FK_tbl_section_flags_tbl_sections">
           <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
@@ -10383,6 +10406,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" FromRole="DeliveryNote" ToRole="DeliveryNoteDetail" />
           <Property Name="CompanyId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_DeliveryNote_Company" FromRole="DeliveryNote" ToRole="Company" />
+          <NavigationProperty Name="SectionFlag" Relationship="DomainModels.FK_DeliveryNote_SectionFlag" FromRole="DeliveryNote" ToRole="SectionFlag" />
         </EntityType>
         <EntityType Name="DeliveryNoteDetail">
           <Key>
@@ -11265,7 +11289,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="MarketBriefAnswerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MarketBriefQuestionId" Type="Int32" />
           <Property Name="AnswerDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ProductMarketBriefQuestion" Relationship="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" FromRole="ProductMarketBriefAnswer" ToRole="ProductMarketBriefQuestion" />
+          <NavigationProperty Name="ProductMarketBriefQuestion" Relationship="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" FromRole="ProductMarketBriefAnswer" ToRole="ProductMarketBriefQuestion" />
         </EntityType>
         <EntityType Name="ProductMarketBriefQuestion">
           <Key>
@@ -11276,8 +11300,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="QuestionDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="IsMultipleSelection" Type="Boolean" />
-          <NavigationProperty Name="ProductMarketBriefAnswers" Relationship="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" FromRole="ProductMarketBriefQuestion" ToRole="ProductMarketBriefAnswer" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="ProductMarketBriefQuestion" ToRole="Item" />
+          <NavigationProperty Name="ProductMarketBriefAnswers" Relationship="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" FromRole="ProductMarketBriefQuestion" ToRole="ProductMarketBriefAnswer" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -11291,18 +11315,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsCompanyLevel" Type="Int16" Nullable="false" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
-          <End Type="DomainModels.ProductMarketBriefQuestion" Role="ProductMarketBriefQuestion" Multiplicity="0..1" />
-          <End Type="DomainModels.ProductMarketBriefAnswer" Role="ProductMarketBriefAnswer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductMarketBriefQuestion">
-              <PropertyRef Name="MarketBriefQuestionId" />
-            </Principal>
-            <Dependent Role="ProductMarketBriefAnswer">
-              <PropertyRef Name="MarketBriefQuestionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ProductCategoryItem">
           <Key>
             <PropertyRef Name="ProductCategoryItemId" />
@@ -14136,6 +14148,32 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="OrganisationId" Type="Int64" />
           <Property Name="isPortrait" Type="Boolean" />
         </EntityType>
+        <Association Name="FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion">
+          <End Type="DomainModels.ProductMarketBriefQuestion" Role="ProductMarketBriefQuestion" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.ProductMarketBriefAnswer" Role="ProductMarketBriefAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefAnswer">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_SectionFlag">
+          <End Type="DomainModels.SectionFlag" Role="SectionFlag" Multiplicity="0..1" />
+          <End Type="DomainModels.DeliveryNote" Role="DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="FlagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

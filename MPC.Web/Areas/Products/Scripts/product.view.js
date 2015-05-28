@@ -83,6 +83,14 @@ define("product/product.view",
                 hidePressDialog = function () {
                     $("#pressDialog").modal("hide");
                 },
+                // Show Market Brief Question Dialog
+                showMarketBriefQuestionDialog = function() {
+                    $("#productMarketBriefQuestionDialog").modal("show");
+                },
+                // Hide MarketBriefQuestionDialog
+                hideMarketBriefQuestionDialog = function () {
+                    $("#productMarketBriefQuestionDialog").modal("hide");
+                },
                 // Go To Element with Validation Errors
                 gotoElement = function (element) {
                     var tab = $(element).closest(".tab-pane");
@@ -465,7 +473,9 @@ define("product/product.view",
                 hidePressDialog: hidePressDialog,
                 initializeLabelPopovers: initializeLabelPopovers,
                 initializeProductMinMaxSlider: initializeProductMinMaxSlider,
-                editTemplate: editTemplate
+                editTemplate: editTemplate,
+                showMarketBriefQuestionDialog: showMarketBriefQuestionDialog,
+                hideMarketBriefQuestionDialog: hideMarketBriefQuestionDialog
             };
         })(productViewModel);
 

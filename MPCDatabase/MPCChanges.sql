@@ -3947,3 +3947,45 @@ GO
 alter table machine add isSheetFed bit null
 alter table machine add Passes int null
 alter table impositionProfile add isPortrait bit null
+----Executed on Staging on 26/05/2015---------
+
+/* Execution Date: 27/05/2015 */
+
+alter table productmarketbriefanswer
+drop constraint FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions
+
+alter table productmarketbriefanswer
+add constraint FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion
+foreign key (MarketBriefQuestionId)
+references ProductMarketBriefQuestion (MarketBriefQuestionId)
+on delete cascade
+
+
+
+ update fieldVariable set Scope = 7 where RefTableName = 'Company'  
+
+  update fieldVariable set Scope = 8 where RefTableName = 'CompanyContact'  
+
+
+  update fieldVariable set Scope = 9 where RefTableName = 'addresses' 
+
+
+  update fieldVariable set Scope = 9 where RefTableName = 'address' 
+
+
+
+  update fieldVariable set Scope = 7 where RefTableName = 'tbl_section_flags' 
+
+
+  update fieldVariable set Scope = 8 where RefTableName = 'tbl_ContactDepartments' 
+
+alter table machine
+add IsSpotColor bit null
+
+update DeliveryNote
+set FlagId = null
+
+alter table DeliveryNote
+add constraint FK_DeliveryNote_SectionFlag
+foreign key (FlagId)
+references SectionFlag (SectionFlagId)
