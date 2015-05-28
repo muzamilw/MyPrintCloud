@@ -41,5 +41,6 @@ namespace MPC.Models.DomainModels
         public bool? IsPrinted { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
+        public virtual SectionFlag SectionFlag { get; set; }
     }
 }

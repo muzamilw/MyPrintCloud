@@ -3947,7 +3947,7 @@ GO
 alter table machine add isSheetFed bit null
 alter table machine add Passes int null
 alter table impositionProfile add isPortrait bit null
-
+----Executed on Staging on 26/05/2015---------
 
 /* Execution Date: 27/05/2015 */
 
@@ -3978,3 +3978,14 @@ on delete cascade
 
 
   update fieldVariable set Scope = 8 where RefTableName = 'tbl_ContactDepartments' 
+
+alter table machine
+add IsSpotColor bit null
+
+update DeliveryNote
+set FlagId = null
+
+alter table DeliveryNote
+add constraint FK_DeliveryNote_SectionFlag
+foreign key (FlagId)
+references SectionFlag (SectionFlagId)

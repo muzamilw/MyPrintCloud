@@ -49,5 +49,10 @@ namespace MPC.Interfaces.Repository
         /// Returns Next Invoice Code Prefix and increments the NextItem Value by 1
         /// </summary>
         string GetNextInvoiceCodePrefix();
+
+        /// <summary>
+        /// Returns Next Delivery Note Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        string GetNextDeliveryNoteCodePrefix();
     }
 }

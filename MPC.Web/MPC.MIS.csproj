@@ -427,6 +427,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DeliveryNoteDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DeliveryNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GetInquiryResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
@@ -539,7 +540,8 @@
     <Compile Include="Areas\Api\Models\CrmContactResponse.cs" />
     <Compile Include="Areas\Api\Models\DeliverNotesResposne.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNoteBaseResponse.cs" />
-    <Compile Include="Areas\Api\Models\DeliveryNotes.cs" />
+    <Compile Include="Areas\Api\Models\DeliveryNoteDetail.cs" />
+    <Compile Include="Areas\Api\Models\DeliveryNote.cs" />
     <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
