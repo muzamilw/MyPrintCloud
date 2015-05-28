@@ -1007,7 +1007,12 @@ namespace MPC.Implementation.WebStoreServices
                     float width =(float)oObject.MaxWidth.Value, height = (float)oObject.MaxHeight.Value;
                    // string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/MPC_Content" + oObject.ContentString;
                     ////int id = oPdf.AddImageUrl(URl);
-                    string file = DesignerSvgParser.UpdateSvg(FilePath,height,width) ;//
+                    List<svgColorData> styles = new List<svgColorData>();
+                    if (oObject.textStyles != null)
+                    {
+                        styles = JsonConvert.DeserializeObject<List<svgColorData>>(oObject.textStyles);
+                    }
+                    string file = DesignerSvgParser.UpdateSvg(FilePath, height, width, styles);//
                     string html = File.ReadAllText(file);
                     html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>" ;
                     oPdf.AddImageHtml(html);
