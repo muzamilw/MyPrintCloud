@@ -3989,3 +3989,14 @@ alter table DeliveryNote
 add constraint FK_DeliveryNote_SectionFlag
 foreign key (FlagId)
 references SectionFlag (SectionFlagId)
+
+/* Execution Date: 28/05/2015 */
+
+alter table deliveryNotedetail
+drop constraint FK_tbl_deliverynote_details_tbl_deliverynotes
+
+alter table deliverynotedetail
+add constraint FK_DeliveryNoteDetail_DeliveryNote
+foreign key (DeliveryNoteId)
+references DeliveryNote (DeliveryNoteId)
+on delete cascade
