@@ -115,6 +115,8 @@ define("order/order.viewModel",
                     },
                     orderTypeFilter = ko.observable(),
                     filterFlags = ko.observableArray([]),
+                    //Inquiries Section Flags
+                    inquiriesSectionFlags = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingOrders = ko.observable(false),
@@ -155,7 +157,8 @@ define("order/order.viewModel",
                     sectionHeader = ko.observable(''),
                     currencySymbol = ko.observable(''),
                     loggedInUser = ko.observable(),
-                    selectedInquiryItem = ko.observable(),
+                     inquiryDetailEditorViewModel = new ist.ViewModel(model.InquiryItem),
+                    selectedInquiryItem = inquiryDetailEditorViewModel.itemForEditing,
                     //On Order Status change to progress to job that will open wizard
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
                     // Active Order
@@ -187,6 +190,10 @@ define("order/order.viewModel",
                     //Inventory Stock Item To Create
                     inventoryStockItemToCreate = ko.observable(),
                     selectedCompanyContactOfInquiry = ko.observable(undefined),
+                    //Is Inquiry Base Data Loaded
+                    isInquiryBaseDataLoaded = ko.observable(false),
+                    inquiryDetailItemCounter = -1,
+                    isNewinquiryDetailItem = ko.observable(false),
                     // #endregion
                     // #region Utility Functions
 
@@ -1955,6 +1962,9 @@ define("order/order.viewModel",
                         //
                         pager(new pagination.Pagination({ PageSize: 5 }, inquiries, getInquiries));
                         getInquiries();
+                        if (!isInquiryBaseDataLoaded()) {
+                            getInquiriesTabBaseData();
+                        }
                     },
                     getInquiries = function() {
                         isLoadingOrders(true);
@@ -1986,7 +1996,8 @@ define("order/order.viewModel",
                         selectedInquiry(model.Inquiry.Create({}, { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }));
                         //When creating new inquiry by default the inquiry is "Draft Inquiry" and its status is 25(Status Table)
                         selectedInquiry().status(25);
-                       
+                        selectedInquiry().isDirectInquiry(true);
+                        selectedInquiry().createdBy(loggedInUser());
                         companyContacts.removeAll();
                         openOrderEditor();
                     },
@@ -2010,9 +2021,12 @@ define("order/order.viewModel",
                             selectedInquiry().inquiryAttachments.push(attachment);
                         }
                     },
-                    onCreateNewInquiryDetailItem = function() {
+                    onCreateNewInquiryDetailItem = function () {
                         selectedInquiryItem(model.InquiryItem.Create({}));
+                        selectedInquiryItem().inquiryItemId(inquiryDetailItemCounter);
+                        inquiryDetailItemCounter --;
                         view.showInquiryDetailItemDialog();
+                        isNewinquiryDetailItem(true);
                     },
                     editInquiry = function (inquiry) {
                         errorList.removeAll();
@@ -2037,9 +2051,11 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    editInquiryItem = function(inquiryItem) {
-                        selectedInquiryItem(inquiryItem);
+                    editInquiryItem = function (inquiryItem) {
+                        //selectedInquiryItem(inquiryItem);
+                        inquiryDetailEditorViewModel.selectItem(inquiryItem);
                         view.showInquiryDetailItemDialog();
+                        isNewinquiryDetailItem(false);
                     },
                     onSaveInquiry = function () {
                         if (!doBeforeSaveInquiry()) {
@@ -2091,9 +2107,29 @@ define("order/order.viewModel",
                         }
                         return flag;
                     },
+                    doBeforeInquiryItemDetailSave = function() {
+                        var flag = true;
+                        if (!selectedInquiryItem().isValid()) {
+                            selectedInquiryItem().showAllErrors();
+                            //selectedInquiryItem().setValidationSummary(errorList);
+                            flag = false;
+                        }
+                        return flag;
+                    },
                     onSaveInquiryDetailItem = function () {
-                        if (!selectedInquiryItem().inquiryItemId() > 0 ) {
-                            selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
+                        if (doBeforeInquiryItemDetailSave()) {
+                            if (isNewinquiryDetailItem()) {
+                                selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
+                            } else {
+                                _.each(selectedInquiry().inquiryItems(), function (inquiryItem) {
+                                    if (inquiryItem.inquiryItemId() == selectedInquiryItem().inquiryItemId()) {
+                                        selectedInquiry().inquiryItems.remove(inquiryItem);
+                                        selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
+                                    }
+                                });
+                            }
+                           
+                            view.hideInquiryDetailItemDialog();
                         }
                     },
                     onCloseInquiryDetailItem = function() {
@@ -2158,11 +2194,13 @@ define("order/order.viewModel",
                             InquiryId: selectedInquiry().inquiryId(),
                             CompanyId: selectedInquiry().companyId(),
                             ContactId: selectedInquiry().contactId(),
-                            FlagId: selectedInquiry().flagId()
+                            FlagId: sectionFlags().length > 0 ? sectionFlags()[0].id : undefined,
+                            Title: selectedInquiry().title()
                         }, {
                             success: function (data) {
                                 selectedInquiry().status(26);
                                 selectedInquiry().estimateId(data.EstimateId);
+                                viewEstimateFromInquiry();
                             },
                             error: function (response) {
                                 toastr.error("Failed to Save Order. Error: " + response);
@@ -2179,6 +2217,21 @@ define("order/order.viewModel",
                     },
                     showEstimateNotes = function() {
                         toastr.success('wow');
+                    },
+                    getInquiriesTabBaseData = function() {
+                        dataservice.getBaseDataForInquiry({}, {
+                            success: function (data) {
+                                if (data) {
+                                    if (data.SectionFlags) {
+                                        mapList(inquiriesSectionFlags, data.SectionFlags, model.SectionFlag);
+                                    }
+                                }
+                                isInquiryBaseDataLoaded(true);
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load details for inquiries" + response);
+                            }
+                        });
                     },
                     //#endregion
                     //#region Progress To Order
@@ -2391,6 +2444,8 @@ define("order/order.viewModel",
                     isAddProductFromInventory: isAddProductFromInventory,
                     isAddProductForSectionCostCenter: isAddProductForSectionCostCenter,
                     pipelineProducts: pipelineProducts,
+                    isInquiryBaseDataLoaded: isInquiryBaseDataLoaded,
+                    inquiriesSectionFlags: inquiriesSectionFlags,
                     //#endregion Utility Methods
                     //#region Estimate Screen
                     initializeEstimate: initializeEstimate,

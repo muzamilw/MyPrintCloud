@@ -329,6 +329,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNoteBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNotesController.cs" />
+    <Compile Include="Areas\Api\Controllers\InquiryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryItemController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryProgressController.cs" />
@@ -432,6 +433,7 @@
     <Compile Include="Areas\Api\ModelMappers\GetInquiryResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryAttachmentMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InquiryBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InvoiceBaseResponseMapper.cs" />
@@ -548,6 +550,7 @@
     <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
     <Compile Include="Areas\Api\Models\Inquiry.cs" />
     <Compile Include="Areas\Api\Models\InquiryAttachment.cs" />
+    <Compile Include="Areas\Api\Models\InquiryBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\InquiryItem.cs" />
     <Compile Include="Areas\Api\Models\InquiryItemsResponse.cs" />
     <Compile Include="Areas\Api\Models\InquiryListView.cs" />
@@ -3371,6 +3374,7 @@
     <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
+    <Folder Include="Areas\Api\Views\InquiryBase\" />
     <Folder Include="Areas\Api\Views\InquiryItem\" />
     <Folder Include="Areas\Api\Views\InquiryProgress\" />
     <Folder Include="Areas\Api\Views\Inquiry\" />

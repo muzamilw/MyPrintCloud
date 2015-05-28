@@ -34,6 +34,11 @@
         /// <summary>
         /// Invoices
         /// </summary>
-        Invoices = 13
+        Invoices = 13,
+
+        /// <summary>
+        /// Inquiries
+        /// </summary>
+        Inquiries = 58
     }
 }
