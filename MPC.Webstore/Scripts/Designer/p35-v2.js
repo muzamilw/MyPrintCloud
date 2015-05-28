@@ -2227,3 +2227,6 @@ $("#btnContactImage").click(function () {
 $("#btnGoToLandingPage").click(function () {
     window.location.href = "/ProductOptions/0/" + item.RefItemId + "/UploadDesign";
 });
+$("#btnImagePlaceHolder").click(function () {
+    d1PlaceHoldToCanvas();
+});

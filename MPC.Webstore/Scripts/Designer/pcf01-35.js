@@ -248,6 +248,41 @@ function d1ContactLogoToCanvas(x, y) {
     TO.push(D1NIO);
 
 }
+
+function d1PlaceHoldToCanvas() {
+    var center = canvas.getCenter();
+    var canvasHeight = Math.floor(canvas.height);
+    var canvasWidth = Math.floor(canvas.width);
+    var D1NIO = {};
+    D1NIO = fabric.util.object.clone(TO[0]);
+    D1NIO.ObjectId = --NCI;
+    D1NIO.ObjectID = --NCI;
+    D1NIO.ColorHex = "#000000";
+    D1NIO.IsBold = false;
+    D1NIO.IsItalic = false;
+    D1NIO.ProductPageId = SP;
+    D1NIO.MaxWidth = 100;
+    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+    D1NIO.PositionX = center.left -150;
+    D1NIO.PositionY = center.top -150;
+    D1NIO.ObjectType = 3;
+
+    D1NIO.MaxHeight = 300;
+    D1NIO.Height = 300;
+    D1NIO.MaxWidth = 300;
+    D1NIO.Width = 300;
+
+    D1NIO.IsQuickText = true;
+    D1NIO.ContentString = "/Content/Designer/assets-v2/Imageplaceholder_sim.png";
+    D1NIO.DisplayOrder = TO.length + 1;
+    k31(canvas, D1NIO);
+    var OBS = canvas.getObjects();
+
+    D1NIO.DisplayOrderPdf = OBS.length;
+    canvas.renderAll();
+    TO.push(D1NIO);
+
+}
 function k35_load(DT) {
     // src = DT;
     // StopLoader();
@@ -2590,7 +2625,7 @@ function pcL20_new() {
     var src;
     if (D1AO && D1AO.type === 'image' && D1AO) {
         src = D1AO.getSrc();
-        if (src.indexOf("Imageplaceholder.png") == -1) {
+        if (src.indexOf("Imageplaceholder_sim.png") == -1) {
             $(".cropimage").attr('src', src + "?r=" + CzRnd);
             $(function () {
                 $('.cropimage').each(function () {
