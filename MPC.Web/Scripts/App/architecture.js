@@ -848,7 +848,7 @@ require(["ko", "knockout-validation"], function (ko) {
             var regExp = new RegExp("^{{[a-zA-Z0-9]*}}$");
             return regExp.test(val);
         },
-        message: 'Tag must start with {{, shouldnt contain space and end with }}'
+        message: 'Tag must start with {{ and end with }}, cannot contain spaces and special characters'
     };
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {

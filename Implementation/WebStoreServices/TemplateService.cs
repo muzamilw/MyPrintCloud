@@ -1868,6 +1868,7 @@ namespace MPC.Implementation.WebStoreServices
         // generate low res proof image from pdf file 
         private string generatePagePreview(byte[] PDFDoc, string savePath, string PreviewFileName, double CuttingMargin, int DPI, bool RoundCorners)
         {
+            CuttingMargin = DesignerUtils.PixelToPoint(CuttingMargin);
             using (Doc theDoc = new Doc())
             {
                 Stream str = null;
@@ -1915,7 +1916,7 @@ namespace MPC.Implementation.WebStoreServices
         public bool generatePagePreviewMultiplage(byte[] PDFDoc, string savePath, double CuttingMargin, int DPI, bool RoundCorners)
         {
 
-
+            CuttingMargin = DesignerUtils.PixelToPoint(CuttingMargin); // as when we get template back from Designer it contains cutting margin in pixels
             //XSettings.License = "810-031-225-276-0715-601";
             using (Doc theDoc = new Doc())
             {
