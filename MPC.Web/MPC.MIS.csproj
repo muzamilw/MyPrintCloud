@@ -2168,6 +2168,7 @@
     <Content Include="Areas\Production\Views\Home\LiveJobs.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_ProgressToOrderDialog.cshtml" />
     <Content Include="Areas\Products\Views\Home\_AddProductMarketBriefQuestion.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_AttachmentDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
