@@ -610,8 +610,8 @@ div#spinner {
   clear: both;
 }
 #storesBinding #tab-products .dd-handle-list {
-  height: 90%;
   overflow: hidden;
+  margin-top: 6px;
 }
 #storesBinding #tab-products .dd-handle {
   height: auto;
@@ -968,3 +968,4 @@ div#spinner {
 #itemJobStatusBinding .title {
   font-size: small;
 }
+/*# sourceMappingURL=MainSite.css.map */
