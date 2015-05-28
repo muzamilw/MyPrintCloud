@@ -11,7 +11,7 @@ namespace MPC.Interfaces.MISServices
         MachineListResponseModel GetAll(MachineRequestModel request);
         Machine Add(Machine machine);
         bool UpdateMachine(Machine machine);
-        long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
+        long AddMachine(Machine machine, MachineClickChargeZone ClickCharge, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int Type);
         
         bool archiveMachine(long machineId);
         MachineResponseModel GetMachineById(long id);

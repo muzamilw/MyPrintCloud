@@ -130,7 +130,21 @@
         <td><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
         <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
 
-        <td data-bind="text: LookupMethodName"></td>
+        <!-- ko if: MachineCatId()=== 4 -->
+                <td>Guillotine Click Charge</td>
+        <!-- /ko -->
+        <!-- ko ifnot: MachineCatId()=== 4 -->
+        <!-- ko if: isSheetFed() -->
+                <td>Click Charge Zone</td>
+                <!-- /ko -->
+                <!-- ko ifnot: isSheetFed() -->
+                <td>Meter Per Hour</td>
+                <!-- /ko -->
+        <!-- /ko -->
+
+       
+
+        @*<td data-bind="text: LookupMethodName"></td>*@
         <td id="actionColumn">
             <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
             <!-- /ko -->
