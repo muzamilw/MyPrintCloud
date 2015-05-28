@@ -251,8 +251,8 @@
                                                 </header>*@
                                             <div class="clearfix">
                                                 <div class="col-lg-12">
-                                                    <img id="idCostcenterimage" style="width:250px;height:130px;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                                    <img style="width:250px;height:130px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                                    <img id="idCostcenterimage" style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                                    <img style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
                                                 </div>
 
                                                 <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:250px;">
@@ -261,7 +261,7 @@
                                                         <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12" style="text-align:center;">
+                                                <div class="col-lg-12" style="text-align:center;margin-top:10px;width:250px;">
                                                     Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.
                                                 </div>
                                                 <div class="profile-stars">
@@ -596,8 +596,8 @@
                             </div>
                             <div class="tab-pane fade" id="tab-territory" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    @*<h3 class="group-header">Store Users and Visitors</h3>*@
-                                    <p class="group-header-description" style="width:50%;">Store user could be corporate/private store administrator, managers(approvers) and end users. Users can also be new visitors that register on this store.</p>
+                                    <h3 class="group-header">Store Users and Visitors</h3>
+                                    <p class="group-header-description">Store user could be corporate/private store administrator, managers(approvers) and end users. Users can also be new visitors that register on this store.</p>
 
 
 
@@ -638,9 +638,7 @@
                                                                     <thead>
                                                                         <tr>
                                                                             @*<th class="col-lg-1"></th>*@
-                                                                            <th>
-                                                                                <div class="img col-xs-2">
-                                                                                </div>
+                                                                            <th style="padding-left:0px;">
                                                                                 <div class="details col-lg-1">
                                                                                     Name
                                                                                 </div>
@@ -896,7 +894,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 1</label>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="margin-left:10px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId1"></select>   @*,value: $root.selectedClaimFilterListitem*@
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -910,8 +908,9 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 2</label>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId2"></select>
+                                            <div class="col-lg-6" style="margin-left:10px;">
+                                                <select class=" form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId2">
+                                                </select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -924,8 +923,9 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 1</label>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId1"></select>
+                                            <div class="col-lg-6" style="margin-left:10px;">
+                                                <select class=" form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId1">
+                                                </select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -938,7 +938,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 2</label>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="margin-left:10px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId2"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -952,7 +952,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 1</label>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="margin-left:10px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId1"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -966,7 +966,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 2</label>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="margin-left:10px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId2"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -1054,8 +1054,8 @@
 
                                                 <div class="clearfix">
 
-                                                    <img width="242" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
-                                                    <img width="242" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
+                                                    <img style="width:240px;height:130px;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
+                                                    <img style="width:240px;height:130px;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
                                                     <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:242px;">
                                                         <div class="fileUpload btn btn-primary" data-bind="click:$root.showMediaLibraryDialogFromStoreBackground">
                                                             <span>Change Background</span>
@@ -1103,7 +1103,7 @@
                                                 </div>
                                                 @*<label class="control-label text-right tooltip-float">Map Options</label>*@
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-9" style="padding-left:5px !important;">
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadiosMap" id="rdiolatlong" value="1" data-bind="checked: isShowGoogleMap">
                                                     <label for="rdiolatlong">
@@ -1126,19 +1126,19 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-6">
 
-                                                        <div class="clearfix">
+                                                        <div class="clearfix" style="margin-left:10px;margin-top:10px;">
 
 
-                                                            <img width="200" data-bind="visible:mapImageUrlBinary()===undefined,attr: { src: '@Url.Content("~/")' +mapImageUrl() }" />
-                                                            <img width="200" data-bind="visible:mapImageUrlBinary()!==undefined,attr: { src: mapImageUrlBinary }" />
-                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;">
+                                                            <img style="width:240px;height:130px;" data-bind="visible:mapImageUrlBinary()===undefined,attr: { src: '@Url.Content("~/")' +mapImageUrl() }" />
+                                                            <img style="width:240px;height:130px;" data-bind="visible:mapImageUrlBinary()!==undefined,attr: { src: mapImageUrlBinary }" />
+                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:240px;">
                                                                 <div class="fileUpload btn btn-primary">
-                                                                    <span>Upload </span>
+                                                                    <span>Upload</span>
                                                                     <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeMapImageLoadedCallback, fileFilter: 'image.*'}" />
                                                                 </div>
 
                                                             </div>
-                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center; margin-top:10px !important;">Upoad Your Map.</div>
+                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center; margin-top:10px !important;width:240px;">Upoad Your Map.</div>
                                                             <div class="profile-stars">
                                                                 <span data-bind="value: type"></span>
                                                             </div>
@@ -1199,14 +1199,15 @@
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload media files</label>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-1" style="padding-left:0px;">
+                                            <div class="col-lg-8">
+                                                <div style="padding-left:0px;">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>Upload Multiple Files</span>
                                                         <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
-                                                                                    <div class="col-lg-5 ThoumbnailCostCenter" style="margin-top:10px;padding-left:0px;text-align:center;">
+                                                
+                                                                                    <div class="col-lg-5 ThoumbnailCostCenter" style="margin-top:10px;padding-left:0px;width:200px;margin-top:10px;">
                                                                                         Upload Media files (JPG,GIF,PNG) here which can be used throughout store in Home Page banners,  user defined pages banners etc.
                                                                                     </div>
                                             </div>
@@ -1404,13 +1405,13 @@
 
 
                                                 <div class="clearfix">
-                                                    <img alt="" style="border: dotted; border-width: 1px;float:left; width: 200px; height: 150px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
+                                                    <img alt="" style="border: dotted; border-width: 1px;float:left; width:240px; height: 130px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
 
                                                     @*<img width="250" id="idCostcenterimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
                                                         <img width="250" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />*@
 
                                                     <div class="col-lg-12" style="padding-left:0px;">
-                                                        <div class="col-lg-6" style="margin-top: 5px;text-align:center;padding-left: 0px;width: 200px;">
+                                                        <div class="col-lg-6" style="margin-top: 5px;text-align:center;padding-left: 0px;width: 250px;">
                                                             <div class="fileUpload btn btn-primary">
                                                                 <span>Upload </span>
                                                                 <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.spriteImageLoadedCallback, fileFilter: 'image.*'}" />
@@ -1423,8 +1424,8 @@
                                                     @*<div class="col-lg-3" style="margin-top: 5px;text-align:center;">
 
                                                         </div>*@
-                                                    <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;">
-                                                        <div class="col-lg-6" style="width:200px;">
+                                                    <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;padding-left:0px;">
+                                                        <div class="col-lg-6" style="width:250px;">
                                                             Download and make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings.
                                                         </div>
 
@@ -1796,7 +1797,7 @@
                                                 <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
                                                     <div class="filter-block">
                                                         <a class="btn btn-primary" style="margin-bottom:11px;margin-left:0px;" data-bind="click: $root.onCreateNewRaveReview">
-                                                            Add Rave Review
+                                                            Add New Rave Review
                                                         </a>
                                                     </div>
                                                 </div>
@@ -1968,27 +1969,27 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <br />
                                                 <!--ko if: $root.selectedStore().isTextWatermark() == 'true' -->
 
-                                                <input type="text" class="form-control" id="txtWaterMArk" placeholder="Enter Watermark Text" data-bind="value: $root.selectedStore().watermarkText">
+                                                <input type="text" class="form-control" id="txtWaterMArk" placeholder="Enter Watermark Text" data-bind="value: $root.selectedStore().watermarkText" style="margin-left:3px;">
                                                 <br />
                                                 <!-- /ko -->
                                                 <!--ko if: $root.selectedStore().isTextWatermark() == 'false' -->
                                                 <div class="form-group">
                                                     <div class="col-lg-6">
-                                                        <div class="clearfix">
+                                                        <div class="clearfix" style="margin-left:10px;">
 
-                                                            <img width="200" data-bind="visible:storeWorkflowImage()==undefined,attr: { src: '@Url.Content("~/")' + $root.selectedStore().storeWorkflowImageBinary() }" />
-                                                            <img width="200" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />
-                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;">
+                                                            <img style="width:240px;height:130px;" data-bind="visible:storeWorkflowImage()==undefined,attr: { src: '@Url.Content("~/")' + $root.selectedStore().storeWorkflowImageBinary() }" />
+                                                            <img style="width:240px;height:130px;" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />
+                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:240px;">
                                                                 <div class="fileUpload btn btn-primary">
                                                                     <span>Upload </span>
                                                                     <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeWorkflowImageLoadedCallback, fileFilter: 'image.*'}" />
                                                                 </div>
 
                                                             </div>
-                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;">Upload a image (PNG,JPG,GIF) which will be used as watermark in PDF and image proofs of Designer artwork output for proofing purpose.</div>
+                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;width:240px;text-align:center;">Upload a image (PNG,JPG,GIF) which will be used as watermark in PDF and image proofs of Designer artwork output for proofing purpose.</div>
                                                             @*<div class="profile-stars">
-                                                                    <span data-bind="value: type"></span>
-                                                                </div>*@
+                                            <span data-bind="value: type"></span>
+                                        </div>*@
 
                                                         </div>
 
@@ -1998,14 +1999,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 
                                                         @*<img width="200" data-bind="visible:storeWorkflowImage()==undefined,attr: { src: '@Url.Content("~/")' + $root.selectedStore().storeWorkflowImageBinary() }" />
-                                                            <img width="200" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />*@
+                                    <img width="200" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />*@
                                                     </div>
                                                     @*<div class="col-lg-1">
-                                                            <div class="fileUpload btn btn-primary">
-                                                                <span>....</span>
-                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeWorkflowImageLoadedCallback, fileFilter: 'image.*'}" />
-                                                            </div>
-                                                        </div>*@
+                                    <div class="fileUpload btn btn-primary">
+                                        <span>....</span>
+                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeWorkflowImageLoadedCallback, fileFilter: 'image.*'}" />
+                                    </div>
+                                </div>*@
                                                 </div>
                                                 <!-- /ko -->
 
@@ -2033,9 +2034,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width" style="padding-left: 12px;" ">
-                                                                                        <a class=" input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Decide if users will pay online or checkout without payment.  NOTE: this is a global option for a retail store but controlled on a contact-by-contact basis under the user settings within this store.  Must enable online payments to force visitors to pay online" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Decide if users will pay online or checkout without payment.  NOTE: this is a global option for a retail store but controlled on a contact-by-contact basis under the user settings within this store.  Must enable online payments to force visitors to pay online" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
                                                 @*<label class="control-label text-right tooltip-float">Payment processing option</label>*@
@@ -2056,23 +2057,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        @*<div class="form-group">
-                                                <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="onoffswitchAcceptOnline">Activate online payments ?</label>
-                                                <div class="col-md-3">
-                                                    <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchAcceptOnline" data-bind="checked: $root.selectedStore().isBrokerCanAcceptPaymentOnline">
-                                                        <label class="onoffswitch-label" for="onoffswitchAcceptOnline">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>*@
-
 
                                         <!--ko if: $root.selectedStore().type() != 4-->
-
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
@@ -2090,9 +2076,16 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                             </div>
                                         </div>
-
                                         <!--/ko-->
+
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-12 form-horizontal">
+                                    <h3>Store Miscellaneous Settings</h3>
+                                    <div class="col-lg-9" style="padding-left:12px">
                                         <div class="form-group">
+
                                             <div class="col-md-3"></div>
 
                                             <div class="col-md-6">
@@ -2189,365 +2182,365 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Tax Settings</h3>
-                                    <div class="col-lg-12 clearfix">
-                                        <div class="col-lg-9">
-                                            <div class="form-group" id="taxLabel">
-                                                <div class="col-lg-3 text-right">
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="< No Text >" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>*@
-                                                    <label class="control-label text-right tooltip-float">Tax Title/Label</label>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="input-group" style="width:50%;">
-                                                        <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>*@
-                                                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Calculate Tax By external Service ?</label>*@
-                                                </div>
-                                                <div class="col-lg-6" style="padding-left:3px;">
-                                                    <div class="radio">
-                                                        <input type="radio" name="optionsRadios1" id="optionYes1" value="true" data-bind="    checked: $root.selectedStore().isCalculateTaxByService, event: { click: $root.calculateTaxByServiceHandler }">
-                                                        <label for="optionYes1">
-                                                            Calculate Tax By external Service
-                                                        </label>
-                                                    </div>
-                                                    <div class="radio">
-                                                        <input type="radio" name="optionsRadios1" id="optionNo1" value="false" data-bind="    checked: $root.selectedStore().isCalculateTaxByService, event: { click: $root.calculateTaxByServiceHandler }">
-                                                        <label for="optionNo1">
-                                                            Store Tax
-                                                        </label>
-                                                    </div>
-                                                    <span class="help-block text-right">&nbsp; </span>
-                                                </div>
-                                            </div>
-
-                                            <!--ko if: $root.selectedStore().isCalculateTaxByService() == 'false' -->
-
-
-                                            <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default tax uplift (Defined also by individual products).  Does not apply to USA customers" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>*@
-                                                    @*<label class="control-label text-right tooltip-float">Store Tax</label>*@
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="input-group" style="width:50%;">
-                                                        <input type="text" style="margin-left:-3px;" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
-                                                        <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="By Setting no this will display the product prices without tax and tax will be calculated when checking out if Tax percentage is not zero." data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>*@
-                                                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float"></label>*@
-                                                </div>
-                                                <div class="col-lg-6" style="padding-left:3px;">
-                                                    <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionYes" value="true" data-bind="checked: $root.selectedStore().isIncludeVAT, event:{click:$root.vatHandler}">
-                                                        <label for="optionYes">
-                                                            Display prices on store including tax
-                                                        </label>
-                                                    </div>
-                                                    <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionNo" value="false" data-bind="checked: $root.selectedStore().isIncludeVAT, event:{click:$root.vatHandler}">
-                                                        <label for="optionNo">
-                                                            Display prices on store excluding tax
-                                                        </label>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-
-
-
-                                            <!-- /ko -->
-
-
-
-
-
-
-
-
-                                        </div>
-
                                     </div>
-                                </div>
-                                <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Store Payment Gateways</h3>
-
-                                    <div class="col-lg-9">
-                                        <div class="form-group">
-
-
-                                            <div class="col-lg-3">
-
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <header class="main-box-header clearfix" style="width:220%;margin-right:0px;padding-right:0px;">
-                                                    <div class="filter-block pull-right">
-                                                        <div class="form-group pull-left" style="margin-right: 2px;">
-                                                            <input type="text" class="form-control" placeholder="Search...">
-                                                            <i class="fa fa-search search-icon"></i>
-                                                        </div>
-
-                                                    </div>
-                                                </header>
-                                                <div style="background-color:gainsboro; border-radius:3px;width:220%;  margin-left: 3px;padding-right: 0px">
-                                                    <header class="main-box-header clearfix">
-                                                        <div style="float:left;"><span style="font-size:24px">Payment Gateways</span></div>
-                                                    </header>
-                                                    <div class="main-box-body clearfix">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-striped table-hover">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th><span>Gateway</span></th>
-                                                                        <th><span>Description</span></th>
-                                                                        <th><span>Status</span></th>
-
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <!-- ko template: { name: 'itemPaymentGatewayTemplate' , foreach: $root.selectedStore().paymentGateway } -->
-                                                                    <!-- /ko -->
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;margin-left:-6px;">
-                                                    <a data-toggle="modal" class="btn btn-primary" data-bind="click:$root.onCreateNewPaymentGateway">
-                                                        Add New Payment Gateway
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-                                        @*<div class="main-box-body clearfix">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th><span>Gateway</span></th>
-                                                                <th><span>Description</span></th>
-                                                                <th><span>Status</span></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <!-- ko template: { name: 'itemPaymentGatewayTemplate' , foreach: $root.selectedStore().paymentGateway } -->
-                                                            <!-- /ko -->
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>*@
-                                    </div>
-
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Configure how "auto push" order information is passed to third parties by email</h3>
+                                        <h3 class="group-header">Tax Settings</h3>
+                                        <div class="col-lg-12 clearfix">
+                                            <div class="col-lg-9">
+                                                <div class="form-group" id="taxLabel">
+                                                    <div class="col-lg-3 text-right">
+                                                        @*<div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="< No Text >" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>*@
+                                                        <label class="control-label text-right tooltip-float">Tax Title/Label</label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="input-group" style="width:50%;">
+                                                            <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        @*<div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>*@
+                                                        @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Calculate Tax By external Service ?</label>*@
+                                                    </div>
+                                                    <div class="col-lg-6" style="padding-left:3px;">
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadios1" id="optionYes1" value="true" data-bind="    checked: $root.selectedStore().isCalculateTaxByService, event: { click: $root.calculateTaxByServiceHandler }">
+                                                            <label for="optionYes1">
+                                                                Calculate Tax By external Service
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadios1" id="optionNo1" value="false" data-bind="    checked: $root.selectedStore().isCalculateTaxByService, event: { click: $root.calculateTaxByServiceHandler }">
+                                                            <label for="optionNo1">
+                                                                Store Tax
+                                                            </label>
+                                                        </div>
+                                                        <span class="help-block text-right">&nbsp; </span>
+                                                    </div>
+                                                </div>
+
+                                                <!--ko if: $root.selectedStore().isCalculateTaxByService() == 'false' -->
+
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        @*<div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default tax uplift (Defined also by individual products).  Does not apply to USA customers" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>*@
+                                                        @*<label class="control-label text-right tooltip-float">Store Tax</label>*@
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="input-group" style="width:50%;">
+                                                            <input type="text" style="margin-left:-3px;" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
+                                                            <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        @*<div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="By Setting no this will display the product prices without tax and tax will be calculated when checking out if Tax percentage is not zero." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>*@
+                                                        @*<label for="txtCompanyName" class="control-label text-right tooltip-float"></label>*@
+                                                    </div>
+                                                    <div class="col-lg-6" style="padding-left:3px;">
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadios" id="optionYes" value="true" data-bind="checked: $root.selectedStore().isIncludeVAT, event:{click:$root.vatHandler}">
+                                                            <label for="optionYes">
+                                                                Display prices on store including tax
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadios" id="optionNo" value="false" data-bind="checked: $root.selectedStore().isIncludeVAT, event:{click:$root.vatHandler}">
+                                                            <label for="optionNo">
+                                                                Display prices on store excluding tax
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+
+
+                                                <!-- /ko -->
+
+
+
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Store Payment Gateways</h3>
+
                                         <div class="col-lg-9">
-
-
-
                                             <div class="form-group">
-                                                <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
-                                                    <label style="padding: 0px;" for="switchProductPrices">Include Order detailed Report</label>
 
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="onoffswitch" style="margin-right:0px;">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderReport" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderReport">
-                                                        <label class="onoffswitch-label" for="onoffswitchOrderReport">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
-                                                    </div>
+                                                <div class="col-lg-3">
 
                                                 </div>
-                                            </div>
-
-
-
-
-
-
-
-
-
-
-
-                                            @*<div class="form-group">
-                                                    <div class="col-lg-6 text-right">
-                                                        <label class="control-label text-right" for="switchSecondaryPages">Include Order detailed Report ?</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div>
-                                                            <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderReport" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderReport">
-                                                                <label class="onoffswitch-label" for="onoffswitchOrderReport">
-                                                                    <div class="onoffswitch-inner"></div>
-                                                                    <div class="onoffswitch-switch"></div>
-                                                                </label>
+                                                <div class="col-lg-6">
+                                                    <header class="main-box-header clearfix" style="width:220%;margin-right:0px;padding-right:0px;">
+                                                        <div class="filter-block pull-right">
+                                                            <div class="form-group pull-left" style="margin-right: 2px;">
+                                                                <input type="text" class="form-control" placeholder="Search...">
+                                                                <i class="fa fa-search search-icon"></i>
                                                             </div>
-                                                            <span class="help-block text-right"></span>
+
+                                                        </div>
+                                                    </header>
+                                                    <div style="background-color:gainsboro; border-radius:3px;width:220%;  margin-left: 3px;padding-right: 0px">
+                                                        <header class="main-box-header clearfix">
+                                                            <div style="float:left;"><span style="font-size:24px">Payment Gateways</span></div>
+                                                        </header>
+                                                        <div class="main-box-body clearfix">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th><span>Gateway</span></th>
+                                                                            <th><span>Description</span></th>
+                                                                            <th><span>Status</span></th>
+
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <!-- ko template: { name: 'itemPaymentGatewayTemplate' , foreach: $root.selectedStore().paymentGateway } -->
+                                                                        <!-- /ko -->
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>*@
-
-
-                                            <div class="form-group">
-                                                <div class="col-md-3"></div>
-
-                                                <div class="col-md-6">
-                                                    <label style="padding: 0px;" for="switchProductPrices">Include Order information in XML format</label>
-
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="onoffswitch" style="margin-right:0px;">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchxmlformat" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderXML">
-                                                        <label class="onoffswitch-label" for="onoffswitchxmlformat">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
+                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;margin-left:-6px;">
+                                                        <a data-toggle="modal" class="btn btn-primary" data-bind="click:$root.onCreateNewPaymentGateway">
+                                                            Add New Payment Gateway
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
 
 
 
+                                            @*<div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><span>Gateway</span></th>
+                                        <th><span>Description</span></th>
+                                        <th><span>Status</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ko template: { name: 'itemPaymentGatewayTemplate' , foreach: $root.selectedStore().paymentGateway } -->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>*@
+                                        </div>
+
+                                        <div class="col-lg-12 form-horizontal">
+                                            <h3 class="group-header">Configure how "auto push" order information is passed to third parties by email</h3>
+                                            <div class="col-lg-9">
 
 
 
-                                            @*<div class="form-group">
-                                                    <div class="col-lg-6 text-right">
-                                                        <label class="control-label text-right" for="switchSecondaryPages">Include Order information in XML format</label>
+                                                <div class="form-group">
+                                                    <div class="col-md-3"></div>
+
+                                                    <div class="col-md-6">
+                                                        <label style="padding: 0px;" for="switchProductPrices">Include Order detailed Report</label>
+
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div>
-                                                            <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchxmlformat" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderXML">
-                                                                <label class="onoffswitch-label" for="onoffswitchxmlformat">
-                                                                    <div class="onoffswitch-inner"></div>
-                                                                    <div class="onoffswitch-switch"></div>
-                                                                </label>
-                                                            </div>
-                                                            <span class="help-block text-right"></span>
+                                                    <div class="col-md-3">
+                                                        <div class="onoffswitch" style="margin-right:0px;">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderReport" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderReport">
+                                                            <label class="onoffswitch-label" for="onoffswitchOrderReport">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
                                                         </div>
-                                                    </div>
-                                                </div>*@
-                                            <div class="form-group">
-                                                <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
-                                                    <label style="padding: 0px;" for="switchProductPrices">Include Job Card report for each item/product</label>
-
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="onoffswitch" style="margin-right:0px;">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderforeach" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderJobCard">
-                                                        <label class="onoffswitch-label" for="onoffswitchOrderforeach">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
                                                     </div>
                                                 </div>
-                                            </div>
 
 
 
-                                            @*<div class="form-group">
-                                                    <div class="col-lg-6 text-right">
-                                                        <label class="control-label text-right" for="switchSecondaryPages">Include Job Card report for each item/product</label>
+
+
+
+
+
+
+
+
+                                                @*<div class="form-group">
+                            <div class="col-lg-6 text-right">
+                                <label class="control-label text-right" for="switchSecondaryPages">Include Order detailed Report ?</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <div>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderReport" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderReport">
+                                        <label class="onoffswitch-label" for="onoffswitchOrderReport">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                    <span class="help-block text-right"></span>
+                                </div>
+                            </div>
+                        </div>*@
+
+
+                                                <div class="form-group">
+                                                    <div class="col-md-3"></div>
+
+                                                    <div class="col-md-6">
+                                                        <label style="padding: 0px;" for="switchProductPrices">Include Order information in XML format</label>
+
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div>
-                                                            <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderforeach" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderJobCard">
-                                                                <label class="onoffswitch-label" for="onoffswitchOrderforeach">
-                                                                    <div class="onoffswitch-inner"></div>
-                                                                    <div class="onoffswitch-switch"></div>
-                                                                </label>
-                                                            </div>
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>*@
-
-
-                                            <div class="form-group">
-                                                <div class="col-md-3"></div>
-
-                                                <div class="col-md-6">
-                                                    <label style="padding: 0px;" for="switchProductPrices">Make template artwork production ready by removing watermarks</label>
-
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="onoffswitch" style="margin-right:0px;">
-                                                        <div class="onoffswitch" style="float:right;margin-right:0px;">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderemovwWater" data-bind="checked: $root.selectedStore().makeEmailBrokerArtworkOrderProductionReady">
-                                                            <label class="onoffswitch-label" for="onoffswitchOrderemovwWater">
+                                                    <div class="col-md-3">
+                                                        <div class="onoffswitch" style="margin-right:0px;">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchxmlformat" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderXML">
+                                                            <label class="onoffswitch-label" for="onoffswitchxmlformat">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
                                                             </label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
 
 
 
-                                            @*<div class="form-group">
-                                                    <div class="col-lg-6 text-right">
-                                                        <label class="control-label text-right" for="switchSecondaryPages">Make template artwork production ready by removing watermarks</label>
+
+
+                                                @*<div class="form-group">
+                            <div class="col-lg-6 text-right">
+                                <label class="control-label text-right" for="switchSecondaryPages">Include Order information in XML format</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <div>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchxmlformat" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderXML">
+                                        <label class="onoffswitch-label" for="onoffswitchxmlformat">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                    <span class="help-block text-right"></span>
+                                </div>
+                            </div>
+                        </div>*@
+                                                <div class="form-group">
+                                                    <div class="col-md-3"></div>
+
+                                                    <div class="col-md-6">
+                                                        <label style="padding: 0px;" for="switchProductPrices">Include Job Card report for each item/product</label>
+
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div>
-                                                            <div class="onoffswitch">
+                                                    <div class="col-md-3">
+                                                        <div class="onoffswitch" style="margin-right:0px;">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderforeach" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderJobCard">
+                                                            <label class="onoffswitch-label" for="onoffswitchOrderforeach">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                @*<div class="form-group">
+                            <div class="col-lg-6 text-right">
+                                <label class="control-label text-right" for="switchSecondaryPages">Include Job Card report for each item/product</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <div>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderforeach" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderJobCard">
+                                        <label class="onoffswitch-label" for="onoffswitchOrderforeach">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                    <span class="help-block text-right"></span>
+                                </div>
+                            </div>
+                        </div>*@
+
+
+                                                <div class="form-group">
+                                                    <div class="col-md-3"></div>
+
+                                                    <div class="col-md-6">
+                                                        <label style="padding: 0px;" for="switchProductPrices">Make template artwork production ready by removing watermarks</label>
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="onoffswitch" style="margin-right:0px;">
+                                                            <div class="onoffswitch" style="float:right;margin-right:0px;">
                                                                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderemovwWater" data-bind="checked: $root.selectedStore().makeEmailBrokerArtworkOrderProductionReady">
                                                                 <label class="onoffswitch-label" for="onoffswitchOrderemovwWater">
                                                                     <div class="onoffswitch-inner"></div>
-                                                                    <div class="onoffswitch-switch"></div>
+                                                                    <div class="onoffswitch-switch" style="height:18px;"></div>
                                                                 </label>
                                                             </div>
-                                                            <span class="help-block text-right"></span>
                                                         </div>
                                                     </div>
-                                                </div>*@
+                                                </div>
+
+
+
+
+                                                @*<div class="form-group">
+                            <div class="col-lg-6 text-right">
+                                <label class="control-label text-right" for="switchSecondaryPages">Make template artwork production ready by removing watermarks</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <div>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderemovwWater" data-bind="checked: $root.selectedStore().makeEmailBrokerArtworkOrderProductionReady">
+                                        <label class="onoffswitch-label" for="onoffswitchOrderemovwWater">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                    <span class="help-block text-right"></span>
+                                </div>
+                            </div>
+                        </div>*@
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             <div class="tab-pane clearfix fade" id="tab-pageeditor" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-3">
                                     <div class="clearfix">
@@ -3191,7 +3184,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 @*<img src="" alt="" data-bind="attr: { src: imageSource }" />*@
                 <a href="#" class="store-user-link" data-bind="text: pageTitle"></a>
                 @*<a href="#" class="store-user-link storeSubText" data-bind="text: metaTitle"></a>*@
-                <span class="label" style="font-weight:100;color:black;" data-bind="text: metaTitle"></span>
+                <span class="label" style="font-weight:100;color:black;padding-left:0px;" data-bind="text: metaTitle"></span>
             </td>
             <td data-bind="text:categoryName, visible: isUserDefined"></td>
             <td class="text-center" data-bind="visible: isUserDefined">
@@ -3300,11 +3293,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </script>
     <script id="itemCompanyContactTemplate" type="text/html">
         <tr style="cursor: pointer" data-bind="click: $root.onEditCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact }">
-            <td style="width: 20%; max-width: 20%; padding-top: 35px;">
-                <div class="img col-xs-2">
-                    @*<img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />*@
-                </div>
-                <div class="col-xs-10">
+            <td style="width: 20%; max-width: 20%;">
+               <div class="col-xs-10" style="padding-left:0px;">
                     <a href="#" class="store-user-link" data-bind="text: firstName()+' '+lastName()"></a>
 
                     @*<div class="name">
@@ -3405,7 +3395,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </script>
     <script id="itemProductCategoriesTemplate" type="text/html">
         <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}, attr: {id: productCategoryId}">
-            <div class="dd-handle-list cursorShape"><i class="fa fa-chevron-circle-right" data-bind="click: $root.getCategoryChildListItems"></i></div>
+            <div class="dd-handle-list cursorShape" style="height:32px !important;margin-top:5px;">
+            <i class="fa fa-chevron-circle-right" data-bind="click: $root.getCategoryChildListItems"></i></div>
             <div class="dd-handle col-sm-12">
                 <span data-bind="text: categoryName" class="col-sm-10 cursorShape"></span>
                 <div class="nested-links">
