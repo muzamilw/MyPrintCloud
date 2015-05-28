@@ -5,7 +5,7 @@ define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
         "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model"],
 // ReSharper disable InconsistentNaming
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel, floatingSec) {
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel) {
         // ReSharper restore InconsistentNaming
         var ist = window.ist || {};
         ist.order = {
@@ -236,23 +236,13 @@ define("order/order.viewModel",
                     //Is Inventory Dialog is opening for Section Cost Center
                     isAddProductForSectionCostCenter = ko.observable(false),
                     orderHasChanges = ko.computed(function() {
-                        var hasChanges = false, productChanges = false, sectionHasChanges = false;
+                        var hasChanges = false;
                         if (selectedOrder()) {
                             hasChanges = selectedOrder().hasChanges();
                         }
-
-                        if (selectedProduct()) {
-                            productChanges = selectedProduct().hasChanges();
-                        }
-
-                        if (selectedSection()) {
-                            sectionHasChanges = selectedSection().hasChanges();
-                        }
-
-                        return hasChanges || productChanges || sectionHasChanges;
+                        
+                        return hasChanges;
                     }),
-
-
                     // Create New Order
                     createOrder = function() {
                         selectedOrder(model.Estimate.Create({}, { SystemUsers: systemUsers() }));
@@ -407,8 +397,10 @@ define("order/order.viewModel",
                             counterForSection = counterForSection - 1;
                             itemSectionForAddView.id(counterForSection);
                             item.itemSections.push(itemSectionForAddView);
+                            item.reset();
                         }
                         selectedProduct(item);
+                        selectedOrder().reset();
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
                         openItemDetail();

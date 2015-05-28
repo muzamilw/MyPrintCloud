@@ -47,6 +47,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CsNo = source.CsNo,
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty,
                 DeliveryDate = source.DeliveryDate,
+                IsStatus = source.IsStatus,
                 FlagId = source.FlagId,
                 ContactCompany = source.ContactCompany,
                 FlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : string.Empty,

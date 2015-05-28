@@ -17,7 +17,8 @@ namespace MPC.Repository.Repositories
 {
     public class DeliveryNoteRepository : BaseRepository<DeliveryNote>, IDeliveryNoteRepository
     {
-        public DeliveryNoteRepository(IUnityContainer container) : base(container)
+        public DeliveryNoteRepository(IUnityContainer container)
+            : base(container)
         {
         }
 
@@ -49,7 +50,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<DeliveryNote, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) ||
-                      item.CustomerOrderReff.Contains(request.SearchString)));
+                      item.CustomerOrderReff.Contains(request.SearchString)) && item.IsStatus == request.Status);
             IEnumerable<DeliveryNote> deliveryNotes = request.IsAsc
                 ? DbSet.Where(query)
                     .OrderBy(_deliveryNoteByClause[request.ItemOrderBy])

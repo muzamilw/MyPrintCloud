@@ -31,6 +31,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     isEditorVisible = ko.observable(false),
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
+                    currentTab = ko.observable(19),
                     // #region Observables
                     selectedDeliveryNote = ko.observable(model.DeliveryNote()),
                     // For List View
@@ -78,14 +79,21 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         return contactResult || defaultCompanyContact();
                     }),
                     // #endregion
-
-                // Get Items
+                    getDeliveryNotesOnTabChange = function (currentTabStatus) {
+                        searchFilter(undefined);
+                        currentTab(currentTabStatus);
+                        pager(new pagination.Pagination({ PageSize: 5 }, deliverNoteListView, getdeliveryNotes));
+                        pager().reset();
+                        getdeliveryNotes();
+                    },
+                // Get Delivery Notes
                 getdeliveryNotes = function () {
                     dataservice.getdeliveryNotes({
                         SearchString: searchFilter(),
                         PageSize: pager().pageSize(),
                         PageNo: pager().currentPage(),
                         SortBy: sortOn(),
+                        Status: currentTab(),
                         IsAsc: sortIsAsc()
                     }, {
                         success: function (data) {
@@ -161,6 +169,17 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         isEditorVisible(true);
                     },
                     onCloseEditor = function () {
+                        if (selectedDeliveryNote().hasChanges() && selectedDeliveryNote().isStatus() !== 20) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(function () {
+                                onSaveDeliveryNotes();
+                            });
+                            confirmation.afterCancel(function () {
+                                isEditorVisible(false);
+                            });
+                            confirmation.show();
+                            return;
+                        }
                         isEditorVisible(false);
                     },
                      // Open Company Dialog
@@ -311,12 +330,21 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         if (!dobeforeSave()) {
                             return;
                         }
-                        selectedDeliveryNote().isStatus(20);
-                        var deliveryNotes = selectedDeliveryNote().convertToServerData();
-                        _.each(selectedDeliveryNote().deliveryNoteDetails(), function (item) {
-                            deliveryNotes.DeliveryNoteDetails.push(item.convertToServerData(item));
+
+                        confirmation.messageText("Are you sure you want to Post Delivery Note?");
+                        confirmation.afterProceed(function () {
+                            selectedDeliveryNote().isStatus(20);
+                            var deliveryNotes = selectedDeliveryNote().convertToServerData();
+                            _.each(selectedDeliveryNote().deliveryNoteDetails(), function (item) {
+                                deliveryNotes.DeliveryNoteDetails.push(item.convertToServerData(item));
+                            });
+                            saveDeliveryNote(deliveryNotes);
                         });
-                        saveDeliveryNote(deliveryNotes);
+                        confirmation.afterCancel(function () {
+
+                        });
+                        confirmation.show();
+                        return;
                     },
                     // Delete Delivry Notes
                 onDeleteDeliveryNote = function () {
@@ -360,6 +388,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                 selectedDeliveryNoteForListView().flagColor(data.FlagColor);
                                 selectedDeliveryNoteForListView().orderReff(data.OrderReff);
                                 selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
+                                if (currentTab() !== data.IsStatus) {
+                                    deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                                }
                             }
                             isEditorVisible(false);
                             toastr.success("Saved Successfully.");
@@ -431,7 +462,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     gotoElement: gotoElement,
                     deliveryCarriers: deliveryCarriers,
                     onDeleteDeliveryNote: onDeleteDeliveryNote,
-                    onPostDeliveryNote: onPostDeliveryNote
+                    onPostDeliveryNote: onPostDeliveryNote,
+                    currentTab: currentTab,
+                    getDeliveryNotesOnTabChange: getDeliveryNotesOnTabChange
                 };
             })()
         };

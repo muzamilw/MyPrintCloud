@@ -419,7 +419,14 @@ function c7(PageID) {
             }
             else if (IT.ObjectType == 3) {
                 $("#loadingMsg").html("Loading Design Images");
-                d1(canvas, IT);
+                
+                if (IT.ContentString.indexOf('Imageplaceholder_sim.png') != -1)
+                {
+                    k31(canvas, IT);
+                } else 
+                {
+                    d1(canvas, IT);
+                }
             }
             else if (IT.ObjectType == 6) {
                 c9(canvas, IT);
