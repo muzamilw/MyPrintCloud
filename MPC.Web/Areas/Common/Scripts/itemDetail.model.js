@@ -577,7 +577,10 @@
                        if (printingValue === 2) { // Hide Number Up and set it as 1
                            printViewLayoutPortrait(0);
                            printViewLayoutLandscape(1);
-                           doubleWorknTurn('1');
+                           // If Initialized
+                           if (isDoubleSidedUi) {
+                               isDoubleSidedUi(false);
+                           }
                        }
                    }
                 }),
@@ -649,33 +652,22 @@
                 isDoubleSided = ko.observable(specifiedIsDoubleSided || false),
                 // Is Work N Turn
                 isWorknTurn = ko.observable(specifiedIsWorknTurn || false),
-                // DoubleOrWorknTurn
-                doubleOrWorknTurn = ko.observable(specifiedIsDoubleSided !== null || specifiedIsDoubleSided !== undefined ?
-                    (!specifiedIsDoubleSided ? 1 : ((specifiedIsWorknTurn !== null || specifiedIsWorknTurn !== undefined) && specifiedIsWorknTurn ? 3 : 2)) :
-                    (specifiedIsWorknTurn !== null || specifiedIsWorknTurn !== undefined ? (!specifiedIsWorknTurn ? 1 : 3) : 1)),
-                // Double Or Work n Turn
-                doubleWorknTurn = ko.computed({
+                // Is Double Sided Ui
+                isDoubleSidedUi = ko.computed({
                     read: function () {
-                        return '' + doubleOrWorknTurn();
+                        return isDoubleSided();
                     },
                     write: function (value) {
-                        if (!value || value === doubleOrWorknTurn()) {
+                        if (value === isDoubleSided()) {
                             return;
                         }
-
+                        
                         // Single Side
-                        if (value === "1") {
-                            isDoubleSided(false);
+                        if (!value) {
                             isWorknTurn(false);
-                        } else if (value === "2") { // Double Sided
-                            isDoubleSided(true);
-                            isWorknTurn(false);
-                        } else if (value === "3") { // Work n Turn
-                            isDoubleSided(true);
-                            isWorknTurn(true);
                         }
 
-                        doubleOrWorknTurn(value);
+                        isDoubleSided(value);
                     }
                 }),
                 isPortrait = ko.observable(specifiedIsPortrait),
@@ -917,9 +909,9 @@
                 side2PlateQty: side2PlateQty,
                 isPlateSupplied: isPlateSupplied,
                 isDoubleSided: isDoubleSided,
+                isDoubleSidedUi: isDoubleSidedUi,
                 sectionInkCoverageList: sectionInkCoverageList,
                 isWorknTurn: isWorknTurn,
-                doubleWorknTurn: doubleWorknTurn,
                 isPortrait: isPortrait,
                 printViewLayout: printViewLayout,
                 printViewLayoutPortrait: printViewLayoutPortrait,
