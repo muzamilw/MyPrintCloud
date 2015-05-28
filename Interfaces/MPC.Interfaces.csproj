@@ -108,6 +108,7 @@
     <Compile Include="Repository\ICmsTagReporistory.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\ICostCentreAnswerRepository.cs" />
+    <Compile Include="Repository\IDeliveryNoteDetailRepository.cs" />
     <Compile Include="Repository\IDeliveryNoteRepository.cs" />
     <Compile Include="Repository\IEstimateInquiryRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />

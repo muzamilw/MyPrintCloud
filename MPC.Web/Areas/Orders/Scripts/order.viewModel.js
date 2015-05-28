@@ -5,7 +5,7 @@ define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
         "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model"],
 // ReSharper disable InconsistentNaming
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel, floatingSec) {
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel) {
         // ReSharper restore InconsistentNaming
         var ist = window.ist || {};
         ist.order = {
@@ -160,9 +160,12 @@ define("order/order.viewModel",
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({}, { SystemUsers: systemUsers() })),
+
                     //Active Inquiry
                     selectedInquiry = ko.observable(model.Inquiry.Create({}), { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }),
 
+                    //Estimate To Be Progressed
+                    estimateToBeProgressed = ko.observable(undefined),
                     // Page Header 
                     pageHeader = ko.computed(function() {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
@@ -233,23 +236,13 @@ define("order/order.viewModel",
                     //Is Inventory Dialog is opening for Section Cost Center
                     isAddProductForSectionCostCenter = ko.observable(false),
                     orderHasChanges = ko.computed(function() {
-                        var hasChanges = false, productChanges = false, sectionHasChanges = false;
+                        var hasChanges = false;
                         if (selectedOrder()) {
                             hasChanges = selectedOrder().hasChanges();
                         }
-
-                        if (selectedProduct()) {
-                            productChanges = selectedProduct().hasChanges();
-                        }
-
-                        if (selectedSection()) {
-                            sectionHasChanges = selectedSection().hasChanges();
-                        }
-
-                        return hasChanges || productChanges || sectionHasChanges;
+                        
+                        return hasChanges;
                     }),
-
-
                     // Create New Order
                     createOrder = function() {
                         selectedOrder(model.Estimate.Create({}, { SystemUsers: systemUsers() }));
@@ -404,8 +397,10 @@ define("order/order.viewModel",
                             counterForSection = counterForSection - 1;
                             itemSectionForAddView.id(counterForSection);
                             item.itemSections.push(itemSectionForAddView);
+                            item.reset();
                         }
                         selectedProduct(item);
+                        selectedOrder().reset();
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
                         openItemDetail();
@@ -1020,6 +1015,29 @@ define("order/order.viewModel",
 
                         return sectionFlg.color;
                     },
+
+                    updateOrderBeforeSaving = function(order) {
+                        _.each(selectedOrder().prePayments(), function (item) {
+                            order.PrePayments.push(item.convertToServerData());
+                        });
+                        _.each(selectedOrder().deliverySchedules(), function (item) {
+                            order.ShippingInformations.push(item.convertToServerData());
+                        });
+                        var itemsArray = [];
+                        _.each(selectedOrder().items(), function (obj) {
+                            var item = obj.convertToServerData(); // item converted 
+                            var attArray = [];
+                            _.each(item.ItemAttachment, function (att) {
+                                var attchment = att.convertToServerData(); // item converted 
+                                attchment.ContactId = selectedOrder().contactId();
+                                attArray.push(attchment);
+                            });
+                            item.ItemAttachments = attArray;
+                            itemsArray.push(item);
+                        });
+                        order.Items = itemsArray;
+                    },
+
                     // Save Order
                     saveOrder = function(callback, navigateCallback) {
                         // selectedOrder().statusId(view.orderstate());
@@ -1032,27 +1050,7 @@ define("order/order.viewModel",
                             selectedOrder().statusId(estimatesStatus.draftEstimate); // Draft Estimate
                         }
                         var order = selectedOrder().convertToServerData();
-                        _.each(selectedOrder().prePayments(), function(item) {
-                            order.PrePayments.push(item.convertToServerData());
-                        });
-                        _.each(selectedOrder().deliverySchedules(), function(item) {
-                            order.ShippingInformations.push(item.convertToServerData());
-                        });
-                        var itemsArray = [];
-                        _.each(selectedOrder().items(), function(obj) {
-                            var item = obj.convertToServerData(); // item converted 
-                            var attArray = [];
-                            _.each(item.ItemAttachment, function(att) {
-                                var attchment = att.convertToServerData(); // item converted 
-                                attchment.ContactId = selectedOrder().contactId();
-                                attArray.push(attchment);
-                            });
-                            item.ItemAttachments = attArray;
-                            itemsArray.push(item);
-
-                        });
-
-                        order.Items = itemsArray;
+                        updateOrderBeforeSaving(order);
                         dataservice.saveOrder(order, {
                             success: function(data) {
                                 var orderFlag = _.find(sectionFlags(), function(item) {
@@ -2183,6 +2181,99 @@ define("order/order.viewModel",
                         toastr.success('wow');
                     },
                     //#endregion
+                    //#region Progress To Order
+                    progressToOrderHandler = function () {
+                        estimateToBeProgressed(model.Estimate.Create(selectedOrder().convertToServerData(), { SystemUsers: systemUsers() }));
+                        estimateToBeProgressed().setCreditiLimitSetBy(loggedInUser());
+                        estimateToBeProgressed().setAllowJobWoCreditCheckSetBy(loggedInUser());
+                        estimateToBeProgressed().setOfficialOrderSetBy(loggedInUser());
+                        // Map Items if any
+                        if (selectedOrder().items() && selectedOrder().items().length > 0) {
+                            var items = [];
+
+                            _.each(selectedOrder().items(), function (item) {
+                                //item.id(undefined);
+                                item.jobSelectedQty('1');
+                                items.push(itemModel.Item.Create(item.convertToServerData()));
+                            });
+
+                            // Push to Original Item
+                            ko.utils.arrayPushAll(estimateToBeProgressed().items(), items);
+                            estimateToBeProgressed().items.valueHasMutated();
+                        }
+                        view.showProgressToOrderDialog();
+                    },
+
+                    onSaveEstimateProgressedToOrder = function() {
+                        if (isNaN(view.orderstate()) || view.orderstate() === 0) {
+                            estimateToBeProgressed().statusId(4); // Pending orders
+                        }
+                        var order = estimateToBeProgressed().convertToServerData();
+                        
+                        // Map Items if any
+                        var itemsArray = [];
+                        _.each(estimateToBeProgressed().items(), function (obj) {
+                            var item = obj.convertToServerData(); 
+                            var attArray = [];
+                            _.each(item.ItemAttachment, function (att) {
+                                var attchment = att.convertToServerData(); 
+                                attchment.ContactId = selectedOrder().contactId();
+                                attArray.push(attchment);
+                            });
+                            item.ItemAttachments = attArray;
+                            itemsArray.push(item);
+                        });
+                        order.Items = itemsArray;
+
+                        dataservice.progressOrderToEstimate(order, {
+                            success: function (data) {
+                                view.hideProgressToOrderDialog();
+                                //isOrderDetailsVisible(false);
+                                selectedOrder().statusId(39);
+                                selectedOrder().refEstimateId(data.EstimateId);
+                                toastr.success('Estimate Progressed To Order Successfully!');
+                                //updateEstimateAndEstimateOnProgress(selectedOrder().id(), data.EstimateId);
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to Progress Estimate to Order. Error: " + response);
+                            }
+                        });
+                    },
+                    //Update Qunatities Of items before saving Of Estimate Progress To Order
+                    updateQuantities = function(obj, itemToBeUpdated) {
+                        if (obj.jobSelectedQty() == 1) {
+                            itemToBeUpdated.qty2(0);
+                            itemToBeUpdated.qty3(0);
+                        } if (obj.jobSelectedQty() == 2) {
+                            var quantity2 = obj.qty2();
+                            itemToBeUpdated.qty1(quantity2);
+                            itemToBeUpdated.qty2(0);
+                            itemToBeUpdated.qty3(0);
+                        } if (obj.jobSelectedQty() == 3) {
+                            var quantity3 = obj.qty3();
+                            itemToBeUpdated.qty1(quantity3);
+                            itemToBeUpdated.qty2(0);
+                            itemToBeUpdated.qty3(0);
+                        }
+                    },
+
+                    updateEstimateAndEstimateOnProgress = function(estimateId, orderId) {
+                        dataservice.progressEstimateToOrder({
+                            EstimateId: estimateId,
+                            OrderId: orderId
+                        }, {
+                            success: function (data) {
+                                view.hideProgressToOrderDialog();
+                                isOrderDetailsVisible(false);
+                                selectedOrder().statusId(39);
+                                toastr.success('Estimate Progressed To Order Successfully!');
+                            },
+                            error: function(response) {
+                                toastr.error("Failed to Progress Estimate to Order. Error: " + response);
+                            }
+                        });
+                    },
+                    //#endregion
                     //#region INITIALIZE
 
                     //Initialize method to call in every screen
@@ -2216,12 +2307,17 @@ define("order/order.viewModel",
                             initializeScreen(specifiedView);
                             pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
                             isEstimateScreen(true);
+                            var estimateIdFromOrderScreen = $('#OrderId').val();
+                            if (estimateIdFromOrderScreen != 0) {
+                                editOrder({ id: function () { return estimateIdFromOrderScreen; } });
+                            }
                             getEstimates();
                         };
                 //#endregion
                 return {
                     // #region Observables
                     selectedOrder: selectedOrder,
+                    estimateToBeProgressed: estimateToBeProgressed,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
                     isLoadingOrders: isLoadingOrders,
@@ -2377,6 +2473,8 @@ define("order/order.viewModel",
                     showEstimateNotes: showEstimateNotes,
                     //#endregion
                     //#region Utility Functions
+                    progressToOrderHandler: progressToOrderHandler,
+                    onSaveEstimateProgressedToOrder: onSaveEstimateProgressedToOrder,
                     getInquiryItems: getInquiryItems,
                     onCreateNewBlankPrintProduct: onCreateNewBlankPrintProduct,
                     grossTotal: grossTotal,

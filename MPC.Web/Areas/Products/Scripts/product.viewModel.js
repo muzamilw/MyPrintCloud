@@ -158,6 +158,9 @@ define("product/product.viewModel",
                         },
                         onDeleteProductMarketBriefAnswer: function(onProceed) {
                             onDeleteProductMarketBriefAnswer(onProceed);
+                        },
+                        onDeleteItemRelatedItem: function (onProceed) {
+                            onDeleteItemRelatedItem(onProceed);
                         }
                     },
                     // Item State Tax Constructor Params
@@ -626,6 +629,16 @@ define("product/product.viewModel",
                     // On Delete Product Market Brief Answer
                     onDeleteProductMarketBriefAnswer = function (onProceed) {
                         confirmation.messageText("Do you want to delete this market brief answer?");
+                        confirmation.afterProceed(function () {
+                            if (onProceed && typeof onProceed === "function") {
+                                onProceed();
+                            }
+                        });
+                        confirmation.show();
+                    },
+                    // On Delete Item Related Item
+                    onDeleteItemRelatedItem = function (onProceed) {
+                        confirmation.messageText("Do you want to delete this upsell product?");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();

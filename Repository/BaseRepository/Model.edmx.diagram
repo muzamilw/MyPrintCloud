@@ -114,7 +114,6 @@
         <EntityTypeShape EntityType="DomainModels.DeliveryNote" Width="1.5" PointX="21.125" PointY="29.125" />
         <EntityTypeShape EntityType="DomainModels.DeliveryNoteDetail" Width="1.5" PointX="23.625" PointY="41.625" />
         <AssociationConnector Association="DomainModels.FK_tbl_CampaignImages_tbl_campaigns" />
-        <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" />
         <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_items" />
         <EntityTypeShape EntityType="DomainModels.CompanyCMYKColor" Width="1.5" PointX="22.375" PointY="1" />
         <EntityTypeShape EntityType="DomainModels.DiscountVoucher" Width="1.5" PointX="23.375" PointY="8" />
@@ -165,7 +164,6 @@
         <EntityTypeShape EntityType="DomainModels.ProductMarketBriefAnswer" Width="1.5" PointX="31.375" PointY="6" />
         <EntityTypeShape EntityType="DomainModels.ProductMarketBriefQuestion" Width="1.5" PointX="31.375" PointY="3.375" />
         <EntityTypeShape EntityType="DomainModels.Role" Width="1.5" PointX="31.375" PointY="8.125" />
-        <AssociationConnector Association="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" />
         <EntityTypeShape EntityType="DomainModels.ProductCategoryItem" Width="1.5" PointX="26.625" PointY="43.375" />
         <AssociationConnector Association="DomainModels.FK_ProductCategoryItem_Items" />
         <AssociationConnector Association="DomainModels.FK_ProductCategoryItem_ProductCategory" />
@@ -319,6 +317,9 @@
         <AssociationConnector Association="DomainModels.FK_Machine_LookupMethod" />
         <AssociationConnector Association="DomainModels.FK_ProductMarketBriefQuestion_Item" />
         <EntityTypeShape EntityType="DomainModels.ImpositionProfile" Width="1.5" PointX="41.375" PointY="7.75" />
+        <AssociationConnector Association="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" />
+        <AssociationConnector Association="DomainModels.FK_DeliveryNote_SectionFlag" />
+        <AssociationConnector Association="DomainModels.FK_DeliveryNoteDetail_DeliveryNote" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

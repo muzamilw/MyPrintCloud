@@ -212,6 +212,39 @@ namespace MPC.Models.DomainModels
             target.ItemSizeId = ItemSizeId;
         }
 
+        /// <summary>
+        /// Creates Copy of Item Section
+        /// </summary>
+        public void CloneForOrder(ItemSection target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemSectionClone_InvalidItemSection, "target");
+            }
+
+            Clone(target);
+            target.Qty1 = Qty1;
+            target.Qty2 = Qty2;
+            target.Qty3 = Qty3;
+            target.Qty1MarkUpID = Qty1MarkUpID;
+            target.Qty2MarkUpID = Qty2MarkUpID;
+            target.Qty3MarkUpID = Qty3MarkUpID;
+            target.BaseCharge1 = BaseCharge1;
+            target.BaseCharge2 = BaseCharge2;
+            target.Basecharge3 = Basecharge3;
+            target.PrintingType = PrintingType;
+            target.PressIdSide2 = PressIdSide2;
+            target.ImpressionCoverageSide1 = ImpressionCoverageSide1;
+            target.ImpressionCoverageSide2 = ImpressionCoverageSide2;
+            target.PrintViewLayout = PrintViewLayout;
+            target.PrintViewLayoutLandScape = PrintViewLayoutLandScape;
+            target.PrintViewLayoutPortrait = PrintViewLayoutPortrait;
+            target.PassesSide1 = PassesSide1;
+            target.PassesSide2 = PassesSide2;
+            target.IsFirstTrim = IsFirstTrim;
+            target.IsSecondTrim = IsSecondTrim;
+        }
+
         #endregion
     }
 }

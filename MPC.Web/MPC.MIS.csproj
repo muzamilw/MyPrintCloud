@@ -335,6 +335,7 @@
     <Compile Include="Areas\Api\Controllers\ItemDetailBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\LiveJobsBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\LiveJobsController.cs" />
+    <Compile Include="Areas\Api\Controllers\ProgressEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -426,6 +427,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DeliveryNoteDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DeliveryNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GetInquiryResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
@@ -538,7 +540,8 @@
     <Compile Include="Areas\Api\Models\CrmContactResponse.cs" />
     <Compile Include="Areas\Api\Models\DeliverNotesResposne.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNoteBaseResponse.cs" />
-    <Compile Include="Areas\Api\Models\DeliveryNotes.cs" />
+    <Compile Include="Areas\Api\Models\DeliveryNoteDetail.cs" />
+    <Compile Include="Areas\Api\Models\DeliveryNote.cs" />
     <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
@@ -2164,6 +2167,7 @@
     <Content Include="Areas\CRM\Views\Home\EMarketing.cshtml" />
     <Content Include="Areas\Production\Views\Home\ItemLateStart.cshtml" />
     <Content Include="Areas\Production\Views\Home\LiveJobs.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_ProgressToOrderDialog.cshtml" />
     <Content Include="Areas\Products\Views\Home\_AddProductMarketBriefQuestion.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
@@ -3380,6 +3384,7 @@
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Api\Views\ProductCostCenter\" />
+    <Folder Include="Areas\Api\Views\ProgressEstimate\" />
     <Folder Include="Areas\Api\Views\PTVCalculation\" />
     <Folder Include="Areas\Api\Views\ReportManager\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />

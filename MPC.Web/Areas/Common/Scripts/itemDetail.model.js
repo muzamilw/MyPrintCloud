@@ -10,7 +10,7 @@
             specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-            specifiedTax1, specifiedItemType, specifiedEstimateId) {
+            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -273,6 +273,8 @@
                 itemType = ko.observable(specifiedItemType || undefined),
                 // Estimate Id
                 estimateId = ko.observable(specifiedEstimateId || 0),
+                //Job Selected Qty
+                jobSelectedQty = ko.observable(specifiedJobSelectedQty),
                 // Job Estimated Start Date Time
                 jobEstimatedStartDateTime = ko.observable(specifiedJobEstimatedStartDateTime ? moment(specifiedJobEstimatedStartDateTime).toDate() : undefined),
                 // Job Estimated Completion Date Time
@@ -338,7 +340,6 @@
                     productName: productName,
                     productCode: productCode,
                     productType: productType,
-                    itemAttachments: itemAttachments,
                     jobDescriptionTitle1: jobDescriptionTitle1,
                     jobDescriptionTitle2: jobDescriptionTitle2,
                     jobDescriptionTitle3: jobDescriptionTitle3,
@@ -358,19 +359,22 @@
                     jobEstimatedStartDateTime: jobEstimatedStartDateTime,
                     jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
                     jobManagerId: jobManagerId,
-                    itemSections: itemSections
+                    itemSections: itemSections,
+                    itemAttachments: itemAttachments
                 }),
                 // Item Section Changes
                 itemSectionHasChanges = ko.computed(function () {
-                    return itemSections.find(function (itemSection) {
+                    var itemSectionChange = itemSections.find(function (itemSection) {
                         return itemSection.hasChanges();
-                    }) != null;
+                    });
+                    return itemSectionChange !== null && itemSectionChange !== undefined;
                 }),
                 // Item Attachment Changes
                 itemAttachmentHasChanges = ko.computed(function () {
-                    return itemAttachments.find(function (itemAttachment) {
+                    var attachmentChange = itemAttachments.find(function (itemAttachment) {
                         return itemAttachment.hasChanges();
-                    }) != null;
+                    });
+                    return attachmentChange !== null && attachmentChange !== undefined;
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -381,11 +385,13 @@
                     itemSections.each(function (itemSection) {
                         return itemSection.reset();
                     });
+                    itemAttachments.each(function (itemAttachment) {
+                        return itemAttachment.reset();
+                    });
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
                 convertToServerData = function () {
-                    // id() < 0 ? id(0) : id();
                     return {
                         ItemId: id(),
                         ItemCode: code(),
@@ -428,6 +434,8 @@
                         Qty2: qty2(),
                         Qty3: qty3(),
                         Tax1: tax1(),
+                        JobSelectedQty: jobSelectedQty(),
+                        InvoiceDescription: invoiceDescription(),
                         ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
@@ -501,6 +509,7 @@
                 qty2GrossTotal: qty2GrossTotal,
                 qty3GrossTotal: qty3GrossTotal,
                 tax1: tax1,
+                jobSelectedQty: jobSelectedQty,
                 itemType: itemType,
                 estimateId: estimateId,
                 taxRateIsDisabled: taxRateIsDisabled,
@@ -787,14 +796,25 @@
                     impressionCoverageSide2: impressionCoverageSide2,
                     passesSide1: passesSide1,
                     passesSide2: passesSide2,
-                    printingType: printingType
+                    printingType: printingType,
+                    sectionCostCentres: sectionCostCentres
                 }),
+                // SectionCostCentres Has Changes
+                sectionCostCentresHasChanges = function () {
+                    var sectionCostCentresChange = sectionCostCentres.find(function (item) {
+                        return item.hasChanges();
+                    });
+                    return sectionCostCentresChange !== null && sectionCostCentresChange !== undefined;
+                },
                 // Has Changes
                 hasChanges = ko.computed(function () {
-                    return dirtyFlag.isDirty();
+                    return dirtyFlag.isDirty() || sectionCostCentresHasChanges();
                 }),
                 // Reset
                 reset = function () {
+                    sectionCostCentres.find(function (item) {
+                        return item.reset();
+                    });
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -1016,7 +1036,7 @@
                 sectionCostCentreResources = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({
-
+                    
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -1025,14 +1045,44 @@
                 // True if the Item Section has been changed
                 // ReSharper disable InconsistentNaming
                 dirtyFlag = new ko.dirtyFlag({
-
+                    name: name,
+                    costCentreId: costCentreId,
+                    qty1Charge: qty1Charge,
+                    qty2Charge: qty2Charge,
+                    qty3Charge: qty3Charge,
+                    qty1MarkUpId: qty1MarkUpId,
+                    qty2MarkUpId: qty2MarkUpId,
+                    qty3MarkUpId: qty3MarkUpId,
+                    qty1: qty1,
+                    qty2: qty2,
+                    qty3: qty3,
+                    qty1NetTotal: qty1NetTotal,
+                    qty2NetTotal: qty2NetTotal,
+                    qty3NetTotal: qty3NetTotal,
+                    qty1WorkInstructions: qty1WorkInstructions,
+                    qty2WorkInstructions: qty2WorkInstructions,
+                    qty3WorkInstructions: qty3WorkInstructions,
+                    isDirectCost: isDirectCost,
+                    isPurchaseOrderRaised: isPurchaseOrderRaised,
+                    qty1EstimatedStockCost: qty1EstimatedStockCost,
+                    sectionCostCentreDetails: sectionCostCentreDetails
                 }),
+                // SectionCostCentreDetails Has Changes
+                sectionCostCentreDetailsHasChanges = function () {
+                    var sectionCostCentreDetailsChange = sectionCostCentreDetails.find(function (item) {
+                        return item.hasChanges();
+                    });
+                    return sectionCostCentreDetailsChange !== null && sectionCostCentreDetailsChange !== undefined;
+                },
                 // Has Changes
                 hasChanges = ko.computed(function () {
-                    return dirtyFlag.isDirty();
+                    return dirtyFlag.isDirty() || sectionCostCentreDetailsHasChanges();
                 }),
                 // Reset
                 reset = function () {
+                    sectionCostCentreDetails.each(function (item) {
+                        return item.reset();
+                    });
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -1157,8 +1207,7 @@
                 },
                 // Convert To Server Data
                 convertToServerData = function () {
-                    return {
-                        //            
+                    return {        
                         SectionCostCentreDetailId: sectionCostCentreDetailId(),
                         SectionCostCentreId: sectionCostCentreId(),
                         StockId: stockId(),
@@ -1169,7 +1218,7 @@
                         CostPrice: costPrice(),
                         ActualQtyUsed: actualQtyUsed(),
                         StockName: stockName(),
-                        Supplier: supplier(),
+                        Supplier: supplier()
                     };
                 };
 
@@ -1989,7 +2038,7 @@
             source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobEstimatedStartDateTime,
             source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
-            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId);
+            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId, source.JobSelectedQty);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {
@@ -2062,6 +2111,14 @@
             itemSection.sectionInkCoverageList.valueHasMutated();
         }
 
+        // Return item with dirty state if New
+        if (!itemSection.id()) {
+            return itemSection;
+        }
+
+        // Reset State to Un-Modified
+        itemSection.reset();
+
         return itemSection;
     };
     //#endregion
@@ -2087,10 +2144,13 @@
             sectionCostCentre.sectionCostCentreDetails.valueHasMutated();
         }
 
-        // Map Section Cost Resources if Any
-        if (source.SectionCostCentreResources && source.SectionCostCentreResources.length > 0) {
-
+        // Return item with dirty state if New
+        if (!sectionCostCentre.id()) {
+            return sectionCostCentre;
         }
+
+        // Reset State to Un-Modified
+        sectionCostCentre.reset();
 
         return sectionCostCentre;
     };
@@ -2101,6 +2161,14 @@
         var sectionCostCenterDetail = new SectionCostCenterDetail(source.SectionCostCentreDetailId, source.SectionCostCentreId, source.StockId, source.SupplierId, source.Qty1,
             source.Qty2, source.Qty3, source.CostPrice, source.ActualQtyUsed, source.StockName, source.Supplier);
 
+        // Return item with dirty state if New
+        if (!sectionCostCenterDetail.sectionCostCentreDetailId()) {
+            return sectionCostCenterDetail;
+        }
+
+        // Reset State to Un-Modified
+        sectionCostCenterDetail.reset();
+
         return sectionCostCenterDetail;
     };
     //#endregion
@@ -2109,6 +2177,15 @@
     ItemAttachment.Create = function (source) {
         var itemAttachment = new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath);
         itemAttachment.itemId(source.ItemId);
+        
+        // Return item with dirty state if New
+        if (!itemAttachment.id()) {
+            return itemAttachment;
+        }
+
+        // Reset State to Un-Modified
+        itemAttachment.reset();
+        
         return itemAttachment;
     };
     //#endregion

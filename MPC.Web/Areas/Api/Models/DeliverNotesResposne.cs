@@ -7,7 +7,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Delivery Note
         /// </summary>
-        public IEnumerable<DeliveryNotes> DeliveryNotes { get; set; }
+        public IEnumerable<DeliveryNote> DeliveryNotes { get; set; }
 
         /// <summary>
         /// Total Count

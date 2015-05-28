@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets0839EF2215FBC7EF500574189E3B1684BEE7BEBFD904069E8C056D4819184795))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets2B6989F00402258545280F0136503974046D099202B0795189D4E9E0414F570D))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets0839EF2215FBC7EF500574189E3B1684BEE7BEBFD904069E8C056D4819184795 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets2B6989F00402258545280F0136503974046D099202B0795189D4E9E0414F570D : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets0839EF2215FBC7EF500574189E3B1684BEE7BEBFD904069E8C056D4819184795()
+        public ViewsForBaseEntitySets2B6989F00402258545280F0136503974046D099202B0795189D4E9E0414F570D()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "0feec362b96f2bef65d448b0167aad5bc6eccdf23be8da0b5a6f1a29e061357f";
-            this.HashOverAllExtentViews = "2d98742acad9a35070311f105cde0a81142f1947f284450b722e3d5ab7913666";
+            this.HashOverMappingClosure = "e4cb88f8a36d73a966cdb853e8f30701a2e4d5a95c76d564455a3967cfc2ef08";
+            this.HashOverAllExtentViews = "3bd030c16bf43758dc8bc8317fc90102a4a283762c0114306c7221ed95c5cae7";
             this.ViewCount = 338;
         }
         
@@ -4701,7 +4701,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView88()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5742);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5818);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Machine\r\n        [DomainModels.Store.Machine]");
             viewString.Append("(T1.Machine_MachineId, T1.Machine_MachineName, T1.Machine_MachineCatId, T1.Machi");
             viewString.Append("ne_ColourHeads, T1.Machine_isPerfecting, T1.Machine_SetupCharge, T1.Machine_Wash");
@@ -4724,56 +4724,57 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("e_TimePerCut, T1.Machine_MakeReadyTime, T1.Machine_WashupTime, T1.Machine_ReelMa");
             viewString.Append("kereadyTime, T1.Machine_LookupMethodId, T1.Machine_OrganisationId, T1.Machine_Se");
             viewString.Append("tupSpoilage, T1.Machine_RunningSpoilage, T1.Machine_CoverageHigh, T1.Machine_Cov");
-            viewString.Append("erageMedium, T1.Machine_CoverageLow, T1.Machine_isSheetFed, T1.Machine_Passes)\r\n");
-            viewString.Append("    FROM (\r\n        SELECT \r\n            T.MachineId AS Machine_MachineId, \r\n   ");
-            viewString.Append("         T.MachineName AS Machine_MachineName, \r\n            T.MachineCatId AS M");
-            viewString.Append("achine_MachineCatId, \r\n            T.ColourHeads AS Machine_ColourHeads, \r\n     ");
-            viewString.Append("       T.isPerfecting AS Machine_isPerfecting, \r\n            T.SetupCharge AS Ma");
-            viewString.Append("chine_SetupCharge, \r\n            T.WashupPrice AS Machine_WashupPrice, \r\n       ");
-            viewString.Append("     T.WashupCost AS Machine_WashupCost, \r\n            T.MinInkDuctqty AS Machin");
-            viewString.Append("e_MinInkDuctqty, \r\n            T.worknturncharge AS Machine_worknturncharge, \r\n ");
-            viewString.Append("           T.MakeReadyCost AS Machine_MakeReadyCost, \r\n            T.DefaultFilm");
-            viewString.Append("Id AS Machine_DefaultFilmId, \r\n            T.DefaultPlateId AS Machine_DefaultPl");
-            viewString.Append("ateId, \r\n            T.DefaultPaperId AS Machine_DefaultPaperId, \r\n            T");
-            viewString.Append(".isfilmused AS Machine_isfilmused, \r\n            T.isplateused AS Machine_isplat");
-            viewString.Append("eused, \r\n            T.ismakereadyused AS Machine_ismakereadyused, \r\n           ");
-            viewString.Append(" T.iswashupused AS Machine_iswashupused, \r\n            T.maximumsheetweight AS M");
-            viewString.Append("achine_maximumsheetweight, \r\n            T.maximumsheetheight AS Machine_maximum");
-            viewString.Append("sheetheight, \r\n            T.maximumsheetwidth AS Machine_maximumsheetwidth, \r\n ");
-            viewString.Append("           T.minimumsheetheight AS Machine_minimumsheetheight, \r\n            T.m");
-            viewString.Append("inimumsheetwidth AS Machine_minimumsheetwidth, \r\n            T.gripdepth AS Mach");
-            viewString.Append("ine_gripdepth, \r\n            T.gripsideorientaion AS Machine_gripsideorientaion,");
-            viewString.Append(" \r\n            T.gutterdepth AS Machine_gutterdepth, \r\n            T.headdepth A");
-            viewString.Append("S Machine_headdepth, \r\n            T.MarkupId AS Machine_MarkupId, \r\n           ");
-            viewString.Append(" T.PressSizeRatio AS Machine_PressSizeRatio, \r\n            T.Description AS Mach");
-            viewString.Append("ine_Description, \r\n            T.Priority AS Machine_Priority, \r\n            T.D");
-            viewString.Append("irectCost AS Machine_DirectCost, \r\n            T.MinimumCharge AS Machine_Minimu");
-            viewString.Append("mCharge, \r\n            T.CostPerCut AS Machine_CostPerCut, \r\n            T.Price");
-            viewString.Append("PerCut AS Machine_PricePerCut, \r\n            T.IsAdditionalOption AS Machine_IsA");
-            viewString.Append("dditionalOption, \r\n            T.IsDisabled AS Machine_IsDisabled, \r\n           ");
-            viewString.Append(" T.LockedBy AS Machine_LockedBy, \r\n            T.CylinderSizeId AS Machine_Cylin");
-            viewString.Append("derSizeId, \r\n            T.MaxItemAcrossCylinder AS Machine_MaxItemAcrossCylinde");
-            viewString.Append("r, \r\n            T.Web1MRCost AS Machine_Web1MRCost, \r\n            T.Web1MRPrice");
-            viewString.Append(" AS Machine_Web1MRPrice, \r\n            T.Web2MRCost AS Machine_Web2MRCost, \r\n   ");
-            viewString.Append("         T.Web2MRPrice AS Machine_Web2MRPrice, \r\n            T.ReelMRCost AS Mac");
-            viewString.Append("hine_ReelMRCost, \r\n            T.ReelMRPrice AS Machine_ReelMRPrice, \r\n         ");
-            viewString.Append("   T.IsMaxColorLimit AS Machine_IsMaxColorLimit, \r\n            T.PressUtilizatio");
-            viewString.Append("n AS Machine_PressUtilization, \r\n            T.MakeReadyPrice AS Machine_MakeRea");
-            viewString.Append("dyPrice, \r\n            T.InkChargeForUniqueColors AS Machine_InkChargeForUniqueC");
-            viewString.Append("olors, \r\n            T.CompanyId AS Machine_CompanyId, \r\n            T.FlagId AS");
-            viewString.Append(" Machine_FlagId, \r\n            T.IsScheduleable AS Machine_IsScheduleable, \r\n   ");
-            viewString.Append("         T.SystemSiteId AS Machine_SystemSiteId, \r\n            T.SpoilageType AS");
-            viewString.Append(" Machine_SpoilageType, \r\n            T.SetupTime AS Machine_SetupTime, \r\n       ");
-            viewString.Append("     T.TimePerCut AS Machine_TimePerCut, \r\n            T.MakeReadyTime AS Machin");
-            viewString.Append("e_MakeReadyTime, \r\n            T.WashupTime AS Machine_WashupTime, \r\n           ");
-            viewString.Append(" T.ReelMakereadyTime AS Machine_ReelMakereadyTime, \r\n            T.LookupMethodI");
-            viewString.Append("d AS Machine_LookupMethodId, \r\n            T.OrganisationId AS Machine_Organisat");
-            viewString.Append("ionId, \r\n            T.SetupSpoilage AS Machine_SetupSpoilage, \r\n            T.R");
-            viewString.Append("unningSpoilage AS Machine_RunningSpoilage, \r\n            T.CoverageHigh AS Machi");
-            viewString.Append("ne_CoverageHigh, \r\n            T.CoverageMedium AS Machine_CoverageMedium, \r\n   ");
-            viewString.Append("         T.CoverageLow AS Machine_CoverageLow, \r\n            T.isSheetFed AS Mac");
-            viewString.Append("hine_isSheetFed, \r\n            T.Passes AS Machine_Passes, \r\n            True AS");
-            viewString.Append(" _from0\r\n        FROM BaseDbContext.Machines AS T\r\n    ) AS T1");
+            viewString.Append("erageMedium, T1.Machine_CoverageLow, T1.Machine_isSheetFed, T1.Machine_Passes, T");
+            viewString.Append("1.Machine_IsSpotColor)\r\n    FROM (\r\n        SELECT \r\n            T.MachineId AS ");
+            viewString.Append("Machine_MachineId, \r\n            T.MachineName AS Machine_MachineName, \r\n       ");
+            viewString.Append("     T.MachineCatId AS Machine_MachineCatId, \r\n            T.ColourHeads AS Mach");
+            viewString.Append("ine_ColourHeads, \r\n            T.isPerfecting AS Machine_isPerfecting, \r\n       ");
+            viewString.Append("     T.SetupCharge AS Machine_SetupCharge, \r\n            T.WashupPrice AS Machin");
+            viewString.Append("e_WashupPrice, \r\n            T.WashupCost AS Machine_WashupCost, \r\n            T");
+            viewString.Append(".MinInkDuctqty AS Machine_MinInkDuctqty, \r\n            T.worknturncharge AS Mach");
+            viewString.Append("ine_worknturncharge, \r\n            T.MakeReadyCost AS Machine_MakeReadyCost, \r\n ");
+            viewString.Append("           T.DefaultFilmId AS Machine_DefaultFilmId, \r\n            T.DefaultPlat");
+            viewString.Append("eId AS Machine_DefaultPlateId, \r\n            T.DefaultPaperId AS Machine_Default");
+            viewString.Append("PaperId, \r\n            T.isfilmused AS Machine_isfilmused, \r\n            T.ispla");
+            viewString.Append("teused AS Machine_isplateused, \r\n            T.ismakereadyused AS Machine_ismake");
+            viewString.Append("readyused, \r\n            T.iswashupused AS Machine_iswashupused, \r\n            T");
+            viewString.Append(".maximumsheetweight AS Machine_maximumsheetweight, \r\n            T.maximumsheeth");
+            viewString.Append("eight AS Machine_maximumsheetheight, \r\n            T.maximumsheetwidth AS Machin");
+            viewString.Append("e_maximumsheetwidth, \r\n            T.minimumsheetheight AS Machine_minimumsheeth");
+            viewString.Append("eight, \r\n            T.minimumsheetwidth AS Machine_minimumsheetwidth, \r\n       ");
+            viewString.Append("     T.gripdepth AS Machine_gripdepth, \r\n            T.gripsideorientaion AS Mac");
+            viewString.Append("hine_gripsideorientaion, \r\n            T.gutterdepth AS Machine_gutterdepth, \r\n ");
+            viewString.Append("           T.headdepth AS Machine_headdepth, \r\n            T.MarkupId AS Machine");
+            viewString.Append("_MarkupId, \r\n            T.PressSizeRatio AS Machine_PressSizeRatio, \r\n         ");
+            viewString.Append("   T.Description AS Machine_Description, \r\n            T.Priority AS Machine_Pri");
+            viewString.Append("ority, \r\n            T.DirectCost AS Machine_DirectCost, \r\n            T.Minimum");
+            viewString.Append("Charge AS Machine_MinimumCharge, \r\n            T.CostPerCut AS Machine_CostPerCu");
+            viewString.Append("t, \r\n            T.PricePerCut AS Machine_PricePerCut, \r\n            T.IsAdditio");
+            viewString.Append("nalOption AS Machine_IsAdditionalOption, \r\n            T.IsDisabled AS Machine_I");
+            viewString.Append("sDisabled, \r\n            T.LockedBy AS Machine_LockedBy, \r\n            T.Cylinde");
+            viewString.Append("rSizeId AS Machine_CylinderSizeId, \r\n            T.MaxItemAcrossCylinder AS Mach");
+            viewString.Append("ine_MaxItemAcrossCylinder, \r\n            T.Web1MRCost AS Machine_Web1MRCost, \r\n ");
+            viewString.Append("           T.Web1MRPrice AS Machine_Web1MRPrice, \r\n            T.Web2MRCost AS M");
+            viewString.Append("achine_Web2MRCost, \r\n            T.Web2MRPrice AS Machine_Web2MRPrice, \r\n       ");
+            viewString.Append("     T.ReelMRCost AS Machine_ReelMRCost, \r\n            T.ReelMRPrice AS Machine_");
+            viewString.Append("ReelMRPrice, \r\n            T.IsMaxColorLimit AS Machine_IsMaxColorLimit, \r\n     ");
+            viewString.Append("       T.PressUtilization AS Machine_PressUtilization, \r\n            T.MakeReady");
+            viewString.Append("Price AS Machine_MakeReadyPrice, \r\n            T.InkChargeForUniqueColors AS Mac");
+            viewString.Append("hine_InkChargeForUniqueColors, \r\n            T.CompanyId AS Machine_CompanyId, \r");
+            viewString.Append("\n            T.FlagId AS Machine_FlagId, \r\n            T.IsScheduleable AS Machi");
+            viewString.Append("ne_IsScheduleable, \r\n            T.SystemSiteId AS Machine_SystemSiteId, \r\n     ");
+            viewString.Append("       T.SpoilageType AS Machine_SpoilageType, \r\n            T.SetupTime AS Mach");
+            viewString.Append("ine_SetupTime, \r\n            T.TimePerCut AS Machine_TimePerCut, \r\n            T");
+            viewString.Append(".MakeReadyTime AS Machine_MakeReadyTime, \r\n            T.WashupTime AS Machine_W");
+            viewString.Append("ashupTime, \r\n            T.ReelMakereadyTime AS Machine_ReelMakereadyTime, \r\n   ");
+            viewString.Append("         T.LookupMethodId AS Machine_LookupMethodId, \r\n            T.Organisatio");
+            viewString.Append("nId AS Machine_OrganisationId, \r\n            T.SetupSpoilage AS Machine_SetupSpo");
+            viewString.Append("ilage, \r\n            T.RunningSpoilage AS Machine_RunningSpoilage, \r\n           ");
+            viewString.Append(" T.CoverageHigh AS Machine_CoverageHigh, \r\n            T.CoverageMedium AS Machi");
+            viewString.Append("ne_CoverageMedium, \r\n            T.CoverageLow AS Machine_CoverageLow, \r\n       ");
+            viewString.Append("     T.isSheetFed AS Machine_isSheetFed, \r\n            T.Passes AS Machine_Passe");
+            viewString.Append("s, \r\n            T.IsSpotColor AS Machine_IsSpotColor, \r\n            True AS _fr");
+            viewString.Append("om0\r\n        FROM BaseDbContext.Machines AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Machine", viewString.ToString());
         }
         
@@ -8673,7 +8674,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView196()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5749);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5825);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Machines\r\n        [DomainModels.Machine](T1.M");
             viewString.Append("achine_MachineId, T1.Machine_MachineName, T1.Machine_MachineCatId, T1.Machine_Co");
             viewString.Append("lourHeads, T1.Machine_isPerfecting, T1.Machine_SetupCharge, T1.Machine_WashupPri");
@@ -8696,56 +8697,57 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("akeReadyTime, T1.Machine_WashupTime, T1.Machine_ReelMakereadyTime, T1.Machine_Lo");
             viewString.Append("okupMethodId, T1.Machine_MarkupId, T1.Machine_OrganisationId, T1.Machine_SetupSp");
             viewString.Append("oilage, T1.Machine_RunningSpoilage, T1.Machine_CoverageHigh, T1.Machine_Coverage");
-            viewString.Append("Medium, T1.Machine_CoverageLow, T1.Machine_isSheetFed, T1.Machine_Passes)\r\n    F");
-            viewString.Append("ROM (\r\n        SELECT \r\n            T.MachineId AS Machine_MachineId, \r\n        ");
-            viewString.Append("    T.MachineName AS Machine_MachineName, \r\n            T.MachineCatId AS Machin");
-            viewString.Append("e_MachineCatId, \r\n            T.ColourHeads AS Machine_ColourHeads, \r\n          ");
-            viewString.Append("  T.isPerfecting AS Machine_isPerfecting, \r\n            T.SetupCharge AS Machine");
-            viewString.Append("_SetupCharge, \r\n            T.WashupPrice AS Machine_WashupPrice, \r\n            ");
-            viewString.Append("T.WashupCost AS Machine_WashupCost, \r\n            T.MinInkDuctqty AS Machine_Min");
-            viewString.Append("InkDuctqty, \r\n            T.worknturncharge AS Machine_worknturncharge, \r\n      ");
-            viewString.Append("      T.MakeReadyCost AS Machine_MakeReadyCost, \r\n            T.DefaultFilmId AS");
-            viewString.Append(" Machine_DefaultFilmId, \r\n            T.DefaultPlateId AS Machine_DefaultPlateId");
-            viewString.Append(", \r\n            T.DefaultPaperId AS Machine_DefaultPaperId, \r\n            T.isfi");
-            viewString.Append("lmused AS Machine_isfilmused, \r\n            T.isplateused AS Machine_isplateused");
-            viewString.Append(", \r\n            T.ismakereadyused AS Machine_ismakereadyused, \r\n            T.is");
-            viewString.Append("washupused AS Machine_iswashupused, \r\n            T.maximumsheetweight AS Machin");
-            viewString.Append("e_maximumsheetweight, \r\n            T.maximumsheetheight AS Machine_maximumsheet");
-            viewString.Append("height, \r\n            T.maximumsheetwidth AS Machine_maximumsheetwidth, \r\n      ");
-            viewString.Append("      T.minimumsheetheight AS Machine_minimumsheetheight, \r\n            T.minimu");
-            viewString.Append("msheetwidth AS Machine_minimumsheetwidth, \r\n            T.gripdepth AS Machine_g");
-            viewString.Append("ripdepth, \r\n            T.gripsideorientaion AS Machine_gripsideorientaion, \r\n  ");
-            viewString.Append("          T.gutterdepth AS Machine_gutterdepth, \r\n            T.headdepth AS Mac");
-            viewString.Append("hine_headdepth, \r\n            T.PressSizeRatio AS Machine_PressSizeRatio, \r\n    ");
-            viewString.Append("        T.Description AS Machine_Description, \r\n            T.Priority AS Machin");
-            viewString.Append("e_Priority, \r\n            T.DirectCost AS Machine_DirectCost, \r\n            T.Mi");
-            viewString.Append("nimumCharge AS Machine_MinimumCharge, \r\n            T.CostPerCut AS Machine_Cost");
-            viewString.Append("PerCut, \r\n            T.PricePerCut AS Machine_PricePerCut, \r\n            T.IsAd");
-            viewString.Append("ditionalOption AS Machine_IsAdditionalOption, \r\n            T.IsDisabled AS Mach");
-            viewString.Append("ine_IsDisabled, \r\n            T.LockedBy AS Machine_LockedBy, \r\n            T.Cy");
-            viewString.Append("linderSizeId AS Machine_CylinderSizeId, \r\n            T.MaxItemAcrossCylinder AS");
-            viewString.Append(" Machine_MaxItemAcrossCylinder, \r\n            T.Web1MRCost AS Machine_Web1MRCost");
-            viewString.Append(", \r\n            T.Web1MRPrice AS Machine_Web1MRPrice, \r\n            T.Web2MRCost");
-            viewString.Append(" AS Machine_Web2MRCost, \r\n            T.Web2MRPrice AS Machine_Web2MRPrice, \r\n  ");
-            viewString.Append("          T.ReelMRCost AS Machine_ReelMRCost, \r\n            T.ReelMRPrice AS Mac");
-            viewString.Append("hine_ReelMRPrice, \r\n            T.IsMaxColorLimit AS Machine_IsMaxColorLimit, \r\n");
-            viewString.Append("            T.PressUtilization AS Machine_PressUtilization, \r\n            T.Make");
-            viewString.Append("ReadyPrice AS Machine_MakeReadyPrice, \r\n            T.InkChargeForUniqueColors A");
-            viewString.Append("S Machine_InkChargeForUniqueColors, \r\n            T.CompanyId AS Machine_Company");
-            viewString.Append("Id, \r\n            T.FlagId AS Machine_FlagId, \r\n            T.IsScheduleable AS ");
-            viewString.Append("Machine_IsScheduleable, \r\n            T.SystemSiteId AS Machine_SystemSiteId, \r\n");
-            viewString.Append("            T.SpoilageType AS Machine_SpoilageType, \r\n            T.SetupTime AS");
-            viewString.Append(" Machine_SetupTime, \r\n            T.TimePerCut AS Machine_TimePerCut, \r\n        ");
-            viewString.Append("    T.MakeReadyTime AS Machine_MakeReadyTime, \r\n            T.WashupTime AS Mach");
-            viewString.Append("ine_WashupTime, \r\n            T.ReelMakereadyTime AS Machine_ReelMakereadyTime, ");
-            viewString.Append("\r\n            T.LookupMethodId AS Machine_LookupMethodId, \r\n            T.Markup");
-            viewString.Append("Id AS Machine_MarkupId, \r\n            T.OrganisationId AS Machine_OrganisationId");
-            viewString.Append(", \r\n            T.SetupSpoilage AS Machine_SetupSpoilage, \r\n            T.Runnin");
-            viewString.Append("gSpoilage AS Machine_RunningSpoilage, \r\n            T.CoverageHigh AS Machine_Co");
-            viewString.Append("verageHigh, \r\n            T.CoverageMedium AS Machine_CoverageMedium, \r\n        ");
-            viewString.Append("    T.CoverageLow AS Machine_CoverageLow, \r\n            T.isSheetFed AS Machine_");
-            viewString.Append("isSheetFed, \r\n            T.Passes AS Machine_Passes, \r\n            True AS _fro");
-            viewString.Append("m0\r\n        FROM DomainModelsStoreContainer.Machine AS T\r\n    ) AS T1");
+            viewString.Append("Medium, T1.Machine_CoverageLow, T1.Machine_isSheetFed, T1.Machine_Passes, T1.Mac");
+            viewString.Append("hine_IsSpotColor)\r\n    FROM (\r\n        SELECT \r\n            T.MachineId AS Machi");
+            viewString.Append("ne_MachineId, \r\n            T.MachineName AS Machine_MachineName, \r\n            ");
+            viewString.Append("T.MachineCatId AS Machine_MachineCatId, \r\n            T.ColourHeads AS Machine_C");
+            viewString.Append("olourHeads, \r\n            T.isPerfecting AS Machine_isPerfecting, \r\n            ");
+            viewString.Append("T.SetupCharge AS Machine_SetupCharge, \r\n            T.WashupPrice AS Machine_Was");
+            viewString.Append("hupPrice, \r\n            T.WashupCost AS Machine_WashupCost, \r\n            T.MinI");
+            viewString.Append("nkDuctqty AS Machine_MinInkDuctqty, \r\n            T.worknturncharge AS Machine_w");
+            viewString.Append("orknturncharge, \r\n            T.MakeReadyCost AS Machine_MakeReadyCost, \r\n      ");
+            viewString.Append("      T.DefaultFilmId AS Machine_DefaultFilmId, \r\n            T.DefaultPlateId A");
+            viewString.Append("S Machine_DefaultPlateId, \r\n            T.DefaultPaperId AS Machine_DefaultPaper");
+            viewString.Append("Id, \r\n            T.isfilmused AS Machine_isfilmused, \r\n            T.isplateuse");
+            viewString.Append("d AS Machine_isplateused, \r\n            T.ismakereadyused AS Machine_ismakeready");
+            viewString.Append("used, \r\n            T.iswashupused AS Machine_iswashupused, \r\n            T.maxi");
+            viewString.Append("mumsheetweight AS Machine_maximumsheetweight, \r\n            T.maximumsheetheight");
+            viewString.Append(" AS Machine_maximumsheetheight, \r\n            T.maximumsheetwidth AS Machine_max");
+            viewString.Append("imumsheetwidth, \r\n            T.minimumsheetheight AS Machine_minimumsheetheight");
+            viewString.Append(", \r\n            T.minimumsheetwidth AS Machine_minimumsheetwidth, \r\n            ");
+            viewString.Append("T.gripdepth AS Machine_gripdepth, \r\n            T.gripsideorientaion AS Machine_");
+            viewString.Append("gripsideorientaion, \r\n            T.gutterdepth AS Machine_gutterdepth, \r\n      ");
+            viewString.Append("      T.headdepth AS Machine_headdepth, \r\n            T.PressSizeRatio AS Machin");
+            viewString.Append("e_PressSizeRatio, \r\n            T.Description AS Machine_Description, \r\n        ");
+            viewString.Append("    T.Priority AS Machine_Priority, \r\n            T.DirectCost AS Machine_Direct");
+            viewString.Append("Cost, \r\n            T.MinimumCharge AS Machine_MinimumCharge, \r\n            T.Co");
+            viewString.Append("stPerCut AS Machine_CostPerCut, \r\n            T.PricePerCut AS Machine_PricePerC");
+            viewString.Append("ut, \r\n            T.IsAdditionalOption AS Machine_IsAdditionalOption, \r\n        ");
+            viewString.Append("    T.IsDisabled AS Machine_IsDisabled, \r\n            T.LockedBy AS Machine_Lock");
+            viewString.Append("edBy, \r\n            T.CylinderSizeId AS Machine_CylinderSizeId, \r\n            T.");
+            viewString.Append("MaxItemAcrossCylinder AS Machine_MaxItemAcrossCylinder, \r\n            T.Web1MRCo");
+            viewString.Append("st AS Machine_Web1MRCost, \r\n            T.Web1MRPrice AS Machine_Web1MRPrice, \r\n");
+            viewString.Append("            T.Web2MRCost AS Machine_Web2MRCost, \r\n            T.Web2MRPrice AS M");
+            viewString.Append("achine_Web2MRPrice, \r\n            T.ReelMRCost AS Machine_ReelMRCost, \r\n        ");
+            viewString.Append("    T.ReelMRPrice AS Machine_ReelMRPrice, \r\n            T.IsMaxColorLimit AS Mac");
+            viewString.Append("hine_IsMaxColorLimit, \r\n            T.PressUtilization AS Machine_PressUtilizati");
+            viewString.Append("on, \r\n            T.MakeReadyPrice AS Machine_MakeReadyPrice, \r\n            T.In");
+            viewString.Append("kChargeForUniqueColors AS Machine_InkChargeForUniqueColors, \r\n            T.Comp");
+            viewString.Append("anyId AS Machine_CompanyId, \r\n            T.FlagId AS Machine_FlagId, \r\n        ");
+            viewString.Append("    T.IsScheduleable AS Machine_IsScheduleable, \r\n            T.SystemSiteId AS ");
+            viewString.Append("Machine_SystemSiteId, \r\n            T.SpoilageType AS Machine_SpoilageType, \r\n  ");
+            viewString.Append("          T.SetupTime AS Machine_SetupTime, \r\n            T.TimePerCut AS Machin");
+            viewString.Append("e_TimePerCut, \r\n            T.MakeReadyTime AS Machine_MakeReadyTime, \r\n        ");
+            viewString.Append("    T.WashupTime AS Machine_WashupTime, \r\n            T.ReelMakereadyTime AS Mac");
+            viewString.Append("hine_ReelMakereadyTime, \r\n            T.LookupMethodId AS Machine_LookupMethodId");
+            viewString.Append(", \r\n            T.MarkupId AS Machine_MarkupId, \r\n            T.OrganisationId A");
+            viewString.Append("S Machine_OrganisationId, \r\n            T.SetupSpoilage AS Machine_SetupSpoilage");
+            viewString.Append(", \r\n            T.RunningSpoilage AS Machine_RunningSpoilage, \r\n            T.Co");
+            viewString.Append("verageHigh AS Machine_CoverageHigh, \r\n            T.CoverageMedium AS Machine_Co");
+            viewString.Append("verageMedium, \r\n            T.CoverageLow AS Machine_CoverageLow, \r\n            ");
+            viewString.Append("T.isSheetFed AS Machine_isSheetFed, \r\n            T.Passes AS Machine_Passes, \r\n");
+            viewString.Append("            T.IsSpotColor AS Machine_IsSpotColor, \r\n            True AS _from0\r\n");
+            viewString.Append("        FROM DomainModelsStoreContainer.Machine AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Machines", viewString.ToString());
         }
         

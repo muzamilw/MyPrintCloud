@@ -419,7 +419,14 @@ function c7(PageID) {
             }
             else if (IT.ObjectType == 3) {
                 $("#loadingMsg").html("Loading Design Images");
-                d1(canvas, IT);
+                
+                if (IT.ContentString.indexOf('Imageplaceholder_sim.png') != -1)
+                {
+                    k31(canvas, IT);
+                } else 
+                {
+                    d1(canvas, IT);
+                }
             }
             else if (IT.ObjectType == 6) {
                 c9(canvas, IT);
@@ -564,6 +571,23 @@ function d1SvgOl(cCanvas, IO) {
             loadedObject.lockRotation = true;
         }
         loadedObject.customStyles = JSON.parse(IO.textStyles);
+        $.each(loadedObject.customStyles, function (j, IT) {
+            var clr = IT.OriginalColor;
+            if (IT.ModifiedColor != "")
+                clr = IT.ModifiedColor;
+
+            if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
+                loadedObject.setFill(clr);
+            }
+            else if (loadedObject.paths) {
+                for (var i = 0; i < loadedObject.paths.length; i++) {
+                    if (i == j) {
+                        loadedObject.paths[i].setFill(clr);
+                    }
+                }
+            }
+        });
+
         loadedObject.set({
             borderColor: 'red',
             cornerColor: 'orange',
@@ -647,7 +671,7 @@ function d1Svg(cCanvas, IO, isCenter) {
             clr = (loadedObject.get('fill'));
             var objClr = {
                 OriginalColor: clr,
-                PathIndex: 0,
+                PathIndex: -2,
                 ModifiedColor: ''
             }
             colors.push(objClr);

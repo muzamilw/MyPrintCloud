@@ -4260,18 +4260,22 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // #region ______________  Field Variable   _________________
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
-          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle) {
+          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle,specifiedIsSystem) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
             variableType = ko.observable(specifiedVariableType),
             scope = ko.observable(specifiedScope),
+            isSystem = ko.observable(specifiedIsSystem),
             waterMark = ko.observable(specifiedWaterMark).extend({ required: true }),
             defaultValue = ko.observable(specifiedDefaultValue),
             defaultValueForInput = ko.observable(specifiedDefaultValue),
             inputMask = ko.observable(specifiedInputMask),
             companyId = ko.observable(specifiedCompanyId),
-            variableTag = ko.observable(specifiedVariableTag),
+            variableTag = ko.observable(specifiedVariableTag).extend({
+                required: true,
+                variableTagRule: true
+            }),
             scopeName = ko.observable(),
             typeName = ko.observable(),
             variableTitle = ko.observable(specifiedVariableTitle),
@@ -4280,7 +4284,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // Errors
             errors = ko.validation.group({
                 variableName: variableName,
-                waterMark: waterMark
+                waterMark: waterMark,
+                variableTag: variableTag
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -4302,6 +4307,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.VariableType = source.variableType() === undefined ? null : source.variableType();
                 result.WaterMark = source.waterMark() === undefined ? null : source.waterMark();
                 result.Scope = source.scope() === undefined ? null : source.scope();
+                result.IsSystem = source.isSystem() === undefined ? null : source.isSystem();
                 result.DefaultValue = source.variableType() === 1 ? (source.defaultValue() === undefined ? null : source.defaultValue()) : defaultValueForInput;
                 result.CompanyId = source.companyId() === undefined ? null : source.companyId();
                 result.InputMask = source.inputMask() === undefined ? null : source.inputMask();
@@ -4320,6 +4326,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             variableName: variableName,
             variableType: variableType,
             scope: scope,
+            isSystem: isSystem,
             waterMark: waterMark,
             defaultValueForInput: defaultValueForInput,
             defaultValue: defaultValue,
@@ -4347,12 +4354,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.VariableName,
              source.VariableType,
              source.Scope,
-             source.WaterMark,
+            source.WaterMark,
              source.DefaultValue,
              source.InputMask,
              source.CompanyId,
              source.VariableTag,
-             source.VariableTitle
+             source.VariableTitle,
+            source.IsSystem
             );
     };
     // #endregion ______________  Field Variable   _________________
@@ -4503,7 +4511,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // #region ______________  Field Variable  For Smart Form _________________
     var FieldVariableForSmartForm = function (specifiedVariableId, specifiedVariableName, specifiedVariableType,
-        specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedDefaultValue, specifiedVariableTitle, specifiedWaterMark,specifiedScope) {
+        specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedDefaultValue, specifiedVariableTitle, specifiedWaterMark,specifiedScope,specifiedIsSystem) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName),
@@ -4512,6 +4520,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             scopeName = ko.observable(specifiedScopeName),
             typeName = ko.observable(specifiedTypeName),
             scope = ko.observable(specifiedScope),
+            isSystem = ko.observable(specifiedIsSystem),
             waterMark = ko.observable(specifiedWaterMark),
             defaultValue = ko.observable(specifiedDefaultValue === null ? "" : specifiedDefaultValue),
             title = ko.observable(specifiedVariableTitle === null ? "" : specifiedVariableTitle),
@@ -4528,6 +4537,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             defaultValue: defaultValue,
             waterMark: waterMark,
             scope: scope,
+            isSystem: isSystem,
             variableOptions: variableOptions
         };
         return self;
@@ -4542,7 +4552,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.ScopeName,
              source.TypeName,
              source.DefaultValue,
-        source.VariableTitle, source.WaterMark,source.Scope);
+        source.VariableTitle, source.WaterMark, source.Scope, source.IsSystem);
     };
     // #endregion ______________  Field Variable   _________________
 
