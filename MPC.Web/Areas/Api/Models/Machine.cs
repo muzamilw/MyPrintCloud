@@ -80,6 +80,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isSheetFed { get; set; }
         public int? Passes { get; set; }
 
+        public bool? IsSpotColor { get; set; }
         public IEnumerable<MachineInkCoverage> MachineInkCoverages { get; set; }
        // public virtual ICollection<MachineResource> MachineResources { get; set; }
     }
