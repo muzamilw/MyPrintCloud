@@ -22,5 +22,14 @@ namespace MPC.Models.DomainModels
 
         public virtual SectionCostcentre SectionCostcentre { get; set; }
         public virtual StockItem StockItem { get; set; }
+
+        public void Clone(SectionCostCentreDetail target)
+        {
+           target.Qty1 = Qty1;
+           target.StockId = StockId;
+           target.StockName = StockName;
+           target.CostPrice = CostPrice;
+           target.ActualQtyUsed = ActualQtyUsed;
+        }
     }
 }

@@ -311,8 +311,8 @@
   clear: both;
 }
 #storesBinding #tab-products .dd-handle-list {
-  height: 90%;
   overflow: hidden;
+  margin-top: 6px;
 }
 #storesBinding #tab-products .dd-handle {
   height: auto;
@@ -424,3 +424,4 @@
 .archiveButton {
   float: left;
 }
+/*# sourceMappingURL=Store.css.map */

@@ -88,6 +88,14 @@ define("order/estimate.view",
                 hideInquiryDetailItemDialog = function () {
                     $("#InquiryDetailItemDialog").modal("hide");
                 },
+                // Show Progress To Order Dialog
+                showProgressToOrderDialog = function () {
+                    $("#progressToOrderDialog").modal('show');
+                },
+                //Hide Progress To Order Dialog
+                hideProgressToOrderDialog = function () {
+                    $("#progressToOrderDialog").modal('hide');
+                },
                 setOrderState = function (state, isFromEstimate) {
                     orderstate(state);
                     $(function () {
@@ -221,6 +229,8 @@ define("order/estimate.view",
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
                 showInquiryDetailItemDialog: showInquiryDetailItemDialog,
                 hideInquiryDetailItemDialog: hideInquiryDetailItemDialog,
+                showProgressToOrderDialog: showProgressToOrderDialog,
+                hideProgressToOrderDialog: hideProgressToOrderDialog,
                 showInksDialog: showInksDialog,
                 hideInksDialog: hideInksDialog
             };

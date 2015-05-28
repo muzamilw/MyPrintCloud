@@ -29,7 +29,7 @@ define("deliveryNotes/deliveryNotes.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     }),
-                    
+
                     // Define request to get Items
                     amplify.request.define('downloadArtwork', 'ajax', {
                         url: ist.siteUrl + '/Production/Home/Test',
@@ -42,9 +42,16 @@ define("deliveryNotes/deliveryNotes.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     }),
-                    // Define request to Save Item
-                    amplify.request.define('saveItem', 'ajax', {
-                        url: ist.siteUrl + '/Api/ItemJobStatus',
+
+                    // Define request to Save Delivery Notes
+                    amplify.request.define('deleteDeliveryNote', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeliveryNotes',
+                        dataType: 'json',
+                        type: 'Delete'
+                    }),
+                    // Define request to Save Delivery Notes
+                    amplify.request.define('saveDeliveryNote', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeliveryNotes',
                         dataType: 'json',
                         type: 'Post'
                     });
@@ -53,63 +60,74 @@ define("deliveryNotes/deliveryNotes.dataservice", function () {
                 }
             },
 
-            // Save Item
-            saveItem = function (param, callbacks) {
+            // Save Delivery Notes
+            saveDeliveryNote = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'saveItem',
+                    resourceId: 'saveDeliveryNote',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
                 });
             },
-             // Get Base For Company
-            getBaseData = function (params, callbacks) {
+            // Delete Delivery Notes
+            deleteDeliveryNote = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getBaseData',
-                    data: params,
-                    success: callbacks.success,
-                    error: callbacks.error,
-                });
-            },
-             // Get Base For Company
-            getBaseDataForCompany = function (params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getBaseDataForCompany',
-                    data: params,
-                    success: callbacks.success,
-                    error: callbacks.error,
-                });
-            },
-       getDetaildeliveryNote = function (param, callbacks) {
-           initialize();
-           return amplify.request({
-               resourceId: 'getDetaildeliveryNote',
-               success: callbacks.success,
-               error: callbacks.error,
-               data: param
-           });
-       },
-            getdeliveryNotes = function (param, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getdeliveryNotes',
+                    resourceId: 'deleteDeliveryNote',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
                 });
-            };
+            },
+
+        // Get Base For Company
+        getBaseData = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getBaseData',
+                data: params,
+                success: callbacks.success,
+                error: callbacks.error,
+            });
+        },
+        // Get Base For Company
+        getBaseDataForCompany = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getBaseDataForCompany',
+                data: params,
+                success: callbacks.success,
+                error: callbacks.error,
+            });
+        },
+   getDetaildeliveryNote = function (param, callbacks) {
+       initialize();
+       return amplify.request({
+           resourceId: 'getDetaildeliveryNote',
+           success: callbacks.success,
+           error: callbacks.error,
+           data: param
+       });
+   },
+        getdeliveryNotes = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getdeliveryNotes',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        };
 
 
         return {
             getdeliveryNotes: getdeliveryNotes,
-            getDetaildeliveryNote:getDetaildeliveryNote,
-            saveItem: saveItem,
+            getDetaildeliveryNote: getDetaildeliveryNote,
+            saveDeliveryNote: saveDeliveryNote,
             getBaseData: getBaseData,
-            getBaseDataForCompany: getBaseDataForCompany
-
+            getBaseDataForCompany: getBaseDataForCompany,
+            deleteDeliveryNote: deleteDeliveryNote
         };
     })();
 

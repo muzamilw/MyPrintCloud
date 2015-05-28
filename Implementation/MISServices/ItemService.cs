@@ -1632,6 +1632,61 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Creates Copy of Product Market Brief Answers
+        /// </summary>
+        private void CloneProductMarketBriefAnswer(ProductMarketBriefQuestion marketBriefQuestion, ProductMarketBriefQuestion targetmarketBriefQuestion)
+        {
+            if (targetmarketBriefQuestion.ProductMarketBriefAnswers == null)
+            {
+                targetmarketBriefQuestion.ProductMarketBriefAnswers = new List<ProductMarketBriefAnswer>();
+            }
+
+            foreach (ProductMarketBriefAnswer productMarketBriefAnswer in marketBriefQuestion.ProductMarketBriefAnswers)
+            {
+                ProductMarketBriefAnswer targetProductMarketBriefAnswer = productMarketBriefAnswerRepository.Create();
+                productMarketBriefAnswerRepository.Add(targetProductMarketBriefAnswer);
+                targetProductMarketBriefAnswer.MarketBriefQuestionId = targetmarketBriefQuestion.MarketBriefQuestionId;
+                targetmarketBriefQuestion.ProductMarketBriefAnswers.Add(targetProductMarketBriefAnswer);
+                productMarketBriefAnswer.Clone(targetProductMarketBriefAnswer);
+            }
+        }
+
+        /// <summary>
+        /// Copy Market Brief Questions
+        /// </summary>
+        private void CloneProductMarketBriefQuestions(Item source, Item target)
+        {
+            if (source.ProductMarketBriefQuestions == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ProductMarketBriefQuestions == null)
+            {
+                target.ProductMarketBriefQuestions = new List<ProductMarketBriefQuestion>();
+            }
+
+            foreach (ProductMarketBriefQuestion productMarketBriefQuestion in source.ProductMarketBriefQuestions)
+            {
+                ProductMarketBriefQuestion targetProductMarketBriefQuestion = productMarketBriefQuestionRepository.Create();
+                productMarketBriefQuestionRepository.Add(targetProductMarketBriefQuestion);
+                targetProductMarketBriefQuestion.ItemId = target.ItemId;
+                target.ProductMarketBriefQuestions.Add(targetProductMarketBriefQuestion);
+                productMarketBriefQuestion.Clone(targetProductMarketBriefQuestion);
+
+                // Clone Market Brief Answers
+                if (productMarketBriefQuestion.ProductMarketBriefAnswers == null)
+                {
+                    continue;
+                }
+
+                // Clone Market Brief Answers
+                CloneProductMarketBriefAnswer(productMarketBriefQuestion, targetProductMarketBriefQuestion);
+            }
+        }
+
+        /// <summary>
         /// Creates Copy of Product
         /// </summary>
         private void CloneItem(Item source, Item target)
@@ -1668,6 +1723,9 @@ namespace MPC.Implementation.MISServices
 
             // Clone Item Image Items
             CloneItemImageItems(source, target);
+
+            // Clone Product Market Brief Questions
+            CloneProductMarketBriefQuestions(source, target);
 
             // Save Changes
             itemRepository.SaveChanges();

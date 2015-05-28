@@ -2317,6 +2317,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CoverageLow" Type="float" />
           <Property Name="isSheetFed" Type="bit" />
           <Property Name="Passes" Type="int" />
+          <Property Name="IsSpotColor" Type="bit" />
         </EntityType>
         <EntityType Name="MachineCategory">
           <Key>
@@ -4378,6 +4379,32 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DeliveryNote_SectionFlag">
+          <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="0..1" />
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="FlagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNoteDetail_DeliveryNote">
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DeliveryNoteDetail" Type="Self.DeliveryNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryNote">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Principal>
+            <Dependent Role="DeliveryNoteDetail">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Estimate_SectionFlag">
           <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="1" />
           <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
@@ -5095,18 +5122,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="CompanyTerritory">
               <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_deliverynote_details_tbl_deliverynotes">
-          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="1" />
-          <End Role="DeliveryNoteDetail" Type="Self.DeliveryNoteDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryNote">
-              <PropertyRef Name="DeliveryNoteId" />
-            </Principal>
-            <Dependent Role="DeliveryNoteDetail">
-              <PropertyRef Name="DeliveryNoteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6403,6 +6418,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Company" EntitySet="Company" />
             <End Role="DeliveryNote" EntitySet="DeliveryNote" />
           </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SectionFlag" Association="Self.FK_DeliveryNote_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlag" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNoteDetail_DeliveryNote" Association="Self.FK_DeliveryNoteDetail_DeliveryNote">
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_Estimate_SectionFlag" Association="Self.FK_Estimate_SectionFlag">
             <End Role="SectionFlag" EntitySet="SectionFlag" />
             <End Role="Estimate" EntitySet="Estimate" />
@@ -6638,10 +6661,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_CustomerTerritory_tbl_contactcompanies" Association="Self.FK_tbl_CustomerTerritory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyTerritory" EntitySet="CompanyTerritory" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_deliverynote_details_tbl_deliverynotes" Association="Self.FK_tbl_deliverynote_details_tbl_deliverynotes">
-            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
-            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_deliverynote_details_tbl_items" Association="Self.FK_tbl_deliverynote_details_tbl_items">
             <End Role="Items" EntitySet="Items" />
@@ -7111,10 +7130,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_CampaignImages_tbl_campaigns" Association="DomainModels.FK_tbl_CampaignImages_tbl_campaigns">
             <End Role="Campaign" EntitySet="Campaigns" />
             <End Role="CampaignImage" EntitySet="CampaignImages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_deliverynote_details_tbl_deliverynotes" Association="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes">
-            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
-            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_deliverynote_details_tbl_items" Association="DomainModels.FK_tbl_deliverynote_details_tbl_items">
             <End Role="Item" EntitySet="Items" />
@@ -7702,6 +7717,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" Association="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion">
             <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
             <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SectionFlag" Association="DomainModels.FK_DeliveryNote_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlags" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNoteDetail_DeliveryNote" Association="DomainModels.FK_DeliveryNoteDetail_DeliveryNote">
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetails" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -8437,6 +8460,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Section" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="SectionFlag" ToRole="Section" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_Estimate_SectionFlag" FromRole="SectionFlag" ToRole="Estimate" />
+          <NavigationProperty Name="DeliveryNotes" Relationship="DomainModels.FK_DeliveryNote_SectionFlag" FromRole="SectionFlag" ToRole="DeliveryNote" />
         </EntityType>
         <Association Name="FK_tbl_section_flags_tbl_sections">
           <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
@@ -10382,9 +10406,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="SystemSiteId" Type="Int32" />
           <Property Name="IsRead" Type="Boolean" />
           <Property Name="IsPrinted" Type="Boolean" />
-          <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" FromRole="DeliveryNote" ToRole="DeliveryNoteDetail" />
           <Property Name="CompanyId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_DeliveryNote_Company" FromRole="DeliveryNote" ToRole="Company" />
+          <NavigationProperty Name="SectionFlag" Relationship="DomainModels.FK_DeliveryNote_SectionFlag" FromRole="DeliveryNote" ToRole="SectionFlag" />
+          <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_DeliveryNoteDetail_DeliveryNote" FromRole="DeliveryNote" ToRole="DeliveryNoteDetail" />
         </EntityType>
         <EntityType Name="DeliveryNoteDetail">
           <Key>
@@ -10396,8 +10421,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ItemId" Type="Int64" />
           <Property Name="ItemQty" Type="Int32" />
           <Property Name="GrossItemTotal" Type="Double" />
-          <NavigationProperty Name="DeliveryNote" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" FromRole="DeliveryNoteDetail" ToRole="DeliveryNote" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_items" FromRole="DeliveryNoteDetail" ToRole="Item" />
+          <NavigationProperty Name="DeliveryNote" Relationship="DomainModels.FK_DeliveryNoteDetail_DeliveryNote" FromRole="DeliveryNoteDetail" ToRole="DeliveryNote" />
         </EntityType>
         <Association Name="FK_tbl_CampaignImages_tbl_campaigns">
           <End Type="DomainModels.Campaign" Role="Campaign" Multiplicity="0..1" />
@@ -10408,18 +10433,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="CampaignImage">
               <PropertyRef Name="CampaignId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_deliverynote_details_tbl_deliverynotes">
-          <End Type="DomainModels.DeliveryNote" Role="DeliveryNote" Multiplicity="1" />
-          <End Type="DomainModels.DeliveryNoteDetail" Role="DeliveryNoteDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryNote">
-              <PropertyRef Name="DeliveryNoteId" />
-            </Principal>
-            <Dependent Role="DeliveryNoteDetail">
-              <PropertyRef Name="DeliveryNoteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -12171,6 +12184,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="LookupMethod" Relationship="DomainModels.FK_Machine_LookupMethod" FromRole="Machine" ToRole="LookupMethod" />
           <Property Name="isSheetFed" Type="Boolean" />
           <Property Name="Passes" Type="Int32" />
+          <Property Name="IsSpotColor" Type="Boolean" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -14137,6 +14151,32 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="ProductMarketBriefAnswer">
               <PropertyRef Name="MarketBriefQuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_SectionFlag">
+          <End Type="DomainModels.SectionFlag" Role="SectionFlag" Multiplicity="0..1" />
+          <End Type="DomainModels.DeliveryNote" Role="DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="FlagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNoteDetail_DeliveryNote">
+          <End Type="DomainModels.DeliveryNote" Role="DeliveryNote" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.DeliveryNoteDetail" Role="DeliveryNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryNote">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Principal>
+            <Dependent Role="DeliveryNoteDetail">
+              <PropertyRef Name="DeliveryNoteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -17269,6 +17309,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="IsSpotColor" ColumnName="IsSpotColor" />
                 <ScalarProperty Name="Passes" ColumnName="Passes" />
                 <ScalarProperty Name="isSheetFed" ColumnName="isSheetFed" />
                 <ScalarProperty Name="CoverageLow" ColumnName="CoverageLow" />
