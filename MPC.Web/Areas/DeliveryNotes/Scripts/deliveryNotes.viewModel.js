@@ -169,6 +169,17 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         isEditorVisible(true);
                     },
                     onCloseEditor = function () {
+                        if (selectedDeliveryNote().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(function () {
+                                onSaveDeliveryNotes();
+                            });
+                            confirmation.afterCancel(function () {
+                                isEditorVisible(false);
+                            });
+                            confirmation.show();
+                            return;
+                        }
                         isEditorVisible(false);
                     },
                      // Open Company Dialog
