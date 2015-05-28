@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
                         <button class="btn btn-danger" data-bind="click : $root.onArchiveMachine">Delete</button>
-                        <button class="btn btn-info" id="saveBtn" data-bind="click: $root.saveMachine, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
+                        <button class="btn btn-info" id="saveBtn" data-bind="click: $root.saveMachine, css: { 'btn-warning': hasChanges }, enable: $root.machinehasChanges">Save</button>
                         <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseMachineEditor">Close</button>
 
                     </div>
@@ -83,6 +83,35 @@
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Name and Description</h3>
                                     <div class="col-lg-9">
+                                        <div class="form-group" id="isSheetFedRadio">
+                                            <div class="col-lg-4 text-right">
+                                                @*<div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Store Type</label>*@
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-12" style="margin-left:-10px;">
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosRetail" value="true"  checked  data-bind="checked: isSheetFed">
+                                                        <label for="optionsRadiosRetail">
+                                                            Sheet Fed
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosCorporate"  value="false" data-bind="checked: isSheetFed">
+                                                        <label for="optionsRadiosCorporate">
+                                                            Role Fed
+                                                        </label>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
@@ -1054,5 +1083,6 @@ This make ready charge is not to be confused with the press set up charge for â€
         </span>
     </a>
 </script>
+
 
 
