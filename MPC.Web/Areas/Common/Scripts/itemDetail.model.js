@@ -562,27 +562,27 @@
                 printingType = ko.observable(specifiedPrintingType || 1),
                 // Printing Type Ui
                 printingTypeUi = ko.computed({
-                   read: function() {
-                       return '' + printingType();
-                   },
-                   write: function(value) {
-                       if (!value) {
-                           return;
-                       }
-                       var printingValue = parseInt(value);
-                       if (printingValue === printingType()) {
-                           return;
-                       }
-                       printingType(printingValue);
-                       if (printingValue === 2) { // Hide Number Up and set it as 1
-                           printViewLayoutPortrait(0);
-                           printViewLayoutLandscape(1);
+                    read: function () {
+                        return '' + printingType();
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            return;
+                        }
+                        var printingValue = parseInt(value);
+                        if (printingValue === printingType()) {
+                            return;
+                        }
+                        printingType(printingValue);
+                        if (printingValue === 2) { // Hide Number Up and set it as 1
+                            printViewLayoutPortrait(0);
+                            printViewLayoutLandscape(1);
                            // If Initialized
                            if (isDoubleSidedUi) {
                                isDoubleSidedUi(false);
                            }
-                       }
-                   }
+                        }
+                    }
                 }),
                 // section size id
                 sectionSizeId = ko.observable(specifiedSectionSizeId || undefined).extend({
@@ -1028,7 +1028,7 @@
                 sectionCostCentreResources = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({
-                    
+
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -1199,7 +1199,7 @@
                 },
                 // Convert To Server Data
                 convertToServerData = function () {
-                    return {        
+                    return {
                         SectionCostCentreDetailId: sectionCostCentreDetailId(),
                         SectionCostCentreId: sectionCostCentreId(),
                         StockId: stockId(),
@@ -1236,33 +1236,54 @@
         //#endregion
         //#region Item Attachment Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemAttachment = function (specifiedId, specifiedfileTitle, specifiedcompanyId, specifiedfileName, specifiedfolderPath) {
+        ItemAttachment = function (specifiedId, specifiedfileTitle, specifiedcompanyId, specifiedfileName, specifiedfolderPath, specifiedParent, specifiedType,
+            specifiedComments, specifiedFileType, specifiedUploadDate) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
                 //File Title
-                fileTitle = ko.observable(specifiedfileTitle),
+                fileTitle = ko.observable(specifiedfileTitle).extend({ required: true }),
                 //Company Id
                 companyId = ko.observable(specifiedcompanyId),
                 //File Name
                 fileName = ko.observable(specifiedfileName),
                 //Folder Path
                 folderPath = ko.observable(specifiedfolderPath),
+                // For new it is 1 , and for update value is 2
+                isNewOrUpdate = ko.observable("1"),
+                parent = ko.observable(specifiedParent || 0).extend({
+                    required: {
+                        onlyIf: function () {
+                            return isNewOrUpdate() === "2";
+                        }
+                    }
+                }),
+                type = ko.observable(specifiedType),
+                comments = ko.observable(specifiedComments),
+                fileType = ko.observable(specifiedFileType),
+                uploadDate = ko.observable(specifiedUploadDate),
+
                 // File path when new file is loaded 
-                fileSourcePath = ko.observable(undefined),
+                fileSourcePath = ko.observable(undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (id() === 0 || id() === undefined);
+                        }
+                    }
+                }),
                 // Item Id
                 itemId = ko.observable(),
                 // Errors
                 errors = ko.validation.group({
-
+                    fileTitle: fileTitle,
+                    fileSourcePath: fileSourcePath,
+                    parent: parent
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
                     return errors().length === 0;
-                    // ReSharper disable InconsistentNaming
                 }),
                 dirtyFlag = new ko.dirtyFlag({
-                    // ReSharper restore InconsistentNaming
                     id: id,
                     fileTitle: fileTitle,
                     companyId: companyId,
@@ -1286,7 +1307,11 @@
                         CompanyId: companyId(),
                         FileName: fileName(),
                         FolderPath: fileSourcePath(),
-                        ItemId: itemId()
+                        ItemId: itemId(),
+                        Parent: parent(),
+                        Type: type(),
+                        Comments: comments(),
+                        FileType: fileType(),
                     };
                 };
 
@@ -1296,8 +1321,14 @@
                 companyId: companyId,
                 fileName: fileName,
                 folderPath: folderPath,
+                type: type,
+                fileType: fileType,
                 fileSourcePath: fileSourcePath,
+                uploadDate: uploadDate,
                 itemId: itemId,
+                parent: parent,
+                comments: comments,
+                isNewOrUpdate: isNewOrUpdate,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2000,14 +2031,14 @@
                 fullName: specifiedFullName
             };
         },
-        
+
     //#endregion
     //#region Machine
     // Machine Entity        
 // ReSharper disable InconsistentNaming
     Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth)
-// ReSharper restore InconsistentNaming
-         {
+        // ReSharper restore InconsistentNaming
+    {
         return {
             id: specifiedId,
             name: specifiedName,
@@ -2167,9 +2198,10 @@
     //#region Item Attachment Factory
     // ReSharper disable once InconsistentNaming
     ItemAttachment.Create = function (source) {
-        var itemAttachment = new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath);
+        var itemAttachment = new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath,
+            source.Parent, source.Type, source.Comments, source.FileType, source.UploadDate);
         itemAttachment.itemId(source.ItemId);
-        
+
         // Return item with dirty state if New
         if (!itemAttachment.id()) {
             return itemAttachment;
@@ -2177,7 +2209,7 @@
 
         // Reset State to Un-Modified
         itemAttachment.reset();
-        
+
         return itemAttachment;
     };
     //#endregion
