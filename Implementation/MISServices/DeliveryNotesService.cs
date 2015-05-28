@@ -116,9 +116,9 @@ namespace MPC.Implementation.MISServices
             });
 
             deliveryNoteRepository.SaveChanges();
-            return deliveryNoteTarget;
+            return deliveryNoteRepository.Find(deliveryNoteTarget.DeliveryNoteId);
         }
-        
+
 
         /// <summary>
         /// Delete Delivery Note
