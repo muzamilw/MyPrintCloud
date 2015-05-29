@@ -184,7 +184,6 @@
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
-    <Compile Include="DomainModels\ImpositionProfile.cs" />
     <Compile Include="DomainModels\InkPlateSide.cs" />
     <Compile Include="DomainModels\JobCardReportView.cs" />
     <Compile Include="DomainModels\JobPreference.cs" />

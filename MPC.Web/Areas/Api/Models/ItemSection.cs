@@ -52,7 +52,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsPortrait { get; set; }
         public bool? IsFirstTrim { get; set; }
         public bool? IsSecondTrim { get; set; }
-        public long? PressIdSide2 { get; set; }
+        public int? PressIdSide2 { get; set; }
         public int? ImpressionCoverageSide1 { get; set; }
         public int? ImpressionCoverageSide2 { get; set; }
         public int? PassesSide1 { get; set; }
