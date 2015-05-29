@@ -84,7 +84,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemId = source.ItemId,
                 PressId = source.PressId,
                 StockItemId1 = source.StockItemID1,
-                StockItem1Name = source.StockItem != null ? source.StockItem.ItemName : string.Empty,
                 SectionSizeId = source.SectionSizeId,
                 ItemSizeId = source.ItemSizeId,
                 SectionSizeHeight = source.SectionSizeHeight,
@@ -131,6 +130,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 section.PressName = source.Machine.MachineName;
                 section.PressSide1ColourHeads = source.Machine.ColourHeads;
                 section.PressSide1IsSpotColor = source.Machine.IsSpotColor;
+            }
+
+            if (source.MachineSide2 != null)
+            {
+                section.PressSide2ColourHeads = source.MachineSide2.ColourHeads;
+                section.PressSide2IsSpotColor = source.MachineSide2.IsSpotColor;
+            }
+
+            if (source.StockItem != null)
+            {
+                section.StockItem1Name = source.StockItem.ItemName;
+                section.StockItemPackageQty = source.StockItem.PackageQty;
             }
 
             return section;

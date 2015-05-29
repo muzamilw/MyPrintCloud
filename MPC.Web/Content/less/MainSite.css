@@ -707,7 +707,7 @@ div#spinner {
   padding-top: 3px;
 }
 .profileLabelPadding {
-  margin-top: 15px;
+  margin-top: 12px;
 }
 #columnsAlign {
   table-layout: fixed;
@@ -771,6 +771,17 @@ div#spinner {
 }
 #stockDialog #stockDialogMainContainer {
   width: 838px;
+}
+#orderBinding #tab-EstimateHeader .attachmentDownload {
+  padding-left: 0px;
+  border-left-width: 0px;
+  padding-right: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  border-bottom: none;
+  height: 31px;
 }
 #orderBinding #tab-EstimateHeader #orderType {
   font-weight: bold;
@@ -968,4 +979,3 @@ div#spinner {
 #itemJobStatusBinding .title {
   font-size: small;
 }
-/*# sourceMappingURL=MainSite.css.map */

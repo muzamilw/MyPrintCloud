@@ -65,19 +65,19 @@
 
                                             </div>
                                             <div class="col-lg-9">
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios" id="optionYesForProduct" value="1" data-bind="checked: isFinishedGoodsUi">
                                                     <label for="optionYesForProduct">
                                                         Printed Product (Digital / Litho)
                                                     </label>
                                                 </div>
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios" id="optionNoForProduct" value="3" data-bind="checked: isFinishedGoodsUi">
                                                     <label for="optionNoForProduct">
                                                         Finished Goods Product  (FMG with Stock Control)
                                                     </label>
                                                 </div>
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios" id="optionYesFinishForProduct" value="2" data-bind="checked: isFinishedGoodsUi">
                                                     <label for="optionYesFinishForProduct">
                                                         Marketing Brief ( Inquiry form fill request for quote)
@@ -108,7 +108,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Product cost must be unique across the store and is used for data import/export to avoid duplication of data in import process." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Product code must be unique across the store and is used for data import/export to avoid duplication of data in import process." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -232,7 +232,7 @@
                                                 <input type="text" class="form-control" id="txtItemWeight" placeholder="Enter Weight" data-bind="value: itemWeight">
 
                                             </div>
-                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                            <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text: $root.weightUnit"></label> )
                                             </div>
                                         </div>
@@ -244,7 +244,7 @@
                                                 <input type="text" class="form-control" id="txtItemLength" placeholder="Enter Length" data-bind="value: itemLength">
 
                                             </div>
-                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                            <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text: $root.lengthUnit"></label> )
                                             </div>
                                         </div>
@@ -258,7 +258,7 @@
                                                 <input type="text" class="form-control" id="txtItemWidth" placeholder="Enter Width" data-bind="value: itemWidth">
 
                                             </div>
-                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                            <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text: $root.lengthUnit"></label> )
                                             </div>
                                         </div>
@@ -272,7 +272,7 @@
                                                 <input type="text" class="form-control" id="txtItemHeight" placeholder="Enter Height" data-bind="value: itemHeight">
 
                                             </div>
-                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                            <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text: $root.lengthUnit"></label> )
                                             </div>
                                         </div>
@@ -621,13 +621,13 @@
 
                                             </div>
                                             <div class="col-lg-9" data-bind="with: itemProductDetail">
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:8px;">
                                                     <input type="radio" name="sectionOptionsRadiosPrint" id="sectionOptionPrintYes" data-bind="checked: isPrintItemUi" value="2">
                                                     <label for="sectionOptionPrintYes">
                                                         No Print - No Signatures required ( no section need to be define)
                                                     </label>
                                                 </div>
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:8px;">
                                                     <input type="radio" name="sectionOptionsRadiosPrint" id="sectionOptionPrintNo" value="1" data-bind="checked: isPrintItemUi">
                                                     <label for="sectionOptionPrintNo">
                                                         Digital Litho Print Paginations
@@ -669,7 +669,7 @@
                                                             <span class="fa"></span> +
                                                         </button>
                                                     </div>
-                                                    <div class="col-md-1">
+                                                    <div class="col-md-1" style="margin-left: 14px;">
                                                         <button id="RemoveSection" type="button" style="float:right;display:none;" data-bind="visible: canRemoveItemSection, click: removeItemSection" class="btn btn-danger">
                                                             <span class="fa"></span>
                                                             -
@@ -1121,7 +1121,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Weight is per individual Item e.g. for each business card . Based on the Qauntity the accumulative weight of ordered product is calculated, the accumulative weight is then used to colculate shipping cost from 3rd party shipping carriers." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Weight is per individual Item e.g. for each business card . Based on the Qauntity the accumulative weight of ordered product is calculated, the accumulative weight is then used to calculate shipping cost from 3rd party shipping carriers." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -2634,7 +2634,7 @@
             <div class="col-lg-2">
                 &nbsp;
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-9" style="padding-left:6px;">
                 <div style="background-color:gainsboro; border-radius:3px">
                     <header class="main-box-header clearfix">
                         <div style="float:left;"><span style="font-size:24px">Refining Options for this price column</span></div>
