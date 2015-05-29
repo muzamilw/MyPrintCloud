@@ -3442,7 +3442,7 @@ define("stores/stores.viewModel",
             productCategoryTitle = ko.computed(function () {
                 if (selectedProductCategoryForEditting() != undefined) {
                     var val = selectedProductCategoryForEditting().categoryName() != '' && selectedProductCategoryForEditting().categoryName() != undefined ? selectedProductCategoryForEditting().categoryName() : '';
-                    return productCategoryStatus() + ' ' + val;
+                    return productCategoryStatus();
                 }
             }),
             productCategoryStatus = ko.observable(''),
