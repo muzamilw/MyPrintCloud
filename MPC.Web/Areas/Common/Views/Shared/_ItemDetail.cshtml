@@ -26,9 +26,13 @@
         <div class="row">
             <div class="col-sm-12 PaddingZero">
                 <div class="col-sm-12 PaddingZero">
-                    <div style="text-align: right; padding-right: 7px; ">
+                    <div style="float: right;text-align: right; padding-right: 7px; ">
                         <button data-bind="visible:!$root.showSectionDetail(),click:$root.closeItemDetail" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
+                    <div style="float: right; " data-bind="visible:($root.selectedOrder()!==undefined && $root.selectedOrder().isDirectSale() && !$root.showSectionDetail()),click:$root.deleteItem">
+                        <button class="btn btn-danger" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Delete</button>
+                    </div>
+
                     <div style="text-align: right; padding-right: 7px; ">
                         <button data-bind="visible:$root.showSectionDetail,click:$root.closeSectionDetailEditor" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
@@ -41,7 +45,7 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-detail" data-toggle="tab">Print Product</a></li>
-                            <li data-bind="visible: $root.selectedOrder() &&  $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
+                            <li data-bind="visible: $root.selectedOrder() &&  $root.selectedOrder().statusId!==undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
                             <li><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
                         </ul>
                         <div class="tab-content">

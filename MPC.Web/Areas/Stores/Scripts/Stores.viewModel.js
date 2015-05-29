@@ -1605,7 +1605,7 @@ define("stores/stores.viewModel",
                         }
                         updateCampaignListViewItem(email);
                     }
-
+                    email.reset();
                     view.hideEmailCamapaignDialog();
                 }
             },
@@ -1617,6 +1617,7 @@ define("stores/stores.viewModel",
                 selectedEmailListViewItem().campaignType(email.campaignType());
                 selectedEmailListViewItem().sendEmailAfterDays(email.sendEmailAfterDays());
                 selectedEmailListViewItem().campaignName(email.campaignName());
+                selectedEmailListViewItem().reset();
             },
                 //Do Before Save Email
             dobeforeSaveEmail = function () {

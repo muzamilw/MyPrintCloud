@@ -4,7 +4,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Add Cost Center</h4>
+                    <h4 class="modal-title" data-bind="visible: !$root.isCostCenterDialogForShipping()">Add Cost Center</h4>
+                    <h4 class="modal-title" data-bind="visible: $root.isCostCenterDialogForShipping()">Select Shipping Option</h4>
                 </div>
                 <div class="modal-body">
                     <div>
@@ -77,7 +78,7 @@
                 <br />
                 <span style="font-size: 0.875em; color: lightgray;" data-bind="text: description"></span>
             </td>
-            <td>
+            <td data-bind="visible: !$root.isCostCenterDialogForShipping()">
                 <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
                 <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput: pricePerUnitQuantity()"></span>
                 <span style="font-size: 0.875em; color: lightgray;">/unit</span>
@@ -85,6 +86,11 @@
                 <span style="font-size: 0.875em; color: lightgray;">Setup Cost </span>
                 <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
                 <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput:setupCostWithTax"></span>
+            </td>
+            <td data-bind="visible: $root.isCostCenterDialogForShipping()">
+                <span style="font-size: 0.875em; color: lightgray;">Delivery Charge </span>
+                <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
+                <span style="font-size: 0.875em; color: lightgray;" data-bind="text: deliveryChargesWithTax"></span>
             </td>
         </tr>
     </script>
