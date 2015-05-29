@@ -32,6 +32,10 @@
         /// </summary>
         Order = 54,
         /// <summary>
+        /// Estimate
+        /// </summary>
+        Estimate = 1,
+        /// <summary>
         /// Invoices
         /// </summary>
         Invoices = 13,
