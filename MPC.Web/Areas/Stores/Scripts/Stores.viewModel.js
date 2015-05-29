@@ -3426,35 +3426,35 @@ define("stores/stores.viewModel",
                 // #region _________P R O D U C T    C A T E G O R Y _______________
 
                 //Product Category Counter To represent id's of new saving product categories
-            productCategoryCounter = -1,
+                productCategoryCounter = -1,
                 //Counter to add 1 in Product Category 
-            addProductCategoryCounter = function () {
+                addProductCategoryCounter = function () {
                 productCategoryCounter = productCategoryCounter - 1;
             },
                 //Counter to reset Product Category Counter
-            resetProductCategoryCounter = function () {
+                resetProductCategoryCounter = function () {
                 productCategoryCounter = productCategoryCounter + 1;
             },
                 //Selected Product Category
-            selectedProductCategory = ko.observable(),
+                selectedProductCategory = ko.observable(),
                 //Selected Product Category For Editting
-            selectedProductCategoryForEditting = ko.observable(),
+                selectedProductCategoryForEditting = ko.observable(),
                 // Ttile while add/edit category
-            productCategoryTitle = ko.computed(function () {
+                productCategoryTitle = ko.computed(function () {
                 if (selectedProductCategoryForEditting() != undefined) {
                     var val = selectedProductCategoryForEditting().categoryName() != '' && selectedProductCategoryForEditting().categoryName() != undefined ? selectedProductCategoryForEditting().categoryName() : '';
                     return productCategoryStatus() + ' ' + val;
                 }
             }),
-            productCategoryStatus = ko.observable(''),
+                productCategoryStatus = ko.observable(''),
                 //Deleted Product Categories List
-            deletedProductCategories = ko.observableArray([]),
+                deletedProductCategories = ko.observableArray([]),
                 //Editted Product Categories List
-            edittedProductCategories = ko.observableArray([]),
+                edittedProductCategories = ko.observableArray([]),
                 //New Added Product Categories List
-            newProductCategories = ko.observableArray([]),
+                newProductCategories = ko.observableArray([]),
                 //Select Product Category
-            selectProductCategory = function (category, event) {
+                selectProductCategory = function (category, event) {
                 if (selectedProductCategory() != category) {
                     selectedProductCategory(category);
                     // Notify the event subscribers
@@ -3463,7 +3463,7 @@ define("stores/stores.viewModel",
                 }
             },
                 //Select Child Product Category
-            selectChildProductCategory = function (categoryId, event) {
+                selectChildProductCategory = function (categoryId, event) {
                 selectedProductCategory(undefined);
                 var id = $(event.target).closest('li')[0].id;
                 if (id) {
@@ -3472,7 +3472,7 @@ define("stores/stores.viewModel",
                 }
                 event.stopImmediatePropagation();
             },
-            changeIcon = function (event) {
+                changeIcon = function (event) {
                 if (event.target.classList.contains("fa-chevron-circle-right")) {
                     event.target.classList.remove("fa-chevron-circle-right");
                     event.target.classList.add("fa-chevron-circle-down");
@@ -3520,7 +3520,7 @@ define("stores/stores.viewModel",
                 },
                 //Open Product Category Detail
                 // ReSharper disable UnusedParameter
-            openProductCategoryDetail = function (dataRecieved, event) {
+                openProductCategoryDetail = function (dataRecieved, event) {
                 // ReSharper restore UnusedParameter
                 //var id = $(event.target).closest('li')[0].id;
                 var productCategory = new model.ProductCategory();
@@ -3528,9 +3528,9 @@ define("stores/stores.viewModel",
                 view.showProductCategoryDialog();
             },
                 //check: is Saving New Product Category
-            isSavingNewProductCategory = ko.observable(false),
+                isSavingNewProductCategory = ko.observable(false),
                 //Function Call When create new Product Category 
-            onCreateNewProductCategory = function () {
+                onCreateNewProductCategory = function () {
                 //$('.nav-tabs li:first-child a').tab('show');
                 selectedProductCategory(undefined);
                 var productCategory = new model.ProductCategory();
@@ -3562,7 +3562,7 @@ define("stores/stores.viewModel",
                 $("#categoryTabItems li a").first().trigger("click");
             },
                 //Delete Product Category
-            onDeleteProductCategory = function (productCategory) {
+                onDeleteProductCategory = function (productCategory) {
                 if (productCategory.productCategoryId() !== undefined) {
                     _.each(edittedProductCategories(), function (item) {
                         if (item.productCategoryId() == productCategory.productCategoryId()) {
@@ -3575,14 +3575,14 @@ define("stores/stores.viewModel",
                 return;
             },
                 //Check Payment Category Is Newly Added
-            checkPaymentCategoryIsNewlyAdded = function (productCategory) {
+                checkPaymentCategoryIsNewlyAdded = function (productCategory) {
                 if (productCategory.productCategoryId() < 0) {
                     return true;
                 }
                 return false;
             },
                 //On Edit Child Product Category    
-            onEditChildProductCategory = function (dataRecieved, event) {
+                onEditChildProductCategory = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
                 var result = _.find(newProductCategories(), function (productCategory) {
                     return productCategory.productCategoryId() == parseInt(id);
@@ -3618,7 +3618,7 @@ define("stores/stores.viewModel",
                 }
             },
                 //On Edit Product Category(Parent)
-            onEditProductCategory = function (productCategory) {
+                onEditProductCategory = function (productCategory) {
                 if (selectedProductCategory() != productCategory) {
                     selectProductCategory(productCategory);
                 }
@@ -3654,7 +3654,7 @@ define("stores/stores.viewModel",
 
             },
                 //Update Product Category Territories
-            UpdateProductCategoryTerritories = function (categoryTerritories) {
+                UpdateProductCategoryTerritories = function (categoryTerritories) {
                 //#region Update Category Territories
                 //Resetting all list of territories (making isSelected fields False)
                 _.each(addressTerritoryList(), function (territory) {
@@ -3673,7 +3673,7 @@ define("stores/stores.viewModel",
                 //#endregion
             },
                 //Edit New Added Product Category
-            editNewAddedProductCategory = function () {
+                editNewAddedProductCategory = function () {
                 var result = _.find(newProductCategories(), function (productCategory) {
                     return productCategory.productCategoryId() == selectedProductCategory().productCategoryId();
                 });
@@ -3683,12 +3683,12 @@ define("stores/stores.viewModel",
                 }
             },
                 //On Close Product Category
-            onCloseProductCategory = function () {
+                onCloseProductCategory = function () {
                 view.hideStoreProductCategoryDialog();
                 //resetProductCategoryCounter();
                 isSavingNewProductCategory(false);
             },
-            onArchiveCategory = function () {
+                onArchiveCategory = function () {
                 confirmation.messageText("Do you want to delete category?");
                 confirmation.afterProceed(deleteCategory);
                 confirmation.afterCancel(function () {
@@ -3696,7 +3696,7 @@ define("stores/stores.viewModel",
                 confirmation.show();
                 return;
             },
-            deleteCategory = function () {
+                deleteCategory = function () {
                 dataservice.deleteProductCategoryById({
                     ProductCategoryId: selectedProductCategoryForEditting().productCategoryId()
                 }, {
@@ -3722,7 +3722,7 @@ define("stores/stores.viewModel",
                 });
             },
                 //Do Before Save Product Category
-            doBeforeSaveProductCategory = function () {
+                doBeforeSaveProductCategory = function () {
                 var flag = true;
                 if (!selectedProductCategoryForEditting().isValid()) {
                     selectedProductCategoryForEditting().errors.showAllMessages();
@@ -3731,7 +3731,7 @@ define("stores/stores.viewModel",
                 return flag;
             },
                 //on Save Store Product Category
-            onSaveStoreProductCategory = function () {
+                onSaveStoreProductCategory = function () {
                 if (doBeforeSaveProductCategory()) {
                     //dataService.saveStoreProductCategory()
                     if (selectedProductCategoryForEditting().productCategoryId() === undefined) {
@@ -3748,7 +3748,7 @@ define("stores/stores.viewModel",
                 }
             },
                 //On Save Product Category
-            onSaveProductCategory = function () {
+                onSaveProductCategory = function () {
 
                 if (doBeforeSaveProductCategory()) {
                     selectedProductCategoryForEditting().companyId(selectedStore().companyId());
@@ -3828,7 +3828,7 @@ define("stores/stores.viewModel",
                 }
             },
                 //On Save Product Category
-            onSaveProductCategoryOld = function () {
+                onSaveProductCategoryOld = function () {
                 //Saving New Record
                 if (doBeforeSaveProductCategory()) {
                     if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
@@ -3884,13 +3884,13 @@ define("stores/stores.viewModel",
                 }
             },
                 //Product Category Thumbnail Files Loaded Callback
-            ProductCategoryThumbnailFilesLoadedCallback = function (file, data) {
+                ProductCategoryThumbnailFilesLoadedCallback = function (file, data) {
                 selectedProductCategoryForEditting().productCategoryThumbnailFileBinary(data);
                 selectedProductCategoryForEditting().productCategoryThumbnailName(file.name);
                 //selectedProductCategoryForEditting().fileType(data.imageType);
             },
                 //Product Category Image Files Loaded Callback
-            ProductCategoryImageFilesLoadedCallback = function (file, data) {
+                ProductCategoryImageFilesLoadedCallback = function (file, data) {
                 selectedProductCategoryForEditting().productCategoryImageFileBinary(data);
                 selectedProductCategoryForEditting().productCategoryImageName(file.name);
                 //selectedProductCategoryForEditting().fileType(data.imageType);
@@ -3898,10 +3898,10 @@ define("stores/stores.viewModel",
 
                 //Populate Parent Categories List
 
-            populatedParentCategoriesList = ko.observableArray([]),
-            categoriesToRemoveForParentCategoriesDropdown = ko.observableArray([]),
+                populatedParentCategoriesList = ko.observableArray([]),
+                categoriesToRemoveForParentCategoriesDropdown = ko.observableArray([]),
 
-            populateParentCategoriesListItems = function (categoryId) {
+                populateParentCategoriesListItems = function (categoryId) {
                 _.each(parentCategories(), function (productCategory) {
                     if (productCategory.parentCategoryId == categoryId) {
                         categoriesToRemoveForParentCategoriesDropdown.splice(0, 0, productCategory);
@@ -3909,7 +3909,7 @@ define("stores/stores.viewModel",
                     }
                 });
             },
-            updateParentCategoryList = function (categoryId) {
+                updateParentCategoryList = function (categoryId) {
 
                 populatedParentCategoriesList.removeAll();
                 categoriesToRemoveForParentCategoriesDropdown.removeAll();
@@ -3930,7 +3930,7 @@ define("stores/stores.viewModel",
             },
 
                 //Populate Parent Categories
-            populateParentCategories = ko.computed(function () {
+                populateParentCategories = ko.computed(function () {
                 if (selectedStore() != null && selectedStore() != undefined) {
                     if (selectedStore().productCategories() != undefined && selectedStore().productCategories().length > 0) {
                         parentCategories.removeAll();
@@ -3944,7 +3944,7 @@ define("stores/stores.viewModel",
                         });
                     }
                 }
-            }),
+                }),
 
                 // #endregion
 
@@ -4861,6 +4861,12 @@ define("stores/stores.viewModel",
                     isProductTabVisited(true);
                     ist.product.viewModel.initializeForStore(selectedStore().companyId(), selectedStore().taxRate());
                 }
+                //Reset Product Categories List On Every Time Tab Selection
+                $('.dd-list').closest('li').children('ol').hide();
+                //$('.dd-list').closest('li').each(function (index) {
+                //    //console.log(index + ": " + $(this).text());
+                //    $(this).
+                //});
             },
                 //#endregion 
 
