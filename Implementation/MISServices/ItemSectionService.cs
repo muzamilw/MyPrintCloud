@@ -6252,7 +6252,7 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection GetUpdatedSectionWithSystemCostCenters(ItemSection currentSection)
         {
-            List<SectionInkCoverage> AllInks = currentSection.SectionInkCoverages.ToList();
+            //List<SectionInkCoverage> AllInks = currentSection.SectionInkCoverages.ToList();
             int PressId = Convert.ToInt32(currentSection.PressId);
             int PressIdSide2 = Convert.ToInt32(currentSection.PressIdSide2);
             List<int> SystemCostCenterTypes = new List<int>(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
@@ -6261,7 +6261,7 @@ namespace MPC.Implementation.MISServices
             ItemSection updatedSection = currentSection;
             int SetupSpoilage = 0;
             double RunningSpoilage = 0;
-            int NoofInks = AllInks != null? AllInks.Count() : 0;
+            //int NoofInks = AllInks != null? AllInks.Count() : 0;
             var pressSide1 = itemsectionRepository.GetPressById(PressId);
             var pressSide2 = itemsectionRepository.GetPressById(PressIdSide2);
             
