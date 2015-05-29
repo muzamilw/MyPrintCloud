@@ -309,8 +309,24 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
+                    // Define request to Get Paymetn Gateways
+                    amplify.request.define('getPaymentGateways', 'ajax', {
+                        url: ist.siteUrl + '/Api/PaymentGateway',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
+            },
+               // get Payment Gateways
+            getPaymentGateways = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getPaymentGateways',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
             },
             // get ProductCategory Childs
             getProductCategoryChilds = function (params, callbacks) {
@@ -818,7 +834,8 @@
             deleteCompanyPermanent: deleteCompanyPermanent,
             deleteMediaLibraryItemById: deleteMediaLibraryItemById,
             saveSecondaryPage: saveSecondaryPage,
-            deleteSecondaryPage: deleteSecondaryPage
+            deleteSecondaryPage: deleteSecondaryPage,
+            getPaymentGateways: getPaymentGateways
         };
     })();
 

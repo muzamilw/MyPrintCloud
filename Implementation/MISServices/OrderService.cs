@@ -571,6 +571,26 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Get base data for Estimate
+        /// Difference from order is Different Section Id
+        /// </summary>
+        public OrderBaseResponse GetBaseDataForEstimate()
+        {
+            return new OrderBaseResponse
+            {
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate),
+                SystemUsers = systemUserRepository.GetAll(),
+                PipeLineSources = pipeLineSourceRepository.GetAll(),
+                PaymentMethods = paymentMethodRepository.GetAll(),
+                Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
+                // ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
+                PipeLineProducts = pipeLineProductRepository.GetAll(),
+                LoggedInUser = organisationRepository.LoggedInUserId
+            };
+        }
+
+        /// <summary>
         /// Get base data for Inquiries
         /// </summary>
         public InquiryBaseResponse GetBaseDataForInquiries()
@@ -3124,8 +3144,25 @@ namespace MPC.Implementation.MISServices
         #endregion
 
 
+        /// <summary>
+        /// Download Attachment
+        /// </summary>
+        public string DownloadAttachment(long id, out string fileName, out string fileTpe)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            ItemAttachment attachment = itemAttachmentRepository.Find(id);
+            fileName = attachment.FileName;
+            fileTpe = attachment.FileType;
 
+            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
+            string attachmentMapPath = mapPath + attachment.ItemId + "\\" + attachment.FileName + attachment.FileType;
+            if (!File.Exists(attachmentMapPath))
+            {
+                attachmentMapPath = string.Empty;
+            }
 
-
+            return attachmentMapPath;
+        }
     }
 }

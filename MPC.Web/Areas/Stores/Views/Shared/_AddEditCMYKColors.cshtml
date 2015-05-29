@@ -35,7 +35,7 @@
                             <label for="txtCCode" class="control-label text-right tooltip-float">Color Cyan</label>
                         </div>
                         <div class="col-lg-6">
-                            <input type="number" class="form-control" id="txtCCode" data-bind="value: $root.calculateCyanValue, validationTooltip: colorC" min="0" max="200">
+                            <input type="number" class="form-control" id="txtCCode" data-bind="value: $root.calculateCyanValue, validationDependsOn: colorC" min="0" max="200">
                         </div>
                     </div>
                     <div class="form-group">
@@ -48,7 +48,7 @@
                             <label for="txtMCode" class="control-label text-right tooltip-float">Color Magenta</label>
                         </div>
                         <div class="col-lg-6">
-                            <input type="number" class="form-control" id="txtMCode" data-bind="value: $root.calculateMagentaValue, validationTooltip: colorM" min="0" max="200">
+                            <input type="number" class="form-control" id="txtMCode" data-bind="value: $root.calculateMagentaValue, validationDependsOn: colorM" min="0" max="200">
                         </div>
                     </div>
                     <div class="form-group">
@@ -61,7 +61,7 @@
                             <label for="txtYCode" class="control-label text-right tooltip-float">Color Yellow</label>
                         </div>
                         <div class="col-lg-6">
-                            <input type="number" class="form-control" id="txtYCode" data-bind="value: $root.calculateYellowValue, validationTooltip: colorY" min="0" max="200">
+                            <input type="number" class="form-control" id="txtYCode" data-bind="value: $root.calculateYellowValue, validationDependsOn: colorY" min="0" max="200">
                         </div>
                     </div>
                     <div class="form-group">
@@ -74,7 +74,7 @@
                             <label for="txtKCode" class="control-label text-right tooltip-float">Color Black</label>
                         </div>
                         <div class="col-lg-6">
-                            <input type="number" class="form-control" id="txtKCode" data-bind="value: $root.calculateBlackValue, validationTooltip: colorK" min="0" max="200">
+                            <input type="number" class="form-control" id="txtKCode" data-bind="value: $root.calculateBlackValue, validationDependsOn: colorK" min="0" max="200">
                         </div>
                     </div>
                     <div class="form-group">
