@@ -62,6 +62,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int? PressSide2ColourHeads { get; set; }
         public bool? PressSide1IsSpotColor { get; set; }
         public bool? PressSide2IsSpotColor { get; set; }
+        public double? StockItemPackageQty { get; set; }
         
         public Item Item { get; set; }
         public StockItem StockItem { get; set; }

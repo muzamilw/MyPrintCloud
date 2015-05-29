@@ -42,6 +42,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Value = source.Value,
                 Scope = source.Scope,
                 Type = source.FieldVariable != null ? source.FieldVariable.VariableType : null,
+                WaterMark = source.FieldVariable != null ? source.FieldVariable.WaterMark : null,
                 Title = source.FieldVariable != null ? source.FieldVariable.VariableTitle : string.Empty,
                 VariableOptions = source.FieldVariable != null ? (source.FieldVariable.VariableOptions != null ? source.FieldVariable.VariableOptions.Select(vo => vo.CreateFrom()).ToList()
             : null) : null

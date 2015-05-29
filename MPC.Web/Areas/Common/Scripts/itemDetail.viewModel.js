@@ -130,6 +130,8 @@ define("common/itemDetail.viewModel",
                     //#endregion  
                     isSectionCostCenterDialogOpen = ko.observable(false),
                     isSectionVisible = ko.observable(false),
+                    // Is Side 1 Ink button clicked
+                    isSide1InkButtonClicked = ko.observable(false),
                     //#region Utility Functions
                     sectionCostCenterQty1Charge = ko.computed({
                         read: function () {
@@ -526,7 +528,6 @@ define("common/itemDetail.viewModel",
                         selectedSection(selectedProduct().itemSections()[0]);
                         isEstimateScreen(isEstimateScreenFlag);
                         closeItemDetailSection = closeItemDetailParam;
-                        //errorList.removeAll();
                     },
                     closeItemDetail = function () {
                         showItemDetailsSection(false);
@@ -536,100 +537,6 @@ define("common/itemDetail.viewModel",
                     // Select Job Description
                     selectJobDescription = function (jobDescription, e) {
                         selectedJobDescription(e.currentTarget.id);
-                    },
-                    updateSectionInkCoverageLists = function (side1Count, side2Count) {
-                        if (getSide1Count() != side1Count) {
-                            //If List is less then dropDown (Plate Ink)
-                            if (getSide1Count() < side1Count) {
-                                addNewFieldsInSectionInkCoverageList(side1Count - getSide1Count(), 1);
-                            }
-                                //If List is greater then dropDown (Plate Ink)
-                            else if (getSide1Count() > side1Count) {
-                                removeFieldsInSectionInkCoverageList(getSide1Count() - side1Count, 1);
-                            }
-                        }
-                        if (getSide2Count() != side2Count) {
-                            //If List is less then dropDown (Plate Ink)
-                            if (getSide2Count() < side2Count) {
-                                addNewFieldsInSectionInkCoverageList(side2Count - getSide2Count(), 2);
-                            }
-                                //If List is greater then dropDown (Plate Ink)
-                            else if (getSide2Count() > side2Count) {
-                                removeFieldsInSectionInkCoverageList(getSide2Count() - side2Count, 2);
-                            }
-                        }
-                    },
-                    getSide1Count = function () {
-                        var count = 0;
-                        _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                            if (item.side() == 1) {
-                                count += 1;
-                            }
-                        });
-                        return count;
-                    },
-                    getSide2Count = function () {
-                        var count = 0;
-                        _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                            if (item.side() == 2) {
-                                count += 1;
-                            }
-                        });
-                        return count;
-                    },
-                    addNewFieldsInSectionInkCoverageList = function (addNewCount, side) {
-                        var counter = 0;
-                        while (counter < addNewCount) {
-                            var item = new model.SectionInkCoverage();
-                            item.side(side);
-                            item.sectionId(selectedSection().id());
-                            selectedSection().sectionInkCoverageList.splice(0, 0, item);
-                            counter++;
-                        }
-                    },
-                    removeFieldsInSectionInkCoverageList = function (removeItemCount, side) {
-                        var counter = removeItemCount;
-                        while (counter != 0) {
-                            _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                                if (item.side() == side && counter != 0) {
-                                    selectedSection().sectionInkCoverageList.remove(item);
-                                    counter--;
-                                }
-                            });
-                            //selectedSection().sectionInkCoverageList.remove(selectedSection().sectionInkCoverageList()[0]);
-                            //counter--;
-                        }
-                        //_.each(selectedSection().sectionInkCoverageList(), function (item) {
-
-                        //        if (item.side == side && counter != 0) {
-                        //            selectedSection().sectionInkCoverageList.remove(item);
-                        //            counter --;
-                        //        }
-                        //}); 
-                    },
-                    //Available Ink Plate Sides
-                    availableInkPlateSides = ko.computed(function () {
-                        if (!selectedSection() || (selectedSection().isDoubleSided() === null || selectedSection().isDoubleSided() === undefined)) {
-                            return inkPlateSides();
-                        }
-
-                        return inkPlateSides.filter(function (inkPlateSide) {
-                            return inkPlateSide.isDoubleSided === selectedSection().isDoubleSided();
-                        });
-                    }),
-                    availableInkPalteChange = function () {
-                        setAvailableInkPlateChange();
-                    },
-                    setAvailableInkPlateChange = function () {
-                        if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
-                            _.each(availableInkPlateSides(), function (item) {
-                                if (item.id == selectedSection().plateInkId()) {
-                                    updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
-                                    selectedSection().side1Inks(item.plateInkSide1);
-                                    selectedSection().side2Inks(item.plateInkSide2);
-                                }
-                            });
-                        }
                     },
                     // Open Stock Item Dialog
                     openStockItemDialog = function () {
@@ -690,17 +597,12 @@ define("common/itemDetail.viewModel",
                             }
                         });
                     },
-                    openInkDialog = function () {
-                        //if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
-                        //    var count = 0;
-                        //    _.each(availableInkPlateSides(), function (item) {
-                        //        if (item.id == selectedSection().plateInkId()) {
-                        //            updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
-                        //            selectedSection().side1Inks(item.plateInkSide1);
-                        //            selectedSection().side2Inks(item.plateInkSide2);
-                        //        }
-                        //    });
-                        //}
+                    openInkDialog = function (data, e) {
+                        if (e.currentTarget.id === "side1InkColorBtn") {
+                            isSide1InkButtonClicked(true);
+                        } else {
+                            isSide1InkButtonClicked(false);
+                        }
                         view.showInksDialog();
                     },
                     // Add Section
@@ -869,6 +771,17 @@ define("common/itemDetail.viewModel",
                             }
 
                             selectedSection().sectionSizeWidth(press.maxSheetWidth || 0);
+                            selectedSection().pressIdSide1ColourHeads(press.colourHeads || 0);
+                            selectedSection().pressIdSide1IsSpotColor(press.isSpotColor || false);
+                            // Update Section Ink Coverage
+                            selectedSection().sectionInkCoverageList.removeAll(selectedSection().sectionInkCoveragesSide1());
+                            for (var i = 0; i < press.colourHeads; i++) {
+                                selectedSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
+                                    SectionId: selectedSection().id(),
+                                    Side: 1,
+                                    InkOrder: i + 1
+                                }));
+                            }
                             getSectionSystemCostCenters();
                         });
 
@@ -877,7 +790,23 @@ define("common/itemDetail.viewModel",
                             if (value !== selectedSection().pressIdSide2()) {
                                 selectedSection().pressIdSide2(value);
                             }
+                            
+                            var press = getPressById(value);
+                            if (!press) {
+                                return;
+                            }
 
+                            selectedSection().pressIdSide2ColourHeads(press.colourHeads || 0);
+                            selectedSection().pressIdSide2IsSpotColor(press.isSpotColor || false);
+                            // Update Section Ink Coverage
+                            selectedSection().sectionInkCoverageList.removeAll(selectedSection().sectionInkCoveragesSide2());
+                            for (var i = 0; i < press.colourHeads; i++) {
+                                selectedSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
+                                    SectionId: selectedSection().id(),
+                                    Side: 2,
+                                    InkOrder: i + 1
+                                }));
+                            }
                             getSectionSystemCostCenters();
                         });
                     },
@@ -1407,7 +1336,12 @@ define("common/itemDetail.viewModel",
                         if (!selectedSection().pressId()) {
                             toastr.info("Please Select Side 1 Press in order to get Cost Centers");
                             return;
-                        } else if (selectedSection().numberUp() <= 0) {
+                        }
+                        else if (selectedSection().isDoubleSided() && !selectedSection().pressIdSide2()) {
+                            toastr.info("Please Select Side 2 Press in order to get Cost Centers");
+                            return;
+                        }
+                        else if (selectedSection().numberUp() <= 0) {
                             toastr.info("Sheet plan cannot be zero in order to get Cost Centers");
                             return;
                         }
@@ -1418,8 +1352,6 @@ define("common/itemDetail.viewModel",
                         dataservice.getUpdatedSystemCostCenters(currSec, {
                             success: function (data) {
                                 if (data != null) {
-                                    //selectedSection(model.ItemSection.Create(data));
-
                                     // Map Section Cost Centres if Any
                                     if (data.SectionCostcentres && data.SectionCostcentres.length > 0) {
                                         selectedSection().sectionCostCentres.removeAll();
@@ -1724,26 +1656,28 @@ define("common/itemDetail.viewModel",
 
                     //#endregion
                     itemAttachmentFileLoadedCallback = function (file, data) {
-                        //Flag check, whether file is already exist in media libray
-                        var flag = true;
+                        ////Flag check, whether file is already exist in media libray
+                        //var flag = true;
 
-                        _.each(selectedProduct().itemAttachments(), function (item) {
-                            if (item.fileSourcePath() === data && item.fileName() === file.name) {
-                                flag = false;
-                            }
-                        });
+                        //_.each(selectedProduct().itemAttachments(), function (item) {
+                        //    if (item.fileSourcePath() === data && item.fileName() === file.name) {
+                        //        flag = false;
+                        //    }
+                        //});
 
-                        if (flag) {
-                            selectedAttachment().fileSourcePath(data);
-                            selectedAttachment().fileName(file.name);
-                            if (file.name.indexOf(".") > -1) {
-                                selectedAttachment().fileType("." + file.name.split(".")[1]);
-                            }
-                            selectedAttachment().companyId(selectedOrder().companyId());
-                            selectedAttachment().itemId(selectedProduct().id());
-                            selectedAttachment().uploadDate(new Date());
+                        //if (flag) {
 
+
+                        //}
+
+                        selectedAttachment().fileSourcePath(data);
+                        selectedAttachment().fileName(file.name);
+                        if (file.name.indexOf(".") > -1) {
+                            selectedAttachment().fileType("." + file.name.split(".")[1]);
                         }
+                        selectedAttachment().companyId(selectedOrder().companyId());
+                        selectedAttachment().itemId(selectedProduct().id());
+                        selectedAttachment().uploadDate(new Date());
                     },
                     // Attachment Types
                     attchmentTypes = ko.observableArray([
@@ -1765,6 +1699,22 @@ define("common/itemDetail.viewModel",
                     // Save Attachment
                     saveAttachment = function () {
                         if (dobeforeSaveItemAttachment()) {
+                            if (selectedAttachment().isNewOrUpdate() === "2") {
+                                var attachments = [];
+                                _.each(selectedProduct().itemAttachments(), function (item) {
+                                    if (item.parent() === selectedAttachment().parent()) {
+                                        attachments.push(item);
+                                    }
+                                });
+                                var attachment = _.find(selectedProduct().itemAttachments(), function (item) {
+                                    return item.id() === selectedAttachment().parent();
+                                });
+                                if (attachment !== null && attachment !== undefined) {
+                                    selectedAttachment().fileTitle(attachment.fileTitle() + "_V_" + (attachments.length + 1));
+                                }
+                            } else {
+                                selectedAttachment().parent(null);
+                            }
                             selectedProduct().itemAttachments.push(selectedAttachment());
                             hideAttachmentDialog();
                         }
@@ -1779,27 +1729,32 @@ define("common/itemDetail.viewModel",
                         }
                         return flag;
                     },
-                    parentFilterFileList = ko.observableArray([]),
-
                     // Parent attachment List
-                    parentFileList = ko.computed(function () {
-                        if (selectedAttachment && selectedAttachment().isNewOrUpdate() === "2") {
-                            parentFilterFileList.removeAll();
-                            _.each(selectedProduct().itemAttachments(), function (attachment) {
-                                if ((attachment.parent() === 0 || attachment.parent() === null) && attachment.id() > 0) {
-                                    parentFilterFileList.push(attachment);
-                                }
-                            });
+                    parentFilterFileList = ko.computed(function () {
+                        if (selectedProduct().itemAttachments().length === 0) {
+                            return [];
                         }
-
+                        return selectedProduct().itemAttachments.filter(function(attachment) {
+                            return !attachment.parent() && (attachment.id() > 0);
+                        });
                     }),
-            //Initialize
-            initialize = function (specifiedView) {
-                view = specifiedView;
-                ko.applyBindings(view.viewModel, view.bindingRoot);
-                getBaseData();
-                //pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
-            };
+                    // Delete Item attachment
+                    deleteItemAttachment = function (attachment) {
+                        confirmation.afterProceed(function () {
+                            selectedProduct().itemAttachments.remove(attachment);
+                        });
+                        confirmation.afterCancel(function () {
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                //Initialize
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    getBaseData();
+                    //pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
+                };
 
                 return {
 
@@ -1814,10 +1769,8 @@ define("common/itemDetail.viewModel",
                     markups: markups,
                     inkCoverageGroup: inkCoverageGroup,
                     inks: inks,
-                    availableInkPlateSides: availableInkPlateSides,
                     sectionVisibilityHandler: sectionVisibilityHandler,
                     isEstimateScreen: isEstimateScreen,
-                    availableInkPalteChange: availableInkPalteChange,
                     side1Image: side1Image,
                     side2Image: side2Image,
                     showSide1Image: showSide1Image,
@@ -1903,6 +1856,8 @@ define("common/itemDetail.viewModel",
                     attchmentTypes: attchmentTypes,
                     saveAttachment: saveAttachment,
                     parentFilterFileList: parentFilterFileList,
+                    isSide1InkButtonClicked: isSide1InkButtonClicked,
+                    deleteItemAttachment: deleteItemAttachment
                     //#endregion
                 };
             })()
