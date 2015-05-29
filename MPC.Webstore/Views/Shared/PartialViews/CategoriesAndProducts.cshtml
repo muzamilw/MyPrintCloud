@@ -75,16 +75,9 @@
                                }
                                else if (feature.ProductType == (int)ProductType.PrintProduct)
                                {
-                                   if (feature.IsUploadImage == true)
-                                   {
-                                       RedirectURL = "/ProductOptions/" + 0 + "/" + feature.ItemId + "/UploadDesign";
-                                   }
-                                   else
-                                   {
-
+                                   
                                        RedirectURL = "/CloneProducts/" + feature.ItemId;
-                                   }
-
+                                  
                                }
                                else if (feature.ProductType == (int)ProductType.NonPrintProduct) // for non print product
                                {
