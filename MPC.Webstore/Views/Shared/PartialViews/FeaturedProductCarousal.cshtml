@@ -39,15 +39,9 @@
                                 }
                                 else if (featuredList[i + 1].ProductType == (int)ProductType.PrintProduct)
                                 {
-                                    if (featuredList[i + 1].IsUploadImage == true)
-                                    {
-                                        RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 1].ItemId + "/UploadDesign";
-                                    }
-                                    else
-                                    {
-
-                                        RedirectURL = "/CloneFeatureItem/" + featuredList[i + 1].ItemId;
-                                    }
+                                    
+                                    RedirectURL = "/CloneFeatureItem/" + featuredList[i + 1].ItemId;
+                                  
 
                                 }
                                 else if (featuredList[i + 1].ProductType == (int)ProductType.NonPrintProduct) // for non print product
@@ -104,16 +98,10 @@
                                             }
                                             else if (featuredList[i + 2].ProductType == (int)ProductType.PrintProduct)
                                             {
-                                                if (featuredList[i + 2].IsUploadImage == true)
-                                                {
-                                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 2].ItemId + "/UploadDesign";
-                                                }
-                                                else
-                                                {
-
+                                                
+                                                   
                                                     RedirectURL = "/CloneFeatureItem/" + featuredList[i + 2].ItemId;
-                                                }
-
+                                                
                                             }
                                             else if (featuredList[i + 2].ProductType == (int)ProductType.NonPrintProduct) // for non print product
                                             {
@@ -167,16 +155,9 @@
                                         }
                                         else if (featuredList[i + 3].ProductType == (int)ProductType.PrintProduct)
                                         {
-                                            if (featuredList[i + 3].IsUploadImage == true)
-                                            {
-                                                RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 3].ItemId + "/UploadDesign";
-                                            }
-                                            else
-                                            {
-
+                                           
                                                 RedirectURL = "/CloneFeatureItem/" + featuredList[i + 3].ItemId;
-                                            }
-
+                                            
                                         }
                                         else if (featuredList[i + 3].ProductType == (int)ProductType.NonPrintProduct) // for non print product
                                         {
@@ -229,16 +210,9 @@
                                         }
                                         else if (featuredList[i + 4].ProductType == (int)ProductType.PrintProduct)
                                         {
-                                            if (featuredList[i + 4].IsUploadImage == true)
-                                            {
-                                                RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 4].ItemId + "/UploadDesign";
-                                            }
-                                            else
-                                            {
-
+                                           
                                                 RedirectURL = "/CloneFeatureItem/" + featuredList[i + 4].ItemId;
-                                            }
-
+                                            
                                         }
                                         else if (featuredList[i + 4].ProductType == (int)ProductType.NonPrintProduct) // for non print product
                                         {

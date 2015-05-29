@@ -406,7 +406,7 @@
             </div>
             <div class="modal-footer" style="padding-right: 8px; padding-bottom: 20px;" >
                 <hr />
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveEmail">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveEmail, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="visible:campaignType() !== 1,click:$root.onDeleteEmail, enable: $root.selectedEmail().id() != undefined">Archive</button>
             </div>

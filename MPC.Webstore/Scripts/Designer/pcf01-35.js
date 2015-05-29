@@ -610,25 +610,37 @@ function f2(c, m, y, k, ColorHex, Sname) {
             D1AO.K = k;
             pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
         } else if (D1AO.type == 'path-group' || D1AO.type == 'path') {
+            var orignalClr = "";
             $.each(D1AO.customStyles, function (i, IT) {
-                if (i == selectedPathIndex)
+                if (i == selectedPathIndex) {
+                    orignalClr = IT.OriginalColor;
+                }
+
+            });
+            $.each(D1AO.customStyles, function (i, IT) {
+                if (IT.OriginalColor == orignalClr)
                 {
                     IT.ModifiedColor = ColorHex;
                     $(".BtnChngeSvgClr" + i).css("background-color", ColorHex);
                 }
                
             });
-            if (D1AO.isSameColor && D1AO.isSameColor() || !D1AO.paths) {
-                D1AO.setFill(ColorHex);
-            }
-            else if (D1AO.paths) {
-                for (var i = 0; i < D1AO.paths.length; i++) {
-                    if(i == selectedPathIndex)
-                    {
-                        D1AO.paths[i].setFill(ColorHex);
+            $.each(D1AO.customStyles, function (j, IT) {
+                var clr = IT.OriginalColor;
+                if (IT.ModifiedColor != "")
+                    clr = IT.ModifiedColor;
+
+                if (D1AO.isSameColor && D1AO.isSameColor() || !D1AO.paths) {
+                    D1AO.setFill(clr);
+                }
+                else if (D1AO.paths) {
+                    for (var i = 0; i < D1AO.paths.length; i++) {
+                        if (i == j) {
+                            D1AO.paths[i].setFill(clr);
+                        }
                     }
                 }
-            }
+            });
             //alert();
         }
 
@@ -1603,12 +1615,17 @@ function g2_22(mode) {
         }
         $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden");
         $(".svgColorContainer").html("");
+        var lstClrs = [];
         if (D1AO.customStyles != null) {
             $.each(D1AO.customStyles, function (i, IT) {
+
                 var clr = IT.OriginalColor;
-                if (IT.ModifiedColor != "")
-                    clr = IT.ModifiedColor;
-                $(".svgColorContainer").append('<button id="" class="BtnChngeClr btnChangeShapeColor BtnChngeSvgClr'+i+'" title="Color picker" style="display: inline-block; background-color:' + clr + ' " onclick="f2_ChangeSVGColor(' + IT.PathIndex + ');"> </button>');
+                if (!inList(lstClrs, clr)) {
+                    lstClrs.push(clr);
+                    if (IT.ModifiedColor != "")
+                        clr = IT.ModifiedColor;
+                    $(".svgColorContainer").append('<button id="" class="BtnChngeClr btnChangeShapeColor BtnChngeSvgClr' + i + '" title="Color picker" style="display: inline-block; background-color:' + clr + ' " onclick="f2_ChangeSVGColor(' + IT.PathIndex + ');"> </button>');
+                }
             });
         } 
     } else {
@@ -1637,6 +1654,17 @@ function g2_22(mode) {
         }
     }
     g1_(D1AO);
+}
+function inList(list,obj) {
+    var res = false;
+    $.each(list, function (i, IT) {
+        if(IT == obj)
+        {
+            res = true;
+            return res;
+        }
+    });
+    return res;
 }
 function g5(e) {
     IsDesignModified = true;
