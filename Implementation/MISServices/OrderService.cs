@@ -571,6 +571,26 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Get base data for Estimate
+        /// Difference from order is Different Section Id
+        /// </summary>
+        public OrderBaseResponse GetBaseDataForEstimate()
+        {
+            return new OrderBaseResponse
+            {
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate),
+                SystemUsers = systemUserRepository.GetAll(),
+                PipeLineSources = pipeLineSourceRepository.GetAll(),
+                PaymentMethods = paymentMethodRepository.GetAll(),
+                Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
+                // ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
+                PipeLineProducts = pipeLineProductRepository.GetAll(),
+                LoggedInUser = organisationRepository.LoggedInUserId
+            };
+        }
+
+        /// <summary>
         /// Get base data for Inquiries
         /// </summary>
         public InquiryBaseResponse GetBaseDataForInquiries()

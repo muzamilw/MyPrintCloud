@@ -62,5 +62,6 @@ namespace MPC.Interfaces.MISServices
         bool ProgressEstimateToOrder(ProgressEstimateRequestModel requestModel);
         Estimate CloneOrder(Estimate source);
         InquiryBaseResponse GetBaseDataForInquiries();
+        OrderBaseResponse GetBaseDataForEstimate();
     }
 }
