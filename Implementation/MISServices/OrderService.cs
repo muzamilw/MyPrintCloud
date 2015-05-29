@@ -148,6 +148,8 @@ namespace MPC.Implementation.MISServices
         private ItemAttachment CreateItemAttachment()
         {
             ItemAttachment itemTarget = itemAttachmentRepository.Create();
+            itemTarget.UploadDate = DateTime.Now;
+            itemTarget.UploadTime = DateTime.Now;
             itemAttachmentRepository.Add(itemTarget);
             return itemTarget;
         }
@@ -568,6 +570,17 @@ namespace MPC.Implementation.MISServices
                    };
         }
 
+        /// <summary>
+        /// Get base data for Inquiries
+        /// </summary>
+        public InquiryBaseResponse GetBaseDataForInquiries()
+        {
+            return new InquiryBaseResponse
+            {
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int) SectionEnum.Inquiries)
+            };
+        }
+
         public ItemDetailBaseResponse GetBaseDataForItemDetails()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
@@ -769,7 +782,7 @@ namespace MPC.Implementation.MISServices
 
             Estimate est_Source = GetById(source.EstimateId);
             est_Source.StatusId = 39;
-            
+
             target = UpdateEstimeteOnCloning(est_Source, target, source);
             target.RefEstimateId = source.EstimateId;
 
