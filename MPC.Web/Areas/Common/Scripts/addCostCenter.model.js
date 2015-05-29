@@ -2,7 +2,7 @@
     var
 
     CostCentre = function (specifiedId, specifiedname,
-          specifiedDes, specifiedSetupcost, specifiedPpq, specifiedCompanyTax, specifiedquantity1, specifiedquantity2, specifiedquantity3) {
+          specifiedDes, specifiedSetupcost, specifiedPpq, specifiedCompanyTax, specifiedDeliveryCharges, specifiedquantity1, specifiedquantity2, specifiedquantity3) {
 
         var self,
             id = ko.observable(specifiedId),
@@ -11,12 +11,19 @@
             quantity2 = ko.observable(specifiedquantity2),
             quantity3 = ko.observable(specifiedquantity3),
             description = ko.observable(specifiedDes),
+            deliveryCharges = ko.observable(specifiedDeliveryCharges),
             setupCost = ko.observable(specifiedSetupcost).extend({ numberInput: ist.numberFormat }),
             setupCostWithTax = ko.computed(function () {
                 if (specifiedCompanyTax != undefined && specifiedCompanyTax != null) {
                     return setupCost() + (setupCost() * (specifiedCompanyTax / 100));
                 }
                 return setupCost();
+            }),
+            deliveryChargesWithTax = ko.computed(function () {
+                if (specifiedCompanyTax != undefined && specifiedCompanyTax != null) {
+                    return deliveryCharges() + (deliveryCharges() * (specifiedCompanyTax / 100));
+                }
+                return deliveryCharges();
             }),
             pricePerUnitQuantity = ko.observable(specifiedPpq).extend({ numberInput: ist.numberFormat }),
             errors = ko.validation.group({
@@ -50,7 +57,8 @@
                     Name: name(),
                     Description: description(),
                     SetupCost: setupCost(),
-                    PricePerUnitQuantity: pricePerUnitQuantity()
+                    PricePerUnitQuantity: pricePerUnitQuantity(),
+                    DeliveryCharges: deliveryCharges()
                 };
             },
             // Reset
@@ -67,6 +75,8 @@
             setupCost: setupCost,
             pricePerUnitQuantity: pricePerUnitQuantity,
             setupCostWithTax: setupCostWithTax,
+            deliveryChargesWithTax: deliveryChargesWithTax,
+            deliveryCharges: deliveryCharges,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -84,7 +94,8 @@
             source.Description,
             source.SetupCost,
             source.PricePerUnitQuantity,
-            source.CompanyTaxRate
+            source.CompanyTaxRate,
+            source.DeliveryCharges
             );
         return cost;
     };
