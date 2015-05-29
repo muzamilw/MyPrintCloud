@@ -238,7 +238,7 @@
         <AssociationConnector Association="DomainModels.FK_Organisation_Currency" />
         <AssociationConnector Association="DomainModels.FK_Organisation_LengthUnit" />
         <AssociationConnector Association="DomainModels.FK_Organisation_WeightUnit" />
-        <EntityTypeShape EntityType="DomainModels.CostCenterChoice" Width="1.5" PointX="35.375" PointY="32.875" />
+        <EntityTypeShape EntityType="DomainModels.CostCenterChoice" Width="1.5" PointX="35.375" PointY="33.5" />
         <EntityTypeShape EntityType="DomainModels.InkCoverageGroup" Width="1.5" PointX="35.375" PointY="35.875" />
         <EntityTypeShape EntityType="DomainModels.MachineSpoilage" Width="1.5" PointX="5.375" PointY="36.875" />
         <EntityTypeShape EntityType="DomainModels.Report" Width="1.5" PointX="37.375" PointY="29.875" />
@@ -316,10 +316,11 @@
         <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_lookup_methods" />
         <AssociationConnector Association="DomainModels.FK_Machine_LookupMethod" />
         <AssociationConnector Association="DomainModels.FK_ProductMarketBriefQuestion_Item" />
-        <EntityTypeShape EntityType="DomainModels.ImpositionProfile" Width="1.5" PointX="41.375" PointY="7.75" />
         <AssociationConnector Association="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" />
         <AssociationConnector Association="DomainModels.FK_DeliveryNote_SectionFlag" />
         <AssociationConnector Association="DomainModels.FK_DeliveryNoteDetail_DeliveryNote" />
+        <AssociationConnector Association="DomainModels.FK_InquiryItem_Pipelineproduct" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_Machine2" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

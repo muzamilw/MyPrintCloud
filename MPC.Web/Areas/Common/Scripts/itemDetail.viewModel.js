@@ -14,6 +14,7 @@ define("common/itemDetail.viewModel",
                     showItemDetailsSection = ko.observable(false),
                     showSectionDetail = ko.observable(false),
                     selectedProduct = ko.observable(model.Item.Create({})),
+                    selectedAttachment = ko.observable(model.ItemAttachment.Create({})),
                     // Best PressL ist
                     bestPressList = ko.observableArray([]),
                     // User Cost Center List For Run Wizard
@@ -45,15 +46,20 @@ define("common/itemDetail.viewModel",
                     // Press list
                     presses = ko.observableArray([]),
                     // Impression Coverages
-                    impressionCoverages = ko.observableArray([{
-                        Name: "High", Id: 1
-                    },
-                    {
-                        Name: "Medium", Id: 2
-                    },
-                    {
-                        Name: "Low", Id: 3
-                    }]),
+                    impressionCoverages = ko.observableArray([
+                        {
+                            Name: "High",
+                            Id: 1
+                        },
+                        {
+                            Name: "Medium",
+                            Id: 2
+                        },
+                        {
+                            Name: "Low",
+                            Id: 3
+                        }
+                    ]),
                     // Job Statuses
                     jobStatuses = ko.observableArray([
                         {
@@ -757,7 +763,7 @@ define("common/itemDetail.viewModel",
                                 if (selectedSection().printingTypeUi() === '2') {
                                     return;
                                 }
-                                
+
                                 // Get Ptv Calculation
                                 getPtvCalculation(getSectionSystemCostCenters);
                             }
@@ -850,7 +856,7 @@ define("common/itemDetail.viewModel",
 
                             getPtvCalculation();
                         });
-                        
+
                         // On Press Change set Section Size Width to Press Max Width
                         selectedSection().pressId.subscribe(function (value) {
                             if (value !== selectedSection().pressId()) {
@@ -865,7 +871,7 @@ define("common/itemDetail.viewModel",
                             selectedSection().sectionSizeWidth(press.maxSheetWidth || 0);
                             getSectionSystemCostCenters();
                         });
-                        
+
                         // On Press Side 2 Change set Section Size Width to Press Max Width
                         selectedSection().pressIdSide2.subscribe(function (value) {
                             if (value !== selectedSection().pressIdSide2()) {
@@ -876,8 +882,8 @@ define("common/itemDetail.viewModel",
                         });
                     },
                     // Get Press By Id
-                    getPressById = function(pressId) {
-                        return presses.find(function(press) {
+                    getPressById = function (pressId) {
+                        return presses.find(function (press) {
                             return press.id === pressId;
                         });
                     },
@@ -1401,8 +1407,7 @@ define("common/itemDetail.viewModel",
                         if (!selectedSection().pressId()) {
                             toastr.info("Please Select Side 1 Press in order to get Cost Centers");
                             return;
-                        }
-                        else if (selectedSection().numberUp() <= 0) {
+                        } else if (selectedSection().numberUp() <= 0) {
                             toastr.info("Sheet plan cannot be zero in order to get Cost Centers");
                             return;
                         }
@@ -1471,15 +1476,15 @@ define("common/itemDetail.viewModel",
                     clickOnWizardOk = function () {
                         getSectionSystemCostCenters();
                     },
-                //Show Estimate Run Wizard
+                    //Show Estimate Run Wizard
                     showEstimateRunWizard = function () {
                         view.showEstimateRunWizard();
                     },
-                //Hide Estimate Run Wizard
+                    //Hide Estimate Run Wizard
                     hideEstimateRunWizard = function () {
                         view.hideEstimateRunWizard();
                     },
-                // Open Stock Item Dialog For Adding Stock
+                    // Open Stock Item Dialog For Adding Stock
                     openStockItemDialogForAddingStock = function () {
                         //view.showCostCentersQuantityDialog();
                         isAddProductFromInventory(false);
@@ -1488,7 +1493,7 @@ define("common/itemDetail.viewModel",
                             onSaveStockItem(stockItem);
                         }, stockCategory.paper, false);
                     },
-                //On Save Stock Item From Item Edit Dialog
+                    //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {
                         var costCenter = model.costCentre.Create({});
                         selectedCostCentre(costCenter);
@@ -1505,7 +1510,7 @@ define("common/itemDetail.viewModel",
                         hideCostCentreDialog();
                         hideCostCentreQuantityDialog();
                     },
-                //Product From Cost Center
+                    //Product From Cost Center
                     createNewCostCenterProduct = function (costCenter) {
                         selectedCostCentre(costCenter);
                         var item = model.Item.Create({ EstimateId: selectedOrder().id() });
@@ -1553,7 +1558,7 @@ define("common/itemDetail.viewModel",
                         selectedSection(itemSection);
 
                     },
-                // Copy job Cards
+                    // Copy job Cards
                     copyJobCards = function () {
                         selectedProduct();
                         var conCatJobCards = "";
@@ -1605,7 +1610,7 @@ define("common/itemDetail.viewModel",
                         selectedProduct().invoiceDescription(conCatJobCards);
                     },
 
-                //Update Orders Data (metho fwrite to trigger computed methods)
+                    //Update Orders Data (metho fwrite to trigger computed methods)
                     updateOrderData = function (selectedOrderParam, selectedProductParam, selectedSectionCostCenterParam, selectedQtyParam, selectedSectionParam) {
                         selectedOrder(selectedOrderParam);
                         selectedProduct(selectedProductParam);
@@ -1630,7 +1635,7 @@ define("common/itemDetail.viewModel",
                         showSectionDetail(false);
                         selectedSection(undefined);
                     },
-                // Remove Item Section
+                    // Remove Item Section
                     deleteSection = function (section) {
                         confirmation.messageText("Are you sure you want to remove section?");
                         confirmation.afterProceed(function () {
@@ -1647,39 +1652,39 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
 
                     },
-                // Open Phrase Library
-                        openPhraseLibrary = function () {
-                            phraseLibrary.isOpenFromPhraseLibrary(false);
-                            phraseLibrary.show(function (phrase) {
-                                updateJobDescription(phrase);
-                            });
-                        },
+                    // Open Phrase Library
+                    openPhraseLibrary = function () {
+                        phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.show(function (phrase) {
+                            updateJobDescription(phrase);
+                        });
+                    },
 
-                // Update Job Description
-                updateJobDescription = function (phrase) {
-                    if (!phrase) {
-                        return;
-                    }
+                    // Update Job Description
+                    updateJobDescription = function (phrase) {
+                        if (!phrase) {
+                            return;
+                        }
 
-                    // Set Phrase to selected Job Description
-                    if (selectedJobDescription() === 'txtDescription1') {
-                        selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
-                    } else if (selectedJobDescription() === 'txtDescription2') {
-                        selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
-                    } else if (selectedJobDescription() === 'txtDescription3') {
-                        selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
-                    } else if (selectedJobDescription() === 'txtDescription4') {
-                        selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
-                    } else if (selectedJobDescription() === 'txtDescription5') {
-                        selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
-                    } else if (selectedJobDescription() === 'txtDescription6') {
-                        selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
-                    } else if (selectedJobDescription() === 'txtDescription7') {
-                        selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
-                    }
-                },
+                        // Set Phrase to selected Job Description
+                        if (selectedJobDescription() === 'txtDescription1') {
+                            selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription2') {
+                            selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription3') {
+                            selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription4') {
+                            selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription5') {
+                            selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription6') {
+                            selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
+                        } else if (selectedJobDescription() === 'txtDescription7') {
+                            selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
+                        }
+                    },
                     counter = 0,
-                // Create new Item Section
+                    // Create new Item Section
                     createNewItemSection = function () {
                         var itemSection = model.ItemSection.Create({ ItemId: selectedProduct().id() });
                         counter = counter - 1;
@@ -1717,7 +1722,7 @@ define("common/itemDetail.viewModel",
                         return;
                     },
 
-                //#endregion
+                    //#endregion
                     itemAttachmentFileLoadedCallback = function (file, data) {
                         //Flag check, whether file is already exist in media libray
                         var flag = true;
@@ -1729,22 +1734,72 @@ define("common/itemDetail.viewModel",
                         });
 
                         if (flag) {
-                            var attachment = model.ItemAttachment.Create({});
-                            attachment.id(undefined);
-                            attachment.fileSourcePath(data);
-                            attachment.fileName(file.name);
-                            attachment.companyId(selectedOrder().companyId());
-                            attachment.itemId(selectedProduct().id());
-                            selectedProduct().itemAttachments.push(attachment);
+                            selectedAttachment().fileSourcePath(data);
+                            selectedAttachment().fileName(file.name);
+                            if (file.name.indexOf(".") > -1) {
+                                selectedAttachment().fileType("." + file.name.split(".")[1]);
+                            }
+                            selectedAttachment().companyId(selectedOrder().companyId());
+                            selectedAttachment().itemId(selectedProduct().id());
+                            selectedAttachment().uploadDate(new Date());
+
                         }
                     },
-                    //Initialize
-                    initialize = function (specifiedView) {
-                        view = specifiedView;
-                        ko.applyBindings(view.viewModel, view.bindingRoot);
-                        getBaseData();
-                        //pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
-                    };
+                    // Attachment Types
+                    attchmentTypes = ko.observableArray([
+                        { id: "Artwork", name: "Artwork" },
+                        { id: "Draft", name: "Draft" },
+                        { id: "Sample", name: "Sample" },
+                        { id: "Copy", name: "Copy" },
+                        { id: "Final", name: "Final" }
+                    ]),
+                    // Upload Item Attachment
+                    uploadItemAttachment = function () {
+                        selectedAttachment(model.ItemAttachment()),
+                            view.showAttachmentModal();
+                    },
+                    // Hide Attachment Dialog
+                    hideAttachmentDialog = function () {
+                        view.hideAttachmentModal();
+                    },
+                    // Save Attachment
+                    saveAttachment = function () {
+                        if (dobeforeSaveItemAttachment()) {
+                            selectedProduct().itemAttachments.push(selectedAttachment());
+                            hideAttachmentDialog();
+                        }
+
+                    },
+                    // Dobefore Save
+                    dobeforeSaveItemAttachment = function () {
+                        var flag = true;
+                        if (!selectedAttachment().isValid()) {
+                            selectedAttachment().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    parentFilterFileList = ko.observableArray([]),
+
+                    // Parent attachment List
+                    parentFileList = ko.computed(function () {
+                        if (selectedAttachment && selectedAttachment().isNewOrUpdate() === "2") {
+                            parentFilterFileList.removeAll();
+                            _.each(selectedProduct().itemAttachments(), function (attachment) {
+                                if ((attachment.parent() === 0 || attachment.parent() === null) && attachment.id() > 0) {
+                                    parentFilterFileList.push(attachment);
+                                }
+                            });
+                        }
+
+                    }),
+            //Initialize
+            initialize = function (specifiedView) {
+                view = specifiedView;
+                ko.applyBindings(view.viewModel, view.bindingRoot);
+                getBaseData();
+                //pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
+            };
 
                 return {
 
@@ -1841,7 +1896,13 @@ define("common/itemDetail.viewModel",
                     weightUnit: weightUnit,
                     searchString: searchString,
                     presses: presses,
-                    impressionCoverages: impressionCoverages
+                    impressionCoverages: impressionCoverages,
+                    selectedAttachment: selectedAttachment,
+                    uploadItemAttachment: uploadItemAttachment,
+                    hideAttachmentDialog: hideAttachmentDialog,
+                    attchmentTypes: attchmentTypes,
+                    saveAttachment: saveAttachment,
+                    parentFilterFileList: parentFilterFileList,
                     //#endregion
                 };
             })()

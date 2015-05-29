@@ -67,6 +67,7 @@
         public string originalTextStyles { get; set; }
         public string originalContentString { get; set; }
         public bool? hasInlineFontStyle { get; set; }
+        public bool? autoCollapseText { get; set; }
         public virtual Template Template { get; set; }
     }
 }

@@ -1274,18 +1274,24 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     //#region INQUIRY ITEMS
 
     var InquiryItem = function (
-        specifiedInquiryItemId, specifiedTitle, specifiedNotes, specifiedDeliveryDate, specifiedInquiryId, specifiedProductId
+        specifiedInquiryItemId, specifiedTitle, specifiedNotes, specifiedDeliveryDate, specifiedInquiryId, specifiedProductId, specifiedMarketingSource
     ) {
         var self,
         inquiryItemId = ko.observable(specifiedInquiryItemId),
-        title = ko.observable(specifiedTitle),
+        title = ko.observable(specifiedTitle).extend({ required: true }),
         notes = ko.observable(specifiedNotes),
         deliveryDate = ko.observable(specifiedDeliveryDate ? moment(specifiedDeliveryDate).toDate() : moment().toDate()),
         inquiryId = ko.observable(specifiedInquiryId),
         productId = ko.observable(specifiedProductId),
+        marketingSource = ko.observable(specifiedMarketingSource),
         errors = ko.validation.group({
-
+            title: title
         }),
+        // Show All Error Messages
+        showAllErrors = function () {
+            // Show Item Errors
+            errors.showAllMessages();
+        },
         // Is Valid 
         isValid = ko.computed(function () {
             return errors().length === 0 ? true : false;
@@ -1328,8 +1334,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             deliveryDate: deliveryDate,
             inquiryId: inquiryId,
             productId: productId,
+            marketingSource: marketingSource,
             isValid: isValid,
             errors: errors,
+            showAllErrors: showAllErrors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
@@ -1337,7 +1345,17 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         };
         return self;
     };
-
+    InquiryItem.CreateFromClientModel = function (source) {
+        return new InquiryItem(
+            source.inquiryItemId,
+              source.title,
+              source.notes,
+              source.deliveryDate,
+              source.inquiryId,
+              source.productId,
+            source.MarketingSource
+        );
+    };
     InquiryItem.Create = function (source) {
         var inquiryItem = new InquiryItem(
               source.InquiryItemId,
@@ -1345,7 +1363,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               source.Notes,
               source.DeliveryDate,
               source.InquiryId,
-              source.ProductId
+              source.ProductId,
+            source.MarketingSource
             );
         return inquiryItem;
     };
