@@ -54,7 +54,7 @@
                         <label for="date" class="control-label text-right tooltip-float">Update File</label>
                     </div>
                     <div class="col-sm-5">
-                        <select class="form-control" data-bind="enable:($root.parentFilterFileList().length > 0 && isNewOrUpdate() === '2'),options: $root.parentFilterFileList, optionsText: 'fileTitle', optionsValue: 'id',value:parent,validationTooltip:parent"></select>
+                        <select class="form-control" data-bind="enable:($root.parentFilterFileList().length > 0 && isNewOrUpdate() === '2'),options: $root.parentFilterFileList, optionsText: 'fileTitle', optionsValue: 'id',optionsCaption: 'Select Parent',value:parent,validationTooltip:parent"></select>
                     </div>
                     <div class="col-sm-3">
                         <div class="radio">

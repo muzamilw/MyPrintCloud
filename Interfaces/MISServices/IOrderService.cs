@@ -68,7 +68,9 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Download Attachment
         /// </summary>
+        /// <summary>
+        /// Download Attachment
+        /// </summary>
         string DownloadAttachment(long id, out string fileName, out string fileType);
-
     }
 }
