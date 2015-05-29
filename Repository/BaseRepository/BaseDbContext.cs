@@ -679,12 +679,7 @@ namespace MPC.Repository.BaseRepository
         /// Machine Lookup Method DbSet
         /// </summary>
         public DbSet<MachineLookupMethod> MachineLookupMethods { get; set; }
-
-        /// <summary>
-        /// Imposition Profile DbSet
-        /// </summary>
-        public DbSet<ImpositionProfile> ImpositionProfiles { get; set; }
-
+        
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>

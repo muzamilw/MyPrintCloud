@@ -21,6 +21,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemAttachmentId = source.ItemAttachmentId,
                 FileTitle = source.FileTitle,
                 CompanyId = source.CompanyId,
+                UploadDate = source.UploadDate,
                 FileName = source.FileName,
                 FileType = source.FileType,
                 ItemId = source.ItemId,

@@ -13,6 +13,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string Value { get; set; }
         public int? Type { get; set; }
         public string Title { get; set; }
+        public string WaterMark { get; set; }
         public int? Scope { get; set; }
         public long? FakeVariableId { get; set; }
 

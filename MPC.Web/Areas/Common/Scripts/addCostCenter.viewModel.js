@@ -129,6 +129,10 @@ define("common/addCostCenter.viewModel",
                                  }
                              });
                          },
+                         //Hide
+                         hide= function() {
+                             view.hideDialog();
+                         },
                         // Get Cost Centers
                        getCostCentersForProduct = function () {
                            dataservice.getCostCentersForProduct({
@@ -172,6 +176,7 @@ define("common/addCostCenter.viewModel",
                     isCostCenterDialogForShipping: isCostCenterDialogForShipping,
                     onSaveProductCostCenter: onSaveProductCostCenter,
                     selectedCostCentre: selectedCostCentre,
+                    hide: hide,
                     currencySmb: currencySmb
                 };
             })()
