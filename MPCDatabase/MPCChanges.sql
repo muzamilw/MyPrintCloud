@@ -4000,3 +4000,26 @@ add constraint FK_DeliveryNoteDetail_DeliveryNote
 foreign key (DeliveryNoteId)
 references DeliveryNote (DeliveryNoteId)
 on delete cascade
+
+
+/* Execution Date: 29/05/2015 */
+
+alter table templateObject add autoCollapseText bit null
+
+alter table itemsection 
+alter column PressIdSide2 int null
+
+alter table itemsection 
+add constraint FK_ItemSection_Machine2
+foreign key (PressIdSide2)
+references Machine (MachineId)
+
+update inquiryItem
+set ProductId = null
+
+alter table inquiryitem
+add constraint FK_InquiryItem_Pipelineproduct
+foreign key (ProductId)
+references PipeLineProduct (ProductId)
+
+drop table ImpositionProfile

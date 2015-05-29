@@ -570,6 +570,17 @@ namespace MPC.Implementation.MISServices
                    };
         }
 
+        /// <summary>
+        /// Get base data for Inquiries
+        /// </summary>
+        public InquiryBaseResponse GetBaseDataForInquiries()
+        {
+            return new InquiryBaseResponse
+            {
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int) SectionEnum.Inquiries)
+            };
+        }
+
         public ItemDetailBaseResponse GetBaseDataForItemDetails()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();

@@ -173,7 +173,7 @@ namespace MPC.Models.DomainModels
         public int? InkColorType { get; set; }
         public int? PlateInkId { get; set; }
         public int? SimilarSections { get; set; }
-        public long? PressIdSide2 { get; set; }
+        public int? PressIdSide2 { get; set; }
         public int? ImpressionCoverageSide1 { get; set; }
         public int? ImpressionCoverageSide2 { get; set; }
         public int? PassesSide1 { get; set; }
@@ -182,6 +182,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
         public virtual StockItem StockItem { get; set; }
         public virtual Machine Machine { get; set; }
+        public virtual Machine MachineSide2 { get; set; }
         public virtual ICollection<SectionInkCoverage> SectionInkCoverages { get; set; }
 
         #region Public

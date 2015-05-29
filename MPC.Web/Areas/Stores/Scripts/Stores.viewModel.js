@@ -3322,6 +3322,33 @@ define("stores/stores.viewModel",
             templateToUsePaymentGateways = function (paymentGateway) {
                 return (paymentGateway === selectedPaymentGateway() ? 'editPaymentGatewayTemplate' : 'itemPaymentGatewayTemplate');
             },
+             //Payment Gateway filer string FYP
+            paymentGatewayFilter = ko.observable(),
+            // Search function for Payment Method
+           onSearchpaymentMethod= function() {
+               getPaymentGateway();
+           },
+           //Get Payment Method
+           getPaymentGateway=function() {
+               dataservice.getPaymentGateways({
+                   SearchFilter: paymentGatewayFilter(),
+                   CompanyId: selectedStore().companyId()
+                        }, {
+                            success: function (data) {
+                                selectedStore().paymentGateway.removeAll();
+                                if (data != null) {
+                                    _.each(data.PaymentGateways, function (item) {
+                                        var module = model.PaymentGateway.Create(item);
+                                        selectedStore().paymentGateway.push(module);
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To load Payment Gateways " + response, "", ist.toastrOptions);
+                            }
+                        });
+                    },
+                        
                 //Create Payment Gateway
             onCreateNewPaymentGateway = function () {
                 var paymentGateway = new model.PaymentGateway();
@@ -3361,9 +3388,19 @@ define("stores/stores.viewModel",
                             selectedPaymentGateway().paymentMethodName(paymentMethod.methodName());
                         }
                     });
-                    selectedPaymentGateway().paymentGatewayId(newPaymentGatewayId);
-                    addNewPaymentGatewayId();
-                    selectedStore().paymentGateway.splice(0, 0, selectedPaymentGateway());
+                    if (selectedPaymentGateway().paymentGatewayId()==undefined || selectedPaymentGateway().paymentGatewayId() <= 0) {
+                        selectedPaymentGateway().paymentGatewayId(newPaymentGatewayId);
+                        addNewPaymentGatewayId();
+                    }
+                    var notFound = true;
+                    _.each(selectedStore().paymentGateway(), function (item) {
+                        if (notFound && item.paymentGatewayId() == selectedPaymentGateway().paymentGatewayId()) {
+                            notFound = false;
+                        }
+                    });
+                    if (notFound) {
+                        selectedStore().paymentGateway.splice(0, 0, selectedPaymentGateway());
+                    }
                     view.hidePaymentGatewayDialog();
                 }
             },
@@ -4817,7 +4854,7 @@ define("stores/stores.viewModel",
                 if (ist.product.viewModel.filterText() !== undefined && ist.product.viewModel.filterText() !== '') {
                     ist.product.viewModel.filterText('');
                     isProductTabVisited(false);
-                }
+                } 
 
                 if (!isProductTabVisited()) {
                     isProductTabVisited(true);
@@ -6801,7 +6838,9 @@ define("stores/stores.viewModel",
                     calculateYellowValue: calculateYellowValue,
                     calculateMagentaValue: calculateMagentaValue,
                     selectedHexValue: selectedHexValue,
-                    onRemoveFieldVariable: onRemoveFieldVariable
+                    onRemoveFieldVariable: onRemoveFieldVariable,
+                    paymentGatewayFilter: paymentGatewayFilter,
+                    onSearchpaymentMethod: onSearchpaymentMethod
 
                 };
                 //#endregion
