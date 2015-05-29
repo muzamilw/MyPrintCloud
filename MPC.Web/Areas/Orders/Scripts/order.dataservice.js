@@ -24,6 +24,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Base Data For Estimate
+                    amplify.request.define('getBaseDataForEstimate', 'ajax', {
+                        url: ist.siteUrl + '/Api/EstimateBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                    
                     // Define request to get Inquiries
                     amplify.request.define('getInquiries', 'ajax', {
@@ -161,6 +167,15 @@ define("order/order.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // Get base data For Estimate
+            getBaseDataForEstimate = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseDataForEstimate',
                     success: callbacks.success,
                     error: callbacks.error,
                 });
@@ -376,6 +391,7 @@ define("order/order.dataservice", function () {
             progressEstimateToOrder: progressEstimateToOrder,
             getInquiryItems: getInquiryItems,
             getBaseDataForInquiry: getBaseDataForInquiry,
+            getBaseDataForEstimate: getBaseDataForEstimate,
             downloadOrderArtwork: downloadOrderArtwork
         };
     })();

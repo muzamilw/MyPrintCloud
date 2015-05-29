@@ -577,7 +577,7 @@ define("product/product.viewModel",
                         confirmation.show();
                     },
                     onDeleteItemStockOption = function (itemStockOption) {
-                        confirmation.messageText("Do you want to delete this price column attribute?");
+                        confirmation.messageText("Do you want to proceed with the request?");
                         confirmation.afterProceed(function () {
                             selectedProduct().removeItemStockOption(itemStockOption);
                         });
