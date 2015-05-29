@@ -4431,7 +4431,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #endregion ______________  Variable Option   _________________
 
     // #region ______________  Scope Variable  _________________
-    var ScopeVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType, specifiedScope) {
+    var ScopeVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType,
+        specifiedScope, specifiedWaterMark) {
         var self,
             id = ko.observable(specifiedContactVariableId),
             contactId = ko.observable(specifiedContactId),
@@ -4442,6 +4443,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             type = ko.observable(specifiedType),
             scope = ko.observable(specifiedScope),
             optionId = ko.observable(specifiedValue),
+            waterMark = ko.observable(specifiedWaterMark),
+            setValue = ko.computed(function () {
+                if (value() === undefined || value() === null || value() === "") {
+                    value(waterMark());
+                }
+            }),
             variableOptions = ko.observableArray([]),
 
             // Errors
@@ -4485,6 +4492,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             fakeId: fakeId,
             type: type,
             optionId: optionId,
+            waterMark: waterMark,
             variableOptions: variableOptions,
             isValid: isValid,
             errors: errors,
@@ -4504,7 +4512,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.Value,
              source.Title,
              source.Type,
-             source.Scope
+             source.Scope,
+            source.WaterMark
             );
     };
     // #endregion ______________  Company Contact Variable   _________________

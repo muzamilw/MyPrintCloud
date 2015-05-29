@@ -41,7 +41,7 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
-                   
+
                     // widget section header title
                     productsFilterHeading = ko.observable(),
 
@@ -1102,31 +1102,31 @@ define("stores/stores.viewModel",
                 isSavingNew = ko.observable(false),
                 // Template Chooser For Company CMYK Color
                 templateToUseCompanyCMYKColors = function (companyCMYKColor) {
-                return (companyCMYKColor === selectedCompanyCMYKColor() ? 'editCompanyCMYKColorTemplate' : 'itemCompanyCMYKColorTemplate');
-            },
+                    return (companyCMYKColor === selectedCompanyCMYKColor() ? 'editCompanyCMYKColorTemplate' : 'itemCompanyCMYKColorTemplate');
+                },
                 //Create Stock Sub Category
                 onCreateNewCompanyCMYKColor = function () {
-                var companyCMYKColor = new model.CompanyCMYKColor();
-                selectedCompanyCMYKColor(companyCMYKColor);
-                view.showCompanyCMYKColorDialog();
-                isSavingNew(true);
-                //var companyCMYKColor = selectedStore().companyCMYKColors()[0];
-                ////Create Company CMYK Color for the very First Time
-                //if (companyCMYKColor == undefined) {
-                //    selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
-                //    selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
-                //}
-                //    //If There are already company CMYK Color in list
-                //else {
-                //    if (!companyCMYKColor.isValid()) {
-                //        companyCMYKColor.errors.showAllMessages();
-                //    }
-                //    else {
-                //        selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
-                //        selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
-                //    }
-                //}
-            },
+                    var companyCMYKColor = new model.CompanyCMYKColor();
+                    selectedCompanyCMYKColor(companyCMYKColor);
+                    view.showCompanyCMYKColorDialog();
+                    isSavingNew(true);
+                    //var companyCMYKColor = selectedStore().companyCMYKColors()[0];
+                    ////Create Company CMYK Color for the very First Time
+                    //if (companyCMYKColor == undefined) {
+                    //    selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
+                    //    selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
+                    //}
+                    //    //If There are already company CMYK Color in list
+                    //else {
+                    //    if (!companyCMYKColor.isValid()) {
+                    //        companyCMYKColor.errors.showAllMessages();
+                    //    }
+                    //    else {
+                    //        selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
+                    //        selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
+                    //    }
+                    //}
+                },
                 // Delete a company CMYK Color
                 onDeleteCompanyCMYKColors = function (companyCMYKColor) {
                     // Ask for confirmation
@@ -1172,8 +1172,8 @@ define("stores/stores.viewModel",
                     }
                     if (doBeforeSaveCompanyCMYKColor() && isSavingNew() !== true) {
                         //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
-                        
-                        _.each(selectedStore().companyCMYKColors(), function(color) {
+
+                        _.each(selectedStore().companyCMYKColors(), function (color) {
                             if (color.colorId() == selectedCompanyCMYKColor().colorId()) {
                                 selectedStore().companyCMYKColors.remove(color);
                                 selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
@@ -1970,16 +1970,16 @@ define("stores/stores.viewModel",
                 //    });
                 //}
             }),
-                    
+
                 //Get State Name By State Id
                 //Method to be called on user and addresses tab selection
             userAndAddressesTabSelected = function () {
-                
+
                 // Resetting filter for Company Contact
-                if ((searchCompanyContactFilter() !== "" && searchCompanyContactFilter() !== undefined) ) {
+                if ((searchCompanyContactFilter() !== "" && searchCompanyContactFilter() !== undefined)) {
                     searchCompanyContactFilter('');
                 }
-               
+
                 // Resetting filter for Territory
                 if (searchCompanyTerritoryFilter() !== undefined && searchCompanyTerritoryFilter() !== '') {
                     searchCompanyTerritoryFilter('');
@@ -1988,7 +1988,7 @@ define("stores/stores.viewModel",
                 if ((searchAddressFilter() !== "" && searchAddressFilter() !== undefined)) {
                     searchAddressFilter('');
                 }
-                
+
                 isUserAndAddressesTabOpened(true);
             },
                 //Address Pager
@@ -3058,6 +3058,7 @@ define("stores/stores.viewModel",
                 scopeVariable.fakeId(item.fakeId());
                 scopeVariable.title(item.title());
                 scopeVariable.type(item.type());
+                scopeVariable.waterMark(item.waterMark());
                 scopeVariable.scope(item.scope());
                 scopeVariable.optionId(item.optionId());
                 ko.utils.arrayPushAll(scopeVariable.variableOptions, item.variableOptions());
@@ -4811,13 +4812,13 @@ define("stores/stores.viewModel",
                 //#region _________P R O D U C T S ______________________
             isProductTabVisited = ko.observable(false),
             getProducts = function () {
-                
+
                 // Resetting Filter on tab chnage 
                 if (ist.product.viewModel.filterText() !== undefined && ist.product.viewModel.filterText() !== '') {
                     ist.product.viewModel.filterText('');
                     isProductTabVisited(false);
                 }
-               
+
                 if (!isProductTabVisited()) {
                     isProductTabVisited(true);
                     ist.product.viewModel.initializeForStore(selectedStore().companyId(), selectedStore().taxRate());
