@@ -381,7 +381,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     footNotes: footNotes,
                     taxRate: taxRate,
                     sectionFlagId: sectionFlagId,
-                    statusId: statusId
+                    statusId: statusId,
+                    items:items
                 }),
                 // Item Has Changes
                 itemHasChanges = function() {

@@ -521,8 +521,8 @@ define("common/itemDetail.viewModel",
                     showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam, isEstimateScreenFlag) {
 
                         showSectionDetail(false);
-                        showItemDetailsSection(true);
                         selectedProduct(selectedProductParam);
+                        showItemDetailsSection(true);
                         selectedProduct().systemUsers(systemUsers());
                         selectedOrder(selectedOrderParam);
                         selectedSection(selectedProduct().itemSections()[0]);
@@ -790,7 +790,7 @@ define("common/itemDetail.viewModel",
                             if (value !== selectedSection().pressIdSide2()) {
                                 selectedSection().pressIdSide2(value);
                             }
-                            
+
                             var press = getPressById(value);
                             if (!press) {
                                 return;
@@ -1734,7 +1734,7 @@ define("common/itemDetail.viewModel",
                         if (selectedProduct().itemAttachments().length === 0) {
                             return [];
                         }
-                        return selectedProduct().itemAttachments.filter(function(attachment) {
+                        return selectedProduct().itemAttachments.filter(function (attachment) {
                             return !attachment.parent() && (attachment.id() > 0);
                         });
                     }),
@@ -1742,6 +1742,17 @@ define("common/itemDetail.viewModel",
                     deleteItemAttachment = function (attachment) {
                         confirmation.afterProceed(function () {
                             selectedProduct().itemAttachments.remove(attachment);
+
+                        });
+                        confirmation.afterCancel(function () {
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                    deleteItem = function (item) {
+                        confirmation.afterProceed(function () {
+                            selectedOrder().items.remove(selectedProduct());
+                            closeItemDetail();
                         });
                         confirmation.afterCancel(function () {
                         });
@@ -1857,7 +1868,8 @@ define("common/itemDetail.viewModel",
                     saveAttachment: saveAttachment,
                     parentFilterFileList: parentFilterFileList,
                     isSide1InkButtonClicked: isSide1InkButtonClicked,
-                    deleteItemAttachment: deleteItemAttachment
+                    deleteItemAttachment: deleteItemAttachment,
+                    deleteItem: deleteItem
                     //#endregion
                 };
             })()
