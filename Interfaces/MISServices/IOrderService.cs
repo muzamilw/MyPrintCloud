@@ -64,6 +64,10 @@ namespace MPC.Interfaces.MISServices
         Estimate CloneOrder(Estimate source);
         InquiryBaseResponse GetBaseDataForInquiries();
 
+        OrderBaseResponse GetBaseDataForEstimate();
+        /// <summary>
+        /// Download Attachment
+        /// </summary>
         /// <summary>
         /// Download Attachment
         /// </summary>

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" data-bind="click:$root.onCloseProductFromRetailStore" aria-hidden="true">&times;</button>
-                <h4 data-bind="text:'Product From Store : ' + $root.storeName()"></h4>
+                <h4>Product From Store <span data-bind="text:': ' + $root.selecteditemName(), visible: $root.selecteditemName() != undefined"></span> </h4>
             </div>
             <div class="col-sm-12 form-horizontal" style=" margin-top: 30px;">
                 <div class="col-sm-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="margin-left: 16px; width: 30%;">
