@@ -24,6 +24,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Base Data For Estimate
+                    amplify.request.define('getBaseDataForEstimate', 'ajax', {
+                        url: ist.siteUrl + '/Api/EstimateBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                    
                     // Define request to get Inquiries
                     amplify.request.define('getInquiries', 'ajax', {
@@ -140,7 +146,13 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                    // Define request to get base data for inquiry
+                    amplify.request.define('getBaseDataForInquiry', 'ajax', {
+                        url: ist.siteUrl + '/Api/InquiryBase',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'GET'
+                    });
                     // Define request to Get Inquiry Items
                     amplify.request.define('getInquiryItems', 'ajax', {
                         url: ist.siteUrl + '/Api/InquiryItem',
@@ -155,6 +167,15 @@ define("order/order.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // Get base data For Estimate
+            getBaseDataForEstimate = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseDataForEstimate',
                     success: callbacks.success,
                     error: callbacks.error,
                 });
@@ -328,6 +349,16 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+             // get Base Data For Inquiry
+            getBaseDataForInquiry = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseDataForInquiry',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
             // get Cost centres for company
             getCostCenters = function(params, callbacks) {
                 initialize();
@@ -359,6 +390,8 @@ define("order/order.dataservice", function () {
             progressInquiryToEstimate: progressInquiryToEstimate,
             progressEstimateToOrder: progressEstimateToOrder,
             getInquiryItems: getInquiryItems,
+            getBaseDataForInquiry: getBaseDataForInquiry,
+            getBaseDataForEstimate: getBaseDataForEstimate,
             downloadOrderArtwork: downloadOrderArtwork
         };
     })();

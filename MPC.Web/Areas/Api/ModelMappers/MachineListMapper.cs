@@ -28,6 +28,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 minimumsheetwidth= source.minimumsheetwidth,
                 minimumsheetheight = source.minimumsheetheight,
                 LookupMethodName = LookupMethod !=null? LookupMethod.Name:null,
+                isSheetFed = source.isSheetFed,
                 Image = bytes,
                 LookupMethodId = source.LookupMethodId
             };

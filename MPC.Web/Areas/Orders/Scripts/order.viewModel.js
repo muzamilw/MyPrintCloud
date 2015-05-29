@@ -115,6 +115,8 @@ define("order/order.viewModel",
                     },
                     orderTypeFilter = ko.observable(),
                     filterFlags = ko.observableArray([]),
+                    //Inquiries Section Flags
+                    inquiriesSectionFlags = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingOrders = ko.observable(false),
@@ -155,7 +157,8 @@ define("order/order.viewModel",
                     sectionHeader = ko.observable(''),
                     currencySymbol = ko.observable(''),
                     loggedInUser = ko.observable(),
-                    selectedInquiryItem = ko.observable(),
+                     inquiryDetailEditorViewModel = new ist.ViewModel(model.InquiryItem),
+                    selectedInquiryItem = inquiryDetailEditorViewModel.itemForEditing,
                     //On Order Status change to progress to job that will open wizard
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
                     // Active Order
@@ -187,6 +190,10 @@ define("order/order.viewModel",
                     //Inventory Stock Item To Create
                     inventoryStockItemToCreate = ko.observable(),
                     selectedCompanyContactOfInquiry = ko.observable(undefined),
+                    //Is Inquiry Base Data Loaded
+                    isInquiryBaseDataLoaded = ko.observable(false),
+                    inquiryDetailItemCounter = -1,
+                    isNewinquiryDetailItem = ko.observable(false),
                     // #endregion
                     // #region Utility Functions
 
@@ -252,6 +259,7 @@ define("order/order.viewModel",
                         selectedOrder().setOfficialOrderSetBy(loggedInUser());
                         view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
+                        selectedOrder().status("Open/Draft Estimate");
                         $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
                         openOrderEditor();
                     },
@@ -883,7 +891,9 @@ define("order/order.viewModel",
 
                     afterSelectCostCenter = function(costCenter) {
                         selectedCostCentre(costCenter);
-                        view.showCostCentersQuantityDialog();
+                        createNewCostCenterProductForShippingCharge();
+                        addCostCenterVM.hide();
+                        //view.showCostCentersQuantityDialog();
                     },
                     //Product From Cost Center
                     createNewCostCenterProduct = function() {
@@ -953,11 +963,119 @@ define("order/order.viewModel",
                         //this method is calling to update orders list view total prices etc by trigering computed in item's detail view
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
                     },
+
+                    //Req. Change: When adding CostCenter Product For shipping charge
+                    //Do not show quantity dialog
+                    createNewCostCenterProductForShippingCharge = function() {
+                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
+                        applyProductTax(item);
+                        selectedProduct(item);
+                        item.productName(selectedCostCentre().name());
+                        item.qty1NetTotal(selectedCostCentre().setupCost());
+                        //Req: Item Product code is set to '2', so while editting item's section is non mandatory
+                        item.productType(2);
+
+                        var itemSection = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSection.id(counterForSection);
+                        itemSection.name("Text Sheet");
+                       
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
+                        itemSection.baseCharge1(selectedCostCentre().setupCost());
+
+                        var sectionCostCenter = itemModel.SectionCostCentre.Create({});
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
+                        sectionCostCenter.costCentreId(selectedCostCentre().id());
+                        sectionCostCenter.costCentreName(selectedCostCentre().name());
+                        sectionCostCenter.name(selectedCostCentre().name());
+
+                        //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
+                        sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
+
+                        selectedSectionCostCenter(sectionCostCenter);
+                        selectedQty(1);
+                        itemSection.sectionCostCentres.push(sectionCostCenter);
+
+                        item.itemSections.push(itemSection);
+                        var itemSectionForAddView = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSectionForAddView.id(counterForSection);
+                        itemSectionForAddView.flagForAdd(true);
+                        item.itemSections.push(itemSectionForAddView);
+                        if (isCostCenterDialogForShipping()) {
+                            item.itemType(2); // Delivery Item
+                            var deliveryItem = _.find(selectedOrder().items(), function (itemWithType2) {
+                                return itemWithType2.itemType() === 2;
+                            });
+                            if (deliveryItem !== undefined) {
+                                selectedOrder().items.remove(deliveryItem);
+                            }
+
+                        }
+
+                        selectedOrder().items.splice(0, 0, item);
+
+                        selectedSection(itemSection);
+
+                        //this method is calling to update orders list view total prices etc by trigering computed in item's detail view
+                        itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                    },
                     // #endregion
                     //#region ServiceCalls
                     //Get Base Data
                     getBaseData = function() {
                         dataservice.getBaseData({
+                            success: function(data) {
+                                paperSizes.removeAll();
+                                inkPlateSides.removeAll();
+
+                                if (data.SectionFlags) {
+                                    mapList(sectionFlags, data.SectionFlags, model.SectionFlag);
+                                }
+                                if (data.SystemUsers) {
+                                    mapList(systemUsers, data.SystemUsers, model.SystemUser);
+                                }
+                                if (data.PipeLineSources) {
+                                    mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
+                                }
+                                if (data.PipeLineProducts) {
+                                    mapList(pipelineProducts, data.PipeLineProducts, model.PipeLineProduct);
+                                }
+                                paymentMethods.removeAll();
+                                if (data.PaymentMethods) {
+                                    ko.utils.arrayPushAll(paymentMethods(), data.PaymentMethods);
+                                    paymentMethods.valueHasMutated();
+                                }
+
+                                nominalCodes.removeAll();
+                                if (data.ChartOfAccounts) {
+                                    _.each(data.ChartOfAccounts, function(item) {
+                                        nominalCodes.push(item);
+                                    });
+                                }
+
+                                costCentresBaseData.removeAll(); //
+                                if (data.CostCenters) {
+                                    ko.utils.arrayPushAll(costCentresBaseData(), data.CostCenters);
+                                    costCentresBaseData.valueHasMutated();
+                                }
+
+                                currencySymbol(data.CurrencySymbol);
+                                loggedInUser(data.LoggedInUser || '');
+                                view.initializeLabelPopovers();
+                            },
+                            error: function(response) {
+                                toastr.error("Failed to load base data" + response);
+                                view.initializeLabelPopovers();
+                            }
+                        });
+                    },
+                    //Get Base Data
+                    getBaseDataForEstimate = function () {
+                        dataservice.getBaseDataForEstimate({
                             success: function(data) {
                                 paperSizes.removeAll();
                                 inkPlateSides.removeAll();
@@ -1955,6 +2073,9 @@ define("order/order.viewModel",
                         //
                         pager(new pagination.Pagination({ PageSize: 5 }, inquiries, getInquiries));
                         getInquiries();
+                        if (!isInquiryBaseDataLoaded()) {
+                            getInquiriesTabBaseData();
+                        }
                     },
                     getInquiries = function() {
                         isLoadingOrders(true);
@@ -1986,7 +2107,8 @@ define("order/order.viewModel",
                         selectedInquiry(model.Inquiry.Create({}, { SystemUsers: systemUsers(), PipelineSources: pipelineSources() }));
                         //When creating new inquiry by default the inquiry is "Draft Inquiry" and its status is 25(Status Table)
                         selectedInquiry().status(25);
-                       
+                        selectedInquiry().isDirectInquiry(true);
+                        selectedInquiry().createdBy(loggedInUser());
                         companyContacts.removeAll();
                         openOrderEditor();
                     },
@@ -2010,9 +2132,12 @@ define("order/order.viewModel",
                             selectedInquiry().inquiryAttachments.push(attachment);
                         }
                     },
-                    onCreateNewInquiryDetailItem = function() {
+                    onCreateNewInquiryDetailItem = function () {
                         selectedInquiryItem(model.InquiryItem.Create({}));
+                        selectedInquiryItem().inquiryItemId(inquiryDetailItemCounter);
+                        inquiryDetailItemCounter --;
                         view.showInquiryDetailItemDialog();
+                        isNewinquiryDetailItem(true);
                     },
                     editInquiry = function (inquiry) {
                         errorList.removeAll();
@@ -2037,9 +2162,11 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    editInquiryItem = function(inquiryItem) {
-                        selectedInquiryItem(inquiryItem);
+                    editInquiryItem = function (inquiryItem) {
+                        //selectedInquiryItem(inquiryItem);
+                        inquiryDetailEditorViewModel.selectItem(inquiryItem);
                         view.showInquiryDetailItemDialog();
+                        isNewinquiryDetailItem(false);
                     },
                     onSaveInquiry = function () {
                         if (!doBeforeSaveInquiry()) {
@@ -2091,10 +2218,39 @@ define("order/order.viewModel",
                         }
                         return flag;
                     },
-                    onSaveInquiryDetailItem = function () {
-                        if (!selectedInquiryItem().inquiryItemId() > 0 ) {
-                            selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
+                    doBeforeInquiryItemDetailSave = function() {
+                        var flag = true;
+                        if (!selectedInquiryItem().isValid()) {
+                            selectedInquiryItem().showAllErrors();
+                            //selectedInquiryItem().setValidationSummary(errorList);
+                            flag = false;
                         }
+                        return flag;
+                    },
+                    onSaveInquiryDetailItem = function () {
+                        if (doBeforeInquiryItemDetailSave()) {
+                            if (isNewinquiryDetailItem()) {
+                                updateSelectedProductMarketingSource();
+                                selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
+                            } else {
+                                _.each(selectedInquiry().inquiryItems(), function (inquiryItem) {
+                                    if (inquiryItem.inquiryItemId() == selectedInquiryItem().inquiryItemId()) {
+                                        selectedInquiry().inquiryItems.remove(inquiryItem);
+                                        updateSelectedProductMarketingSource();
+                                        selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
+                                    }
+                                });
+                            }
+                           
+                            view.hideInquiryDetailItemDialog();
+                        }
+                    },
+                    updateSelectedProductMarketingSource = function() {
+                        _.each(pipelineProducts(), function (product) {
+                            if (product.id == selectedInquiryItem().productId()) {
+                                selectedInquiryItem().marketingSource(product.name);
+                            }
+                        });
                     },
                     onCloseInquiryDetailItem = function() {
                         view.hideInquiryDetailItemDialog();
@@ -2158,11 +2314,13 @@ define("order/order.viewModel",
                             InquiryId: selectedInquiry().inquiryId(),
                             CompanyId: selectedInquiry().companyId(),
                             ContactId: selectedInquiry().contactId(),
-                            FlagId: selectedInquiry().flagId()
+                            FlagId: sectionFlags().length > 0 ? sectionFlags()[0].id : undefined,
+                            Title: selectedInquiry().title()
                         }, {
                             success: function (data) {
                                 selectedInquiry().status(26);
                                 selectedInquiry().estimateId(data.EstimateId);
+                                viewEstimateFromInquiry();
                             },
                             error: function (response) {
                                 toastr.error("Failed to Save Order. Error: " + response);
@@ -2179,6 +2337,21 @@ define("order/order.viewModel",
                     },
                     showEstimateNotes = function() {
                         toastr.success('wow');
+                    },
+                    getInquiriesTabBaseData = function() {
+                        dataservice.getBaseDataForInquiry({}, {
+                            success: function (data) {
+                                if (data) {
+                                    if (data.SectionFlags) {
+                                        mapList(inquiriesSectionFlags, data.SectionFlags, model.SectionFlag);
+                                    }
+                                }
+                                isInquiryBaseDataLoaded(true);
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load details for inquiries" + response);
+                            }
+                        });
                     },
                     //#endregion
                     //#region Progress To Order
@@ -2284,9 +2457,6 @@ define("order/order.viewModel",
                             categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
                             costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCentersForProduct));
 
-                            // Get Base Data
-                            getBaseData();
-
                             // On Dropdown filter selection change get orders
                             subscribeDropdownFilterChange();
                         },
@@ -2295,6 +2465,8 @@ define("order/order.viewModel",
                             initializeScreen(specifiedView);
                             pager(new pagination.Pagination({ PageSize: 10 }, orders, getOrders));
                             isEstimateScreen(false);
+                            // Get Base Data
+                            getBaseData();
                             var orderIdFromDashboard = $('#OrderId').val();
                             if (orderIdFromDashboard != 0) {
                                 editOrder({ id: function () { return orderIdFromDashboard; } });
@@ -2312,6 +2484,8 @@ define("order/order.viewModel",
                                 editOrder({ id: function () { return estimateIdFromOrderScreen; } });
                             }
                             getEstimates();
+                            // Get Base Data For Estimate
+                            getBaseDataForEstimate();
                         };
                 //#endregion
                 return {
@@ -2391,6 +2565,8 @@ define("order/order.viewModel",
                     isAddProductFromInventory: isAddProductFromInventory,
                     isAddProductForSectionCostCenter: isAddProductForSectionCostCenter,
                     pipelineProducts: pipelineProducts,
+                    isInquiryBaseDataLoaded: isInquiryBaseDataLoaded,
+                    inquiriesSectionFlags: inquiriesSectionFlags,
                     //#endregion Utility Methods
                     //#region Estimate Screen
                     initializeEstimate: initializeEstimate,
@@ -2473,6 +2649,7 @@ define("order/order.viewModel",
                     showEstimateNotes: showEstimateNotes,
                     //#endregion
                     //#region Utility Functions
+                    createNewCostCenterProductForShippingCharge: createNewCostCenterProductForShippingCharge,
                     progressToOrderHandler: progressToOrderHandler,
                     onSaveEstimateProgressedToOrder: onSaveEstimateProgressedToOrder,
                     getInquiryItems: getInquiryItems,

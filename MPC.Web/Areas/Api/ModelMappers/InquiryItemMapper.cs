@@ -34,7 +34,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InquiryId = source.InquiryId,
                 Notes = source.Notes,
                 ProductId = source.ProductId,
-                Title = source.Title
+                Title = source.Title,
+                MarketingSource = source.PipeLineProduct!= null ? source.PipeLineProduct.Description : string.Empty
             };
         }
     }

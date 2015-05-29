@@ -540,7 +540,8 @@
             specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn, specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedPlateInkId,
             specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait, specifiedFirstTrim, specifiedSecondTrim, specifiedQty1MarkUpID,
             specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedProductType, specifiedPressIdSide2, specifiedImpressionCoverageSide1, specifiedImpressionCoverageSide2,
-            specifiedPassesSide1, specifiedPassesSide2, specifiedPrintingType) {
+            specifiedPassesSide1, specifiedPassesSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
+            specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -552,6 +553,8 @@
                 stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Stock Item Name
                 stockItemName = ko.observable(specifiedStockItemName || undefined),
+                // Stock Item Package Qty
+                stockItemPackageQty = ko.observable(specifiedStockItemPackageQty || undefined),
                 // Press Id
                 pressId = ko.observable(specifiedPressId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Press Id Side 2
@@ -562,24 +565,27 @@
                 printingType = ko.observable(specifiedPrintingType || 1),
                 // Printing Type Ui
                 printingTypeUi = ko.computed({
-                   read: function() {
-                       return '' + printingType();
-                   },
-                   write: function(value) {
-                       if (!value) {
-                           return;
-                       }
-                       var printingValue = parseInt(value);
-                       if (printingValue === printingType()) {
-                           return;
-                       }
-                       printingType(printingValue);
-                       if (printingValue === 2) { // Hide Number Up and set it as 1
-                           printViewLayoutPortrait(0);
-                           printViewLayoutLandscape(1);
-                           doubleWorknTurn('1');
-                       }
-                   }
+                    read: function () {
+                        return '' + printingType();
+                    },
+                    write: function (value) {
+                        if (!value) {
+                            return;
+                        }
+                        var printingValue = parseInt(value);
+                        if (printingValue === printingType()) {
+                            return;
+                        }
+                        printingType(printingValue);
+                        if (printingValue === 2) { // Hide Number Up and set it as 1
+                            printViewLayoutPortrait(0);
+                            printViewLayoutLandscape(1);
+                           // If Initialized
+                           if (isDoubleSidedUi) {
+                               isDoubleSidedUi(false);
+                           }
+                        }
+                    }
                 }),
                 // section size id
                 sectionSizeId = ko.observable(specifiedSectionSizeId || undefined).extend({
@@ -649,33 +655,22 @@
                 isDoubleSided = ko.observable(specifiedIsDoubleSided || false),
                 // Is Work N Turn
                 isWorknTurn = ko.observable(specifiedIsWorknTurn || false),
-                // DoubleOrWorknTurn
-                doubleOrWorknTurn = ko.observable(specifiedIsDoubleSided !== null || specifiedIsDoubleSided !== undefined ?
-                    (!specifiedIsDoubleSided ? 1 : ((specifiedIsWorknTurn !== null || specifiedIsWorknTurn !== undefined) && specifiedIsWorknTurn ? 3 : 2)) :
-                    (specifiedIsWorknTurn !== null || specifiedIsWorknTurn !== undefined ? (!specifiedIsWorknTurn ? 1 : 3) : 1)),
-                // Double Or Work n Turn
-                doubleWorknTurn = ko.computed({
+                // Is Double Sided Ui
+                isDoubleSidedUi = ko.computed({
                     read: function () {
-                        return '' + doubleOrWorknTurn();
+                        return isDoubleSided();
                     },
                     write: function (value) {
-                        if (!value || value === doubleOrWorknTurn()) {
+                        if (value === isDoubleSided()) {
                             return;
                         }
-
+                        
                         // Single Side
-                        if (value === "1") {
-                            isDoubleSided(false);
+                        if (!value) {
                             isWorknTurn(false);
-                        } else if (value === "2") { // Double Sided
-                            isDoubleSided(true);
-                            isWorknTurn(false);
-                        } else if (value === "3") { // Work n Turn
-                            isDoubleSided(true);
-                            isWorknTurn(true);
                         }
 
-                        doubleOrWorknTurn(value);
+                        isDoubleSided(value);
                     }
                 }),
                 isPortrait = ko.observable(specifiedIsPortrait),
@@ -706,6 +701,24 @@
                 sectionCostCentres = ko.observableArray([]),
                 // Section Ink Coverage List
                 sectionInkCoverageList = ko.observableArray([]),
+                // section Ink Coverage Side1
+                sectionInkCoveragesSide1 = ko.computed(function() {
+                    if (sectionInkCoverageList().length === 0) {
+                        return [];
+                    }
+                    return sectionInkCoverageList.filter(function(sectionInkCoverage) {
+                        return sectionInkCoverage.side() === 1;
+                    });
+                }),
+                // section Ink Coverage Side2
+                sectionInkCoveragesSide2 = ko.computed(function() {
+                    if (sectionInkCoverageList().length === 0) {
+                        return [];
+                    }
+                    return sectionInkCoverageList.filter(function(sectionInkCoverage) {
+                        return sectionInkCoverage.side() === 2;
+                    });
+                }),
                 isFirstTrim = ko.observable(specifiedFirstTrim || false),
                 isSecondTrim = ko.observable(specifiedSecondTrim || false),
                 qty1MarkUpId = ko.observable(specifiedQty1MarkUpID || undefined),
@@ -719,6 +732,14 @@
                 passesSide1 = ko.observable(specifiedPassesSide1 || 0).extend({ number: true, min: 0, max: 9 }),
                 // Passes Side 2
                 passesSide2 = ko.observable(specifiedPassesSide2 || 0).extend({ number: true, min: 0, max: 9 }),
+                // Press Id Side 1 Colour Heads
+                pressIdSide1ColourHeads = ko.observable(specifiedPressSide1ColourHeads || 0),
+                // Press Id Side 2 Colour Heads
+                pressIdSide2ColourHeads = ko.observable(specifiedPressSide2ColourHeads || 0),
+                // Press Id Side 1 Is Spot Color
+                pressIdSide1IsSpotColor = ko.observable(specifiedPressSide1IsSpotColor || false),
+                // Press Id Side 2 Is Spot Color
+                pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false),
                 // Select Stock Item
                 selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
@@ -727,6 +748,7 @@
 
                     stockItemId(stockItem.id);
                     stockItemName(stockItem.name);
+                    stockItemPackageQty(stockItem.packageQty);
                 },
                 // Select Press
                 selectPress = function (press) {
@@ -888,6 +910,7 @@
                 stockItemId: stockItemId,
                 pressId: pressId,
                 stockItemName: stockItemName,
+                stockItemPackageQty: stockItemPackageQty,
                 pressName: pressName,
                 name: name,
                 itemId: itemId,
@@ -917,9 +940,9 @@
                 side2PlateQty: side2PlateQty,
                 isPlateSupplied: isPlateSupplied,
                 isDoubleSided: isDoubleSided,
+                isDoubleSidedUi: isDoubleSidedUi,
                 sectionInkCoverageList: sectionInkCoverageList,
                 isWorknTurn: isWorknTurn,
-                doubleWorknTurn: doubleWorknTurn,
                 isPortrait: isPortrait,
                 printViewLayout: printViewLayout,
                 printViewLayoutPortrait: printViewLayoutPortrait,
@@ -948,6 +971,12 @@
                 printingTypeUi: printingTypeUi,
                 isFirstTrim: isFirstTrim,
                 isSecondTrim: isSecondTrim,
+                pressIdSide1ColourHeads: pressIdSide1ColourHeads,
+                pressIdSide2ColourHeads: pressIdSide2ColourHeads,
+                pressIdSide1IsSpotColor: pressIdSide1IsSpotColor,
+                pressIdSide2IsSpotColor: pressIdSide2IsSpotColor,
+                sectionInkCoveragesSide1: sectionInkCoveragesSide1,
+                sectionInkCoveragesSide2: sectionInkCoveragesSide2,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -1036,7 +1065,7 @@
                 sectionCostCentreResources = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({
-                    
+
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -1207,7 +1236,7 @@
                 },
                 // Convert To Server Data
                 convertToServerData = function () {
-                    return {        
+                    return {
                         SectionCostCentreDetailId: sectionCostCentreDetailId(),
                         SectionCostCentreId: sectionCostCentreId(),
                         StockId: stockId(),
@@ -1244,33 +1273,61 @@
         //#endregion
         //#region Item Attachment Entity
         // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        ItemAttachment = function (specifiedId, specifiedfileTitle, specifiedcompanyId, specifiedfileName, specifiedfolderPath) {
+        ItemAttachment = function (specifiedId, specifiedfileTitle, specifiedcompanyId, specifiedfileName, specifiedfolderPath, specifiedParent, specifiedType,
+            specifiedComments, specifiedFileType, specifiedUploadDate) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
+                // For new it is 1 , and for update value is 2
+                isNewOrUpdate = ko.observable("1"),
                 //File Title
-                fileTitle = ko.observable(specifiedfileTitle),
+                fileTitle = ko.observable(specifiedfileTitle).extend({
+                    required: {
+                        onlyIf: function () {
+                            return isNewOrUpdate() === "1";
+                        }
+                    }
+                }),
                 //Company Id
                 companyId = ko.observable(specifiedcompanyId),
                 //File Name
                 fileName = ko.observable(specifiedfileName),
                 //Folder Path
                 folderPath = ko.observable(specifiedfolderPath),
+
+                parent = ko.observable(specifiedParent || 0).extend({
+                    required: {
+                        onlyIf: function () {
+                            return isNewOrUpdate() === "2";
+                        }
+                    }
+                }),
+                type = ko.observable(specifiedType),
+                comments = ko.observable(specifiedComments),
+                fileType = ko.observable(specifiedFileType),
+                uploadDate = ko.observable(specifiedUploadDate),
+
                 // File path when new file is loaded 
-                fileSourcePath = ko.observable(undefined),
+                fileSourcePath = ko.observable(undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (id() === 0 || id() === undefined);
+                        }
+                    }
+                }),
                 // Item Id
                 itemId = ko.observable(),
                 // Errors
                 errors = ko.validation.group({
-
+                    fileTitle: fileTitle,
+                    fileSourcePath: fileSourcePath,
+                    parent: parent
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
                     return errors().length === 0;
-                    // ReSharper disable InconsistentNaming
                 }),
                 dirtyFlag = new ko.dirtyFlag({
-                    // ReSharper restore InconsistentNaming
                     id: id,
                     fileTitle: fileTitle,
                     companyId: companyId,
@@ -1294,7 +1351,11 @@
                         CompanyId: companyId(),
                         FileName: fileName(),
                         FolderPath: fileSourcePath(),
-                        ItemId: itemId()
+                        ItemId: itemId(),
+                        Parent: parent(),
+                        Type: type(),
+                        Comments: comments(),
+                        FileType: fileType(),
                     };
                 };
 
@@ -1304,8 +1365,14 @@
                 companyId: companyId,
                 fileName: fileName,
                 folderPath: folderPath,
+                type: type,
+                fileType: fileType,
                 fileSourcePath: fileSourcePath,
+                uploadDate: uploadDate,
                 itemId: itemId,
+                parent: parent,
+                comments: comments,
+                isNewOrUpdate: isNewOrUpdate,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2008,19 +2075,21 @@
                 fullName: specifiedFullName
             };
         },
-        
+
     //#endregion
     //#region Machine
     // Machine Entity        
 // ReSharper disable InconsistentNaming
-    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth)
-// ReSharper restore InconsistentNaming
-         {
+    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor)
+        // ReSharper restore InconsistentNaming
+    {
         return {
             id: specifiedId,
             name: specifiedName,
             maxSheetHeight: specifiedMaxSheetHeight,
-            maxSheetWidth: specifiedMaxSheetWidth
+            maxSheetWidth: specifiedMaxSheetWidth,
+            colourHeads: specifiedColourHeads,
+            isSpotColor: specifiedIsSpotColor
         };
     };
     //#endregion
@@ -2084,7 +2153,8 @@
             source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
             source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks,
             source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim, source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.ProductType,
-            source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType);
+            source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType, 
+            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
@@ -2175,9 +2245,10 @@
     //#region Item Attachment Factory
     // ReSharper disable once InconsistentNaming
     ItemAttachment.Create = function (source) {
-        var itemAttachment = new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath);
+        var itemAttachment = new ItemAttachment(source.ItemAttachmentId, source.FileTitle, source.CompanyId, source.FileName, source.FolderPath,
+            source.Parent, source.Type, source.Comments, source.FileType, source.UploadDate);
         itemAttachment.itemId(source.ItemId);
-        
+
         // Return item with dirty state if New
         if (!itemAttachment.id()) {
             return itemAttachment;
@@ -2185,7 +2256,7 @@
 
         // Reset State to Un-Modified
         itemAttachment.reset();
-        
+
         return itemAttachment;
     };
     //#endregion
@@ -2276,7 +2347,7 @@
     //#region Machine Factory
     // Machine Factory
     Machine.Create = function (source) {
-        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth);
+        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor);
     };
     //#endregion
 

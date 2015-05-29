@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.Collections.Generic;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// PipeLine Product Domain Model
@@ -7,5 +9,6 @@
     {
         public int ProductId { get; set; }
         public string Description { get; set; }
+        public virtual ICollection<InquiryItem> InquiryItems { get; set; } 
     }
 }
