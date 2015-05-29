@@ -2119,11 +2119,13 @@ define("order/order.viewModel",
                     onSaveInquiryDetailItem = function () {
                         if (doBeforeInquiryItemDetailSave()) {
                             if (isNewinquiryDetailItem()) {
+                                updateSelectedProductMarketingSource();
                                 selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
                             } else {
                                 _.each(selectedInquiry().inquiryItems(), function (inquiryItem) {
                                     if (inquiryItem.inquiryItemId() == selectedInquiryItem().inquiryItemId()) {
                                         selectedInquiry().inquiryItems.remove(inquiryItem);
+                                        updateSelectedProductMarketingSource();
                                         selectedInquiry().inquiryItems.splice(0, 0, selectedInquiryItem());
                                     }
                                 });
@@ -2131,6 +2133,13 @@ define("order/order.viewModel",
                            
                             view.hideInquiryDetailItemDialog();
                         }
+                    },
+                    updateSelectedProductMarketingSource = function() {
+                        _.each(pipelineProducts(), function (product) {
+                            if (product.id == selectedInquiryItem().productId()) {
+                                selectedInquiryItem().marketingSource(product.name);
+                            }
+                        });
                     },
                     onCloseInquiryDetailItem = function() {
                         view.hideInquiryDetailItemDialog();

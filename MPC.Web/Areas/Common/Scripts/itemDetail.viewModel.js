@@ -1656,26 +1656,28 @@ define("common/itemDetail.viewModel",
 
                     //#endregion
                     itemAttachmentFileLoadedCallback = function (file, data) {
-                        //Flag check, whether file is already exist in media libray
-                        var flag = true;
+                        ////Flag check, whether file is already exist in media libray
+                        //var flag = true;
 
-                        _.each(selectedProduct().itemAttachments(), function (item) {
-                            if (item.fileSourcePath() === data && item.fileName() === file.name) {
-                                flag = false;
-                            }
-                        });
+                        //_.each(selectedProduct().itemAttachments(), function (item) {
+                        //    if (item.fileSourcePath() === data && item.fileName() === file.name) {
+                        //        flag = false;
+                        //    }
+                        //});
 
-                        if (flag) {
-                            selectedAttachment().fileSourcePath(data);
-                            selectedAttachment().fileName(file.name);
-                            if (file.name.indexOf(".") > -1) {
-                                selectedAttachment().fileType("." + file.name.split(".")[1]);
-                            }
-                            selectedAttachment().companyId(selectedOrder().companyId());
-                            selectedAttachment().itemId(selectedProduct().id());
-                            selectedAttachment().uploadDate(new Date());
+                        //if (flag) {
 
+
+                        //}
+
+                        selectedAttachment().fileSourcePath(data);
+                        selectedAttachment().fileName(file.name);
+                        if (file.name.indexOf(".") > -1) {
+                            selectedAttachment().fileType("." + file.name.split(".")[1]);
                         }
+                        selectedAttachment().companyId(selectedOrder().companyId());
+                        selectedAttachment().itemId(selectedProduct().id());
+                        selectedAttachment().uploadDate(new Date());
                     },
                     // Attachment Types
                     attchmentTypes = ko.observableArray([
@@ -1697,6 +1699,22 @@ define("common/itemDetail.viewModel",
                     // Save Attachment
                     saveAttachment = function () {
                         if (dobeforeSaveItemAttachment()) {
+                            if (selectedAttachment().isNewOrUpdate() === "2") {
+                                var attachments = [];
+                                _.each(selectedProduct().itemAttachments(), function (item) {
+                                    if (item.parent() === selectedAttachment().parent()) {
+                                        attachments.push(item);
+                                    }
+                                });
+                                var attachment = _.find(selectedProduct().itemAttachments(), function (item) {
+                                    return item.id() === selectedAttachment().parent();
+                                });
+                                if (attachment !== null && attachment !== undefined) {
+                                    selectedAttachment().fileTitle(attachment.fileTitle() + "_V_" + (attachments.length + 1));
+                                }
+                            } else {
+                                selectedAttachment().parent(null);
+                            }
                             selectedProduct().itemAttachments.push(selectedAttachment());
                             hideAttachmentDialog();
                         }
@@ -1711,27 +1729,32 @@ define("common/itemDetail.viewModel",
                         }
                         return flag;
                     },
-                    parentFilterFileList = ko.observableArray([]),
-
                     // Parent attachment List
-                    parentFileList = ko.computed(function () {
-                        if (selectedAttachment && selectedAttachment().isNewOrUpdate() === "2") {
-                            parentFilterFileList.removeAll();
-                            _.each(selectedProduct().itemAttachments(), function (attachment) {
-                                if ((attachment.parent() === 0 || attachment.parent() === null) && attachment.id() > 0) {
-                                    parentFilterFileList.push(attachment);
-                                }
-                            });
+                    parentFilterFileList = ko.computed(function () {
+                        if (selectedProduct().itemAttachments().length === 0) {
+                            return [];
                         }
-
+                        return selectedProduct().itemAttachments.filter(function(attachment) {
+                            return !attachment.parent() && (attachment.id() > 0);
+                        });
                     }),
-            //Initialize
-            initialize = function (specifiedView) {
-                view = specifiedView;
-                ko.applyBindings(view.viewModel, view.bindingRoot);
-                getBaseData();
-                //pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
-            };
+                    // Delete Item attachment
+                    deleteItemAttachment = function (attachment) {
+                        confirmation.afterProceed(function () {
+                            selectedProduct().itemAttachments.remove(attachment);
+                        });
+                        confirmation.afterCancel(function () {
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                //Initialize
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    getBaseData();
+                    //pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
+                };
 
                 return {
 
@@ -1833,7 +1856,8 @@ define("common/itemDetail.viewModel",
                     attchmentTypes: attchmentTypes,
                     saveAttachment: saveAttachment,
                     parentFilterFileList: parentFilterFileList,
-                    isSide1InkButtonClicked: isSide1InkButtonClicked
+                    isSide1InkButtonClicked: isSide1InkButtonClicked,
+                    deleteItemAttachment: deleteItemAttachment
                     //#endregion
                 };
             })()

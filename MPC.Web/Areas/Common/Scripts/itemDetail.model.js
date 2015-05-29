@@ -1278,16 +1278,23 @@
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
+                // For new it is 1 , and for update value is 2
+                isNewOrUpdate = ko.observable("1"),
                 //File Title
-                fileTitle = ko.observable(specifiedfileTitle).extend({ required: true }),
+                fileTitle = ko.observable(specifiedfileTitle).extend({
+                    required: {
+                        onlyIf: function () {
+                            return isNewOrUpdate() === "1";
+                        }
+                    }
+                }),
                 //Company Id
                 companyId = ko.observable(specifiedcompanyId),
                 //File Name
                 fileName = ko.observable(specifiedfileName),
                 //Folder Path
                 folderPath = ko.observable(specifiedfolderPath),
-                // For new it is 1 , and for update value is 2
-                isNewOrUpdate = ko.observable("1"),
+
                 parent = ko.observable(specifiedParent || 0).extend({
                     required: {
                         onlyIf: function () {

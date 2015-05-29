@@ -845,7 +845,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 store.companyCostCenters.push(CostCenter.Create(item));
             });
         }
-        
+
         //#endregion
         return store;
     };
@@ -963,7 +963,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         self = {
             systemUserId: systemUserId,
             userName: userName,
-            fullName:fullName,
+            fullName: fullName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -2280,7 +2280,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isValid: isValid,
             isUserDefined: isUserDefined,
             pageBannerWithCacheRemoveTechnique: pageBannerWithCacheRemoveTechnique,
-            companyId:companyId,
+            companyId: companyId,
             errors: errors,
             isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,
@@ -2430,9 +2430,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
-            firstName = ko.observable(specifiedFirstName).extend({ required: true }),
-            middleName = ko.observable(specifiedMiddleName),
-            lastName = ko.observable(specifiedLastName),
+            firstName = ko.observable(specifiedFirstName || "").extend({ required: true }),
+            middleName = ko.observable(specifiedMiddleName || ""),
+            lastName = ko.observable(specifiedLastName || ""),
             title = ko.observable(specifiedTitle),
             homeTel1 = ko.observable(specifiedHomeTel1),
             homeTel2 = ko.observable(specifiedHomeTel2),
@@ -2518,7 +2518,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             stateName = ko.observable(),
 
             companyContactVariables = ko.observableArray([]),
-            confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password}),
+            confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password }),
 
 
             // Errors
@@ -4260,16 +4260,16 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // #region ______________  Field Variable   _________________
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
-          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle,specifiedIsSystem) {
+          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle, specifiedIsSystem) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
             variableType = ko.observable(specifiedVariableType),
             scope = ko.observable(specifiedScope),
             isSystem = ko.observable(specifiedIsSystem),
-            waterMark = ko.observable(specifiedWaterMark).extend({ required: true }),
-            defaultValue = ko.observable(specifiedDefaultValue),
-            defaultValueForInput = ko.observable(specifiedDefaultValue),
+            waterMark = ko.observable(specifiedWaterMark || "").extend({ required: true }),
+            defaultValue = ko.observable(specifiedDefaultValue || ""),
+            defaultValueForInput = ko.observable(specifiedDefaultValue || ""),
             inputMask = ko.observable(specifiedInputMask),
             companyId = ko.observable(specifiedCompanyId),
             variableTag = ko.observable(specifiedVariableTag).extend({
@@ -4308,7 +4308,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.WaterMark = source.waterMark() === undefined ? null : source.waterMark();
                 result.Scope = source.scope() === undefined ? null : source.scope();
                 result.IsSystem = source.isSystem() === undefined ? null : source.isSystem();
-                result.DefaultValue = source.variableType() === 1 ? (source.defaultValue() === undefined ? null : source.defaultValue()) : defaultValueForInput;
+                result.DefaultValue = source.variableType() === 1 ? (source.defaultValue() === undefined ? null : source.defaultValue()) : (defaultValueForInput() === undefined ? null : defaultValueForInput());
                 result.CompanyId = source.companyId() === undefined ? null : source.companyId();
                 result.InputMask = source.inputMask() === undefined ? null : source.inputMask();
                 result.VariableTag = source.variableTag() === undefined ? null : source.variableTag();
@@ -4431,17 +4431,24 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #endregion ______________  Variable Option   _________________
 
     // #region ______________  Scope Variable  _________________
-    var ScopeVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType, specifiedScope) {
+    var ScopeVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType,
+        specifiedScope, specifiedWaterMark) {
         var self,
             id = ko.observable(specifiedContactVariableId),
             contactId = ko.observable(specifiedContactId),
             variableId = ko.observable(specifiedVariableId),
-            value = ko.observable(specifiedValue),
+            value = ko.observable(specifiedValue || ""),
             fakeId = ko.observable(),
             title = ko.observable(specifiedTitle),
             type = ko.observable(specifiedType),
             scope = ko.observable(specifiedScope),
             optionId = ko.observable(specifiedValue),
+            waterMark = ko.observable(specifiedWaterMark),
+            setValue = ko.computed(function () {
+                if (value() === undefined || value() === null || value() === "") {
+                    value(waterMark());
+                }
+            }),
             variableOptions = ko.observableArray([]),
 
             // Errors
@@ -4485,6 +4492,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             fakeId: fakeId,
             type: type,
             optionId: optionId,
+            waterMark: waterMark,
             variableOptions: variableOptions,
             isValid: isValid,
             errors: errors,
@@ -4504,14 +4512,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.Value,
              source.Title,
              source.Type,
-             source.Scope
+             source.Scope,
+            source.WaterMark
             );
     };
     // #endregion ______________  Company Contact Variable   _________________
 
     // #region ______________  Field Variable  For Smart Form _________________
     var FieldVariableForSmartForm = function (specifiedVariableId, specifiedVariableName, specifiedVariableType,
-        specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedDefaultValue, specifiedVariableTitle, specifiedWaterMark,specifiedScope,specifiedIsSystem) {
+        specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedDefaultValue, specifiedVariableTitle, specifiedWaterMark, specifiedScope, specifiedIsSystem) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName),
