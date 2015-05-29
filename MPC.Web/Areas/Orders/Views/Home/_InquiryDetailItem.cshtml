@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">New Inquiry Item</h4>
+                <h4 class="modal-title">Add/Edit Inquiry Item</h4>
             </div>
             <div class="col-lg-12" data-bind="with: $root.selectedInquiryItem">
                 <div class="col-lg-12 clearfix">
@@ -13,11 +13,11 @@
                             <div class="form-group col-lg-12">
                                 <div class="col-lg-4 text-right"><label class="control-label text-right">Title</label></div>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" data-bind="value: title " />
+                                    <input type="text" class="form-control" data-bind="value: title, validationTooltip: title " />
                                 </div>
                             </div>
                             <div class="form-group col-lg-12">
-                                <div class="col-lg-4 text-right"><label class="control-label text-right">Product Type</label></div>
+                                <div class="col-lg-4 text-right"><label class="control-label text-right">Select Product Type</label></div>
                                 <div class="col-lg-8">
                                     <select class="form-control" data-bind="options: $root.pipelineProducts, optionsText: 'name', optionsId: 'id', optionsValue: 'id', optionsCaption: 'Select Marketing Source', value: productId"></select>
                                 </div>
@@ -31,7 +31,7 @@
                             <div class="form-group col-lg-12">
                                 <div class="col-lg-4 text-right"><label class="control-label text-right">Notes</label></div>
                                 <div class="col-lg-8">
-                                    <textarea class=" form-control" data-bind="value: notes "></textarea>
+                                    <textarea class="form-control notes" data-bind="value: notes " style="height: 80px;"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -41,8 +41,8 @@
             </div>
             <div class="modal-footer">
                 <hr/>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: $root.onSaveInquiryDetailItem">OK</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: $root.onCloseInquiryDetailItem">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveInquiryDetailItem">Add</button>
+                @*<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: $root.onCloseInquiryDetailItem">Close</button>*@
             </div>
         </div>
     </div>

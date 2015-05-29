@@ -470,6 +470,7 @@
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="ResponseModels\InquiryBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
     <Compile Include="ResponseModels\ItemDetailBaseResponse.cs" />
