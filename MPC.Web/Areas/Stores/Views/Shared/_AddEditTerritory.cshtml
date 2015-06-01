@@ -101,7 +101,7 @@
 
             <div class="modal-footer" style="padding-left: 4px;padding-right: 8px;">
                 <hr />
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTerritory">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTerritory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyTerritory" style="margin-left: 0px;">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyTerritory, enable: $root.selectedCompanyTerritory().territoryId() != undefined">Archive</button>
             </div>
