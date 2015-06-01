@@ -4759,11 +4759,13 @@ define("stores/stores.viewModel",
                     ist.product.viewModel.initializeForStore(selectedStore().companyId(), selectedStore().taxRate());
                 }
                 //Reset Product Categories List On Every Time Tab Selection
+                $('.dd-list').closest('li').each(function (index) {
+                    $($(this).children()[0].children[0]).removeClass("fa fa-chevron-circle-down").addClass("fa fa-chevron-circle-right");
+                });
+                $($($('.dd-list')[0]).children()).each(function (index) {
+                    $($(this).children()[0].children[0]).removeClass("fa fa-chevron-circle-down").addClass("fa fa-chevron-circle-right");
+                });
                 $('.dd-list').closest('li').children('ol').hide();
-                //$('.dd-list').closest('li').each(function (index) {
-                //    //console.log(index + ": " + $(this).text());
-                //    $(this).
-                //});
             },
                 //#endregion 
 
