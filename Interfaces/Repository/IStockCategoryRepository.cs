@@ -11,7 +11,10 @@ namespace MPC.Interfaces.Repository
 
         List<StockCategory> GetStockCategoriesByOrganisationID(long OrganisationID);
 
-       
+        /// <summary>
+        /// Get Stock Categories For Inventory
+        /// </summary>
+        IEnumerable<StockCategory> GetStockCategoriesForInventory();
 
     }
 }
