@@ -821,13 +821,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;">
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyTerritory" class="btn btn-primary">
                                                             Add New Territory
                                                         </a>
                                                     </div>
                                                     <footer class="main-box-header" style="margin-right: -10px;padding-right:0px;width:226%;text-align:right;">
-                                                        <div id="pagerDiv">
+                                                        <div id="pagerDiv"style="margin-right:3px;">
                                                             <!-- ko with: $root.companyTerritoryPager -->
                                                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                             <!-- /ko -->
@@ -2058,6 +2058,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                         </div>
 
+                                       
+
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-12 form-horizontal">
+                                    <h3>Store Miscellaneous Settings</h3>
+                                    <div class="col-lg-9" style="padding-left:12px">
                                         <!--ko if: $root.selectedStore().type() != 4-->
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
@@ -2077,13 +2085,6 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                         </div>
                                         <!--/ko-->
-
-                                    </div>
-                                </div>
-                                
-                                <div class="col-lg-12 form-horizontal">
-                                    <h3>Store Miscellaneous Settings</h3>
-                                    <div class="col-lg-9" style="padding-left:12px">
                                         <div class="form-group">
 
                                             <div class="col-md-3"></div>
@@ -2375,7 +2376,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <div class="col-md-3"></div>
 
                                                     <div class="col-md-6">
-                                                        <label style="padding: 0px;" for="switchProductPrices">Include Order detailed Report</label>
+                                                        <label style="padding:0px;margin-top:5px;" for="switchProductPrices">Include Order detailed Report</label>
 
                                                     </div>
                                                     <div class="col-md-3">
@@ -2423,7 +2424,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <div class="col-md-3"></div>
 
                                                     <div class="col-md-6">
-                                                        <label style="padding: 0px;" for="switchProductPrices">Include Order information in XML format</label>
+                                                        <label style="padding: 0px;margin-top:5px;" for="switchProductPrices">Include Order information in XML format</label>
 
                                                     </div>
                                                     <div class="col-md-3">
@@ -2463,7 +2464,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <div class="col-md-3"></div>
 
                                                     <div class="col-md-6">
-                                                        <label style="padding: 0px;" for="switchProductPrices">Include Job Card report for each item/product</label>
+                                                        <label style="padding: 0px;margin-top:5px;" for="switchProductPrices">Include Job Card report for each item/product</label>
 
                                                     </div>
                                                     <div class="col-md-3">
@@ -2502,7 +2503,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <div class="col-md-3"></div>
 
                                                     <div class="col-md-6">
-                                                        <label style="padding: 0px;" for="switchProductPrices">Make template artwork production ready by removing watermarks</label>
+                                                        <label style="padding: 0px;margin-top:8px;" for="switchProductPrices">Make template artwork production ready by removing watermarks</label>
 
                                                     </div>
                                                     <div class="col-md-3">
@@ -2661,7 +2662,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             </a>
                                                         </div>
 
-                                                        <label for="txtPickUpLocation" style="padding-top:10px;" class="control-label text-right tooltip-float">Carriers pickup location. </label>
+                                                        <label for="txtPickUpLocation" style="padding-top:10px;" class="control-label text-right tooltip-float">Carriers pickup location </label>
                                                     </div>
                                                     <div class="col-lg-5" data-bind="with: $root.pickupAddress">
                                                         <input type="text" disabled="disabled" class="form-control" style="float:left;width:90%" placeholder="Pick Up Location/Zip code" id="txtPickUpLocation" data-bind="value: $root.pickUpLocationValue ">
