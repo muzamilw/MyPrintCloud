@@ -805,6 +805,10 @@ namespace MPC.Models.DomainModels
             target.IsPublished = IsPublished;
             target.SortOrder = SortOrder;
             target.IsVdpProduct = IsVdpProduct;
+            target.ItemWeight = ItemWeight;
+            target.ItemLength = ItemLength;
+            target.ItemWidth = ItemWidth;
+            target.ItemHeight = ItemHeight;
             target.IsStockControl = IsStockControl;
             target.FlagId = FlagId;
             target.IsQtyRanged = IsQtyRanged;
