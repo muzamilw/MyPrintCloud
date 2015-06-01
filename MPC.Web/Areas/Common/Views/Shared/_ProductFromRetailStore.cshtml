@@ -187,7 +187,7 @@
             <div class="col-sm-12 form-horizontal" style="display: none" data-bind="visible:$root.costCenterVisibility()">
                 <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
                 <div class="col-sm-9">&nbsp;</div>
-                <div class="col-sm-3" style="margin-top: 10px;">
+                <div class="col-sm-3" style="margin-top: 10px; font-size:16px;">
                     <label class="col-sm-6">Total(Inc. Tax)</label>
                     <div class="col-sm-5" style="padding-right: 0px; padding-left: 0px;">
                         <span style=" float: right; " data-bind="numberInput: totalProductPrice"></span>
@@ -214,7 +214,7 @@
 </script>
 <script id="addOnTemplate" type="text/html">
     <tr>
-        <td style=" padding-bottom: 0px;">
+        <td style=" padding-bottom: 0;">
             <div class="col-xs-1">
                 <div class="checkbox-nice">
                     <input type="checkbox"  data-bind="checked: isSelected,attr: { id:  $index() }" />
