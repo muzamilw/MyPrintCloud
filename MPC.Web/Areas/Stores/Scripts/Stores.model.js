@@ -4577,7 +4577,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             smartFormDetails = ko.observableArray([]),
             // Errors
             errors = ko.validation.group({
-
                 name: name,
             }),
             // Is Valid 
@@ -4587,8 +4586,18 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-
+                name: name,
+                heading: heading,
+                smartFormDetails: smartFormDetails
             }),
+            // True If Has Changes
+            hasChanges = ko.computed(function() {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset Dirty State
+            reset = function() {
+                dirtyFlag.reset();
+            },
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
@@ -4609,6 +4618,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
             convertToServerData: convertToServerData,
         };
         return self;
