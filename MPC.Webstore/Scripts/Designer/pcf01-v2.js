@@ -237,6 +237,7 @@ function c0(cCanvas, TOC) {
     }
     TOL.charSpacing = TOC.CharSpacing;
     TOL.IsPositionLocked = TOC.IsPositionLocked;
+    TOL.autoCollapseText = TOC.autoCollapseText;
     TOL.IsOverlayObject = TOC.IsOverlayObject;
     TOL.IsHidden = TOC.IsHidden;
     TOL.IsEditable = TOC.IsEditable;
@@ -392,6 +393,7 @@ function c2_01(OPT) {
             IT.ColorY = OPT.Y;
             IT.ColorK = OPT.K;
             IT.IsPositionLocked = OPT.IsPositionLocked;
+            IT.autoCollapseText = OPT.autoCollapseText;
             IT.IsOverlayObject = OPT.IsOverlayObject;
             IT.IsTextEditable = OPT.IsTextEditable;
             IT.AutoShrinkText = OPT.AutoShrinkText;
@@ -463,6 +465,7 @@ function c8(cCanvas, CO) {
     COL.Y = CO.ColorY;
     COL.K = CO.ColorK;
     COL.IsPositionLocked = CO.IsPositionLocked;
+    COL.autoCollapseText = CO.autoCollapseText;
     COL.IsOverlayObject = CO.IsOverlayObject;
     COL.IsTextEditable = CO.IsTextEditable;
     COL.AutoShrinkText = CO.AutoShrinkText;
@@ -507,6 +510,7 @@ function c9(cCanvas, RO) {
     ROL.maxWidth = RO.MaxWidth;
     ROL.maxHeight = RO.MaxHeight;
     ROL.IsPositionLocked = RO.IsPositionLocked;
+    ROL.autoCollapseText = RO.autoCollapseText;
     ROL.IsOverlayObject = RO.IsOverlayObject;
     ROL.IsTextEditable = RO.IsTextEditable;
     ROL.AutoShrinkText = RO.AutoShrinkText;
@@ -551,6 +555,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.scaleY = (loadedObject.maxHeight / loadedObject.height) * dfZ1l;
         loadedObject.setAngle(IO.RotationAngle);
         loadedObject.IsPositionLocked = IO.IsPositionLocked;
+        loadedObject.autoCollapseText = IO.autoCollapseText;
         loadedObject.IsOverlayObject = IO.IsOverlayObject;
         loadedObject.C = IO.ColorC;
         loadedObject.M = IO.ColorM;
@@ -628,6 +633,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.scaleY = loadedObject.maxHeight / loadedObject.height;
         loadedObject.setAngle(IO.RotationAngle);
         loadedObject.IsPositionLocked = IO.IsPositionLocked;
+        loadedObject.autoCollapseText = IO.autoCollapseText;
         loadedObject.IsOverlayObject = IO.IsOverlayObject;
         loadedObject.IsHidden = IO.IsHidden;
         loadedObject.C = IO.ColorC;
@@ -718,6 +724,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
         IOL.setAngle(IO.RotationAngle);
         IOL.IsPositionLocked = IO.IsPositionLocked;
+        IOL.autoCollapseText = IO.autoCollapseText;
         IOL.IsOverlayObject = IO.IsOverlayObject;
         IOL.IsHidden = IO.IsHidden;
         IOL.IsEditable = IO.IsEditable;
@@ -3703,6 +3710,7 @@ function k31(cCanvas, IO) {
         //    IOL.selectable = true;
         //}
         IOL.IsPositionLocked = IO.IsPositionLocked;
+        IOL.autoCollapseText = IO.autoCollapseText;
         IOL.IsOverlayObject = IO.IsOverlayObject;
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;

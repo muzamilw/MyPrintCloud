@@ -1424,6 +1424,11 @@ function g2_1(e) {
         } else {
             $("#chkboxAutoShrink").prop('checked', false);
         }
+        if (D1AO.autoCollapseText) {
+            $("#chkboxAutoCollapse").prop('checked', true);
+        } else {
+            $("#chkboxAutoCollapse").prop('checked', false);
+        }
         if (D1AO.IsEditable) {
             $("#BtnLockEditing").prop('checked', false);
         } else {
