@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add/Edit Address</h4>
+                <h4 class="modal-title">Select Pickup Address</h4>
             </div>
             <div class="clearfix">
             </div>
@@ -18,10 +18,10 @@
                                 </a>
                             </div>*@
 
-                            <label for="txtAddressName" class="control-label text-right tooltip-float">To Shipping</label>
+                            <label for="txtAddressName" class="control-label text-right tooltip-float">Pickup Address</label>
                         </div>
                         <div class="col-lg-4">
-                            <select class="form-control col-lg-4" data-bind="options:$root.allCompanyAddressesList,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Select Shipping Address ...', value: $root.selectedStore().pickupAddressId"></select>
+                            <select class="form-control col-lg-4" data-bind="options:$root.allCompanyAddressesList,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Select Pickup Address ...', value: $root.selectedStore().pickupAddressId"></select>
                             @*<select class="form-control">
                         <option>West Region</option>
                         <option>South Region</option>

@@ -28,6 +28,8 @@ define("common/addProduct.viewModel",
                     quantitiesCount = ko.observable(0),
                     //Adds on total 
                     addsOnTotal = ko.observable(0),
+                     //Adds on total 
+                    isQuantitySelected = ko.observable(false),
                     //Selected Product
                     selectedProductFromStore = ko.observable(),
                     // Active Cost Center
@@ -296,8 +298,10 @@ define("common/addProduct.viewModel",
                         //selectedStockOption().itemAddonCostCentres()
                         var totalPrice = 0;
                         var totalPriceWithoutTax = 0;
+                        selectedProductQuanityPrice(0);
                         var counter = 0;
                         addsOnTotal(0);
+                        isQuantitySelected(false);
                         if (selecteditem() != undefined && selecteditem().isQtyRanged() == 2) {
                             _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
                                 counter = counter + 1;
@@ -305,6 +309,7 @@ define("common/addProduct.viewModel",
                                     totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
                                     selectedProductQuanityPrice( getPrice(counter - 1, selectedStockOptionSequenceNumber()));
                                     totalPriceWithoutTax = getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber());
+                                    isQuantitySelected(true);
                                 }
                             });
                             if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
@@ -329,8 +334,13 @@ define("common/addProduct.viewModel",
                                     totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
                                     selectedProductQuanityPrice(getPrice(counter - 1, selectedStockOptionSequenceNumber()));
                                     totalPriceWithoutTax = getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber());
+                                    isQuantitySelected(true);
+                                  //  isTraversed = true;
                                 }
                             });
+                            if (!isQuantitySelected() && selectedProductQuanity()!==undefined && selectedProductQuanity()!=='') {
+                                toastr.error("Invalid quantity selected!");
+                            }
                             if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
                                 _.each(selectedStockOption().itemAddonCostCentres(), function (stockOption) {
                                     if (stockOption.isSelected()) {
@@ -376,7 +386,8 @@ define("common/addProduct.viewModel",
                     quantitiesCount: quantitiesCount,
                     selecteditemName: selecteditemName,
                     storeName: storeName,
-                    callerNaMe: callerNaMe
+                    callerNaMe: callerNaMe,
+                    isQuantitySelected: isQuantitySelected
                 };
             })()
         };

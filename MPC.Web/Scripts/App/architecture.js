@@ -324,6 +324,7 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 };
+                // Handles typing changes 
                 instance.on('contentDom', function () {
                     instance.document.on('keyup', function (event) {
                         if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
@@ -331,7 +332,13 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 });
-               
+                // Handles styling changes 
+                instance.on('afterCommandExec', handleAfterCommandExec);
+                function handleAfterCommandExec(event) {
+                    if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
+                        ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
+                    }
+                }
                 value.subscribe(function (newValue) {
                     if (!isEditorChange) {
                         isSubscriberChange = true;

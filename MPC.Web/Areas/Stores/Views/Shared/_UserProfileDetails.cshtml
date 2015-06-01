@@ -7,7 +7,7 @@
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4>Add/Edit Contact</span></h4>
+                <h4>Add/Edit Contact</h4>
             </div>
             <br />
             <div class="col-lg-12 clearfix">
@@ -168,7 +168,7 @@
                                                                     </div>
 
                                                                 </div>
-                                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;width:220px;">Upload Profile image</div>
+                                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;width:220px;">Upload an image (PNG,JPG,GIF) for contact profile. This image is also used in Designer tool where contact image placeholder is used</div>
                                                               
 
                                                             </div>
@@ -190,7 +190,7 @@
                                                         </div>
                                                     </div>
                                                    
-                                                    <div class="form-group ">
+                                                    <div class="form-group" style="margin-top:24px;">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
                                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Password" data-original-title="" title="">
@@ -1112,7 +1112,7 @@
                 </div>
             </div>
             <div class="modal-footer col-xs-12">
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
              
                 <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeleteCompanyContact, enable: !$root.isSavingNewCompanyContact()">Archive</button>
