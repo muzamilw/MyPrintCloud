@@ -3989,7 +3989,7 @@ alter table DeliveryNote
 add constraint FK_DeliveryNote_SectionFlag
 foreign key (FlagId)
 references SectionFlag (SectionFlagId)
-
+----Executed on Staging on 28/05/2015---------
 /* Execution Date: 28/05/2015 */
 
 alter table deliveryNotedetail
@@ -4023,3 +4023,5 @@ foreign key (ProductId)
 references PipeLineProduct (ProductId)
 
 drop table ImpositionProfile
+
+----Executed on Staging on 29/05/2015---------
