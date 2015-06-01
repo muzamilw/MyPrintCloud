@@ -5,12 +5,12 @@
 
 <div class="modal fade" id="myTerritorySetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" data-bind="with: $root.selectedCompanyTerritory">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add/Edit Territory</h4>
             </div>
-            <div class="col-lg-12 form-horizontal outerDiv-Padding" data-bind="with: $root.selectedCompanyTerritory">
+            <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -63,7 +63,7 @@
             </div>
             <div class="modal-footer">
                 <hr />
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTerritory">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTerritory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyTerritory" style="margin-left: 0px;">Close</button>
             </div>
         </div>

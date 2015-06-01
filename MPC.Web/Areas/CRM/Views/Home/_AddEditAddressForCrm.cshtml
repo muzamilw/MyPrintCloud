@@ -230,7 +230,7 @@
                 </div>
                 <div class="modal-footer col-xs-12">
                     <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteAddress, enable: $root.selectedAddress().addressId() != undefined">Archive</button>
-                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress">Save</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                     <button type="button" class="btn btn-default" data-bind="click: $root.onCloseAddress" style="margin-left:0px;">Close</button>
                 </div>
             </div>
