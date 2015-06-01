@@ -416,6 +416,7 @@ define("order/order.viewModel",
                     // Open Item Detail
                     openItemDetail = function() {
                         isItemDetailVisible(true);
+                        selectedOrder().taxRate(selectedCompanyTaxRate());
                         itemDetailVm.showItemDetail(selectedProduct(), selectedOrder(), closeItemDetail, isEstimateScreen());
                         view.initializeLabelPopovers();
                     },
@@ -1585,15 +1586,15 @@ define("order/order.viewModel",
                     },
                     onSaveProductInventory = function() {
                         var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
-                        applyProductTax(item);
                         item.productName(inventoryStockItemToCreate().name);
                         item.qty1(selectedCostCentre().quantity1());
                         item.qty2(selectedCostCentre().quantity2());
                         item.qty3(selectedCostCentre().quantity3());
                         //Req: Item Product type is set to '2', so while editting item's section is non mandatory
                         item.productType(2);
-                        item.qty1NetTotal(inventoryStockItemToCreate().price);
-                        item.qty1GrossTotal(inventoryStockItemToCreate().priceWithTax);
+                        item.qty1NetTotal(inventoryStockItemToCreate().price * selectedCostCentre().quantity1());
+                        //item.qty1GrossTotal(inventoryStockItemToCreate().priceWithTax);
+                        applyProductTax(item);
 
                         selectedProduct(item);
                         var itemSection = itemModel.ItemSection.Create({});
@@ -1603,7 +1604,7 @@ define("order/order.viewModel",
                         itemSection.qty1(selectedCostCentre().quantity1());
                         itemSection.qty2(selectedCostCentre().quantity2());
                         itemSection.qty3(selectedCostCentre().quantity3());
-                        itemSection.baseCharge1(inventoryStockItemToCreate().price);
+                        itemSection.baseCharge1(inventoryStockItemToCreate().price * selectedCostCentre().quantity1());
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                         itemSection.productType(2);
 
@@ -1614,13 +1615,13 @@ define("order/order.viewModel",
                         sectionCostCenter.costCentreId(getStockCostCenterId(139));
                         sectionCostCenter.costCentreName(selectedCostCentre().name());
                         sectionCostCenter.name('Stock(s)');
-                        sectionCostCenter.qty1NetTotal(inventoryStockItemToCreate().price);
+                        sectionCostCenter.qty1NetTotal(inventoryStockItemToCreate().price * selectedCostCentre().quantity1());
                         sectionCostCenter.qty2NetTotal(0);
                         sectionCostCenter.qty2NetTotal(0);
                         sectionCostCenter.qty1EstimatedStockCost(0);
                         sectionCostCenter.qty2EstimatedStockCost(0);
                         sectionCostCenter.qty3EstimatedStockCost(0);
-                        sectionCostCenter.qty1Charge(inventoryStockItemToCreate().price);
+                        sectionCostCenter.qty1Charge(inventoryStockItemToCreate().price * selectedCostCentre().quantity1());
                         sectionCostCenter.qty2Charge(0);
                         sectionCostCenter.qty3Charge(0);
                         sectionCostCenter.costCentreType('139');
@@ -1628,7 +1629,7 @@ define("order/order.viewModel",
                         var sectionCostCenterDetail = itemModel.SectionCostCenterDetail.Create({});
                         sectionCostCenterDetail.stockName(inventoryStockItemToCreate().name);
                         sectionCostCenterDetail.costPrice(inventoryStockItemToCreate().price);
-                        sectionCostCenterDetail.qty1(inventoryStockItemToCreate().packageQty);
+                        sectionCostCenterDetail.qty1(selectedCostCentre().quantity1());
 
                         sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
 
@@ -1647,10 +1648,10 @@ define("order/order.viewModel",
                         selectedOrder().items.splice(0, 0, item);
 
                         selectedSection(itemSection);
-
+                        
 
                         //this method is calling to update orders list view total prices etc by trigering computed in item's detail view
-                        //itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                        itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
 
                     },
                     //#region product From Retail Store
