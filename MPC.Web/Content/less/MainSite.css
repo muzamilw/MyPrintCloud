@@ -220,7 +220,7 @@ div#spinner {
   width: 838px;
 }
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
-  width: 838px;
+  width: 838pxs;
 }
 #productBinding .pricetable-itemPriceMatrix tr th#Qty {
   width: 12%;
@@ -537,7 +537,7 @@ div#spinner {
   width: 838px;
 }
 #storesBinding #productDetailBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
-  width: 838px;
+  width: 630px;
 }
 #storesBinding #productDetailBinding .form-group .input-group-addon {
   text-decoration: none;

@@ -1708,6 +1708,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription9: jobDescription9,
             jobDescription10: jobDescription10,
             isTemplateTabsVisible: isTemplateTabsVisible,
+           
             flagId: flagId,
             internalFlagId: internalFlagId,
             isQtyRangedUi: isQtyRangedUi,
