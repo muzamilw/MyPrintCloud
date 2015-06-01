@@ -72,8 +72,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               headNotes = ko.observable(specifiedHeadNotes),
               footNotes = ko.observable(specifiedFootNotes),
               xeroAccessCode = ko.observable(specifiedXeroAccessCode),
-              isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
-              isPostedInvoice = ko.observable(invoiceStatus === 20 ? true : false),
+              isDirectSale = ko.observable(invoiceStatus() === 19 ? true : false),
+
+              isPostedInvoice = ko.observable(invoiceStatus() === 20 ? true : false),
               deliveryItems = ko.computed(function () {
                   if (items().length === 0) {
                       return [];
@@ -430,7 +431,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             flagColor = ko.observable(specifiedFlagColor),
             status = ko.observable(specifiedStatus),
             invoiceTotal = ko.observable(specifiedInvoiceTotal).extend({ numberInput: ist.numberFormat }),
-            isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
+            isDirectSale = ko.observable(specifiedOrderNo === null ? true : false),
                 // Number of Items UI
                 noOfItemsUi = ko.computed(function () {
                     return "( " + itemsCount() + " ) Items";

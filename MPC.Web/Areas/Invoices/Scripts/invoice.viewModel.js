@@ -164,7 +164,7 @@ define("invoice/invoice.viewModel",
                     },
                     // On Close Editor
                     onCloseInvoiceEditor = function () {
-                        if (selectedInvoice().hasChanges()) {
+                        if (selectedInvoice().invoiceStatus() === 19 && selectedInvoice().hasChanges()) {
                             confirmation.messageText("Do you want to save changes?");
                             confirmation.afterProceed(onSaveInvoice);
                             confirmation.afterCancel(function () {
@@ -1106,7 +1106,7 @@ define("invoice/invoice.viewModel",
                     gotoElement: gotoElement,
                     isShowStatusCloumn: isShowStatusCloumn,
                     pageHeader: pageHeader,
-                    pageCode:pageCode
+                    pageCode: pageCode
                     //#endregion
                 };
             })()

@@ -482,7 +482,12 @@ function g1(D1AO) {
     else {
         $("#chkboxAutoShrink").prop('checked', false);
     }
-
+    if (D1AO.autoCollapseText) {
+        $("#chkboxAutoCollapse").prop('checked', true);
+    }
+    else {
+        $("#chkboxAutoCollapse").prop('checked', false);
+    }
     if (!D1AO.IsEditable) {
         $("#BtnLockEditing").prop('checked', true);
     } else {
@@ -2108,6 +2113,24 @@ $("#chkboxAutoShrink").click(function () {
         else {
             D1AO.AutoShrinkText = true;
             $("#chkboxAutoShrink").prop('checked', true);
+        }
+    }
+
+    g1(D1AO);
+});
+$("#chkboxAutoCollapse").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (D1AO.type === 'text' || D1AO.type === 'i-text') {
+
+        if (D1AO.get('autoCollapseText')) {
+            D1AO.autoCollapseText = false;
+            $("#chkboxAutoCollapse").prop('checked', false);
+            pcL13();
+        }
+        else {
+            D1AO.autoCollapseText = true;
+            $("#chkboxAutoCollapse").prop('checked', true);
         }
     }
 

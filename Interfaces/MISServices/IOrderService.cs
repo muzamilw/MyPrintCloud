@@ -65,9 +65,7 @@ namespace MPC.Interfaces.MISServices
         InquiryBaseResponse GetBaseDataForInquiries();
 
         OrderBaseResponse GetBaseDataForEstimate();
-        /// <summary>
-        /// Download Attachment
-        /// </summary>
+        
         /// <summary>
         /// Download Attachment
         /// </summary>

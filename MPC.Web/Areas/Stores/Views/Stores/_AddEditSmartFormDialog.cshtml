@@ -255,7 +255,7 @@
             <div class="modal-footer">
                 <br />
                 <hr />
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSmartForm">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSmartForm, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               
             </div>

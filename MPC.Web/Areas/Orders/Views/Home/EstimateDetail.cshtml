@@ -168,7 +168,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="text" style="height: 60px;" readonly class="form-control font24px" id="code" data-bind="value: code" />
-                                                <button class=" btn btn-primary" id="notes-Button" onclick="showLeftPanel();" data-bind="click: $root.getInquiryItems, visible: enquiryId() != undefined">Notes</button>
+                                                <button class=" btn btn-warning" id="notes-Button" onclick="showLeftPanel();" data-bind="click: $root.getInquiryItems, visible: enquiryId() != undefined" style="margin-top: -47px;">Notes</button>
                                                 <div id="left-panel" class="this that the other thing"  style="overflow-x: hidden">
                                                     <button type="button" class="close" onclick="showLeftPanel();"><span>×</span></button>
                                                     <h1>Inquiry Notes</h1>
@@ -401,8 +401,9 @@
                                         <td>
                                             <span style="font-size:20px;" data-bind="text: qty1"></span>
                                         </td>
-                                        <td>
-                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+                                        <td class="text-right">
+                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
+                                            <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
                                         </td>
                                     </tr>
                                 </script>
@@ -417,7 +418,7 @@
                                             <span style="font-size:24px;" data-bind="text: productName"></span>
                                         </td>
                                         <td></td>
-                                        <td>
+                                        <td class="text-right">
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
                                         </td>
                                     </tr>

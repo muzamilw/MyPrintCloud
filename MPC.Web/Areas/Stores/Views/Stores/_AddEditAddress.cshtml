@@ -11,7 +11,7 @@
                         <div class="main-box clearfix" id="tabsHeader">
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#tab-AddressDetail" data-toggle="tab">Territory Detail</a></li>
+                                    <li class="active"><a href="#tab-AddressDetail" data-toggle="tab">Address Detail</a></li>
                                     <li><a href="#tab-AddressVariables" data-toggle="tab">Address Custom CRM defaults</a></li>
                                 </ul>
                                 <div class="tab-content">
@@ -173,7 +173,7 @@
                                                             <label for="txtExt1" class="control-label text-right tooltip-float">Ext 1</label>
                                                         </div>
                                                         <div class="col-lg-3">
-                                                            <input type="text" class="form-control" style="width:111%;" id="txtExt1" data-bind="value: extension1">
+                                                            <input type="text" class="form-control" style="width:109%;" id="txtExt1" data-bind="value: extension1">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -197,7 +197,7 @@
                                                             <label for="txtExt2" class="control-label text-right tooltip-float">Ext 2</label>
                                                         </div>
                                                         <div class="col-lg-3">
-                                                            <input type="text" class="form-control" style="width:111%;" id="txtExt2" data-bind="value: extension2">
+                                                            <input type="text" class="form-control" style="width:109%;" id="txtExt2" data-bind="value: extension2">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -357,8 +357,8 @@
             <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
                 <hr />
                 <button type="button" style="margin-left:10px;" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteAddress, enable: $root.selectedAddress().addressId() != undefined">Archive</button>
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress">Save</button>
-                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseAddress" style="margin-left:5px;margin-right:10px;">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseAddress" style="margin-left:0px;margin-right:10px;">Close</button>
             </div>
 
         </div>

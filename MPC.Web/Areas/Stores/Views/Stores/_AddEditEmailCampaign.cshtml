@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Edit Email Detail</h4>
+                <h4 class="modal-title">Edit Email</h4>
             </div>
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="clearfix" id="tabsHeader" style="margin-bottom:10px;">
@@ -43,14 +43,14 @@
                                             <textarea class="form-control" rows="4" id="description" data-bind="value:description,valueUpdate: 'keyup'"></textarea>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="margin-bottom:5px;">
                                         <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="sort order in category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                 </a>*@
                                             </div>
-                                            <label class="control-label text-right tooltip-float">Enable Email</label>
+                                            <label class="control-label text-right tooltip-float" style="padding-top:2px;">Enable Email</label>
                                         </div>
                                         <div class="col-lg-5">
                                             <div class="checkbox-nice">
@@ -406,7 +406,7 @@
             </div>
             <div class="modal-footer" style="padding-right: 8px; padding-bottom: 20px;" >
                 <hr />
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveEmail">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveEmail, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="visible:campaignType() !== 1,click:$root.onDeleteEmail, enable: $root.selectedEmail().id() != undefined">Archive</button>
             </div>

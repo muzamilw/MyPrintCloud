@@ -891,9 +891,13 @@ define("order/order.viewModel",
 
                     afterSelectCostCenter = function(costCenter) {
                         selectedCostCentre(costCenter);
-                        createNewCostCenterProductForShippingCharge();
-                        addCostCenterVM.hide();
-                        //view.showCostCentersQuantityDialog();
+                        //req. change
+                        if (isCostCenterDialogForShipping()) {
+                            createNewCostCenterProductForShippingCharge();
+                            addCostCenterVM.hide();
+                        } else {
+                            view.showCostCentersQuantityDialog();
+                        }
                     },
                     //Product From Cost Center
                     createNewCostCenterProduct = function() {
@@ -971,7 +975,11 @@ define("order/order.viewModel",
                         applyProductTax(item);
                         selectedProduct(item);
                         item.productName(selectedCostCentre().name());
-                        item.qty1NetTotal(selectedCostCentre().setupCost());
+                        //Req. Setting Quantities as 1 after not closing quantity dialog in shipping case
+                        item.qty1(1);
+                        item.qty2(1);
+                        item.qty3(1);
+                        item.qty1NetTotal(selectedCostCentre().deliveryCharges());
                         //Req: Item Product code is set to '2', so while editting item's section is non mandatory
                         item.productType(2);
 
@@ -979,10 +987,13 @@ define("order/order.viewModel",
                         counterForSection = counterForSection - 1;
                         itemSection.id(counterForSection);
                         itemSection.name("Text Sheet");
-                       
+                        //Req. Setting Quantities as 1 after not closing quantity dialog in shipping case
+                        itemSection.qty1(1);
+                        itemSection.qty2(1);
+                        itemSection.qty3(1);
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                         itemSection.productType(2);
-                        itemSection.baseCharge1(selectedCostCentre().setupCost());
+                        itemSection.baseCharge1(selectedCostCentre().deliveryCharges());
 
                         var sectionCostCenter = itemModel.SectionCostCentre.Create({});
                         sectionCostCenter.qty1EstimatedStockCost(0);
@@ -993,8 +1004,11 @@ define("order/order.viewModel",
                         sectionCostCenter.name(selectedCostCentre().name());
 
                         //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
-                        sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
-
+                        sectionCostCenter.qty1Charge(selectedCostCentre().deliveryCharges());
+                        //Req. Setting Quantities as 1 after not closing quantity dialog in shipping case
+                        sectionCostCenter.qty1(1);
+                        sectionCostCenter.qty2(1);
+                        sectionCostCenter.qty3(1);
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
                         itemSection.sectionCostCentres.push(sectionCostCenter);
@@ -1023,6 +1037,7 @@ define("order/order.viewModel",
                         //this method is calling to update orders list view total prices etc by trigering computed in item's detail view
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
                     },
+
                     // #endregion
                     //#region ServiceCalls
                     //Get Base Data
