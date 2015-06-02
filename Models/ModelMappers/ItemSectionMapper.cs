@@ -46,6 +46,7 @@ namespace MPC.Models.ModelMappers
             target.ImpressionCoverageSide2 = source.ImpressionCoverageSide2;
             target.PrintingType = source.PrintingType;
             target.isWorknTurn = source.isWorknTurn;
+            target.IsPortrait = source.IsPortrait;
         }
 
         /// <summary>

@@ -1390,7 +1390,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
         specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
         specifiedisArchived, specifiedTerritoryId, specifiedTerritoryName, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
-        specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
+        specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId, specifiedStateCode) {
         var
             self,
             addressId = ko.observable(specifiedAddressId),
@@ -1403,6 +1403,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
+            stateCode = ko.observable(specifiedStateCode),
+            stateNamenCode = ko.computed(function () {
+                return stateName() + "( " + stateCode() + " )";
+            }),
             countryName = ko.observable(specifiedCountryName),
             postCode = ko.observable(specifiedPostCode),
             fax = ko.observable(specifiedFax),
@@ -1532,6 +1536,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             state: state,
             country: country,
             stateName: stateName,
+            stateCode: stateCode,
+            stateNamenCode:stateNamenCode,
             countryName: countryName,
             postCode: postCode,
             fax: fax,
@@ -1634,7 +1640,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.isPrivate,
             source.isDefaultTerrorityBilling,
             source.isDefaultTerrorityShipping,
-            source.OrganisationId
+            source.OrganisationId,
+            source.StateCode
         );
         return address;
     };
@@ -2622,7 +2629,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 canPlaceDirectOrder: canPlaceDirectOrder,
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
-                fileName: fileName
+                fileName: fileName,
+                companyContactVariables:companyContactVariables
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -4602,13 +4610,16 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 name: name,
             }),
             // Is Valid 
-            isValid = ko.computed(function () {
+            isValid = ko.computed(function() {
                 return errors().length === 0 ? true : false;
             }),
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
+                id: id,
                 name: name,
+                companyId: companyId,
+                dropFrom: dropFrom,
                 heading: heading,
                 smartFormDetails: smartFormDetails
             }),
@@ -4669,6 +4680,26 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             captionValue = ko.observable(specifiedCaptionValue),
             waterMark = ko.observable(specifiedWaterMark),
             html = ko.observable(),
+             // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                id: id,
+                smartFormId: smartFormId,
+                objectType: objectType,
+                isRequired: isRequired,
+                sortOrder: sortOrder,
+                variableId: variableId,
+                captionValue: captionValue,
+                html: html,
+                waterMark: waterMark,
+            }),
+             // True If Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset Dirty State
+            reset = function () {
+                dirtyFlag.reset();
+            },
         //Convert To Server
         convertToServerData = function (source) {
             var result = {};
@@ -4692,6 +4723,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             html: html,
             waterMark: waterMark,
             convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
         };
         return self;
     };
