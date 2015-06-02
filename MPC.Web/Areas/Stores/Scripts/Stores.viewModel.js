@@ -1111,6 +1111,7 @@ define("stores/stores.viewModel",
                 onCreateNewCompanyCMYKColor = function () {
                     var companyCMYKColor = new model.CompanyCMYKColor();
                     selectedCompanyCMYKColor(companyCMYKColor);
+                    selectedCompanyCMYKColor().isActive(true);
                     view.showCompanyCMYKColorDialog();
                     isSavingNew(true);
                 },
