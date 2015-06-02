@@ -40,6 +40,13 @@ namespace MPC.Webstore
            );
 
             routes.MapRoute(
+          "Logoutrealestate",
+          "RealestateSideBarWithSlider/LogOut",
+          new { controller = "RealestateSideBarWithSlider", action = "LogOut", id = UrlParameter.Optional }
+          );
+
+
+            routes.MapRoute(
        "BillingShippingIntellisenceData",
        "BillingShippingAddressManager/IntellisenceData",
        new { controller = "BillingShippingAddressManager", action = "IntellisenceData", id = UrlParameter.Optional }
@@ -71,6 +78,9 @@ namespace MPC.Webstore
            "ContactDetail",
            new { controller = "Home", action = "Index", id = UrlParameter.Optional }
         );
+
+         
+
 
             routes.MapRoute(
            "RequestQuote",
