@@ -3252,10 +3252,8 @@ function isEmptyStyles(customStyles) {
     return true;
 }
 function updateTOWithStyles(obTO, vTag, vVal) {
-    console.log(vVal + " " + vTag);
     // obTO.ContentString = obTO.ContentString.replace(vTag, vVal);
     var objs = obTO.ContentString.split(vTag);
-    console.log(objs);
     var variableLength = vTag.length;
     var lengthCount = 0;
     var content = "";
@@ -3264,15 +3262,31 @@ function updateTOWithStyles(obTO, vTag, vVal) {
     for (var i = 0; i < objs.length; i++) {
         content += objs[i];
         if ((i + 1) != objs.length) {
-            var postPend = objs[i+1];
+            var shifts = 0;
+            var postPend = objs[i + 1];
+            var prePend = objs[i];
             if (vVal == "")
             {
-              //  alert();
+                if(postPend[0] == " ")
+                {
+                    shifts= 1;
+                }else if(postPend[0] == "\n")
+                {
+                    if(prePend[prePend.length-1] == "\n")
+                    {
+                 //       shifts = -1;
+                   //     console.log(obTO.ContentString + ""); // already working strangly
+                    }
+                }
+                if(shifts == 1)
+                {
+                    objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length - 1);
+                    variableLength += 1;
+                }
             } else
             {
-             //   content += vVal;
+                content += vVal;
             }
-            content += vVal;
         }
         lengthCount += objs[i].length;
         var toMove = (i + 1) * variableLength;

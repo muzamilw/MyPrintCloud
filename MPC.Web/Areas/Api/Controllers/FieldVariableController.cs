@@ -63,13 +63,14 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
         [HttpDelete]
-        public void Delete(FieldVariable fieldVariable)
+        public int Delete(FieldVariable fieldVariable)
         {
             if (fieldVariable == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
             companyService.DeleteFieldVariable(fieldVariable.VariableId);
+            return 1;
         }
         #endregion
 

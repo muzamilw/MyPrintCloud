@@ -2028,6 +2028,28 @@ define("order/order.viewModel",
                             }
                         });
                     },
+
+
+
+                     makeArtworkProductionReady = function () {
+                         isLoadingOrders(true);
+                         dataservice.makeOrderArtworkProductionReady({
+                             Order: selectedOrder()
+                         }, {
+                             success: function (data) {
+                                 //if (data != null) {
+                                 //    var host = window.location.host;
+                                 //    var uri = encodeURI("http://" + host + data);
+                                 //    window.open(uri, "_blank");
+                                 //}
+                                 isLoadingOrders(false);
+                             },
+                             error: function (response) {
+                                 isLoadingOrders(false);
+                                 toastr.error("Error: Failed to Download Artwork." + response);
+                             }
+                         });
+                     },
                     // Template Chooser For Delivery Schedule
                     templateToUseDeliverySchedule = function (deliverySchedule) {
                         return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
@@ -2691,7 +2713,8 @@ define("order/order.viewModel",
                     saveSectionCostCenter: saveSectionCostCenter,
                     createitemForRetailStoreProduct: createitemForRetailStoreProduct,
                     editSection: editSection,
-                    createNewCostCenterProduct: createNewCostCenterProduct
+                    createNewCostCenterProduct: createNewCostCenterProduct,
+                    makeArtworkProductionReady: makeArtworkProductionReady
                     //#endregion
                 };
             })()

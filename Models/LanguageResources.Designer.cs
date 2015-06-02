@@ -142,6 +142,15 @@ namespace MPC.Models {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Section Ink Coverage is null..
+        /// </summary>
+        internal static string ItemSectionInkCoverageClone_InvalidInkCoverage {
+            get {
+                return ResourceManager.GetString("ItemSectionInkCoverageClone_InvalidInkCoverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Item State Tax is null..
         /// </summary>
         internal static string ItemStateTaxClone_InvalidItem {

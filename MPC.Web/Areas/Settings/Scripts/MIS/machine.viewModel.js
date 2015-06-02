@@ -99,7 +99,8 @@ define("machine/machine.viewModel",
 
                      },
                     GetMachineListForGuillotine = function () {
-                        $("#btnCreateNewMachine").html('Create New Guillotine');
+                        // $("#btnCreateNewMachine").html('Create New Guillotine');
+                        
                         isGuillotineList(true);
                         getMachines();
                     },
