@@ -2273,6 +2273,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // On Add ItemAddonCostCentre
             onAddItemAddonCostCentre = function () {
                 activeItemAddonCostCentre(ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }, callbacks));
+                //To Enable Dirty Flag
+                activeItemAddonCostCentre().isMandatory(false);
             },
             onEditItemAddonCostCentre = function (itemAddonCostCentre) {
                 activeItemAddonCostCentre(itemAddonCostCentre);
