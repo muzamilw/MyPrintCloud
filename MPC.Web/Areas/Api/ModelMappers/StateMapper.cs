@@ -31,7 +31,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new StateDropDown
             {
                 StateId = source.StateId,
-                StateName = source.StateName,
+                StateName = source.StateName + " ( " + source.StateCode + " )" ,
                 CountryId = source.CountryId
             };
         }

@@ -3874,7 +3874,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ItemSection.Create = function (source) {
         var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
             source.IsSectionSizeCustom, source.SectionSizeHeight, source.SectionSizeWidth, source.IsItemSizeCustom, source.ItemSizeHeight,
-            source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.ItemId);
+            source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.ItemId, source.IsDoubleSided, source.IsWorknTurn,
+            source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.IsPortrait,
+            source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PrintingType,
+            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty);
         
         // Map Section Ink Coverage if Any
         if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {

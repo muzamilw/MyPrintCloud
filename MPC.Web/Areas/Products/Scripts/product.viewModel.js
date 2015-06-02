@@ -137,11 +137,11 @@ define("product/product.viewModel",
                     selectedProduct = ko.observable(),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedProduct() && selectedProduct().productName() ? "(" +  selectedProduct().productName() + ") Select the Product Categorie(s) that this product will be in."  : 'Products';
+                        return selectedProduct() && selectedProduct().productName() ? selectedProduct().productName()  : 'Select Product Category(s)';
                     }),
 
                      prodName = ko.computed(function () {
-                         return selectedProduct() && selectedProduct().productName() ? "Section Detail -" + selectedProduct().productName() : 'Products';
+                         return selectedProduct() && selectedProduct().productName() ? "Section Detail -" + selectedProduct().productName() : 'Section Detail';
                      }),
                     // Sort On
                     sortOn = ko.observable(1),
