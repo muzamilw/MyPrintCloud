@@ -5878,6 +5878,7 @@ define("stores/stores.viewModel",
                                 fieldvariable.variableOptions.push(model.VariableOption.Create(item));
                             });
                             selectedFieldVariable(fieldvariable);
+                            selectedFieldVariable().reset();
                             view.showVeriableDefinationDialog();
                         }
                     },

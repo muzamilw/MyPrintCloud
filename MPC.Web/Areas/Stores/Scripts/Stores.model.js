@@ -4300,6 +4300,22 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
+                id: id,
+                variableName: variableName,
+                variableType: variableType,
+                scope: scope,
+                isSystem: isSystem,
+                waterMark: waterMark,
+                defaultValueForInput: defaultValueForInput,
+                defaultValue: defaultValue,
+                companyId: companyId,
+                variableTag: variableTag,
+                inputMask: inputMask,
+                scopeName: scopeName,
+                typeName: typeName,
+                variableTitle: variableTitle,
+                variableOptions: variableOptions,
+                fakeId: fakeId,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
