@@ -108,7 +108,7 @@
                 &nbsp;
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSavePaymentGateway">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSavePaymentGateway, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onClosePaymentGateway" style="margin-left: 0px;">Close</button>
                
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeletePaymentGateway, enable: $root.selectedPaymentGateway().paymentGatewayId() != undefined">Archive</button>

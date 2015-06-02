@@ -70,5 +70,7 @@ namespace MPC.Interfaces.MISServices
         /// Download Attachment
         /// </summary>
         string DownloadAttachment(long id, out string fileName, out string fileType);
+
+        bool MakeOrderArtworkProductionReady(Estimate oOrder);
     }
 }

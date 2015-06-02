@@ -99,5 +99,7 @@ namespace MPC.Interfaces.WebStoreServices
        /// </summary>
         bool IsRealCustomerOrder(long orderId, long contactId, long companyId);
 
+        
+
     }
 }
