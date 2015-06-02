@@ -58,5 +58,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Organisation Region
         /// </summary>
         public string Region { get; set; }
+
+        /// <summary>
+        /// Weight Unit
+        /// </summary>
+        public string WeightUnit { get; set; }
     }
 }

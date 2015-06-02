@@ -2514,8 +2514,8 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                                                    pci.CategoryId = PID;
+                                                   // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = null;
 
 
                                                 }
@@ -2881,8 +2881,8 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                                                    pci.CategoryId = PID;
+                                                   // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = null;
 
 
                                                 }
@@ -3245,8 +3245,8 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                                                    pci.CategoryId = PID;
+                                                   // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = null;
 
 
                                                 }
@@ -3624,8 +3624,8 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                                                    pci.CategoryId = PID;
+                                                   // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = null;
 
 
                                                 }

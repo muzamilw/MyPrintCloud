@@ -43,7 +43,7 @@
             categoryName: categoryName,
             subCategoryName: subCategoryName,
             weightUnitName: weightUnitName,
-            packCostPrice:packCostPrice,
+            packCostPrice: packCostPrice,
             fullCategoryName: fullCategoryName,
             supplierCompanyName: supplierCompanyName,
             convertToServerData: convertToServerData,
@@ -90,7 +90,7 @@
             //Is Disabled
             isDisabled = ko.observable(specifiedIsDisabled),
             //Paper Type ID
-            paperTypeId = ko.observable((specifiedPaperTypeId == undefined || specifiedPaperTypeId === null) ? 1 : specifiedPaperTypeId),
+            paperTypeId = ko.observable((specifiedPaperTypeId == undefined || specifiedPaperTypeId === null) ? "1" : specifiedPaperTypeId.toString()),
             //Item Size Selected Unit Id
             itemSizeSelectedUnitId = ko.observable(specifiedItemSizeSelectedUnitId),
             //perQtyQty
@@ -418,7 +418,7 @@
     };
     //Create Factory 
     InventoryListView.Create = function (source) {
-        var obj= new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
+        var obj = new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
                               source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region);
         obj.packCostPrice(source.PackCostPrice);
         return obj;

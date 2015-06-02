@@ -333,7 +333,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-2" style="float: right;">
+                                                @*<div class="col-lg-2" style="float: right;">
                                                     <div class="form-group">
                                                         <div class="col-sm-2" style=" width: 30%;">
                                                             <label class="control-label" style="font-size:12px;">Qty 3</label>
@@ -342,7 +342,7 @@
                                                             <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty3, validationOnElement: qty3" id="qty3" />
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>*@
                                                 <!--/ko-->
                                             </div>
                                         </header>
@@ -421,7 +421,7 @@
                                                         <select class="form-control col-sm-4" style=" padding-left: 0px; padding-right: 0px; margin-left: -19px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId,event:{ change: $root.onChangeQty2MarkUpId}"></select>
                                                     </div>
                                                     <div class="col-sm-2" style=" padding-left: 4.5%; width: 19%;">
-                                                        <select class="form-control col-sm-4" style="padding-left: 0px; padding-right: 0px; margin-left: -40px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty3MarkUpId,event:{ change: $root.onChangeQty3MarkUpId}"></select>
+                                                        @*<select class="form-control col-sm-4" style="padding-left: 0px; padding-right: 0px; margin-left: -40px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty3MarkUpId,event:{ change: $root.onChangeQty3MarkUpId}"></select>*@
                                                     </div>
                                                     <!--/ko-->
                                                 </div>
@@ -456,7 +456,7 @@
                                     <label class="control-label" style="  float: right;"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge2"></span></label>
                                 </div>
                                 <div class="col-sm-2" style=" padding-right: 2%; width: 19%;">
-                                    <label style="  float: right;" class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge3"></span></label>
+                                    @*<label style="  float: right;" class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge3"></span></label>*@
                                 </div>
                                 <!--/ko-->
                             </div>
@@ -501,7 +501,7 @@
                 <span data-bind="text:$root.currencySymbol" style="color: #3498db"></span> <a href="#" data-bind="numberInput: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
             </td>
             <td style="text-align: right; padding-right: 1.8%;">
-                <span data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" data-bind="numberInput: qty3NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 3)}"></a>
+                @*<span data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" data-bind="numberInput: qty3NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 3)}"></a>*@
             </td>
             <!--/ko-->
             <!--ko if: !$root.isEstimateScreen()-->

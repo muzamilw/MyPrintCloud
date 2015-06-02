@@ -3437,7 +3437,7 @@ define("stores/stores.viewModel",
                 productCategory.isPublished(true);
                 //Setting Product Category Editting
                 selectedProductCategoryForEditting(productCategory);
-                productCategoryStatus("Category Details");
+                productCategoryStatus("Add/Edit Category Details");
 
                 //Setting drop down list of parent
                 //putting all list of categories
