@@ -1584,9 +1584,21 @@ define("order/order.viewModel",
                         });
                         return costCentreId;
                     },
+                    //Method to make by default quantities fields 0 if they are undefined
+                    updateQuantitiesValues = function() {
+                        var qty1 = selectedCostCentre().quantity1();
+                        var qty2 = selectedCostCentre().quantity2();
+                        if (qty1 == undefined) {
+                            selectedCostCentre().quantity1(0);
+                        } if (qty2 == undefined) {
+                            selectedCostCentre().quantity2(0);
+                        }
+                    },
                     onSaveProductInventory = function () {
                         var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
                         item.productName(inventoryStockItemToCreate().name);
+
+                        updateQuantitiesValues();
                         item.qty1(selectedCostCentre().quantity1());
                         item.qty2(selectedCostCentre().quantity2());
                         item.qty3(selectedCostCentre().quantity3());
