@@ -981,6 +981,7 @@ namespace MPC.Repository.Repositories
                   .ForMember(x => x.Company, opt => opt.Ignore());
 
                 Mapper.CreateMap<SmartFormDetail, SmartFormDetail>()
+                .ForMember(x => x.FieldVariable, opt => opt.Ignore())
                 .ForMember(x => x.SmartForm, opt => opt.Ignore());
 
                 Mapper.CreateMap<FieldVariable, FieldVariable>()
