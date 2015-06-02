@@ -1001,11 +1001,30 @@ namespace MPC.Implementation.MISServices
 
             try
             {
+               Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
+                if (sZipName == string.Empty)
+                {
+                    sZipFileName = GetArchiveFileName(oOrder.Order_Code, oOrder.Company.Name, oOrder.EstimateId);
+                }
+                else
+                {
+                    if (Path.HasExtension(sZipName))
+                        sZipFileName = sZipName;
+                    else
+                        sZipFileName = sZipName + ".zip";
+
+                }
+                ReturnPhysicalPath = sCreateDirectory + "\\" + sZipFileName;
+                if (File.Exists(ReturnPhysicalPath))
+                {                    
+                    ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                    return ReturnPhysicalPath;
+                }
 
                 //filter the items which are of type delivery i.e. itemtype = 2
                 List<Item> ItemsList = itemRepository.GetItemsWithAttachmentsByOrderID(OrderID);
-                Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
-
+                
+                MakeArtWorkProductionReady = true;
 
                 if (oOrder.Company != null)
                 {
@@ -1013,8 +1032,7 @@ namespace MPC.Implementation.MISServices
                     {
                         IncludeOrderReport = oOrder.Company.includeEmailArtworkOrderReport ?? false;
                         IncludeJobCardReport = oOrder.Company.includeEmailArtworkOrderJobCard ?? false;
-                        IncludeOrderXML = oOrder.Company.includeEmailArtworkOrderXML ?? false;
-                        MakeArtWorkProductionReady = oOrder.Company.makeEmailArtworkOrderProductionReady ?? false;
+                        IncludeOrderXML = oOrder.Company.includeEmailArtworkOrderXML ?? false;                        
                     }
                     else
                     {
@@ -1024,7 +1042,6 @@ namespace MPC.Implementation.MISServices
                             IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
                             IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
                             IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
-                            MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
                         }
                     }
 
@@ -1038,30 +1055,18 @@ namespace MPC.Implementation.MISServices
                 //making the artwork production ready and regenerating template PDFs
                 if (MakeArtWorkProductionReady)
                 {
+                    
                     ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder);
 
                 }
 
-                if (sZipName == string.Empty)
-                {
-                    sZipFileName = GetArchiveFileName(oOrder.Order_Code, oOrder.Company.Name, oOrder.EstimateId);
-                }
-                else
-                {
-                    if (Path.HasExtension(sZipName))
-                        sZipFileName = sZipName;
-                    else
-                        sZipFileName = sZipName + ".zip";
-
-                }
+                
 
                 //ReturnRelativePath = szDirectory + "/" + PathConstants.DownloadableFilesPath + sZipFileName;
-                ReturnPhysicalPath = sCreateDirectory + "\\" + sZipFileName;
+                
                 if (File.Exists(ReturnPhysicalPath))
                 {
-                    //ReturnRelativePath = szDirectory + "/" + PathConstants.DownloadableFilesPath + sZipFileName;
-                    //  ReturnPhysicalPath = sCreateDirectory + sZipFileName;
-                    ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                    
                     return ReturnPhysicalPath;
                 }
                 else
@@ -1152,6 +1157,7 @@ namespace MPC.Implementation.MISServices
                     }
                     ReturnRelativePath = sCreateDirectory;
                     ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                    //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }
             }
@@ -1160,6 +1166,18 @@ namespace MPC.Implementation.MISServices
                 throw ex1;
             }
 
+        }
+
+        private void UpdateAttachmentsPath(Estimate oOrder)
+        {
+            foreach (var item in oOrder.Items)
+            {
+                if (item.ItemAttachments != null)
+                {
+                    item.ItemAttachments.ToList().ForEach(i => i.FolderPath = i.FolderPath.Replace("Attachments", "Production"));
+                }
+            }
+            orderRepository.SaveChanges();
         }
 
         public static string MakeValidFileName(string name)
