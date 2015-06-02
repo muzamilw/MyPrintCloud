@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="col-sm-8" data-bind="visible: isSectionSizeCustom() || printingTypeUi() === '2'" style="padding-right: 1.2%">
                                             <div class="col-sm-5" style="padding-left: 0px;">
-                                                <input type="text" class="form-control" data-bind="value: sectionSizeHeight" />
+                                                <input type="text" class="form-control" data-bind="numberValue: sectionSizeHeight,numberFormat: ist.lengthFormat " />
                                                 <label class="help-block">
                                                     <span data-bind="text: printingTypeUi() !== '2' ? 'Height ' : 'Length '"></span>
                                                     (
@@ -111,7 +111,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-sm-5" style="padding-right: 0px;">
-                                                <input type="text" class="form-control" data-bind="value: sectionSizeWidth, enable: printingTypeUi() !== '2'" />
+                                                <input type="text" class="form-control" data-bind="numberValue: sectionSizeWidth,numberFormat: ist.lengthFormat, enable: printingTypeUi() !== '2' " />
                                                 <label class="help-block">
                                                     Width
                                                     (
@@ -140,7 +140,7 @@
                                         <div class="col-sm-6" data-bind="visible:isItemSizeCustom" style="padding-left: 0px;  ">
                                             <div class="col-sm-5" style="padding-left: 0px; padding-right: 0px; width: 37%; ">
 
-                                                <input type="text" class="form-control" data-bind="value: itemSizeHeight, enable: isItemSizeCustom" id="qty11" />
+                                                <input type="text" class="form-control" data-bind="numberValue: itemSizeHeight,numberFormat: ist.lengthFormat, enable:isItemSizeCustom" id="qty11" />
                                                 <label class="help-block">Height(<span data-bind="text:$root.lengthUnit"></span>)</label>
                                             </div>
                                             <div class="col-sm-2 text-center" style="padding-left: 1.5%; ">
@@ -149,7 +149,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-sm-5" style="padding-right: 0px; width: 39%; padding-left: 0px; margin-left: 15px; ">
-                                                <input type="text" class="form-control" data-bind="value: itemSizeWidth, enable: isItemSizeCustom" id="qty31" />
+                                                <input type="text" class="form-control" data-bind="numberValue: itemSizeWidth,numberFormat: ist.lengthFormat, enable:isItemSizeCustom"  id="qty31" />
                                                 <label class="help-block">Width(<span data-bind="text:$root.lengthUnit"></span>)</label>
 
                                             </div>
