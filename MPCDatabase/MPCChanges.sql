@@ -4331,4 +4331,124 @@ END
 
 GO
 
+/*Execution date 02-06-2015*/
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,18
+           ,'{{contact_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,16
+           ,'{{DefaultShipping_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+
+
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,17
+           ,'{{DefaultBilling_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
 
