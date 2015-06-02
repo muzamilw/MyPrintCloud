@@ -67,6 +67,7 @@ define("stores/stores.viewModel",
                     searchFilter = ko.observable(),
                     //selectedStore
                     selectedStore = ko.observable(new model.Store),
+                    selectedCategoryName = ko.observable("Products"),
                     //Selected Company Contact
                     companyContactEditorViewModel = new ist.ViewModel(model.CompanyContact),
                     selectedCompanyContact = companyContactEditorViewModel.itemForEditing,
@@ -3357,6 +3358,7 @@ define("stores/stores.viewModel",
                 selectProductCategory = function (category, event) {
                 if (selectedProductCategory() != category) {
                     selectedProductCategory(category);
+                    selectedCategoryName(category.categoryName());
                     // Notify the event subscribers
                     view.productCategorySelectedEvent(ko.isObservable(category.productCategoryId) ?
                         category.productCategoryId() : category.productCategoryId);
@@ -6742,7 +6744,8 @@ define("stores/stores.viewModel",
                     selectedHexValue: selectedHexValue,
                     onRemoveFieldVariable: onRemoveFieldVariable,
                     paymentGatewayFilter: paymentGatewayFilter,
-                    onSearchpaymentMethod: onSearchpaymentMethod
+                    onSearchpaymentMethod: onSearchpaymentMethod,
+                    selectedCategoryName: selectedCategoryName
 
                 };
                 //#endregion
