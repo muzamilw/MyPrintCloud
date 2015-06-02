@@ -1874,6 +1874,21 @@ namespace MPC.Repository.Repositories
         }
 
         #endregion
+        public List<MPC.Models.DomainModels.Listing> GetPropertiesByContactCompanyID(long CompanyID)
+        {
 
+            return db.Listings.Where(c => c.CompanyId == CompanyID).ToList();
+            
+        }
+        public List<MPC.Models.DomainModels.ListingImage> GetListingImagesByListingID(int propertyId)
+        {
+              return (from listingImage in db.ListingImages
+                        where listingImage.ListingId == propertyId
+                        select listingImage).ToList();
+        }
+        public List<MPC.Models.DomainModels.ListingImage> GetAllListingImages()
+        {
+            return db.ListingImages.ToList();
+        }
     }
 }

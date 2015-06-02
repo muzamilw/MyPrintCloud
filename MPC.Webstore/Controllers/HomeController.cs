@@ -326,7 +326,17 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult Error(string Message)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.DomainModels.Company model = null;
+
+            //  MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+
             ViewBag.ErrorMessage = Message;
+            ViewBag.TwitterURL = StoreBaseResopnse.Company.TwitterURL;
+            ViewBag.FacebookURL = StoreBaseResopnse.Company.FacebookURL;
+            ViewBag.LinkedinURL = StoreBaseResopnse.Company.LinkedinURL;
             return View();
         }
 
