@@ -423,13 +423,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Allow Image Download
             allowImageDownload = ko.observable(specifiedAllowImageDownload || false),
             // Item Length
-            itemLength = ko.observable(specifiedItemLength || undefined).extend({ number: true }),
+            itemLength = ko.observable(specifiedItemLength || 0),
             // Item Height
-            itemHeight = ko.observable(specifiedItemHeight || undefined).extend({ number: true }),
+            itemHeight = ko.observable(specifiedItemHeight || 0),
             // Item Width
-            itemWidth = ko.observable(specifiedItemWidth || undefined).extend({ number: true }),
+            itemWidth = ko.observable(specifiedItemWidth || 0),
             // Item Weight
-            itemWeight = ko.observable(specifiedItemWeight || undefined).extend({ number: true }),
+            itemWeight = ko.observable(specifiedItemWeight || 0),
             // Organisation Id
             organisationId = ko.observable(specifiedOrganisationId || undefined),
             // Company Id
@@ -2475,7 +2475,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Section Entity
     ItemSection = function (specifiedId, specifiedSectionNo, specifiedSectionName, specifiedSectionSizeId, specifiedItemSizeId, specifiedIsSectionSizeCustom,
         specifiedSectionSizeHeight, specifiedSectionSizeWidth, specifiedIsItemSizeCustom, specifiedItemSizeHeight, specifiedItemSizeWidth,
-        specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedItemId) {
+        specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn,
+        specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedIsPortrait, specifiedPressIdSide2, specifiedImpressionCoverageSide1,
+        specifiedImpressionCoverageSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
+        specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -2485,10 +2488,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: true }),
             // Stock Item Name
             stockItemName = ko.observable(specifiedStockItemName || undefined),
+            // Stock Item Package Qty
+            stockItemPackageQty = ko.observable(specifiedStockItemPackageQty || undefined),
             // Press Id
             pressId = ko.observable(specifiedPressId || undefined),
             // Press Name
             pressName = ko.observable(specifiedPressName || undefined),
+            // Press Id Side 2
+            pressIdSide2 = ko.observable(specifiedPressIdSide2 || undefined),
             // section size id
             sectionSizeId = ko.observable(specifiedSectionSizeId || undefined),
             // Item size id
@@ -2509,6 +2516,104 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemSizeWidth = ko.observable(specifiedItemSizeWidth || undefined),
             // Item Id
             itemId = ko.observable(specifiedItemId || undefined),
+            // Is Double Sided
+            isDoubleSided = ko.observable(specifiedIsDoubleSided || false),
+            // Is Work N Turn
+            isWorknTurn = ko.observable(specifiedIsWorknTurn || false),
+            // Is Double Sided Ui
+            isDoubleSidedUi = ko.computed({
+                read: function () {
+                    return isDoubleSided();
+                },
+                write: function (value) {
+                    if (value === isDoubleSided()) {
+                        return;
+                    }
+
+                    // Single Side
+                    if (!value) {
+                        isWorknTurn(false);
+                    }
+
+                    isDoubleSided(value);
+                }
+            }),
+            isPortrait = ko.observable(specifiedIsPortrait),
+            printViewLayout = ko.observable(),
+            // PrintViewLayoutPortrait
+            printViewLayoutPortrait = ko.observable(specifiedPrintViewLayoutPortrait || 0),
+            // PrintViewLayoutLandscape
+            printViewLayoutLandscape = ko.observable(specifiedPrintViewLayoutLandscape || 0),
+            // Number Up
+            numberUp = ko.computed(function () {
+                if (printViewLayoutPortrait() >= printViewLayoutLandscape()) {
+                    printViewLayout(0);
+                    return printViewLayoutPortrait();
+                } else if (printViewLayoutPortrait() <= printViewLayoutLandscape()) {
+                    printViewLayout(1);
+                    return printViewLayoutLandscape();
+                }
+
+                return 0;
+            }),
+            // Printing Type
+            printingType = ko.observable(specifiedPrintingType || 1),
+            // Printing Type Ui
+            printingTypeUi = ko.computed({
+                read: function () {
+                    return '' + printingType();
+                },
+                write: function (value) {
+                    if (!value) {
+                        return;
+                    }
+                    var printingValue = parseInt(value);
+                    if (printingValue === printingType()) {
+                        return;
+                    }
+                    printingType(printingValue);
+                    if (printingValue === 2) { // Hide Number Up and set it as 1
+                        printViewLayoutPortrait(0);
+                        printViewLayoutLandscape(1);
+                        // If Initialized
+                        if (isDoubleSidedUi) {
+                            isDoubleSidedUi(false);
+                        }
+                    }
+                }
+            }),
+            // Section Ink Coverage List
+            sectionInkCoverageList = ko.observableArray([]),
+            // section Ink Coverage Side1
+            sectionInkCoveragesSide1 = ko.computed(function () {
+                if (sectionInkCoverageList().length === 0) {
+                    return [];
+                }
+                return sectionInkCoverageList.filter(function (sectionInkCoverage) {
+                    return sectionInkCoverage.side() === 1;
+                });
+            }),
+            // section Ink Coverage Side2
+            sectionInkCoveragesSide2 = ko.computed(function () {
+                if (sectionInkCoverageList().length === 0) {
+                    return [];
+                }
+                return sectionInkCoverageList.filter(function (sectionInkCoverage) {
+                    return sectionInkCoverage.side() === 2;
+                });
+            }),
+            // Impression Coverage Side 1
+            impressionCoverageSide1 = ko.observable(specifiedImpressionCoverageSide1 || undefined),
+            // Impression Coverage Side 2
+            impressionCoverageSide2 = ko.observable(specifiedImpressionCoverageSide2 || undefined),
+            // Press Id Side 1 Colour Heads
+            pressIdSide1ColourHeads = ko.observable(specifiedPressSide1ColourHeads || 0),
+            // Press Id Side 2 Colour Heads
+            pressIdSide2ColourHeads = ko.observable(specifiedPressSide2ColourHeads || 0),
+            // Press Id Side 1 Is Spot Color
+            pressIdSide1IsSpotColor = ko.observable(specifiedPressSide1IsSpotColor || false),
+            // Press Id Side 2 Is Spot Color
+            pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false),
             // Select Stock Item
             selectStock = function (stockItem) {
                 if (!stockItem || stockItemId() === stockItem.id) {
@@ -2526,6 +2631,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 pressId(press.id);
                 pressName(press.name);
+            },
+            // Swap Section Height and Width
+            swapSectionHeightWidth = function () {
+                var sectionHeight = sectionSizeHeight();
+                sectionSizeHeight(sectionSizeWidth());
+                sectionSizeWidth(sectionHeight);
+            },
+            // Swap Item Size Height and Width
+            swapItemHeightWidth = function () {
+                var itemHeight = itemSizeHeight();
+                itemSizeHeight(itemSizeWidth());
+                itemSizeWidth(itemHeight);
             },
             // Errors
             errors = ko.validation.group({
@@ -2549,7 +2666,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionSizeHeight: sectionSizeHeight,
                 sectionSizeWidth: sectionSizeWidth,
                 itemSizeHeight: itemSizeHeight,
-                itemSizeWidth: itemSizeWidth
+                itemSizeWidth: itemSizeWidth,
+                isDoubleSided: isDoubleSided,
+                isWorknTurn: isWorknTurn,
+                printViewLayoutPortrait: printViewLayoutPortrait,
+                printViewLayoutLandscape: printViewLayoutLandscape,
+                pressIdSide2: pressIdSide2,
+                impressionCoverageSide1: impressionCoverageSide1,
+                impressionCoverageSide2: impressionCoverageSide2,
+                printingType: printingType
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2575,7 +2700,21 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     SectionSizeHeight: sectionSizeHeight(),
                     SectionSizeWidth: sectionSizeWidth(),
                     ItemSizeHeight: itemSizeHeight(),
-                    ItemSizeWidth: itemSizeWidth()
+                    ItemSizeWidth: itemSizeWidth(),
+                    IsDoubleSided: isDoubleSided(),
+                    IsWorknTurn: isWorknTurn(),
+                    IsPortrait: isPortrait(),
+                    PrintViewLayout: printViewLayout(),
+                    PrintViewLayoutPortrait: printViewLayoutPortrait(),
+                    PrintViewLayoutLandscape: printViewLayoutLandscape(),
+                    PressIdSide2: pressIdSide2(),
+                    ImpressionCoverageSide1: impressionCoverageSide1(),
+                    ImpressionCoverageSide2: impressionCoverageSide2(),
+                    PrintingType: printingType(),
+                    SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
+                        var inkCoverage = sic.convertToServerData();
+                        return inkCoverage;
+                    })
                 };
             };
 
@@ -2584,6 +2723,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stockItemId: stockItemId,
             pressId: pressId,
             stockItemName: stockItemName,
+            stockItemPackageQty: stockItemPackageQty,
             pressName: pressName,
             name: name,
             itemId: itemId,
@@ -2596,6 +2736,27 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             sectionSizeWidth: sectionSizeWidth,
             itemSizeHeight: itemSizeHeight,
             itemSizeWidth: itemSizeWidth,
+            isDoubleSided: isDoubleSided,
+            isDoubleSidedUi: isDoubleSidedUi,
+            isWorknTurn: isWorknTurn,
+            printViewLayoutPortrait: printViewLayoutPortrait,
+            printViewLayoutLandscape: printViewLayoutLandscape,
+            isPortrait: isPortrait,
+            pressIdSide2: pressIdSide2,
+            impressionCoverageSide1: impressionCoverageSide1,
+            impressionCoverageSide2: impressionCoverageSide2,
+            printingType: printingType,
+            swapSectionHeightWidth: swapSectionHeightWidth,
+            swapItemHeightWidth: swapItemHeightWidth,
+            numberUp: numberUp,
+            printingTypeUi: printingTypeUi,
+            pressIdSide1ColourHeads: pressIdSide1ColourHeads,
+            pressIdSide2ColourHeads: pressIdSide2ColourHeads,
+            pressIdSide1IsSpotColor: pressIdSide1IsSpotColor,
+            pressIdSide2IsSpotColor: pressIdSide2IsSpotColor,
+            sectionInkCoveragesSide1: sectionInkCoveragesSide1,
+            sectionInkCoveragesSide2: sectionInkCoveragesSide2,
+            sectionInkCoverageList: sectionInkCoverageList,
             selectStock: selectStock,
             selectPress: selectPress,
             errors: errors,
@@ -2621,7 +2782,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Machine Entity        
     Machine = function (specifiedId, specifiedName, specifiedDefaultPageId, specifiedMaxSheetHeight, specifiedMaxSheetWeight, specifiedMaxSheetWidth,
-        specifiedMinSheetHeight, specifiedMinSheetWidth, specifiedMachineCatId) {
+        specifiedMinSheetHeight, specifiedMinSheetWidth, specifiedMachineCatId, specifiedColourHeads, specifiedIsSpotColor) {
         return {
             id: specifiedId,
             name: specifiedName,
@@ -2631,7 +2792,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             maxSheetWeight: specifiedMaxSheetWeight,
             maxSheetWidth: specifiedMaxSheetWidth,
             minSheetWidth: specifiedMinSheetWidth,
-            minSheetHeight: specifiedMaxSheetHeight
+            minSheetHeight: specifiedMaxSheetHeight,
+            colourHeads: specifiedColourHeads,
+            isSpotColor: specifiedIsSpotColor
         };
     },
 
@@ -3520,6 +3683,75 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             reset: reset,
             convertToServerData: convertToServerData
         };
+    },
+    
+    // Section Ink Coverage Entity
+    SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // section Id
+            sectionId = ko.observable(specifiedSectionId),
+            // ink Order
+            inkOrder = ko.observable(specifiedInkOrder),
+            //Ink Id
+            inkId = ko.observable(specifiedInkId),
+            // Coverage Group Id
+            coverageGroupId = ko.observable(specifiedCoverageGroupId),
+            //Side
+            side = ko.observable(specifiedSide),
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+                // ReSharper disable InconsistentNaming
+            }),
+            dirtyFlag = new ko.dirtyFlag({
+                // ReSharper restore InconsistentNaming
+                id: id,
+                sectionId: sectionId,
+                inkOrder: inkOrder,
+                inkId: inkId,
+                coverageGroupId: coverageGroupId,
+                side: side
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    Id: id(),
+                    SectionId: sectionId(),
+                    InkOrder: inkOrder(),
+                    InkId: inkId(),
+                    CoverageGroupId: coverageGroupId(),
+                    Side: side()
+                };
+            };
+
+        return {
+            id: id,
+            sectionId: sectionId,
+            inkOrder: inkOrder,
+            inkId: inkId,
+            coverageGroupId: coverageGroupId,
+            side: side,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
     };
 
     // Item Vdp Price Factory
@@ -3643,6 +3875,27 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
             source.IsSectionSizeCustom, source.SectionSizeHeight, source.SectionSizeWidth, source.IsItemSizeCustom, source.ItemSizeHeight,
             source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.ItemId);
+        
+        // Map Section Ink Coverage if Any
+        if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
+            var sectioninkcoverages = [];
+
+            _.each(source.SectionInkCoverages, function (sectionink) {
+                sectioninkcoverages.push(SectionInkCoverage.Create(sectionink));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(itemSection.sectionInkCoverageList(), sectioninkcoverages);
+            itemSection.sectionInkCoverageList.valueHasMutated();
+        }
+        
+        // Return item with dirty state if New
+        if (!itemSection.id()) {
+            return itemSection;
+        }
+
+        // Reset State to Un-Modified
+        itemSection.reset();
 
         return itemSection;
     };
@@ -3893,7 +4146,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Machine Factory
     Machine.Create = function (source) {
         return new Machine(source.MachineId, source.MachineName, source.DefaultPageId, source.Maximumsheetheight, source.Maximumsheetweight,
-        source.Maximumsheetwidth, source.Minimumsheetheight, source.Minimumsheetweight, source.MachineCatId);
+        source.Maximumsheetwidth, source.Minimumsheetheight, source.Minimumsheetweight, source.MachineCatId, source.ColourHeads, source.IsSpotColor);
     };
 
     // Paper Size Factory
@@ -3926,6 +4179,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Product Market Brief Answer Factory
     ProductMarketBriefAnswer.Create = function (source, callbacks) {
         return new ProductMarketBriefAnswer(source.MarketBriefAnswerId, source.MarketBriefQuestionId, source.AnswerDetail, callbacks);
+    };
+    
+    // Section Ink Coverage Factory
+    SectionInkCoverage.Create = function (source) {
+        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side);
     };
 
     return {
@@ -3976,6 +4234,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Product Market Brief Question Constructor
         ProductMarketBriefQuestion: ProductMarketBriefQuestion,
         // Product Market Brief Answer Constructor
-        ProductMarketBriefAnswer: ProductMarketBriefAnswer
+        ProductMarketBriefAnswer: ProductMarketBriefAnswer,
+        // Section Ink Coverage Constructor
+        SectionInkCoverage: SectionInkCoverage
     };
 });

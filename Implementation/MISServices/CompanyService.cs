@@ -3322,9 +3322,9 @@ namespace MPC.Implementation.MISServices
             FieldVariable fieldVariable = fieldVariableRepository.Find(variableId);
             if (fieldVariable != null)
             {
-                if (fieldVariable.ScopeVariables.Any())
+                if (fieldVariable.TemplateVariables.Any())
                 {
-                    throw new MPCException("It cannot be deleted because it is used in Smart Form, Contact or Address.", fieldVariableRepository.OrganisationId);
+                    throw new MPCException("It cannot be deleted because it is used in Template.", fieldVariableRepository.OrganisationId);
                 }
 
                 fieldVariableRepository.Delete(fieldVariable);

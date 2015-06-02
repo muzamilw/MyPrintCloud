@@ -1111,6 +1111,7 @@ define("stores/stores.viewModel",
                 onCreateNewCompanyCMYKColor = function () {
                     var companyCMYKColor = new model.CompanyCMYKColor();
                     selectedCompanyCMYKColor(companyCMYKColor);
+                    selectedCompanyCMYKColor().isActive(true);
                     view.showCompanyCMYKColorDialog();
                     isSavingNew(true);
                 },
@@ -3501,6 +3502,7 @@ define("stores/stores.viewModel",
                                     //Update Product category Territories
                                     UpdateProductCategoryTerritories(data.CategoryTerritories);
                                     selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
+                                    selectedProductCategoryForEditting().reset();
                                     view.showStoreProductCategoryDialog();
                                 }
                                 isLoadingStores(false);
@@ -3536,6 +3538,7 @@ define("stores/stores.viewModel",
                                     isSavingNewProductCategory(false);
                                     //Update Product category Territories
                                     UpdateProductCategoryTerritories(data.CategoryTerritories);
+                                    selectedProductCategoryForEditting().reset();
                                     view.showStoreProductCategoryDialog();
                                 }
                                 isLoadingStores(false);
@@ -5321,6 +5324,7 @@ define("stores/stores.viewModel",
                 //#region ________ Field Variable___________
                 //Active Field Variable
             selectedFieldVariable = ko.observable(),
+            selectedFieldVariableForListView = ko.observable(),
                 //Selected Field Option
             selectedFieldOption = ko.observable(),
                 //Field Variables List
@@ -5820,6 +5824,7 @@ define("stores/stores.viewModel",
 
                 //edit Field Variable
             onEditFieldVariable = function (fieldVariable) {
+                selectedFieldVariableForListView(fieldVariable);
                 selectedFieldOption(undefined);
                 if (selectedStore().companyId() === undefined) {
                     selectedFieldVariable(fieldVariable);
@@ -5877,6 +5882,7 @@ define("stores/stores.viewModel",
                                 fieldvariable.variableOptions.push(model.VariableOption.Create(item));
                             });
                             selectedFieldVariable(fieldvariable);
+                            selectedFieldVariable().reset();
                             view.showVeriableDefinationDialog();
                         }
                     },
@@ -6066,7 +6072,7 @@ define("stores/stores.viewModel",
             deleteFieldVariable = function (fieldVariable) {
                 dataservice.deleteFieldVariable(fieldVariable, {
                     success: function (data) {
-                        fieldVariables.remove(selectedFieldVariable());
+                        fieldVariables.remove(selectedFieldVariableForListView());
                         view.hideVeriableDefinationDialog();
                         toastr.success("Successfully removed.");
                     },

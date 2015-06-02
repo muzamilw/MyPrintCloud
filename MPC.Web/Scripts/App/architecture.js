@@ -54,7 +54,8 @@ var ist = {
         return x1 + x2;
     },
     numberFormat: "0,0.00",
-    ordinalFormat: "0"
+    ordinalFormat: "0",
+    lengthFormat: "0.000"
 };
 
 // Busy Indicator
