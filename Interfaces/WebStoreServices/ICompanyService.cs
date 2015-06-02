@@ -225,6 +225,7 @@ namespace MPC.Interfaces.WebStoreServices
         Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
 
         CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
-        
+        List<ProductCategory> GetAllRetailPublishedCat();
+        List<ProductCategory> GetAllCategories();
     }
 }

@@ -177,6 +177,13 @@ namespace MPC.Implementation.WebStoreServices
                 throw;
             }
         }
-
+        public List<MPC.Models.DomainModels.Listing> GetPropertiesByContactCompanyID(long CompanyID)
+        {
+            return _ListingRepository.GetPropertiesByContactCompanyID(CompanyID);
+        }
+        public List<MPC.Models.DomainModels.ListingImage> GetAllListingImages()
+        {
+            return _ListingRepository.GetAllListingImages();
+        }
     }
 }
