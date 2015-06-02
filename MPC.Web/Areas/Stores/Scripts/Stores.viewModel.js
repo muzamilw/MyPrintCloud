@@ -4486,6 +4486,7 @@ define("stores/stores.viewModel",
                             //});
 
                             //Field VariableF or Field variable List View
+                            fieldVariables.removeAll();
                             fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                             if (data.FieldVariableResponse && data.FieldVariableResponse.FieldVariables) {
                                 _.each(data.FieldVariableResponse.FieldVariables, function (item) {
@@ -4502,6 +4503,7 @@ define("stores/stores.viewModel",
 
                             //Smart Form List View
                             smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
+                            smartForms.removeAll();
                             if (data.SmartFormResponse && data.SmartFormResponse.SmartForms) {
                                 _.each(data.SmartFormResponse.SmartForms, function (item) {
                                     var smartForm = model.SmartForm();
@@ -4695,6 +4697,7 @@ define("stores/stores.viewModel",
                 emails.removeAll();
                 deletedAddresses.removeAll();
                 edittedAddresses.removeAll();
+                fieldVariables.removeAll();
                 newAddresses.removeAll();
                 deletedCompanyTerritories.removeAll();
                 edittedCompanyTerritories.removeAll();
