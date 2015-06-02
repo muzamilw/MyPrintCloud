@@ -1105,7 +1105,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             colorM = ko.observable(specifiedColorM).extend({ required: true, number: true, min: 0, max: 200 }),
             colorY = ko.observable(specifiedColorY).extend({ required: true, number: true, min: 0, max: 200 }),
             colorK = ko.observable(specifiedColorK).extend({ required: true, number: true, min: 0, max: 200 }),
-            isActive = ko.observable(specifiedIsActive || true),
+            isActive = ko.observable(specifiedIsActive),
             isSpotColor = ko.observable(specifiedIsSpotColor || true),
             spotColor = ko.observable(specifiedSpotColor || undefined),
             // Errors
@@ -1121,7 +1121,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 return errors().length === 0 ? true : false;
             }),
 
-
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 // ReSharper restore InconsistentNaming
@@ -1132,7 +1131,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 colorM: colorM,
                 colorY: colorY,
                 colorK: colorK,
-                isActive: isActive
+                isActive: isActive,
+                isSpotColor: isSpotColor,
+                spotColor: spotColor
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -3758,6 +3759,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
             //Convert To Server
             convertToServerData = function () {
                 var result = {
@@ -3889,6 +3894,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isValid: isValid,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
+            reset: reset,
             convertToServerData: convertToServerData
         };
     };
@@ -4301,6 +4307,22 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
+                id: id,
+                variableName: variableName,
+                variableType: variableType,
+                scope: scope,
+                isSystem: isSystem,
+                waterMark: waterMark,
+                defaultValueForInput: defaultValueForInput,
+                defaultValue: defaultValue,
+                companyId: companyId,
+                variableTag: variableTag,
+                inputMask: inputMask,
+                scopeName: scopeName,
+                typeName: typeName,
+                variableTitle: variableTitle,
+                variableOptions: variableOptions,
+                fakeId: fakeId,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {

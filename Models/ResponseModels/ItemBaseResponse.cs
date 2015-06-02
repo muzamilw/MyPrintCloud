@@ -53,6 +53,20 @@ namespace MPC.Models.ResponseModels
         /// Currency Unit 
         /// </summary>
         public string CurrencyUnit { get; set; }
+        
+        /// <summary>
+        /// Weight Unit
+        /// </summary>
         public string WeightUnit { get; set; }
+        
+        /// <summary>
+        /// Machines
+        /// </summary>
+        public IEnumerable<Machine> Machines { get; set; }
+
+        /// <summary>
+        /// Inks
+        /// </summary>
+        public IEnumerable<StockItem> Inks { get; set; }
     }
 }
