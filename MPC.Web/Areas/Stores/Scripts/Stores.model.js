@@ -4602,13 +4602,16 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 name: name,
             }),
             // Is Valid 
-            isValid = ko.computed(function () {
+            isValid = ko.computed(function() {
                 return errors().length === 0 ? true : false;
             }),
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
+                id: id,
                 name: name,
+                companyId: companyId,
+                dropFrom: dropFrom,
                 heading: heading,
                 smartFormDetails: smartFormDetails
             }),
@@ -4669,6 +4672,26 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             captionValue = ko.observable(specifiedCaptionValue),
             waterMark = ko.observable(specifiedWaterMark),
             html = ko.observable(),
+             // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                id: id,
+                smartFormId: smartFormId,
+                objectType: objectType,
+                isRequired: isRequired,
+                sortOrder: sortOrder,
+                variableId: variableId,
+                captionValue: captionValue,
+                html: html,
+                waterMark: waterMark,
+            }),
+             // True If Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset Dirty State
+            reset = function () {
+                dirtyFlag.reset();
+            },
         //Convert To Server
         convertToServerData = function (source) {
             var result = {};
@@ -4692,6 +4715,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             html: html,
             waterMark: waterMark,
             convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
         };
         return self;
     };
