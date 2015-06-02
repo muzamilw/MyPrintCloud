@@ -61,6 +61,7 @@ namespace MPC.Implementation.MISServices
         private readonly ITemplateObjectRepository templateObjectRepository;
         private readonly IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository;
         private readonly IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository;
+        private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
 
         /// <summary>
         /// Create ProductMarketBriefQuestion
@@ -364,6 +365,24 @@ namespace MPC.Implementation.MISServices
         private void DeleteItemSection(ItemSection line)
         {
             itemSectionRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Creates New Section Ink Coverage
+        /// </summary>
+        private SectionInkCoverage CreateSectionInkCoverage()
+        {
+            SectionInkCoverage itemTarget = sectionInkCoverageRepository.Create();
+            sectionInkCoverageRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Section Ink Coverage
+        /// </summary>
+        private void DeleteSectionInkCoverage(SectionInkCoverage item)
+        {
+            sectionInkCoverageRepository.Delete(item);
         }
 
         /// <summary>
@@ -918,6 +937,26 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Creates Copy of Section Ink Coverages
+        /// </summary>
+        private void CloneSectionInkCoverages(ItemSection itemSection, ItemSection targetItemSection)
+        {
+            if (targetItemSection.SectionInkCoverages == null)
+            {
+                targetItemSection.SectionInkCoverages = new List<SectionInkCoverage>();
+            }
+
+            foreach (SectionInkCoverage sectionInkCoverage in itemSection.SectionInkCoverages.ToList())
+            {
+                SectionInkCoverage targetSectionInkCoverage = sectionInkCoverageRepository.Create();
+                sectionInkCoverageRepository.Add(targetSectionInkCoverage);
+                targetSectionInkCoverage.SectionId = targetItemSection.ItemSectionId;
+                targetItemSection.SectionInkCoverages.Add(targetSectionInkCoverage);
+                sectionInkCoverage.Clone(targetSectionInkCoverage);
+            }
+        }
+
+        /// <summary>
         /// Copy Item Sections
         /// </summary>
         private void CloneItemSections(Item source, Item target)
@@ -940,6 +979,15 @@ namespace MPC.Implementation.MISServices
                 targetItemSection.ItemId = target.ItemId;
                 target.ItemSections.Add(targetItemSection);
                 itemSection.Clone(targetItemSection);
+
+                // Clone Section Ink Coverages
+                if (itemSection.SectionInkCoverages == null)
+                {
+                    continue;
+                }
+
+                // Copy Section Ink Coverages
+                CloneSectionInkCoverages(itemSection, targetItemSection);
             }
         }
 
@@ -1789,7 +1837,8 @@ namespace MPC.Implementation.MISServices
             IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository,
             IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository,
             ILengthConversionService lengthConversionService, ITemplateObjectRepository templateObjectRepository, 
-            IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository, IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository)
+            IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository, IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository, 
+            ISectionInkCoverageRepository sectionInkCoverageRepository)
         {
             if (itemRepository == null)
             {
@@ -1923,6 +1972,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("productMarketBriefAnswerRepository");
             }
+            if (sectionInkCoverageRepository == null)
+            {
+                throw new ArgumentNullException("sectionInkCoverageRepository");
+            }
 
             this.organizationRepository = organizationRepository;
             this.smartFormRepository = smartFormRepository;
@@ -1930,6 +1983,7 @@ namespace MPC.Implementation.MISServices
             this.templateObjectRepository = templateObjectRepository;
             this.productMarketBriefQuestionRepository = productMarketBriefQuestionRepository;
             this.productMarketBriefAnswerRepository = productMarketBriefAnswerRepository;
+            this.sectionInkCoverageRepository = sectionInkCoverageRepository;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
@@ -2123,7 +2177,9 @@ namespace MPC.Implementation.MISServices
                 CreateProductMarketBriefQuestion = CreateProductMarketBriefQuestion,
                 DeleteProductMarketBriefQuestion = DeleteProductMarketBriefQuestion,
                 CreateProductMarketBriefAnswer = CreateProductMarketBriefAnswer,
-                DeleteProductMarketBriefAnswer = DeleteProductMarketBriefAnswer
+                DeleteProductMarketBriefAnswer = DeleteProductMarketBriefAnswer,
+                CreateSectionInkCoverage = CreateSectionInkCoverage,
+                DeleteSectionInkCoverage = DeleteSectionInkCoverage
             });
 
             // Save Changes
@@ -2182,7 +2238,9 @@ namespace MPC.Implementation.MISServices
                 PaperSizes = paperSizeRepository.GetAll(),
                 LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
                 CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty,
-                WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty
+                WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
+                Inks = stockItemRepository.GetStockItemOfCategoryInk(),
+                Machines = machineRepository.GetAll()
             };
         }
 
