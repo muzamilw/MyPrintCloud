@@ -17,7 +17,7 @@ namespace MPC.Interfaces.Repository
         //CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
-        CompanyContact GetContactByEmail(string Email, long OID);
+        CompanyContact GetContactByEmail(string Email, long OID, long StoreId);
         CompanyContact GetContactById(int contactId);
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
@@ -90,7 +90,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        CompanyContact GetRetailUser(string email, string password, long OrganisationId);
+        CompanyContact GetRetailUser(string email, string password, long OrganisationId, long StoreId);
 
         long GetContactTerritoryID(long CID);
         bool updateQuikcTextInfo(long contactId, QuickText objQuickText);

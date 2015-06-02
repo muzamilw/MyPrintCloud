@@ -359,6 +359,24 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Mode = "";
             }
 
+
+            if (mode == "UploadDesign" || mode == "Modify")
+            {
+                if (referenceItem.IsUploadImage == true)
+                {
+                    ViewBag.ShowUploadArkworkPanel = true;
+                }
+                else 
+                {
+                    ViewBag.ShowUploadArkworkPanel = false;
+                }
+
+            }
+            else
+            {
+                ViewBag.ShowUploadArkworkPanel = true;
+            }
+
             clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId, UserCookieManager.WEBOrganisationID);
 
             if (listOfCostCentres == null || listOfCostCentres.Count == 0)

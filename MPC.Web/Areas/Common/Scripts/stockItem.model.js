@@ -11,7 +11,7 @@
             itemWeight: specifiedWeight,
             packageQty: specifiedPackageQty,
             perQtyQty: specifiedPerQtyQty,
-            price: specifiedPrice,
+            price: specifiedPrice / (specifiedPerQtyQty || 1),
             priceWithTax: specifiedPrice + (specifiedPrice * (specifiedCompanyTaxRate / 100))
         };
     };
@@ -22,7 +22,7 @@
             source.ItemName,
             source.ItemWeight,
             source.PackageQty,
-            source.perQtyQty || 0,
+            source.PerQtyQty || 0,
             source.PackCostPrice === -9999 ? 0 : source.PackCostPrice,
             source.CompanyTaxRate
             );

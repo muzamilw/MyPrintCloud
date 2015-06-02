@@ -249,7 +249,7 @@
                                                     <li class="adminControl">
                                                         <a class=" SampleBtn btntxt " id="btnCompanyLogo"  >Company Logo</a>
                                                         <a class=" SampleBtn btntxt " id="btnContactImage" style="font-size:11px !important;">Your Profile Image</a>
-                                                        
+                                                        <a class=" SampleBtn btntxt " id="btnImagePlaceHolder" style="font-size:11px !important;">Image Placeholder</a>
                                                     </li>
                                                     @*<li style="width: 109px; left: 0px; top: 0px;" class="ImgLr1c1">
                                                         <a title="Free Images" class="btnFreeImgs">
@@ -638,7 +638,15 @@
 
                                             <button id="BtnImgRotateLeft" class="BtnRotateLeft" title="Rotate Left" style="display:none;"></button>
                                         </div>
+                                        <div class="propertyPanelControlDiv svgColorPanel" style="margin-top: 30px;display:none;">
 
+                                            <div class="">
+
+                                                <label class="textLabel">Svg Colors</label>
+                                              <div class="svgColorContainer"></div>
+                                            </div>
+
+                                        </div>
                                         <div class="propertyPanelControlDiv" style="margin-top: 30px">
 
                                             <div class="divTxtAlignmentControls">
@@ -948,6 +956,16 @@
                                         </label>
                                     </div>
                                 </div>
+                                <div class="propertyPanelControlDiv adminControl">
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Auto Collapse variables in Text Box</p> </div>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoCollapse" checked="">
+                                        <label class="onoffswitch-label" for="chkboxAutoCollapse">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="DivBlockWithNoHeight vertLine adminControl"></div>
                                 <div class="maskingControls">
                                     <div class="CaseModeSlider adminControl maskingControls"></div>
@@ -1107,7 +1125,7 @@
     </section>
 
 </section>
-<section id="MainLoader" class="dialogContainer dialogProof">
+<section id="MainLoader" class="dialogContainer dialogProof designerMainProgressBar">
     <div class="mask on"></div>
     <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
         <h2 id="loaderTitleMsg">Loading design on canvas</h2>

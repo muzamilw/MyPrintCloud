@@ -123,7 +123,7 @@ namespace MPC.Webstore.Controllers
                         ViewBag.ShowTwitterSignInLink = 0;
                     }
 
-                    if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId) != null)
+                    if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                     {
                         ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
 
@@ -225,7 +225,7 @@ namespace MPC.Webstore.Controllers
 
                     MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(CompanyID);
 
-                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email, OrganisationId);
+                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email, OrganisationId,UserCookieManager.WBStoreId);
 
                     UserCookieManager.isRegisterClaims = 1;
                     UserCookieManager.WEBContactFirstName = model.FirstName == "First Name" ? "" : model.FirstName;

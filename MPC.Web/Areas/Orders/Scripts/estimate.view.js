@@ -30,12 +30,14 @@ define("order/estimate.view",
 
                     liElement.click();
 
-                    // Scroll to Element
-                    setTimeout(function () {
-                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
-                        // Focus on element
-                        $(element).focus();
-                    }, 1000);
+                    var target = $(element);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: (target.offset().top - 50)
+                        }, 1000);
+                        return false;
+                    }
                 },
                 // Show inventory dialog
                 showInventoryItemDialog = function () {
@@ -85,6 +87,14 @@ define("order/estimate.view",
                // Hide Inquiry Detail Item Dialog
                 hideInquiryDetailItemDialog = function () {
                     $("#InquiryDetailItemDialog").modal("hide");
+                },
+                // Show Progress To Order Dialog
+                showProgressToOrderDialog = function () {
+                    $("#progressToOrderDialog").modal('show');
+                },
+                //Hide Progress To Order Dialog
+                hideProgressToOrderDialog = function () {
+                    $("#progressToOrderDialog").modal('hide');
                 },
                 setOrderState = function (state, isFromEstimate) {
                     orderstate(state);
@@ -219,6 +229,8 @@ define("order/estimate.view",
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
                 showInquiryDetailItemDialog: showInquiryDetailItemDialog,
                 hideInquiryDetailItemDialog: hideInquiryDetailItemDialog,
+                showProgressToOrderDialog: showProgressToOrderDialog,
+                hideProgressToOrderDialog: hideProgressToOrderDialog,
                 showInksDialog: showInksDialog,
                 hideInksDialog: hideInksDialog
             };

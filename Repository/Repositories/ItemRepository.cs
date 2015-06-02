@@ -78,6 +78,8 @@ namespace MPC.Repository.Repositories
                               .Include("ItemSections")
                               .Include("ItemSections.StockItem")
                               .Include("ItemSections.Machine")
+                              .Include("ItemSections.MachineSide2")
+                              .Include("ItemSections.SectionInkCoverages")
                               .Include("ItemStockOptions")
                               .Include("ItemStockOptions.StockItem")
                               .Include("ItemStockOptions.ItemAddonCostCentres")
@@ -97,6 +99,8 @@ namespace MPC.Repository.Repositories
                               .Include("ItemVideos")
                               .Include("ItemProductDetails")
                               .Include("ItemPriceMatrices")
+                              .Include("ProductMarketBriefQuestions")
+                              .Include("ProductMarketBriefQuestions.ProductMarketBriefAnswers")
                               .FirstOrDefault(item => item.ItemId == itemId);
             }
             catch (Exception ex)

@@ -234,6 +234,8 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.LanguageId = organisation.LanguageId;
             organisationDbVersion.SystemLengthUnit = organisation.SystemLengthUnit;
             organisationDbVersion.SystemWeightUnit = organisation.SystemWeightUnit;
+            organisationDbVersion.URL = organisation.URL;
+            organisationDbVersion.Mobile = organisation.Mobile;
 
             #region Markup
 

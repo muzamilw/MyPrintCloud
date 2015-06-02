@@ -38,6 +38,15 @@ namespace MPC.Models.ModelMappers
             target.ItemSizeWidth = source.ItemSizeWidth;
             target.IsItemSizeCustom = source.IsItemSizeCustom;
             target.IsSectionSizeCustom = source.IsSectionSizeCustom;
+            target.IsDoubleSided = source.IsDoubleSided;
+            target.PrintViewLayoutLandScape = source.PrintViewLayoutLandScape;
+            target.PrintViewLayoutPortrait = source.PrintViewLayoutPortrait;
+            target.PressIdSide2 = source.PressIdSide2;
+            target.ImpressionCoverageSide1 = source.ImpressionCoverageSide1;
+            target.ImpressionCoverageSide2 = source.ImpressionCoverageSide2;
+            target.PrintingType = source.PrintingType;
+            target.isWorknTurn = source.isWorknTurn;
+            target.IsPortrait = source.IsPortrait;
         }
 
         /// <summary>
@@ -83,6 +92,15 @@ namespace MPC.Models.ModelMappers
             target.BaseCharge1 = source.BaseCharge1;
             target.BaseCharge2 = source.BaseCharge2;
             target.Basecharge3 = source.Basecharge3;
+            target.IsFirstTrim = source.IsFirstTrim;
+            target.IsSecondTrim = source.IsSecondTrim;
+            target.PressIdSide2 = source.PressIdSide2;
+            target.PassesSide1 = source.PassesSide1;
+            target.PassesSide2 = source.PassesSide2;
+            target.ImpressionCoverageSide1 = source.ImpressionCoverageSide1;
+            target.ImpressionCoverageSide2 = source.ImpressionCoverageSide2;
+            target.PrintingType = source.PrintingType;
+            target.isWorknTurn = source.isWorknTurn;
         }
 
         #endregion

@@ -173,15 +173,16 @@ namespace MPC.Models.DomainModels
         public int? InkColorType { get; set; }
         public int? PlateInkId { get; set; }
         public int? SimilarSections { get; set; }
-        public long? PressIdSide2 { get; set; }
-        public long? Side1LookUp { get; set; }
-        public long? Side2LookUp { get; set; }
+        public int? PressIdSide2 { get; set; }
+        public int? ImpressionCoverageSide1 { get; set; }
+        public int? ImpressionCoverageSide2 { get; set; }
         public int? PassesSide1 { get; set; }
         public int? PassesSide2 { get; set; }
         public virtual Item Item { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
         public virtual StockItem StockItem { get; set; }
         public virtual Machine Machine { get; set; }
+        public virtual Machine MachineSide2 { get; set; }
         public virtual ICollection<SectionInkCoverage> SectionInkCoverages { get; set; }
 
         #region Public
@@ -210,6 +211,42 @@ namespace MPC.Models.DomainModels
             target.IsItemSizeCustom = IsItemSizeCustom;
             target.IsMainSection = IsMainSection;
             target.ItemSizeId = ItemSizeId;
+            target.PrintingType = PrintingType;
+            target.PressIdSide2 = PressIdSide2;
+            target.ImpressionCoverageSide1 = ImpressionCoverageSide1;
+            target.ImpressionCoverageSide2 = ImpressionCoverageSide2;
+            target.PrintViewLayout = PrintViewLayout;
+            target.PrintViewLayoutLandScape = PrintViewLayoutLandScape;
+            target.PrintViewLayoutPortrait = PrintViewLayoutPortrait;
+            target.IsDoubleSided = IsDoubleSided;
+            target.isWorknTurn = isWorknTurn;
+            target.IsPortrait = IsPortrait;
+        }
+
+        /// <summary>
+        /// Creates Copy of Item Section
+        /// </summary>
+        public void CloneForOrder(ItemSection target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemSectionClone_InvalidItemSection, "target");
+            }
+
+            Clone(target);
+            target.Qty1 = Qty1;
+            target.Qty2 = Qty2;
+            target.Qty3 = Qty3;
+            target.Qty1MarkUpID = Qty1MarkUpID;
+            target.Qty2MarkUpID = Qty2MarkUpID;
+            target.Qty3MarkUpID = Qty3MarkUpID;
+            target.BaseCharge1 = BaseCharge1;
+            target.BaseCharge2 = BaseCharge2;
+            target.Basecharge3 = Basecharge3;
+            target.PassesSide1 = PassesSide1;
+            target.PassesSide2 = PassesSide2;
+            target.IsFirstTrim = IsFirstTrim;
+            target.IsSecondTrim = IsSecondTrim;
         }
 
         #endregion

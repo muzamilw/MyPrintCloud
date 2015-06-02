@@ -52,14 +52,21 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsPortrait { get; set; }
         public bool? IsFirstTrim { get; set; }
         public bool? IsSecondTrim { get; set; }
-        public long? PressIdSide2 { get; set; }
-        public long? Side1LookUp { get; set; }
-        public long? Side2LookUp { get; set; }
+        public int? PressIdSide2 { get; set; }
+        public int? ImpressionCoverageSide1 { get; set; }
+        public int? ImpressionCoverageSide2 { get; set; }
         public int? PassesSide1 { get; set; }
         public int? PassesSide2 { get; set; }
-        public virtual Item Item { get; set; }
-        public virtual StockItem StockItem { get; set; }
-        public virtual Machine Machine { get; set; }
+        public int? PrintingType { get; set; }
+        public int? PressSide1ColourHeads { get; set; }
+        public int? PressSide2ColourHeads { get; set; }
+        public bool? PressSide1IsSpotColor { get; set; }
+        public bool? PressSide2IsSpotColor { get; set; }
+        public double? StockItemPackageQty { get; set; }
+        
+        public Item Item { get; set; }
+        public StockItem StockItem { get; set; }
+        public Machine Machine { get; set; }
        
         public IEnumerable<SectionCostcentre> SectionCostcentres { get; set; }
         public IEnumerable<SectionInkCoverage> SectionInkCoverages { get; set; }

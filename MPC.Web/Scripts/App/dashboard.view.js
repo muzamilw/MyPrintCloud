@@ -10,7 +10,9 @@ define("dashboard.view",
                 viewModel = specifiedViewModel,
                 // binding root
                 bindingRoot = $("#dashboardBindingRoot")[0],
-
+                goToOrder = function(orderId) {
+                    window.open('/mis/orders/home?id=' + orderId, "_blank");
+                },
                 // Initialize
                 initialize = function() {
                     if (!bindingRoot) {
@@ -20,7 +22,8 @@ define("dashboard.view",
             initialize();
             return {
                 bindingRoot: bindingRoot,
-                viewModel: viewModel
+                viewModel: viewModel,
+                goToOrder: goToOrder
             };
         })(dashboardViewModel);
 

@@ -18,7 +18,7 @@
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-UserProfileinforCRM" data-toggle="tab">Profile</a></li>
                                     <li><a href="#tab-UserAddressInfoCRM" data-toggle="tab">Address Info</a></li>
-                                    <li><a href="#tab-UserPurseCRM" data-toggle="tab">Purse & Credits</a></li>
+                                    @*<li><a href="#tab-UserPurseCRM" data-toggle="tab">Purse & Credits</a></li>*@
                                     </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab-UserProfileinforCRM">
@@ -598,10 +598,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="tab-UserPurseCRM">
+                                    @*<div class="tab-pane fade" id="tab-UserPurseCRM">
                                         <div class="col-lg-12">
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                         </div>
@@ -609,7 +609,7 @@
                 </div>
             </div>
             <div class="modal-footer col-xs-12">
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyContact, enable: !$root.isSavingNewCompanyContact()">Archive</button>
             </div>

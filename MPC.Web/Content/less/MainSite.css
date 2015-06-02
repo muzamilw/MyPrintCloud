@@ -220,7 +220,7 @@ div#spinner {
   width: 838px;
 }
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
-  width: 838px;
+  width: 838pxs;
 }
 #productBinding .pricetable-itemPriceMatrix tr th#Qty {
   width: 12%;
@@ -537,7 +537,7 @@ div#spinner {
   width: 838px;
 }
 #storesBinding #productDetailBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
-  width: 838px;
+  width: 630px;
 }
 #storesBinding #productDetailBinding .form-group .input-group-addon {
   text-decoration: none;
@@ -610,8 +610,8 @@ div#spinner {
   clear: both;
 }
 #storesBinding #tab-products .dd-handle-list {
-  height: 90%;
   overflow: hidden;
+  margin-top: 6px;
 }
 #storesBinding #tab-products .dd-handle {
   height: auto;
@@ -698,13 +698,16 @@ div#spinner {
 #storesBinding .form-group-closer {
   margin-bottom: 0px;
 }
+#storesBinding #productMarketBriefQuestionDialog #addMarketBriefAnswerBtn {
+  margin-right: 14px;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
   padding-top: 3px;
 }
 .profileLabelPadding {
-  margin-top: 15px;
+  margin-top: 12px;
 }
 #columnsAlign {
   table-layout: fixed;
@@ -768,6 +771,17 @@ div#spinner {
 }
 #stockDialog #stockDialogMainContainer {
   width: 838px;
+}
+#orderBinding #tab-EstimateHeader .attachmentDownload {
+  padding-left: 0px;
+  border-left-width: 0px;
+  padding-right: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  border-bottom: none;
+  height: 31px;
 }
 #orderBinding #tab-EstimateHeader #orderType {
   font-weight: bold;
@@ -855,6 +869,68 @@ div#spinner {
 .productDialogNonEmptyHeight {
   min-height: 318px;
   max-height: 318px;
+}
+#left-panel {
+  width: 300px;
+  height: 360px;
+  border: 5px solid #3c9bf6;
+  background-color: #ffffff;
+  position: fixed;
+  top: 274px;
+  /*right: -275px;*/
+  right: -300px;
+  -moz-border-radius: 0 1em 1em 0;
+  -webkit-border-radius: 0 1em 1em 0;
+  border-radius: 0 1em 1em 0;
+  padding: 5px;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  z-index: 9;
+}
+#left-panel:hover {
+  /*right: -250px;*/
+}
+#left-panel.show {
+  right: -5px;
+}
+#left-panel .controller {
+  position: absolute;
+  right: 0;
+  top: 0;
+  text-decoration: none;
+}
+#left-panel a.controller {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  text-decoration: none;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+#left-panel.show a.controller {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+#notes-Button {
+  transform: rotate(-90deg);
+  float: right;
+  position: absolute;
+  margin-left: 320px;
+}
+#panel-heading {
+  color: black;
+  background-color: #f5f5f5;
+  border-bottom: none;
+}
+#panel-title {
+  border-bottom: none;
 }
 #companySelectorDialog .modal-dialog {
   width: 838px;

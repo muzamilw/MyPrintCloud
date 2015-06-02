@@ -32,7 +32,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact GetContactByFirstName(string FName);
         CompanyContact GetContactById(int contactId);
-        CompanyContact GetContactByEmail(string Email, long OID);
+        CompanyContact GetContactByEmail(string Email, long OID, long StoreId);
 
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
@@ -175,7 +175,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        CompanyContact GetRetailUser(string email, string password, long OrganisationId);
+        CompanyContact GetRetailUser(string email, string password, long OrganisationId, long StoreId);
 
         long GetContactTerritoryID(long CID);
 

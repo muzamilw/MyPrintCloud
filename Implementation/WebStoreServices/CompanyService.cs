@@ -296,11 +296,11 @@ namespace MPC.Implementation.WebStoreServices
         }
 
 
-        public CompanyContact GetContactByEmail(string Email, long OrganisationID)
+        public CompanyContact GetContactByEmail(string Email, long OrganisationID, long StoreId)
         {
             try
             {
-                return _CompanyContactRepository.GetContactByEmail(Email, OrganisationID);
+                return _CompanyContactRepository.GetContactByEmail(Email, OrganisationID, StoreId);
             }
             catch (Exception ex)
             {
@@ -928,9 +928,9 @@ namespace MPC.Implementation.WebStoreServices
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public CompanyContact GetRetailUser(string email, string password, long OrganisationId)
+        public CompanyContact GetRetailUser(string email, string password, long OrganisationId, long StoreId)
         {
-            return _CompanyContactRepository.GetRetailUser(email, password, OrganisationId);
+            return _CompanyContactRepository.GetRetailUser(email, password, OrganisationId, StoreId);
         }
         public Address GetAddressByID(long AddressID)
         {

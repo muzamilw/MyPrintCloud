@@ -116,6 +116,7 @@
     <Compile Include="Common\CostCentreResults.cs" />
     <Compile Include="Common\ActiveModuleMenuItem.cs" />
     <Compile Include="Common\CustomerByColumn.cs" />
+    <Compile Include="Common\DeliveryNoteByColumn.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
     <Compile Include="Common\DesignerPostSettings.cs" />
@@ -364,6 +365,8 @@
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="ModelMappers\DeliveryNoteMapper.cs" />
+    <Compile Include="ModelMappers\DeliveryNoteMapperAction.cs" />
     <Compile Include="ModelMappers\InquiryAttachmentMapper.cs" />
     <Compile Include="ModelMappers\InquiryItemMapper.cs" />
     <Compile Include="ModelMappers\InquiryMapper.cs" />
@@ -371,6 +374,8 @@
     <Compile Include="ModelMappers\InvoiceMapperActions.cs" />
     <Compile Include="ModelMappers\InquiryMapperActions.cs" />
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
+    <Compile Include="ModelMappers\ProductMarketBriefAnswerMapper.cs" />
+    <Compile Include="ModelMappers\ProductMarketBriefQuestionMapper.cs" />
     <Compile Include="ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="ModelMappers\SectionInkCoverageMapper.cs" />
@@ -411,6 +416,7 @@
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
+    <Compile Include="RequestModels\DeliveryNotesRequest.cs" />
     <Compile Include="RequestModels\FieldVariableRequestModel.cs" />
     <Compile Include="RequestModels\GetCostCentresRequest.cs" />
     <Compile Include="RequestModels\GetInquiryRequest.cs" />
@@ -420,6 +426,8 @@
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
     <Compile Include="RequestModels\GoodsReceivedNoteRequestModel.cs" />
     <Compile Include="RequestModels\InvoicesRequestModel.cs" />
+    <Compile Include="RequestModels\ItemJobRequestModel.cs" />
+    <Compile Include="RequestModels\LiveJobsRequestModel.cs" />
     <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
@@ -429,6 +437,7 @@
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
+    <Compile Include="RequestModels\ProgressEstimateRequestModel.cs" />
     <Compile Include="RequestModels\ProgressInquiryToEstimateParams.cs" />
     <Compile Include="RequestModels\PTVRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
@@ -455,15 +464,19 @@
     <Compile Include="ResponseModels\CostCentreResponse.cs" />
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
     <Compile Include="ResponseModels\CrmContactResponse.cs" />
+    <Compile Include="ResponseModels\DeliveryNoteBaseResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="ResponseModels\InquiryBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
     <Compile Include="ResponseModels\ItemDetailBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemForItemJobStatus.cs" />
+    <Compile Include="ResponseModels\LiveJobItem.cs" />
+    <Compile Include="ResponseModels\LiveJobsSearchResponse.cs" />
     <Compile Include="ResponseModels\LookupMethodListResponse.cs" />
     <Compile Include="ResponseModels\LookupMethodResponse.cs" />
     <Compile Include="ResponseModels\MachineResponseModel.cs" />
@@ -514,6 +527,7 @@
     <EmbeddedResource Include="LanguageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

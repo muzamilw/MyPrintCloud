@@ -72,7 +72,7 @@ namespace MPC.Interfaces.WebStoreServices
         bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
 
 
-        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds);
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId);
         Estimate GetLastOrderByContactId(long ContactId);
 
 
@@ -81,7 +81,7 @@ namespace MPC.Interfaces.WebStoreServices
         Order GetOrderAndDetails(long orderID);
         Address GetBillingAddress(long BillingAddressId);
         Address GetdeliveryAddress(long ShippingAddressId);
-        long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId);
+      //  long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId, long StoreId);
 
         long GetOrderID(long CompanyID, long ContactID, string orderTitle, long OrganisationId);
 
@@ -98,6 +98,8 @@ namespace MPC.Interfaces.WebStoreServices
        /// check cookie order is the real login customer order
        /// </summary>
         bool IsRealCustomerOrder(long orderId, long contactId, long companyId);
+
+        
 
     }
 }

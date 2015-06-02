@@ -72,6 +72,10 @@ define("dashboard.viewModel",
                     liveStoresCount(data.LiveStoresCount);
                     currentMonthOrdersCount(data.CurrentMonthOdersCount);
                 },
+                // Go to Order
+                goToOrder = function(orderId) {
+                    view.goToOrder(orderId);
+                },
                 //Initialize
                 initialize = function (specifiedView) {
                    view = specifiedView;
@@ -90,7 +94,8 @@ define("dashboard.viewModel",
                     currentMonthOrdersCount: currentMonthOrdersCount,
                     orderSearchString: orderSearchString,
                     getDashboardData: getDashboardData,
-                    orders: orders
+                    orders: orders,
+                    goToOrder: goToOrder
                 };
             })()
         };

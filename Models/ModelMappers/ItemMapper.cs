@@ -837,6 +837,9 @@ namespace MPC.Models.ModelMappers
             }
             
             sourceItemSection.UpdateTo(targetLine);
+
+            // Update Section Ink Coverages
+            UpdateSectionInkCoverages(sourceItemSection, targetLine, actions);
         }
 
         /// <summary>
@@ -854,8 +857,91 @@ namespace MPC.Models.ModelMappers
             });
         }
 
+        #region Section Ink Coverage
+
         /// <summary>
-        /// Update Videos
+        /// True if the Section Ink COverage is new
+        /// </summary>
+        private static bool IsNewSectionInkCoverage(SectionInkCoverage source)
+        {
+            return source.Id <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target Section Ink Coverage
+        /// </summary>
+        private static void InitializeSectionInkCoverages(ItemSection item)
+        {
+            if (item.SectionInkCoverages == null)
+            {
+                item.SectionInkCoverages = new List<SectionInkCoverage>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Section Ink Coverages
+        /// </summary>
+        private static void UpdateOrAddSectionInkCoverages(ItemSection source, ItemSection target, ItemMapperActions actions)
+        {
+            foreach (SectionInkCoverage sourceLine in source.SectionInkCoverages.ToList())
+            {
+                UpdateOrAddSectionInkCoverage(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Item Sections 
+        /// </summary>
+        private static void UpdateOrAddSectionInkCoverage(SectionInkCoverage sourceSectionInkCoverage, ItemSection target, ItemMapperActions actions)
+        {
+            SectionInkCoverage targetLine;
+            if (IsNewSectionInkCoverage(sourceSectionInkCoverage))
+            {
+                targetLine = actions.CreateSectionInkCoverage();
+                target.SectionInkCoverages.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.SectionInkCoverages.FirstOrDefault(vdp => vdp.Id == sourceSectionInkCoverage.Id);
+            }
+
+            sourceSectionInkCoverage.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete section ink coverage no longer needed
+        /// </summary>
+        private static void DeleteSectionInkCoverages(ItemSection source, ItemSection target, ItemMapperActions actions)
+        {
+            List<SectionInkCoverage> linesToBeRemoved = target.SectionInkCoverages.Where(
+                vdp => !IsNewSectionInkCoverage(vdp) && source.SectionInkCoverages.All(sourceVdp => sourceVdp.Id != vdp.Id))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.SectionInkCoverages.Remove(line);
+                actions.DeleteSectionInkCoverage(line);
+            });
+        }
+
+        /// <summary>
+        /// Update Section Cost Centres
+        /// </summary>
+        private static void UpdateSectionInkCoverages(ItemSection source, ItemSection target, ItemMapperActions actions)
+        {
+            InitializeSectionInkCoverages(source);
+            InitializeSectionInkCoverages(target);
+
+            UpdateOrAddSectionInkCoverages(source, target, actions);
+
+            // Delete
+            DeleteSectionInkCoverages(source, target, actions);
+        }
+
+        #endregion Section Ink Coverage
+
+
+        /// <summary>
+        /// Update Item Sections
         /// </summary>
         private static void UpdateItemSections(Item source, Item target, ItemMapperActions actions)
         {
@@ -962,6 +1048,163 @@ namespace MPC.Models.ModelMappers
 
             UpdateOrAddItemImages(source, target, actions);
             DeleteItemImages(source, target, actions);
+        }
+
+        /// <summary>
+        /// True if the ProductMarketBriefQuestion is new
+        /// </summary>
+        private static bool IsNewProductMarketBriefQuestion(ProductMarketBriefQuestion sourceProductMarketBriefQuestion)
+        {
+            return sourceProductMarketBriefQuestion.MarketBriefQuestionId <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target ProductMarketBriefQuestions
+        /// </summary>
+        private static void InitializeProductMarketBriefQuestions(Item item)
+        {
+            if (item.ProductMarketBriefQuestions == null)
+            {
+                item.ProductMarketBriefQuestions = new List<ProductMarketBriefQuestion>();
+            }
+        }
+
+        /// <summary>
+        /// Update lines
+        /// </summary>
+        private static void UpdateProductMarketBriefQuestions(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeProductMarketBriefQuestions(source);
+            InitializeProductMarketBriefQuestions(target);
+
+            UpdateOrAddProductMarketBriefQuestions(source, target, actions);
+            DeleteProductMarketBriefQuestions(source, target, actions);
+        }
+
+        /// <summary>
+        /// Delete lines no longer needed
+        /// </summary>
+        private static void DeleteProductMarketBriefQuestions(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ProductMarketBriefQuestion> linesToBeRemoved = target.ProductMarketBriefQuestions.Where(
+                vdp => !IsNewProductMarketBriefQuestion(vdp) && source.ProductMarketBriefQuestions.All(sourceVdp => sourceVdp.MarketBriefQuestionId 
+                    != vdp.MarketBriefQuestionId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ProductMarketBriefQuestions.Remove(line);
+                actions.DeleteProductMarketBriefQuestion(line);
+            });
+        }
+
+        /// <summary>
+        /// Update or add Item Vdp Prices
+        /// </summary>
+        private static void UpdateOrAddProductMarketBriefQuestions(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ProductMarketBriefQuestion sourceLine in source.ProductMarketBriefQuestions.ToList())
+            {
+                UpdateOrAddProductMarketBriefQuestion(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target lines 
+        /// </summary>
+        private static void UpdateOrAddProductMarketBriefQuestion(ProductMarketBriefQuestion sourceProductMarketBriefQuestion, Item target, ItemMapperActions actions)
+        {
+            ProductMarketBriefQuestion targetLine;
+            if (IsNewProductMarketBriefQuestion(sourceProductMarketBriefQuestion))
+            {
+                targetLine = actions.CreateProductMarketBriefQuestion();
+                target.ProductMarketBriefQuestions.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ProductMarketBriefQuestions.FirstOrDefault(vdp => vdp.MarketBriefQuestionId == sourceProductMarketBriefQuestion.MarketBriefQuestionId);
+            }
+
+            sourceProductMarketBriefQuestion.UpdateTo(targetLine);
+
+            // Update Market Brief Answers
+            UpdateProductMarketBriefAnswers(sourceProductMarketBriefQuestion, targetLine, actions);
+        }
+
+        /// <summary>
+        /// True if the ProductMarketBriefAnswer is new
+        /// </summary>
+        private static bool IsNewProductMarketBriefAnswer(ProductMarketBriefAnswer sourceProductMarketBriefAnswer)
+        {
+            return sourceProductMarketBriefAnswer.MarketBriefAnswerId <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target ProductMarketBriefAnswers
+        /// </summary>
+        private static void InitializeProductMarketBriefAnswers(ProductMarketBriefQuestion item)
+        {
+            if (item.ProductMarketBriefAnswers == null)
+            {
+                item.ProductMarketBriefAnswers = new List<ProductMarketBriefAnswer>();
+            }
+        }
+
+        /// <summary>
+        /// Update lines
+        /// </summary>
+        private static void UpdateProductMarketBriefAnswers(ProductMarketBriefQuestion source, ProductMarketBriefQuestion target, ItemMapperActions actions)
+        {
+            InitializeProductMarketBriefAnswers(source);
+            InitializeProductMarketBriefAnswers(target);
+
+            UpdateOrAddProductMarketBriefAnswers(source, target, actions);
+            DeleteProductMarketBriefAnswers(source, target, actions);
+        }
+
+        /// <summary>
+        /// Delete lines no longer needed
+        /// </summary>
+        private static void DeleteProductMarketBriefAnswers(ProductMarketBriefQuestion source, ProductMarketBriefQuestion target, ItemMapperActions actions)
+        {
+            List<ProductMarketBriefAnswer> linesToBeRemoved = target.ProductMarketBriefAnswers.Where(
+                vdp => !IsNewProductMarketBriefAnswer(vdp) && source.ProductMarketBriefAnswers.All(sourceVdp => sourceVdp.MarketBriefAnswerId
+                    != vdp.MarketBriefAnswerId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ProductMarketBriefAnswers.Remove(line);
+                actions.DeleteProductMarketBriefAnswer(line);
+            });
+        }
+
+        /// <summary>
+        /// Update or add Item Vdp Prices
+        /// </summary>
+        private static void UpdateOrAddProductMarketBriefAnswers(ProductMarketBriefQuestion source, ProductMarketBriefQuestion target, ItemMapperActions actions)
+        {
+            foreach (ProductMarketBriefAnswer sourceLine in source.ProductMarketBriefAnswers.ToList())
+            {
+                UpdateOrAddProductMarketBriefAnswer(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target lines 
+        /// </summary>
+        private static void UpdateOrAddProductMarketBriefAnswer(ProductMarketBriefAnswer sourceProductMarketBriefAnswer, ProductMarketBriefQuestion target, 
+            ItemMapperActions actions)
+        {
+            ProductMarketBriefAnswer targetLine;
+            if (IsNewProductMarketBriefAnswer(sourceProductMarketBriefAnswer))
+            {
+                targetLine = actions.CreateProductMarketBriefAnswer();
+                target.ProductMarketBriefAnswers.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ProductMarketBriefAnswers.FirstOrDefault(vdp => vdp.MarketBriefAnswerId == sourceProductMarketBriefAnswer.MarketBriefAnswerId);
+            }
+            sourceProductMarketBriefAnswer.UpdateTo(targetLine);
         }
 
         /// <summary>
@@ -1158,6 +1401,7 @@ namespace MPC.Models.ModelMappers
             UpdateProductCategoryItems(source, target, actions);
             UpdateItemSections(source, target, actions);
             UpdateItemImages(source, target, actions);
+            UpdateProductMarketBriefQuestions(source, target, actions);
         }
 
         #endregion

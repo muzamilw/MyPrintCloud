@@ -176,52 +176,53 @@
                 <br />
                 <label id="lblCorporateName" style="  font-size: 15px;
   margin-top: 10px;">@Store.Name</label>
-                <br />
-            </div>
-            <div class="clearBoth">
-            </div>
-        </div>
+<br />
+</div>
+<div class="clearBoth">
+</div>
+</div>
 
-        <div class="clearBoth">
-        </div>
-    </div>
+<div class="clearBoth">
+</div>
+</div>
+
+
+
+
+    <script type="text/javascript">
+
+
+        //  var text = $("#txtOrderPolicy").text();
+        //function SaveOrderPolicy() {
+        //    $.ajax({
+        //        url: '/PersonalDetailAndOrderPolicy/SaveOrderPolicy',
+        //        type: 'POST',
+        //        dataType: 'json',
+        //        data: { id: 'value' },
+        //        success: function (data) {
+        //            alert("success");
+        //        },
+        //        error: function () {
+        //            alert('error');
+        //        }
+        //    });
+        //}
+
+        function Order() {
+
+            var text = $("#txtOrderPolicy").val();
+
+            $.ajax({
+
+                type: "POST",
+                url: "/PersonalDetailAndOrderPolicy/SaveOrderPolicy?id=" + text + ""
+
+            });
+            HideLoader();
+        }
+        function Cancel() {
+            HideLoader();
+        }
+    </script>
 }
 
-
-
-<script type="text/javascript">
-
-
-    //  var text = $("#txtOrderPolicy").text();
-    //function SaveOrderPolicy() {
-    //    $.ajax({
-    //        url: '/PersonalDetailAndOrderPolicy/SaveOrderPolicy',
-    //        type: 'POST',
-    //        dataType: 'json',
-    //        data: { id: 'value' },
-    //        success: function (data) {
-    //            alert("success");
-    //        },
-    //        error: function () {
-    //            alert('error');
-    //        }
-    //    });
-    //}
-
-    function Order() {
-
-        var text = $("#txtOrderPolicy").val();
-
-        $.ajax({
-
-            type: "POST",
-            url: "/PersonalDetailAndOrderPolicy/SaveOrderPolicy?id=" + text + ""
-
-        });
-        HideLoader();
-    }
-    function Cancel()
-    {
-        HideLoader();
-    }
-</script>

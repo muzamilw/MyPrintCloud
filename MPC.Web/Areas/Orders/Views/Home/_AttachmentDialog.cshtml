@@ -1,0 +1,128 @@
+﻿
+<div class="modal fade my-modal" id="attachmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data- aria-hidden="true">
+    <div style="width: 838px;" class="modal-dialog">
+        <div class="modal-content" data-bind="with:$root.selectedAttachment">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Attachment</h4>
+            </div>
+            <div class="col-sm-12 form-horizontal outerDiv-Padding">
+                <div class="form-group">
+                    <div class="col-sm-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="customer" class="control-label text-right tooltip-float">Item Name</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <span class="form-control" id="customer" style="border:none" data-bind="text:$root.selectedProduct().productName"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="address" class="control-label text-right tooltip-float">File Title</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="address" data-bind="enable:isNewOrUpdate() ==='1', value:fileTitle,validationTooltip:fileTitle" />
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="radio">
+                            <input type="radio" name="optionsRadiosAttachmentType" id="optionsRadiosNew" value="1" data-bind="checked: isNewOrUpdate">
+                            <label for="optionsRadiosNew">
+                                New
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Date" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="date" class="control-label text-right tooltip-float">Update File</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select class="form-control" data-bind="enable:($root.parentFilterFileList().length > 0 && isNewOrUpdate() === '2'),options: $root.parentFilterFileList, optionsText: 'fileTitle', optionsValue: 'id',optionsCaption: 'Select Parent',value:parent,validationTooltip:parent"></select>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="radio">
+                            <input type="radio" name="optionsRadiosAttachmentType" id="optionsRadiosUpdate" value="2" data-bind="checked: isNewOrUpdate">
+                            <label for="optionsRadiosUpdate">
+                                Update
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Reference # " data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="ref" class="control-label text-right tooltip-float">Type</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select class="form-control" data-bind="options: $root.attchmentTypes, optionsText: 'name', optionsValue: 'id',value:type"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Description" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label class="control-label text-right tooltip-float">Comments</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <textarea class="form-control" rows="4" data-bind="value:comments"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="address" class="control-label text-right tooltip-float">File</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="address" disabled data-bind="value:fileName" />
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="fileUpload btn btn-primary">
+                            <span>....</span>
+                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.itemAttachmentFileLoadedCallback }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <hr />
+                <button type="button" class="btn btn-primary" data-bind="click:$root.saveAttachment">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* Wizard Popup ends here*@

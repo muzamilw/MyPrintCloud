@@ -117,6 +117,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
                 LookupMethodId = source.LookupMethodId,
+                RunningSpoilage = source.RunningSpoilage,
+                SetupSpoilage = source.SetupSpoilage,
+                CoverageHigh = source.CoverageHigh,
+                CoverageLow = source.CoverageLow,
+                CoverageMedium = source.CoverageMedium,
+                isSheetFed = source.isSheetFed,
+                Passes = source.Passes,
+                IsSpotColor = source.IsSpotColor,
                 MachineInkCoverages = source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList()
 
             };
@@ -188,9 +196,32 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
                 LookupMethodId = source.LookupMethodId,
+                RunningSpoilage = source.RunningSpoilage,
+                SetupSpoilage = source.SetupSpoilage,
+                CoverageHigh = source.CoverageHigh,
+                CoverageLow = source.CoverageLow,
+                CoverageMedium = source.CoverageMedium,
+                isSheetFed = source.isSheetFed,
+                Passes = source.Passes,
+                IsSpotColor = source.IsSpotColor,
                 MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null
+            };
+        }
 
-
+        /// <summary>
+        /// Used In Order
+        /// </summary>
+        public static APIDomainModels.Machine CreateFromForOrder(this Machine source)
+        {
+            return new APIDomainModels.Machine
+            {
+                MachineId = source.MachineId,
+                MachineName = source.MachineName,
+                MachineCatId = source.MachineCatId,
+                maximumsheetheight = source.maximumsheetheight,
+                maximumsheetwidth = source.maximumsheetwidth,
+                ColourHeads = source.ColourHeads,
+                IsSpotColor = source.IsSpotColor
             };
         }
         #endregion

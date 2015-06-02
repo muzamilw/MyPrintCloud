@@ -3,21 +3,10 @@
         <div class="col-lg-12 PaddingZero">
             <div class="col-lg-12 PaddingZero">
                 <div class="col-lg-3">
-                    <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px">
-                        <button type="button" class="btn btn-primary">Actions</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Print</a></li>
-                            <li><a href="#">Copy</a></li>
-                        </ul>
-                    </div>
                 </div>
                 <div data-bind="with: selectedInquiry" style="text-align: right; padding-right: 16px; margin-right: 9px;">
-                    <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
-                    <!-- ko if: $root.selectedInquiry().inquiryId() > 0-->
+                    @*<button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>*@
+                    <!-- ko if: $root.selectedInquiry().inquiryId() > 0 && status() == 25 -->
                     <button class="btn btn-success" id="progressToEstBtn" data-bind="click: $root.onProgressToEstimate, enable: status() == 25 && inquiryId() > 0">Progress To Estimate</button>
                     <!--/ko-->
                     <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveInquiry, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
@@ -42,11 +31,11 @@
                 <div class="col-lg-12">
                     <div class="clearfix">
                         <div class="pull-left validationSummaryContainer">
-                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Invalid data: Click here to see details.</a>
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForInquiry', popoverId: 'validationSummaryPopoverBodyForInquiry' }" style="display: none">Invalid data: Click here to see details.</a>
                             @* ReSharper disable UnknownCssClass *@
-                            <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
+                            <div class="well well-small validationSummaryModal" id="validationSummaryPopupForInquiry" style="display: none">
                                 @* ReSharper restore UnknownCssClass *@
-                                <div id="validationSummaryPopoverBody">
+                                <div id="validationSummaryPopoverBodyForInquiry">
                                     <ul data-bind="foreach: $root.errorList">
                                         <li>
                                             <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
@@ -78,8 +67,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedInquiry().inquiryId() ? $root.openCompanyDialog : undefined" readonly="" placeholder="Select Customer" class="form-control font24px" id="txtCompany">
-                                                    @*<input type="text" style="height: 60px;" data-bind="value: companyName, validationTooltip: companyId" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />*@
+                                                    <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedInquiry().inquiryId() ? $root.openCompanyDialog : undefined" readonly="" placeholder="Select Customer" class="form-control font24px" id="inquiryCompany">
 
                                                 </div>
                                             </div>
@@ -138,7 +126,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: flagId, validationToolTip: flagId"></select>
+                                                <select class="form-control" data-bind="options: $root.inquiriesSectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: flagId, validationToolTip: flagId, validationOnElement: flagId" id="FlagId"></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -151,14 +139,14 @@
                                         </div>
                                         <div class="">
                                             <div class="col-lg-4 text-right">
-                                                Status:
+
                                             </div>
                                             <div class="col-lg-6">
                                                 <!--ko if: status() == 25 -->
                                                 UnProcessed Inquiry
                                                 <!--/ko-->
                                                 <!--ko if: status() == 26 -->
-                                                Progressed To Estimate - <br/> <a href="#" data-bind="click: $root.viewEstimateFromInquiry" >View Estimate</a>
+                                                Progressed To Estimate - <br /> <a href="#" data-bind="click: $root.viewEstimateFromInquiry">View Estimate</a>
                                                 <!--/ko-->
                                             </div>
                                         </div>
@@ -191,25 +179,33 @@
                                                     </header>
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
-                                                            <table class="table table-striped table-hover">
+                                                            <table class="table user-list table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="col-lg-6"><span>Title</span></th>
-                                                                        <th class="col-lg-4"><span></span>Delivery Date</th>
-                                                                        <th class="col-lg-2 text-right"><span></span></th>
+                                                                        <th class="col-lg-3"><span>Title</span></th>
+                                                                        <th class="col-lg-3">Delivery Date</th>
+                                                                        <th class="col-lg-3 ">Marketing Source</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <!-- ko template: { name: 'inquiryItemTemplate', foreach: inquiryItems } -->
+                                                                    <!-- /ko -->
+                                                                    <!-- ko if: inquiryItems().length == 0 -->
+                                                                    <tr>
+                                                                        <td>No items To Display</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </tr>
                                                                     <!-- /ko -->
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                     </div>
                                                     <div class="btn-group" style="float: left; margin-top: 10px;">
+                                                        <!-- ko if: status() == 25-->
                                                         <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewInquiryDetailItem">Add New Item</button>
+                                                        <!-- /ko -->
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -219,36 +215,46 @@
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-5 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width" style="width: 25px;">
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload Attachment files</label>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float font24px">Upload Attachments</label>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-1">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.itemAttachmentFileLoadedCallback, fileFilter: 'image.*'}" />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           
                                         </div>
                                         <div class="col-lg-2">
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-9">
-                                            <div class="main-box-body" style="margin-left: -36px;">
+                                        <!-- ko if: inquiryAttachments().length != 0-->
+                                        <div class="col-lg-9" style="background-color: gainsboro">
+                                            <div class="main-box-body" >  @*style="margin-left: -36px;"*@
                                                 <div id="gallery-photos-lightbox">
-                                                    <ul class="clearfix gallery-photos col-lg-12">
+                                                    <ul class="clearfix gallery-photos col-lg-12" >
                                                         <!-- ko template: { name: 'inquiryAttachmentsTemplate' , foreach: inquiryAttachments  } -->
                                                         <!-- /ko -->
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- /ko -->
+                                    </div>
+                                    <div class="form-group" >
+                                        <div class="col-lg-2">
+                                           
+                                        </div>
+                                        <!-- ko if: status() == 25-->
+                                        <div class="col-lg-6" style="margin-top: 5px;">
+                                            <div class="col-lg-1">
+                                                <div class="fileUpload btn btn-primary">
+                                                    <span>....</span>
+                                                    <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.itemAttachmentFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/ko-->
                                     </div>
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
@@ -265,7 +271,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-2 text-right">
                                                 <label class="control-label tooltip-float">
-                                                    Source
+                                                    Select Marketing Source
                                                 </label>
                                             </div>
                                             <div class="col-lg-3" data-bind="if: $root.pipelineSources ">
@@ -275,7 +281,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-2 text-right">
                                                 <label class="control-label tooltip-float">
-                                                    Assigned Sales Person
+                                                    Select Sales Person
                                                 </label>
                                             </div>
                                             <div class="col-lg-3">
@@ -288,14 +294,16 @@
                                 <script id="inquiryItemTemplate" type="text/html">
                                     <tr data-bind=" click:  $root.editInquiryItem" style="cursor: pointer">
                                         <td>
-                                            <a href="#" data-bind="text: title, click: $root.editInquiryItem"><span></span></a>
+                                            <a href="#" class="user-link" data-bind="text: title"></a>
+                                            <span class="user-subhead">
+                                                <span data-bind="text: notes"></span>
+                                            </span>
                                         </td>
                                         <td>
                                             <span style="font-size:20px;" data-bind="dateString: deliveryDate, datePattern: 'DD/MM/YYYY' "></span>
                                         </td>
-                                        <td style=" text-align: right;">
-                                            <span style="font-size:20px;"></span>
-                                            <span style="font-size:20px;"></span>
+                                        <td >
+                                            <span style="font-size:20px;" data-bind="text: marketingSource "> </span>
                                         </td>
                                     </tr>
                                 </script>
@@ -323,9 +331,13 @@
 
 <script id="inquiryAttachmentsTemplate" type="text/html">
     <li class="col-md-3 col-sm-3 col-xs-6">
-        <div class="photo-box image-link" style="padding-top: 0; background-color: white">
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()===undefined,attr: { src: attachmentPath }"/>  
-            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()!==undefined,attr: { src:'/mis/' + attachmentPath() }" /> 
+        <div class="photo-box image-link" style="padding-top: 0; background-color: gainsboro">
+            <!-- ko if:attachmentId()===undefined -->
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()===undefined,attr: { src: attachmentPath }" />
+            <!--/ko-->
+            <!-- ko if:attachmentId()!==undefined -->
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()!==undefined,attr: { src:'/mis/' + attachmentPath() }" />
+            <!--/ko-->
         </div>
         <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
     </li>

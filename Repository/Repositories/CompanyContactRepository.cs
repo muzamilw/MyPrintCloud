@@ -158,13 +158,14 @@ namespace MPC.Repository.Repositories
                     select c).FirstOrDefault();
 
         }
-        public CompanyContact GetContactByEmail(string Email, long OID)
+        public CompanyContact GetContactByEmail(string Email, long OID, long StoreId)
         {
             try
             {
                 var qry = from contacts in db.CompanyContacts
                           join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
                           where string.Compare(contacts.Email, Email, true) == 0 && contacts.OrganisationId == OID
+                          && contactCompany.StoreId == StoreId
                           select contacts;
 
                 return qry.ToList().FirstOrDefault();
@@ -818,7 +819,8 @@ namespace MPC.Repository.Repositories
                     (contact.FirstName.Contains(request.SearchFilter)) ||
                     (contact.MiddleName.Contains(request.SearchFilter)) ||
                     (contact.LastName.Contains(request.SearchFilter)) ||
-                    (contact.Email.Contains(request.SearchFilter))) &&
+                    (contact.Email.Contains(request.SearchFilter))||
+                    contact.Company.Name.Contains(request.SearchFilter)) &&
                     (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
                     (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId==OrganisationId;
 
@@ -1066,12 +1068,12 @@ namespace MPC.Repository.Repositories
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public CompanyContact GetRetailUser(string email, string password, long OrganisationId)
+        public CompanyContact GetRetailUser(string email, string password, long OrganisationId, long StoreId)
         {
             var qury = from contacts in db.CompanyContacts
                        join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
-                       where contactCompany.IsCustomer != (int)CustomerTypes.Corporate && string.Compare(contacts.Email, email, true) == 0
-                       && contacts.OrganisationId == OrganisationId
+                       where contactCompany.IsCustomer == (int)CustomerTypes.Customers && string.Compare(contacts.Email, email, true) == 0
+                       && contacts.OrganisationId == OrganisationId && contactCompany.StoreId == StoreId
                        select contacts;
             if (qury != null)
             {

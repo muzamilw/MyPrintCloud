@@ -32,7 +32,7 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
-            bool isStatusSpecified = request.Status == 0;//if true get all then get by status
+            //bool isStatusSpecified = request.Status == 0;//if true get all then get by status
             bool filterFlagSpecified = request.FilterFlag == 0;
             //Order Type Filter , 2-> all, 0 -> Direct  Order, 1 -> Online Order
             bool orderTypeFilterSpecified = request.OrderTypeFilter == 2;
@@ -44,7 +44,9 @@ namespace MPC.Repository.Repositories
                     string.IsNullOrEmpty(request.SearchString) ||
                     ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.InquiryCode.Contains(request.SearchString)) ||
                     (item.Title.Contains(request.SearchString))
-                    )) &&
+                    ))
+                     && ((!filterFlagSpecified && item.FlagId == request.FilterFlag || filterFlagSpecified)) &&
+                     //((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
                     item.OrganisationId == OrganisationId);
 
             IEnumerable<Inquiry> items = request.IsAsc
@@ -61,6 +63,17 @@ namespace MPC.Repository.Repositories
          
             return new GetInquiryResponse { Inquiries = items, TotalCount = DbSet.Count(query) };
         }
-
+        /// <summary>
+        /// Get Any Inquiry items
+        /// </summary>
+        /// <param name="inquiryId"></param>
+        /// <returns></returns>
+        public IEnumerable<InquiryItem> GetInquiryItems(int inquiryId)
+        {
+            var firstOrDefault = DbSet.FirstOrDefault(x => x.InquiryId == inquiryId);
+            if (firstOrDefault != null)
+                return firstOrDefault.InquiryItems.ToList();
+            return null;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿
+﻿@using GrapeCity.ActiveReports.PageReportModel
+
 <div id="itemDetailSection" class="row" style="display: none" data-bind="visible: $root.showItemDetailsSection">
     <div class="col-sm-12" data-bind="with: $root.selectedProduct">
         <div class="row">
@@ -25,9 +26,13 @@
         <div class="row">
             <div class="col-sm-12 PaddingZero">
                 <div class="col-sm-12 PaddingZero">
-                    <div style="text-align: right; padding-right: 7px; ">
+                    <div style="float: right;text-align: right; padding-right: 7px; ">
                         <button data-bind="visible:!$root.showSectionDetail(),click:$root.closeItemDetail" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
+                    <div style="float: right; " data-bind="visible:($root.selectedOrder()!==undefined && $root.selectedOrder().isDirectSale() && !$root.showSectionDetail()),click:$root.deleteItem">
+                        <button class="btn btn-danger" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Delete</button>
+                    </div>
+
                     <div style="text-align: right; padding-right: 7px; ">
                         <button data-bind="visible:$root.showSectionDetail,click:$root.closeSectionDetailEditor" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
@@ -40,7 +45,7 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-detail" data-toggle="tab">Print Product</a></li>
-                            <li data-bind="visible: $root.selectedOrder() &&  $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
+                            <li data-bind="visible: $root.selectedOrder() &&  $root.selectedOrder().statusId!==undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
                             <li><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
                         </ul>
                         <div class="tab-content">
@@ -53,7 +58,7 @@
                                                 <input type="text" style="font-size: 24px;height: 60px;border-bottom: 2px dashed black !important;font-weight: bold;padding-left: 0px;border-top: none;border-left: none;border-right: none;" class="form-control" placeholder="Product Name" data-bind="value: productName, validationTooltip: productName, validationOnElement: productName" />
                                             </div>
                                         </div>
-                                      
+
                                         <div class="form-group">
 
                                             <div class="col-sm-2">&nbsp;</div>
@@ -66,9 +71,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-2">
-                                                    <div >
-                                                        <div style="float: left"><img class="photo-box" style="padding-top: 7px; cursor: pointer; height: 153px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
-                                                    </div>
+                                                <div>
+                                                    <div style="float: left"><img class="photo-box" style="padding-top: 7px; cursor: pointer; height: 153px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
+                                                </div>
                                                 <div class="btn btn-success" style="font-size: x-small;margin-left: 10%;" data-bind="click:$root.createNewItemSection">
                                                     Add Sheets
                                                 </div>
@@ -89,11 +94,11 @@
                                                             <label class="control-label tooltip-float">Qty</label>
                                                         </div>
                                                         <div class="col-sm-2" style="text-align: right; margin-top: 7px;">
-                                                            <span  data-bind="text:qty1" style="margin-right: 12px;" />
+                                                            <span data-bind="text:qty1" style="margin-right: 12px;" />
                                                         </div>
                                                         <!--ko if: $root.isEstimateScreen()-->
-                                                        <div class="col-sm-2" style="text-align: right; margin-top: 7px;" >
-                                                            <span  data-bind="text:qty2" style="margin-right: 12px;" />
+                                                        <div class="col-sm-2" style="text-align: right; margin-top: 7px;">
+                                                            <span data-bind="text:qty2" style="margin-right: 12px;" />
                                                         </div>
                                                         <div class="col-sm-2" style="text-align: right; margin-top: 7px;">
                                                             <span data-bind="text:qty3" style="margin-right: 12px;" />
@@ -126,10 +131,10 @@
                                                     </div>
                                                     <div class="col-lg-2 col-sm-2" style="padding-right: 0px;">
                                                         <div class="col-lg-1 col-sm-2" style="padding-left: 0px;">
-                                                            <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
+                                                            @*<label class="control-label" data-bind=" text:$root.currencySymbol"></label>*@
                                                         </div>
                                                         <div class="col-lg-11 col-sm-10">
-                                                            <input type="text" class="form-control txtBox-contentAlignRight PaddingL5" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="numberValue:$root.calculateQty3NetTotalForItem" />
+                                                            @*<input type="text" class="form-control txtBox-contentAlignRight PaddingL5" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="numberValue:$root.calculateQty3NetTotalForItem" />*@
                                                         </div>
                                                     </div>
                                                     <!--/ko-->
@@ -156,7 +161,7 @@
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2Tax1Value"></span></label>
                                             </div>
                                             <div class="col-sm-3 txtBox-contentAlignRight" style="padding-right:2%">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3Tax1Value"></span></label>
+                                                @*<label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3Tax1Value"></span></label>*@
                                             </div>
                                             <!--/ko-->
                                         </div>
@@ -175,7 +180,7 @@
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2GrossTotal"></span></label>
                                             </div>
                                             <div class="col-sm-2 txtBox-contentAlignRight" style="padding-right: 1.3%;">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3GrossTotal"></span></label>
+                                                @*<label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3GrossTotal"></span></label>*@
                                             </div>
                                             <!--/ko-->
                                         </div>
@@ -188,13 +193,13 @@
                                             <h3 style="color:black;">Descriptions to Appear on Estimates for combined components</h3>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <div class="col-sm-2">
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input style="text-align: right;" type="text" class="form-control" id="txtTitle1" placeholder="Enter Title 1">
+                                            <input style="text-align: right;" type="text" class="form-control" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -213,7 +218,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle2" placeholder="Enter Title 2">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle2" data-bind="value: jobDescriptionTitle2" placeholder="Enter Title 2">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -232,7 +237,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle3" placeholder="Enter Title 3">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -251,7 +256,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle4" placeholder="Enter Title 4">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -270,7 +275,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle5" placeholder="Enter Title 5">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -289,7 +294,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle6" placeholder="Enter Title 6">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -308,7 +313,7 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-sm-2 text-right">
-                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle7" placeholder="Enter Title 7">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
                                             <span class="label label-circle-question"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -503,17 +508,29 @@
                                                 <div class="col-sm-1">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.itemAttachmentFileLoadedCallback }" />
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="click:$root.uploadItemAttachment" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="main-box-body">
-                                            <div id="gallery-photos-lightbox">
-                                                <ul class="clearfix gallery-photos">
-                                                    <!-- ko template: { name: 'orderItemAttachmentTemplate' , foreach: itemAttachments  } -->
-                                                    <!-- /ko -->
-                                                </ul>
+                                            <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
+                                                <table class="table user-list">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="col-lg-1"><span></span></th>
+                                                            <th class="col-lg-5"><span>Title</span></th>
+                                                            <th class="col-lg-4"><span>Type</span></th>
+                                                            <th class="col-lg-1"><span></span></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- ko template: { name: 'orderItemAttachmentTemplate' , foreach: itemAttachments  } -->
+                                                        <!-- /ko -->
+                                                    </tbody>
+                                                </table>
+
                                             </div>
                                         </div>
                                     </div>
@@ -530,25 +547,73 @@
                 </div>
 
             </div>
-           
-        </div>
 
+        </div>
+        @Html.Partial("~/Areas/Orders/Views/Home/_AttachmentDialog.cshtml")
         @Html.Partial("~/Areas/Common/Views/Shared/_CostCenterQuantity.cshtml")
         @Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
         @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
     </div>
 </div>
-    <script id="orderItemAttachmentTemplate" type="text/html">
-        <li class="col-lg-2 col-sm-3">
-            <div class="photo-box image-link" style="padding-top: 0; ">
-                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()===undefined,attr: { src: '@Url.Content("~/")' + folderPath() }" alt="" />
-                <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()!==undefined,attr: { src: fileSourcePath }" />
-            </div>
-            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
-        </li>
-    </script>
+<script id="orderItemAttachmentTemplate" type="text/html">
+    <tr>
+        <td>
+            <!-- ko if: fileType()=== ".pdf" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".doc" -->
+            <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".png" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoPNG.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".jpg" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoJPG.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".xlsx" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
+            <!-- /ko
+                <!-- ko if: fileType()=== ".gif" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoGif.png")" alt="" />
+            <!-- /ko -->
 
- 
+        </td>
+
+        <td>
+            <a data-bind="text: fileTitle" class="user-link"></a>
+            <span class="user-subhead">
+                <span>Uploaded on :</span>
+                <span data-bind="dateString: uploadDate, datePattern: 'DD/MM/YYYY'"></span>
+            </span>
+
+        </td>
+        <td data-bind="text:type"></td>
+        <td>
+            <div style="float: left;">
+                @using (Ajax.BeginForm("FileDownload", "Home", new AjaxOptions { HttpMethod = "POST" }))
+                {
+                    <input type="hidden" id="item" name="item" data-bind="value:id" />
+                    <button type="submit" class="table-link" title="Donwload" data-bind="enable:id()>0" style=" padding-left: 0px;border-left-width: 0px;padding-right: 0px;border-right-width: 0px; border-top-width: 0px;padding-bottom: 0px;background-color: transparent;border-bottom: none;height: 31px;">
+                        <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-download fa-stack-1x"></i>
+                        </span>
+                    </button>
+                }
+            </div>
+            <a href="#" class="table-link danger" style="float: right;" title="Delete" data-bind="click:$root.deleteItemAttachment">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+
+    </tr>
+
+</script>
+
+
 <script id="sectionItemTemplate" type="text/html">
     <!--ko if: !flagForAdd() -->
     <li class="col-lg-2 col-sm-3">

@@ -61,6 +61,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
         private readonly IShippingInformationRepository shippingInformationRepository;
         private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
+        private readonly IItemSectionRepository itemSectionRepository;
         private readonly IPipeLineProductRepository pipeLineProductRepository;
 
         /// <summary>
@@ -78,7 +79,7 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                itemTarget.Order_Code = orderCode;    
+                itemTarget.Order_Code = orderCode;
             }
             itemTarget.OrganisationId = orderRepository.OrganisationId;
             return itemTarget;
@@ -147,6 +148,8 @@ namespace MPC.Implementation.MISServices
         private ItemAttachment CreateItemAttachment()
         {
             ItemAttachment itemTarget = itemAttachmentRepository.Create();
+            itemTarget.UploadDate = DateTime.Now;
+            itemTarget.UploadTime = DateTime.Now;
             itemAttachmentRepository.Add(itemTarget);
             return itemTarget;
         }
@@ -336,7 +339,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
         }
-        
+
         #endregion
         #region Constructor
 
@@ -352,7 +355,7 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository,
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
-            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository)
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository)
         {
             if (estimateRepository == null)
             {
@@ -465,6 +468,7 @@ namespace MPC.Implementation.MISServices
             this.shippingInformationRepository = shippingInformationRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
             this.pipeLineProductRepository = pipeLineProductRepository;
+            this.itemSectionRepository = itemSectionRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
         }
 
@@ -566,6 +570,37 @@ namespace MPC.Implementation.MISServices
                    };
         }
 
+        /// <summary>
+        /// Get base data for Estimate
+        /// Difference from order is Different Section Id
+        /// </summary>
+        public OrderBaseResponse GetBaseDataForEstimate()
+        {
+            return new OrderBaseResponse
+            {
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate),
+                SystemUsers = systemUserRepository.GetAll(),
+                PipeLineSources = pipeLineSourceRepository.GetAll(),
+                PaymentMethods = paymentMethodRepository.GetAll(),
+                Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
+                // ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
+                PipeLineProducts = pipeLineProductRepository.GetAll(),
+                LoggedInUser = organisationRepository.LoggedInUserId
+            };
+        }
+
+        /// <summary>
+        /// Get base data for Inquiries
+        /// </summary>
+        public InquiryBaseResponse GetBaseDataForInquiries()
+        {
+            return new InquiryBaseResponse
+            {
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int) SectionEnum.Inquiries)
+            };
+        }
+
         public ItemDetailBaseResponse GetBaseDataForItemDetails()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
@@ -581,7 +616,8 @@ namespace MPC.Implementation.MISServices
                 SystemUsers = systemUserRepository.GetAll(),
                 LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
                 WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
-                LoggedInUser = organisationRepository.LoggedInUserId
+                LoggedInUser = organisationRepository.LoggedInUserId,
+                Machines = MachineRepository.GetAll()
             };
 
         }
@@ -732,16 +768,214 @@ namespace MPC.Implementation.MISServices
                 throw ex;
             }
         }
+
+        public bool ProgressEstimateToOrder(ProgressEstimateRequestModel requestModel)
+        {
+            try
+            {
+                var estimate = estimateRepository.Find(requestModel.EstimateId);
+                var order = estimateRepository.Find(requestModel.OrderId);
+                //update Estimate Reference and status
+                estimate.RefEstimateId = requestModel.OrderId;
+                estimate.StatusId = 39;
+                //update order refence of estimate
+                order.RefEstimateId = requestModel.EstimateId;
+
+                estimateRepository.Update(estimate);
+                estimateRepository.Update(order);
+                estimateRepository.SaveChanges();
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                return false;
+
+            }
+        }
+
+        public Estimate CloneOrder(Estimate source)
+        {
+            Estimate target = CreateNewOrder();
+            target.isEstimate = false;
+            target.StatusId = (short)OrderStatus.PendingOrder;
+
+            Estimate est_Source = GetById(source.EstimateId);
+            est_Source.StatusId = 39;
+
+            target = UpdateEstimeteOnCloning(est_Source, target, source);
+            target.RefEstimateId = source.EstimateId;
+
+            estimateRepository.SaveChanges();
+
+            est_Source.RefEstimateId = target.EstimateId;
+            estimateRepository.SaveChanges();
+
+            return target;
+        }
+
+        public Estimate UpdateEstimeteOnCloning(Estimate source, Estimate target, Estimate clientSource)
+        {
+            // Clone Estimate
+            source.Clone(target);
+            target.Order_Date = clientSource.Order_Date;
+            target.OrderManagerId = clientSource.OrderManagerId;
+            target.IsOfficialOrder = clientSource.IsOfficialOrder;
+            target.CustomerPO = clientSource.CustomerPO;
+            target.ArtworkByDate = clientSource.ArtworkByDate;
+            target.DataByDate = clientSource.DataByDate;
+            target.PaperByDate = clientSource.PaperByDate;
+            target.DataByDate = clientSource.DataByDate;
+            target.TargetBindDate = clientSource.TargetPrintDate;
+            target.StartDeliveryDate = clientSource.StartDeliveryDate;
+            target.FinishDeliveryDate = clientSource.FinishDeliveryDate;
+            target.IsCreditApproved = clientSource.IsCreditApproved;
+            target.IsJobAllowedWOCreditCheck = clientSource.IsJobAllowedWOCreditCheck;
+
+            CloneItems(source, target, clientSource);
+
+            return target;
+        }
+        private void CloneItems(Estimate source, Estimate target, Estimate clientSource)
+        {
+            if (source.Items == null)
+            {
+                return;
+            }
+            if (target.Items == null)
+            {
+                target.Items = new List<Item>();
+            }
+            foreach (Item item in source.Items.ToList())
+            {
+                Item targetItem = itemRepository.Create();
+                itemRepository.Add(targetItem);
+                target.Items.Add(targetItem);
+                item.CloneForOrder(targetItem);
+                var targetItemSource = clientSource.Items.FirstOrDefault(x => x.ItemId == item.ItemId);
+                if (targetItemSource != null)
+                {
+                    targetItem.JobSelectedQty = targetItemSource.JobSelectedQty;
+                }
+                if (item.JobSelectedQty != null && targetItem.ItemType != 2)
+                {
+                    if (item.JobSelectedQty == 1)
+                    {
+                        targetItem.Qty1 = item.Qty1;
+                        targetItem.Qty2 = 0;
+                        targetItem.Qty3 = 0;
+                    }
+                    else if (item.JobSelectedQty == 2)
+                    {
+                        targetItem.Qty1 = item.Qty2;
+                        targetItem.Qty2 = 0;
+                        targetItem.Qty3 = 0;
+                    }
+                    else if (item.JobSelectedQty == 3)
+                    {
+                        targetItem.Qty1 = item.Qty3;
+                        targetItem.Qty2 = 0;
+                        targetItem.Qty3 = 0;
+                    }
+                }
+
+                // Clone Item Sections
+                CloneItemSections(item, targetItem);
+            }
+        }
+
+        /// <summary>
+        /// Copy Item Sections
+        /// </summary>
+        private void CloneItemSections(Item source, Item target)
+        {
+            if (source.ItemSections == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemSections == null)
+            {
+                target.ItemSections = new List<ItemSection>();
+            }
+
+            foreach (ItemSection itemSection in source.ItemSections.ToList())
+            {
+                ItemSection targetItemSection = itemSectionRepository.Create();
+                itemSectionRepository.Add(targetItemSection);
+                targetItemSection.ItemId = target.ItemId;
+                target.ItemSections.Add(targetItemSection);
+                itemSection.CloneForOrder(targetItemSection);
+                if (source.JobSelectedQty != null && target.ItemType != 2)
+                {
+                    targetItemSection.Qty1 = source.Qty1;
+                    targetItemSection.Qty2 = 0;
+                    targetItemSection.Qty3 = 0;
+                }
+                CloneSectionCostCenter(itemSection, targetItemSection);
+            }
+        }
+        private void CloneSectionCostCenter(ItemSection source, ItemSection target)
+        {
+            if (source.SectionCostcentres == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.SectionCostcentres == null)
+            {
+                target.SectionCostcentres = new List<SectionCostcentre>();
+            }
+
+            foreach (SectionCostcentre sectionCostcentre in source.SectionCostcentres.ToList())
+            {
+                SectionCostcentre targetSectionCostcentre = sectionCostCentreRepository.Create();
+                sectionCostCentreRepository.Add(targetSectionCostcentre);
+                targetSectionCostcentre.ItemSectionId = target.ItemSectionId;
+                target.SectionCostcentres.Add(targetSectionCostcentre);
+                sectionCostcentre.Clone(targetSectionCostcentre);
+                targetSectionCostcentre.Qty1 = source.Qty1;
+                targetSectionCostcentre.Qty2 = 0;
+                targetSectionCostcentre.Qty3 = 0;
+                CloneSectionCostCenterDetail(sectionCostcentre, targetSectionCostcentre);
+            }
+        }
+        private void CloneSectionCostCenterDetail(SectionCostcentre source, SectionCostcentre target)
+        {
+            if (source.SectionCostCentreDetails == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.SectionCostCentreDetails == null)
+            {
+                target.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
+            }
+
+            foreach (SectionCostCentreDetail sectionCostCentreDetail in source.SectionCostCentreDetails.ToList())
+            {
+                SectionCostCentreDetail targetSectionCostCentreDetail = sectionCostCentreDetailRepository.Create();
+                sectionCostCentreDetailRepository.Add(targetSectionCostCentreDetail);
+                targetSectionCostCentreDetail.SectionCostCentreId = target.SectionCostcentreId;
+                target.SectionCostCentreDetails.Add(targetSectionCostCentreDetail);
+                sectionCostCentreDetail.Qty1 = source.Qty1;
+                sectionCostCentreDetail.Qty2 = 0;
+                sectionCostCentreDetail.Qty3 = 0;
+                sectionCostCentreDetail.Clone(targetSectionCostCentreDetail);
+            }
+        }
+
         #endregion
-
-
 
         #region Download Artwork
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-          //  return GenerateOrderArtworkArchive(OrderID, sZipName);
-            return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
+              return GenerateOrderArtworkArchive(OrderID, sZipName);
+           // return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
@@ -767,11 +1001,30 @@ namespace MPC.Implementation.MISServices
 
             try
             {
+               Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
+                if (sZipName == string.Empty)
+                {
+                    sZipFileName = GetArchiveFileName(oOrder.Order_Code, oOrder.Company.Name, oOrder.EstimateId);
+                }
+                else
+                {
+                    if (Path.HasExtension(sZipName))
+                        sZipFileName = sZipName;
+                    else
+                        sZipFileName = sZipName + ".zip";
+
+                }
+                ReturnPhysicalPath = sCreateDirectory + "\\" + sZipFileName;
+                if (File.Exists(ReturnPhysicalPath))
+                {                    
+                    ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                    return ReturnPhysicalPath;
+                }
 
                 //filter the items which are of type delivery i.e. itemtype = 2
                 List<Item> ItemsList = itemRepository.GetItemsWithAttachmentsByOrderID(OrderID);
-                Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
-
+                
+                MakeArtWorkProductionReady = true;
 
                 if (oOrder.Company != null)
                 {
@@ -779,8 +1032,7 @@ namespace MPC.Implementation.MISServices
                     {
                         IncludeOrderReport = oOrder.Company.includeEmailArtworkOrderReport ?? false;
                         IncludeJobCardReport = oOrder.Company.includeEmailArtworkOrderJobCard ?? false;
-                        IncludeOrderXML = oOrder.Company.includeEmailArtworkOrderXML ?? false;
-                        MakeArtWorkProductionReady = oOrder.Company.makeEmailArtworkOrderProductionReady ?? false;
+                        IncludeOrderXML = oOrder.Company.includeEmailArtworkOrderXML ?? false;                        
                     }
                     else
                     {
@@ -790,7 +1042,6 @@ namespace MPC.Implementation.MISServices
                             IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
                             IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
                             IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
-                            MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
                         }
                     }
 
@@ -804,30 +1055,18 @@ namespace MPC.Implementation.MISServices
                 //making the artwork production ready and regenerating template PDFs
                 if (MakeArtWorkProductionReady)
                 {
-                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder, OrganisationId);
+                    
+                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder);
 
                 }
 
-                if (sZipName == string.Empty)
-                {
-                    sZipFileName = GetArchiveFileName(oOrder.Order_Code, oOrder.Company.Name, oOrder.EstimateId);
-                }
-                else
-                {
-                    if (Path.HasExtension(sZipName))
-                        sZipFileName = sZipName;
-                    else
-                        sZipFileName = sZipName + ".zip";
-
-                }
+                
 
                 //ReturnRelativePath = szDirectory + "/" + PathConstants.DownloadableFilesPath + sZipFileName;
-                ReturnPhysicalPath = sCreateDirectory + "\\" + sZipFileName;
+                
                 if (File.Exists(ReturnPhysicalPath))
                 {
-                    //ReturnRelativePath = szDirectory + "/" + PathConstants.DownloadableFilesPath + sZipFileName;
-                    //  ReturnPhysicalPath = sCreateDirectory + sZipFileName;
-                    ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                    
                     return ReturnPhysicalPath;
                 }
                 else
@@ -918,6 +1157,7 @@ namespace MPC.Implementation.MISServices
                     }
                     ReturnRelativePath = sCreateDirectory;
                     ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                    //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }
             }
@@ -926,6 +1166,18 @@ namespace MPC.Implementation.MISServices
                 throw ex1;
             }
 
+        }
+
+        private void UpdateAttachmentsPath(Estimate oOrder)
+        {
+            foreach (var item in oOrder.Items)
+            {
+                if (item.ItemAttachments != null)
+                {
+                    item.ItemAttachments.ToList().ForEach(i => i.FolderPath = i.FolderPath.Replace("Attachments", "Production"));
+                }
+            }
+            orderRepository.SaveChanges();
         }
 
         public static string MakeValidFileName(string name)
@@ -942,14 +1194,15 @@ namespace MPC.Implementation.MISServices
             return builder.ToString();
         }
 
-        public bool MakeOrderArtworkProductionReady(Estimate oOrder, long OrganisationId)
+        public bool MakeOrderArtworkProductionReady(Estimate oOrder)
         {
             try
             {
+                long sOrganisationId = organisationRepository.GetOrganizatiobByID().OrganisationId;
                 string sOrderID = oOrder.EstimateId.ToString();
-                string sProductionFolderPath = "MPC_Content/Artworks/" + OrganisationId + "/Production";
+                string sProductionFolderPath = "MPC_Content/Artworks/" + sOrganisationId + "/Production";
                 string sCustomerID = oOrder.CompanyId.ToString();
-                return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder, OrganisationId);
+                return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder, sOrganisationId);
 
             }
             catch (Exception ex)
@@ -2910,8 +3163,25 @@ namespace MPC.Implementation.MISServices
         #endregion
 
 
+        /// <summary>
+        /// Download Attachment
+        /// </summary>
+        public string DownloadAttachment(long id, out string fileName, out string fileTpe)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            ItemAttachment attachment = itemAttachmentRepository.Find(id);
+            fileName = attachment.FileName;
+            fileTpe = attachment.FileType;
 
+            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
+            string attachmentMapPath = mapPath + attachment.ItemId + "\\" + attachment.FileName + attachment.FileType;
+            if (!File.Exists(attachmentMapPath))
+            {
+                attachmentMapPath = string.Empty;
+            }
 
-
+            return attachmentMapPath;
+        }
     }
 }

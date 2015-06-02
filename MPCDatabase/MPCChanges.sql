@@ -3860,3 +3860,665 @@ alter column PassesSide1 int null
 
 alter table ItemSection 
 alter column PassesSide2 int null
+--Executed on Staging------
+--Executed on Preview, Aus, Eu servers on 2015 05 26------
+/* Execution Date: 22/05/2015 */
+
+alter table itemsection
+alter column Side1LookUp int null
+
+alter table itemsection
+alter column Side2LookUp int null
+
+exec sp_rename 'ItemSection.Side1LookUp', 'ImpressionCoverageSide1'
+
+exec sp_rename 'ItemSection.Side2LookUp', 'ImpressionCoverageSide2'
+
+/* Execution Date: 25/05/2105 */
+
+alter table Machine
+add SetupSpoilage int null
+
+alter table Machine
+add RunningSpoilage float null
+
+alter table Machine
+add CoverageHigh float null
+
+alter table Machine
+add CoverageMedium float null
+
+alter table Machine
+add CoverageLow float null
+
+alter table Machine
+add constraint FK_Machine_LookupMethod
+foreign key (LookupMethodId)
+references LookupMethod (MethodId)
+
+alter table ProductMarketBriefQuestion
+alter column ItemId bigint null
+
+update ProductMarketBriefQuestion
+set ItemId = null
+
+alter table ProductMarketBriefQuestion
+add constraint FK_ProductMarketBriefQuestion_Item
+foreign key (ItemId)
+references Items (ItemId)
+
+/* Execution Date: 26/05/2015 */
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[ImpositionProfile](
+ [ImpositionId] [bigint] IDENTITY(1,1) NOT NULL,
+ [Title] [nvarchar](200) NULL,
+ [SheetSizeId] [bigint] NULL,
+ [SheetHeight] [float] NULL,
+ [SheetWidth] [float] NULL,
+ [ItemSizeId] [bigint] NULL,
+ [ItemHeight] [float] NULL,
+ [ItemWidth] [float] NULL,
+ [Area] [float] NULL,
+ [PTV] [int] NULL,
+ [Region] [varchar](50) NULL,
+ [OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_ImpositionProfile] PRIMARY KEY CLUSTERED 
+(
+ [ImpositionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+alter table machine add isSheetFed bit null
+alter table machine add Passes int null
+alter table impositionProfile add isPortrait bit null
+----Executed on Staging on 26/05/2015---------
+
+/* Execution Date: 27/05/2015 */
+
+alter table productmarketbriefanswer
+drop constraint FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions
+
+alter table productmarketbriefanswer
+add constraint FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion
+foreign key (MarketBriefQuestionId)
+references ProductMarketBriefQuestion (MarketBriefQuestionId)
+on delete cascade
+
+
+
+ update fieldVariable set Scope = 7 where RefTableName = 'Company'  
+
+  update fieldVariable set Scope = 8 where RefTableName = 'CompanyContact'  
+
+
+  update fieldVariable set Scope = 9 where RefTableName = 'addresses' 
+
+
+  update fieldVariable set Scope = 9 where RefTableName = 'address' 
+
+
+
+  update fieldVariable set Scope = 7 where RefTableName = 'tbl_section_flags' 
+
+
+  update fieldVariable set Scope = 8 where RefTableName = 'tbl_ContactDepartments' 
+
+alter table machine
+add IsSpotColor bit null
+
+update DeliveryNote
+set FlagId = null
+
+alter table DeliveryNote
+add constraint FK_DeliveryNote_SectionFlag
+foreign key (FlagId)
+references SectionFlag (SectionFlagId)
+----Executed on Staging on 28/05/2015---------
+/* Execution Date: 28/05/2015 */
+
+alter table deliveryNotedetail
+drop constraint FK_tbl_deliverynote_details_tbl_deliverynotes
+
+alter table deliverynotedetail
+add constraint FK_DeliveryNoteDetail_DeliveryNote
+foreign key (DeliveryNoteId)
+references DeliveryNote (DeliveryNoteId)
+on delete cascade
+
+
+/* Execution Date: 29/05/2015 */
+
+alter table templateObject add autoCollapseText bit null
+
+alter table itemsection 
+alter column PressIdSide2 int null
+
+alter table itemsection 
+add constraint FK_ItemSection_Machine2
+foreign key (PressIdSide2)
+references Machine (MachineId)
+
+update inquiryItem
+set ProductId = null
+
+alter table inquiryitem
+add constraint FK_InquiryItem_Pipelineproduct
+foreign key (ProductId)
+references PipeLineProduct (ProductId)
+
+drop table ImpositionProfile
+
+----Executed on Staging on 29/05/2015---------
+----Executed on 3 live servers 01/06/2015---------
+
+/* Execution Date: 01/06/2015 */
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_cloneTemplate] 
+	-- Add the parameters for the stored procedure here
+	@TemplateID bigint,
+	@submittedBy bigint,
+    @submittedByName nvarchar(100)
+AS
+BEGIN
+
+
+      
+	declare @NewTemplateID bigint
+	declare @NewCode nvarchar(10)
+	--DECLARE  @WaterMarkTxt as [dbo].[tbl_company_sites]
+	
+	set @NewCode = ''
+	
+	--INSERT INTO @WaterMarkTxt (CompanySiteName)
+	--Select Top 1 CompanySiteName from tbl_company_sites
+
+	
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+	INSERT INTO [dbo].[Template]
+           ([Code]
+           ,[ProductName]
+           ,[Description]
+           ,[ProductCategoryId]
+           ,[Thumbnail]
+           ,[Image]
+           ,[IsDisabled]
+
+           ,[PDFTemplateWidth]
+           ,[PDFTemplateHeight]
+
+           ,[CuttingMargin]
+           ,[MultiPageCount]
+           ,[Orientation]
+           ,[MatchingSetTheme]
+           ,[BaseColorId]
+           ,[SubmittedBy]
+           ,[SubmittedByName]
+           ,[SubmitDate]
+           ,[Status]
+           ,[ApprovedBy]
+           ,[ApprovedByName]
+           ,[UserRating]
+           ,[UsedCount]
+           ,[MPCRating]
+           ,[RejectionReason]
+           ,[ApprovalDate]
+           ,[IsCorporateEditable]
+           ,[MatchingSetId]
+           ,[TempString],[TemplateType],[isSpotTemplate],[isWatermarkText],[isCreatedManual]
+          )
+     
+
+
+
+   
+	SELECT 
+      @NewCode
+      ,[ProductName] + ' Copy'
+      ,[Description]
+      ,[ProductCategoryID]
+      
+      ,[Thumbnail]
+      ,[Image]
+      ,[IsDisabled]
+
+      ,[PDFTemplateWidth]
+      ,[PDFTemplateHeight]
+
+
+      ,[CuttingMargin]
+      ,[MultiPageCount]
+      ,[Orientation]
+      ,[MatchingSetTheme]
+      ,[BaseColorId]
+      ,@submittedBy
+      ,@submittedByName
+      ,NULL
+      ,1
+      ,NULL
+      ,NULL
+      ,0
+      ,0
+      ,0
+      ,''
+      ,NULL,IsCorporateEditable,MatchingSetId,'',[TemplateType],isSpotTemplate,isWatermarkText,isCreatedManual
+      
+  FROM [dbo].[Template] where productid = @TemplateID
+	
+	
+	set @NewTemplateID = SCOPE_IDENTITY() 
+	
+	-- updating water mark text 
+	UPDATE [dbo].[Template]
+	SET TempString= (Select Top 1 OrganisationName from organisation)
+	WHERE productid = @NewTemplateID
+	
+	--copying the pages
+	INSERT INTO [dbo].[TemplatePage]
+           ([ProductId]
+           ,[PageNo]
+           ,[PageType]
+           ,[Orientation]
+           ,[BackGroundType]
+           ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+           ,[PageName],[hasOverlayObjects],[Width],[Height])
+
+SELECT 
+      @NewTemplateID
+      ,[PageNo]
+      ,[PageType]
+      ,[Orientation]
+      ,[BackGroundType]
+      ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+      
+      ,[PageName],[hasOverlayObjects],[Width],[Height]
+  FROM [dbo].[TemplatePage]
+where productid = @TemplateID
+
+
+	--copying the objects
+	INSERT INTO [dbo].[TemplateObject]
+           ([ObjectType]
+           ,[Name]
+           ,[IsEditable]
+           ,[IsHidden]
+           ,[IsMandatory]
+           
+           ,[PositionX]
+           ,[PositionY]
+           ,[MaxHeight]
+           ,[MaxWidth]
+           ,[MaxCharacters]
+           ,[RotationAngle]
+           ,[IsFontCustom]
+           ,[IsFontNamePrivate]
+           ,[FontName]
+           ,[FontSize]
+           ,[IsBold]
+           ,[IsItalic]
+           ,[Allignment]
+           ,[VAllignment]
+           ,[Indent]
+           ,[IsUnderlinedText]
+           ,[ColorType]
+ 
+           ,[ColorName]
+           ,[ColorC]
+           ,[ColorM]
+           ,[ColorY]
+           ,[ColorK]
+           ,[Tint]
+           ,[IsSpotColor]
+           ,[SpotColorName]
+           ,[ContentString]
+           ,[ContentCaseType]
+           ,[ProductID]
+           ,[DisplayOrderPdf]
+           ,[DisplayOrderTxtControl]
+           ,[RColor]
+           ,[GColor]
+           ,[BColor]
+           ,[LineSpacing]
+           ,[ProductPageId]
+           ,[ParentId]
+           ,CircleRadiusX
+           ,Opacity
+           ,[ExField1],
+           [IsTextEditable],
+           [IsPositionLocked],
+           [CircleRadiusY]
+          ,[ExField2],
+           ColorHex
+           ,[IsQuickText]
+           ,[QuickTextOrder],
+		   [watermarkText],
+		   [textStyles],[charspacing],[AutoShrinkText],
+		   [IsOverlayObject],[ClippedInfo],[originalContentString],[originalTextStyles],[autoCollapseText]
+           )
+	SELECT 
+      O.[ObjectType]
+      ,O.[Name]
+      ,O.[IsEditable]
+      ,O.[IsHidden]
+      ,O.[IsMandatory]
+      
+      ,O.[PositionX]
+      ,O.[PositionY]
+      ,O.[MaxHeight]
+      ,O.[MaxWidth]
+      ,O.[MaxCharacters]
+      ,O.[RotationAngle]
+      ,O.[IsFontCustom]
+      ,O.[IsFontNamePrivate]
+      ,O.[FontName]
+      ,O.[FontSize]
+      ,O.[IsBold]
+      ,O.[IsItalic]
+      ,O.[Allignment]
+      ,O.[VAllignment]
+      ,O.[Indent]
+      ,O.[IsUnderlinedText]
+      ,O.[ColorType]
+      ,O.[ColorName]
+      ,O.[ColorC]
+      ,O.[ColorM]
+      ,O.[ColorY]
+      ,O.[ColorK]
+      ,O.[Tint]
+      ,O.[IsSpotColor]
+      ,O.[SpotColorName]
+      ,O.[ContentString]
+      ,O.[ContentCaseType]
+      ,@NewTemplateID
+      ,O.[DisplayOrderPdf]
+      ,O.[DisplayOrderTxtControl]
+      ,O.[RColor]
+      ,O.[GColor]
+      ,O.[BColor]
+      ,O.[LineSpacing]
+      ,NP.[ProductPageId]
+      ,O.[ParentId]
+      ,O.CircleRadiusX
+      ,O.Opacity
+      ,O.[ExField1],
+       O.[IsTextEditable],
+       O.[IsPositionLocked],
+       O.[CircleRadiusY]
+      ,O.[ExField2],
+       O.ColorHex
+       ,[IsQuickText]
+        ,[QuickTextOrder],[watermarkText],O.[textStyles],
+		O.[charspacing],O.[AutoShrinkText],O.[IsOverlayObject]
+		,O.[ClippedInfo]
+		,O.[originalContentString],O.[originalTextStyles],O.[autoCollapseText]
+  FROM [dbo].[TemplateObject] O
+  inner join [dbo].[TemplatePage]  P on o.ProductPageId = p.ProductPageId and o.ProductId = @TemplateID
+  inner join [dbo].[TemplatePage] NP on P.PageName = NP.PageName and P.PageNo = NP.PageNo and NP.ProductId = @NewTemplateID
+  
+	--theme tags
+	--insert into dbo.TemplateThemeTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateThemeTags where ProductID = @TemplateID
+	
+	---- industry tags
+	--insert into dbo.TemplateIndustryTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateIndustryTags where ProductID = @TemplateID
+
+	INSERT INTO [dbo].[TemplateBackgroundImage]
+			   ([ProductId]
+			   ,[ImageName]
+			   ,[Name]
+			   ,[flgPhotobook]
+			   ,[flgCover]
+			   ,[BackgroundImageAbsolutePath]
+			   ,[BackgroundImageRelativePath],
+			   ImageType,
+			   ImageWidth,
+			   ImageHeight
+			   
+			   )
+	SELECT 
+		  @NewTemplateID
+		  ,[ImageName]
+		  ,[Name]
+		  ,[flgPhotobook]
+		  ,[flgCover]
+		  ,[BackgroundImageAbsolutePath]
+		  ,[BackgroundImageRelativePath]
+		  ,ImageType,
+			   ImageWidth,
+			   ImageHeight
+	  FROM [dbo].[TemplateBackgroundImage] where ProductId = @TemplateID
+
+select @NewTemplateID
+	
+END
+
+
+GO
+
+/*Execution date 02-06-2015*/
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,18
+           ,'{{contact_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,16
+           ,'{{DefaultShipping_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+
+
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,17
+           ,'{{DefaultBilling_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+/* Execution Date: 02/06/2015 */
+
+alter table SmartFormDetail
+drop constraint FK__SmartForm__Varia__012C6796
+
+alter table SmartFormDetail
+add constraint FK_SmartFormDetail_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table ScopeVariable
+drop constraint FK_CompanyContactVariable_FieldVariable
+
+alter table ScopeVariable
+add constraint FK_ScopeVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table VariableOption
+drop constraint FK_VariableOption_FieldVariable
+
+alter table VariableOption
+add constraint FK_VariableOption_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table TemplateVariable
+add constraint FK_TemplateVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+GO
+
+
+/* Execution Date: 02/06/2015 */
+
+alter table SmartFormDetail
+drop constraint FK__SmartForm__Varia__012C6796
+
+alter table SmartFormDetail
+add constraint FK_SmartFormDetail_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table ScopeVariable
+drop constraint FK_CompanyContactVariable_FieldVariable
+
+alter table ScopeVariable
+add constraint FK_ScopeVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table VariableOption
+drop constraint FK_VariableOption_FieldVariable
+
+alter table VariableOption
+add constraint FK_VariableOption_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table TemplateVariable
+add constraint FK_TemplateVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade

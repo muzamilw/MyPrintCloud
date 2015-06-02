@@ -95,23 +95,23 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection CalculatePressCostWithSides(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, int PressReRunMode = (int)PressReRunModes.NotReRun, int PressReRunQuantityIndex = 1, double OverrideValue = 0, bool isBestPress = false, bool isPressSide2 = false)
         {
-            List<MachineSpoilage> machineSpoilageList = itemsectionRepository.GetSpoilageByPressId(PressID);
+            //List<MachineSpoilage> machineSpoilageList = itemsectionRepository.GetSpoilageByPressId(PressID);
 
 
-            if (machineSpoilageList != null && machineSpoilageList.Count > 0)
-            {
-                int InkColors = oItemSection.Side1Inks + oItemSection.Side2Inks;
-                var maxPressColor = machineSpoilageList.Max(m => m.NoOfColors);
-                if (maxPressColor != null && InkColors > maxPressColor)
-                    InkColors = (int)maxPressColor;
+            //if (machineSpoilageList != null && machineSpoilageList.Count > 0)
+            //{
+            //    int InkColors = oItemSection.Side1Inks + oItemSection.Side2Inks;
+            //    var maxPressColor = machineSpoilageList.Max(m => m.NoOfColors);
+            //    if (maxPressColor != null && InkColors > maxPressColor)
+            //        InkColors = (int)maxPressColor;
 
-                var setupspoilage = machineSpoilageList.Where(m => m.NoOfColors == InkColors).FirstOrDefault();
-                if (setupspoilage != null)
-                {
-                    oItemSection.SetupSpoilage = setupspoilage.SetupSpoilage;
-                    oItemSection.RunningSpoilage = Convert.ToInt16(setupspoilage.RunningSpoilage);
-                }
-            }
+            //    var setupspoilage = machineSpoilageList.Where(m => m.NoOfColors == InkColors).FirstOrDefault();
+            //    if (setupspoilage != null)
+            //    {
+            //        oItemSection.SetupSpoilage = setupspoilage.SetupSpoilage;
+            //        oItemSection.RunningSpoilage = Convert.ToInt16(setupspoilage.RunningSpoilage);
+            //    }
+            //}
 
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
             bool functionReturnValue = false;
@@ -124,22 +124,13 @@ namespace MPC.Implementation.MISServices
             double dblPlateQty = 0;
 
             dblPressPass = isPressSide2 ? Convert.ToDouble(oItemSection.PassesSide2) : Convert.ToDouble(oItemSection.PassesSide1);
-
-            SectionCostCentreResource oResourceDto = new SectionCostCentreResource();
+            
             //Get Machine Query
             Machine oPressDTO = itemsectionRepository.GetPressById(PressID);
 
-            if (oPressDTO.isplateused == true)
-            {
-                oItemSection.IsPlateUsed = true;
-                oItemSection.PlateId = oPressDTO.DefaultPlateId;
-            }
-            else
-                oItemSection.IsPlateUsed = false;
-            oItemSection.IsWashup = oPressDTO.iswashupused == true ? true : false;
-            oItemSection.IsMakeReadyUsed = oPressDTO.ismakereadyused == true ? true : false;
-
-
+            oItemSection.IsPlateUsed = false;
+            oItemSection.IsWashup = false;
+            oItemSection.IsMakeReadyUsed = false;
 
             int SheetPTV = 0;
             int SetupSpoilage = 0;
@@ -194,14 +185,7 @@ namespace MPC.Implementation.MISServices
 
                 //Model.LookupMethods.MethodDTO oModelLookUpMethod = BLL.LookupMethods.Method.GetMachineLookUpMethod(GlobalData, oItemSection.SelectedPressCalculationMethodID);
                 LookupMethod oModelLookUpMethod = new LookupMethod();
-                if (isPressSide2)
-                    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side2LookUp));
-                else
-                    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side1LookUp));
-                //oItemSection.SelectedPressCalculationMethodId = Convert.ToInt32(oPressDTO.LookupMethodId); // Commented when applied press for side 2 logic on 2015 05 20
-
-                //Get LookupMethod Query
-                //oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt32(oItemSection.SelectedPressCalculationMethodId));
+                oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oPressDTO.LookupMethod));                
 
                 double[] dblPrintCost = new double[3];
                 double[] dblPrintPrice = new double[3];
@@ -484,9 +468,34 @@ namespace MPC.Implementation.MISServices
                             //    dblPrintRun[i] = Convert.ToInt32(dblPassFront * intWorkSheetQty[i] / intPrintChgeCZ[i]);
                             //}
 
-                            dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
-                            dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) + oPressDTO.SetupCharge));
-                            dblPrintRun[i] = Convert.ToInt32(dblPressPass * intWorkSheetQty[i] / intPrintChgeCZ[i]);
+                            //Check the coverage high, medium and low and set multiplier.
+                            double dblCoverageMultiple = 1;
+                            if(isPressSide2)
+                            {
+                                if (oItemSection.ImpressionCoverageSide2 == 1)
+                                    dblCoverageMultiple = oPressDTO.CoverageHigh??1;
+                                else if(oItemSection.ImpressionCoverageSide2 == 2)
+                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                                else if (oItemSection.ImpressionCoverageSide2 == 3)
+                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            }
+                            else
+                            {
+                                if (oItemSection.ImpressionCoverageSide1 == 1)
+                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                                else if (oItemSection.ImpressionCoverageSide1 == 2)
+                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                                else if (oItemSection.ImpressionCoverageSide1 == 3)
+                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            }
+
+
+                            //dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
+                            //dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) + oPressDTO.SetupCharge));
+                            //dblPrintRun[i] = Convert.ToInt32(dblPressPass * intWorkSheetQty[i] / intPrintChgeCZ[i]);
+                            dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) * dblCoverageMultiple)) + oPressDTO.SetupCharge));
+                            dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) * dblCoverageMultiple)) + oPressDTO.SetupCharge));
+                            dblPrintRun[i] = Convert.ToInt32(dblPressPass * ((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCoverageMultiple));
                         }
 
                         if (PressReRunMode == (int)PressReRunModes.NotReRun)
@@ -1071,10 +1080,10 @@ namespace MPC.Implementation.MISServices
 
                 //Model.LookupMethods.MethodDTO oModelLookUpMethod = BLL.LookupMethods.Method.GetMachineLookUpMethod(GlobalData, oItemSection.SelectedPressCalculationMethodID);
                 LookupMethod oModelLookUpMethod = new LookupMethod();
-                if(isPressSide2)
-                    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side2LookUp));
-                else
-                    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side1LookUp));
+                //if(isPressSide2)
+                //    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side2LookUp));
+                //else
+                //    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side1LookUp));
                 //oItemSection.SelectedPressCalculationMethodId = Convert.ToInt32(oPressDTO.LookupMethodId); // Commented when applied press for side 2 logic on 2015 05 20
 
                 //Get LookupMethod Query
@@ -6243,7 +6252,7 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection GetUpdatedSectionWithSystemCostCenters(ItemSection currentSection)
         {
-            List<SectionInkCoverage> AllInks = currentSection.SectionInkCoverages.ToList();
+            //List<SectionInkCoverage> AllInks = currentSection.SectionInkCoverages.ToList();
             int PressId = Convert.ToInt32(currentSection.PressId);
             int PressIdSide2 = Convert.ToInt32(currentSection.PressIdSide2);
             List<int> SystemCostCenterTypes = new List<int>(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
@@ -6252,26 +6261,26 @@ namespace MPC.Implementation.MISServices
             ItemSection updatedSection = currentSection;
             int SetupSpoilage = 0;
             double RunningSpoilage = 0;
-            int NoofInks = AllInks != null? AllInks.Count() : 0;
-            var pressSpoilage = itemsectionRepository.GetMachineSpoilageByMachineIdAndColors(PressId, NoofInks);
-            var pressSpoilageSide2 = itemsectionRepository.GetMachineSpoilageByMachineIdAndColors(PressIdSide2, NoofInks);
-            if (pressSpoilage != null)
-            {
-                if (pressSpoilageSide2 != null)
-                {
-                    RunningSpoilage = pressSpoilage.RunningSpoilage > pressSpoilageSide2.RunningSpoilage ? pressSpoilage.RunningSpoilage ?? 0 : pressSpoilageSide2.RunningSpoilage ?? 0;
-                    SetupSpoilage = pressSpoilage.SetupSpoilage > pressSpoilageSide2.SetupSpoilage ? pressSpoilage.SetupSpoilage ?? 0 : pressSpoilageSide2.SetupSpoilage ?? 0;
-                }
-                else
-                {
-                    RunningSpoilage = pressSpoilage.RunningSpoilage ?? 0;
-                    SetupSpoilage = pressSpoilage.SetupSpoilage ?? 0;
-                }
-            }
+            //int NoofInks = AllInks != null? AllInks.Count() : 0;
+            var pressSide1 = itemsectionRepository.GetPressById(PressId);
+            var pressSide2 = itemsectionRepository.GetPressById(PressIdSide2);
+            
+            //Highest setup spoilage between the two presses will be set.
+            if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
+                SetupSpoilage = pressSide1.SetupSpoilage?? 0;
+            else
+                SetupSpoilage = pressSide2.SetupSpoilage?? 0;
+            //Highest running spoilage between the two presses will be set.
+            if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+                RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+            else
+                RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+
+
             updatedSection.SetupSpoilage = SetupSpoilage;
             updatedSection.RunningSpoilage = Convert.ToInt32(RunningSpoilage);
 
-            updatedSection = CalculateInkCost(updatedSection, 1, PressId, false, false, AllInks); //Ink Cost Center
+           // updatedSection = CalculateInkCost(updatedSection, 1, PressId, false, false, AllInks); //Ink Cost Center
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)//paper costcentre
             {
                 updatedSection = CalculatePaperCostWebPress(updatedSection, (int)updatedSection.PressId, false, false);
@@ -6310,17 +6319,18 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
+                updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
             }
 
             if(updatedSection.IsDoubleSided == true)
             {
                 if(updatedSection.PressIdSide2 != null && updatedSection.PressIdSide2 > 0)
-                    updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, true);
+                    updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, true);
             }
 
-            if (updatedSection.IsFirstTrim == true || updatedSection.IsSecondTrim == true)
+            if (updatedSection.IsSecondTrim == true)
             {
+                updatedSection.IsFirstTrim = true;
                 var guillotine = machineRepository.GetDefaultGuillotine();
                 if(guillotine != null)
                     updatedSection = CalculateGuillotineCost(updatedSection, guillotine.MachineId, false, false);

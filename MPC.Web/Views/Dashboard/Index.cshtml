@@ -310,7 +310,7 @@
                                                         <th><span>Order Code</span></th>
                                                         <th><span>Order Date</span></th>
                                                         <th><span>Order Status</span></th>
-                                                        <th><span>Order Total</span></th>
+                                                        <th style="text-align: right"><span>Order Total</span></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -468,20 +468,18 @@
             </div>
         </div>
         <script id="itemOrderTemplate" type="text/html">
-            <tr>
+            <tr data-bind="click: $root.goToOrder.bind($data.id(), $data.id())" style="cursor: pointer">
 
                 <td>
-                    @*data-bind="attr: {href:'/mis/orders/home/'+id }"*@
-                    @*<span class="store-user-link" data-bind="text: companyName"></span>*@
-                    <a class="store-user-link" data-bind="text: companyName, attr: {href:'/mis/orders/home?id='+id() },click: function() { return true;}, clickBubble: false" target="_blank"></a>
+                    <a class="store-user-link" data-bind="text: companyName" href="#"></a>
                 </td>
                 <td data-bind="text: orderCode"></td>
                 <td> <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
-                <td> <span class="label label-success" data-bind="text: status, style: { background: flagColor }"></span></td>  @*fields mapping required*@
-                <td >
-                    <span style="text-align: right" data-bind="text: '$'"></span>
-                    <span style="text-align: right" data-bind="numberInput: estimateTotal() == undefined ? '' :  estimateTotal()"></span>
-                </td>  @*fields mapping required*@
+                <td> <span data-bind="text: status"></span></td>
+                <td style="text-align: right">
+                    <span data-bind="text: '$'"></span>
+                    <span data-bind="numberInput: estimateTotal() == undefined ? '' :  estimateTotal()"></span>
+                </td> 
             </tr>
         </script>
     </div>

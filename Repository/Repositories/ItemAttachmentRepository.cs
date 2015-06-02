@@ -67,7 +67,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public  List<ItemAttachment> GetItemAttactchments(long itemID)
+        public List<ItemAttachment> GetItemAttactchments(long itemID)
         {
             try
             {
@@ -172,6 +172,22 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+
+        /// <summary>
+        /// Get Item Attachments By Ids
+        /// </summary>
+        public List<ItemAttachment> GetItemAttachmentsByIds(List<long?> itemIds)
+        {
+            Expression<Func<ItemAttachment, bool>> query =
+                  attch =>
+                      (itemIds.Contains(attch.ItemId));
+
+            return DbSet.Where(query)
+                        .ToList();
+        }
+
+        
 
     }
 }

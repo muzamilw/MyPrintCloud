@@ -687,8 +687,9 @@ namespace MPC.Repository.Repositories
                     || s.Name.Contains(request.SearchString)
                     || (s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1) != null
                         && (
-                            s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).FirstName.Contains(request.SearchString))
+                            s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).FirstName.Contains(request.SearchString)
                             || s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).Email.Contains(request.SearchString)
+                            || s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).LastName.Contains(request.SearchString))
                             )
                        )
                     && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
@@ -738,7 +739,10 @@ namespace MPC.Repository.Repositories
                     s =>
                     ((!isStringSpecified
                     || s.Name.Contains(request.SearchString)
-                    || (s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1) != null && s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).Email.Contains(request.SearchString)))) &&
+                    || (s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1) != null && s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).Email.Contains(request.SearchString))
+                    || (s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1) != null && s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).FirstName.Contains(request.SearchString))
+                    || (s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1) != null && s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).LastName.Contains(request.SearchString))
+                    )) &&
                     (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 2);
 
                 int rowCount = DbSet.Count(query);
@@ -2510,8 +2514,8 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                                                    pci.CategoryId = PID;
+                                                   // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = null;
 
 
                                                 }
@@ -2877,8 +2881,8 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                                                    pci.CategoryId = PID;
+                                                   // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = null;
 
 
                                                 }
@@ -3241,8 +3245,8 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                                                    pci.CategoryId = PID;
+                                                   // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = null;
 
 
                                                 }
@@ -3620,8 +3624,8 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                                                    pci.CategoryId = PID;
+                                                   // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = null;
 
 
                                                 }

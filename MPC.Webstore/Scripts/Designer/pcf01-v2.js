@@ -16,19 +16,23 @@
 
     }), 25);
 }
-function StopLoader() {
-    var3 = 99;
-    loaderLoading = false;
-    $(".progressValue").css("width", 100 + "%");
-    $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
-    function (e) {
-        if (!loaderLoading) {
-            $("#MainLoader").css("display", "none");
+function StopLoader(forceStop) {
+        var3 = 99;
+        loaderLoading = false;
+        $(".progressValue").css("width", 100 + "%");
+        $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend ',
+        function (e) {
+            if (!loaderLoading) {
+                $("#MainLoader").css("display", "none");
+                    clearInterval(var2);
+            }
+        });
+        if(forceStop == true)
+        {
             clearInterval(var2);
+            $("#MainLoader").css("display", "none");
+            
         }
-    });
-
-
 }
 function startInlineLoader(divID) {
     if (divID == 1) {
@@ -126,7 +130,36 @@ function b4(imgSrc) {
         }
     });
 }
+function b4_SpecificImg(imgSrc, he, wd) {
 
+    IW = 150;
+    IH = 150;
+
+    $.each(LiImgs, function (i, IT) {
+
+        if (imgSrc.indexOf(IT.ImageName) != -1) {
+
+            IW = IT.ImageWidth;
+            IH = IT.ImageHeight;
+
+
+            var originalWidth = IW;
+            var originalHeight = IH;
+
+            if (wd < he) {
+                he = wd * (originalHeight / originalWidth);
+
+            }
+            else if (he < wd) {
+                wd = (he * (originalWidth / originalHeight));
+            }
+            IW = wd;
+            IH = he;
+
+            return;
+        }
+    });
+}
 function b8(imageID, productID) {
 
     if (confirm("Delete this image from all instances on canvas on all pages! Do you still wish to delete this image now?")) {
@@ -233,6 +266,7 @@ function c0(cCanvas, TOC) {
     }
     TOL.charSpacing = TOC.CharSpacing;
     TOL.IsPositionLocked = TOC.IsPositionLocked;
+    TOL.autoCollapseText = TOC.autoCollapseText;
     TOL.IsOverlayObject = TOC.IsOverlayObject;
     TOL.IsHidden = TOC.IsHidden;
     TOL.IsEditable = TOC.IsEditable;
@@ -319,6 +353,11 @@ function c2_01(OPT) {
             }
             IT.RotationAngle = OPT.getAngle();
             if (OPT.type != "text" && OPT.type != "i-text") {
+                //   alert(IT.textStyles);
+                if (OPT.customStyles != null)
+                {
+                    IT.textStyles = JSON.stringify(OPT.customStyles, null, 2);
+                }
                 IT.MaxWidth = OPT.width * orgSx;
                 IT.MaxHeight = OPT.height * orgSy;
                 OPT.maxWidth = OPT.width * OPT.scaleX;
@@ -383,6 +422,7 @@ function c2_01(OPT) {
             IT.ColorY = OPT.Y;
             IT.ColorK = OPT.K;
             IT.IsPositionLocked = OPT.IsPositionLocked;
+            IT.autoCollapseText = OPT.autoCollapseText;
             IT.IsOverlayObject = OPT.IsOverlayObject;
             IT.IsTextEditable = OPT.IsTextEditable;
             IT.AutoShrinkText = OPT.AutoShrinkText;
@@ -404,13 +444,20 @@ function c2_del(obj) {
 function c7(PageID) {
     $.each(TO, function (i, IT) {
         if (IT.ProductPageId == PageID) {
-         
+            hasObjects = true;
             if (IT.ObjectType == 2) {
                 c0(canvas, IT);
             }
             else if (IT.ObjectType == 3) {
                 $("#loadingMsg").html("Loading Design Images");
-                d1(canvas, IT);
+                
+                if (IT.ContentString.indexOf('Imageplaceholder_sim.png') != -1)
+                {
+                    k31(canvas, IT);
+                } else 
+                {
+                    d1(canvas, IT);
+                }
             }
             else if (IT.ObjectType == 6) {
                 c9(canvas, IT);
@@ -447,6 +494,7 @@ function c8(cCanvas, CO) {
     COL.Y = CO.ColorY;
     COL.K = CO.ColorK;
     COL.IsPositionLocked = CO.IsPositionLocked;
+    COL.autoCollapseText = CO.autoCollapseText;
     COL.IsOverlayObject = CO.IsOverlayObject;
     COL.IsTextEditable = CO.IsTextEditable;
     COL.AutoShrinkText = CO.AutoShrinkText;
@@ -491,6 +539,7 @@ function c9(cCanvas, RO) {
     ROL.maxWidth = RO.MaxWidth;
     ROL.maxHeight = RO.MaxHeight;
     ROL.IsPositionLocked = RO.IsPositionLocked;
+    ROL.autoCollapseText = RO.autoCollapseText;
     ROL.IsOverlayObject = RO.IsOverlayObject;
     ROL.IsTextEditable = RO.IsTextEditable;
     ROL.AutoShrinkText = RO.AutoShrinkText;
@@ -535,6 +584,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.scaleY = (loadedObject.maxHeight / loadedObject.height) * dfZ1l;
         loadedObject.setAngle(IO.RotationAngle);
         loadedObject.IsPositionLocked = IO.IsPositionLocked;
+        loadedObject.autoCollapseText = IO.autoCollapseText;
         loadedObject.IsOverlayObject = IO.IsOverlayObject;
         loadedObject.C = IO.ColorC;
         loadedObject.M = IO.ColorM;
@@ -554,6 +604,23 @@ function d1SvgOl(cCanvas, IO) {
             loadedObject.lockScalingY = true;
             loadedObject.lockRotation = true;
         }
+        loadedObject.customStyles = JSON.parse(IO.textStyles);
+        $.each(loadedObject.customStyles, function (j, IT) {
+            var clr = IT.OriginalColor;
+            if (IT.ModifiedColor != "")
+                clr = IT.ModifiedColor;
+
+            if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
+                loadedObject.setFill(clr);
+            }
+            else if (loadedObject.paths) {
+                for (var i = 0; i < loadedObject.paths.length; i++) {
+                    if (i == j) {
+                        loadedObject.paths[i].setFill(clr);
+                    }
+                }
+            }
+        });
 
         loadedObject.set({
             borderColor: 'red',
@@ -567,6 +634,7 @@ function d1SvgOl(cCanvas, IO) {
 
         TotalImgLoaded += 1;
         d2();
+
     });
 }
 function d1Svg(cCanvas, IO, isCenter) {
@@ -577,8 +645,10 @@ function d1Svg(cCanvas, IO, isCenter) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
-    fabric.loadSVGFromURL(IO.ContentString, function (objects, options) {
-
+    if (IO.ContentString.indexOf("MPC_Content"))
+        IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
+    fabric.loadSVGFromURL("/MPC_Content/" + IO.ContentString, function (objects, options) {
+       
         var loadedObject = fabric.util.groupSVGElements(objects, options);
         loadedObject.set({
             left: IO.PositionX + IO.MaxWidth / 2,
@@ -592,6 +662,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.scaleY = loadedObject.maxHeight / loadedObject.height;
         loadedObject.setAngle(IO.RotationAngle);
         loadedObject.IsPositionLocked = IO.IsPositionLocked;
+        loadedObject.autoCollapseText = IO.autoCollapseText;
         loadedObject.IsOverlayObject = IO.IsOverlayObject;
         loadedObject.IsHidden = IO.IsHidden;
         loadedObject.C = IO.ColorC;
@@ -629,7 +700,33 @@ function d1Svg(cCanvas, IO, isCenter) {
 
         TotalImgLoaded += 1;
         d2();
+        var colors = [];
+        // get colors 
+        if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
+            clr = (loadedObject.get('fill'));
+            var objClr = {
+                OriginalColor: clr,
+                PathIndex: -2,
+                ModifiedColor: ''
+            }
+            colors.push(objClr);
+        }
+        else if (loadedObject.paths) {
+            for (var i = 0; i < loadedObject.paths.length; i++) {
+                clr = (loadedObject.paths[i].get('fill'));
+                var objClr = {
+                    OriginalColor: clr,
+                    PathIndex: i,
+                    ModifiedColor: ''
+                }
+                colors.push(objClr);
+            }
+        }
+        loadedObject.customStyles = colors;
+       // IO.textStyles = JSON.stringify(colors, null, 2);
+     //   console.log(IO.textStyles);
     });
+
 }
 function d1(cCanvas, IO, isCenter) {
     TIC += 1;
@@ -656,6 +753,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
         IOL.setAngle(IO.RotationAngle);
         IOL.IsPositionLocked = IO.IsPositionLocked;
+        IOL.autoCollapseText = IO.autoCollapseText;
         IOL.IsOverlayObject = IO.IsOverlayObject;
         IOL.IsHidden = IO.IsHidden;
         IOL.IsEditable = IO.IsEditable;
@@ -720,7 +818,7 @@ function d2() {
             isloadingNew = false;
             StopLoader();
             m0();
-        }
+        } 
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
               //  if (ite.Orientation == 1) {
@@ -858,7 +956,7 @@ function d5_sub(pageID, isloading) {
                 var colorHex = getColorHex(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK);
                 canvas.backgroundColor = colorHex;
                 canvas.renderAll();
-            }
+            } hasObjects = false;
             c7(pageID);
             pcl41_ApplyDimensions(SelPagObj);
             if (!objectsSelectable)
@@ -1433,6 +1531,9 @@ function fu02UI() {
     {
         $(".maskingControls ").css("display", "block");
     
+    }
+    if ($.browser.Chrome) {
+        $(".TextObjectPropertyPanal").css("right", "-35px");
     }
 }
 function fu02() {
@@ -2226,6 +2327,15 @@ function j8(src) {
     if (D1AO.type === 'image') {
         $.each(TO, function (i, IT) {
             if (IT.ObjectID == D1AO.ObjectID) {
+
+                b4_SpecificImg(src, D1AO.maxHeight, D1AO.maxWidth);
+                D1AO.height = (IH);
+                D1AO.width = (IW);
+                D1AO.maxHeight = (IH);
+                D1AO.maxWidth = (IW);
+                D1AO.scaleX = 1;
+                D1AO.scaleY = 1;
+             
                 IT.ContentString = src;
                 D1AO.ImageClippedInfo = null;
                 d5(SP);
@@ -2326,11 +2436,11 @@ function j9(e, url1, id) {
         } else {
             if (src.indexOf(".svg") == -1) {
                 b4(src);
-                d1ToCanvasCC(src, IW, IH);
+                d1ToCanvasCC(src, IW, IH); 
             } else {
                 d1SvgToCCC(src, IW, IH);
             }
-        }
+        } 
     }
 }
 function j9_21(DT) {
@@ -3638,6 +3748,7 @@ function k31(cCanvas, IO) {
         //    IOL.selectable = true;
         //}
         IOL.IsPositionLocked = IO.IsPositionLocked;
+        IOL.autoCollapseText = IO.autoCollapseText;
         IOL.IsOverlayObject = IO.IsOverlayObject;
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;

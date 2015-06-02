@@ -59,6 +59,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreatedBy = source.CreatedBy,
                 OrganisationId = source.OrganisationId,
                 EstimateId = source.EstimateId,
+                InquiryItemsCount = source.InquiryItems.Count,
                 InquiryAttachments = source.InquiryAttachments != null ? source.InquiryAttachments.Select(x => x.CreateFrom()).ToList() : null,
                 InquiryItems = source.InquiryItems != null ? source.InquiryItems.Select(x => x.CreateFrom()).ToList() : null
             };
@@ -83,8 +84,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RequireByDate = source.RequireByDate,
                 SourceId = source.SourceId,
                 Status = source.Status,
-                SystemUserId = source.SystemUserId
-
+                SystemUserId = source.SystemUserId,
+                InquiryItemsCount = source.InquiryItems.Count
+                
             };
         }
 

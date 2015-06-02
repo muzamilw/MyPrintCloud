@@ -10468,6 +10468,13 @@ cloneWithoutData: function (callback) {
     * @type boolean
     */
     IsTextEditable: false,
+   
+    /**
+    * IsTextEditable to be used in used when only text additing is allowed only // added by saqib
+    * @property
+    * @type boolean
+    */
+    autoCollapseText: false,
     /**
     * AutoShrinkText // added by saqib
     * @property
@@ -17526,7 +17533,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
 	'path',
 	'maxWidth','customStyles',
 		'maxHeight',
-		'charSpacing', 'clippedText' , 'IsPositionLocked','IsEditable',
+		'charSpacing', 'clippedText', 'IsPositionLocked', 'IsEditable', 'autoCollapseText',
     'IsHidden', 'IsTextEditable', 'AutoShrinkText','hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase','IsUnderlinedText'
   );
 

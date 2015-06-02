@@ -452,7 +452,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.WEBEmail, OrganisationID);
+                    loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.WEBEmail, OrganisationID,UserCookieManager.WBStoreId);
                 }
 
 

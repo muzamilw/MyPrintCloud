@@ -27,7 +27,7 @@ define("common/addCostCenter.viewModel",
                     isAddProductForSectionCostCenter = ko.observable(false),
                     //Is Cost Center dialog open for shipping
                     isCostCenterDialogForShipping = ko.observable(false),
-                         // Pagination For Press Dialog
+                    // Pagination For Press Dialog
                     costCentreDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, costCentres)),
                     // Search Stock Items
                     searchCostCenters = function () {
@@ -91,7 +91,7 @@ define("common/addCostCenter.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         costCentreDialogPager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCentersForProduct));
                     },
-                     onSaveProductCostCenter = function () {
+                    onSaveProductCostCenter = function () {
                          if (afterAddCostCenter && typeof afterAddCostCenter === "function") {
                              afterAddCostCenter(selectedCostCentre());
                          }
@@ -99,13 +99,13 @@ define("common/addCostCenter.viewModel",
                          hideCostCentreQuantityDialog();
                          //toastr.success("test");
                      },
-                      hideCostCentreDialog = function () {
+                    hideCostCentreDialog = function () {
                           view.hideDialog();
                       },
-                       hideCostCentreQuantityDialog = function () {
+                    hideCostCentreQuantityDialog = function () {
                            view.hideCostCentersQuantityDialog();
                        },
-                         getCostCenters = function () {
+                    getCostCenters = function () {
                              dataservice.getCostCenters({
                                  CompanyId: selectedCompanyId(),
                                  SearchString: costCenterDialogFilter(),
@@ -129,8 +129,12 @@ define("common/addCostCenter.viewModel",
                                  }
                              });
                          },
-                        // Get Cost Centers
-                       getCostCentersForProduct = function () {
+                    //Hide
+                    hide = function () {
+                             view.hideDialog();
+                         },
+                    // Get Cost Centers
+                    getCostCentersForProduct = function () {
                            dataservice.getCostCentersForProduct({
                                CompanyId: selectedCompanyId(),
                                SearchString: costCenterDialogFilter(),
@@ -172,6 +176,7 @@ define("common/addCostCenter.viewModel",
                     isCostCenterDialogForShipping: isCostCenterDialogForShipping,
                     onSaveProductCostCenter: onSaveProductCostCenter,
                     selectedCostCentre: selectedCostCentre,
+                    hide: hide,
                     currencySmb: currencySmb
                 };
             })()

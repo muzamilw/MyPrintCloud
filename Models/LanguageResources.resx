@@ -138,6 +138,9 @@
   <data name="ItemSectionClone_InvalidItemSection" xml:space="preserve">
     <value>Item Section is null.</value>
   </data>
+  <data name="ItemSectionInkCoverageClone_InvalidInkCoverage" xml:space="preserve">
+    <value>Section Ink Coverage is null.</value>
+  </data>
   <data name="ItemStateTaxClone_InvalidItem" xml:space="preserve">
     <value>Item State Tax is null.</value>
   </data>
@@ -149,5 +152,11 @@
   </data>
   <data name="ProductCategoryItemClone_InvalidItem" xml:space="preserve">
     <value>Product Category Item is null.</value>
+  </data>
+  <data name="ItemClone_InvalidProductMarketBriefQuestion" xml:space="preserve">
+    <value>Market Brief Question is null.</value>
+  </data>
+  <data name="ItemClone_InvalidProductMarketBriefAnswer" xml:space="preserve">
+    <value>Market Brief Answer is null.</value>
   </data>
 </root>

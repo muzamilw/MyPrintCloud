@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "Live Jobs";
+    Layout = "~/Areas/Production/Views/Shared/_Layout.cshtml";
+}
+@section leftmenue {
+}
+<div class="row" id="liveJobsBinding">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
+                        <li><a href="~/Production/Home/Index">Production Board</a></li>
+                        <li class="active"><span>Live Jobs</span></li>
+                    </ol>
+                    <div class="clearfix">
+                        <h1 class="pull-left" style="padding-left:8px;">Live Jobs</h1>
+                    </div>
+                    <div class="row">
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <div class="col-lg-12" style="padding-left:18px;padding-right:19px;">
+                                <div style="margin-top: 35px;"></div>
+                                <!-- ko template: { name: 'liveJobFilterTemplate' } -->
+                                <!-- /ko -->
+                                <div class="clearfix">
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="main-box no-header clearfix">
+                                            <div class="main-box-body clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table user-list table-striped table-hover">
+                                                        <thead>
+                                                            <tr id="storesList">
+                                                                <th class="col-lg-1"></th>
+                                                                <th class="col-lg-2"><span></span></th>
+                                                                <th class="col-lg-2"><span>ORDER DATE</span></th>
+                                                                <th class="col-lg-1"><span>Title</span></th>
+                                                                <th class="col-lg-1"><span>Status</span></th>
+                                                                <th class="col-lg-1"><span>JOB MANAGER</span></th>
+                                                                <th class="col-lg-1"><span>JC</span></th>
+                                                                <th class="col-lg-2"><span>ATTACHMENTS</span></th>
+                                                                <th class="col-lg-1"><span></span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'liveJobItemTemplate' , foreach: $root.items } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div id="pagerDivForStore" class="pull-right">
+                                            <!-- ko with: pager -->
+                                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                            <!-- /ko -->
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@* Filter Template *@
+<script id="liveJobFilterTemplate" type="text/html">
+    <div class="filter-body">
+        <div class="filter-block pull-right">
+            <div class="form-group pull-left">
+                <div class="form-group pull-left" data-bind="enable:$root.enableDownloadArtwork()">
+                    @using (Ajax.BeginForm("LiveJobsDownload", "Home", new AjaxOptions { HttpMethod = "POST" }))
+                    {
+                        <input type="hidden" id="item0" name="item0" value=null />
+                        <input type="hidden" id="item1" name="item1" value=null />
+                        <input type="hidden" id="item2" name="item2" value=null />
+                        <input type="hidden" id="item3" name="item3" value=null />
+                        <input type="hidden" id="item4" name="item4" value=null />
+                        <input type="hidden" id="item5" name="item5" value=null />
+                        <input type="hidden" id="item6" name="item6" value=null />
+                        <input type="hidden" id="item7" name="item7" value=null />
+                        <input type="hidden" id="item8" name="item8" value=null />
+                        <input type="hidden" id="item9" name="item9" value=null />
+
+                        <button id="open-wizard" class="btn btn-primary pull-right" data-bind="enable:$root.enableDownloadArtwork()">
+                            Download Artwork for selected Items
+                        </button>
+                    }
+                </div>
+            </div>
+            <div class="form-group pull-left">
+                <form data-bind="submit: $root.getItems">
+                    <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.searchFilter">
+                    <i class="fa fa-search search-icon"></i>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="clearfix">
+        </div>
+    </div>
+</script>
+
+<script id="liveJobItemTemplate" type="text/html">
+    <tr>
+        <td>
+            <!-- ko if: isDirectSale()==true -->
+            <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/forwardicon.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: isDirectSale()==false -->
+            <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/arrow_down.png")" alt="" />
+            <!-- /ko -->
+        </td>
+
+        <td>
+            <a data-bind="text: companyName" class="user-link"></a>
+            <span class="user-subhead">
+                <span data-bind="text: jobCode"></span>
+                <span data-bind="text: '  '"></span>
+                ( <span data-bind="text: qty1"></span> )
+            </span>
+
+        </td>
+        <td>
+            <span data-bind="dateString: estimateDate, datePattern: 'DD/MM/YYYY'"></span>
+        </td>
+        <td>
+            <span data-bind="text: productName"></span>
+        </td>
+        <td>
+            <span data-bind="text: statusName"></span>
+        </td>
+        <td>
+            <span data-bind="text: jobManagerName"></span>
+        </td>
+        <td>
+            <img src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" />
+        </td>
+        <td>
+            <div data-bind="foreach: itemAttachments">
+
+                <!-- ko if: fileType()=== ".pdf" -->
+                <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: fileType()=== ".doc" -->
+                <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: fileType()=== ".png" -->
+                <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoPNG.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: fileType()=== ".jpg" -->
+                <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoJPG.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: fileType()=== ".xlsx" -->
+                <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
+                <!-- /ko
+                <!-- ko if: fileType()=== ".gif" -->
+                <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoGif.png")" alt="" />
+                <!-- /ko -->
+            </div>
+        </td>
+        <td>
+            <div class="checkbox-nice" data-bind="click:$root.selectItem">
+                <input type="checkbox" data-bind="checked: isSelected,attr: { id: 'group' + $index() }">
+                <label data-bind="attr: { for: 'group' + $index() }"></label>
+            </div>
+        </td>
+    </tr>
+</script>
+
+@section Scripts{
+    <script>
+        require(["liveJobs/liveJobs.view"]);
+
+    </script>
+}             

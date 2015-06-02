@@ -46,6 +46,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new ResponseDomainModels.LookupMethodResponse
             {
+                LookupMethodId = source.LookupMethodId,
                 LookupMethod = source.LookupMethod == null ? null : source.LookupMethod.CreateFrom(),
                 ClickChargeLookup = source.ClickChargeLookup == null ? null : source.ClickChargeLookup.CreateFrom(),
                 ClickChargeZone = source.ClickChargeZone == null ? null : source.ClickChargeZone.CreateFrom(),

@@ -21,13 +21,15 @@ namespace MPC.Webstore.Controllers
         private readonly IStatusService _StatusService;
         private readonly IOrderService _orderService;
         private readonly ICompanyService _CompanyService;
-
-        public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService, IOrderService _orderService, ICompanyService _CompanyService)
+        private readonly IItemService _itemService;
+        public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService,
+            IOrderService _orderService, ICompanyService _CompanyService, IItemService itemService)
         {
             this._myClaimHelper = _myClaimHelper;
             this._StatusService =_StatusService;
             this._orderService = _orderService;
             this._CompanyService = _CompanyService;
+            this._itemService = itemService;
         }
         public ActionResult Index()
         {
@@ -198,7 +200,7 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public JsonResult OrderResult(long OrderId)
         {
-              long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID);
+            long UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
               UserCookieManager.WEBOrderId = UpdatedOrder;
           
               return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);

@@ -211,5 +211,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// </summary>
         /// <param name="ItemAttachmentId"></param>
         void DeleteItemAttachment(long ItemAttachmentId);
+        long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId, long StoreId);
+        
     }
 }

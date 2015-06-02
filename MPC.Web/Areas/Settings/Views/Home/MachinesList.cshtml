@@ -16,10 +16,10 @@
                 <h1 style="padding-left:0px;">Machines</h1>
                 <div class="pull-right top-page-ui">
                     <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left: 15px;">Close</a>
-                        <a class="btn btn-primary" data-bind="click: $root.createNewMachine">
+                    <a class="btn btn-primary" data-bind="click: $root.createNewMachine, visible: !$root.isGuillotineList()">
                         <i class="fa  fa-lg"></i>&nbsp;
-                        <span id="btnCreateNewMachine"> Create New Press </span>
-                        </a>
+                        <span id="btnCreateNewMachine"></span>
+                    </a>
                       
                         <div id="addMachine">
                             &nbsp;
@@ -32,8 +32,8 @@
                             <div class="main-box clearfix machineDetailsHeader">
                                 <div class="tabs-wrapper profile-tabs">
                                     <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#tab-presses" data-bind="click: $root.GetMachineListForAll" data-toggle="tab">Presses</a></li>
-                                        <li><a href="#tab-Guillotine" data-bind="click: $root.GetMachineListForGuillotine" data-toggle="tab">Guillotine</a></li>
+                                        <li id="liPress" class="active"><a id="pressClick" href="#tab-presses" data-bind="click: $root.GetMachineListForAll" data-toggle="tab">Presses</a></li>
+                                        <li id="liGuillotine"><a id="guillotineClick" href="#tab-Guillotine" data-bind="click: $root.GetMachineListForGuillotine" data-toggle="tab">Guillotine</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane fade in active" id="tab-presses">
@@ -41,7 +41,7 @@
                                                 <div class="no-header clearfix">
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
-                                                            <h2>Configure sheet (or roll) fed Digital and Litho presses and plotters. Set guillotines throat intake and cutting speeds</h2>
+                                                            <h2 id="machineDetailHeading">Configure sheet (or roll) fed Digital and Litho presses and plotters.</h2>
                                                             <br />
                                                             <table class="table user-list">
                                                                 <thead>
@@ -78,7 +78,7 @@
                                                 <div class="no-header clearfix">
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
-                                                            <h2>Configure sheet (or roll) fed Digital and Litho presses and plotters. Set guillotines throat intake and cutting speeds</h2>
+                                                            <h2>Set guillotines throat intake and cutting speeds.</h2>
                                                             <br />
                                                             <table class="table user-list">
                                                                 <thead>
@@ -130,7 +130,21 @@
         <td><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
         <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
 
-        <td data-bind="text: LookupMethodName"></td>
+        <!-- ko if: MachineCatId()=== 4 -->
+                <td>Guillotine Click Charge</td>
+        <!-- /ko -->
+        <!-- ko ifnot: MachineCatId()=== 4 -->
+        <!-- ko if: isSheetFed() -->
+                <td>Click Charge Zone</td>
+                <!-- /ko -->
+                <!-- ko ifnot: isSheetFed() -->
+                <td>Meter Per Hour</td>
+                <!-- /ko -->
+        <!-- /ko -->
+
+       
+
+        @*<td data-bind="text: LookupMethodName"></td>*@
         <td id="actionColumn">
             <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
             <!-- /ko -->
@@ -140,7 +154,7 @@
 </script>
 
 <script id="MachineActionsTemplate" type="text/html">
-    <a href="#" class="table-link danger" data-bind="click : $root.onArchiveMachine" style="float: right">
+    @*<a href="#" class="table-link danger" data-bind="click : $root.onArchiveMachine" style="float: right">
         <span class="fa-stack ">
             <i class="fa fa-square fa-stack-2x"></i>
             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -151,14 +165,14 @@
             <i class="fa fa-square fa-stack-2x "></i>
             <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
         </span>
-    </a>
+    </a>*@
 </script>
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
-
+<script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
 
     <script>
-        require(["machine/machine.view", "common/confirmation.view", "common/stockItem.view"]);
+        require(["machine/machine.view", "common/confirmation.view", "common/stockItem.view", "lookupMethods/lookupMethods.view"]);
         $(function () {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');
@@ -166,6 +180,48 @@
            
         });
         
+        $(document).ready(function () {
+            page = Request.QueryString("type").toString();
+
+            if (page != null)
+            {
+                if (page == 'press')
+                {
+                    $("#tab-Guillotine").removeClass("in active");
+                    $("#tab-presses").addClass("in active");
+                    $("#tab-presses").css("display", "block");
+                    $("#tab-Guillotine").css("display", "none");
+                    $("#liGuillotine").css("display", "none");
+                    $("#liPress").css("display", "block");
+                    $('#pressClick').click();
+
+                    $("#clickChargeZoneSection").css("display", "block");
+                    $("#GuillotineSection").css("display", "none");
+                       
+                    $("#btnCreateNewMachine").html("Create New Press");
+                   
+                }
+                else if(page == 'guillotine')
+                {
+
+                    $("#tab-presses").removeClass("in active");
+                    $("#tab-Guillotine").addClass("in active");
+                    $("#tab-Guillotine").css("display", "black");
+                    $("#tab-presses").css("display", "none");
+                    $("#liGuillotine").css("display", "block");
+                    $("#liPress").css("display", "none");
+                    //$('#guillotineClick').click();
+                    $('#guillotineClick').trigger('click');
+
+                    $("#GuillotineSection").css("display", "block");
+                    $("#clickChargeZoneSection").css("display", "none");
+
+                    $("#btnCreateNewMachine").html("Create New Guillotine");
+                }
+            
+            }
+
+        });
 
     </script>
 }

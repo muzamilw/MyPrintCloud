@@ -46,6 +46,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ITemplateBackgroundImagesRepository _TemplateBackgroundImagesRepository;
         private readonly ITemplateObjectRepository _TemplateObjectRepository;
         private readonly ICostCentreRepository _CostCentreRepository;
+        private readonly IOrderRepository _OrderRepository;
+        private readonly IPrefixRepository _prefixRepository;
         #region Constructor
 
         /// <summary>
@@ -58,7 +60,8 @@ namespace MPC.Implementation.WebStoreServices
             IOrderService orderService, ICompanyService companyService, ISmartFormService smartformService, IProductCategoryItemRepository ProductCategoryItemRepository
             , IItemSectionRepository ItemSectionRepository, ISectionCostCentreRepository ItemSectionCostCentreRepository
             , ITemplateRepository TemplateRepository, ITemplatePageRepository TemplatePageRepository, ITemplateBackgroundImagesRepository TemplateBackgroundImagesRepository
-            , ITemplateObjectRepository TemplateObjectRepository, ICostCentreRepository CostCentreRepository)
+            , ITemplateObjectRepository TemplateObjectRepository, ICostCentreRepository CostCentreRepository
+            , IOrderRepository OrderRepository, IPrefixRepository prefixRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -84,6 +87,8 @@ namespace MPC.Implementation.WebStoreServices
             this._TemplateBackgroundImagesRepository = TemplateBackgroundImagesRepository;
             this._TemplateObjectRepository = TemplateObjectRepository;
             this._CostCentreRepository = CostCentreRepository;
+            this._OrderRepository = OrderRepository;
+            this._prefixRepository = prefixRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -1833,6 +1838,93 @@ namespace MPC.Implementation.WebStoreServices
 
             return result;
         }
+
+        public long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId, long StoreId)
+        {
+            //  return _OrderRepository.ReOrder(ExistingOrderId, loggedInContactID, StatTaxVal, mode, isIncludeTax, TaxID, OrganisationId);
+
+            Estimate ExistingOrder = null;
+            Estimate shopCartOrder = null;
+            bool result = false;
+
+            List<Item> ClonedItems = new List<Item>();
+            long OrderIdOfReorderItems = 0;
+
+            try
+            {
+                ExistingOrder = _OrderRepository.GetOrderByID(ExistingOrderId);
+
+                if (ExistingOrder != null)
+                {
+
+                    shopCartOrder = _OrderRepository.GetShoppingCartOrderByContactID(loggedInContactID, OrderStatus.ShoppingCart);
+                    //create a new cart
+                    if (shopCartOrder == null)
+                    {
+                        shopCartOrder = ExistingOrder;
+                        // Order status will be shopping cart
+                        shopCartOrder.StatusId = (int)OrderStatus.ShoppingCart;
+                        shopCartOrder.DeliveryCompletionTime = 0;
+                        shopCartOrder.DeliveryCost = 0;
+                        shopCartOrder.DeliveryCostCenterId = 0;
+                        shopCartOrder.StartDeliveryDate = null;
+                        Prefix prefix = _prefixRepository.GetDefaultPrefix();
+                        if (prefix != null)
+                        {
+                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                            prefix.OrderNext = prefix.OrderNext + 1;
+                        }
+                        shopCartOrder.Order_CompletionDate = null;
+                        shopCartOrder.Order_ConfirmationDate = null;
+                        shopCartOrder.Order_CreationDateTime = DateTime.Now;
+                        shopCartOrder.CustomerPO = null;
+
+                        _OrderRepository.Add(shopCartOrder);
+
+                        OrderIdOfReorderItems = shopCartOrder.EstimateId;
+                    }
+                    else
+                    {
+                        OrderIdOfReorderItems = shopCartOrder.EstimateId;
+                    }
+                    List<Item> esxistingOrderItems = _OrderRepository.GetAllOrderItems(ExistingOrderId);
+                    //Clone items related to this order
+                    esxistingOrderItems.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)).ToList().ForEach(orderITem =>
+                    {
+                        Item item = _ItemRepository.CloneReOrderItem(OrderIdOfReorderItems, orderITem.ItemId, loggedInContactID, shopCartOrder.Order_Code, OrganisationId);
+                        ClonedItems.Add(item);
+                        CopyAttachments(orderITem.ItemId, item, shopCartOrder.Order_Code, false, shopCartOrder.CreationDate ?? DateTime.Now, OrganisationId, StoreId);
+
+                    });
+
+                    if (ExistingOrder.DiscountVoucherID.HasValue && ExistingOrder.VoucherDiscountRate > 0)
+                    {
+                        if (_OrderRepository.RollBackDiscountedItemsWithdbContext(ClonedItems, StatTaxVal))
+                        {
+                            ExistingOrder.VoucherDiscountRate = null;
+                            ExistingOrder.DiscountVoucherID = null;
+                            shopCartOrder.VoucherDiscountRate = null;
+                            shopCartOrder.DiscountVoucherID = null;
+                        }
+                    }
+                    else if (isIncludeTax)// apply the new state Tax Value to the cloned item 
+                    {
+                        _OrderRepository.ApplyCurrentTax(ClonedItems, StatTaxVal, TaxID);
+                    }
+                    result = true;
+                    _OrderRepository.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return shopCartOrder.EstimateId;
+
+        }
+
+      
         #endregion
     }
 }

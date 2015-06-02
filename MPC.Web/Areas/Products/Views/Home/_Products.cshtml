@@ -26,7 +26,7 @@
             <!-- /ko -->
             <div class="clearfix">
             </div>
-            <div class="main-box-body main-box clearfix box-shadow-all">
+            <div class="main-box-body main-box clearfix box-shadow-all" style="padding-left:32px;">
                 <div id="gridZoomSlider">
                     <!-- ko template: { name: 'gridViewTemplate', foreach: products } -->
                     <!-- /ko -->
@@ -79,7 +79,7 @@
         </div>
     </div>
     <!-- ko stopBinding: true -->
-    <div id="pagerDivForProducts" class="pull-right">
+    <div id="pagerDivForProducts" class="pull-right" style="margin-right:5px;">
        
         <!-- ko with: pager -->
 
@@ -110,7 +110,7 @@
         <div class="filter-body">
             <form data-bind="submit: filterProducts">
                 <div class="filter-block pull-right">
-                    <div class="form-group pull-right">
+                    <div class="form-group pull-right" style="height:45px;">
                         <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
                         <i class="fa fa-search search-icon" data-bind="click: filterProducts"></i>
                     </div>
