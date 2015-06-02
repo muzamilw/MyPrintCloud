@@ -974,8 +974,8 @@ namespace MPC.Implementation.MISServices
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-            //  return GenerateOrderArtworkArchive(OrderID, sZipName);
-            return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
+              return GenerateOrderArtworkArchive(OrderID, sZipName);
+           // return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
@@ -1038,7 +1038,7 @@ namespace MPC.Implementation.MISServices
                 //making the artwork production ready and regenerating template PDFs
                 if (MakeArtWorkProductionReady)
                 {
-                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder, OrganisationId);
+                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder);
 
                 }
 
@@ -1176,14 +1176,15 @@ namespace MPC.Implementation.MISServices
             return builder.ToString();
         }
 
-        public bool MakeOrderArtworkProductionReady(Estimate oOrder, long OrganisationId)
+        public bool MakeOrderArtworkProductionReady(Estimate oOrder)
         {
             try
             {
+                long sOrganisationId = organisationRepository.GetOrganizatiobByID().OrganisationId;
                 string sOrderID = oOrder.EstimateId.ToString();
-                string sProductionFolderPath = "MPC_Content/Artworks/" + OrganisationId + "/Production";
+                string sProductionFolderPath = "MPC_Content/Artworks/" + sOrganisationId + "/Production";
                 string sCustomerID = oOrder.CompanyId.ToString();
-                return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder, OrganisationId);
+                return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder, sOrganisationId);
 
             }
             catch (Exception ex)
