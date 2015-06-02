@@ -1389,7 +1389,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
         specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
         specifiedisArchived, specifiedTerritoryId, specifiedTerritoryName, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
-        specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
+        specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId, specifiedStateCode) {
         var
             self,
             addressId = ko.observable(specifiedAddressId),
@@ -1402,6 +1402,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
+            stateCode = ko.observable(specifiedStateCode),
+            stateNamenCode = ko.computed(function () {
+                return stateName() + "( " + stateCode() + " )";
+            }),
             countryName = ko.observable(specifiedCountryName),
             postCode = ko.observable(specifiedPostCode),
             fax = ko.observable(specifiedFax),
@@ -1531,6 +1535,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             state: state,
             country: country,
             stateName: stateName,
+            stateCode: stateCode,
+            stateNamenCode:stateNamenCode,
             countryName: countryName,
             postCode: postCode,
             fax: fax,
@@ -1633,7 +1639,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.isPrivate,
             source.isDefaultTerrorityBilling,
             source.isDefaultTerrorityShipping,
-            source.OrganisationId
+            source.OrganisationId,
+            source.StateCode
         );
         return address;
     };

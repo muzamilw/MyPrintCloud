@@ -1886,6 +1886,7 @@ define("stores/stores.viewModel",
                                 selectedCompanyContact().bussinessAddressId(item.addressId());
                                 selectedCompanyContact().addressId(item.addressId());
                                 selectedBussinessAddress().stateName(item.stateName());
+                                selectedBussinessAddress().stateCode(item.stateCode());
                                 if (!contactHasChanges) {
                                     selectedCompanyContact().reset();
                                 }
@@ -1912,6 +1913,7 @@ define("stores/stores.viewModel",
                             if (selectedCompanyContact() != undefined) {
                                 selectedCompanyContact().shippingAddressId(item.addressId());
                                 selectedShippingAddress().stateName(item.stateName());
+                                selectedShippingAddress().stateCode(item.stateCode());
                                 if (!contactHasChanges) {
                                     selectedCompanyContact().reset();
                                 }
