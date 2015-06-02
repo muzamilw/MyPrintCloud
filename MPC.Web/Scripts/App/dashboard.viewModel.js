@@ -8,19 +8,31 @@ define("dashboard.viewModel",
         ist.dashboard = {
             viewModel: (function () {
                 var //View
-                view,
-                // orders
-                orders = ko.observableArray([]),
-                // Search filter 
-                searchFilter = ko.observable(),
-                // Pager for pagging
-                pager = ko.observable(),
-                // Sort On
-                sortOn = ko.observable(1),
-                 // Sort In Ascending
-                sortIsAsc = ko.observable(true),
-                // Pending Orders Count
-                pendingOrdersCount = ko.observable(0),
+                    view,
+                    // orders
+                    orders = ko.observableArray([]),
+                    // Search filter 
+                    searchFilter = ko.observable(),
+                    // Pager for pagging
+                    pager = ko.observable(),
+                    // Sort On
+                    sortOn = ko.observable(1),
+                    // Sort In Ascending
+                    sortIsAsc = ko.observable(true),
+                    // Pending Orders Count
+                    pendingOrdersCount = ko.observable(0),
+
+                    line = ko.observable([
+                        { year: '2008', value: 20 },
+                        { year: '2009', value: 10 },
+                        { year: '2010', value: 17 },
+                        { year: '2011', value: 5 },
+                        { year: '2013', value:6 },
+                        { year: '2015', value: 8 },
+                        { year: '2012', value: 20 }
+                    ]),
+             
+              
                 // In-production Orders Count
                 inProductionOrdersCount = ko.observable(0),
                 // Completed Orders Count
@@ -95,7 +107,8 @@ define("dashboard.viewModel",
                     orderSearchString: orderSearchString,
                     getDashboardData: getDashboardData,
                     orders: orders,
-                    goToOrder: goToOrder
+                    goToOrder: goToOrder,
+                    line: line
                 };
             })()
         };
