@@ -3499,6 +3499,7 @@ define("stores/stores.viewModel",
                                 //Update Product category Territories
                                 UpdateProductCategoryTerritories(data.CategoryTerritories);
                                 selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
+                                selectedProductCategoryForEditting().reset();
                                 view.showStoreProductCategoryDialog();
                             }
                             isLoadingStores(false);
@@ -3534,6 +3535,7 @@ define("stores/stores.viewModel",
                                 isSavingNewProductCategory(false);
                                 //Update Product category Territories
                                 UpdateProductCategoryTerritories(data.CategoryTerritories);
+                                selectedProductCategoryForEditting().reset();
                                 view.showStoreProductCategoryDialog();
                             }
                             isLoadingStores(false);

@@ -3751,6 +3751,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
             //Convert To Server
             convertToServerData = function () {
                 var result = {
@@ -3882,6 +3886,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isValid: isValid,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
+            reset: reset,
             convertToServerData: convertToServerData
         };
     };
