@@ -62,7 +62,7 @@ namespace MPC.Webstore.Controllers
                     CompanyContact Contact = null;
                     if (!string.IsNullOrEmpty(txtEmailbox))
                     {
-                        Contact = _MyCompanyService.GetContactByEmail(txtEmailbox, StoreBaseResopnse.Organisation.OrganisationId);
+                        Contact = _MyCompanyService.GetContactByEmail(txtEmailbox, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId);
                     }
                     Campaign SubscriptionCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.SubscriptionConfirmation, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
                     SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
