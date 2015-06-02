@@ -3252,8 +3252,10 @@ function isEmptyStyles(customStyles) {
     return true;
 }
 function updateTOWithStyles(obTO, vTag, vVal) {
+    console.log(vVal + " " + vTag);
     // obTO.ContentString = obTO.ContentString.replace(vTag, vVal);
     var objs = obTO.ContentString.split(vTag);
+    console.log(objs);
     var variableLength = vTag.length;
     var lengthCount = 0;
     var content = "";
@@ -3262,6 +3264,14 @@ function updateTOWithStyles(obTO, vTag, vVal) {
     for (var i = 0; i < objs.length; i++) {
         content += objs[i];
         if ((i + 1) != objs.length) {
+            var postPend = objs[i+1];
+            if (vVal == "")
+            {
+              //  alert();
+            } else
+            {
+             //   content += vVal;
+            }
             content += vVal;
         }
         lengthCount += objs[i].length;
