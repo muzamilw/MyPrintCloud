@@ -2445,7 +2445,7 @@ define("stores/stores.viewModel",
             },
 // ReSharper disable UnusedLocals
             getTerritoryByTerritoryId = function (territoryId) {
-// ReSharper restore UnusedLocals
+                // ReSharper restore UnusedLocals
 
                 var result = _.find(addressCompanyTerritoriesFilter(), function (territory) {
                     return territory.territoryId() == parseInt(territoryId);
@@ -2456,6 +2456,7 @@ define("stores/stores.viewModel",
 
                 //#region _________Secondry Page ________________________________
             selectedSecondaryPage = ko.observable(),
+            selectedSecondaryPageForListView = ko.observable(),
             selectedPageCategory = ko.observable(),
             newAddedSecondaryPage = ko.observableArray([]),
             editedSecondaryPage = ko.observableArray([]),
@@ -2525,6 +2526,7 @@ define("stores/stores.viewModel",
             },
                 //Edit Secondary Page
             onEditSecondaryPage = function (secondaryPage) {
+                selectedSecondaryPageForListView(secondaryPage);
                 ckEditorOpenFrom("SecondaryPage");
                 //If Newly added item edited i-e It is not save in db yet
                 if (secondaryPage.pageId() < 0) {
@@ -2659,7 +2661,7 @@ define("stores/stores.viewModel",
                            selectedStore().secondaryPages.splice(0, 0, newPage);
 
                        } else {
-                           secondaryPageCopierForListView(newPage, selectedSecondaryPage());
+                           secondaryPageCopierForListView(selectedSecondaryPageForListView(), selectedSecondaryPage());
                        }
                        view.hideSecondoryPageDialog();
                        toastr.success("Successfully saved.");
@@ -2972,7 +2974,7 @@ define("stores/stores.viewModel",
                 return scopeVariable;
             },
                 // Delete CompanyContact
-            onDeleteCompanyContact = function (companyContact) { 
+            onDeleteCompanyContact = function (companyContact) {
                 if (companyContact.isDefaultContact()) {
                     toastr.error("Default Contact Cannot be deleted", "", ist.toastrOptions);
                     return;
@@ -3223,30 +3225,30 @@ define("stores/stores.viewModel",
              //Payment Gateway filer string FYP
             paymentGatewayFilter = ko.observable(),
             // Search function for Payment Method
-           onSearchpaymentMethod= function() {
+           onSearchpaymentMethod = function () {
                getPaymentGateway();
            },
            //Get Payment Method
-           getPaymentGateway=function() {
+           getPaymentGateway = function () {
                dataservice.getPaymentGateways({
                    SearchFilter: paymentGatewayFilter(),
                    CompanyId: selectedStore().companyId()
-                        }, {
-                            success: function (data) {
-                                selectedStore().paymentGateway.removeAll();
-                                if (data != null) {
-                                    _.each(data.PaymentGateways, function (item) {
-                                        var module = model.PaymentGateway.Create(item);
-                                        selectedStore().paymentGateway.push(module);
-                                    });
-                                }
-                            },
-                            error: function (response) {
-                                toastr.error("Error: Failed To load Payment Gateways " + response, "", ist.toastrOptions);
-                            }
-                        });
-                    },
-                        
+               }, {
+                   success: function (data) {
+                       selectedStore().paymentGateway.removeAll();
+                       if (data != null) {
+                           _.each(data.PaymentGateways, function (item) {
+                               var module = model.PaymentGateway.Create(item);
+                               selectedStore().paymentGateway.push(module);
+                           });
+                       }
+                   },
+                   error: function (response) {
+                       toastr.error("Error: Failed To load Payment Gateways " + response, "", ist.toastrOptions);
+                   }
+               });
+           },
+
                 //Create Payment Gateway
             onCreateNewPaymentGateway = function () {
                 var paymentGateway = new model.PaymentGateway();
@@ -3286,7 +3288,7 @@ define("stores/stores.viewModel",
                             selectedPaymentGateway().paymentMethodName(paymentMethod.methodName());
                         }
                     });
-                    if (selectedPaymentGateway().paymentGatewayId()==undefined || selectedPaymentGateway().paymentGatewayId() <= 0) {
+                    if (selectedPaymentGateway().paymentGatewayId() == undefined || selectedPaymentGateway().paymentGatewayId() <= 0) {
                         selectedPaymentGateway().paymentGatewayId(newPaymentGatewayId);
                         addNewPaymentGatewayId();
                     }
@@ -3326,23 +3328,23 @@ define("stores/stores.viewModel",
                 productCategoryCounter = -1,
                 //Counter to add 1 in Product Category 
                 addProductCategoryCounter = function () {
-                productCategoryCounter = productCategoryCounter - 1;
-            },
+                    productCategoryCounter = productCategoryCounter - 1;
+                },
                 //Counter to reset Product Category Counter
                 resetProductCategoryCounter = function () {
-                productCategoryCounter = productCategoryCounter + 1;
-            },
+                    productCategoryCounter = productCategoryCounter + 1;
+                },
                 //Selected Product Category
                 selectedProductCategory = ko.observable(),
                 //Selected Product Category For Editting
                 selectedProductCategoryForEditting = ko.observable(),
                 // Ttile while add/edit category
                 productCategoryTitle = ko.computed(function () {
-                if (selectedProductCategoryForEditting() != undefined) {
-                    var val = selectedProductCategoryForEditting().categoryName() != '' && selectedProductCategoryForEditting().categoryName() != undefined ? selectedProductCategoryForEditting().categoryName() : '';
-                    return productCategoryStatus();
-                }
-            }),
+                    if (selectedProductCategoryForEditting() != undefined) {
+                        var val = selectedProductCategoryForEditting().categoryName() != '' && selectedProductCategoryForEditting().categoryName() != undefined ? selectedProductCategoryForEditting().categoryName() : '';
+                        return productCategoryStatus();
+                    }
+                }),
                 productCategoryStatus = ko.observable(''),
                 //Deleted Product Categories List
                 deletedProductCategories = ko.observableArray([]),
@@ -3352,32 +3354,32 @@ define("stores/stores.viewModel",
                 newProductCategories = ko.observableArray([]),
                 //Select Product Category
                 selectProductCategory = function (category, event) {
-                if (selectedProductCategory() != category) {
-                    selectedProductCategory(category);
-                    // Notify the event subscribers
-                    view.productCategorySelectedEvent(ko.isObservable(category.productCategoryId) ?
-                        category.productCategoryId() : category.productCategoryId);
-                }
-            },
+                    if (selectedProductCategory() != category) {
+                        selectedProductCategory(category);
+                        // Notify the event subscribers
+                        view.productCategorySelectedEvent(ko.isObservable(category.productCategoryId) ?
+                            category.productCategoryId() : category.productCategoryId);
+                    }
+                },
                 //Select Child Product Category
                 selectChildProductCategory = function (categoryId, event) {
-                selectedProductCategory(undefined);
-                var id = $(event.target).closest('li')[0].id;
-                if (id) {
-                    // Notify the event subscribers
-                    view.productCategorySelectedEvent(id);
-                }
-                event.stopImmediatePropagation();
-            },
+                    selectedProductCategory(undefined);
+                    var id = $(event.target).closest('li')[0].id;
+                    if (id) {
+                        // Notify the event subscribers
+                        view.productCategorySelectedEvent(id);
+                    }
+                    event.stopImmediatePropagation();
+                },
                 changeIcon = function (event) {
-                if (event.target.classList.contains("fa-chevron-circle-right")) {
-                    event.target.classList.remove("fa-chevron-circle-right");
-                    event.target.classList.add("fa-chevron-circle-down");
-                } else {
-                    event.target.classList.remove("fa-chevron-circle-down");
-                    event.target.classList.add("fa-chevron-circle-right");
-                }
-            },
+                    if (event.target.classList.contains("fa-chevron-circle-right")) {
+                        event.target.classList.remove("fa-chevron-circle-right");
+                        event.target.classList.add("fa-chevron-circle-down");
+                    } else {
+                        event.target.classList.remove("fa-chevron-circle-down");
+                        event.target.classList.add("fa-chevron-circle-right");
+                    }
+                },
                 //Get Category Child List Items
                 getCategoryChildListItems = function (dataRecieved, event) {
                     changeIcon(event);
@@ -3418,380 +3420,380 @@ define("stores/stores.viewModel",
                 //Open Product Category Detail
                 // ReSharper disable UnusedParameter
                 openProductCategoryDetail = function (dataRecieved, event) {
-                // ReSharper restore UnusedParameter
-                //var id = $(event.target).closest('li')[0].id;
-                var productCategory = new model.ProductCategory();
-                selectedProductCategory(productCategory);
-                view.showProductCategoryDialog();
-            },
+                    // ReSharper restore UnusedParameter
+                    //var id = $(event.target).closest('li')[0].id;
+                    var productCategory = new model.ProductCategory();
+                    selectedProductCategory(productCategory);
+                    view.showProductCategoryDialog();
+                },
                 //check: is Saving New Product Category
                 isSavingNewProductCategory = ko.observable(false),
                 //Function Call When create new Product Category 
                 onCreateNewProductCategory = function () {
-                //$('.nav-tabs li:first-child a').tab('show');
-                selectedProductCategory(undefined);
-                var productCategory = new model.ProductCategory();
-                //Set Product category value for by default
-                productCategory.isShelfProductCategory(false);
-                productCategory.isEnabled(true);
-                productCategory.isPublished(true);
-                //Setting Product Category Editting
-                selectedProductCategoryForEditting(productCategory);
-                productCategoryStatus("Add/Edit Category Details");
+                    //$('.nav-tabs li:first-child a').tab('show');
+                    selectedProductCategory(undefined);
+                    var productCategory = new model.ProductCategory();
+                    //Set Product category value for by default
+                    productCategory.isShelfProductCategory(false);
+                    productCategory.isEnabled(true);
+                    productCategory.isPublished(true);
+                    //Setting Product Category Editting
+                    selectedProductCategoryForEditting(productCategory);
+                    productCategoryStatus("Add/Edit Category Details");
 
-                //Setting drop down list of parent
-                //putting all list of categories
-                populatedParentCategoriesList.removeAll();
-                _.each(parentCategories(), function (category) {
-                    populatedParentCategoriesList.splice(0, 0, category);
-                });
-                isSavingNewProductCategory(true);
-                view.showStoreProductCategoryDialog();
-                // $('#productCatFirstTab').addClass('active');
-                //$('.nav-tabs li:eq(0) a').tab('show');
-                //$('a[href=#productCatFirstTab]').click();
-                //Resetting all list of territories (making isSelected fields False)
-                _.each(addressTerritoryList(), function (territory) {
-                    if (territory.isSelected()) {
-                        territory.isSelected(false);
-                    }
-                });
-                $("#categoryTabItems li a").first().trigger("click");
-            },
-                //Delete Product Category
-                onDeleteProductCategory = function (productCategory) {
-                if (productCategory.productCategoryId() !== undefined) {
-                    _.each(edittedProductCategories(), function (item) {
-                        if (item.productCategoryId() == productCategory.productCategoryId()) {
-                            edittedProductCategories.remove(productCategory);
-                        }
+                    //Setting drop down list of parent
+                    //putting all list of categories
+                    populatedParentCategoriesList.removeAll();
+                    _.each(parentCategories(), function (category) {
+                        populatedParentCategoriesList.splice(0, 0, category);
                     });
-                    deletedProductCategories.push(productCategory);
-                }
-                //selectedStore().companyTerritories.remove(companyTerritory);
-                return;
-            },
-                //Check Payment Category Is Newly Added
-                checkPaymentCategoryIsNewlyAdded = function (productCategory) {
-                if (productCategory.productCategoryId() < 0) {
-                    return true;
-                }
-                return false;
-            },
-                //On Edit Child Product Category    
-                onEditChildProductCategory = function (dataRecieved, event) {
-                var id = $(event.target).closest('li')[0].id;
-                var result = _.find(newProductCategories(), function (productCategory) {
-                    return productCategory.productCategoryId() == parseInt(id);
-                });
-                if (id > 0 || (result != undefined && !checkPaymentCategoryIsNewlyAdded(result))) {
-
-                    dataservice.getProductCategoryById({
-                        ProductCategoryId: id,
-                        IsProductCategoryEditting: 'true'
-                    }, {
-                        success: function (data) {
-
-                            if (data != null) {
-                                selectedProductCategoryForEditting(model.ProductCategory.Create(data));
-                                updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
-                                isSavingNewProductCategory(false);
-                                //Update Product category Territories
-                                UpdateProductCategoryTerritories(data.CategoryTerritories);
-                                selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
-                                view.showStoreProductCategoryDialog();
-                            }
-                            isLoadingStores(false);
-                            $("#categoryTabItems li a").first().trigger("click");
-                        },
-                        error: function (response) {
-                            isLoadingStores(false);
-                            toastr.error("Error: Failed To load Category " + response, "", ist.toastrOptions);
-                        }
-                    });
-                } else {
-                    selectProductCategory(result);
-                    editNewAddedProductCategory();
-                }
-            },
-                //On Edit Product Category(Parent)
-                onEditProductCategory = function (productCategory) {
-                if (selectedProductCategory() != productCategory) {
-                    selectProductCategory(productCategory);
-                }
-                if (!checkPaymentCategoryIsNewlyAdded(selectedProductCategory())) {
-                    //Get Product Category By Id
-                    dataservice.getProductCategoryById({
-                        ProductCategoryId: selectedProductCategory().productCategoryId(),
-                        IsProductCategoryEditting: 'true'
-                    }, {
-                        success: function (data) {
-
-                            if (data != null) {
-                                selectedProductCategoryForEditting(model.ProductCategory.Create(data));
-                                updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
-                                productCategoryStatus("Modify Category Details");
-                                isSavingNewProductCategory(false);
-                                //Update Product category Territories
-                                UpdateProductCategoryTerritories(data.CategoryTerritories);
-                                view.showStoreProductCategoryDialog();
-                            }
-                            isLoadingStores(false);
-                            $("#categoryTabItems li a").first().trigger("click");
-                        },
-                        error: function (response) {
-                            isLoadingStores(false);
-                            toastr.error("Error: Failed To load Category " + response, "", ist.toastrOptions);
-                        }
-                    });
-                    //selectedProductCategory(productCategory);
-                } else {
-                    editNewAddedProductCategory();
-                }
-
-            },
-                //Update Product Category Territories
-                UpdateProductCategoryTerritories = function (categoryTerritories) {
-                //#region Update Category Territories
-                //Resetting all list of territories (making isSelected fields False)
-                _.each(addressTerritoryList(), function (territory) {
-                    if (territory.isSelected()) {
-                        territory.isSelected(false);
-                    }
-                });
-                //Setting IsSelected Fields of territories
-                _.each(categoryTerritories, function (categoryTerritory) {
-                    _.each(addressTerritoryList(), function (territory) {
-                        if (territory.territoryId() == categoryTerritory.TerritoryId) {
-                            territory.isSelected(true);
-                        }
-                    });
-                });
-                //#endregion
-            },
-                //Edit New Added Product Category
-                editNewAddedProductCategory = function () {
-                var result = _.find(newProductCategories(), function (productCategory) {
-                    return productCategory.productCategoryId() == selectedProductCategory().productCategoryId();
-                });
-                if (result != undefined) {
-                    selectedProductCategoryForEditting(result);
+                    isSavingNewProductCategory(true);
                     view.showStoreProductCategoryDialog();
-                }
-            },
-                //On Close Product Category
-                onCloseProductCategory = function () {
-                view.hideStoreProductCategoryDialog();
-                //resetProductCategoryCounter();
-                isSavingNewProductCategory(false);
-            },
-                onArchiveCategory = function () {
-                confirmation.messageText("Do you want to delete category?");
-                confirmation.afterProceed(deleteCategory);
-                confirmation.afterCancel(function () {
-                });
-                confirmation.show();
-                return;
-            },
-                deleteCategory = function () {
-                dataservice.deleteProductCategoryById({
-                    ProductCategoryId: selectedProductCategoryForEditting().productCategoryId()
-                }, {
-                    success: function (data) {
-                        if (data != null) {
-                            var obj = null;
-                            _.each(parentCategories(), function (item) {
-                                if (item.productCategoryId === selectedProductCategoryForEditting().productCategoryId()) {
-                                    obj = item;
-                                }
-                            });
-                            parentCategories.remove(obj);
-                            var val = '#' + selectedProductCategoryForEditting().productCategoryId();
-                            $(val).remove();
-                            onCloseProductCategory();
-                            toastr.success("Category deleted successfully!");
-                        }
-                    },
-                    error: function (response) {
-                        isLoadingStores(false);
-                        toastr.error("Error: Failed To delete Category!");
-                    }
-                });
-            },
-                //Do Before Save Product Category
-                doBeforeSaveProductCategory = function () {
-                var flag = true;
-                if (!selectedProductCategoryForEditting().isValid()) {
-                    selectedProductCategoryForEditting().errors.showAllMessages();
-                    flag = false;
-                }
-                return flag;
-            },
-                //on Save Store Product Category
-                onSaveStoreProductCategory = function () {
-                if (doBeforeSaveProductCategory()) {
-                    //dataService.saveStoreProductCategory()
-                    if (selectedProductCategoryForEditting().productCategoryId() === undefined) {
-                        //selectedProductCategoryForEditting().productCategoryId(data.ProductCategoryId);
-                        //Check Is New and Parent 
-                        if (isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
-                            $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                        }
-                        //Check Is New and Child
-                        if (isSavingNewProductCategory() === true) {
-
-                        }
-                    }
-                }
-            },
-                //On Save Product Category
-                onSaveProductCategory = function () {
-
-                if (doBeforeSaveProductCategory()) {
-                    selectedProductCategoryForEditting().companyId(selectedStore().companyId());
-
-                    //#region Category Territories
-                    var productCategoryToSave = selectedProductCategoryForEditting().convertToServerData();
-                    productCategoryToSave.CategoryTerritories = [];
+                    // $('#productCatFirstTab').addClass('active');
+                    //$('.nav-tabs li:eq(0) a').tab('show');
+                    //$('a[href=#productCatFirstTab]').click();
+                    //Resetting all list of territories (making isSelected fields False)
                     _.each(addressTerritoryList(), function (territory) {
                         if (territory.isSelected()) {
-                            productCategoryToSave.CategoryTerritories.push(territory.convertToServerData());
+                            territory.isSelected(false);
                         }
                     });
-                    //#endregion
-                    dataservice.saveProductCategory(
-                            productCategoryToSave
-                        , {
+                    $("#categoryTabItems li a").first().trigger("click");
+                },
+                //Delete Product Category
+                onDeleteProductCategory = function (productCategory) {
+                    if (productCategory.productCategoryId() !== undefined) {
+                        _.each(edittedProductCategories(), function (item) {
+                            if (item.productCategoryId() == productCategory.productCategoryId()) {
+                                edittedProductCategories.remove(productCategory);
+                            }
+                        });
+                        deletedProductCategories.push(productCategory);
+                    }
+                    //selectedStore().companyTerritories.remove(companyTerritory);
+                    return;
+                },
+                //Check Payment Category Is Newly Added
+                checkPaymentCategoryIsNewlyAdded = function (productCategory) {
+                    if (productCategory.productCategoryId() < 0) {
+                        return true;
+                    }
+                    return false;
+                },
+                //On Edit Child Product Category    
+                onEditChildProductCategory = function (dataRecieved, event) {
+                    var id = $(event.target).closest('li')[0].id;
+                    var result = _.find(newProductCategories(), function (productCategory) {
+                        return productCategory.productCategoryId() == parseInt(id);
+                    });
+                    if (id > 0 || (result != undefined && !checkPaymentCategoryIsNewlyAdded(result))) {
+
+                        dataservice.getProductCategoryById({
+                            ProductCategoryId: id,
+                            IsProductCategoryEditting: 'true'
+                        }, {
                             success: function (data) {
 
-                                //#region If Parent Category Id == Null
-                                if (data.ParentCategoryId == null) {
-                                    //if saving product is editting
-                                    if (selectedProductCategoryForEditting().productCategoryId() > 0) {
-                                        $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
-                                        //update item
-                                        _.each(selectedStore().productCategories(), function (item) {
-                                            if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
-                                                item.categoryName(selectedProductCategoryForEditting().categoryName());
-                                                toastr.success("Category Updated Successfully");
-                                            }
-                                        });
-                                        selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
-                                    }
-                                        //Creating new Product category
-                                    else {
-                                        selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
-                                        toastr.success("Category Added Successfully");
-                                    }
-                                    //$("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + data.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                                    //ko.applyBindings(view.viewModel, $("#" + data.ProductCategoryId)[0]);
-                                    isLoadingStores(false);
-                                    view.hideStoreProductCategoryDialog();
-                                }
-                                    //#endregion
-
-                                    //#region Else Parent Category Id != null
-                                else {
-                                    newProductCategories.push(model.ProductCategory.Create(data));
+                                if (data != null) {
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
-
-                                    if ($("#" + selectedProductCategoryForEditting().productCategoryId()).length > 0) {
-                                        $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
-                                    }
-                                    //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                                    $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10">' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links col-sm-2"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                                    //if (!flagAlreadyExist) {
-                                    ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
-                                    //}
-                                    toastr.success("Category Updated Successfully");
+                                    updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
+                                    isSavingNewProductCategory(false);
+                                    //Update Product category Territories
+                                    UpdateProductCategoryTerritories(data.CategoryTerritories);
+                                    selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
+                                    view.showStoreProductCategoryDialog();
                                 }
-                                //#endregion
-
-                                //var category = {
-                                //    productCategoryId: data.ProductCategoryId,
-                                //    categoryName: data.CategoryName,
-                                //    parentCategoryId: data.ParentCategoryId
-                                //};
-                                //parentCategories.push(category);
-
                                 isLoadingStores(false);
-                                view.hideStoreProductCategoryDialog();
+                                $("#categoryTabItems li a").first().trigger("click");
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Error: Failed To Save Category " + response, "", ist.toastrOptions);
+                                toastr.error("Error: Failed To load Category " + response, "", ist.toastrOptions);
                             }
                         });
-                }
-            },
-                //On Save Product Category
-                onSaveProductCategoryOld = function () {
-                //Saving New Record
-                if (doBeforeSaveProductCategory()) {
-                    if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
-                        selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
-                        newProductCategories.push(selectedProductCategoryForEditting());
-                        $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                        ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
-                        addProductCategoryCounter();
-                    }
-                    if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true) {
-
-                        selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
-                        newProductCategories.push(selectedProductCategoryForEditting());
-                        $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                        ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
-                        addProductCategoryCounter();
-
                     } else {
-                        //pushing item in editted Product Categories List
-                        if (selectedProductCategoryForEditting().productCategoryId() != undefined && selectedProductCategoryForEditting().productCategoryId() > 0) {
-                            var match = ko.utils.arrayFirst(edittedProductCategories(), function (item) {
-                                return (selectedProductCategoryForEditting().productCategoryId() === item.productCategoryId());
-                            });
-                            _.each(selectedStore().productCategories(), function (item) {
-                                if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
-                                    item.categoryName(selectedProductCategoryForEditting().categoryName());
+                        selectProductCategory(result);
+                        editNewAddedProductCategory();
+                    }
+                },
+                //On Edit Product Category(Parent)
+                onEditProductCategory = function (productCategory) {
+                    if (selectedProductCategory() != productCategory) {
+                        selectProductCategory(productCategory);
+                    }
+                    if (!checkPaymentCategoryIsNewlyAdded(selectedProductCategory())) {
+                        //Get Product Category By Id
+                        dataservice.getProductCategoryById({
+                            ProductCategoryId: selectedProductCategory().productCategoryId(),
+                            IsProductCategoryEditting: 'true'
+                        }, {
+                            success: function (data) {
+
+                                if (data != null) {
+                                    selectedProductCategoryForEditting(model.ProductCategory.Create(data));
+                                    updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
+                                    productCategoryStatus("Modify Category Details");
+                                    isSavingNewProductCategory(false);
+                                    //Update Product category Territories
+                                    UpdateProductCategoryTerritories(data.CategoryTerritories);
+                                    view.showStoreProductCategoryDialog();
+                                }
+                                isLoadingStores(false);
+                                $("#categoryTabItems li a").first().trigger("click");
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed To load Category " + response, "", ist.toastrOptions);
+                            }
+                        });
+                        //selectedProductCategory(productCategory);
+                    } else {
+                        editNewAddedProductCategory();
+                    }
+
+                },
+                //Update Product Category Territories
+                UpdateProductCategoryTerritories = function (categoryTerritories) {
+                    //#region Update Category Territories
+                    //Resetting all list of territories (making isSelected fields False)
+                    _.each(addressTerritoryList(), function (territory) {
+                        if (territory.isSelected()) {
+                            territory.isSelected(false);
+                        }
+                    });
+                    //Setting IsSelected Fields of territories
+                    _.each(categoryTerritories, function (categoryTerritory) {
+                        _.each(addressTerritoryList(), function (territory) {
+                            if (territory.territoryId() == categoryTerritory.TerritoryId) {
+                                territory.isSelected(true);
+                            }
+                        });
+                    });
+                    //#endregion
+                },
+                //Edit New Added Product Category
+                editNewAddedProductCategory = function () {
+                    var result = _.find(newProductCategories(), function (productCategory) {
+                        return productCategory.productCategoryId() == selectedProductCategory().productCategoryId();
+                    });
+                    if (result != undefined) {
+                        selectedProductCategoryForEditting(result);
+                        view.showStoreProductCategoryDialog();
+                    }
+                },
+                //On Close Product Category
+                onCloseProductCategory = function () {
+                    view.hideStoreProductCategoryDialog();
+                    //resetProductCategoryCounter();
+                    isSavingNewProductCategory(false);
+                },
+                onArchiveCategory = function () {
+                    confirmation.messageText("Do you want to delete category?");
+                    confirmation.afterProceed(deleteCategory);
+                    confirmation.afterCancel(function () {
+                    });
+                    confirmation.show();
+                    return;
+                },
+                deleteCategory = function () {
+                    dataservice.deleteProductCategoryById({
+                        ProductCategoryId: selectedProductCategoryForEditting().productCategoryId()
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                                var obj = null;
+                                _.each(parentCategories(), function (item) {
+                                    if (item.productCategoryId === selectedProductCategoryForEditting().productCategoryId()) {
+                                        obj = item;
+                                    }
+                                });
+                                parentCategories.remove(obj);
+                                var val = '#' + selectedProductCategoryForEditting().productCategoryId();
+                                $(val).remove();
+                                onCloseProductCategory();
+                                toastr.success("Category deleted successfully!");
+                            }
+                        },
+                        error: function (response) {
+                            isLoadingStores(false);
+                            toastr.error("Error: Failed To delete Category!");
+                        }
+                    });
+                },
+                //Do Before Save Product Category
+                doBeforeSaveProductCategory = function () {
+                    var flag = true;
+                    if (!selectedProductCategoryForEditting().isValid()) {
+                        selectedProductCategoryForEditting().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+                //on Save Store Product Category
+                onSaveStoreProductCategory = function () {
+                    if (doBeforeSaveProductCategory()) {
+                        //dataService.saveStoreProductCategory()
+                        if (selectedProductCategoryForEditting().productCategoryId() === undefined) {
+                            //selectedProductCategoryForEditting().productCategoryId(data.ProductCategoryId);
+                            //Check Is New and Parent 
+                            if (isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
+                                $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                            }
+                            //Check Is New and Child
+                            if (isSavingNewProductCategory() === true) {
+
+                            }
+                        }
+                    }
+                },
+                //On Save Product Category
+                onSaveProductCategory = function () {
+
+                    if (doBeforeSaveProductCategory()) {
+                        selectedProductCategoryForEditting().companyId(selectedStore().companyId());
+
+                        //#region Category Territories
+                        var productCategoryToSave = selectedProductCategoryForEditting().convertToServerData();
+                        productCategoryToSave.CategoryTerritories = [];
+                        _.each(addressTerritoryList(), function (territory) {
+                            if (territory.isSelected()) {
+                                productCategoryToSave.CategoryTerritories.push(territory.convertToServerData());
+                            }
+                        });
+                        //#endregion
+                        dataservice.saveProductCategory(
+                                productCategoryToSave
+                            , {
+                                success: function (data) {
+
+                                    //#region If Parent Category Id == Null
+                                    if (data.ParentCategoryId == null) {
+                                        //if saving product is editting
+                                        if (selectedProductCategoryForEditting().productCategoryId() > 0) {
+                                            $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
+                                            //update item
+                                            _.each(selectedStore().productCategories(), function (item) {
+                                                if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
+                                                    item.categoryName(selectedProductCategoryForEditting().categoryName());
+                                                    toastr.success("Category Updated Successfully");
+                                                }
+                                            });
+                                            selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
+                                        }
+                                            //Creating new Product category
+                                        else {
+                                            selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
+                                            toastr.success("Category Added Successfully");
+                                        }
+                                        //$("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + data.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                                        //ko.applyBindings(view.viewModel, $("#" + data.ProductCategoryId)[0]);
+                                        isLoadingStores(false);
+                                        view.hideStoreProductCategoryDialog();
+                                    }
+                                        //#endregion
+
+                                        //#region Else Parent Category Id != null
+                                    else {
+                                        newProductCategories.push(model.ProductCategory.Create(data));
+                                        selectedProductCategoryForEditting(model.ProductCategory.Create(data));
+
+                                        if ($("#" + selectedProductCategoryForEditting().productCategoryId()).length > 0) {
+                                            $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
+                                        }
+                                        //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                                        $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10">' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links col-sm-2"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                                        //if (!flagAlreadyExist) {
+                                        ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
+                                        //}
+                                        toastr.success("Category Updated Successfully");
+                                    }
+                                    //#endregion
+
+                                    //var category = {
+                                    //    productCategoryId: data.ProductCategoryId,
+                                    //    categoryName: data.CategoryName,
+                                    //    parentCategoryId: data.ParentCategoryId
+                                    //};
+                                    //parentCategories.push(category);
+
+                                    isLoadingStores(false);
+                                    view.hideStoreProductCategoryDialog();
+                                },
+                                error: function (response) {
+                                    isLoadingStores(false);
+                                    toastr.error("Error: Failed To Save Category " + response, "", ist.toastrOptions);
                                 }
                             });
-                            //if not found in editted product categories list then push new entry in it
-                            if (!match) {
-                                edittedProductCategories.push(selectedProductCategoryForEditting());
-                            }
-                                //else match if match found, update item in editted list
-                            else {
-                                _.each(edittedProductCategories(), function (item) {
+                    }
+                },
+                //On Save Product Category
+                onSaveProductCategoryOld = function () {
+                    //Saving New Record
+                    if (doBeforeSaveProductCategory()) {
+                        if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
+                            selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
+                            newProductCategories.push(selectedProductCategoryForEditting());
+                            $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                            ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
+                            addProductCategoryCounter();
+                        }
+                        if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true) {
+
+                            selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
+                            newProductCategories.push(selectedProductCategoryForEditting());
+                            $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                            ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
+                            addProductCategoryCounter();
+
+                        } else {
+                            //pushing item in editted Product Categories List
+                            if (selectedProductCategoryForEditting().productCategoryId() != undefined && selectedProductCategoryForEditting().productCategoryId() > 0) {
+                                var match = ko.utils.arrayFirst(edittedProductCategories(), function (item) {
+                                    return (selectedProductCategoryForEditting().productCategoryId() === item.productCategoryId());
+                                });
+                                _.each(selectedStore().productCategories(), function (item) {
                                     if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
-                                        edittedProductCategories.remove(item);
-                                        edittedProductCategories.push(selectedProductCategoryForEditting());
+                                        item.categoryName(selectedProductCategoryForEditting().categoryName());
+                                    }
+                                });
+                                //if not found in editted product categories list then push new entry in it
+                                if (!match) {
+                                    edittedProductCategories.push(selectedProductCategoryForEditting());
+                                }
+                                    //else match if match found, update item in editted list
+                                else {
+                                    _.each(edittedProductCategories(), function (item) {
+                                        if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
+                                            edittedProductCategories.remove(item);
+                                            edittedProductCategories.push(selectedProductCategoryForEditting());
+                                        }
+                                    });
+                                }
+                            } else if (selectedProductCategoryForEditting().productCategoryId() != undefined && selectedProductCategoryForEditting().productCategoryId() < 0) {
+                                _.each(newProductCategories(), function (item) {
+                                    if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
+                                        newProductCategories.remove(item);
+                                        newProductCategories.push(selectedProductCategoryForEditting());
+                                        $("#" + item.productCategoryId()).find('span').text(selectedProductCategoryForEditting().categoryName());
                                     }
                                 });
                             }
-                        } else if (selectedProductCategoryForEditting().productCategoryId() != undefined && selectedProductCategoryForEditting().productCategoryId() < 0) {
-                            _.each(newProductCategories(), function (item) {
-                                if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
-                                    newProductCategories.remove(item);
-                                    newProductCategories.push(selectedProductCategoryForEditting());
-                                    $("#" + item.productCategoryId()).find('span').text(selectedProductCategoryForEditting().categoryName());
-                                }
-                            });
                         }
+                        view.hideStoreProductCategoryDialog();
                     }
-                    view.hideStoreProductCategoryDialog();
-                }
-            },
+                },
                 //Product Category Thumbnail Files Loaded Callback
                 ProductCategoryThumbnailFilesLoadedCallback = function (file, data) {
-                selectedProductCategoryForEditting().productCategoryThumbnailFileBinary(data);
-                selectedProductCategoryForEditting().productCategoryThumbnailName(file.name);
-                //selectedProductCategoryForEditting().fileType(data.imageType);
-            },
+                    selectedProductCategoryForEditting().productCategoryThumbnailFileBinary(data);
+                    selectedProductCategoryForEditting().productCategoryThumbnailName(file.name);
+                    //selectedProductCategoryForEditting().fileType(data.imageType);
+                },
                 //Product Category Image Files Loaded Callback
                 ProductCategoryImageFilesLoadedCallback = function (file, data) {
-                selectedProductCategoryForEditting().productCategoryImageFileBinary(data);
-                selectedProductCategoryForEditting().productCategoryImageName(file.name);
-                //selectedProductCategoryForEditting().fileType(data.imageType);
-            },
+                    selectedProductCategoryForEditting().productCategoryImageFileBinary(data);
+                    selectedProductCategoryForEditting().productCategoryImageName(file.name);
+                    //selectedProductCategoryForEditting().fileType(data.imageType);
+                },
 
                 //Populate Parent Categories List
 
@@ -3799,48 +3801,48 @@ define("stores/stores.viewModel",
                 categoriesToRemoveForParentCategoriesDropdown = ko.observableArray([]),
 
                 populateParentCategoriesListItems = function (categoryId) {
-                _.each(parentCategories(), function (productCategory) {
-                    if (productCategory.parentCategoryId == categoryId) {
-                        categoriesToRemoveForParentCategoriesDropdown.splice(0, 0, productCategory);
-                        populateParentCategoriesListItems(parseInt(productCategory.productCategoryId));
-                    }
-                });
-            },
+                    _.each(parentCategories(), function (productCategory) {
+                        if (productCategory.parentCategoryId == categoryId) {
+                            categoriesToRemoveForParentCategoriesDropdown.splice(0, 0, productCategory);
+                            populateParentCategoriesListItems(parseInt(productCategory.productCategoryId));
+                        }
+                    });
+                },
                 updateParentCategoryList = function (categoryId) {
 
-                populatedParentCategoriesList.removeAll();
-                categoriesToRemoveForParentCategoriesDropdown.removeAll();
-                populateParentCategoriesListItems(categoryId);
+                    populatedParentCategoriesList.removeAll();
+                    categoriesToRemoveForParentCategoriesDropdown.removeAll();
+                    populateParentCategoriesListItems(categoryId);
 
-                //putting all list of categories
-                _.each(parentCategories(), function (productCategory) {
-                    if (selectedProductCategoryForEditting().productCategoryId() !== productCategory.productCategoryId) {
-                        populatedParentCategoriesList.splice(0, 0, productCategory);
-                    }
-                });
-                //removing child categories
-                _.each(categoriesToRemoveForParentCategoriesDropdown(), function (productCategory) {
-                    populatedParentCategoriesList.remove(productCategory);
-                });
+                    //putting all list of categories
+                    _.each(parentCategories(), function (productCategory) {
+                        if (selectedProductCategoryForEditting().productCategoryId() !== productCategory.productCategoryId) {
+                            populatedParentCategoriesList.splice(0, 0, productCategory);
+                        }
+                    });
+                    //removing child categories
+                    _.each(categoriesToRemoveForParentCategoriesDropdown(), function (productCategory) {
+                        populatedParentCategoriesList.remove(productCategory);
+                    });
 
-                populatedParentCategoriesList.reverse();
-            },
+                    populatedParentCategoriesList.reverse();
+                },
 
                 //Populate Parent Categories
                 populateParentCategories = ko.computed(function () {
-                if (selectedStore() != null && selectedStore() != undefined) {
-                    if (selectedStore().productCategories() != undefined && selectedStore().productCategories().length > 0) {
-                        parentCategories.removeAll();
-                        _.each(selectedStore().productCategories(), function (item) {
-                            var category = {
-                                productCategoryId: item.productCategoryId(),
-                                categoryName: item.categoryName(),
-                                parentCategoryId: undefined
-                            };
-                            parentCategories.push(category);
-                        });
+                    if (selectedStore() != null && selectedStore() != undefined) {
+                        if (selectedStore().productCategories() != undefined && selectedStore().productCategories().length > 0) {
+                            parentCategories.removeAll();
+                            _.each(selectedStore().productCategories(), function (item) {
+                                var category = {
+                                    productCategoryId: item.productCategoryId(),
+                                    categoryName: item.categoryName(),
+                                    parentCategoryId: undefined
+                                };
+                                parentCategories.push(category);
+                            });
+                        }
                     }
-                }
                 }),
 
                 // #endregion
@@ -4752,7 +4754,7 @@ define("stores/stores.viewModel",
                 if (ist.product.viewModel.filterText() !== undefined && ist.product.viewModel.filterText() !== '') {
                     ist.product.viewModel.filterText('');
                     isProductTabVisited(false);
-                } 
+                }
 
                 if (!isProductTabVisited()) {
                     isProductTabVisited(true);
@@ -5971,7 +5973,7 @@ define("stores/stores.viewModel",
                                     fieldVariablesOfStoreType.push(contactVariable);
                                 });
 
-                                
+
                             }
                             if (!isStoreDirty) {
                                 storeHasChanges.reset();
@@ -6157,7 +6159,7 @@ define("stores/stores.viewModel",
                     }
                 }
             },
-            
+
                 //Remove Smart Form Item
                 deleteSmartFormItem = function (formItem) {
 

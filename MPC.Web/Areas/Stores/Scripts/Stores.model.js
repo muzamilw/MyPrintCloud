@@ -2621,7 +2621,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 canPlaceDirectOrder: canPlaceDirectOrder,
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
-                fileName: fileName
+                fileName: fileName,
+                companyContactVariables:companyContactVariables
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
