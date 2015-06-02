@@ -1111,6 +1111,7 @@ define("stores/stores.viewModel",
                 onCreateNewCompanyCMYKColor = function () {
                     var companyCMYKColor = new model.CompanyCMYKColor();
                     selectedCompanyCMYKColor(companyCMYKColor);
+                    selectedCompanyCMYKColor().isActive(true);
                     view.showCompanyCMYKColorDialog();
                     isSavingNew(true);
                 },
@@ -5877,6 +5878,7 @@ define("stores/stores.viewModel",
                                 fieldvariable.variableOptions.push(model.VariableOption.Create(item));
                             });
                             selectedFieldVariable(fieldvariable);
+                            selectedFieldVariable().reset();
                             view.showVeriableDefinationDialog();
                         }
                     },

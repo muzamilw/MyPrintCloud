@@ -156,6 +156,16 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         public Action<ProductMarketBriefAnswer> DeleteProductMarketBriefAnswer { get; set; }
 
+        /// <summary>
+        /// Action to create a Section Ink Coverage
+        /// </summary>
+        public Func<SectionInkCoverage> CreateSectionInkCoverage { get; set; }
+
+        /// <summary>
+        /// Action to delete a Section Ink Coverage
+        /// </summary>
+        public Action<SectionInkCoverage> DeleteSectionInkCoverage { get; set; }
+
         #endregion
     }
 }
