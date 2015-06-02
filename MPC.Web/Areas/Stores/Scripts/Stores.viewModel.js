@@ -649,6 +649,7 @@ define("stores/stores.viewModel",
             onCreateNewRaveReview = function () {
                 var raveReview = new model.RaveReview();
                 selectedRaveReview(raveReview);
+                selectedRaveReview().isDisplay(false);
                 view.showRaveReviewDialog();
 
                 //var raveReview = selectedRaveReview().raveReviews()[0];
@@ -685,6 +686,7 @@ define("stores/stores.viewModel",
             },
             onEditRaveReview = function (raveReview) {
                 selectedRaveReview(raveReview);
+                selectedRaveReview().reset();
                 view.showRaveReviewDialog();
             },
             onCloseRaveReview = function () {
@@ -3270,6 +3272,7 @@ define("stores/stores.viewModel",
             },
             onEditPaymentGateway = function (paymentGateway) {
                 selectedPaymentGateway(paymentGateway);
+                selectedPaymentGateway().reset();
                 view.showPaymentGatewayDialog();
             },
             onClosePaymentGateway = function () {
@@ -6110,6 +6113,7 @@ define("stores/stores.viewModel",
                 //Create Smart Form
             addSmartForm = function () {
                 selectedSmartForm(model.SmartForm());
+                selectedSmartForm().heading("");
                 view.showSmartFormDialog();
 
             },
