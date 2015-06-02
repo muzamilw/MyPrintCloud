@@ -1953,7 +1953,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 @*<label class="control-label text-right tooltip-float">Proof PDF watermark display option</label>*@
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-3" style="padding-right:15px;">
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkText" value="true" data-bind="checked: $root.selectedStore().isTextWatermark">
                                                     <label for="rdioWatermarkText">
@@ -2197,10 +2197,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 </div>*@
                                                         <label class="control-label text-right tooltip-float">Tax Title/Label</label>
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="input-group" style="width:50%;">
+                                                    <div class="col-lg-3" style="padding-right:10px;">
+                                                        
                                                             <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
 
@@ -2242,10 +2242,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 </div>*@
                                                         @*<label class="control-label text-right tooltip-float">Store Tax</label>*@
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="input-group" style="width:50%;">
-                                                            <input type="text" style="margin-left:-3px;" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
+                                                    <div class="col-lg-3">
+                                                        <div class="input-group">
                                                             <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
+                                                            <input type="text" style="margin-left:-3px;" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

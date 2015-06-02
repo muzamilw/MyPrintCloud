@@ -4025,7 +4025,7 @@ references PipeLineProduct (ProductId)
 drop table ImpositionProfile
 
 ----Executed on Staging on 29/05/2015---------
-
+----Executed on 3 live servers 01/06/2015---------
 
 /* Execution Date: 01/06/2015 */
 
@@ -4331,4 +4331,194 @@ END
 
 GO
 
+/*Execution date 02-06-2015*/
 
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,18
+           ,'{{contact_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,16
+           ,'{{DefaultShipping_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+
+
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,17
+           ,'{{DefaultBilling_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+/* Execution Date: 02/06/2015 */
+
+alter table SmartFormDetail
+drop constraint FK__SmartForm__Varia__012C6796
+
+alter table SmartFormDetail
+add constraint FK_SmartFormDetail_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table ScopeVariable
+drop constraint FK_CompanyContactVariable_FieldVariable
+
+alter table ScopeVariable
+add constraint FK_ScopeVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table VariableOption
+drop constraint FK_VariableOption_FieldVariable
+
+alter table VariableOption
+add constraint FK_VariableOption_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table TemplateVariable
+add constraint FK_TemplateVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+GO
+
+
+/* Execution Date: 02/06/2015 */
+
+alter table SmartFormDetail
+drop constraint FK__SmartForm__Varia__012C6796
+
+alter table SmartFormDetail
+add constraint FK_SmartFormDetail_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table ScopeVariable
+drop constraint FK_CompanyContactVariable_FieldVariable
+
+alter table ScopeVariable
+add constraint FK_ScopeVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table VariableOption
+drop constraint FK_VariableOption_FieldVariable
+
+alter table VariableOption
+add constraint FK_VariableOption_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table TemplateVariable
+add constraint FK_TemplateVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade

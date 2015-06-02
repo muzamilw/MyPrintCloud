@@ -4082,18 +4082,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SmartForm__Varia__012C6796">
-          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1" />
-          <End Role="SmartFormDetail" Type="Self.SmartFormDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="SmartFormDetail">
-              <PropertyRef Name="VariableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__TemplateB__Produ__593384D5">
           <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
           <End Role="TemplateBackgroundImage" Type="Self.TemplateBackgroundImage" Multiplicity="*" />
@@ -4287,18 +4275,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="CompanyContact">
               <PropertyRef Name="ShippingAddressId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CompanyContactVariable_FieldVariable">
-          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="1" />
-          <End Role="ScopeVariable" Type="Self.ScopeVariable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="ScopeVariable">
-              <PropertyRef Name="VariableId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4812,6 +4788,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ScopeVariable_FieldVariable">
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ScopeVariable" Type="Self.ScopeVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="ScopeVariable">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SectionCostcentre_ItemSection">
           <End Role="ItemSection" Type="Self.ItemSection" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -4911,6 +4901,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="SmartForm">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartFormDetail_FieldVariable">
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SmartFormDetail" Type="Self.SmartFormDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="SmartFormDetail">
+              <PropertyRef Name="VariableId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5694,8 +5698,24 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TemplateVariable_FieldVariable">
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TemplateVariable" Type="Self.TemplateVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="TemplateVariable">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_VariableOption_FieldVariable">
-          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1" />
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VariableOption" Type="Self.VariableOption" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FieldVariable">
@@ -6332,10 +6352,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="State" EntitySet="State" />
             <End Role="Organisation" EntitySet="Organisation" />
           </AssociationSet>
-          <AssociationSet Name="FK__SmartForm__Varia__012C6796" Association="Self.FK__SmartForm__Varia__012C6796">
-            <End Role="FieldVariable" EntitySet="FieldVariable" />
-            <End Role="SmartFormDetail" EntitySet="SmartFormDetail" />
-          </AssociationSet>
           <AssociationSet Name="FK__TemplateB__Produ__593384D5" Association="Self.FK__TemplateB__Produ__593384D5">
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImage" />
@@ -6399,10 +6415,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_CompanyContact_ShippingAddress" Association="Self.FK_CompanyContact_ShippingAddress">
             <End Role="Address" EntitySet="Address" />
             <End Role="CompanyContact" EntitySet="CompanyContact" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CompanyContactVariable_FieldVariable" Association="Self.FK_CompanyContactVariable_FieldVariable">
-            <End Role="FieldVariable" EntitySet="FieldVariable" />
-            <End Role="ScopeVariable" EntitySet="ScopeVariable" />
           </AssociationSet>
           <AssociationSet Name="FK_CompanyCostCentre_Company" Association="Self.FK_CompanyCostCentre_Company">
             <End Role="Company" EntitySet="Company" />
@@ -6572,6 +6584,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Company" EntitySet="Company" />
             <End Role="RaveReview" EntitySet="RaveReview" />
           </AssociationSet>
+          <AssociationSet Name="FK_ScopeVariable_FieldVariable" Association="Self.FK_ScopeVariable_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariable" />
+            <End Role="ScopeVariable" EntitySet="ScopeVariable" />
+          </AssociationSet>
           <AssociationSet Name="FK_SectionCostcentre_ItemSection" Association="Self.FK_SectionCostcentre_ItemSection">
             <End Role="ItemSection" EntitySet="ItemSection" />
             <End Role="SectionCostcentre" EntitySet="SectionCostcentre" />
@@ -6603,6 +6619,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_SmartForm_Company" Association="Self.FK_SmartForm_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="SmartForm" EntitySet="SmartForm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartFormDetail_FieldVariable" Association="Self.FK_SmartFormDetail_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariable" />
+            <End Role="SmartFormDetail" EntitySet="SmartFormDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_SmartFormDetail_SmartForm" Association="Self.FK_SmartFormDetail_SmartForm">
             <End Role="SmartForm" EntitySet="SmartForm" />
@@ -6859,6 +6879,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_TemplateColorStyle_Company" Association="Self.FK_TemplateColorStyle_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="TemplateColorStyle" EntitySet="TemplateColorStyle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemplateVariable_FieldVariable" Association="Self.FK_TemplateVariable_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariable" />
+            <End Role="TemplateVariable" EntitySet="TemplateVariable" />
           </AssociationSet>
           <AssociationSet Name="FK_VariableOption_FieldVariable" Association="Self.FK_VariableOption_FieldVariable">
             <End Role="FieldVariable" EntitySet="FieldVariable" />
@@ -7509,10 +7533,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Activity" EntitySet="Activities" />
           </AssociationSet>
           <EntitySet Name="VariableOptions" EntityType="DomainModels.VariableOption" />
-          <AssociationSet Name="FK_VariableOption_FieldVariable" Association="DomainModels.FK_VariableOption_FieldVariable">
-            <End Role="FieldVariable" EntitySet="FieldVariables" />
-            <End Role="VariableOption" EntitySet="VariableOptions" />
-          </AssociationSet>
           <EntitySet Name="SmartForms" EntityType="DomainModels.SmartForm" />
           <EntitySet Name="SmartFormDetails" EntityType="DomainModels.SmartFormDetail" />
           <AssociationSet Name="FK_Invoice_Company" Association="DomainModels.FK_Invoice_Company">
@@ -7548,14 +7568,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </AssociationSet>
           <EntitySet Name="NABTransactions" EntityType="DomainModels.NABTransaction" />
           <EntitySet Name="ScopeVariables" EntityType="DomainModels.ScopeVariable" />
-          <AssociationSet Name="FK_CompanyContactVariable_FieldVariable" Association="DomainModels.FK_CompanyContactVariable_FieldVariable">
-            <End Role="FieldVariable" EntitySet="FieldVariables" />
-            <End Role="ScopeVariable" EntitySet="ScopeVariables" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SmartForm__Varia__012C6796" Association="DomainModels.FK__SmartForm__Varia__012C6796">
-            <End Role="FieldVariable" EntitySet="FieldVariables" />
-            <End Role="SmartFormDetail" EntitySet="SmartFormDetails" />
-          </AssociationSet>
           <EntitySet Name="SaveDesignViews" EntityType="DomainModels.SaveDesignView" />
           <EntitySet Name="NewsLetterSubscribers" EntityType="DomainModels.NewsLetterSubscriber" />
           <AssociationSet Name="FK_tbl_NewsLetterSubscribers_tbl_Contacts" Association="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts">
@@ -7746,6 +7758,22 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_ItemSection_Machine2" Association="DomainModels.FK_ItemSection_Machine2">
             <End Role="Machine" EntitySet="Machines" />
             <End Role="ItemSection" EntitySet="ItemSections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScopeVariable_FieldVariable" Association="DomainModels.FK_ScopeVariable_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+            <End Role="ScopeVariable" EntitySet="ScopeVariables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartFormDetail_FieldVariable" Association="DomainModels.FK_SmartFormDetail_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+            <End Role="SmartFormDetail" EntitySet="SmartFormDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemplateVariable_FieldVariable" Association="DomainModels.FK_TemplateVariable_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+            <End Role="TemplateVariable" EntitySet="TemplateVariables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VariableOption_FieldVariable" Association="DomainModels.FK_VariableOption_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+            <End Role="VariableOption" EntitySet="VariableOptions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -11033,11 +11061,12 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CompanyId" Type="Int64" />
           <Property Name="OrganisationId" Type="Int64" />
           <Property Name="IsSystem" Type="Boolean" />
-          <NavigationProperty Name="VariableOptions" Relationship="DomainModels.FK_VariableOption_FieldVariable" FromRole="FieldVariable" ToRole="VariableOption" />
           <Property Name="VariableTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_FieldVariable_Company" FromRole="FieldVariable" ToRole="Company" />
-          <NavigationProperty Name="ScopeVariables" Relationship="DomainModels.FK_CompanyContactVariable_FieldVariable" FromRole="FieldVariable" ToRole="ScopeVariable" />
-          <NavigationProperty Name="SmartFormDetails" Relationship="DomainModels.FK__SmartForm__Varia__012C6796" FromRole="FieldVariable" ToRole="SmartFormDetail" />
+          <NavigationProperty Name="ScopeVariables" Relationship="DomainModels.FK_ScopeVariable_FieldVariable" FromRole="FieldVariable" ToRole="ScopeVariable" />
+          <NavigationProperty Name="SmartFormDetails" Relationship="DomainModels.FK_SmartFormDetail_FieldVariable" FromRole="FieldVariable" ToRole="SmartFormDetail" />
+          <NavigationProperty Name="TemplateVariables" Relationship="DomainModels.FK_TemplateVariable_FieldVariable" FromRole="FieldVariable" ToRole="TemplateVariable" />
+          <NavigationProperty Name="VariableOptions" Relationship="DomainModels.FK_VariableOption_FieldVariable" FromRole="FieldVariable" ToRole="VariableOption" />
         </EntityType>
         <EntityType Name="TemplateVariable">
           <Key>
@@ -11046,6 +11075,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ProductVariableId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TemplateId" Type="Int64" />
           <Property Name="VariableId" Type="Int64" />
+          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_TemplateVariable_FieldVariable" FromRole="TemplateVariable" ToRole="FieldVariable" />
         </EntityType>
         <EntityType Name="VariableSection">
           <Key>
@@ -12568,18 +12598,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="SortOrder" Type="Int32" />
           <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_VariableOption_FieldVariable" FromRole="VariableOption" ToRole="FieldVariable" />
         </EntityType>
-        <Association Name="FK_VariableOption_FieldVariable">
-          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1" />
-          <End Type="DomainModels.VariableOption" Role="VariableOption" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="VariableOption">
-              <PropertyRef Name="VariableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="SmartForm">
           <Key>
             <PropertyRef Name="SmartFormId" />
@@ -12604,7 +12622,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="SmartForm" Relationship="DomainModels.FK_SmartFormDetail_SmartForm" FromRole="SmartFormDetail" ToRole="SmartForm" />
           <Property Name="VariableId" Type="Int64" />
           <Property Name="CaptionValue" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK__SmartForm__Varia__012C6796" FromRole="SmartFormDetail" ToRole="FieldVariable" />
+          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_SmartFormDetail_FieldVariable" FromRole="SmartFormDetail" ToRole="FieldVariable" />
         </EntityType>
         <Association Name="FK_Invoice_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -12758,32 +12776,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="VariableId" Type="Int64" Nullable="false" />
           <Property Name="Value" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="Scope" Type="Int32" />
-          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_CompanyContactVariable_FieldVariable" FromRole="ScopeVariable" ToRole="FieldVariable" />
+          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_ScopeVariable_FieldVariable" FromRole="ScopeVariable" ToRole="FieldVariable" />
         </EntityType>
-        <Association Name="FK_CompanyContactVariable_FieldVariable">
-          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="1" />
-          <End Type="DomainModels.ScopeVariable" Role="ScopeVariable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="ScopeVariable">
-              <PropertyRef Name="VariableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SmartForm__Varia__012C6796">
-          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1" />
-          <End Type="DomainModels.SmartFormDetail" Role="SmartFormDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="SmartFormDetail">
-              <PropertyRef Name="VariableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="SaveDesignView">
           <Key>
             <PropertyRef Name="ItemID" />
@@ -14209,6 +14203,62 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="ItemSection">
               <PropertyRef Name="PressIdSide2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScopeVariable_FieldVariable">
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.ScopeVariable" Role="ScopeVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="ScopeVariable">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartFormDetail_FieldVariable">
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.SmartFormDetail" Role="SmartFormDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="SmartFormDetail">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemplateVariable_FieldVariable">
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.TemplateVariable" Role="TemplateVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="TemplateVariable">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VariableOption_FieldVariable">
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.VariableOption" Role="VariableOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="VariableOption">
+              <PropertyRef Name="VariableId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

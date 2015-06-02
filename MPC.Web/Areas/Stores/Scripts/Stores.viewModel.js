@@ -1111,6 +1111,7 @@ define("stores/stores.viewModel",
                 onCreateNewCompanyCMYKColor = function () {
                     var companyCMYKColor = new model.CompanyCMYKColor();
                     selectedCompanyCMYKColor(companyCMYKColor);
+                    selectedCompanyCMYKColor().isActive(true);
                     view.showCompanyCMYKColorDialog();
                     isSavingNew(true);
                 },
@@ -1886,6 +1887,7 @@ define("stores/stores.viewModel",
                                 selectedCompanyContact().bussinessAddressId(item.addressId());
                                 selectedCompanyContact().addressId(item.addressId());
                                 selectedBussinessAddress().stateName(item.stateName());
+                                selectedBussinessAddress().stateCode(item.stateCode());
                                 if (!contactHasChanges) {
                                     selectedCompanyContact().reset();
                                 }
@@ -1912,6 +1914,7 @@ define("stores/stores.viewModel",
                             if (selectedCompanyContact() != undefined) {
                                 selectedCompanyContact().shippingAddressId(item.addressId());
                                 selectedShippingAddress().stateName(item.stateName());
+                                selectedShippingAddress().stateCode(item.stateCode());
                                 if (!contactHasChanges) {
                                     selectedCompanyContact().reset();
                                 }
@@ -3499,6 +3502,7 @@ define("stores/stores.viewModel",
                                 //Update Product category Territories
                                 UpdateProductCategoryTerritories(data.CategoryTerritories);
                                 selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
+                                selectedProductCategoryForEditting().reset();
                                 view.showStoreProductCategoryDialog();
                             }
                             isLoadingStores(false);
@@ -3534,6 +3538,7 @@ define("stores/stores.viewModel",
                                 isSavingNewProductCategory(false);
                                 //Update Product category Territories
                                 UpdateProductCategoryTerritories(data.CategoryTerritories);
+                                selectedProductCategoryForEditting().reset();
                                 view.showStoreProductCategoryDialog();
                             }
                             isLoadingStores(false);
@@ -5875,6 +5880,7 @@ define("stores/stores.viewModel",
                                 fieldvariable.variableOptions.push(model.VariableOption.Create(item));
                             });
                             selectedFieldVariable(fieldvariable);
+                            selectedFieldVariable().reset();
                             view.showVeriableDefinationDialog();
                         }
                     },

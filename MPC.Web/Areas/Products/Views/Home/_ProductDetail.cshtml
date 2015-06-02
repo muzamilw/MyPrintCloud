@@ -165,16 +165,16 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                @*<div class="bs-example-tooltips tooltip-float-width">
+                                                <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="All the categories in which this product has been selected to appear accross store. Multiple categories can be selected." data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Select the Product Category(s) that this Product will be available in." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                     </div>
 
 
-                                                    <label for="txtSortOrder" class="control-label text-right tooltip-float">Categories</label>*@
+                                                  @*  <label for="txtSortOrder" class="control-label text-right tooltip-float">Categories</label>*@
 
                                             </div>
                                             <div class="col-lg-9">
@@ -249,7 +249,7 @@
 
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtItemWeight" placeholder="Enter Weight" data-bind="value: itemWeight">
+                                                <input type="text" style="text-align:right" class="form-control" id="txtItemWeight" placeholder="Enter Weight" data-bind="numberValue: itemWeight,numberFormat: ist.lengthFormat">
 
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -261,7 +261,7 @@
                                                 <label for="txtItemLength" class="control-label text-right tooltip-float">Item Length</label>
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtItemLength" placeholder="Enter Length" data-bind="value: itemLength">
+                                                <input type="text" style="text-align:right" class="form-control" id="txtItemLength" placeholder="Enter Length" data-bind="numberValue: itemLength,numberFormat: ist.lengthFormat">
 
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -275,7 +275,7 @@
 
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtItemWidth" placeholder="Enter Width" data-bind="value: itemWidth">
+                                                <input type="text" style="text-align:right" class="form-control" id="txtItemWidth" placeholder="Enter Width" data-bind="numberValue: itemWidth,numberFormat: ist.lengthFormat">
 
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -289,7 +289,7 @@
 
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtItemHeight" placeholder="Enter Height" data-bind="value: itemHeight">
+                                                <input type="text" class="form-control" style="text-align:right" id="txtItemHeight" placeholder="Enter Height" data-bind="numberValue: itemHeight,numberFormat: ist.lengthFormat">
 
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -1944,7 +1944,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtTempWidth" data-bind="value: pdfTemplateWidth, validationTooltip: pdfTemplateWidth, validationOnElement: pdfTemplateWidth" placeholder="Enter Width">
+                                                <input type="text" style="text-align:right"class="form-control" id="txtTempWidth" data-bind="numberValue: pdfTemplateWidth,numberFormat: ist.lengthFormat, validationTooltip: pdfTemplateWidth, validationOnElement: pdfTemplateWidth" placeholder="Enter Width">
                                                 <span class="help-block text-right"></span>
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -1965,7 +1965,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtTempHeight" data-bind="value: pdfTemplateHeight, validationTooltip: pdfTemplateHeight, validationOnElement: pdfTemplateHeight" placeholder="Enter Height">
+                                                <input type="text" style="text-align:right" class="form-control" id="txtTempHeight" data-bind="numberFormat: ist.lengthFormat,numberValue: pdfTemplateHeight, validationTooltip: pdfTemplateHeight, validationOnElement: pdfTemplateHeight" placeholder="Enter Height">
                                                 <span class="help-block text-right"></span>
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -2644,10 +2644,10 @@
                 <input type="text" style="width:200px;" maxlength="15" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName, validationTooltip: pageName, validationOnElement: pageName">
             </td>
             <td>
-                <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="value: height">
+                <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="numberValue: height,numberFormat: ist.lengthFormat">
             </td>
             <td>
-                <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Width" data-bind="value: width">
+                <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Width" data-bind="numberValue: width,numberFormat: ist.lengthFormat">
             </td>
             <td class="text-center">
                 <!-- ko if: $index() < $parent.templatePages().length - 1 -->
@@ -3144,4 +3144,6 @@
     @Html.Partial("~/Areas/Products/Views/Home/_AddProductMarketBriefQuestion.cshtml")
     <!-- /ko -->
     @Html.Partial("~/Areas/Products/Views/Home/_ProductCategoryDialog.cshtml")
+    @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
+    @Html.Partial("~/Areas/Orders/Views/Home/_InksDialogs.cshtml")
 </div>

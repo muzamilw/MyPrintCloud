@@ -211,6 +211,16 @@ namespace MPC.Models.DomainModels
             target.IsItemSizeCustom = IsItemSizeCustom;
             target.IsMainSection = IsMainSection;
             target.ItemSizeId = ItemSizeId;
+            target.PrintingType = PrintingType;
+            target.PressIdSide2 = PressIdSide2;
+            target.ImpressionCoverageSide1 = ImpressionCoverageSide1;
+            target.ImpressionCoverageSide2 = ImpressionCoverageSide2;
+            target.PrintViewLayout = PrintViewLayout;
+            target.PrintViewLayoutLandScape = PrintViewLayoutLandScape;
+            target.PrintViewLayoutPortrait = PrintViewLayoutPortrait;
+            target.IsDoubleSided = IsDoubleSided;
+            target.isWorknTurn = isWorknTurn;
+            target.IsPortrait = IsPortrait;
         }
 
         /// <summary>
@@ -233,13 +243,6 @@ namespace MPC.Models.DomainModels
             target.BaseCharge1 = BaseCharge1;
             target.BaseCharge2 = BaseCharge2;
             target.Basecharge3 = Basecharge3;
-            target.PrintingType = PrintingType;
-            target.PressIdSide2 = PressIdSide2;
-            target.ImpressionCoverageSide1 = ImpressionCoverageSide1;
-            target.ImpressionCoverageSide2 = ImpressionCoverageSide2;
-            target.PrintViewLayout = PrintViewLayout;
-            target.PrintViewLayoutLandScape = PrintViewLayoutLandScape;
-            target.PrintViewLayoutPortrait = PrintViewLayoutPortrait;
             target.PassesSide1 = PassesSide1;
             target.PassesSide2 = PassesSide2;
             target.IsFirstTrim = IsFirstTrim;
