@@ -130,7 +130,36 @@ function b4(imgSrc) {
         }
     });
 }
+function b4_SpecificImg(imgSrc, he, wd) {
 
+    IW = 150;
+    IH = 150;
+
+    $.each(LiImgs, function (i, IT) {
+
+        if (imgSrc.indexOf(IT.ImageName) != -1) {
+
+            IW = IT.ImageWidth;
+            IH = IT.ImageHeight;
+
+
+            var originalWidth = IW;
+            var originalHeight = IH;
+
+            if (wd < he) {
+                he = wd * (originalHeight / originalWidth);
+
+            }
+            else if (he < wd) {
+                wd = (he * (originalWidth / originalHeight));
+            }
+            IW = wd;
+            IH = he;
+
+            return;
+        }
+    });
+}
 function b8(imageID, productID) {
 
     if (confirm("Delete this image from all instances on canvas on all pages! Do you still wish to delete this image now?")) {
@@ -2298,6 +2327,15 @@ function j8(src) {
     if (D1AO.type === 'image') {
         $.each(TO, function (i, IT) {
             if (IT.ObjectID == D1AO.ObjectID) {
+
+                b4_SpecificImg(src, D1AO.maxHeight, D1AO.maxWidth);
+                D1AO.height = (IH);
+                D1AO.width = (IW);
+                D1AO.maxHeight = (IH);
+                D1AO.maxWidth = (IW);
+                D1AO.scaleX = 1;
+                D1AO.scaleY = 1;
+             
                 IT.ContentString = src;
                 D1AO.ImageClippedInfo = null;
                 d5(SP);
