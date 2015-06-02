@@ -937,6 +937,26 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Creates Copy of Section Ink Coverages
+        /// </summary>
+        private void CloneSectionInkCoverages(ItemSection itemSection, ItemSection targetItemSection)
+        {
+            if (targetItemSection.SectionInkCoverages == null)
+            {
+                targetItemSection.SectionInkCoverages = new List<SectionInkCoverage>();
+            }
+
+            foreach (SectionInkCoverage sectionInkCoverage in itemSection.SectionInkCoverages.ToList())
+            {
+                SectionInkCoverage targetSectionInkCoverage = sectionInkCoverageRepository.Create();
+                sectionInkCoverageRepository.Add(targetSectionInkCoverage);
+                targetSectionInkCoverage.SectionId = targetItemSection.ItemSectionId;
+                targetItemSection.SectionInkCoverages.Add(targetSectionInkCoverage);
+                sectionInkCoverage.Clone(targetSectionInkCoverage);
+            }
+        }
+
+        /// <summary>
         /// Copy Item Sections
         /// </summary>
         private void CloneItemSections(Item source, Item target)
@@ -959,6 +979,15 @@ namespace MPC.Implementation.MISServices
                 targetItemSection.ItemId = target.ItemId;
                 target.ItemSections.Add(targetItemSection);
                 itemSection.Clone(targetItemSection);
+
+                // Clone Section Ink Coverages
+                if (itemSection.SectionInkCoverages == null)
+                {
+                    continue;
+                }
+
+                // Copy Section Ink Coverages
+                CloneSectionInkCoverages(itemSection, targetItemSection);
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Section Ink Coverage Domain Model
@@ -13,5 +15,25 @@
         public int? Side { get; set; }
 
         public virtual ItemSection ItemSection { get; set; }
+
+        #region Public 
+
+        /// <summary>
+        /// Creates Copy of Section Ink Coverage
+        /// </summary>
+        public void Clone(SectionInkCoverage target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemSectionInkCoverageClone_InvalidInkCoverage, "target");
+            }
+
+            target.CoverageGroupId = CoverageGroupId;
+            target.Side = Side;
+            target.InkOrder = InkOrder;
+            target.InkId = InkId;
+        }
+
+        #endregion
     }
 }
