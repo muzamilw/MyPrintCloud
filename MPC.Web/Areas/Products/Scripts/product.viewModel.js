@@ -84,6 +84,12 @@ define("product/product.viewModel",
                     lengthUnit = ko.observable(),
                     weightUnit = ko.observable(),
                      isStoreTax = ko.observable(),
+
+                    //productName = ko.observable(),
+
+                     //productName = ko.computed(function () {
+                     //    return selectedProduct() && selectedProduct().productName() ? "(" + selectedProduct().productName() + ") Select Product Categories" : 'Products';
+                     //}),
                     // Selected Region Id
                     selectedRegionId = ko.observable(),
                     // Selected Category Type Id
@@ -131,8 +137,12 @@ define("product/product.viewModel",
                     selectedProduct = ko.observable(),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedProduct() && selectedProduct().productName() ? selectedProduct().productName() : 'Products';
+                        return selectedProduct() && selectedProduct().productName() ? "(" +  selectedProduct().productName() + ") Select the Product Categorie(s) that this product will be in."  : 'Products';
                     }),
+
+                     prodName = ko.computed(function () {
+                         return selectedProduct() && selectedProduct().productName() ? "Section Detail -" + selectedProduct().productName() : 'Products';
+                     }),
                     // Sort On
                     sortOn = ko.observable(1),
                     // Sort Order -  true means asc, false means desc
@@ -596,14 +606,14 @@ define("product/product.viewModel",
                         confirmation.show();
                     },
                     onDeleteTemplatePage = function (templatePage) {
-                        confirmation.messageText("Do you want to delete the template page?");
+                        confirmation.messageText("Do you want to proceed with the request?");
                         confirmation.afterProceed(function () {
                             selectedProduct().template().removeTemplatePage(templatePage);
                         });
                         confirmation.show();
                     },
                     onDeleteItemAddonCostCentre = function () {
-                        confirmation.messageText("Do you want to delete this refining option?");
+                        confirmation.messageText("Do you want to proceed with the request?");
                         confirmation.afterProceed(function () {
                             selectedProduct().activeStockOption().removeItemAddonCostCentre();
                         });
@@ -1820,6 +1830,7 @@ define("product/product.viewModel",
                     errorList: errorList,
                     filterText: filterText,
                     pageHeader: pageHeader,
+                    prodName: prodName,
                     filterTextForRelatedItems: filterTextForRelatedItems,
                     itemRelaterPager: itemRelaterPager,
                     activeVideo: activeVideo,

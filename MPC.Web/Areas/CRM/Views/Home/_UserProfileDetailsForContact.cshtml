@@ -14,12 +14,12 @@
             <div class="col-lg-12 clearfix">
                 <div class="row" id="user-profile">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="main-box clearfix" id="tabsHeader">
+                        <div class="main-box clearfix" style="border:1px solid silver;" id="tabsHeader">
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-UserProfileinfoForContact" data-toggle="tab">Profile</a></li>
                                     <li><a href="#tab-UserAddressInfoForContact" data-toggle="tab">Address Info</a></li>
-                                    <li><a href="#tab-UserPurseForContact" data-toggle="tab">Purse & Credits</a></li>
+                                    
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab-UserProfileinfoForContact">
@@ -181,8 +181,8 @@
                                                     <div class="form-group ">
                                                     </div>
                                                  </div>
-                                                    <h3 class="group-header">Smart form CRM variables that can be auto populated on templates</h3>
-                                                    <div class="col-lg-12 clearfix">
+                                                    @*<h3 class="group-header">Smart form CRM variables that can be auto populated on templates</h3>*@
+                                                    @*<div class="col-lg-12 clearfix">
                                                         <div class="col-lg-6">
                                                             <div class="form-group ">
                                                                 <div class="col-lg-5 text-right">
@@ -301,7 +301,7 @@
                                                         </div>
                                                         <div class="form-group ">
                                                         </div>
-                                                    </div>
+                                                    </div>*@
                                                     <h3 class="group-header">Additional Information</h3>
                                                     <div class="col-lg-12 clearfix">
                                                         <div class="col-lg-6">
@@ -529,17 +529,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="tab-UserPurseForContact">
-                                        <div class="col-lg-12">
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer col-xs-12">
+            <div class="modal-footer col-xs-12" style="padding-left:4px;">
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyContact">Archive</button>

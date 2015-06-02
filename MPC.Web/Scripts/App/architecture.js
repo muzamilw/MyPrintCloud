@@ -54,7 +54,8 @@ var ist = {
         return x1 + x2;
     },
     numberFormat: "0,0.00",
-    ordinalFormat: "0"
+    ordinalFormat: "0",
+    lengthFormat: "0.000"
 };
 
 // Busy Indicator
@@ -324,6 +325,7 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 };
+                // Handles typing changes 
                 instance.on('contentDom', function () {
                     instance.document.on('keyup', function (event) {
                         if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
@@ -331,7 +333,13 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 });
-               
+                // Handles styling changes 
+                instance.on('afterCommandExec', handleAfterCommandExec);
+                function handleAfterCommandExec(event) {
+                    if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
+                        ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
+                    }
+                }
                 value.subscribe(function (newValue) {
                     if (!isEditorChange) {
                         isSubscriberChange = true;

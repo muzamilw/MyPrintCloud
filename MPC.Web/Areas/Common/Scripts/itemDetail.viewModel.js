@@ -494,7 +494,7 @@ define("common/itemDetail.viewModel",
                             selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
 
                         } else {
-                            var newCost = selectedSectionCostCenter().qty1Charge() + sectionCostCenterDetail.costPrice();
+                            var newCost = selectedSectionCostCenter().qty1Charge() + (sectionCostCenterDetail.costPrice() * sectionCostCenterDetail.qty1());
                             selectedSectionCostCenter().qty1Charge(newCost);
                             selectedSectionCostCenter().qty1NetTotal(newCost);
                             setWorkInstructionsForStockCostCenter(selectedSectionCostCenter());
@@ -542,7 +542,7 @@ define("common/itemDetail.viewModel",
                     openStockItemDialog = function () {
                         stockDialog.show(function (stockItem) {
                             selectedSection().selectStock(stockItem);
-                        }, stockCategory.paper, false);
+                        }, stockCategory.paper, false, currencySymbol(), selectedOrder().taxRate());
                     },
                     //Section Cost Center Dialog
                     openSectionCostCenterDialog = function (costCenter, qty) {
@@ -1423,7 +1423,7 @@ define("common/itemDetail.viewModel",
                         isAddProductForSectionCostCenter(true);
                         stockDialog.show(function (stockItem) {
                             onSaveStockItem(stockItem);
-                        }, stockCategory.paper, false);
+                        }, stockCategory.paper, false, currencySymbol(), selectedOrder().taxRate());
                     },
                     //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {

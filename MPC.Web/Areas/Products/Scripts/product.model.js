@@ -423,13 +423,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Allow Image Download
             allowImageDownload = ko.observable(specifiedAllowImageDownload || false),
             // Item Length
-            itemLength = ko.observable(specifiedItemLength || undefined).extend({ number: true }),
+            itemLength = ko.observable(specifiedItemLength || 0),
             // Item Height
-            itemHeight = ko.observable(specifiedItemHeight || undefined).extend({ number: true }),
+            itemHeight = ko.observable(specifiedItemHeight || 0),
             // Item Width
-            itemWidth = ko.observable(specifiedItemWidth || undefined).extend({ number: true }),
+            itemWidth = ko.observable(specifiedItemWidth || 0),
             // Item Weight
-            itemWeight = ko.observable(specifiedItemWeight || undefined).extend({ number: true }),
+            itemWeight = ko.observable(specifiedItemWeight || 0),
             // Organisation Id
             organisationId = ko.observable(specifiedOrganisationId || undefined),
             // Company Id
@@ -1708,6 +1708,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription9: jobDescription9,
             jobDescription10: jobDescription10,
             isTemplateTabsVisible: isTemplateTabsVisible,
+           
             flagId: flagId,
             internalFlagId: internalFlagId,
             isQtyRangedUi: isQtyRangedUi,
