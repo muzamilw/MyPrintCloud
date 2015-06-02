@@ -550,7 +550,7 @@
                                             <h2 style="padding-right:5px;">
                                                 Product Categories
                                                 <a data-bind="click: $root.onCreateNewProductCategory" class="btn btn-primary pull-right">
-                                                    Add New Product Category
+                                                    Add New Category
                                                 </a>
                                             </h2>
                                             @*<div class="text-left">
@@ -575,7 +575,7 @@
                                     <div class="clearfix">
                                         <header>
                                             <div class="text-left">
-                                                <h2>Products</h2>
+                                                <h2 data-bind="text: $root.selectedCategoryName">Products</h2>
                                             </div>
                                         </header>
                                         <!-- ko stopBinding: true -->
@@ -979,7 +979,7 @@
                                 <div class="col-md-12 form-horizontal">
 
                                     <p class="group-header-description">Manage the theme (UI/Look and feel) of your store. select from a range of already available themes or modify an existing theme.</p>
-                                    <div class="col-md-9">
+                                    <div class="col-md-9" style="padding-right:0px;">
                                         @*<div class="form-group">
                                                 <div classs="col-lg-2 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -1544,8 +1544,8 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;">
-                                                                        <div data-bind="click:$root.onAddSecondaryPage" style="margin-right: 14px" class="btn btn-primary">
+                                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top:15px;margin-bottom:15px; margin-left: -8px;">
+                                                                        <div data-bind="click:$root.onAddSecondaryPage" style="margin-right:14px" class="btn btn-primary">
                                                                             Add New User Defined Page
                                                                         </div>
                                                                     </div>
@@ -2633,9 +2633,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Is shipping cost taxed?" data-original-title="" title="">
+                                                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Is shipping cost taxed?" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
+                                                            </a>*@
                                                         </div>
                                                         <label class="control-label text-right tooltip-float">Shipping charge taxable</label>
                                                     </div>
@@ -2666,7 +2666,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         <label for="txtPickUpLocation" style="padding-top:10px;" class="control-label text-right tooltip-float">Carriers pickup location </label>
                                                     </div>
                                                     <div class="col-lg-5" data-bind="with: $root.pickupAddress">
-                                                        <input type="text" disabled="disabled" class="form-control" style="float:left;width:90%" placeholder="Pick Up Location/Zip code" id="txtPickUpLocation" data-bind="value: $root.pickUpLocationValue ">
+                                                        <input type="text" disabled="disabled" class="form-control" style="float:left;width:88%" placeholder="Pick Up Location/Zip code" id="txtPickUpLocation" data-bind="value: $root.pickUpLocationValue ">
                                                         <a data-toggle="modal" href="#SelectAddressSetModal" class="btn btn-primary pull-right">
                                                             <i class="fa  fa-lg"></i>&nbsp;....
                                                         </a>

@@ -146,12 +146,7 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to make artwork production ready of the order
-                    amplify.request.define('makeOrderArtworkProductionReady', 'ajax', {
-                        url: ist.siteUrl + '/Api/OrderArtworkProductionReady',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
+                    
                     // Define request to get base data for inquiry
                     amplify.request.define('getBaseDataForInquiry', 'ajax', {
                         url: ist.siteUrl + '/Api/InquiryBase',
@@ -355,16 +350,7 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
-            // make order artwork production ready
-              makeOrderArtworkProductionReady = function (params, callbacks) {
-                  initialize();
-                  return amplify.request({
-                      resourceId: 'makeOrderArtworkProductionReady',
-                      success: callbacks.success,
-                      error: callbacks.error,
-                      data: params
-                  });
-              },
+            
              // get Base Data For Inquiry
             getBaseDataForInquiry = function (params, callbacks) {
                 initialize();
@@ -408,8 +394,7 @@ define("order/order.dataservice", function () {
             getInquiryItems: getInquiryItems,
             getBaseDataForInquiry: getBaseDataForInquiry,
             getBaseDataForEstimate: getBaseDataForEstimate,
-            downloadOrderArtwork: downloadOrderArtwork,
-            makeOrderArtworkProductionReady: makeOrderArtworkProductionReady
+            downloadOrderArtwork: downloadOrderArtwork
 
 
         };

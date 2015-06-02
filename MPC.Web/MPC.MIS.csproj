@@ -329,7 +329,6 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNoteBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNotesController.cs" />
-    <Compile Include="Areas\Api\Controllers\OrderArtworkProductionReadyController.cs" />
     <Compile Include="Areas\Api\Controllers\EstimateBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryController.cs" />
