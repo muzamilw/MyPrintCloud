@@ -1,12 +1,12 @@
 ﻿
 <div class="modal fade my-modal" id="myProductCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog " style="width: 1030px;">
-        <div class="modal-content">
+        <div class="modal-content" data-bind="with: $root.selectedProductCategoryForEditting">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-               
+
                 <h4 class="modal-title" data-bind="text: $root.productCategoryTitle()"></h4>
-                
+
             </div>
             <div class="row" id="tabsheadersecondarypage">
 
@@ -23,7 +23,7 @@
                                 <li><a href="#tab-productCategoryImages" data-toggle="tab">Category Images</a></li>
                                 <li><a href="#tab-productCategoryTerritories" data-toggle="tab">Corporate Address Territories</a></li>
                             </ul>
-                            <div class="tab-content" data-bind="with: $root.selectedProductCategoryForEditting">
+                            <div class="tab-content">
 
                                 <div class="tab-pane fade in active" id="tab-CatNameAndImages">
                                     <div class="col-lg-12 form-horizontal">
@@ -31,11 +31,11 @@
                                         <div class="col-lg-8">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Category Name contains name of specifice category." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-                                                    </div>
+                                                    </div>*@
                                                     <label for="txtProductName" class="control-label text-right tooltip-float">Category Name</label>
                                                 </div>
                                                 <div class="col-lg-6" style="height:35px;">
@@ -59,7 +59,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group" style="margin-bottom:10px;">
+                                            @*<div class="form-group" style="margin-bottom:10px;">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories in which there is all shelf products" data-original-title="" title="">
@@ -80,14 +80,14 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>*@
                                             <div class="form-group" style="margin-bottom:10px;">
                                                 <div class="col-lg-4 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable category" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-                                                    </div>
+                                                    </div>*@
                                                     <label class="control-label text-right" for="switchSecondaryPages">Enabled</label>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -105,11 +105,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Publish Category on webstore" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-                                                    </div>
+                                                    </div>*@
                                                     <label class="control-label text-right" for="switchSecondaryPages">Published on Store</label>
                                                 </div>
 
@@ -131,7 +131,7 @@
 
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <div class=" clearfix">
-                                                
+
                                                 <div class="main-box-body clearfix pull-right">
                                                     <div class="profile-status">
 
@@ -152,18 +152,18 @@
 
                                                     </div>
                                                     <div class="profile-details">
-                                                        <ul class="fa-ul">   
+                                                        <ul class="fa-ul">
                                                             <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa" data-bind="css: {'fa-check': isPublished() == true, 'fa-times': isPublished() != true}"></i></li>
 
                                                             <li><i class="fa-li fa fa-archive"></i>Enabled: <i class="fa" data-bind="css: {'fa-check': isEnabled() == true, 'fa-times': isEnabled() != true}"></i></li>
                                                         </ul>
                                                     </div>
                                                     @* <div class="profile-message-btn center-block text-center">
-                                                            <a href="#" class="btn btn-success">
-                                                                <i class="fa fa-envelope"></i>
-                                                                Send message
-                                                            </a>
-                                                        </div>*@
+                                                        <a href="#" class="btn btn-success">
+                                                            <i class="fa fa-envelope"></i>
+                                                            Send message
+                                                        </a>
+                                                    </div>*@
                                                 </div>
                                             </div>
                                         </div>
@@ -190,7 +190,7 @@
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Sort Order" data-bind="value: displayOrder">
-                                                   
+
                                                 </div>
                                             </div>
                                             <div class="form-group" style="margin-bottom:10px;">
@@ -699,7 +699,7 @@
                                         <div class="col-lg-9 form-horizontal">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
-                                                    
+
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <img style="height: 130px; width: 240px;" data-bind="attr: { src: productCategoryThumbnailFileBinary }" />
@@ -718,19 +718,22 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
-                                                   
+
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <img style="height:130px; width: 240px;" data-bind="attr: { src: productCategoryImageFileBinary }" />
-                                                    <div style="width:240px;margin-top:10px; text-align:center;">   @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
-                                                        <div class="fileUpload btn btn-primary" >  @*data-bind="click:$root.openMediaLibraryDialogFromProductCategoryBanner"*@
+                                                    <div style="width:240px;margin-top:10px; text-align:center;">
+                                                        @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
+                                                        <div class="fileUpload btn btn-primary">
+                                                            @*data-bind="click:$root.openMediaLibraryDialogFromProductCategoryBanner"*@
                                                             <span>Upload</span>
                                                             <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
                                                     <div style="width:240px;text-align:center;">
-                                                        <span class="help-block">Category banner (PNG,JPG,GIF) can be displayed on the selected category page as a background Image (controlled by CSS). Dimensions depend upon the theme and how it should appear on Category page as background which can be controlled using CSS.</span></div>
+                                                        <span class="help-block">Category banner (PNG,JPG,GIF) can be displayed on the selected category page as a background Image (controlled by CSS). Dimensions depend upon the theme and how it should appear on Category page as background which can be controlled using CSS.</span>
                                                     </div>
+                                                </div>
 
                                             </div>
                                         </div>
@@ -763,9 +766,9 @@
                     </div>
                 </div>
             </div>
-        <div class="modal-footer">
-            <button class="btn btn-danger pull-left" data-bind="click: $root.onArchiveCategory, visible: $root.selectedProductCategoryForEditting()!=undefined && $root.selectedProductCategoryForEditting().productCategoryId() > 0">Archive</button>
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory">Save</button>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" data-bind="click: $root.onArchiveCategory, visible: $root.selectedProductCategoryForEditting()!=undefined && $root.selectedProductCategoryForEditting().productCategoryId() > 0">Archive</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductCategory" style="margin-left:0px;">Close</button>
             </div>
         </div>

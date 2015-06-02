@@ -3437,7 +3437,7 @@ define("stores/stores.viewModel",
                 productCategory.isPublished(true);
                 //Setting Product Category Editting
                 selectedProductCategoryForEditting(productCategory);
-                productCategoryStatus("Category Details");
+                productCategoryStatus("Add/Edit Category Details");
 
                 //Setting drop down list of parent
                 //putting all list of categories
@@ -3499,6 +3499,7 @@ define("stores/stores.viewModel",
                                 //Update Product category Territories
                                 UpdateProductCategoryTerritories(data.CategoryTerritories);
                                 selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
+                                selectedProductCategoryForEditting().reset();
                                 view.showStoreProductCategoryDialog();
                             }
                             isLoadingStores(false);
@@ -3534,6 +3535,7 @@ define("stores/stores.viewModel",
                                 isSavingNewProductCategory(false);
                                 //Update Product category Territories
                                 UpdateProductCategoryTerritories(data.CategoryTerritories);
+                                selectedProductCategoryForEditting().reset();
                                 view.showStoreProductCategoryDialog();
                             }
                             isLoadingStores(false);

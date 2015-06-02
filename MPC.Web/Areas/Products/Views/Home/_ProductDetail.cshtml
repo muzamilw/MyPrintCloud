@@ -32,10 +32,14 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul id="itemProductTabListItem" class="nav nav-tabs" data-bind="with: selectedProduct">
                             <li class="active"><a href="#tab-ProdNameAndImages" data-toggle="tab">Basic Details</a></li>
-                            <li><a href="#tab-ProductDetailSection" data-toggle="tab">Detail Page and Section</a></li>
+                            <!-- ko if: isTemplateTabsVisible -->
+                            <li><a href="#tab-ProductDetailSection" data-toggle="tab">Artwork and Sections</a></li>
+                            <!-- /ko -->
                             <li><a href="#tab-StockLabels" data-toggle="tab">Stock Labels</a></li>
                             <li><a href="#tab-pricetable" data-toggle="tab">Price Table Defaults</a></li>
+                            <!-- ko if: itemProductDetail().isInternalActivity() -->
                             <li><a href="#tab-supplierPrice" data-toggle="tab">Supplier Prices</a></li>
+                            <!-- /ko -->
                             <li><a href="#tab-internalDescription" data-toggle="tab">Internal Descriptions</a></li>
                             <!-- ko if: isTemplateTabsVisible -->
                             <li><a href="#tab-tempProperties" id="tabTempProperties" data-toggle="tab">Template Properties</a></li>
@@ -68,7 +72,7 @@
                                                 <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios" id="optionYesForProduct" value="1" data-bind="checked: isFinishedGoodsUi">
                                                     <label for="optionYesForProduct">
-                                                        Printed Product (Digital / Litho)
+                                                        Printed Product (Digital / Litho) Single Personalization
                                                     </label>
                                                 </div>
                                                 <div class="radio" style="padding-left:0px;">
@@ -138,11 +142,27 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Sort Order" data-bind="value: sortOrder">
+                                                <input type="text" class="form-control" id="txtSortOrder" style="width:21%" placeholder="Enter Sort Order" data-bind="value: sortOrder">
 
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated production days will be used to calculate the approximate delivery date and displayed on store shopping cart page.  If there are multiple products in cart then production days of all products will be added including  weekend’s will be added to get a approximate delivery date." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtProductName" class="control-label text-right tooltip-float">Est. Production Time</label>
+
+                                            </div>
+                                            <div id="estProductionTimeContainer" class="col-lg-6">
+                                                <input type="text" style="width:21%" class="form-control pull-left marginR5" data-bind="value: estimateProductionTime" id="txtEstProductionTime">
+                                                <span class="help-block marginT7">day(s)</span>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
@@ -229,7 +249,7 @@
 
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtItemWeight" placeholder="Enter Weight" data-bind="value: itemWeight">
+                                                <input type="text" style="text-align:right" class="form-control" id="txtItemWeight" placeholder="Enter Weight" data-bind="numberValue: itemWeight,numberFormat: ist.lengthFormat">
 
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -241,7 +261,7 @@
                                                 <label for="txtItemLength" class="control-label text-right tooltip-float">Item Length</label>
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtItemLength" placeholder="Enter Length" data-bind="value: itemLength">
+                                                <input type="text" style="text-align:right" class="form-control" id="txtItemLength" placeholder="Enter Length" data-bind="numberValue: itemLength,numberFormat: ist.lengthFormat">
 
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -255,7 +275,7 @@
 
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtItemWidth" placeholder="Enter Width" data-bind="value: itemWidth">
+                                                <input type="text" style="text-align:right" class="form-control" id="txtItemWidth" placeholder="Enter Width" data-bind="numberValue: itemWidth,numberFormat: ist.lengthFormat">
 
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -269,7 +289,7 @@
 
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtItemHeight" placeholder="Enter Height" data-bind="value: itemHeight">
+                                                <input type="text" class="form-control" style="text-align:right" id="txtItemHeight" placeholder="Enter Height" data-bind="numberValue: itemHeight,numberFormat: ist.lengthFormat">
 
                                             </div>
                                             <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
@@ -337,6 +357,258 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
+
+
+
+
+
+
+
+                                        <div class="form-group">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right" for="switchFeaturedProduct">Is External Activity</label>
+
+                                            </div>
+                                            <div class="col-lg-3" data-bind="with: itemProductDetail">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsInternalActivity" data-bind="checked: isInternalActivity">
+                                                    <label class="onoffswitch-label" for="switchIsInternalActivity">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                        @*<div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+                                            </div>
+                                            <div id="estProductionTimeContainer" class="col-lg-6" data-bind="with: itemProductDetail">
+                                               
+                                                <div class="radio" style="padding-left:0px;">
+                                                    <input type="radio" data-bind="checked: isInternalActivityUi" value="true" name="optionsRadiosExternalSup1" id="optionActivityNoSup1">
+                                                    <label class="labelBold" for="optionActivityNoSup1">
+                                                        Internal Activity
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                             
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+                                            </div>
+                                            <div id="estProductionTimeContainer" class="col-lg-6" data-bind="with: itemProductDetail">
+                                                
+                                                <div class="radio">
+                                                    <input type="radio" name="optionsRadiosExternalSup1" data-bind="checked: isInternalActivityUi" value="false" id="optionActivityYesSup1">
+                                                    <label class="labelBold" for="optionActivityYesSup1">
+                                                        External Activity
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                              
+                                            </div>
+                                        </div>*@
+
+
+
+
+
+                                     
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-12 form-horizontal">
+                                    <h3 class="group-header">Third party integrations</h3>
+                                    <div class="col-lg-9">
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Xero access code is a unique pairing of the API application and the organisation in Xero. If, under a separate login/instance of your application, a user attempts to authenticate a connection to the same organisation in Xero, this will replace the previous access token." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+                                                <label for="txtZeroAccessCode" class="control-label text-right tooltip-float">Xero Access Code</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="txtZeroAccessCode" placeholder="Xero Access Code" data-bind="value: xeroAccessCode">
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Xero Access Code Format</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label for="txtProductName" class="control-label text-right">xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx</label>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-12 form-horizontal" id="VDPTable" data-bind="visible: isVdpProduct">
+                                    <h3 class="group-header">VDP Price Table</h3>
+                                    <header class="clearfix">
+                                        <div class="filter-block pull-right">
+                                            <a class="btn btn-primary pull-right" data-bind="click: addItemVdpPrice, enable: canAddItemVdpPrice, attr: { title: !canAddItemVdpPrice() ? 'Can not add more than 15' : '' }">
+                                                Add VDP Price
+                                            </a>
+                                        </div>
+                                    </header>
+                                    <div>&nbsp;</div>
+                                    <div class="main-box no-header clearfix">
+                                        <div class="main-box-body clearfix">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="text-align:center;"><span>RANGE of Clicks</span></th>
+                                                            <th style="text-align:center;"><span> Price per Click</span></th>
+                                                            <th style="text-align:center;"><span>Setup Charge</span></th>
+                                                            <th>&nbsp;</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- ko template: { name: 'itemVdpPriceTemplate', foreach: itemVdpPrices } -->
+                                                        <!-- /ko -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="tab-ProductDetailSection" data-bind="with: selectedProduct">
+                                <div class="col-md-12 form-horizontal">
+
+                                    <div class="col-md-9">
+                                        @*<div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label class="control-label text-right"></label>
+
+                                            </div>
+                                            <div class="col-lg-9" data-bind="with: itemProductDetail">
+                                                <div class="radio" style="padding-left:8px;">
+                                                    <input type="radio" name="sectionOptionsRadiosPrint" id="sectionOptionPrintYes" data-bind="checked: isPrintItemUi" value="2">
+                                                    <label for="sectionOptionPrintYes">
+                                                        No Print - No Signatures required ( no section need to be define)
+                                                    </label>
+                                                </div>
+                                                <div class="radio" style="padding-left:8px;">
+                                                    <input type="radio" name="sectionOptionsRadiosPrint" id="sectionOptionPrintNo" value="1" data-bind="checked: isPrintItemUi">
+                                                    <label for="sectionOptionPrintNo">
+                                                        Digital Litho Print Paginations
+                                                    </label>
+                                                </div>
+
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>*@
+                                        @*<div class="form-group" data-bind="visible: itemProductDetail().isPrintItemUi() === '1'">*@
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+
+
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <label style="font-weight:bold;" class="control-label text-right">Create the preferred Signatures (sections) layout for this product</label>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Unique Signatures" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right  tooltip-float">Unique Signatures</label>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <div class="col-md-2">
+                                                        <input type="text" disabled="disabled" style="width:95px;" class="form-control" id="txtSection" data-bind="value: itemSections().length">
+
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div class="col-md-1">
+                                                            <button id="AddSection" type="button" style="float:left;" data-bind="visible: canAddItemSection, click: addItemSection" class="btn btn-success">
+                                                                <span class="fa"></span> +
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-md-1" style="margin-left: 14px;">
+                                                            <button id="RemoveSection" type="button" style="float:right;display:none;" data-bind="visible: canRemoveItemSection, click: removeItemSection" class="btn btn-danger">
+                                                                <span class="fa"></span>
+                                                                -
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <span class="help-block">(up to 5 Permitted)</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3">
+
+                                                </div>
+                                                <div class="col-lg-9" style="margin-bottom:10px;">
+                                                    <div id="mainDivSections">
+                                                        <!-- ko foreach: itemSections -->
+                                                        <div class="col-lg-3">
+                                                            <div class="rows">
+                                                                <div class="col-md-2">
+                                                                    <img src="~/Content/Images/Page.png" alt="Signature" style="position:relative; margin-left: -18px;" />
+                                                                    <textarea disabled="disabled" rows="3" id="detailSectionName" class="form-control imgtext" data-bind="value: name, validationToolTip: name, validationOnElement: name"></textarea>
+                                                                    <a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary signaturemodify">
+                                                                        <i class="fa fa-lg"></i>&nbsp;Modify
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <!-- /ko -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
@@ -424,22 +696,7 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        @*<div class="form-group">
-                                                <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Add crop marks to artwork in editor</label>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAddCropMarksProduct" data-bind="checked: isAddCropMarks">
-                                                        <label class="onoffswitch-label" for="switchAddCropMarksProduct">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
-                                                    </div>
-                                                    <span class="help-block text-right"></span>
-                                                </div>
-                                            </div>*@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
@@ -536,179 +793,7 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Third party integrations</h3>
-                                    <div class="col-lg-9">
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Xero access code is a unique pairing of the API application and the organisation in Xero. If, under a separate login/instance of your application, a user attempts to authenticate a connection to the same organisation in Xero, this will replace the previous access token." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-
-                                                <label for="txtZeroAccessCode" class="control-label text-right tooltip-float">Xero Access Code</label>
-
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtZeroAccessCode" placeholder="Xero Access Code" data-bind="value: xeroAccessCode">
-                                                <span class="help-block text-right"></span>
-                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-
-                                                </div>
-                                                <label class="control-label text-right tooltip-float">Xero Access Code Format</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label for="txtProductName" class="control-label text-right">xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx</label>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-lg-12 form-horizontal" id="VDPTable" data-bind="visible: isVdpProduct">
-                                    <h3 class="group-header">VDP Price Table</h3>
-                                    <header class="clearfix">
-                                        <div class="filter-block pull-right">
-                                            <a class="btn btn-primary pull-right" data-bind="click: addItemVdpPrice, enable: canAddItemVdpPrice, attr: { title: !canAddItemVdpPrice() ? 'Can not add more than 15' : '' }">
-                                                Add VDP Price
-                                            </a>
-                                        </div>
-                                    </header>
-                                    <div>&nbsp;</div>
-                                    <div class="main-box no-header clearfix">
-                                        <div class="main-box-body clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="text-align:center;"><span>RANGE of Clicks</span></th>
-                                                            <th style="text-align:center;"><span> Price per Click</span></th>
-                                                            <th style="text-align:center;"><span>Setup Charge</span></th>
-                                                            <th>&nbsp;</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- ko template: { name: 'itemVdpPriceTemplate', foreach: itemVdpPrices } -->
-                                                        <!-- /ko -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="tab-pane fade" id="tab-ProductDetailSection" data-bind="with: selectedProduct">
-                                <div class="col-md-12 form-horizontal">
-
-                                    <div class="col-md-9">
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <label class="control-label text-right"></label>
-
-                                            </div>
-                                            <div class="col-lg-9" data-bind="with: itemProductDetail">
-                                                <div class="radio" style="padding-left:8px;">
-                                                    <input type="radio" name="sectionOptionsRadiosPrint" id="sectionOptionPrintYes" data-bind="checked: isPrintItemUi" value="2">
-                                                    <label for="sectionOptionPrintYes">
-                                                        No Print - No Signatures required ( no section need to be define)
-                                                    </label>
-                                                </div>
-                                                <div class="radio" style="padding-left:8px;">
-                                                    <input type="radio" name="sectionOptionsRadiosPrint" id="sectionOptionPrintNo" value="1" data-bind="checked: isPrintItemUi">
-                                                    <label for="sectionOptionPrintNo">
-                                                        Digital Litho Print Paginations
-                                                    </label>
-                                                </div>
-
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group" data-bind="visible: itemProductDetail().isPrintItemUi() === '1'">
-                                            <div class="col-lg-3 text-right">
-
-
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <label style="font-weight:bold;" class="control-label text-right">Create the preferred Signatures (sections) layout for this product</label>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group" data-bind="visible: itemProductDetail().isPrintItemUi() === '1'">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Unique Signatures" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label class="control-label text-right  tooltip-float">Unique Signatures</label>
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <div class="col-md-2">
-                                                    <input type="text" disabled="disabled" style="width:95px;" class="form-control" id="txtSection" data-bind="value: itemSections().length">
-
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <div class="col-md-1">
-                                                        <button id="AddSection" type="button" style="float:left;" data-bind="visible: canAddItemSection, click: addItemSection" class="btn btn-success">
-                                                            <span class="fa"></span> +
-                                                        </button>
-                                                    </div>
-                                                    <div class="col-md-1" style="margin-left: 14px;">
-                                                        <button id="RemoveSection" type="button" style="float:right;display:none;" data-bind="visible: canRemoveItemSection, click: removeItemSection" class="btn btn-danger">
-                                                            <span class="fa"></span>
-                                                            -
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="col-md-4">
-                                                        <span class="help-block">(up to 5 Permitted)</span>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3">
-
-                                            </div>
-                                            <div class="col-lg-9" style="margin-bottom:10px;" data-bind="visible: itemProductDetail().isPrintItemUi() === '1'">
-                                                <div id="mainDivSections">
-                                                    <!-- ko foreach: itemSections -->
-                                                    <div class="col-lg-3">
-                                                        <div class="rows">
-                                                            <div class="col-md-2">
-                                                                <img src="~/Content/Images/Page.png" alt="Signature" style="position:relative; margin-left: -18px;" />
-                                                                <textarea disabled="disabled" rows="3" id="detailSectionName" class="form-control imgtext" data-bind="value: name, validationToolTip: name, validationOnElement: name"></textarea>
-                                                                <a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary signaturemodify">
-                                                                    <i class="fa fa-lg"></i>&nbsp;Modify
-                                                                </a>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <!-- /ko -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
 
 
@@ -995,13 +1080,13 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadiosFixed" id="optionQtyYes" data-bind="checked: isQtyRangedUi" value="2">
                                                     <label for="optionQtyYes">
                                                         Fixed Qty Prices
                                                     </label>
                                                 </div>
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadiosFixed" id="optionQtyNo" data-bind="checked: isQtyRangedUi" value="1">
                                                     <label for="optionQtyNo">
                                                         Ranged Qty Prices Per Unit
@@ -1118,7 +1203,7 @@
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Weight is per individual Item e.g. for each business card . Based on the Qauntity the accumulative weight of ordered product is calculated, the accumulative weight is then used to calculate shipping cost from 3rd party shipping carriers." data-original-title="" title="">
@@ -1143,7 +1228,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
 
@@ -1218,23 +1303,57 @@
                                 <div class="col-lg-12 form-horizontal">
 
                                     <div class="col-lg-12 form-horizontal">
-                                        <div class="form-group">
+                                       
+
+                                        <h3 class="group-header">Activity Options</h3>
+
+
+                                        @*<div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated production days will be used to calculate the approximate delivery date and displayed on store shopping cart page.  If there are multiple products in cart then production days of all products will be added including  weekend’s will be added to get a approximate delivery date." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtProductName" class="control-label text-right tooltip-float">Est. Production Time</label>
-
+                                                
                                             </div>
-                                            <div id="estProductionTimeContainer" class="col-lg-6">
-                                                <input type="text" style="width:21%" class="form-control pull-left marginR5" data-bind="value: estimateProductionTime" id="txtEstProductionTime">
-                                                <span class="help-block marginT7">day(s)</span>
+                                            <div id="estProductionTimeContainer" class="col-lg-6" data-bind="with: itemProductDetail">
+                                           
+                                                    <div class="radio" style="padding-left:0px;">
+                                                        <input type="radio" data-bind="checked: isInternalActivityUi" value="true" name="optionsRadiosExternalSup1" id="optionActivityNoSup1">
+                                                        <label class="labelBold" for="optionActivityNoSup1">
+                                                            Internal Activity
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                    </div>
+                                                    <span class="help-block text-right"></span>
+                                               
                                             </div>
                                         </div>
-                                        <div class="form-group" data-bind="with: itemProductDetail">
+
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+                                            </div>
+                                            <div id="estProductionTimeContainer" class="col-lg-6" data-bind="with: itemProductDetail">
+                                           
+                                                <div class="radio">
+                                                    <input type="radio" name="optionsRadiosExternalSup1" data-bind="checked: isInternalActivityUi" value="false" id="optionActivityYesSup1">
+                                                    <label class="labelBold" for="optionActivityYesSup1">
+                                                        External Activity
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                               
+                                            </div>
+                                        </div>*@
+
+
+
+
+
+
+
+
+                                        @*<div class="form-group" data-bind="with: itemProductDetail">
                                             <div class="col-lg-2 text-right">
                                                 <div class="radio">
                                                     <input type="radio" data-bind="checked: isInternalActivityUi" value="true" name="optionsRadiosExternalSup1" id="optionActivityNoSup1">
@@ -1247,9 +1366,9 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
 
-                                        </div>
+                                        </div>*@
 
-                                        <div class="form-group" data-bind="with: itemProductDetail">
+                                        @*<div class="form-group" data-bind="with: itemProductDetail">
                                             <div class="col-lg-2 text-right">
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadiosExternalSup1" data-bind="checked: isInternalActivityUi" value="false" id="optionActivityYesSup1">
@@ -1265,8 +1384,9 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
 
-                                        </div>
-                                        <div id="externalDiv" data-bind="visible: itemProductDetail().isInternalActivityUi() === 'false'" style="display: block;">
+                                        </div>*@
+                                        @*data-bind="visible: itemProductDetail().isInternalActivityUi() === 'false'"*@
+                                        <div id="externalDiv"  style="display: block;">
                                             <div class="form-group" data-bind="with: itemProductDetail">
                                                 <div class="col-lg-3 text-right">
                                                     <label class="control-label text-right">Auto Create Un-Posted PO for Supplier 1</label>
@@ -1289,8 +1409,8 @@
                                                     <label class="control-label text-right">Supplier 1</label>
 
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <select class="form-control" data-bind="options: $root.suppliers, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: supplierId"></select>
+                                                <div class="col-lg-4">
+                                                    <select class="form-control" data-bind="options: $root.suppliers, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Supplier 1...', value: supplierId"></select>
                                                 </div>
 
                                             </div>
@@ -1300,15 +1420,17 @@
                                                     <label class="control-label text-right">Supplier 2</label>
 
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <select class="form-control" data-bind="options: $root.suppliers, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $parent.supplierId2"></select>
+                                                <div class="col-lg-4">
+                                                    <select class="form-control" data-bind="options: $root.suppliers, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Supplier 2...', value: $parent.supplierId2"></select>
                                                 </div>
 
                                             </div>
                                             <div class="form-group" data-bind="visible:isAutoCreateSupplierPo">
                                                 <div class="col-lg-3 text-right">
 
-
+                                                    <div data-bind="visible: isQtyLimit">
+                                                        <label class="control-label text-right">Would you like to auto route to supplier 2</label>
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <div class="col-xs-2" id="switchAutoCreateGraterContainer">
@@ -1324,11 +1446,11 @@
                                                         <label class="control-label text-right">If Qty is greater then </label>
                                                     </div>
                                                     <div data-bind="visible: isQtyLimit" class="col-xs-3" id="qtyLimitInputContainer">
-                                                        <input type="text" data-bind="value: qtyLimit" class="form-control" id="txtQtyGreater" />
+                                                        <input type="text" data-bind="value: qtyLimit" style="width:102%;" class="form-control" id="txtQtyGreater" />
                                                     </div>
-                                                    <div data-bind="visible: isQtyLimit" class="col-xs-4">
+                                                    @*<div data-bind="visible: isQtyLimit" class="col-xs-4">
                                                         <label class="control-label text-right">then Auto route to Supplier 2 </label>
-                                                    </div>
+                                                    </div>*@
                                                 </div>
 
                                             </div>
@@ -1588,8 +1710,8 @@
                                                         <div class="col-lg-12 form-horizontal" style="height: 313px;overflow: auto;overflow-x:hidden;">
                                                             <p class="group-header-description">Enter Job Description for Product which are part of Printed Job Card and Estimate/Order Report. </p>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control text-right" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1" />
+                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                    <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1" />
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-8">
@@ -1601,7 +1723,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
                                                                     <input type="text" class="form-control text-right" id="txtTitle2" data-bind="value: jobDescriptionTitle2" placeholder="Enter Title 2">
 
                                                                     <span class="label label-circle-question"></span>
@@ -1615,8 +1737,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control text-right" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                    <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-8">
@@ -1629,9 +1751,9 @@
                                                                     <span class="help-block text-right"></span>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control text-right" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
+                                                            <div class="form-group" >
+                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                    <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-8">
@@ -1645,8 +1767,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control text-right" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                    <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-8">
@@ -1659,9 +1781,9 @@
                                                                     <span class="help-block text-right"></span>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control text-right" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
+                                                            <div class="form-group" >
+                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                    <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-8">
@@ -1675,8 +1797,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control text-right" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                    <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-8">
@@ -1796,7 +1918,7 @@
                                             <div class="col-lg-6">
 
 
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios1" id="optionManuallyYes" data-bind="checked: $parent.templateTypeUi" value="1">
                                                     <label for="optionManuallyYes">
                                                         A blank Template with Custom Size
@@ -1817,15 +1939,15 @@
                                                     </a>
 
                                                 </div>
-                                                <div class="col-lg-9">
+                                                <div class="col-lg-9" style="padding-right: 0px;margin-left: 11px;">
                                                     <label for="txtProductName" class="control-label text-right tooltip-float">Default Width (Including Bleed)</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtTempWidth" data-bind="value: pdfTemplateWidth, validationTooltip: pdfTemplateWidth, validationOnElement: pdfTemplateWidth" placeholder="Enter Width">
+                                                <input type="text" style="text-align:right"class="form-control" id="txtTempWidth" data-bind="numberValue: pdfTemplateWidth,numberFormat: ist.lengthFormat, validationTooltip: pdfTemplateWidth, validationOnElement: pdfTemplateWidth" placeholder="Enter Width">
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                            <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
                                             </div>
                                         </div>
@@ -1838,15 +1960,15 @@
                                                     </a>
 
                                                 </div>
-                                                <div class="col-lg-9">
+                                                <div class="col-lg-9" style="padding-right: 0px;margin-left: 11px;">
                                                     <label for="txtProductName" class="control-label text-right">Default Height (Including Bleed)</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtTempHeight" data-bind="value: pdfTemplateHeight, validationTooltip: pdfTemplateHeight, validationOnElement: pdfTemplateHeight" placeholder="Enter Height">
+                                                <input type="text" style="text-align:right" class="form-control" id="txtTempHeight" data-bind="numberFormat: ist.lengthFormat,numberValue: pdfTemplateHeight, validationTooltip: pdfTemplateHeight, validationOnElement: pdfTemplateHeight" placeholder="Enter Height">
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                            <div class="col-lg-2" style="margin-top:0px; margin-left:-5px">
                                                 ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
                                             </div>
                                         </div>
@@ -1875,7 +1997,7 @@
                                             <div class="col-lg-9">
 
 
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios1" data-bind="checked: $parent.templateTypeUi" id="optionUploadPDF" value="2">
                                                     <label for="optionUploadPDF">
                                                         Create a template by uploading an existing PDF
@@ -1914,7 +2036,7 @@
                                             <div class="col-lg-9">
 
 
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" data-bind="checked: $parent.templateTypeUi" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="3">
                                                     <label for="optionManuallyNoStartDesigner">
                                                         Start the designer empty and allow end user to select and customize a template from MyPrintCloud global template library's Category. A separate license is required if Stock Layout category is selected. Select category below:
@@ -2020,7 +2142,7 @@
                                             <div class="col-lg-9">
 
 
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios2" data-bind="checked: $parent.isTemplateDesignModeUi" id="optionLaunchYes" value="1">
                                                     <label for="optionLaunchYes">
                                                         Launch the Designer in unrestricted mode, allowing users to access the full toolset
@@ -2039,7 +2161,7 @@
                                             <div class="col-lg-9">
 
 
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios2" id="optionLaunchNo" data-bind="checked: $parent.isTemplateDesignModeUi" value="2">
                                                     <label for="optionLaunchNo">
                                                         Launch the Designer in restricted mode, showing only available tools
@@ -2058,7 +2180,7 @@
                                             <div class="col-lg-9">
 
 
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios2" id="optionLaunch" data-bind="checked: $parent.isTemplateDesignModeUi" value="3">
                                                     <label for="optionLaunch">
                                                         Do not load Designer, show selected smart form and provide a proof.
@@ -2078,7 +2200,7 @@
                                             <div class="col-lg-9">
 
 
-                                                <div class="radio">
+                                                <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadios2" id="optionLaunch1" data-bind="checked: $parent.isTemplateDesignModeUi" value="4">
                                                     <label for="optionLaunch1">
                                                         Do not load Designer and skip to proof screen.
@@ -2101,7 +2223,7 @@
                                             <div class="col-lg-3 text-right">
 
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-9" style="padding-left:0px;">
 
 
                                                 <div class="radio">
@@ -2120,7 +2242,7 @@
                                             <div class="col-lg-3 text-right">
 
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-9" style="padding-left:0px;">
 
 
                                                 <div class="radio">
@@ -2164,7 +2286,7 @@
                                     <p class="group-header-description">Design template pages are displayed below in case of blank template or PDF based template. Pages can be added, removed, assigned name, sorted and each page can have different dimensions in case of blank template. </p>
                                     <div class="col-lg-12" data-bind="with: template">
                                         <div class="clearfix">
-                                            <header class="main-box-header clearfix">
+                                            <header class="main-box-header clearfix" style="padding-right:0px;">
                                                 <div class="filter-block pull-right">
 
                                                     <a href="#" id="addTemplatePageBtn" class="btn btn-primary pull-right" data-bind="click: addTemplatePage, validationOnElement: isCreatedManual">
@@ -2209,13 +2331,20 @@
 
                                             <div class="col-lg-6 text-center">
                                                 <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: thumbnail }" />
-                                                <div>
-                                                    <div class="fileUpload btn btn-primary marginT5">
-                                                        <span>Upload</span>
-                                                        <input type="file" class="upload" id="thumbnail_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 1); }, fileFilter: 'image.*'}" />
+                                               
+                                                <div class="col-lg-10" style="padding-left:75px;">
+                                                    <div>
+                                                        <div class="fileUpload btn btn-primary marginT5">
+                                                            <span>Upload</span>
+                                                            <input type="file" class="upload" id="thumbnail_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 1); }, fileFilter: 'image.*'}" />
+                                                        </div>
                                                     </div>
+                                                    
+                                                    <div class="help-block">Product Thumbnail (PNG,GIF,JPG) is displayed on Featured products widget, related products and on Category page. Dimensions depend upon the selected theme. </div>
                                                 </div>
-                                                <div class="help-block">Product Thumbnail (PNG,GIF,JPG) is displayed on Featured products widget, related products and on Category page. Dimensions depend upon the selected theme. </div>
+                                                <div class="col-lg-2"></div>
+                                              
+                                               
 
                                             </div>
 
@@ -2237,23 +2366,32 @@
                                             <div class="col-lg-6 text-center">
                                                 <!-- ko if: productDisplayOptionsUi() === '1' -->
                                                 <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: imagePath }" />
-                                                <div>
-                                                    <div class="fileUpload btn btn-primary marginT5">
-                                                        <span>Upload</span>
-                                                        <input type="file" class="upload" id="imagePath_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 3); }, fileFilter: 'image.*'}" />
+
+                                                <div class="col-lg-10" style="padding-left:75px;">
+                                                    <div>
+                                                        <div class="fileUpload btn btn-primary marginT5">
+                                                            <span>Upload</span>
+                                                            <input type="file" class="upload" id="imagePath_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 3); }, fileFilter: 'image.*'}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="help-block">Product Banner (PNG,GIF,JPG) is displayed on Store Product Detail page.  </div>
+                                                </div>
+
+                                                    <!-- /ko -->
+                                                    <!-- ko if: productDisplayOptionsUi() === '2' -->
+                                                <div class="col-lg-10" style="padding-left:75px;">
+                                                    <div class="col-lg-1">
+                                                        <div class="fileUpload btn btn-primary marginT5">
+                                                            <span>Upload</span>
+                                                            <input type="file" class="upload" id="itemImageFiles" multiple data-bind="files: { onLoaded: onSelectItemImage, fileFilter: 'image.*'}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="help-block">Product Banner (PNG,GIF,JPG) is displayed on Store Product Detail page.  </div>
+                                                    </div>
+                                                    <!-- /ko -->
+                                                    <div class="col-lg-2">
                                                     </div>
                                                 </div>
-                                                <!-- /ko -->
-                                                <!-- ko if: productDisplayOptionsUi() === '2' -->
-                                                <div class="col-lg-1">
-                                                    <div class="fileUpload btn btn-primary marginT5">
-                                                        <span>Upload</span>
-                                                        <input type="file" class="upload" id="itemImageFiles" multiple data-bind="files: { onLoaded: onSelectItemImage, fileFilter: 'image.*'}" />
-                                                    </div>
-                                                </div>
-                                                <!-- /ko -->
-                                                <div class="help-block">Product Banner (PNG,GIF,JPG) is displayed on Store Product Detail page.  </div>
-                                            </div>
                                         </div>
                                         <div class="form-group" data-bind="visible: productDisplayOptionsUi() === '2'" style="display: none">
                                             <div class="col-lg-4 text-right"></div>
@@ -2283,14 +2421,16 @@
 
                                             <div class="col-lg-6 text-center">
                                                 <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: gridImage }" />
-                                                <div>
-                                                    <div class="fileUpload btn btn-primary marginT5">
-                                                        <span>Upload</span>
-                                                        <input type="file" class="upload" id="gridImage_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 2); }, fileFilter: 'image.*'}" />
+                                                <div class="col-lg-10" style="padding-left:75px;">
+                                                    <div>
+                                                        <div class="fileUpload btn btn-primary marginT5">
+                                                            <span>Upload</span>
+                                                            <input type="file" class="upload" id="gridImage_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 2); }, fileFilter: 'image.*'}" />
+                                                        </div>
                                                     </div>
+                                                    <div class="help-block">Grid Layout Image (PNG,GIF,JPG) is displayed on Store Product Detail page. </div>
                                                 </div>
-                                                <div class="help-block">Grid Layout Image (PNG,GIF,JPG) is displayed on Store Product Detail page. </div>
-                                            </div>
+                                                </div>
 
                                         </div>
                                         <div class="form-group">
@@ -2307,16 +2447,7 @@
 
                                             </div>
 
-                                            <div class="col-lg-6">
-                                                <div>
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>Upload</span>
-                                                        <input type="file" class="upload" id="Itemfiles_file" multiple data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 4); } }" />
-                                                    </div>
-                                                    <input type="button" class="btn btn-primary" value="Reset" data-bind="click: resetFiles" />
-                                                </div>
-                                                <div class="help-block">Product Design Guide files (AI,PSD,PDF) are available for download using icons on Product detail page which serve as a blank stencils for custom artwork design in Photoshop, Illustrator etc.</div>
-                                            </div>
+                                          
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
@@ -2330,10 +2461,26 @@
                                                 <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file3 }" />
                                                 <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file4 }" />
                                                 <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file5 }" />
+
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <label class="control-label text-right tooltip-float">&nbsp;</label>
 
-                                    </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div>
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>Upload</span>
+                                                        <input type="file" class="upload" id="Itemfiles_file" multiple data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 4); } }" />
+                                                    </div>
+                                                    <input type="button" class="btn btn-primary" value="Reset" data-bind="click: resetFiles" />
+                                                </div>
+                                                <div class="help-block">Product Design Guide files (AI,PSD,PDF) are available for download using icons on Product detail page which serve as a blank stencils for custom artwork design in Photoshop, Illustrator etc.</div>
+                                            </div>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
                             <!-- ko with: selectedProduct -->
@@ -2497,10 +2644,10 @@
                 <input type="text" style="width:200px;" maxlength="15" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName, validationTooltip: pageName, validationOnElement: pageName">
             </td>
             <td>
-                <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="value: height">
+                <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="numberValue: height,numberFormat: ist.lengthFormat">
             </td>
             <td>
-                <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Width" data-bind="value: width">
+                <input type="text" style="width:120px;" class="form-control" id="txtPages" placeholder="Enter Width" data-bind="numberValue: width,numberFormat: ist.lengthFormat">
             </td>
             <td class="text-center">
                 <!-- ko if: $index() < $parent.templatePages().length - 1 -->
