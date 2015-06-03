@@ -63,5 +63,10 @@ namespace MPC.Interfaces.Repository
 
         Estimate GetEstimateWithCompanyByOrderID(long OrderID);
         long GetEstimateIdOfInquiry(long inquiryId);
+
+        /// <summary>
+        /// Get Total Earnings For Dashboard
+        /// </summary>
+        IEnumerable<usp_TotalEarnings_Result> GetTotalEarningsForDashboard();
     }
 }
