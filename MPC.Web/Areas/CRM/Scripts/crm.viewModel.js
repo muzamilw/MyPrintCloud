@@ -1559,6 +1559,10 @@ define("crm/crm.viewModel",
 
                 //Close Edit Dialog
                 closeEditDialog = function () {
+                    var companyIdFromDashboard = $('#CompanyId').val();
+                    if (companyIdFromDashboard !== 0) {
+                        getCustomers();
+                    }
                     isEditorVisible(false);
                     isOrderTab(false);
                 },
@@ -1610,7 +1614,7 @@ define("crm/crm.viewModel",
                     isEditorVisible(true);
                     if (isProspectOrCustomerScreen()) {
                         getStoreForEditting(item.id());
-                        getBaseData(item.id());
+                        getBaseData(item.id() || item);
                     }
                     else {
                         getStoreForEditting(item.companyId());
@@ -2296,7 +2300,15 @@ define("crm/crm.viewModel",
                    ko.applyBindings(view.viewModel, view.bindingRoot);
                    if (isProspectOrCustomerScreen()) {
                        prospectPager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
-                       getCustomers();
+                       var companyIdFromDashboard = $('#CompanyId').val();
+                       if (companyIdFromDashboard != 0) {
+                           openEditDialog({ id: function () { return companyIdFromDashboard; } });
+                       }
+                       else
+                       {
+                           getCustomers();
+                       }
+                      
                    }
                    else {
                        supplierpager(new pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));

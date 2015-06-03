@@ -138,7 +138,6 @@ function b4_SpecificImg(imgSrc, he, wd) {
     $.each(LiImgs, function (i, IT) {
 
         if (imgSrc.indexOf(IT.ImageName) != -1) {
-
             IW = IT.ImageWidth;
             IH = IT.ImageHeight;
 
@@ -874,34 +873,46 @@ function d5_sub(pageID, isloading) {
             });
             canvas.backgroundColor = "#ffffff";
             SelPagObj = IT;
+            var canvasHeight = 0, canvasWidth = 0;
+            if (IT.Height != null && IT.Height != 0) {
+                canvasHeight = (IT.Height);
+            } else {
+                canvasHeight = (Template.PDFTemplateHeight);
+            }
+            if (IT.Width != null && IT.Width != 0) {
+                canvasWidth = (IT.Width);
+            } else {
+                canvasWidth = (Template.PDFTemplateWidth);
+            }
+            D1CS = 1, dfZ1l = 1;
+            //autozoom settings 
+            var contentAreaheight = $(window).height() - 136, contentAreaWidth = $(window).width() - 380,  DzoomFactor = dfZ1l;
            
-          //  if (IT.Orientation == 1) {
-                if (IT.Height != null && IT.Height != 0) {
-                    canvas.setHeight(IT.Height * dfZ1l);
-                } else {
-                    canvas.setHeight(Template.PDFTemplateHeight * dfZ1l);
+            if (canvasHeight >= contentAreaheight || canvasWidth >= contentAreaWidth)
+            {
+                DzoomFactor /= D1SF;
+                while ((canvasHeight * DzoomFactor) >= contentAreaheight || (canvasWidth * DzoomFactor) >= contentAreaWidth) {
+                    D1CS = D1CS / D1SF;
+                    dfZ1l = D1CS;
+                    DzoomFactor /= D1SF; D1CZL -= 1;
+                  
                 }
-                if (IT.Width != null && IT.Width != 0) {
-                    canvas.setWidth(IT.Width * dfZ1l);
-                } else {
-                    canvas.setWidth(Template.PDFTemplateWidth * dfZ1l);
+                
+                // zoom out
+            } else
+            {
+                DzoomFactor *= D1SF;
+                while ((canvasHeight * DzoomFactor) <= contentAreaheight || (canvasWidth * DzoomFactor) <= contentAreaWidth) {
+                    D1CS = D1CS * D1SF;
+                    dfZ1l = D1CS;
+                    DzoomFactor *= D1SF;D1CZL += 1;
                 }
+                // zoom in 
+            }
 
-            //}
-            //else {
-            //    if (IT.Width != null && IT.Width != 0) {
-            //        canvas.setHeight(IT.Width * dfZ1l);
-            //    } else {
-            //        canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
-            //    }
-            //    if (IT.Height != null && IT.Height != 0) {
-            //        canvas.setWidth(IT.Height * dfZ1l);
-            //    } else {
-            //        canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
-            //    }
+            canvas.setHeight(canvasHeight  * dfZ1l);
+            canvas.setWidth(canvasWidth * dfZ1l);
 
-
-            //}
             $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
             $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
             var val = $("#canvasDocument").width() - $(".page").width();
@@ -1405,7 +1416,7 @@ function fu02UI() {
                 }else 
                 {
                     if (ui.draggable.attr('class') == "divVar ui-draggable") {
-                        var txt = " " + $(ui.draggable).html() + " ";
+                        var txt = "" + $(ui.draggable).html() + "";
                         var DIAO = canvas.getActiveObject();
                         if (!DIAO) return;
                         if (DIAO.isEditing) {
@@ -1883,7 +1894,7 @@ function fu06_SvcCallback(DT, fname,mode) {
     }).bind('slimscrolling', function (e, pos) {
         canvas.calcOffset();
     });
-    $("#canvasDocument").css("width", $(window).width() - 430);
+    $("#canvasDocument").css("width", $(window).width() - 380);
     if (mode == true) {
         d5(TP[0].ProductPageID, true);
     }
@@ -2327,15 +2338,15 @@ function j8(src) {
     if (D1AO.type === 'image') {
         $.each(TO, function (i, IT) {
             if (IT.ObjectID == D1AO.ObjectID) {
-
-                b4_SpecificImg(src, D1AO.maxHeight, D1AO.maxWidth);
-                D1AO.height = (IH);
-                D1AO.width = (IW);
-                D1AO.maxHeight = (IH);
-                D1AO.maxWidth = (IW);
-                D1AO.scaleX = 1;
-                D1AO.scaleY = 1;
-             
+                if (src.indexOf('.svg') == -1) {
+                    b4_SpecificImg(src, D1AO.maxHeight, D1AO.maxWidth);
+                    D1AO.height = (IH);
+                    D1AO.width = (IW);
+                    D1AO.maxHeight = (IH);
+                    D1AO.maxWidth = (IW);
+                    D1AO.scaleX = 1;
+                    D1AO.scaleY = 1;
+                }
                 IT.ContentString = src;
                 D1AO.ImageClippedInfo = null;
                 d5(SP);
@@ -4236,7 +4247,7 @@ function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, Input
         Value = ""; 
     }
     var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
-        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" ' + required + ' tabindex= "' + tabindex + '" onClick="this.select();" >' + Value + '</textarea></div>';
+        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" ' + required + ' tabindex= "' + tabindex + '" onClick="" >' + Value + '</textarea></div>';
     return html;
 }
 function pcl40_addCaption(caption) {
