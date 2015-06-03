@@ -185,7 +185,7 @@ namespace MPC.Implementation.MISServices
 
                 //Model.LookupMethods.MethodDTO oModelLookUpMethod = BLL.LookupMethods.Method.GetMachineLookUpMethod(GlobalData, oItemSection.SelectedPressCalculationMethodID);
                 LookupMethod oModelLookUpMethod = new LookupMethod();
-                oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oPressDTO.LookupMethod));                
+                oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oPressDTO.LookupMethodId));                
 
                 double[] dblPrintCost = new double[3];
                 double[] dblPrintPrice = new double[3];

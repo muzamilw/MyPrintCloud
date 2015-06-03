@@ -220,7 +220,7 @@ div#spinner {
   width: 838px;
 }
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
-  width: 838pxs;
+  width: 838px;
 }
 #productBinding .pricetable-itemPriceMatrix tr th#Qty {
   width: 12%;
@@ -537,7 +537,7 @@ div#spinner {
   width: 838px;
 }
 #storesBinding #productDetailBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
-  width: 630px;
+  width: 838px;
 }
 #storesBinding #productDetailBinding .form-group .input-group-addon {
   text-decoration: none;
@@ -707,7 +707,7 @@ div#spinner {
   padding-top: 3px;
 }
 .profileLabelPadding {
-  margin-top: 12px;
+  margin-top: 15px;
 }
 #columnsAlign {
   table-layout: fixed;
@@ -932,6 +932,30 @@ div#spinner {
 #panel-title {
   border-bottom: none;
 }
+.label-circle-add {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: green;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
+.label-circle-minus {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: red;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
 #companySelectorDialog .modal-dialog {
   width: 838px;
 }
@@ -979,3 +1003,4 @@ div#spinner {
 #itemJobStatusBinding .title {
   font-size: small;
 }
+/*# sourceMappingURL=MainSite.css.map */

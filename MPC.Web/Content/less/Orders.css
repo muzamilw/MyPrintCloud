@@ -158,3 +158,28 @@
 #panel-title {
   border-bottom: none;
 }
+.label-circle-add {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: green;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
+.label-circle-minus {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: red;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
+/*# sourceMappingURL=Orders.css.map */
