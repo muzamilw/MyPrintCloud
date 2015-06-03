@@ -19,7 +19,7 @@ namespace MPC.Webstore.Controllers
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             ViewBag.TwitterUrl = StoreBaseResopnse.Company.TwitterURL;
             ViewBag.FacebookUrl = StoreBaseResopnse.Company.FacebookURL;
-
+            ViewBag.LinkedinUrl = StoreBaseResopnse.Company.LinkedinURL;
             return PartialView("PartialViews/RealStateFooter");
         }
     }
