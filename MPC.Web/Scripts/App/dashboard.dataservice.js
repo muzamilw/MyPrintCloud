@@ -7,7 +7,7 @@
             initialize = function() {
                 if (!isInitialized) {
                     amplify.request.define('getOrderStauses', 'ajax', {
-                        url: ist.siteUrl + '/Api/GetOrderStatuses',
+                        url: ist.siteUrl + '/Api/GetDashboardData',
                         dataType: 'json',
                         type: 'GET'
                     });

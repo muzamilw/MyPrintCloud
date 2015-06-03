@@ -52,7 +52,8 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public override IEnumerable<Machine> GetAll()
         {
-            return DbSet.Where(machine => machine.OrganisationId == OrganisationId).OrderBy(machine => machine.MachineName).ToList();
+            return DbSet.Where(machine => machine.OrganisationId == OrganisationId && machine.MachineCatId != (int)MachineCategories.Guillotin).OrderBy(machine => machine.MachineName).ToList();
+            
         }
 
         public MachineListResponseModel GetAllMachine(MachineRequestModel request)
@@ -665,6 +666,7 @@ namespace MPC.Repository.Repositories
                 Mapper.CreateMap<Machine, Machine>()
                .ForMember(x => x.ItemSections, opt => opt.Ignore());
 
+
                  Mapper.CreateMap<MachineInkCoverage, MachineInkCoverage>()
                .ForMember(x => x.Machine, opt => opt.Ignore());
 
@@ -697,8 +699,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                Mapper.CreateMap<LookupMethod, LookupMethod>();
-
+                Mapper.CreateMap<LookupMethod, LookupMethod>()
+                    .ForMember(x => x.Machines, opt => opt.Ignore());
 
                 Mapper.CreateMap<MachineClickChargeLookup, MachineClickChargeLookup>()
               .ForMember(x => x.LookupMethod, opt => opt.Ignore());

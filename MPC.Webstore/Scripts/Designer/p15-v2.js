@@ -107,15 +107,17 @@ function fu04_1GetItem(DT)
     $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID + "/" + organisationId,
          function (result) {
             
-             if (result.ZoomFactor > 1)
-             {
-                 var zf = parseInt(result.ZoomFactor);
-                 for(var i = 1; i<zf;i++)
-                 {
-                     D1CS = D1CS * D1SF;
-                     dfZ1l = D1CS;
-                 }
-             }
+             //if (result.ZoomFactor > 1)
+             //{
+             //    var zf = parseInt(result.ZoomFactor);
+             //    for(var i = 1; i<zf;i++)
+             //    {
+             //        D1CS = D1CS * D1SF;
+             //        dfZ1l = D1CS;
+             //    }
+             //}
+
+             
              //update dimestions 
              var w = DT.PDFTemplateWidth;
              var h = DT.PDFTemplateHeight;
