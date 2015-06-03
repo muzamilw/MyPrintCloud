@@ -333,11 +333,13 @@ define("product/product.viewModel",
                         // Open Video Dialog  
                         openVideoDialog();
                         activeVideo(model.ItemVideo.Create({ VideoId: 0, ItemId: selectedProduct().id() }));
+                        activeVideo().caption("");
                     },
                     onEditVideo = function (itemVideo) {
                         // Open Video Dialog  
                         openVideoDialog();
                         activeVideo(itemVideo);
+                        activeVideo().reset();
                     },
                     // Save Video
                     saveVideo = function () {

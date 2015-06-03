@@ -146,6 +146,7 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
                     // Define request to get base data for inquiry
                     amplify.request.define('getBaseDataForInquiry', 'ajax', {
                         url: ist.siteUrl + '/Api/InquiryBase',
@@ -349,6 +350,7 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+            
              // get Base Data For Inquiry
             getBaseDataForInquiry = function (params, callbacks) {
                 initialize();
@@ -393,6 +395,8 @@ define("order/order.dataservice", function () {
             getBaseDataForInquiry: getBaseDataForInquiry,
             getBaseDataForEstimate: getBaseDataForEstimate,
             downloadOrderArtwork: downloadOrderArtwork
+
+
         };
     })();
 

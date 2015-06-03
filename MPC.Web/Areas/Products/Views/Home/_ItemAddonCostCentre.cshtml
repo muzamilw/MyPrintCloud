@@ -1,14 +1,14 @@
 ﻿<div class="modal fade" id="itemAddonCostCentreDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div id="itemAddonCostCentreDialogMainContainer" class="modal-dialog" data-bind="with: activeStockOption">
-        <div class="modal-content">
+        <div class="modal-content" data-bind="with: activeItemAddonCostCentre">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add/Edit Refining Option</h4>
             </div>
-            <div class="col-lg-12 form-horizontal outerDiv-Padding" data-bind="with: activeItemAddonCostCentre">
+            <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
-                       <label class="control-label text-right tooltip-float">Cost Center</label>
+                        <label class="control-label text-right tooltip-float">Cost Center</label>
 
                     </div>
 
@@ -37,7 +37,7 @@
                             </a>
 
                         </div>
-                         <label class="control-label text-right tooltip-float">Mandatory selection in product</label>
+                        <label class="control-label text-right tooltip-float">Mandatory selection in product</label>
 
                     </div>
 
@@ -59,9 +59,9 @@
             </div>
 
             <div class="modal-footer">
-                <hr/>
-                <button type="button" data-dismiss="modal" class="btn btn-danger pull-left" data-bind="click: $root.onDeleteItemAddonCostCentre, enable: activeItemAddonCostCentre().id() > 0">Delete</button>
-                <button type="button" class="btn btn-primary" data-bind="click: $parent.onSaveItemCostCentre">Save</button>
+                <hr />
+                <button type="button" data-dismiss="modal" class="btn btn-danger pull-left" data-bind="click: $root.onDeleteItemAddonCostCentre, enable: id() > 0">Delete</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $parent.onSaveItemCostCentre, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.closeItemAddonCostCentreDialog" style="margin-left: 0">Close</button>
 
             </div>
