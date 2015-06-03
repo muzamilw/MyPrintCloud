@@ -739,7 +739,7 @@
                 // Press Id Side 1 Is Spot Color
                 pressIdSide1IsSpotColor = ko.observable(specifiedPressSide1IsSpotColor || false),
                 // Press Id Side 2 Is Spot Color
-                pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false)
+                pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false),
                 // Select Stock Item
                 selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
