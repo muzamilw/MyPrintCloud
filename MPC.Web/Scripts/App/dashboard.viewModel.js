@@ -11,6 +11,23 @@ define("dashboard.viewModel",
                     view,
                     // orders
                     orders = ko.observableArray([]),
+                    totalEarnings = ko.observableArray([]),
+                    // Total Earnings
+                    dummyTotalEarnings = ko.observableArray([
+                        { month: '2015-01-01', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-02-02', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-03-03', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-04-04', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-05-05', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-06-06', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-07-07', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-08-08', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-09-09', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-10-10', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-11-11', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
+                        { month: '2015-12-12', orders: 0, total: 0, monthname: 0, year: 0, store: "" }
+
+                    ]),
                     // Search filter 
                     searchFilter = ko.observable(),
                     // Pager for pagging
@@ -27,12 +44,12 @@ define("dashboard.viewModel",
                         { year: '2009', value: 10 },
                         { year: '2010', value: 17 },
                         { year: '2011', value: 5 },
-                        { year: '2013', value:6 },
+                        { year: '2013', value: 6 },
                         { year: '2015', value: 8 },
                         { year: '2012', value: 20 }
                     ]),
-             
-              
+
+
                 // In-production Orders Count
                 inProductionOrdersCount = ko.observable(0),
                 // Completed Orders Count
@@ -68,6 +85,45 @@ define("dashboard.viewModel",
                     });
                 },
                 // Map Orders 
+                    mapTotalEarnings = function (data) {
+                        //totalEarnings.removeAll();
+
+                        _.each(data, function (tEarning) {
+                            if (tEarning.monthname !== null && tEarning.monthname !== 0) {
+                                var item = dummyTotalEarnings()[tEarning.monthname - 1];
+                                if (item !== undefined && item !== null) {
+                                    item.orders = tEarning.Orders;
+                                    item.total = tEarning.Total;
+                                    item.monthname = tEarning.monthname;
+                                    item.year = tEarning.year;
+                                    item.store = tEarning.store;
+                                }
+
+
+                            }
+
+                            ko.utils.arrayPushAll(totalEarnings(), dummyTotalEarnings());
+                            totalEarnings.valueHasMutated();
+                            //  eraningsList.push(model.TotalEarnings.Create(tEarning));
+                        });
+                    },
+                // Get Total earning of current whole year
+                getTotalEarnings = function (callBack) {
+                    dataservice.getTotalEarnings({
+                        success: function (data) {
+                            if (data != null) {
+                                mapTotalEarnings(data);
+                            }
+                            //load the tour
+                            //openTourInit();
+                        },
+                        error: function () {
+                            toastr.error("Error: Failed To load orders statues!!");
+                            //openTourInit();
+                        }
+                    });
+                },
+                // Map Orders 
                     mapOrders = function (data) {
                         orders.removeAll();
                         _.each(data, function (order) {
@@ -75,7 +131,7 @@ define("dashboard.viewModel",
                         });
                     },
                 // Sets Orders Statuses Count
-                setOrderStatusesCount = function(data) {
+                setOrderStatusesCount = function (data) {
                     pendingOrdersCount(data.PendingOrdersCount);
                     inProductionOrdersCount(data.InProductionOrdersCount);
                     completedOrdersCount(data.CompletedOrdersCount);
@@ -85,16 +141,17 @@ define("dashboard.viewModel",
                     currentMonthOrdersCount(data.CurrentMonthOdersCount);
                 },
                 // Go to Order
-                goToOrder = function(orderId) {
+                goToOrder = function (orderId) {
                     view.goToOrder(orderId);
                 },
                 //Initialize
                 initialize = function (specifiedView) {
-                   view = specifiedView;
-                   ko.applyBindings(view.viewModel, view.bindingRoot);
-                   getDashboardData();
-                   //  pager(new pagination.Pagination({ PageSize: 5 }, companyContactsForListView, getCompanyContacts));
-               };
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    getDashboardData();
+                    getTotalEarnings();
+                    //  pager(new pagination.Pagination({ PageSize: 5 }, companyContactsForListView, getCompanyContacts));
+                };
                 return {
                     initialize: initialize,
                     pendingOrdersCount: pendingOrdersCount,
@@ -108,7 +165,8 @@ define("dashboard.viewModel",
                     getDashboardData: getDashboardData,
                     orders: orders,
                     goToOrder: goToOrder,
-                    line: line
+                    line: line,
+                    totalEarnings: totalEarnings
                 };
             })()
         };

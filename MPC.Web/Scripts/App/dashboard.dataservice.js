@@ -4,13 +4,19 @@
         var // True if initialized
             isInitialized = false,
             // Initialize
-            initialize = function() {
+            initialize = function () {
                 if (!isInitialized) {
                     amplify.request.define('getOrderStauses', 'ajax', {
                         url: ist.siteUrl + '/Api/GetOrderStatuses',
                         dataType: 'json',
                         type: 'GET'
                     });
+                    amplify.request.define('getTotalEarnings', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetTotalEarningsForDashboard',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     amplify.request.define('saveCompanyContact', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyContact',
                         dataType: 'json',
@@ -19,8 +25,10 @@
                     });
                 };
             },
+
+
             // get base Data
-            getOrderStauses = function(params, callbacks) {
+            getOrderStauses = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getOrderStauses',
@@ -29,9 +37,19 @@
                     data: params
                 });
             },
-           
+
+            // Get Total earnings
+             getTotalEarnings = function (callbacks) {
+                 initialize();
+                 return amplify.request({
+                     resourceId: 'getTotalEarnings',
+                     success: callbacks.success,
+                     error: callbacks.error
+                 });
+             },
+
             // Save Company Contact
-            saveCompanyContact = function(param, callbacks) {
+            saveCompanyContact = function (param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'saveCompanyContact',
@@ -42,7 +60,8 @@
             };
         return {
             getOrderStauses: getOrderStauses,
-            saveCompanyContact: saveCompanyContact
+            saveCompanyContact: saveCompanyContact,
+            getTotalEarnings:getTotalEarnings
         };
     })();
 

@@ -23,7 +23,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Code
             code = ko.observable(specifiedCode || undefined),
             // Is From Estimate
-            isFromEstimate = ko.computed(function() {
+            isFromEstimate = ko.computed(function () {
                 return code() !== null && code() !== undefined && code() !== "";
             }),
             // Company Id
@@ -245,7 +245,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isEstimate: isEstimate,
             companyId: companyId,
             companyName: companyName,
-            estimateTotal:estimateTotal,
+            estimateTotal: estimateTotal,
             contactId: contactId,
             addressId: addressId,
             sectionFlagId: sectionFlagId,
@@ -292,6 +292,29 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             status: status
         };
     };
+
+    TotalEarnings = function (specifiedMonth, specifiedOrders, specifiedTotal, specifiedmonthname, specifiedyear, specifiedstore) {
+        //var //
+        //    month :specifiedMonth;
+        //    orders = ko.observable(specifiedOrders),
+        //    total = ko.observable(specifiedTotal),
+        //    monthname = ko.observable(specifiedmonthname),
+        //    year = ko.observable(specifiedyear),
+        //    store = ko.observable(specifiedstore);
+
+        return {
+            month: specifiedMonth || 0,
+            orders: specifiedOrders || 0,
+            total: specifiedTotal ||0,
+            monthname: specifiedmonthname || 0,
+            year: specifiedyear || 0,
+            store: specifiedstore || "",
+        };
+    };
+
+    TotalEarnings.Create = function (source) {
+        return new TotalEarnings(source.Month, source.Orders, source.Total, source.monthname, source.year, source.store);
+    }
     // Estimate Factory
     // Estimate Factory
     Estimate.Create = function (source) {
@@ -330,8 +353,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     // #endregion 
 
-   
+
     return {
-        Estimate: Estimate
+        Estimate: Estimate,
+        TotalEarnings: TotalEarnings
     };
 });
