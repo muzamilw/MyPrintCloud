@@ -52,5 +52,15 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public string CurrencyUnit { get; set; }
         public string WeightUnit { get; set; }
+
+        /// <summary>
+        /// Inks
+        /// </summary>
+        public IEnumerable<StockItemForDropDown> Inks { get; set; }
+
+        /// <summary>
+        /// Machines
+        /// </summary>
+        public IEnumerable<Machine> Machines { get; set; }
     }
 }

@@ -363,9 +363,12 @@
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ErrorPage404Controller.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
+    <Compile Include="Controllers\MetroProductCategoriesController.cs" />
+    <Compile Include="Controllers\MetroTestimonialController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
     <Compile Include="Controllers\NewsletterSubscriberController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
@@ -398,7 +401,9 @@
     <Compile Include="Controllers\RealEstateImageSliderController.cs" />
     <Compile Include="Controllers\RealEstateItemController.cs" />
     <Compile Include="Controllers\RealEstateProductsController.cs" />
+    <Compile Include="Controllers\RealestateSideBarWithSliderController.cs" />
     <Compile Include="Controllers\RealEstateSmartFormController.cs" />
+    <Compile Include="Controllers\RealStateFooterController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\pagesController.cs" />
     <Compile Include="Controllers\RequestQuoteController.cs" />
@@ -453,6 +458,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\carousel.css" />
+    <Content Include="Content\content.css" />
     <Content Include="Content\Designer\assets-v2\active.png" />
     <Content Include="Content\Designer\assets-v2\addlist.png" />
     <Content Include="Content\Designer\assets-v2\align1.png" />
@@ -472,6 +479,14 @@
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
     <Content Include="Content\ErrorPage.css" />
+    <Content Include="Content\ErrorPage\animate.css" />
+    <Content Include="Content\ErrorPage\bootstrap.css" />
+    <Content Include="Content\ErrorPage\countUp.js" />
+    <Content Include="Content\ErrorPage\custom.css" />
+    <Content Include="Content\ErrorPage\font-awesome.css" />
+    <Content Include="Content\ErrorPage\jquery-1.10.1.min.js" />
+    <Content Include="Content\ErrorPage\noise.png" />
+    <Content Include="Content\ErrorPage\wow.js" />
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\HomeBannerS4.js" />
     <Content Include="Content\Images\artwork_light_icons.png" />
@@ -619,6 +634,7 @@
     <Content Include="Content\Images\Listing-prev-horizoltal.png" />
     <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\logout.png" />
+    <Content Include="Content\Images\map.png" />
     <Content Include="Content\Images\MASTERCARD.gif" />
     <Content Include="Content\Images\my-jobs.png" />
     <Content Include="Content\Images\next-horizontal.png" />
@@ -648,6 +664,8 @@
     <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\jquery.lightbox-0.5.css" />
     <Content Include="Content\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="Content\metroboostrap.css" />
+    <Content Include="Content\MetroStyles.css" />
     <Content Include="Content\Slider.css" />
     <Content Include="Content\smoothslide.css" />
     <Content Include="Content\smoothslides.theme.css" />
@@ -766,6 +784,7 @@
     <Content Include="Scripts\jquery-1.4.3.min.js" />
     <Content Include="Scripts\jquery-1.4.4.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.carousel-1.1.min.js" />
     <Content Include="Scripts\jquery.fancybox-1.3.4.js" />
     <Content Include="Scripts\jquery.fancybox-1.3.4.pack.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
@@ -775,6 +794,7 @@
     <Content Include="Scripts\jquery.lightbox-0.5.pack.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="Scripts\jquery.mousewheel.min.js" />
     <Content Include="Scripts\jquery.MultiFile.js" />
     <Content Include="Scripts\jquery.rating.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -790,6 +810,8 @@
     <Content Include="Scripts\PopUp.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\sample01.js" />
+    <Content Include="Scripts\script.js" />
     <Content Include="Scripts\slider.js" />
     <Content Include="Scripts\SlidingBanner.js" />
     <Content Include="Scripts\SmartFormJCarousel.js" />
@@ -905,6 +927,11 @@
     <Content Include="Views\Shared\PartialViews\Twitter.cshtml" />
     <Content Include="Views\Shared\PartialViews\QuickCalculator.cshtml" />
     <Content Include="Views\Domain\AutoLoginOrRegister.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MetroProductCategories.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MetroTestimonial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealStateFooter.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealestateSideBarWithSlider.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ErrorPage404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -913,7 +940,12 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\ErrorPage404\" />
     <Folder Include="Views\ErrorPage\" />
+    <Folder Include="Views\MetroProductCategories\" />
+    <Folder Include="Views\MetroTestimonial\" />
+    <Folder Include="Views\RealestateSideBarWithSlider\" />
+    <Folder Include="Views\RealStateFooter\" />
     <Folder Include="Views\Twitter\" />
   </ItemGroup>
   <ItemGroup>

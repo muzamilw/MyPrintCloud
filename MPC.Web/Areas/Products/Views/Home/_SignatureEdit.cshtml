@@ -6,8 +6,6 @@
                 <h4 class="modal-title" data-bind="text: $root.prodName()"></h4>
             </div>
             <div class="col-lg-12 outerDiv-Padding form-horizontal" data-bind="with: activeItemSection">
-                
-                
                 <div class="col-sm-12 form-horizontal" id="OrderDialogSection1" style="width: 97%; margin-left: 2%; margin-bottom: 1%;">
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -24,38 +22,44 @@
                         </div>
                         <div class="form-group">
                             <div class="col-lg-2 text-left" style="padding-right: 3%;">
-                                <label for="switchPrintOnBothSides" data-bind="" class="control-label text-left tooltip-float">Print on both sides</label>
-                               
+                                <label for="switchPrintOnBothSides" data-bind="visible: printingTypeUi() !== '2'" class="control-label text-left tooltip-float">Print on both sides</label>
+                                <!-- ko if: printingTypeUi() === '2' -->
+                                &nbsp;
+                                <!-- /ko -->
                             </div>
                             <div class="col-lg-2" style="width: 13.9%">
-                                <div class="onoffswitch" >
-                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPrintOnBothSides" >
+                                <div class="onoffswitch" data-bind="visible: printingTypeUi() !== '2'">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPrintOnBothSides" data-bind="checked: isDoubleSidedUi">
                                     <label class="onoffswitch-label" for="switchPrintOnBothSides">
                                         <div class="onoffswitch-inner"></div>
                                         <div class="onoffswitch-switch"></div>
                                     </label>
                                 </div>
-                               
+                                <!-- ko if: printingTypeUi() === '2' -->
+                                &nbsp;
+                                <!-- /ko -->
                                 <span class="help-block text-right"></span>
                             </div>
                             <div class="col-lg-4">
-                                <div class="checkbox-nice" >
-                                    <input type="checkbox" id="checkbox-work_turn"  />
+                                <div class="checkbox-nice" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
+                                    <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
                                     <label for="checkbox-work_turn">
                                         Work 'n' Turn
                                     </label>
                                 </div>
-                               
+                                <!-- ko if: !isDoubleSided() || (printingTypeUi() === '2') -->
+                                &nbsp;
+                                <!-- /ko -->
                             </div>
                             <div class="form-group">
                                 <div class="radio col-lg-2" style=" width: 18%; padding-left: 6%;">
-                                    <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_1" value="1" @*data-bind="checked: printingTypeUi"*@>
+                                    <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_1" value="1" data-bind="checked: printingTypeUi">
                                     <label for="optionsRadiosFirst_1">
                                         Sheet Fed
                                     </label>
                                 </div>
                                 <div class="radio col-lg-2" style="width: 12%; margin-left: 2%;">
-                                    <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" @*data-bind="checked: printingTypeUi"*@>
+                                    <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" data-bind="checked: printingTypeUi">
                                     <label for="optionsRadiosFirst_2">
                                         Roll Fed
                                     </label>
@@ -70,61 +74,67 @@
                                 &nbsp;
                             </div>
                             <div class=" col-lg-4">
-                                <label style="float: left; padding-left: 38%;" class="control-label text-right tooltip-float" @*data-bind="visible: printingTypeUi() !== '2'"*@>First sheet trim size</label>
-                               
+                                <label style="float: left; padding-left: 38%;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">First sheet trim size</label>
+                                <!-- ko if: printingTypeUi() === '2' -->
+                                &nbsp;
+                                <!-- /ko -->
                             </div>
                             <div class="col-lg-2 text-right" style="width: 9%;">
                                 &nbsp;
                             </div>
                             <div class="col-lg-2">
-                                <label style="margin-right: -3%;" class="control-label text-right tooltip-float" @*data-bind="visible: printingTypeUi() !== '2'"*@>Number up</label>
-                               
+                                <label style="margin-right: -3%;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
+                                <!-- ko if: printingTypeUi() === '2' -->
+                                &nbsp;
+                                <!-- /ko -->
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-12 text-right" style="  margin-top: -2%;">
                                 <div class="col-sm-6" style="width: 45%">
-                                    <div class="col-sm-8" data-bind="visible: !isSectionSizeCustom()  ">
+                                    <div class="col-sm-8" data-bind="visible: !isSectionSizeCustom() && printingTypeUi() !== '2'">
                                         <select style=" padding-right: 0px; width: 101%;" class=" form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
                                     </div>
-                                    <div class="col-sm-8" data-bind="visible: isSectionSizeCustom() " style="padding-right: 1.2%">
+                                    <div class="col-sm-8" data-bind="visible: isSectionSizeCustom() || printingTypeUi() === '2'" style="padding-right: 1.2%">
                                         <div class="col-sm-5" style="padding-left: 0px;">
                                             <input type="text" class="form-control" data-bind="value: sectionSizeHeight" />
                                             <label class="help-block">
-                                                <span data-bind="text:  'Height ' "></span>
+                                                <span data-bind="text: printingTypeUi() !== '2' ? 'Height ' : 'Length '"></span>
                                                 (
-                                                <span data-bind="text: $root.lengthUnit"></span>
-                                                @*<span data-bind="visible: printingTypeUi() === '2'">/m <sup>2</sup></span>*@
+                                                <span data-bind="visible: printingTypeUi() !== '2', text: $root.lengthUnit"></span>
+                                                <span data-bind="visible: printingTypeUi() === '2'">/m <sup>2</sup></span>
                                                 )
                                             </label>
                                         </div>
                                         <div class="col-sm-2 text-center">
-                                            <button style="margin-left: -38%;" data-bind=" enable: isSectionSizeCustom" class="btn btn-primary btn-Toggle">
+                                            <button style="margin-left: -38%;" data-bind="click: swapSectionHeightWidth, enable: isSectionSizeCustom" class="btn btn-primary btn-Toggle">
                                                 <i class="fa fa-lg"></i>&nbsp;< >
                                             </button>
                                         </div>
                                         <div class="col-sm-5" style="padding-right: 0px;">
-                                            <input type="text" class="form-control" data-bind="value: sectionSizeWidth, " />
+                                            <input type="text" class="form-control" data-bind="value: sectionSizeWidth, enable: printingTypeUi() !== '2'" />
                                             <label class="help-block">
                                                 Width
                                                 (
-                                                <span data-bind=" text: $root.lengthUnit"></span>
-                                             
+                                                <span data-bind="visible: printingTypeUi() !== '2', text: $root.lengthUnit"></span>
+                                                <span data-bind="visible: printingTypeUi() === '2'">/m <sup>2</sup></span>
                                                 )
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3" style="width: 26%;">
-                                        <div class="checkbox-nice" style="padding-right: 8%;" >
+                                        <div class="checkbox-nice" style="padding-right: 8%;" data-bind="visible: printingTypeUi() !== '2'">
                                             <input type="checkbox" id="checkbox-5" checked="checked" data-bind="checked: isSectionSizeCustom" />
                                             <label for="checkbox-5">
                                                 Custom
                                             </label>
                                         </div>
-                                        
+                                        <!-- ko if: printingTypeUi() !== '2' -->
+                                        &nbsp;
+                                        <!-- /ko -->
                                     </div>
                                 </div>
-                                <div class="col-sm-6" >
+                                <div class="col-sm-6" data-bind="visible: printingTypeUi() !== '2'">
                                     <div class="col-sm-6" style=" padding-right: 0px; " data-bind="visible:!isItemSizeCustom()">
                                         <select style=" width: 98%; margin-left: -3%; padding-right: 0px;" class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
                                     </div>
@@ -135,7 +145,7 @@
                                             <label class="help-block">Height(<span data-bind="text:$root.lengthUnit"></span>)</label>
                                         </div>
                                         <div class="col-sm-2 text-center" style="padding-left: 1.5%; ">
-                                            <button style="padding-left: 36%; padding-bottom: 6px" data-bind=" enable: isItemSizeCustom" class="btn btn-primary btn-Toggle">
+                                            <button style="padding-left: 36%; padding-bottom: 6px" data-bind="click: swapItemHeightWidth, enable: isItemSizeCustom" class="btn btn-primary btn-Toggle">
                                                 <i class="fa fa-lg"></i>&nbsp;< >
                                             </button>
                                         </div>
@@ -154,8 +164,8 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2" style="width: 19%; margin-left: 4%; padding-right: 0px; " >
-                                       <a class="btn btn-primary">View Layout</a>
+                                    <div class="col-sm-2" style="width: 19.2%; margin-left: 4%; padding-right: 0; " data-bind="visible: printingTypeUi() !== '2'">
+                                        <button class="btn btn-primary pull-right" style="width: 100%" id="numberUpTextBox" data-bind="text: numberUp, validationOnElement: numberUp, click: $root.getPtvPlan"></button>
                                     </div>
                                 </div>
                             </div>
@@ -183,18 +193,26 @@
                             </div>
 
                             <div class="col-lg-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
-                                <select class="form-control" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', "></select>
+                                <select class="form-control" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide1"></select>
                             </div>
                             <div class="col-lg-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
+                                <!-- ko if: pressIdSide1IsSpotColor -->
+                                <img src="~/Content/Images/Section_spotColor.jpg" style="  width: 100%; float: left;" />
+                                <!-- /ko -->
+                                <!-- ko if: !pressIdSide1IsSpotColor() -->
                                 <img src="~/Content/Images/Order_Section_CMYK_circle.jpeg" style="  width: 100%; float: left;" />
+                                <!-- /ko -->
                             </div>
                             <div class="col-lg-2 text-right" style=" margin-left: -0.8%; width: 10%;">
-                                <button class="btn btn-primary" style="  width: 100%;">4c</button>
+                                <button class="btn btn-primary" id="side1InkColorBtn" style="  width: 100%;" data-bind="click: $root.openInkDialog">
+                                    <span data-bind="text: pressIdSide1ColourHeads"></span>
+                                    <span>c</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="form-group" >
+                        <div class="form-group" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
                             <div class="col-lg-5 text-right" style="padding-left: 1.5%;">
-                                <label data-bind="text:  'Side 2' " class="control-label tooltip-float" style="float: left;">Side 2 - Double side and Work n Trun, Passes = 2</label>
+                                <label data-bind="text: !isWorknTurn() ? 'Side 2' : 'Side 2 - Double side and Work n Trun, Passes = 2'" class="control-label tooltip-float" style="float: left;">Side 2 - Double side and Work n Trun, Passes = 2</label>
                             </div>
 
                             <div class="radio col-lg-3">
@@ -208,19 +226,26 @@
 
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -2%;" >
+                        <div class="form-group" style="margin-top: -2%;" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
                             <div class="col-lg-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
-                                <select class="form-control" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press',"></select>
+                                <select class="form-control" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
                             </div>
-
                             <div class="col-lg-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
                                 <select class="form-control" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression'"></select>
                             </div>
                             <div class="col-lg-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
+                                <!-- ko if: pressIdSide2IsSpotColor -->
+                                <img src="~/Content/Images/Section_spotColor.jpg" style="  width: 100%; float: left;" />
+                                <!-- /ko -->
+                                <!-- ko if: !pressIdSide2IsSpotColor() -->
                                 <img src="~/Content/Images/Order_Section_CMYK_circle.jpeg" style="  width: 100%; float: left;" />
+                                <!-- /ko -->
                             </div>
                             <div class="col-lg-2 text-right" style=" margin-left: -0.8%; width: 10%;">
-                                <button class="btn btn-primary" style="  width: 100%;">7c</button>
+                                <button class="btn btn-primary" id="side2InkColorBtn" style="  width: 100%;" data-bind="click: $root.openInkDialog">
+                                    <span data-bind="text: pressIdSide2ColourHeads"></span>
+                                    <span>c</span>
+                                </button>
                             </div>
                         </div>
 
@@ -248,7 +273,10 @@
                             </div>
 
                             <div class="col-lg-1 text-right" style="padding-left: 0px; margin-left: -0.6%; width: 12%;">
-                                <span style="float: left;">Pack size:A123</span>
+                                <span style="float: left;">
+                                    Pack size:
+                                    <span data-bind="text: stockItemPackageQty"></span>
+                                </span>
                             </div>
                             <div class="col-lg-2 text-right" style=" margin-left: 0%; width: 17%;">
                                 <a data-bind="click: $parent.chooseStockItemForSection" href="#" class="btn btn-primary" style="margin-left: 12%; width: 55%; float: left;">
@@ -259,299 +287,6 @@
 
                     </div>
                 </div>
-
-                @*<div class="col-lg-12">
-                    <div class="form-group">
-                        <div class="col-lg-2 text-right profileLabelPadding">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Section Name" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label class="control-label tooltip-float">Component Name</label>
-                        </div>
-                        <div class="col-lg-4" >
-                            <input type="text" class="form-control font24px" style="height: 60px;" id="ItemTitle" data-bind="value: name, validationTooltip: name" />
-                        </div>
-                        <div class="col-lg-6 profileLabelPadding">
-                            <div class="radio col-xs-4">
-                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1">
-                                <label for="optionsRadios1">
-                                    Single Sided
-                                </label>
-                            </div>
-                            <div class="radio col-xs-4" style="margin-left:-35px">
-                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
-                                <label for="optionsRadios2">
-                                    Double Sided
-                                </label>
-                            </div>
-                            <div class="radio col-xs-4" style="margin-left:-28px">
-                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="3">
-                                <label for="optionsRadios3">
-                                    Work n turn
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Stock for Signature" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-
-                            <label class="control-label tooltip-float">Stock</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="text" style="width:100%;" data-bind="value: stockItemName, validationTooltip: stockItemId, enable: false, validationOnElement: stockItemName" class="form-control OpenStockPopup-Class" id="txtStock">
-                        </div>
-                        <div class="col-lg-1">
-                            <a data-bind="click: $parent.chooseStockItemForSection" href="#" class="btn btn-primary pull-right">
-                                <i class="fa fa-lg"></i>&nbsp;....
-                            </a>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="checkbox-nice">
-                                <input type="checkbox" id="checkbox-1" />
-                                <label for="checkbox-1">
-                                    Supplied
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Customer for Estimate" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label class="control-label tooltip-float">Sheet Size</label>
-                        </div>
-                        <div class="col-lg-4">
-                            <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionSizeId, enable: !isSectionSizeCustom()"></select>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="checkbox-nice">
-                                <input type="checkbox" id="checkbox-5" checked="checked" data-bind="checked: isSectionSizeCustom" />
-                                <label for="checkbox-5">
-                                    Custom
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" data-bind="value: sectionSizeHeight, enable: isSectionSizeCustom" id="qty11" />
-                                <span class="help-block" style="margin-left:30%;">Height</span>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <button data-bind="enable: isSectionSizeCustom" class="btn btn-primary btn-Toggle">
-                                    <i class="fa fa-lg"></i>&nbsp;< >
-                                </button>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" data-bind="value: sectionSizeWidth, enable: isSectionSizeCustom" id="qty31" />
-                                <span class="help-block" style="margin-left:30%;">Width</span>
-                            </div>
-                        </div>
-                       
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-lg-2 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Customer for Order" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-
-                            <label class="control-label tooltip-float">Item Size</label>
-                        </div>
-                        <div class="col-lg-4">
-                            <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: itemSizeId, enable: !isItemSizeCustom()" style="width: 100%"></select>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="checkbox-nice">
-                                <input type="checkbox" id="checkbox-4" data-bind="checked: isItemSizeCustom" />
-                                <label for="checkbox-4">
-                                    Custom
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" data-bind="value: itemSizeHeight, enable: isItemSizeCustom" id="qty11" />
-                                <span class="help-block" style="margin-left:30%;">Height</span>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <button data-bind="enable: isItemSizeCustom" class="btn btn-primary btn-Toggle">
-                                    <i class="fa fa-lg"></i>&nbsp;< >
-                                </button>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" data-bind="value: itemSizeWidth, enable: isItemSizeCustom" id="qty31" />
-                                <span class="help-block" style="margin-left:30%;">Width</span>
-
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>*@
-
-
-
-
-
-                @*<div class="form-group">
-                        <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Section Name" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-
-                            </div>
-
-                            <label class="control-label text-right tooltip-float">Section Name</label>
-
-                        </div>
-
-                        <div class="col-lg-6">
-                            <input type="text" class="form-control" placeholder="Enter Section Name" data-bind="value: name">
-                            <span class="help-block text-right"></span>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Press Name" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-
-                            </div>
-
-                            <label class="control-label text-right tooltip-float">Press</label>
-
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="text" class="form-control StockPres-Style" id="txtPress" placeholder="Press Name" data-bind="value: pressName, enable: false">
-                            <a href="#" data-bind="click: $root.openPressDialog" class="btn btn-primary pull-right">
-                                <i class="fa fa-lg"></i>&nbsp;....
-                            </a>
-                            <span class="help-block text-right"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Stock Name" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label class="control-label text-right tooltip-float">Stock</label>
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="text" class="form-control StockPres-Style" placeholder="Stock Name" data-bind="value: stockItemName, enable: false">
-
-                            <a href="#" data-bind="click: $parent.chooseStockItemForSection" class="btn btn-primary pull-right">
-                                <i class="fa fa-lg"></i>&nbsp;....
-                            </a>
-                            <span class="help-block text-right"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Section Size" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label class="control-label text-right tooltip-float">Section Size</label>
-                        </div>
-                        <div class="col-lg-6">
-                            <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionSizeId"></select>
-                            <span class="help-block text-right"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Page Sheet Size" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label class="control-label text-right tooltip-float">Page Sheet Size</label>
-                        </div>
-                        <div class="col-lg-6">
-                            <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: itemSizeId"></select>
-                            <span class="help-block text-right"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Section Size Custom" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label class="control-label text-right tooltip-float">Is Section Size Custom</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="onoffswitch">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSectionSizeCustom" data-bind="checked: isSectionSizeCustom">
-                                <label class="onoffswitch-label" for="switchSectionSizeCustom">
-                                    <div class="onoffswitch-inner"></div>
-                                    <div class="onoffswitch-switch"></div>
-                                </label>
-                            </div>
-                            <span class="help-block text-right"></span>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" data-bind="value: sectionSizeHeight, visible: isSectionSizeCustom">
-                            </div>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" data-bind="value: sectionSizeWidth, visible: isSectionSizeCustom">
-                            </div>
-                            <span class="help-block text-right"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Page Size Custom" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label class="control-label text-right tooltip-float">Is Page Size Custom</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="onoffswitch">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchItemSizeCustom" data-bind="checked: isItemSizeCustom">
-                                <label class="onoffswitch-label" for="switchItemSizeCustom">
-                                    <div class="onoffswitch-inner"></div>
-                                    <div class="onoffswitch-switch"></div>
-                                </label>
-                            </div>
-                            <span class="help-block text-right"></span>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" data-bind="value: itemSizeHeight, visible: isItemSizeCustom">
-                            </div>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" data-bind="value: itemSizeWidth, visible: isItemSizeCustom">
-                            </div>
-                            <span class="help-block text-right"></span>
-                        </div>
-                    </div>*@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

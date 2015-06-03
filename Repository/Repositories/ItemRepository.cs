@@ -78,6 +78,8 @@ namespace MPC.Repository.Repositories
                               .Include("ItemSections")
                               .Include("ItemSections.StockItem")
                               .Include("ItemSections.Machine")
+                              .Include("ItemSections.MachineSide2")
+                              .Include("ItemSections.SectionInkCoverages")
                               .Include("ItemStockOptions")
                               .Include("ItemStockOptions.StockItem")
                               .Include("ItemStockOptions.ItemAddonCostCentres")

@@ -4100,7 +4100,7 @@ namespace MPC.Implementation.MISServices
 
             //Calculating Total Items On Sheet
             oItemSection.OverAllPTV = PrintSheetPTV * OrderPTV;
-
+            oItemSection.WebSpoilageType = oItemSection.PrintingType == 1 ? Convert.ToInt16(1) : Convert.ToInt16(2);
 
             for (int i = 0; i <= 2; i++)
             {
@@ -4120,6 +4120,8 @@ namespace MPC.Implementation.MISServices
                 PrintSheetQuantity[i] = TempQuantity / PrintSheetPTV;
                 //Rounding to the Next Whole Number
                 PrintSheetQuantity[i] = PrintSheetQuantity[i];
+
+                
                 //in case spoilage is in sheets
                 if (oItemSection.WebSpoilageType == Convert.ToInt32(WebSpoilageTypes.inSheets))
                 {
@@ -6253,6 +6255,8 @@ namespace MPC.Implementation.MISServices
         public ItemSection GetUpdatedSectionWithSystemCostCenters(ItemSection currentSection)
         {
             //List<SectionInkCoverage> AllInks = currentSection.SectionInkCoverages.ToList();
+            if (currentSection.Qty1 <= 0)
+                return currentSection;
             int PressId = Convert.ToInt32(currentSection.PressId);
             int PressIdSide2 = Convert.ToInt32(currentSection.PressIdSide2);
             List<int> SystemCostCenterTypes = new List<int>(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
@@ -6266,15 +6270,24 @@ namespace MPC.Implementation.MISServices
             var pressSide2 = itemsectionRepository.GetPressById(PressIdSide2);
             
             //Highest setup spoilage between the two presses will be set.
-            if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
-                SetupSpoilage = pressSide1.SetupSpoilage?? 0;
+            if(currentSection.IsDoubleSided)
+            {
+                if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
+                    SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
+                else
+                    SetupSpoilage = pressSide2.SetupSpoilage ?? 0;
+                //Highest running spoilage between the two presses will be set.
+                if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+                    RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+                else
+                    RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+            }
             else
-                SetupSpoilage = pressSide2.SetupSpoilage?? 0;
-            //Highest running spoilage between the two presses will be set.
-            if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+            {
+                SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
                 RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
-            else
-                RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+            }
+            
 
 
             updatedSection.SetupSpoilage = SetupSpoilage;

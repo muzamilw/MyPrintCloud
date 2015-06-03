@@ -63,6 +63,7 @@ namespace MPC.Webstore.Controllers
             if (buttonType == "1")
             {
                 shopCart = PlaceOrder(1, Convert.ToInt64(OrderId));
+           
             }
             else
             {
@@ -231,7 +232,8 @@ namespace MPC.Webstore.Controllers
                     cep.AddressId = UserCookieManager.WBStoreId;
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
                     cep.SystemUserId = EmailOFSM.SystemUserId;
-                    if (((user.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || user.ContactRoleId == Convert.ToInt32(Roles.Manager)) && ((user.IsPayByPersonalCreditCard ?? false) == false)) || (modOverride == 3) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && modOverride == 2) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && user.IsPayByPersonalCreditCard == false)) // Corporate user that can approve the orders
+                   
+                    if (((user.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || user.ContactRoleId == Convert.ToInt32(Roles.Manager)) && ((user.IsPayByPersonalCreditCard ?? false) == false)) || (modOverride == 3) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && modOverride == 2) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && (user.IsPayByPersonalCreditCard == false || user.IsPayByPersonalCreditCard == null))) // Corporate user that can approve the orders
                     {
                         try
                         {

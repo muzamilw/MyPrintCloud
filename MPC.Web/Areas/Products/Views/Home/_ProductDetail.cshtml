@@ -35,8 +35,8 @@
                             <!-- ko if: isTemplateTabsVisible -->
                             <li><a href="#tab-ProductDetailSection" data-toggle="tab">Artwork and Sections</a></li>
                             <!-- /ko -->
-                            <li><a href="#tab-StockLabels" data-toggle="tab">Stock Labels</a></li>
-                            <li><a href="#tab-pricetable" data-toggle="tab">Price Table Defaults</a></li>
+                            <li><a href="#tab-StockLabels" data-toggle="tab">Price Table Columns</a></li>
+                            <li><a href="#tab-pricetable" data-toggle="tab">Selling Price Tables</a></li>
                             <!-- ko if: itemProductDetail().isInternalActivity() -->
                             <li><a href="#tab-supplierPrice" data-toggle="tab">Supplier Prices</a></li>
                             <!-- /ko -->
@@ -95,9 +95,9 @@
                                             <div class="col-lg-3 text-right profileLabelPadding">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus"  data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
+                                                    @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus"  data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                    </a>*@
 
                                                 </div>
                                                 <label for="txtProductName" class="control-label text-right tooltip-float">Product Name</label>
@@ -165,16 +165,16 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                @*<div class="bs-example-tooltips tooltip-float-width">
+                                                <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="All the categories in which this product has been selected to appear accross store. Multiple categories can be selected." data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Select the Product Category(s) that this Product will be available in." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                     </div>
 
 
-                                                    <label for="txtSortOrder" class="control-label text-right tooltip-float">Categories</label>*@
+                                                  @*  <label for="txtSortOrder" class="control-label text-right tooltip-float">Categories</label>*@
 
                                             </div>
                                             <div class="col-lg-9">
@@ -550,13 +550,13 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Unique Signatures" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-                                                    <label class="control-label text-right  tooltip-float">Unique Signatures</label>
+        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Unique Signatures" data-original-title="" title="">
+            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+        </a>
+    </div>*@
+                                                    <label class="control-label text-right  tooltip-float"> Total Signatures/Sections</label>
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <div class="col-md-2">
@@ -680,22 +680,7 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
-
-                                                <label class="control-label text-right tooltip-float" for="switchStockLevelProduct">Display available stock level on store pricing & selection page</label>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" data-bind="checked: isStockControl">
-                                                    <label class="onoffswitch-label" for="switchStockLevelProduct">
-                                                        <div class="onoffswitch-inner"></div>
-                                                        <div class="onoffswitch-switch"></div>
-                                                    </label>
-                                                </div>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
+                                        
 
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
@@ -1033,11 +1018,33 @@
                                     <div class="row" style="margin-left:3px;">
                                         <span> It's cost centers and final price will be based on the stock options prices.</span>
                                     </div>
+                                    
 
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <button type="button" data-bind="click: addItemStockOption" class="btn btn-success">
-                                            Add Price Column Attribute
-                                        </button>
+                                    <div class="col-lg-12" style="margin-top:10px;" >                                        
+                                        <div class="col-lg-6 text-left" >
+                                            <div data-bind="visible: isFinishedGoodsUi() === '3'">
+                                                <div class="col-lg-7" style="margin-left:-25px;">
+                                                    <label class="control-label tooltip-float" for="switchStockLevelProduct">Display available stock level on store pricing & selection page</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" data-bind="checked: isStockControl">
+                                                        <label class="onoffswitch-label" for="switchStockLevelProduct">
+                                                            <div class="onoffswitch-inner"></div>
+                                                            <div class="onoffswitch-switch"></div>
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        
+                                        <div class="col-lg-6 text-right">
+                                            <button type="button" data-bind="click: addItemStockOption" class="btn btn-success">
+                                                Add Price Column Attribute
+                                            </button>
+                                        </div>
+                                       
                                     </div>
                                 </div>
                                 <!-- ko template: { name: 'stockLabelTemplate', foreach: itemStockOptions } -->
@@ -1458,13 +1465,13 @@
 
                                             <div class="form-group" data-bind="visible:isAutoCreateSupplierPo">
                                                 <div class="col-lg-3 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
-                                                    </div>
+                                                    </div>*@
                                                     <label for="txtProductName" class="control-label text-right tooltip-float">Supplier 1 est. delivery time</label>
 
                                                 </div>
@@ -1475,13 +1482,13 @@
                                             </div>
                                             <div class="form-group" data-bind="visible: isQtyLimit">
                                                 <div class="col-lg-3 text-right" data-bind="visible:isAutoCreateSupplierPo">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
-                                                    </div>
+                                                    </div>*@
                                                     <label for="txtProductName" class="control-label text-right tooltip-float">Supplier 2 est. delivery time</label>
 
                                                 </div>
@@ -1932,13 +1939,13 @@
                                         </div>
                                         <div class="form-group" data-bind="visible: $parent.templateTypeUi() === '1'">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Width" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
-                                                </div>
+                                                </div>*@
                                                 <div class="col-lg-9" style="padding-right: 0px;margin-left: 11px;">
                                                     <label for="txtProductName" class="control-label text-right tooltip-float">Default Width (Including Bleed)</label>
                                                 </div>
@@ -1953,13 +1960,13 @@
                                         </div>
                                         <div class="form-group" data-bind="visible: $parent.templateTypeUi() === '1'">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Height" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
-                                                </div>
+                                                </div>*@
                                                 <div class="col-lg-9" style="padding-right: 0px;margin-left: 11px;">
                                                     <label for="txtProductName" class="control-label text-right">Default Height (Including Bleed)</label>
                                                 </div>
@@ -2707,9 +2714,9 @@
                 <div class="form-group">
                     <div class="col-lg-4 text-right profileLabelPadding">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Inventory Item" data-original-title="" title="">
+                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Inventory Item" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                            </a>*@
                         </div>
 
                         <label class="control-label text-right tooltip-float">Inventory Item</label>
@@ -2730,7 +2737,7 @@
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This is used to show the price table column name" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The friendly stock name which is displayed on product options and selection pages for the stock price column" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>
@@ -3144,4 +3151,6 @@
     @Html.Partial("~/Areas/Products/Views/Home/_AddProductMarketBriefQuestion.cshtml")
     <!-- /ko -->
     @Html.Partial("~/Areas/Products/Views/Home/_ProductCategoryDialog.cshtml")
+    @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
+    @Html.Partial("~/Areas/Orders/Views/Home/_InksDialogs.cshtml")
 </div>

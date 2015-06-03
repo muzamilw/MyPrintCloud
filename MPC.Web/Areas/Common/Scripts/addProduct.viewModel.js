@@ -271,6 +271,14 @@ define("common/addProduct.viewModel",
                         }
                         // ReSharper disable once NotAllPathsReturnValue
                     },
+                    // Subscribe Refining Option Selection Change
+                    subscribeRefiningOptionSelectionChange = function() {
+                        selectedStockOption().itemAddonCostCentres.each(function(refiningOption) {
+                            refiningOption.isSelected.subscribe(function(value) {
+                                executeCostCenter(refiningOption);
+                            });
+                        });
+                    },
                     //On Product From Retail Store update Item price matrix table and Add on Table 
                     updateViewOnStockOptionChange = ko.computed(function() {
                         if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
@@ -292,12 +300,27 @@ define("common/addProduct.viewModel",
                     showCostCenterSections = function() {
                         costCenterVisibility(!costCenterVisibility());
                     },
-                    
+                    // Execute Cost Center
+                    executeCostCenter = function (refiningOption) {
+                        dataservice.executeCostCenter({
+                            CostCentreId: refiningOption.costCentreId(),
+                            ClonedItemId: selecteditem().id(),
+                            QuantityOrdered: selectedProductQuanity(),
+                            CallMode: 'New'
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to execute cost center. Error: " + response);
+                            }
+                        });
+                    },
                     //Calculate Total Price
                     // ReSharper disable once UnusedLocals
                     calculateTotalPrice = ko.computed(function () {
-                        //selecteditem().itemStockOptions()[0].itemAddonCostCentres()
-                        //selectedStockOption().itemAddonCostCentres()
                         var totalPrice = 0;
                         var totalPriceWithoutTax = 0;
                         selectedProductQuanityPrice(0);
