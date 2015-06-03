@@ -35,8 +35,8 @@
                             <!-- ko if: isTemplateTabsVisible -->
                             <li><a href="#tab-ProductDetailSection" data-toggle="tab">Artwork and Sections</a></li>
                             <!-- /ko -->
-                            <li><a href="#tab-StockLabels" data-toggle="tab">Stock Labels</a></li>
-                            <li><a href="#tab-pricetable" data-toggle="tab">Price Table Defaults</a></li>
+                            <li><a href="#tab-StockLabels" data-toggle="tab">Price Table Columns</a></li>
+                            <li><a href="#tab-pricetable" data-toggle="tab">Selling Price Tables</a></li>
                             <!-- ko if: itemProductDetail().isInternalActivity() -->
                             <li><a href="#tab-supplierPrice" data-toggle="tab">Supplier Prices</a></li>
                             <!-- /ko -->
@@ -680,22 +680,7 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
-
-                                                <label class="control-label text-right tooltip-float" for="switchStockLevelProduct">Display available stock level on store pricing & selection page</label>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" data-bind="checked: isStockControl">
-                                                    <label class="onoffswitch-label" for="switchStockLevelProduct">
-                                                        <div class="onoffswitch-inner"></div>
-                                                        <div class="onoffswitch-switch"></div>
-                                                    </label>
-                                                </div>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
+                                        
 
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
@@ -1033,11 +1018,33 @@
                                     <div class="row" style="margin-left:3px;">
                                         <span> It's cost centers and final price will be based on the stock options prices.</span>
                                     </div>
+                                    
 
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <button type="button" data-bind="click: addItemStockOption" class="btn btn-success">
-                                            Add Price Column Attribute
-                                        </button>
+                                    <div class="col-lg-12" style="margin-top:10px;" >                                        
+                                        <div class="col-lg-6 text-left" >
+                                            <div data-bind="visible: isFinishedGoodsUi() === '3'">
+                                                <div class="col-lg-7" style="margin-left:-25px;">
+                                                    <label class="control-label tooltip-float" for="switchStockLevelProduct">Display available stock level on store pricing & selection page</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" data-bind="checked: isStockControl">
+                                                        <label class="onoffswitch-label" for="switchStockLevelProduct">
+                                                            <div class="onoffswitch-inner"></div>
+                                                            <div class="onoffswitch-switch"></div>
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        
+                                        <div class="col-lg-6 text-right">
+                                            <button type="button" data-bind="click: addItemStockOption" class="btn btn-success">
+                                                Add Price Column Attribute
+                                            </button>
+                                        </div>
+                                       
                                     </div>
                                 </div>
                                 <!-- ko template: { name: 'stockLabelTemplate', foreach: itemStockOptions } -->
