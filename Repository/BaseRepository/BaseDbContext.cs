@@ -970,6 +970,21 @@ namespace MPC.Repository.BaseRepository
                 purchaseIdParameter);
         }
 
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_TotalEarnings_Result> usp_TotalEarnings(DateTime? fromdate, DateTime? todate)
+// ReSharper restore InconsistentNaming
+        {
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("fromdate", fromdate) :
+                new ObjectParameter("fromdate", typeof(DateTime));
+
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("todate", todate) :
+                new ObjectParameter("todate", typeof(DateTime));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_TotalEarnings_Result>("usp_TotalEarnings", fromdateParameter, todateParameter);
+        }
+
         #endregion
     }
 }
