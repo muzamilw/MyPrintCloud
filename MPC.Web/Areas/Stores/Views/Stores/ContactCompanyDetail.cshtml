@@ -249,6 +249,7 @@
                                             @*<header class="main-box-header clearfix">
                                                     <h2><label data-bind="text: name"></label></h2>
                                                 </header>*@
+                                           
                                             <div class="clearfix">
                                                 <div class="col-lg-12">
                                                     <img id="idCostcenterimage" style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
@@ -1053,13 +1054,13 @@
                                             <div class="col-lg-3">
 
                                                 <div class="clearfix">
-
+                                                   
                                                     <img style="width:240px;height:130px;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
                                                     <img style="width:240px;height:130px;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
                                                     <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:242px;">
-                                                        <div class="fileUpload btn btn-primary" data-bind="click:$root.showMediaLibraryDialogFromStoreBackground">
+                                                        <div class="fileUpload btn btn-primary">   @*data-bind="click:$root.showMediaLibraryDialogFromStoreBackground"*@
                                                             <span>Change Background</span>
-                                                            @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeBackgroudImageUploadCallback, fileFilter: 'image.*'}" />
                                                         </div>
 
                                                     </div>

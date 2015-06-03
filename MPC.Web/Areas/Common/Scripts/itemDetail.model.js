@@ -739,7 +739,7 @@
                 // Press Id Side 1 Is Spot Color
                 pressIdSide1IsSpotColor = ko.observable(specifiedPressSide1IsSpotColor || false),
                 // Press Id Side 2 Is Spot Color
-                pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false),
+                pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false)
                 // Select Stock Item
                 selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
@@ -2080,7 +2080,7 @@
     //#region Machine
     // Machine Entity        
 // ReSharper disable InconsistentNaming
-    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor)
+    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor, specifiedPasses)
         // ReSharper restore InconsistentNaming
     {
         return {
@@ -2089,7 +2089,8 @@
             maxSheetHeight: specifiedMaxSheetHeight,
             maxSheetWidth: specifiedMaxSheetWidth,
             colourHeads: specifiedColourHeads,
-            isSpotColor: specifiedIsSpotColor
+            isSpotColor: specifiedIsSpotColor,
+            passes: specifiedPasses
         };
     };
     //#endregion
@@ -2347,7 +2348,7 @@
     //#region Machine Factory
     // Machine Factory
     Machine.Create = function (source) {
-        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor);
+        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor, source.Passes);
     };
     //#endregion
 

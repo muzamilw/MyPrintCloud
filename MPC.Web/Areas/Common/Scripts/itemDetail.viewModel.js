@@ -773,6 +773,7 @@ define("common/itemDetail.viewModel",
                             selectedSection().sectionSizeWidth(press.maxSheetWidth || 0);
                             selectedSection().pressIdSide1ColourHeads(press.colourHeads || 0);
                             selectedSection().pressIdSide1IsSpotColor(press.isSpotColor || false);
+                            selectedSection().passesSide1(press.passes);
                             // Update Section Ink Coverage
                             selectedSection().sectionInkCoverageList.removeAll(selectedSection().sectionInkCoveragesSide1());
                             for (var i = 0; i < press.colourHeads; i++) {
@@ -798,6 +799,7 @@ define("common/itemDetail.viewModel",
 
                             selectedSection().pressIdSide2ColourHeads(press.colourHeads || 0);
                             selectedSection().pressIdSide2IsSpotColor(press.isSpotColor || false);
+                            selectedSection().passesSide2(press.passes);
                             // Update Section Ink Coverage
                             selectedSection().sectionInkCoverageList.removeAll(selectedSection().sectionInkCoveragesSide2());
                             for (var i = 0; i < press.colourHeads; i++) {
