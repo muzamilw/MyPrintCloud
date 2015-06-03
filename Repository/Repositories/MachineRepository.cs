@@ -665,6 +665,7 @@ namespace MPC.Repository.Repositories
                 Mapper.CreateMap<Machine, Machine>()
                .ForMember(x => x.ItemSections, opt => opt.Ignore());
 
+
                  Mapper.CreateMap<MachineInkCoverage, MachineInkCoverage>()
                .ForMember(x => x.Machine, opt => opt.Ignore());
 
@@ -697,8 +698,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                Mapper.CreateMap<LookupMethod, LookupMethod>();
-
+                Mapper.CreateMap<LookupMethod, LookupMethod>()
+                    .ForMember(x => x.Machines, opt => opt.Ignore());
 
                 Mapper.CreateMap<MachineClickChargeLookup, MachineClickChargeLookup>()
               .ForMember(x => x.LookupMethod, opt => opt.Ignore());
