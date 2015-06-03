@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" data-bind="click:$root.onCloseProductFromRetailStore" aria-hidden="true">&times;</button>
-                <h4>Product From Store <span data-bind="text:': ' + $root.selecteditemName(), visible: $root.selecteditemName() != undefined"></span> </h4>
+                <h4>Product From Store <span data-bind="text:': ' + $root.selectedCompanyName(), visible: $root.selectedCompanyName() != undefined"></span> </h4>
             </div>
             <div class="col-sm-12 form-horizontal" style=" margin-top: 30px;">
                 <div class="col-sm-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" style="margin-left: 16px; width: 30%;">
@@ -113,11 +113,11 @@
                         </div>
                         
                         <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined-->
-                        <div class="main-box-body clearfix" style="max-height:220px; overflow: auto;">
+                        <div class="main-box-body clearfix" style="max-height:220px; height:220px;overflow: auto;">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-                                        <tr>
+                                        <tr> 
                                             <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
                                             <th class="col-sm-5">Price Table</th>
                                             <!--/ko-->
@@ -188,11 +188,11 @@
                 <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
                 <div class="col-sm-9">&nbsp;</div>
                 <div class="col-sm-3" style="margin-top: 10px; font-size:16px;">
-                    <label class="col-sm-6">Total(Inc. Tax)</label>
+                    <label class="col-sm-6" style=" font-size: 17px;">Total(Inc. Tax)</label>
                     <div class="col-sm-5" style="padding-right: 0px; padding-left: 0px;">
-                        <span style=" float: right; " data-bind="numberInput: totalProductPrice"></span>
+                        <span style=" float: right; font-size: 20px; " data-bind="numberInput: totalProductPrice"></span>
 
-                        <span style="float: right;" data-bind="text: $root.currencySymbol"></span>
+                        <span style="float: right; font-size: 20px;" data-bind="text: $root.currencySymbol"></span>
                     </div>
                   
                 </div>
