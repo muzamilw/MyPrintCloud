@@ -221,7 +221,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 maximumsheetheight = source.maximumsheetheight,
                 maximumsheetwidth = source.maximumsheetwidth,
                 ColourHeads = source.ColourHeads,
-                IsSpotColor = source.IsSpotColor
+                IsSpotColor = source.IsSpotColor,
+                Passes = source.Passes
             };
         }
         #endregion

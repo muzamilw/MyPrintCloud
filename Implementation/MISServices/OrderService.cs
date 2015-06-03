@@ -1016,8 +1016,8 @@ namespace MPC.Implementation.MISServices
                 }
                 ReturnPhysicalPath = sCreateDirectory + "\\" + sZipFileName;
                 if (File.Exists(ReturnPhysicalPath))
-                {                    
-                    ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                {
+                    ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId +"/" +sZipFileName;
                     return ReturnPhysicalPath;
                 }
 
@@ -1156,7 +1156,7 @@ namespace MPC.Implementation.MISServices
                         // DeleteFiles();
                     }
                     ReturnRelativePath = sCreateDirectory;
-                    ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                    ReturnPhysicalPath = "/MPC_Content/Artworks/"+ OrganisationId +"/" + sZipFileName;
                     //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }
