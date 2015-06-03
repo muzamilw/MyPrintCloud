@@ -294,7 +294,7 @@
                                                     <input type="text" class="form-control" data-bind="value: $root.orderSearchString" placeholder="Search...">
                                                     <i data-bind="click: $root.getDashboardData" class="fa fa-search search-icon"></i>
                                                 </div>
-                                                <a href="/mis/orders/home/" class="btn btn-primary pull-right">
+                                                <a href="/mis/orders/home/" class="btn btn-primary pull-right" >
                                                     <i class="fa fa-eye fa-lg"></i>View all orders
                                                 </a>
                                             </form>
@@ -314,6 +314,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <!-- ko if: $root.orders().length === 0 -->
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <span style="font-size: 14px;">No Items found!</span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /ko -->
                                                     <!-- ko template: { name: 'itemOrderTemplate' , foreach: $root.orders } -->
                                                     <!-- /ko -->
                                                 </tbody>
@@ -364,32 +371,44 @@
 
 
                         <div class="row">
-                            <div class="main-box clearfix">
-                                <header class="main-box-header clearfix">
-                                    <h2 class="pull-left">Recently Registered Customers</h2>
-
-                                </header>
-                                <div class="main-box-body clearfix">
-                                    <ul class="widget-users row">
-                                        <li class="col-md-12">
-                                          
-                                           
+                            <div class="col-lg-12">
+                                <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 style="margin-top: 3%;" class="pull-left">Last 5 customers</h2>
+                                        <div class="filter-block pull-right">
+                                            <form data-bind="submit:$root.getDashboardData">
                                               
-                                                    No New Registrations
-                                               
-                                              
+                                                <a href="/mis/CRM/Home/" class="btn btn-primary pull-right" >
+                                                    <i class=" fa fa-eye fa-lg">
+                                                    </i>View all customers
+                                                </a>
+                                            </form>
 
-                                          
-                                        </li>
+                                        </div>
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-lg-11"><span>Companies</span></th>
 
-
-                                       
-
-
-
-                                    </ul>
-                                    <br />
-                                    <a href="/mis/CRM/Home" class="btn btn-success pull-right">View all Customers</a>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- ko if: $root.customers().length === 0 -->
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <span style="font-size: 14px;">No Items found!</span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /ko -->
+                                                    <!-- ko template: { name: 'customerTemplate' , foreach: $root.customers } -->
+                                                    <!-- /ko -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -480,6 +499,26 @@
                     <span data-bind="text: '$'"></span>
                     <span data-bind="numberInput: estimateTotal() == undefined ? '' :  estimateTotal()"></span>
                 </td> 
+            </tr>
+        </script>
+        <script id="customerTemplate" type="text/html">
+            <tr data-bind="click: $root.goToCustomer.bind($data.id(), $data.id())" style="cursor: pointer">
+                <td>
+
+                    @*<span data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></span>*@
+                    <div>
+                        <div class="col-lg-7">
+                            <a class="store-user-link" data-bind="text: name" href="#"></a>
+                            <span data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'" style="font-size:12px"></span>
+
+                        </div>
+                        <div class="col-lg-4" style="margin-top: 2%;">
+                            <span data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></span>
+                            <span data-bind="text: defaultContactEmail" style=" font-size: 12px;"></span>
+
+                        </div>
+                    </div>
+                </td>
             </tr>
         </script>
     </div>

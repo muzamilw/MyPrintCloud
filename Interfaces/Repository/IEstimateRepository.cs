@@ -15,6 +15,11 @@ namespace MPC.Interfaces.Repository
     {
 
         /// <summary>
+        /// Get Total Earnings Result
+        /// </summary>
+        IEnumerable<usp_TotalEarnings_Result> GetTotalEarnings(DateTime fromDate, DateTime toDate);
+
+        /// <summary>
         /// Load Property
         /// </summary>
         void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);

@@ -10,6 +10,8 @@ namespace MPC.Interfaces.Repository
 {
     public interface IListingRepository : IBaseRepository<MPC.Models.DomainModels.Listing, long>
     {
+        List<MPC.Models.DomainModels.ListingImage> GetAllListingImages();
+        List<MPC.Models.DomainModels.ListingImage> GetListingImagesByListingID(int propertyId);
         List<MPC.Models.DomainModels.Listing> GetRealEstateProperties();
         string GetImageURLByListingId(long listingId);
         List<FieldVariable> GeyFieldVariablesByItemID(long itemId);
@@ -29,6 +31,7 @@ namespace MPC.Interfaces.Repository
         MPC.Models.DomainModels.Listing CheckListingForUpdate(string clientListingID);
         bool UpdateListingData(ListingProperty objProperty, MPC.Models.DomainModels.Listing listing);
         bool AddListingData(ListingProperty objProperty);
+        List<MPC.Models.DomainModels.Listing> GetPropertiesByContactCompanyID(long CompanyID);
 
     }
 }
