@@ -149,7 +149,7 @@ body:not(.compactHeader) .searchBtn {
     list-style: none;
     text-align: center;
       height: 70px;
-  width: 230%;
+   width: 170%;
 }
 
     #objectPanel > menu li {

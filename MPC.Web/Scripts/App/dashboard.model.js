@@ -291,8 +291,90 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             statusId: statusId,
             status: status
         };
+    },
+          // #region ______________  CUSTOMER LIST VIEW MODEL   _________________
+     customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary) {
+        var
+            self,
+            id = ko.observable(companytId),
+            name = ko.observable(custName),
+            creationdate = ko.observable(custCraetionDate),
+            status = ko.observable(custStatus),
+            customerTYpe = ko.observable(undefined),
+            statusClass = ko.observable(cusStatusClass),
+            storeImageFileBinary = ko.observable(cusStoreImageFileBinary),
+            email = ko.observable(custEmail),
+            defaultContact = ko.observable(undefined),
+            defaultContactEmail = ko.observable(undefined),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            name: name,
+            creationdate: creationdate,
+            status: status,
+            statusClass: statusClass,
+            email: email,
+            customerTYpe:customerTYpe,
+            defaultContact: defaultContact,
+            defaultContactEmail:defaultContactEmail,
+            storeImageFileBinary: storeImageFileBinary,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    customerViewListModel.Create = function (source) {
+        var statusClass = null;
+        if (source.Status == "Inactive")
+            statusClass = 'label label-danger';
+        if (source.Status == "Active")
+            statusClass = 'label label-success';
+        if (source.Status == "Banned")
+            statusClass = 'label label-default';
+        if (source.Status == "Pending")
+            statusClass = 'label label-warning';
+        var customerType=null;
+        var customer = new customerViewListModel(
+            source.CompnayId,
+            source.CustomerName,
+            source.DateCreted,
+            source.Status,
+            statusClass,
+            source.Email,
+            source.StoreImagePath
+        );
+        customer.defaultContact(source.DefaultContactName);
+        customer.defaultContactEmail(source.DefaultContactEmail);
+        customer.customerTYpe(source.CustomerType);
+        return customer;
     };
 
+    // #endregion;
+    
     TotalEarnings = function (specifiedMonth, specifiedOrders, specifiedTotal, specifiedmonthname, specifiedyear, specifiedstore) {
         //var //
         //    month :specifiedMonth;
@@ -356,6 +438,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     return {
         Estimate: Estimate,
-        TotalEarnings: TotalEarnings
+        TotalEarnings: TotalEarnings,
+        customerViewListModel:customerViewListModel
     };
 });

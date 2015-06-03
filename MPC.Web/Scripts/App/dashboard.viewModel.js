@@ -13,6 +13,8 @@ define("dashboard.viewModel",
                     orders = ko.observableArray([]),
                     totalEarnings = ko.observableArray([]),
                     // Total Earnings
+               // customers
+                customers = ko.observableArray([]),
                     dummyTotalEarnings = ko.observableArray([
                         { month: '2015-01-01', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
                         { month: '2015-02-02', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
@@ -74,6 +76,8 @@ define("dashboard.viewModel",
                             if (data != null) {
                                 setOrderStatusesCount(data);
                                 mapOrders(data.Estimates);
+                                mapCustomer(data.Companies);
+                                
                             }
                             //load the tour
                             //openTourInit();
@@ -130,6 +134,14 @@ define("dashboard.viewModel",
                             orders.push(model.Estimate.Create(order));
                         });
                     },
+                     // Map Customer 
+                    mapCustomer = function (data) {
+                        customers.removeAll();
+                        _.each(data, function (customer) {
+                            var customerModel = new model.customerViewListModel.Create(customer);
+                            customers.push(customerModel);
+                        });
+                    },
                 // Sets Orders Statuses Count
                 setOrderStatusesCount = function (data) {
                     pendingOrdersCount(data.PendingOrdersCount);
@@ -143,6 +155,10 @@ define("dashboard.viewModel",
                 // Go to Order
                 goToOrder = function (orderId) {
                     view.goToOrder(orderId);
+                },
+                // Go to Customer
+                goToCustomer = function (customerId) {
+                    view.goToCustomer(customerId);
                 },
                 //Initialize
                 initialize = function (specifiedView) {
@@ -166,7 +182,9 @@ define("dashboard.viewModel",
                     orders: orders,
                     goToOrder: goToOrder,
                     line: line,
-                    totalEarnings: totalEarnings
+                    totalEarnings: totalEarnings,
+                    customers: customers,
+                    goToCustomer: goToCustomer
                 };
             })()
         };

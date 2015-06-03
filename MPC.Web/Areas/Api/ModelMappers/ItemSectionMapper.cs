@@ -45,6 +45,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImpressionCoverageSide1 = source.ImpressionCoverageSide1,
                 ImpressionCoverageSide2 = source.ImpressionCoverageSide2,
                 PrintingType = source.PrintingType,
+                WebSpoilageType = source.WebSpoilageType,
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
             };
 
