@@ -68,6 +68,14 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
+        /// Get Total Earnings for a specific duration
+        /// </summary>
+        public IEnumerable<usp_TotalEarnings_Result> GetTotalEarnings(DateTime fromDate, DateTime toDate)
+        {
+            return db.usp_TotalEarnings(fromDate, toDate).ToList();
+        }
+
+        /// <summary>
         /// Get Orders For Specified Search
         /// </summary>
         public GetOrdersResponse GetOrders(GetOrdersRequest request)
