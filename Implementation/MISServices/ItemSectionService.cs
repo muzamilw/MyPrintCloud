@@ -6270,15 +6270,24 @@ namespace MPC.Implementation.MISServices
             var pressSide2 = itemsectionRepository.GetPressById(PressIdSide2);
             
             //Highest setup spoilage between the two presses will be set.
-            if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
-                SetupSpoilage = pressSide1.SetupSpoilage?? 0;
+            if(currentSection.IsDoubleSided)
+            {
+                if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
+                    SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
+                else
+                    SetupSpoilage = pressSide2.SetupSpoilage ?? 0;
+                //Highest running spoilage between the two presses will be set.
+                if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+                    RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+                else
+                    RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+            }
             else
-                SetupSpoilage = pressSide2.SetupSpoilage?? 0;
-            //Highest running spoilage between the two presses will be set.
-            if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+            {
+                SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
                 RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
-            else
-                RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+            }
+            
 
 
             updatedSection.SetupSpoilage = SetupSpoilage;
