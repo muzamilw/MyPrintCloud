@@ -185,7 +185,7 @@ namespace MPC.Implementation.MISServices
 
                 //Model.LookupMethods.MethodDTO oModelLookUpMethod = BLL.LookupMethods.Method.GetMachineLookUpMethod(GlobalData, oItemSection.SelectedPressCalculationMethodID);
                 LookupMethod oModelLookUpMethod = new LookupMethod();
-                oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oPressDTO.LookupMethod));                
+                oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oPressDTO.LookupMethodId));                
 
                 double[] dblPrintCost = new double[3];
                 double[] dblPrintPrice = new double[3];
@@ -6270,15 +6270,24 @@ namespace MPC.Implementation.MISServices
             var pressSide2 = itemsectionRepository.GetPressById(PressIdSide2);
             
             //Highest setup spoilage between the two presses will be set.
-            if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
-                SetupSpoilage = pressSide1.SetupSpoilage?? 0;
+            if(currentSection.IsDoubleSided == true)
+            {
+                if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
+                    SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
+                else
+                    SetupSpoilage = pressSide2.SetupSpoilage ?? 0;
+                //Highest running spoilage between the two presses will be set.
+                if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+                    RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+                else
+                    RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+            }
             else
-                SetupSpoilage = pressSide2.SetupSpoilage?? 0;
-            //Highest running spoilage between the two presses will be set.
-            if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+            {
+                SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
                 RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
-            else
-                RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+            }
+            
 
 
             updatedSection.SetupSpoilage = SetupSpoilage;

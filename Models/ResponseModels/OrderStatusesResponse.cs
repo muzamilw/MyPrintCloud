@@ -48,6 +48,9 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public IEnumerable<Estimate> Estimates { get; set; }
 
-        
+        /// <summary>
+        /// List of Companies
+        /// </summary>
+        public IEnumerable<Company> Companies { get; set; }
     }
 }

@@ -671,6 +671,7 @@ namespace MPC.Repository.Repositories
 
             }
         }
+
         public CompanyResponse SearchCompaniesForCustomer(CompanyRequestModel request)
         {
             try
@@ -719,6 +720,52 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
+        }
+
+        public CompanyResponse SearchCompaniesForCustomerOnDashboard(CompanyRequestModel request)
+        {
+            {
+                try
+                {
+                    int fromRow = (request.PageNo - 1) * request.PageSize;
+                    int toRow = request.PageSize;
+                    bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+                    bool isTypeSpecified = request.CustomerType != null;
+                    long type = request.CustomerType ?? 0;
+                    int companyType = request.IsCustomer;
+                    Expression<Func<Company, bool>> query =
+                        s =>
+                        ((!isStringSpecified
+                        || s.Name.Contains(request.SearchString)
+                        || (s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1) != null
+                            && (
+                                s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).FirstName.Contains(request.SearchString)
+                                || s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).Email.Contains(request.SearchString)
+                                || s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).LastName.Contains(request.SearchString))
+                                )
+                           )
+                        && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
+                        (s.OrganisationId == OrganisationId && s.isArchived != true)
+                        && ((companyType != 2 && (s.IsCustomer == companyType)) || (companyType == 2 && (s.IsCustomer == 0 || s.IsCustomer == 1))) && (true);
+
+                    int rowCount = DbSet.Count(query);
+                    IEnumerable<Company> companies = 
+                      
+                        DbSet.Where(query)
+                            .OrderByDescending(customer => customer.CompanyId).Take(5).ToList();
+                           
+                    return new CompanyResponse
+                    {
+                        RowCount = rowCount,
+                        Companies = companies
+                    };
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            } 
         }
 
         /// <summary>
