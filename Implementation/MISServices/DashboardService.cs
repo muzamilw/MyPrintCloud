@@ -14,6 +14,7 @@ namespace MPC.Implementation.MISServices
 
         private readonly IEstimateRepository estimateRepository;
         private readonly ICompanyRepository companyRepository;
+       
         #endregion
         #region Constructor
 
@@ -37,6 +38,9 @@ namespace MPC.Implementation.MISServices
             OrderStatusesResponse response = estimateRepository.GetOrderStatusesCount();
             response.LiveStoresCount = companyRepository.LiveStoresCountForDashboard();
             response.Estimates = estimateRepository.GetEstimatesForDashboard(request);
+
+            CompanyResponse customerResponse = companyRepository.SearchCompaniesForCustomerOnDashboard(new CompanyRequestModel());
+            response.Companies = customerResponse.Companies;
             return response;
         }
 

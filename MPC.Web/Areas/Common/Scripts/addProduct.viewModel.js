@@ -58,9 +58,11 @@ define("common/addProduct.viewModel",
                     searchFilter = ko.observable(),
                     storeName = ko.observable(),
                     callerNaMe = ko.observable(),
+                    selectedCompanyName = ko.observable(),
                     // Show
-                    show = function(afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem, companyTaxRateParam, productName,callerName) {
+                    show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem, companyTaxRateParam, productName, callerName, companyName) {
                         resetFields();
+                        selectedCompanyName(companyName);
                         callerNaMe(callerName);
                         storeName(productName);
                         orderId = oId;
@@ -383,6 +385,7 @@ define("common/addProduct.viewModel",
                     //Utilities
                     onSelectCostCenter: onSelectCostCenter,
                     initialize: initialize,
+                    selectedCompanyName:selectedCompanyName,
                     show: show,
                     selectedCostCentre: selectedCostCentre,
                     selecteditem: selecteditem,
