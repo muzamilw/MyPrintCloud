@@ -11,6 +11,8 @@ define("dashboard.viewModel",
                 view,
                 // orders
                 orders = ko.observableArray([]),
+               // customers
+                customers = ko.observableArray([]),
                 // Search filter 
                 searchFilter = ko.observable(),
                 // Pager for pagging
@@ -45,6 +47,8 @@ define("dashboard.viewModel",
                             if (data != null) {
                                 setOrderStatusesCount(data);
                                 mapOrders(data.Estimates);
+                                mapCustomer(data.Companies);
+                                
                             }
                             //load the tour
                             //openTourInit();
@@ -62,6 +66,14 @@ define("dashboard.viewModel",
                             orders.push(model.Estimate.Create(order));
                         });
                     },
+                     // Map Customer 
+                    mapCustomer = function (data) {
+                        customers.removeAll();
+                        _.each(data, function (customer) {
+                            var customerModel = new model.customerViewListModel.Create(customer);
+                            customers.push(customerModel);
+                        });
+                    },
                 // Sets Orders Statuses Count
                 setOrderStatusesCount = function(data) {
                     pendingOrdersCount(data.PendingOrdersCount);
@@ -75,6 +87,10 @@ define("dashboard.viewModel",
                 // Go to Order
                 goToOrder = function(orderId) {
                     view.goToOrder(orderId);
+                },
+                // Go to Customer
+                goToCustomer = function (customerId) {
+                    view.goToCustomer(customerId);
                 },
                 //Initialize
                 initialize = function (specifiedView) {
@@ -95,7 +111,9 @@ define("dashboard.viewModel",
                     orderSearchString: orderSearchString,
                     getDashboardData: getDashboardData,
                     orders: orders,
-                    goToOrder: goToOrder
+                    goToOrder: goToOrder,
+                    customers: customers,
+                    goToCustomer: goToCustomer
                 };
             })()
         };

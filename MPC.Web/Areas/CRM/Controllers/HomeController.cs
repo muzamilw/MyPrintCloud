@@ -22,9 +22,11 @@ namespace MPC.MIS.Areas.CRM.Controllers
         /// Shows Compnies List
         /// </summary>
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProspect })]
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
             ViewBag.ActiveTab = ActiveModuleMenuItem.Companies;
+            ViewBag.CallingMethod = (string)TempData["CallingMethod"] != "" ? TempData["CallingMethod"] : "0";
+            ViewBag.CompanyId = id ?? 0;
             return View();
         }
 
