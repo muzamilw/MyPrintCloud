@@ -14,7 +14,7 @@
                 isFixed = ko.observable(specifiedIsFixed),
                 region = ko.observable(specifiedRegion),
                 isArchived = ko.observable(specifiedIsArchived),
-                isImperical = ko.observable(specifiedIsImperical),
+                IsImperical = ko.observable(specifiedIsImperical),
              // Errors
              errors = ko.validation.group({
                  name: name,
@@ -38,7 +38,7 @@
                  isFixed: isFixed,
                  region: region,
                  isArchived: isArchived,
-                 isImperical: isImperical
+                 IsImperical: IsImperical
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -55,7 +55,7 @@
                      IsFixed: isFixed(),
                      Region: culture != null ? culture : region(),
                      IsArchived: isArchived(),
-                     isImperical: isImperical()
+                     IsImperical: IsImperical()
                  };
              },
             // Reset
@@ -72,7 +72,7 @@
                 isFixed: isFixed,
                 region: region,
                 isArchived: isArchived,
-                isImperical: isImperical,
+                IsImperical: IsImperical,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
@@ -85,7 +85,7 @@
     //function to attain cancel button functionality 
     PaperSheet.CreateFromClientModel = function (source) {
          return new PaperSheet(source.paperSizeId, source.name, source.height, source.width, source.sizeMeasure, source.area,
-                               source.isFixed, source.region, source.isArchived,source.isImperical);
+                               source.isFixed, source.region, source.isArchived,source.IsImperical);
      };
     // server to client mapper
      var paperSheetServertoClientMapper = function (source) {
@@ -95,7 +95,7 @@
     // Area Factory
      PaperSheet.Create = function (source) {
          return new PaperSheet(source.PaperSizeId, source.Name, source.Height, source.Width, source.SizeMeasure, source.Area,
-                               source.IsFixed, source.Region, source.IsArchived,source.isImperical);
+                               source.IsFixed, source.Region, source.IsArchived,source.IsImperical);
      };
     return {
         PaperSheet: PaperSheet,

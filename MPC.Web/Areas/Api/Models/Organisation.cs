@@ -221,6 +221,11 @@ namespace MPC.MIS.Areas.Api.Models
         public byte[] Image { get; set; }
 
         /// <summary>
+        /// is Imperical
+        /// </summary>
+        public bool? IsImperical { get; set; }
+
+        /// <summary>
         /// Image Source
         /// </summary>
         public string ImageSource

@@ -81,7 +81,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<PaperSize, bool>> query =
                 paperSize =>
                     ((isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified)
-                    && paperSize.OrganisationId == OrganisationId && paperSize.Region == request.Region && (paperSize.IsArchived == false || paperSize.IsArchived == null));
+                    && paperSize.OrganisationId == OrganisationId && (paperSize.IsArchived == false || paperSize.IsArchived == null));
 
             var rowCount = DbSet.Count(query);
             var paperSheets = request.IsAsc

@@ -63,20 +63,20 @@
                     </a>
 
                 </div>*@
-                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Unit of Length</label>
+                    @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Unit of Length</label>*@
 
                 </div>
 
                 <div class="col-lg-6">
                     <div class="col-lg-12" style="margin-left:-10px;">
                         <div class="radio" style="margin-bottom: 10px;">
-                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosImperical" value="true" checked data-bind="checked: isImperical">
+                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosImperical" value="true" data-bind="checked: $root.selectedMyOrganization().isImperical">
                             <label for="optionsRadiosImperical">
-                                Imperical (US)
+                                Empirical (US)
                             </label>
                         </div>
                         <div class="radio">
-                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosMetric" value="false" data-bind="checked: isImperical">
+                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosMetric" value="false" data-bind="checked: $root.selectedMyOrganization().isImperical">
                             <label for="optionsRadiosMetric">
                                 Metric
                             </label>
