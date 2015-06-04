@@ -959,6 +959,10 @@
     <Content Include="Areas\Invoices\Scripts\invoice.model.js" />
     <Content Include="Areas\Invoices\Scripts\invoice.view.js" />
     <Content Include="Areas\Invoices\Scripts\invoice.viewModel.js" />
+    <Content Include="Areas\Orders\Scripts\purchaseOrders.dataservice.js" />
+    <Content Include="Areas\Orders\Scripts\purchaseOrders.model.js" />
+    <Content Include="Areas\Orders\Scripts\purchaseOrders.view.js" />
+    <Content Include="Areas\Orders\Scripts\purchaseOrders.viewModel.js" />
     <Content Include="Areas\Orders\Scripts\order.dataservice.js" />
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
