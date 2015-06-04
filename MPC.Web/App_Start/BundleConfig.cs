@@ -71,6 +71,7 @@ namespace MPC.MIS
                 .Include("~/Scripts/toastr.js")
                 .Include("~/Scripts/amplify.js")
                 .Include("~/Scripts/knockout-sortable.js")
+                .Include("~/Scripts/knockout-morris.js")
                 .Include("~/RichTextEditor/ckeditor.js")
                 .Include("~/Scripts/require.js")
                 .Include("~/Scripts/respond.js")

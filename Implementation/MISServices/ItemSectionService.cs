@@ -6270,7 +6270,8 @@ namespace MPC.Implementation.MISServices
             var pressSide2 = itemsectionRepository.GetPressById(PressIdSide2);
             
             //Highest setup spoilage between the two presses will be set.
-            if(currentSection.IsDoubleSided == true)
+           var value= currentSection.IsDoubleSided ?? false ;
+           if (value)
             {
                 if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
                     SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
