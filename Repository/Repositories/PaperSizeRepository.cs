@@ -67,7 +67,7 @@ namespace MPC.Repository.Repositories
         {
             Organisation org = db.Organisations.Where(o => o.OrganisationId == this.OrganisationId).FirstOrDefault();
             string sCulture = org.GlobalLanguage != null ? org.GlobalLanguage.culture : string.Empty;
-            return DbSet.Where(s => s.OrganisationId == OrganisationId && s.Region == sCulture).OrderBy(s => s.Area).ToList();
+            return DbSet.Where(s => s.OrganisationId == OrganisationId && s.IsImperical == org.IsImperical && s.IsArchived == false).OrderBy(s => s.Area).ToList();
         }
 
         /// <summary>

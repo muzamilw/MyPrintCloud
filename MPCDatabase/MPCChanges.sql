@@ -4566,3 +4566,30 @@ END
 /* Execution Date: 04/06/2015 */
 
 update fieldVariable set CriteriaFieldName = 'StateAbbr' where VariableName = 'State Abbreviation'
+
+alter table Organisation add IsImperical bit null
+
+alter table PaperSize add IsImperical bit null
+
+alter table StockItem add IsImperical bit null
+
+alter table PurchaseDetail
+alter column itemid bigint null
+
+update PurchaseDetail
+set ItemId = null
+where ItemId not in (select ItemId from Items)
+
+alter table PurchaseDetail
+add constraint FK_PurchaseDetail_Items
+foreign key (ItemId)
+references Items (ItemId)
+
+alter table PurchaseDetail
+add ProductType int null
+
+alter table PurchaseDetail
+add RefItemId bigint null
+
+
+
