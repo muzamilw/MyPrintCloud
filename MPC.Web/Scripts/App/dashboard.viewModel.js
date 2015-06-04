@@ -11,23 +11,26 @@ define("dashboard.viewModel",
                     view,
                     // orders
                     orders = ko.observableArray([]),
+                     // Total Earnings
                     totalEarnings = ko.observableArray([]),
-                    // Total Earnings
-               // customers
-                customers = ko.observableArray([]),
+                    date = new Date(),
+                    year = date.getFullYear(),
+
+                     // customers
+                     customers = ko.observableArray([]),
                     dummyTotalEarnings = ko.observableArray([
-                        { month: '2015-01-01', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-02-02', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-03-03', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-04-04', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-05-05', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-06-06', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-07-07', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-08-08', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-09-09', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-10-10', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-11-11', orders: 0, total: 0, monthname: 0, year: 0, store: "" },
-                        { month: '2015-12-12', orders: 0, total: 0, monthname: 0, year: 0, store: "" }
+                        { month: year + '-01-01', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-02-02', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-03-03', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-04-04', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-05-05', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-06-06', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-07-07', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-08-08', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-09-09', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-10-10', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-11-11', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 },
+                        { month: year + '-12-12', orders: 0, total: 0, monthname: 0, year: 0, store: "", flag: 0 }
 
                     ]),
                     // Search filter 
@@ -77,7 +80,7 @@ define("dashboard.viewModel",
                                 setOrderStatusesCount(data);
                                 mapOrders(data.Estimates);
                                 mapCustomer(data.Companies);
-                                
+
                             }
                             //load the tour
                             //openTourInit();
@@ -96,20 +99,24 @@ define("dashboard.viewModel",
                             if (tEarning.monthname !== null && tEarning.monthname !== 0) {
                                 var item = dummyTotalEarnings()[tEarning.monthname - 1];
                                 if (item !== undefined && item !== null) {
-                                    item.orders = tEarning.Orders;
-                                    item.total = tEarning.Total;
-                                    item.monthname = tEarning.monthname;
-                                    item.year = tEarning.year;
-                                    item.store = tEarning.store;
+                                    if (item.flag === 0) {
+                                        item.orders = tEarning.Orders;
+                                        item.total = tEarning.Total;
+                                        item.monthname = tEarning.monthname;
+                                        item.year = tEarning.year;
+                                        item.store = tEarning.store;
+                                        item.flag = 1;
+                                    }
+                                    else {
+                                        var duplicateItem = model.TotalEarnings.Create(tEarning);
+                                        duplicateItem.month = item.month;
+                                        dummyTotalEarnings.push(duplicateItem);
+                                    }
                                 }
-
-
                             }
-
-                            ko.utils.arrayPushAll(totalEarnings(), dummyTotalEarnings());
-                            totalEarnings.valueHasMutated();
-                            //  eraningsList.push(model.TotalEarnings.Create(tEarning));
                         });
+                        ko.utils.arrayPushAll(totalEarnings(), dummyTotalEarnings());
+                        totalEarnings.valueHasMutated();
                     },
                 // Get Total earning of current whole year
                 getTotalEarnings = function (callBack) {

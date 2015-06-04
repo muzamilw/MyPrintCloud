@@ -168,15 +168,15 @@ max-height:70px;
 .realEstateHeader {
     width: 100%;
     height: 59px;
-    padding-top: 10px
+    padding-top: 10px;
     background-color: white;
     z-index: 100;
     position: relative;
     box-shadow: inset 0 -10px 10px -10px #959696;
 }
-#mycarasoulList {
+/*#mycarasoulList {
     margin-top:-19px!important;
-}
+}*/
 
 ::-webkit-input-placeholder { /* WebKit browsers */
     color: gray;
@@ -665,13 +665,13 @@ h5 {
     .Chevron:before {
         top: 6px;
         border-top-color: #bebab8;
-        left: -57px;
+        left: -35px;
     }
 
     .Chevron:after {
         top: 5px;
         border-top-color: #564e4b;
-        margin-left: -57px;
+        margin-left: -35px;
     }
 .category-heading a {
     display: block;
@@ -781,41 +781,48 @@ h5 {
 }
 
 .relEst-profile-sigout {
-    cursor: pointer;
-    margin-left: 10px;
-    margin-right: 10px;
-    color: #bebab8;
-    margin-top: 0px;
-    font-size: 12px;
-    border: 1px solid #bebab8;
-    padding: 3px;
-    border-radius: 16px;
-    padding-right: 6px;
-    cursor: pointer;
+ margin-left: 10px;
+  color: #bebab8;
+  margin-top: 0px;
+  font-size: 12px;
+  border: 1px solid #bebab8;
+  padding: 5px;
+  border-radius: 13px;
+  cursor: pointer;
+  padding-left: 7px;
+  padding-right: 7px;
+  cursor:pointer;
+  margin-right:10px;
 }
-
+.relEst-profile-sigout > a {
+      color: #bebab8;
+}
 .relEst-profile-saved {
-    cursor: pointer;
-    margin-left: 10px;
-    color: #bebab8;
-    margin-top: 0px;
-    font-size: 12px;
-    border: 1px solid #bebab8;
-    padding: 3px;
-    border-radius: 16px;
-    cursor: pointer;
+   margin-left: 10px;
+  color: #bebab8;
+  margin-top: 0px;
+  font-size: 12px;
+  border: 1px solid #bebab8;
+  padding: 5px;
+  border-radius: 13px;
+  cursor: pointer;
+  padding-left: 7px;
+  padding-right: 7px;
+  cursor:pointer;
 }
 
 .relEst-profile-dashb {
-    cursor: pointer;
-    margin-left: 10px;
-    color: #bebab8;
-    margin-top: 0px;
-    font-size: 12px;
-    border: 1px solid #bebab8;
-    padding: 3px;
-    border-radius: 16px;
-    cursor: pointer;
+  margin-left: 10px;
+  color: #bebab8;
+  margin-top: 0px;
+  font-size: 12px;
+  border: 1px solid #bebab8;
+  padding: 5px;
+  border-radius: 13px;
+  cursor: pointer;
+  padding-left: 7px;
+  padding-right: 7px;
+  cursor:pointer;
 }
 
 .resEst-width50 {
