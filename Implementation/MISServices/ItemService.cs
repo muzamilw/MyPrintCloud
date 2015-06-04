@@ -859,11 +859,27 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
+                List<TemplatePage> templatePagesWithSameDimensions = template.TemplatePages.Where(tempPage =>
+                    (tempPage.Height == template.PDFTemplateHeight) && (tempPage.Width == template.PDFTemplateWidth))
+                    .ToList();
+
+                List<TemplatePage> templatePagesWithCustomDimensions = template.TemplatePages.Where(tempPage =>
+                    (tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth))
+                    .ToList();
+
                 templatePageService.CreateBlankBackgroundPDFsByPages(template.ProductId,
                     template.PDFTemplateHeight.HasValue ? template.PDFTemplateHeight.Value : 0,
                     template.PDFTemplateWidth.HasValue ? template.PDFTemplateWidth.Value : 0,
-                    1, template.TemplatePages.ToList(),
+                    1, templatePagesWithSameDimensions,
                     organisationId);
+
+                templatePagesWithCustomDimensions.ForEach(tempPageCustom => 
+                    templatePageService.CreatePageBlankBackgroundPDFs(
+                    template.ProductId,
+                    tempPageCustom,
+                    template.PDFTemplateHeight.HasValue ? template.PDFTemplateHeight.Value : 0,
+                    template.PDFTemplateWidth.HasValue ? template.PDFTemplateWidth.Value : 0,
+                    organisationId));
             }
             catch (Exception exp)
             {
