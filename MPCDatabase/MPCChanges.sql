@@ -4560,3 +4560,9 @@ select sum(Estimate_Total) Total,count(*) Orders,store,Month,monthname,year
 group by month,store,monthname,year
 
 END
+
+
+
+/* Execution Date: 04/06/2015 */
+
+update fieldVariable set CriteriaFieldName = 'StateAbbr' where VariableName = 'State Abbreviation'
