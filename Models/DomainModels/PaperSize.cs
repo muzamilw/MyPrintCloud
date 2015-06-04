@@ -14,6 +14,11 @@
         public bool? IsArchived { get; set; }
         public long? OrganisationId { get; set; }
 
+        /// <summary>
+        /// is Imperical
+        /// </summary>
+        public bool? IsImperical { get; set; }
+
         #endregion
     }
 }
