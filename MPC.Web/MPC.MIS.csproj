@@ -330,6 +330,7 @@
     <Compile Include="Areas\Api\Controllers\DeliveryNoteBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNotesController.cs" />
     <Compile Include="Areas\Api\Controllers\EstimateBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetTotalEarningsForDashboardController.cs" />
     <Compile Include="Areas\Api\Controllers\GetDashboardDataController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryController.cs" />
@@ -507,6 +508,7 @@
     <Compile Include="Areas\Api\ModelMappers\SmartFormMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StockItemForDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateColorStyleMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\usp_TotalEarnings_ResultMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\VariableOptionMapper.cs" />
     <Compile Include="Areas\Api\Models\Activity.cs" />
     <Compile Include="Areas\Api\Models\ActivityListView.cs" />
@@ -807,6 +809,7 @@
     <Compile Include="Areas\Api\Models\Template.cs" />
     <Compile Include="Areas\Api\Models\TemplateColorStyle.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
+    <Compile Include="Areas\Api\Models\usp_TotalEarnings_Result.cs" />
     <Compile Include="Areas\Api\Models\VariableOption.cs" />
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
@@ -2248,6 +2251,7 @@
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
+    <Content Include="Scripts\knockout-morris.js" />
     <Content Include="Scripts\knockout-sortable.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
