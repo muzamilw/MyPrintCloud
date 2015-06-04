@@ -66,9 +66,11 @@ namespace MPC.Repository.Repositories
         public override IEnumerable<PaperSize> GetAll()
         {
             Organisation org = db.Organisations.Where(o => o.OrganisationId == this.OrganisationId).FirstOrDefault();
-            string sCulture = org.GlobalLanguage != null ? org.GlobalLanguage.culture : string.Empty;
+            //string sCulture = org.GlobalLanguage != null ? org.GlobalLanguage.culture : string.Empty;
             return DbSet.Where(s => s.OrganisationId == OrganisationId && s.IsImperical == org.IsImperical && s.IsArchived == false).OrderBy(s => s.Area).ToList();
         }
+
+        
 
         /// <summary>
         /// Search Paper Sheet
@@ -81,7 +83,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<PaperSize, bool>> query =
                 paperSize =>
                     ((isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified)
-                    && paperSize.OrganisationId == OrganisationId && paperSize.Region == request.Region && (paperSize.IsArchived == false || paperSize.IsArchived == null));
+                    && paperSize.OrganisationId == OrganisationId && (paperSize.IsArchived == false || paperSize.IsArchived == null));
 
             var rowCount = DbSet.Count(query);
             var paperSheets = request.IsAsc

@@ -47,6 +47,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             lengthUnitId = ko.observable(),
             //System Weight Unit ID
             weightUnitId = ko.observable(),
+            // isImperical
+            isImperical = ko.observable(),
             //Tax Registration No
             taxRegistrationNo = ko.observable(),
             //Markup ID
@@ -92,7 +94,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  taxRegistrationNo: taxRegistrationNo,
                  markupId: markupId,
                  flagForChanges: flagForChanges,
-                 languageEditors: languageEditors
+                 languageEditors: languageEditors,
+                 isImperical: isImperical
+
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -129,6 +133,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              chartOfAccountsInMyOrganization: chartOfAccountsInMyOrganization,
              flagForChanges: flagForChanges,
              languageEditors: languageEditors,
+             isImperical: isImperical,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -305,6 +310,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.country(source.CountryId === null ? undefined : source.CountryId);
         // companySites.languageEditor(source.LanguageEditor === null ? undefined : LanguageEditor.Create(source.LanguageEditor));
         companySites.orgnizationImage(source.ImageSource);
+        companySites.isImperical(source.IsImperical);
         return companySites;
     };
     //Convert Server To Client
@@ -345,6 +351,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.MarkupId = source.markupId() === undefined ? null : source.markupId();
         result.CountryId = source.country() === undefined ? null : source.country();
         result.StateId = source.state() === undefined ? null : source.state();
+        result.IsImperical = source.isImperical = undefined ? null : source.isImperical();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {
