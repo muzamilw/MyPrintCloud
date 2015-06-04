@@ -70,8 +70,7 @@ namespace MPC.Webstore.Controllers
             }
             return PartialView("PartialViews/RealestateSideBarWithSlider");
         }
-        [HttpPost]
-        public void LogOut()
+        public ActionResult LogOut()
         {
             System.Web.HttpContext.Current.Response.Cookies["ShowPrice"].Expires = DateTime.Now.AddDays(-1);
             System.Web.HttpContext.Current.Response.Cookies["CanEditProfile"].Expires = DateTime.Now.AddDays(-1);
@@ -79,6 +78,7 @@ namespace MPC.Webstore.Controllers
             System.Web.HttpContext.Current.Response.Cookies["WEBFirstName"].Expires = DateTime.Now.AddDays(-1);
             System.Web.HttpContext.Current.Response.Cookies["WEBOrderId"].Expires = DateTime.Now.AddDays(-1);
             UserCookieManager.isRegisterClaims = 2;
+
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
                 Response.Redirect("/Login");
@@ -86,11 +86,12 @@ namespace MPC.Webstore.Controllers
             else
             {
                 Response.Redirect("/");
+
             }
             //Response.Redirect("/"); 
-            
+            return null;
+
         }
-        
         
     }
 }
