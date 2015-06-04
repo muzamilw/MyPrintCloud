@@ -6,10 +6,10 @@
     <link href="/Content/carousel.css" rel="stylesheet" />
     <link href="/Content/content.css" rel="stylesheet" />
     <link href="/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="/Scripts/jquery.mousewheel.min.js"></script>
     <script src="/Scripts/jquery.carousel-1.1.min.js"></script>
     <script src="/Scripts/sample01.js"></script>
-
 </head>
 @{         
     var ParentCategories = ViewBag.rptParentCategoryNames as List<MPC.Models.DomainModels.ProductCategory>;
@@ -139,7 +139,7 @@
                                 <img id="imgThumbnail" src="@Html.GetAppBasePath()@parent.ThumbnailPath" style="width:auto !important; height:185px !important;" />
                                 <br />
                                 <label id="lblpropertyLabel">@parent.CategoryName
-                                </label>
+                                </label>e
                             </a>
                         </div>
                        }
