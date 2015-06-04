@@ -75,6 +75,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               isDirectSale = ko.observable(invoiceStatus() === 19 ? true : false),
 
               isPostedInvoice = ko.observable(invoiceStatus() === 20 ? true : false),
+              taxRate = ko.observable(),
               deliveryItems = ko.computed(function () {
                   if (items().length === 0) {
                       return [];
@@ -255,6 +256,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               setValidationSummary: setValidationSummary,
               convertToServerData: convertToServerData,
               isPostedInvoice: isPostedInvoice,
+              taxRate: taxRate,
               items: items
 
           };

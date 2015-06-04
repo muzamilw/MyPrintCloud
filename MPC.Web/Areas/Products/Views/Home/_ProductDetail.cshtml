@@ -1055,7 +1055,7 @@
 
                                     <div class="col-lg-9">
 
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -1072,7 +1072,7 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
 
-                                        </div>
+                                        </div>*@
 
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -2768,19 +2768,49 @@
             <div class="col-lg-5">
                 @*<div class="form-group">
                         <div class="col-lg-4 text-right">
-                            <label class="control-label text-right tooltip-float">Stock Option Image</label>
-                        </div>
+                           
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Free Stock" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label for="weight" class="control-label text-right tooltip-float">Free Stock</label>
+                            </div>
                         <div class="col-lg-6">
-                                                 <div class="pull-left">
-                                <img style="min-height: 150px; width: 175px;" data-bind="attr: { src: image }" />
-                            </div>
-                            <div class="fileUpload btn btn-primary pull-right">
-                                <span>....</span>
-                                <input type="file" class="upload" data-bind="files: { onLoaded: onSelectImage, fileFilter: 'image.*' }" />
-                            </div>
-                            <span class="help-block text-right"></span>
+                            <label id="inStock" class="control-label" data-bind="text:inStock"></label>            
+                           
                         </div>
-                    </div>*@
+                    </div>
+
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="In Stock" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="weight" class="control-label text-right tooltip-float">In Stock</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <label id="inStocks" class="control-label" data-bind="text:inStock"></label>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Allocated" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="weight" class="control-label text-right tooltip-float">Allocated Stock</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <label id="inStock" class="control-label" data-bind="text:allocated"></label>
+
+                    </div>
+                </div>*@
             </div>
         </div>
 

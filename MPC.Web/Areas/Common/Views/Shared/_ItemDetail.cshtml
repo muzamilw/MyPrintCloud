@@ -17,7 +17,7 @@
                                         <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div>Net Total
                         </div>
                     </div>
                 </div>
@@ -72,11 +72,15 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <div>
-                                                    <div style="float: left"><img class="photo-box" style="padding-top: 7px; cursor: pointer; height: 153px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /></div>
+                                                    <div style="float: left">
+                                                        <img class="photo-box" style="padding-top: 7px; cursor: pointer; height: 153px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" />
+                                                        <span data-bind="click:$root.createNewItemSection" class="label label-circle-add">&nbsp;+&nbsp;</span>
+                                                    </div>
+                                                   
                                                 </div>
-                                                <div class="btn btn-success" style="font-size: x-small;margin-left: 10%;" data-bind="click:$root.createNewItemSection">
-                                                    Add Sheets
-                                                </div>
+                                                @*<div class="btn btn-success" style="font-size: x-small;margin-left: 10%;" data-bind="click:$root.createNewItemSection">
+                                                        Add Sheets
+                                                    </div>*@
                                             </div>
                                         </div>
 
@@ -100,9 +104,7 @@
                                                         <div class="col-sm-2" style="text-align: right; margin-top: 7px;">
                                                             <span data-bind="text:qty2" style="margin-right: 12px;" />
                                                         </div>
-                                                        <div class="col-sm-2" style="text-align: right; margin-top: 7px;">
-                                                            <span data-bind="text:qty3" style="margin-right: 12px;" />
-                                                        </div>
+
                                                         <!--/ko-->
                                                     </div>
                                                 </div>
@@ -148,9 +150,9 @@
                                         </div>
                                         <div class="col-sm-2" style="width:9.5%; ">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled,value:tax1">
-                                                <span class="input-group-addon" style="cursor: none" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
+                                                <input type="text" class="form-control text-right" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled,value:tax1">
                                             </div>
+                                            <span>%</span>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="col-xs-3 txtBox-contentAlignRight" style="width: 21%;padding-right: 3%;">
