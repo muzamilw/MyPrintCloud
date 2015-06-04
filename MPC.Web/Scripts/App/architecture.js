@@ -42,7 +42,7 @@ var ist = {
         timeOut: 0 // Set timeOut to 0 to make it sticky
     },
     // Makes comma seperated Number
-    addCommasToNumber: function(nStr) {
+    addCommasToNumber: function (nStr) {
         nStr += '';
         var x = nStr.split('.');
         var x1 = x[0];
@@ -331,15 +331,24 @@ require(["ko", "knockout-validation"], function (ko) {
                         if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
                             ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
                         }
+                        else if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
+                            ist.stores.viewModel.selectedEmail().hTMLMessageA(instance.getData());
+                        }
                     });
                 });
                 // Handles styling changes 
                 instance.on('afterCommandExec', handleAfterCommandExec);
+                // Handles styling Drop down changes like font size, font family 
+                instance.on('selectionChange', handleAfterCommandExec);
                 function handleAfterCommandExec(event) {
                     if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
                         ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
                     }
+                    else if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
+                        ist.stores.viewModel.selectedEmail().hTMLMessageA(instance.getData());
+                    }
                 }
+
                 value.subscribe(function (newValue) {
                     if (!isEditorChange) {
                         isSubscriberChange = true;

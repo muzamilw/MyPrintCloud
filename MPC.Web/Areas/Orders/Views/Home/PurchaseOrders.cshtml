@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Delivery Notes";
+    ViewBag.Title = "Purchase Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -42,45 +42,45 @@
 
 
 
-<div class="row" id="orderBinding">
-    <div class="col-lg-12">
+<div class="row" id="purchaseOrderBinding">
+    <div class="col-lg-12" data-bind="visible:!$root.isEditorVisible()">
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-12">
-                       <div class="clearfix">
-                            <h1 class="pull-left" data-bind="text: pageHeader" style="padding-left:0px;margin-top:35px;">Purchase Orders</h1>
+                        <div class="clearfix">
+                            <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">Purchase Orders</h1>
                         </div>
 
                     </div>
                 </div>
             </div>
-              <div class="row" id="main-body">
-                 <div class="col-lg-12">
-                     @*Remove End from here for Login*@
-                          <div class="pull-right" style="margin-right:10px;">
-                              <a class="btn btn-primary patial-edit">
-                                  Create New Purchase Order
-                              </a>
-                          </div>
-                      </div>
-                 </div>
+            <div class="row" id="main-body" data-bind="visible:!$root.isEditorVisible()">
+                <div class="col-lg-12">
+                    @*Remove End from here for Login*@
+                    <div class="pull-right" style="margin-right: 3%;">
+                        <a class="btn btn-primary patial-edit">
+                            Create New Purchase Order0
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-                <div class="col-lg-12" style="padding-left:10px;padding-right:12px;">
+            <div class="col-lg-12" style="padding-left:10px;padding-right:12px;">
                 <br />
                 @*Write Your Logic Here , Ko Scripting Template with name "purchaseordersFilterTemplate" is Following*@
                 @*Remove Start from here for Login*@
                 <div class="filter-body">
                     <form>
                         <div class="filter-block pull-right">
+                            @*<div class="form-group pull-left">
+                                    <select class="form-control col-lg-4"></select>
+                                </div>
+                                <div class="form-group pull-left">
+                                    <select class="form-control"></select>
+                                </div>*@
                             <div class="form-group pull-left">
-                                <select class="form-control col-lg-4"></select>
-                            </div>
-                            <div class="form-group pull-left">
-                                <select class="form-control"></select>
-                            </div>
-                            <div class="form-group pull-left">
-                                <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
+                                <input type="text" class="form-control" placeholder="Search..." @*data-bind="value: filterText"*@>
                                 <i class="fa fa-search search-icon"></i>
                             </div>
 
@@ -103,15 +103,15 @@
                                 <table class="table user-list">
                                     <thead>
                                         <tr>
-                                            <th><span>Company / Title</span></th>
-                                            <th><span>Order Date</span></th>
-                                            <th class="text-center"><span>Flag</span></th>
-                                            <th><span>Delivery Code</span></th>
+                                            <th class="col-lg-4"><span>Company / Title</span></th>
+                                            <th class="col-lg-2"><span>Creation Date</span></th>
+                                            <th class="col-lg-2 text-center"><span>Flag</span></th>
+                                            <th class="col-lg-2"><span>Delivery Code</span></th>
                                             <th>&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr data-bind="click:$root.onEditPurchaseOrder" style="cursor: pointer">
                                             <td>
                                                 <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
                                                 <a href="#" class="user-link patial-edit">Gavin Newton</a>
@@ -128,42 +128,7 @@
                                             </td>
                                             <td style="width: 20%;"></td>
                                         </tr>
-
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Colour Fast Group</a>
-                                                <span class="user-subhead">Complement Slips &nbsp; (3) Items</span>
-                                            </td>
-                                            <td>
-                                                2013/08/08
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-default"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1163
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Art Graphics</a>
-                                                <span class="user-subhead">New Estimate &nbsp; (3) Items</span>
-                                            </td>
-                                            <td>
-                                                2013/08/12
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1164
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-                                        <tr>
+                                        <tr data-bind="click:$root.onEditPurchaseOrder" style="cursor: pointer">
                                             <td>
                                                 <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
                                                 <a href="#" class="user-link patial-edit">Creative Art</a>
@@ -289,20 +254,29 @@
                                 </table>
                             </div>
                         </div>
+                        <div id="pagerDiv" class="pull-right" style="padding-right: 2%;">
+                            <!-- ko with: pager -->
+                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                            <!-- /ko -->
+                        </div>
                     </div>
 
                 </div>
             </div>
 
 
-            </div>
         </div>
+    </div>
 
     @Html.Partial("_partialpurchaseOrders")
 
-    </div>
+</div>
 
   
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
+
+
 
 
 <script id="purchaseordersFilterTemplate" type="text/html">
@@ -316,7 +290,7 @@
                     <select class="form-control"></select>
                 </div>
                 <div class="form-group pull-left">
-                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
+                    <input type="text" class="form-control" placeholder="Search..." @*data-bind="value: filterText"*@>
                     <i class="fa fa-search search-icon"></i>
                 </div>
 
@@ -329,6 +303,7 @@
 
 @section Scripts{
     <script>
+        require(["purchaseOrders/purchaseOrders.view", "common/companySelector.view", , "common/confirmation.view"]);
         $(document).ready(function () {
             $('#lipurchases').addClass('active');
         });
