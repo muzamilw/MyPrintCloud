@@ -967,6 +967,9 @@ define("order/order.viewModel",
 
                         //this method is calling to update orders list view total prices etc by trigering computed in item's detail view
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+
+                        //Req: Open Edit dialog of product on adding product
+                        editItem(item);
                     },
 
                     //Req. Change: When adding CostCenter Product For shipping charge
@@ -1490,6 +1493,10 @@ define("order/order.viewModel",
                         //newItem.itemSections()[0].baseCharge1();
                         selectedOrder().items.splice(0, 0, newItem);
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+
+                        //Req: Open Edit dialog of product on adding product
+                        editItem(newItem);
+
                     },
                     onAddCostCenter = function () {
                         // ReSharper disable AssignedValueIsNeverUsed
@@ -1664,7 +1671,8 @@ define("order/order.viewModel",
 
                         //this method is calling to update orders list view total prices etc by trigering computed in item's detail view
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
-
+                        //Req: Open Edit dialog of product on adding product
+                        editItem(item);
                     },
                     //#region product From Retail Store
 
@@ -1784,7 +1792,8 @@ define("order/order.viewModel",
                         itemSectionForAddView.flagForAdd(true);
                         newItem.itemSections.push(itemSectionForAddView);
                         selectedOrder().items.splice(0, 0, newItem);
-
+                        //Req: Open Edit dialog of product on adding product
+                        editItem(newItem);
                     },
                     //#endregion
 

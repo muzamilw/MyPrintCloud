@@ -1,5 +1,7 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using System.Collections.Generic;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -16,6 +18,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyRepository companyRepository;
        
         #endregion
+
         #region Constructor
 
         /// <summary>
@@ -44,6 +47,13 @@ namespace MPC.Implementation.MISServices
             return response;
         }
 
+        /// <summary>
+        /// Get Total Earnings For Dashboard
+        /// </summary>
+        public IEnumerable<usp_TotalEarnings_Result> GetTotalEarningsForDashboard()
+        {
+            return estimateRepository.GetTotalEarningsForDashboard();
+        }
         #endregion
 
     }

@@ -142,12 +142,14 @@ namespace MPC.Webstore.Controllers
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
+                    ViewBag.ShowUploadArkworkPanel = true;
                     BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName);
                 }
                 else
                 {
                     ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                     ViewData["Templates"] = null;
+                    
                 }
 
 
@@ -196,6 +198,7 @@ namespace MPC.Webstore.Controllers
             }
             else if (!string.IsNullOrEmpty(TemplateId))// template case
             {
+                ViewBag.ShowUploadArkworkPanel = true;
                 OrderID = UserCookieManager.WEBOrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName);
@@ -353,29 +356,35 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.Mode = "Modify";
                 
+                    if (referenceItem.IsUploadImage == true)
+                    {
+                        ViewBag.ShowUploadArkworkPanel = true;
+                    }
+                    else
+                    {
+                        ViewBag.ShowUploadArkworkPanel = false;
+                    }
+
             }
             else
             {
                 ViewBag.Mode = "";
-            }
-
-
-            if (mode == "UploadDesign" || mode == "Modify")
-            {
-                if (referenceItem.IsUploadImage == true)
+                if (mode == "UploadDesign")
                 {
-                    ViewBag.ShowUploadArkworkPanel = true;
-                }
-                else 
-                {
-                    ViewBag.ShowUploadArkworkPanel = false;
-                }
+                    if (referenceItem.IsUploadImage == true)
+                    {
+                        ViewBag.ShowUploadArkworkPanel = true;
+                    }
+                    else
+                    {
+                        ViewBag.ShowUploadArkworkPanel = false;
+                    }
 
+                }
             }
-            else
-            {
-                ViewBag.ShowUploadArkworkPanel = true;
-            }
+
+
+            
 
             clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId, UserCookieManager.WEBOrganisationID);
 

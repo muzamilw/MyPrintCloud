@@ -372,7 +372,7 @@
                                         {
                                             if (ViewBag.LoginUser.canPlaceDirectOrder == true)
                                             {
-                                                <div class="pad10">
+                                                <div class="pad10" id="myyyyy">
                                                     <div class="float_right marginLeft directDepositcs">
                                                         <input type="submit" value="Pay Via Direct Deposite " id="btnDirectDeposit" class="start_creating_btn_SApp rounded_corners5" onclick="setButtonType('2'); ShowReceiptLoader();" />
                                                     </div>
@@ -380,7 +380,7 @@
                                                 <div class="clearBoth">
                                                 </div>
                                             }
-                                            <div class="pad10">
+                                            <div class="pad10" id="kkkkk">
                                                 <div class="float_right marginLeft">
                                                     <input id="btnPlaceOrderUsingCreditCard" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Pay by Credit Card" onclick="setButtonType('1'); ShowLoader();" />
 
@@ -398,7 +398,7 @@
                                         }
                                         else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true))
                                         {
-                                            <div class="pad10">
+                                            <div class="pad10" id="oo">
                                                 <div class="float_right marginLeft">
                                                     <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Place Order" onclick="setButtonType('1'); ShowReceiptLoader();" />
 
@@ -415,7 +415,7 @@
                                         }
                                         else
                                         {
-                                            <div class="pad10">
+                                            <div class="pad10" id="mine">
                                                 <div class="float_right marginLeft">
                                                     <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Submit for Approval" onclick="setButtonType('1'); ShowReceiptLoader();" />
 
