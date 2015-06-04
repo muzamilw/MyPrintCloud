@@ -80,7 +80,7 @@
                      },
                      AddGuiltineLookup = function () {
                          selectedGuillotineClickCharge().GuillotinePTVList.push(model.GuillotineClickPTV());
-                     }
+                     },
                 DeleteLookup = function (olookup) {
                     if (!(selectedlookup().MethodId() > 0)) {
                         selectedGuillotineClickCharge().GuillotinePTVList.remove(oGuillotinePTV);
@@ -162,109 +162,109 @@
 
 
 
-                }
+                },
                 onChangeToValue = function (To) {
                     switch (To) {
                         case '1':
-                            selectedClickChargeZones().From2(selectedClickChargeZones().To1() + 1);
+                            selectedClickChargeZones().From2(parseInt(selectedClickChargeZones().To1()) + parseInt(1));
                             if (selectedClickChargeZones().To1() >= selectedClickChargeZones().To2()) {
-                                selectedClickChargeZones().To2(selectedClickChargeZones().To1() + 102);
+                                selectedClickChargeZones().To2(parseInt(selectedClickChargeZones().To1()) + parseInt(102));
                             }
                         case '2':
-                            selectedClickChargeZones().From3(selectedClickChargeZones().To2() + 1);
+                            selectedClickChargeZones().From3(parseInt(selectedClickChargeZones().To2()) + parseInt(1));
                             if (selectedClickChargeZones().To2() >= selectedClickChargeZones().To3()) {
-                                selectedClickChargeZones().To3(selectedClickChargeZones().To2() + 102);
+                                selectedClickChargeZones().To3(parseInt(selectedClickChargeZones().To2()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '3':
-                            selectedClickChargeZones().From4(selectedClickChargeZones().To3() + 1);
+                            selectedClickChargeZones().From4(parseInt(selectedClickChargeZones().To3()) + parseInt(1));
                             if (selectedClickChargeZones().To3() >= selectedClickChargeZones().To4()) {
-                                selectedClickChargeZones().To4(selectedClickChargeZones().To3() + 102);
+                                selectedClickChargeZones().To4(parseInt(selectedClickChargeZones().To3()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '4':
-                            selectedClickChargeZones().From5(selectedClickChargeZones().To4() + 1);
+                            selectedClickChargeZones().From5(parseInt(selectedClickChargeZones().To4()) + parseInt(1));
                             if (selectedClickChargeZones().To4() >= selectedClickChargeZones().To5()) {
-                                selectedClickChargeZones().To5(selectedClickChargeZones().To4() + 102);
+                                selectedClickChargeZones().To5(parseInt(selectedClickChargeZones().To4()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '5':
-                            selectedClickChargeZones().From6(selectedClickChargeZones().To5() + 1);
+                            selectedClickChargeZones().From6(parseInt(selectedClickChargeZones().To5()) + parseInt(1));
                             if (selectedClickChargeZones().To5() >= selectedClickChargeZones().To6()) {
-                                selectedClickChargeZones().To6(selectedClickChargeZones().To5() + 102);
+                                selectedClickChargeZones().To6(parseInt(selectedClickChargeZones().To5()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '6':
-                            selectedClickChargeZones().From7(selectedClickChargeZones().To6() + 1);
+                            selectedClickChargeZones().From7(parseInt(selectedClickChargeZones().To6()) + parseInt(1));
                             if (selectedClickChargeZones().To6() >= selectedClickChargeZones().To7()) {
-                                selectedClickChargeZones().To7(selectedClickChargeZones().To6() + 102);
+                                selectedClickChargeZones().To7(parseInt(selectedClickChargeZones().To6()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '7':
-                            selectedClickChargeZones().From8(selectedClickChargeZones().To7() + 1);
+                            selectedClickChargeZones().From8(parseInt(selectedClickChargeZones().To7()) + parseInt(1));
                             if (selectedClickChargeZones().To7() >= selectedClickChargeZones().To8()) {
-                                selectedClickChargeZones().To8(selectedClickChargeZones().To7() + 102);
+                                selectedClickChargeZones().To8(parseInt(selectedClickChargeZones().To7()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '8':
-                            selectedClickChargeZones().From9(selectedClickChargeZones().To8() + 1);
+                            selectedClickChargeZones().From9(parseInt(selectedClickChargeZones().To8()) + parseInt(1));
                             if (selectedClickChargeZones().To8() >= selectedClickChargeZones().To9()) {
-                                selectedClickChargeZones().To9(selectedClickChargeZones().To8() + 102);
+                                selectedClickChargeZones().To9(parseInt(selectedClickChargeZones().To8()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '9':
-                            selectedClickChargeZones().From10(selectedClickChargeZones().To9() + 1);
+                            selectedClickChargeZones().From10(parseInt(selectedClickChargeZones().To9()) + parseInt(1));
                             if (selectedClickChargeZones().To9() >= selectedClickChargeZones().To10()) {
-                                selectedClickChargeZones().To10(selectedClickChargeZones().To9() + 102);
+                                selectedClickChargeZones().To10(parseInt(selectedClickChargeZones().To9()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '10':
-                            selectedClickChargeZones().From11(selectedClickChargeZones().To10() + 1);
+                            selectedClickChargeZones().From11(parseInt(selectedClickChargeZones().To10()) + parseInt(1));
                             if (selectedClickChargeZones().To10() >= selectedClickChargeZones().To11()) {
-                                selectedClickChargeZones().To11(selectedClickChargeZones().To10() + 102);
+                                selectedClickChargeZones().To11(parseInt(selectedClickChargeZones().To10()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '11':
-                            selectedClickChargeZones().From12(selectedClickChargeZones().To11() + 1);
+                            selectedClickChargeZones().From12(parseInt(selectedClickChargeZones().To11()) + parseInt(1));
                             if (selectedClickChargeZones().To11() >= selectedClickChargeZones().To12()) {
-                                selectedClickChargeZones().To12(selectedClickChargeZones().To11() + 102);
+                                selectedClickChargeZones().To12(parseInt(selectedClickChargeZones().To11()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '12':
-                            selectedClickChargeZones().From13(selectedClickChargeZones().To12() + 1);
+                            selectedClickChargeZones().From13(parseInt(selectedClickChargeZones().To12()) + parseInt(1));
                             if (selectedClickChargeZones().To12() >= selectedClickChargeZones().To13()) {
-                                selectedClickChargeZones().To13(selectedClickChargeZones().To12() + 102);
+                                selectedClickChargeZones().To13(parseInt(selectedClickChargeZones().To12()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '13':
-                            selectedClickChargeZones().From14(selectedClickChargeZones().To13() + 1);
+                            selectedClickChargeZones().From14(parseInt(selectedClickChargeZones().To13()) + parseInt(1));
                             if (selectedClickChargeZones().To13() >= selectedClickChargeZones().To14()) {
-                                selectedClickChargeZones().To14(selectedClickChargeZones().To13() + 102);
+                                selectedClickChargeZones().To14(parseInt(selectedClickChargeZones().To13()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '14':
-                            selectedClickChargeZones().From15(selectedClickChargeZones().To14() + 1);
+                            selectedClickChargeZones().From15(parseInt(selectedClickChargeZones().To14()) + parseInt(1));
                             if (selectedClickChargeZones().To14() >= selectedClickChargeZones().To15()) {
-                                selectedClickChargeZones().To15(selectedClickChargeZones().To14() + 102);
+                                selectedClickChargeZones().To15(parseInt(selectedClickChargeZones().To14()) + parseInt(102));
                             } else {
                                 break;
                             }
                         case '15':
                             break;
                     }
-                }
+                },
 
                 DeleteGuillotinePTV = function (oGuillotinePTV) {
                     if (!(oGuillotinePTV.Id()) > 0) {
@@ -302,7 +302,7 @@
 
 
 
-                }
+                },
                 AddLookup = function (Id) {
                     
                     selectedlookup(null);
@@ -355,7 +355,7 @@
 
                     view.initializeLabelPopovers();
 
-                }
+                },
                 GetLookupList = function () {
 
                     dataservice.GetLookup({
@@ -445,7 +445,8 @@
 
                      } else {
                          onCancal(mMethodId);
-
+                         
+                         
                      }
                  },
 
@@ -506,7 +507,7 @@
                             toastr.error("Error: Failed to Load Lookup List Data." + response);
                         }
                     });
-                }
+                },
 
                 oncloseEditor = function (olookup) {
                     if (selectedSpeedWeight() != null && selectedSpeedWeight().hasChanges() || selectedClickCharge() != null && selectedClickCharge().hasChanges() || selectedClickChargeZones() != null && selectedClickChargeZones().hasChanges() || selectedMeterPerHourClickCharge() != null && selectedMeterPerHourClickCharge().hasChanges() || selectedPerHour() != null && selectedPerHour().hasChanges() || selectedGuillotineClickCharge() != null && selectedGuillotineClickCharge().hasChanges()) {
