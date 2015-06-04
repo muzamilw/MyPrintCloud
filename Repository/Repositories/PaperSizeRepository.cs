@@ -65,9 +65,9 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<PaperSize> GetAll()
         {
-            Organisation org = db.Organisations.Where(o => o.OrganisationId == this.OrganisationId).FirstOrDefault();
-            string sCulture = org.GlobalLanguage != null ? org.GlobalLanguage.culture : string.Empty;
-            return DbSet.Where(s => s.OrganisationId == OrganisationId && s.Region == sCulture).OrderBy(s => s.Area).ToList();
+           // Organisation org = db.Organisations.Where(o => o.OrganisationId == this.OrganisationId).FirstOrDefault();
+            //string sCulture = org.GlobalLanguage != null ? org.GlobalLanguage.culture : string.Empty;
+            return DbSet.Where(s => s.OrganisationId == OrganisationId).OrderBy(s => s.Area).ToList();
         }
 
         /// <summary>
