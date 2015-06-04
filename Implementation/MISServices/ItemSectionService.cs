@@ -185,7 +185,7 @@ namespace MPC.Implementation.MISServices
 
                 //Model.LookupMethods.MethodDTO oModelLookUpMethod = BLL.LookupMethods.Method.GetMachineLookUpMethod(GlobalData, oItemSection.SelectedPressCalculationMethodID);
                 LookupMethod oModelLookUpMethod = new LookupMethod();
-                oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oPressDTO.LookupMethod));                
+                oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oPressDTO.LookupMethodId));                
 
                 double[] dblPrintCost = new double[3];
                 double[] dblPrintPrice = new double[3];
@@ -6270,7 +6270,8 @@ namespace MPC.Implementation.MISServices
             var pressSide2 = itemsectionRepository.GetPressById(PressIdSide2);
             
             //Highest setup spoilage between the two presses will be set.
-            if(currentSection.IsDoubleSided == true)
+           var value= currentSection.IsDoubleSided ?? false ;
+           if (value)
             {
                 if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
                     SetupSpoilage = pressSide1.SetupSpoilage ?? 0;

@@ -5,10 +5,9 @@
 <head>
     <link href="/Content/carousel.css" rel="stylesheet" />
     <link href="/Content/content.css" rel="stylesheet" />
+   
     <link href="/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
-    <script src="/Scripts/jquery.mousewheel.min.js"></script>
-    <script src="/Scripts/jquery.carousel-1.1.min.js"></script>
-    <script src="/Scripts/sample01.js"></script>
+
 
 </head>
 @{         
@@ -25,17 +24,17 @@
         <div class="reales-profile-pad10">
 
             <div class="float_left_simple Fsize18">
-                <label style="color: #bebab8;">My Profile</label>
+                <label style="color: #bebab8;font-family:Times New Roman;">My Profile</label>
             </div>
 
             <div class="float_right relEst-profile-sigout">
-                <a class="icon-text-signout" onclick="Logout()"></a>
+                @Html.ActionLink(" ", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "icon-text-signout" })
             </div>
             <div class="float_right relEst-profile-saved">
-                <a class="icon-text-cog" href="/DashBoard"></a>
+                <a class="icon-text-cog" href="/DashBoard" style="color:#bebab8"></a>
             </div>
             <div class="float_right relEst-profile-dashb">
-                <a class="icon-text-file" href="/SavedDesigns"></a>
+                <a class="icon-text-file" href="/SavedDesigns" style="color:#bebab8"></a>
 
             </div>
 
@@ -68,10 +67,10 @@
                                         var anchorId = "linkParentCategoryName" + @ParentCategory.ProductCategoryId;
                                         var iconId = "linkChevronIcon" + @ParentCategory.ProductCategoryId;
                                     }
-                                    <a id=@anchorId data-toggle="collapse" data-parent="#accordionmenu" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">@ParentCategory.CategoryName</a>
+                                    <a id="@anchorId" href="/Category/@Html.ResolveString(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
                                      @if(filteredChildCategories!=null&&filteredChildCategories.Count()>0)
                                      {
-                                        <a data-toggle="collapse" id=@iconId data-parent="#accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
+                                        <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
                                             <i class="Chevron"></i>
                                         </a>
                                      }
@@ -106,31 +105,7 @@
 
             <div class="slides">
                 <!-- BEGIN CAROUSEL -->
-                    @*@foreach(var item in Properties)
-                    {
-                        var imagesrc = ""; 
-                        var alllistimage=AllListingImages.Where(i=>i.ListingId==item.ListingId).ToList();
-
-                        if (alllistimage.Count > 0)
-                        {
-                            if (!string.IsNullOrEmpty(alllistimage[0].ImageURL))
-                            {
-                                string imagePath = alllistimage[0].ImageURL;
-                                string filenameWithOutEx = Path.GetFileNameWithoutExtension(alllistimage[0].ImageURL);
-                                string Extensn = Path.GetExtension(alllistimage[0].ImageURL);
-                                string filename = Path.GetFileName(alllistimage[0].ImageURL);
-                                int indexof = imagePath.IndexOf(filename);
-                                string serverPAth = imagePath.Substring(0, indexof);
-                                string newfilename = filenameWithOutEx + "_thumb" + Extensn;
-                                imagePath = serverPAth + newfilename;
-                                imagesrc = "../" + imagePath;
-                            }
-                            else
-                            {
-                                imagesrc = "../" + alllistimage[0].ImageURL;
-                            }
-
-                        }*@
+                  
                        @foreach (var parent in ParentCategories)
                        { 
                         <div class="realEs-carousal-evolution">
@@ -143,7 +118,6 @@
                             </a>
                         </div>
                        }
-                    @*}*@
             </div>
             <!-- END SLIDES -->
 
@@ -154,9 +128,9 @@
         &nbsp;
     </div>
 </div>
-
-
-
+<script src="/Scripts/jquery.mousewheel.min.js"></script>
+<script src="/Scripts/jquery.carousel-1.1.min.js"></script>
+<script src="/Scripts/sample01.js"></script>
 <script type="text/javascript">
     function ExpandCollapseCategory(dataid) {
 
@@ -175,16 +149,16 @@
 
     }
 
-    function Logout()
-    {
-            $.ajax({
-                type: "POST",
-                url: "/RealestateSideBarWithSlider/LogOut",
-                contentType: "application/json",
-                async: true,
-                success: function (response) {
-                }
-            });
-    }
+    //function Logout()
+    //{
+    //        $.ajax({
+    //            type: "POST",
+    //            url: "/RealestateSideBarWithSlider/LogOut",
+    //            contentType: "application/json",
+    //            async: true,
+    //            success: function (response) {
+    //            }
+    //        });
+    //}
 
 </script>

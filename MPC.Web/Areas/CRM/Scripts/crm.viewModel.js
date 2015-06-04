@@ -1560,7 +1560,7 @@ define("crm/crm.viewModel",
                 //Close Edit Dialog
                 closeEditDialog = function () {
                     var companyIdFromDashboard = $('#CompanyId').val();
-                    if (companyIdFromDashboard !== 0) {
+                    if (companyIdFromDashboard !== '0') {
                         getCustomers();
                     }
                     isEditorVisible(false);
