@@ -903,10 +903,10 @@
                                                         <div class="col-lg-6">
                                                             <div class="col-lg-3" style="padding-left:0px;">
 
-                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:SetupSpoilage">
-                                                                <span class=" help-block text-right"></span>
+                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:SetupSpoilage" >
+                                                                
                                                             </div>
-
+                                                            <div class="col-lg-1 help-block text-left">Sheets</div>
                                                         </div>
 
                                                     </div>
@@ -948,9 +948,10 @@
 
                                                         <div class="col-lg-6">
                                                             <div class="col-lg-3" style="padding-left:0px;">
-                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:RunningSpoilage">
+                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="numberValue:RunningSpoilage">
                                                                 <span class=" help-block text-right"></span>
                                                             </div>
+                                                            <div class="col-lg-1  help-block text-left">%</div>
                                                         </div>
 
                                                     </div>
@@ -991,17 +992,17 @@
 
                                                         </div>
 
-                                                        <div class="col-lg-6" style="padding-left:0px;">
-                                                            <div class="col-lg-3" style="padding-right:0px;">
-                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageHigh">
+                                                        <div class="col-lg-6" style="padding-left:0;">
+                                                            <div class="col-lg-3" style="padding-right:0;">
+                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageHigh" min="0" max="10">
                                                                 <span class=" help-block text-right">Heavy</span>
                                                             </div>
-                                                            <div class="col-lg-3" style="padding-right:0px;">
-                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageMedium">
+                                                            <div class="col-lg-3" style="padding-right:0;">
+                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageMedium" min="0" max="10">
                                                                 <span class=" help-block text-right">Medium</span>
                                                             </div>
-                                                            <div class="col-lg-3" style="padding-right:0px;">
-                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageLow">
+                                                            <div class="col-lg-3" style="padding-right:0;">
+                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageLow" min="0" max="10">
                                                                 <span class=" help-block text-right">Light</span>
                                                             </div>
                                                         </div>
