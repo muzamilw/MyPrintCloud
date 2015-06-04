@@ -980,9 +980,9 @@ namespace MPC.Implementation.MISServices
             companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
 
 
-            //UpdateTerritories(companySavingModel, companyDbVersion);
-            // UpdateAddresses(companySavingModel, companyDbVersion);
-            // UpdateCompanyContacts(companySavingModel, companyDbVersion);
+            UpdateTerritories(companySavingModel, companyDbVersion);
+            UpdateAddresses(companySavingModel, companyDbVersion);
+            UpdateCompanyContacts(companySavingModel, companyDbVersion);
             //UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
@@ -1004,7 +1004,7 @@ namespace MPC.Implementation.MISServices
             SaveSpriteImage(companySavingModel.Company);
             SaveCompanyCss(companySavingModel.Company);
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
-            //UpdateContactProfileImage(companySavingModel, companyDbVersion);
+            UpdateContactProfileImage(companySavingModel, companyDbVersion);
 
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
