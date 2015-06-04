@@ -353,6 +353,11 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public bool? isAllowBackOrder { get; set; }
 
+        /// <summary>
+        /// is Imperical
+        /// </summary>
+        public bool? IsImperical { get; set; }
+
         #endregion
 
         #region Reference Properties

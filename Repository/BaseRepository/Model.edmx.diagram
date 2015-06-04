@@ -322,6 +322,7 @@
         <AssociationConnector Association="DomainModels.FK_SmartFormDetail_FieldVariable" />
         <AssociationConnector Association="DomainModels.FK_TemplateVariable_FieldVariable" />
         <AssociationConnector Association="DomainModels.FK_VariableOption_FieldVariable" />
+        <AssociationConnector Association="DomainModels.FK_PurchaseDetail_Items" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
