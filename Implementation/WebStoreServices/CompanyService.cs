@@ -494,11 +494,11 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        public List<ProductCategory> GetAllCategories(long companyId)
+        public List<ProductCategory> GetAllCategories(long companyId, long OrganisationId)
         {
             try
             {
-                return _productCategoryRepository.GetAllCategoriesByStoreId(companyId);
+                return _productCategoryRepository.GetAllCategoriesByStoreId(companyId, OrganisationId);
             }
             catch (Exception ex)
             {
