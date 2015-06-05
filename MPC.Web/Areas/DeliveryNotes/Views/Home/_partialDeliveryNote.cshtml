@@ -1,9 +1,14 @@
 ﻿<div class="row" style="display: none" data-bind="visible: $root.isEditorVisible()">
-    <div class="row">
+    <div class="row" style="">
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12" id="topArea" style="padding-left:16px;">
-                    <div class="clearfix">
+                    <ol class="breadcrumb">
+                        <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
+                        <li><a href="~/DeliveryNotes/Home/DeliveryNote/Index" class="my-navigator">Delivery Notes</a></li>
+                        <li class="active"><span >Modify Delivery Notes</span></li>
+                    </ol>
+                    <div class="clearfix" style="margin-top: -3.1%;">
                         <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">&nbsp;</h1>
                     </div>
 
@@ -30,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" id="prefixesdata" style="float:right; padding-right: 20px;">
+        <div class="row" id="prefixesdata" style="float: right; padding-right: 1.1%; margin-top: 1%; ">
 
             <div class="input-group">
                 <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
@@ -44,7 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote" style="padding-left: 24px; padding-right: 24px;">
+    <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote" style="padding-left: 18px; padding-right: 20px; margin-top: 5.5%; ">
         <div class="col-lg-12 col-md-8 col-sm-8">
             <div class="main-box clearfix">
                 <div class="col-lg-12 form-horizontal" style="margin-top: 3%;">

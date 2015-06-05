@@ -78,6 +78,16 @@ namespace MPC.MIS.Areas.Api.Models
         public string Region { get; set; }
 
         /// <summary>
+        /// In Stock
+        /// </summary>
+        public double? InStock { get; set; }
+
+        /// <summary>
+        /// Allocated
+        /// </summary>
+        public double? Allocated { get; set; }
+
+        /// <summary>
         /// Pack Cost Price
         /// </summary>
         public double? PackCostPrice { get; set; }

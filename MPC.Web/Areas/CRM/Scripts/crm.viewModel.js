@@ -80,11 +80,14 @@ define("crm/crm.viewModel",
 
                 //#region ____________SUPPLIERS LIST VIEW____________
 
+                searchSuppliersByFilters = function() {
+                    supplierpager().reset();
+                    getSuppliers();
+                },
+
                 //GET Suppliers For Suppliers List View
                 getSuppliers = function () {
                     isLoadingSuppliers(true);
-                    supplierpager().reset();
-                    //dataservice.getStores({
                     dataservice.getSuppliers({
                         SearchString: searchSupplierFilter(),
                         PageSize: supplierpager().pageSize(),
@@ -1560,7 +1563,7 @@ define("crm/crm.viewModel",
                 //Close Edit Dialog
                 closeEditDialog = function () {
                     var companyIdFromDashboard = $('#CompanyId').val();
-                    if (companyIdFromDashboard !== '0') {
+                    if (companyIdFromDashboard !== '0' && companyIdFromDashboard != undefined) {
                         getCustomers();
                     }
                     isEditorVisible(false);
@@ -1980,6 +1983,7 @@ define("crm/crm.viewModel",
                         selectedStore().storeImageFileBinary(data);
                         selectedStore().storeImageName(file.name);
                     },
+
                 //#endregion
 
                 //#region ___________ ORDERS TAB ____________
@@ -2457,7 +2461,8 @@ define("crm/crm.viewModel",
                     goodRecievedNotesTabClickHandler: goodRecievedNotesTabClickHandler,
                     goodsReceivedNotePager: goodsReceivedNotePager,
                     companyDdSelector: companyDdSelector,
-                    onChangeCompany: onChangeCompany
+                    onChangeCompany: onChangeCompany,
+                    searchSuppliersByFilters: searchSuppliersByFilters
                 };
                 //#endregion
             })()

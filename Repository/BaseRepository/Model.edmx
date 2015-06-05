@@ -2628,6 +2628,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="XeroApiKey" Type="nvarchar" MaxLength="150" />
           <Property Name="TaxServiceUrl" Type="varchar" MaxLength="255" />
           <Property Name="TaxServiceKey" Type="varchar" MaxLength="255" />
+          <Property Name="IsImperical" Type="bit" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -2659,6 +2660,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="isArchived" Type="bit" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="IsImperical" Type="bit" />
         </EntityType>
         <EntityType Name="PaymentGateway">
           <Key>
@@ -2951,7 +2953,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
             <PropertyRef Name="PurchaseDetailId" />
           </Key>
           <Property Name="PurchaseDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" />
+          <Property Name="ItemId" Type="bigint" />
           <Property Name="quantity" Type="float" />
           <Property Name="PurchaseId" Type="int" />
           <Property Name="price" Type="float" />
@@ -2966,6 +2968,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="freeitems" Type="int" />
           <Property Name="ItemBalance" Type="float" />
           <Property Name="DepartmentId" Type="int" />
+          <Property Name="ProductType" Type="int" />
+          <Property Name="RefItemId" Type="bigint" />
         </EntityType>
         <EntityType Name="RaveReview">
           <Key>
@@ -3414,6 +3418,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ThresholdLevel" Type="int" />
           <Property Name="ThresholdProductionQuantity" Type="int" />
           <Property Name="isAllowBackOrder" Type="bit" />
+          <Property Name="IsImperical" Type="bit" />
         </EntityType>
         <EntityType Name="StockSubCategory">
           <Key>
@@ -4760,6 +4765,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               <PropertyRef Name="ItemId" />
             </Principal>
             <Dependent Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDetail_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
               <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
@@ -6580,6 +6597,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Items" EntitySet="Items" />
             <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
           </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetail_Items" Association="Self.FK_PurchaseDetail_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_PurchaseID" Association="Self.FK_PurchaseID">
             <End Role="Purchase" EntitySet="Purchase" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
@@ -7783,6 +7804,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="fromdate" Mode="In" Type="DateTime" />
             <Parameter Name="todate" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <AssociationSet Name="FK_PurchaseDetail_Items" Association="DomainModels.FK_PurchaseDetail_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8064,6 +8089,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="WeightUnit" Relationship="DomainModels.FK_Organisation_WeightUnit" FromRole="Organisation" ToRole="WeightUnit" />
           <Property Name="TaxServiceUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TaxServiceKey" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsImperical" Type="Boolean" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -8079,6 +8105,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsArchived" Type="Boolean" />
           <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="IsImperical" Type="Boolean" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -8443,6 +8470,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.FK_StockItem_ItemStockOption" FromRole="StockItem" ToRole="ItemStockOption" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_StockItem_Company" FromRole="StockItem" ToRole="Company" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="StockItem" ToRole="ItemSection" />
+          <Property Name="IsImperical" Type="Boolean" />
         </EntityType>
         <Association Name="FK_tbl_stockitems_tbl_stockcategories">
           <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="0..1" />
@@ -9206,6 +9234,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ProductDisplayOptions" Type="Int32" />
           <NavigationProperty Name="ShippingInformations" Relationship="DomainModels.FK_ShippingInformation_Items" FromRole="Item" ToRole="ShippingInformation" />
           <NavigationProperty Name="ProductMarketBriefQuestions" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="Item" ToRole="ProductMarketBriefQuestion" />
+          <NavigationProperty Name="PurchaseDetails" Relationship="DomainModels.FK_PurchaseDetail_Items" FromRole="Item" ToRole="PurchaseDetail" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -13284,7 +13313,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <PropertyRef Name="PurchaseDetailId" />
           </Key>
           <Property Name="PurchaseDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" />
+          <Property Name="ItemId" Type="Int64" />
           <Property Name="quantity" Type="Double" />
           <Property Name="PurchaseId" Type="Int32" />
           <Property Name="price" Type="Double" />
@@ -13300,6 +13329,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ItemBalance" Type="Double" />
           <Property Name="DepartmentId" Type="Int32" />
           <NavigationProperty Name="Purchase" Relationship="DomainModels.FK_PurchaseID" FromRole="PurchaseDetail" ToRole="Purchase" />
+          <Property Name="ProductType" Type="Int32" />
+          <Property Name="RefItemId" Type="Int64" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_PurchaseDetail_Items" FromRole="PurchaseDetail" ToRole="Item" />
         </EntityType>
         <Association Name="FK_GoodsreceivedID">
           <End Type="DomainModels.GoodsReceivedNote" Role="GoodsReceivedNote" Multiplicity="0..1" />
@@ -14278,6 +14310,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="Int32" Name="monthname" Nullable="true" />
           <Property Type="Int32" Name="year" Nullable="true" />
         </ComplexType>
+        <Association Name="FK_PurchaseDetail_Items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.PurchaseDetail" Role="PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14492,6 +14536,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
                 <ScalarProperty Name="TaxServiceKey" ColumnName="TaxServiceKey" />
                 <ScalarProperty Name="TaxServiceUrl" ColumnName="TaxServiceUrl" />
                 <ScalarProperty Name="XeroApiKey" ColumnName="XeroApiKey" />
@@ -14532,6 +14577,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="PaperSizes">
             <EntityTypeMapping TypeName="DomainModels.PaperSize">
               <MappingFragment StoreEntitySet="PaperSize">
+                <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsArchived" ColumnName="isArchived" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
@@ -14718,6 +14764,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="StockItems">
             <EntityTypeMapping TypeName="DomainModels.StockItem">
               <MappingFragment StoreEntitySet="StockItem">
+                <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
                 <ScalarProperty Name="isAllowBackOrder" ColumnName="isAllowBackOrder" />
                 <ScalarProperty Name="ThresholdProductionQuantity" ColumnName="ThresholdProductionQuantity" />
                 <ScalarProperty Name="ThresholdLevel" ColumnName="ThresholdLevel" />
@@ -18169,6 +18216,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="PurchaseDetails">
             <EntityTypeMapping TypeName="DomainModels.PurchaseDetail">
               <MappingFragment StoreEntitySet="PurchaseDetail">
+                <ScalarProperty Name="RefItemId" ColumnName="RefItemId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="ItemBalance" ColumnName="ItemBalance" />
                 <ScalarProperty Name="freeitems" ColumnName="freeitems" />

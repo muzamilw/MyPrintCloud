@@ -6339,7 +6339,7 @@ namespace MPC.Implementation.MISServices
             if(updatedSection.IsDoubleSided == true)
             {
                 if(updatedSection.PressIdSide2 != null && updatedSection.PressIdSide2 > 0)
-                    updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, true);
+                    updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, false, true);
             }
 
             if (updatedSection.IsSecondTrim == true)
