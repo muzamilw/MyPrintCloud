@@ -2333,22 +2333,71 @@ function j1(oI) {
         }
     });
 }
+function j8_FindBestPercentage() {
+
+}
 function j8(src) {
     var D1AO = canvas.getActiveObject();
     if (D1AO.type === 'image') {
         $.each(TO, function (i, IT) {
             if (IT.ObjectID == D1AO.ObjectID) {
                 if (src.indexOf('.svg') == -1) {
-                    b4_SpecificImg(src, D1AO.maxHeight, D1AO.maxWidth);
-                    D1AO.height = (IH);
-                    D1AO.width = (IW);
-                    D1AO.maxHeight = (IH);
-                    D1AO.maxWidth = (IW);
-                    D1AO.scaleX = 1;
-                    D1AO.scaleY = 1;
+                    D1AO.ImageClippedInfo = null;
+                    $.each(LiImgs, function (i, IT) {
+                        if (src.indexOf(IT.ImageName) != -1) {
+                            IW = IT.ImageWidth;
+                            IH = IT.ImageHeight;
+                            var originalWidth = IW;
+                            var originalHeight = IH;
+                            var wd = D1AO.getWidth();
+                            var he = D1AO.getHeight();
+                            var bestPer = 1;
+                            if (IW >= D1AO.getWidth() && IH >= D1AO.getHeight())
+                            {
+                                while (originalWidth > D1AO.getWidth() && originalHeight > D1AO.getHeight()) {
+                                    bestPer -= 0.10;
+                                    originalHeight =IH * bestPer;
+                                    originalWidth =IW *  bestPer;
+                                }
+                                bestPer += 0.10;
+                            }else 
+                            {
+                                while (originalWidth <= D1AO.getWidth() || originalHeight <= D1AO.getHeight()) {
+                                    bestPer += 0.10;
+                                    originalHeight = IH * bestPer;
+                                    originalWidth = IW * bestPer;
+                                }
+                                bestPer -= 0.10;
+                            }
+                            var wdth = parseInt(D1AO.getWidth() * 2);
+                            var hght = parseInt(D1AO.getHeight() * 2);
+                            var XML = new XMLWriter();
+                            XML.BeginNode("Cropped");
+                            XML.Node("sx", "0");
+                            XML.Node("sy", "0");
+                            XML.Node("swidth", wdth.toString());
+                            XML.Node("sheight", hght.toString());
+                            XML.Node("crv1", bestPer.toString()); 
+                            XML.Node("crv2", (IW * bestPer).toString());
+                            XML.Node("crv3", (IH * bestPer).toString());
+                            XML.Node("crv4", "0");
+                            XML.Node("crv5", "0");
+                            XML.EndNode();
+                            XML.Close();
+                            console.log(XML);
+                            D1AO.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
+                            D1AO.height = (D1AO.getHeight());
+                            D1AO.width = (D1AO.getWidth());
+                            D1AO.maxHeight = (D1AO.getHeight());
+                            D1AO.maxWidth = (D1AO.getWidth());
+                            D1AO.scaleX = 1;
+                            D1AO.scaleY = 1;
+                            canvas.renderAll();
+                        }
+                    });
                 }
                 IT.ContentString = src;
-                D1AO.ImageClippedInfo = null;
+                
                 d5(SP);
                 return;
             }

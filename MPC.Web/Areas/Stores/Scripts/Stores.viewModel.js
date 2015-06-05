@@ -159,15 +159,7 @@ define("stores/stores.viewModel",
                     //Filtered States
                     filteredStates = ko.observableArray([]),
                     priceFlags = ko.observableArray([]),
-                    themesDimensions = ko.observableArray([
-                        { name: "Theme Yellow", dimensions: "192px w x 40px h" },
-                        { name: "Theme Purple", dimensions: " 240px w x 50px h" },
-                        { name: "Theme Brown", dimensions: "240px w x 50px h" },
-                        { name: "Theme Pink", dimensions: "240px w x 50px h" },
-                        { name: "Theme Gold", dimensions: "240px w x 50px h" },
-                        { name: "Theme RealEstate", dimensions: "290px w x 70px h" }
-                    ]),
-                     selectedThemeDimensions = ko.observable(),
+                    
                     //#endregion
 
                     //#region _________E D I T O R I AL   V I E W    M O D E L_______
@@ -383,16 +375,6 @@ define("stores/stores.viewModel",
                         newStore.isCalculateTaxByService('true');
                         newStore.isIncludeVAT('false');
                     },
-
-                    selecteThemeDimension = ko.computed(function () {
-                        if (selectedStore() !== undefined && selectedStore().currentThemeName() !== undefined) {
-                            _.find(themesDimensions(), function (theme) {
-                                if ((selectedStore().currentThemeName().toLowerCase().search((theme.name.split(' ')[1]).toLowerCase())) >= 0) {
-                                    return selectedThemeDimensions("(" + theme.dimensions + ")");
-                                }
-                            });
-                        }
-                    }),
 
             setThemeName = ko.computed(function () {
                 if (isBaseDataLoded() && !isThemeNameSet() && selectedTheme() !== undefined) {
@@ -4232,8 +4214,16 @@ define("stores/stores.viewModel",
                     dataservice.saveStore(
                         storeToSave, {
                             success: function (data) {
-                                isStoreEditorVisible(false);
-                                isEditorVisible(false);
+                                //#region Req: Not Close Store Edit Dialog On Saving
+
+                                //isStoreEditorVisible(false);
+                                //isEditorVisible(false);
+                                getStoreForEditting();
+                                getBaseData();
+                                $('.nav-tabs li:first-child a').tab('show');
+                                $('.nav-tabs li:eq(0) a').tab('show');
+                                //#endregion
+
                                 //new store adding
                                 if (selectedStore().companyId() == undefined || selectedStore().companyId() == 0) {
                                     selectedStore().companyId(data.CompanyId);
@@ -4709,8 +4699,7 @@ define("stores/stores.viewModel",
                 isBaseDataLoded(false);
                 isThemeNameSet(false);
                 selectedTheme(undefined);
-                selectedThemeDimensions(undefined);
-
+                
                 pickUpLocationValue(undefined);
                 companyTerritoryCounter = -1,
                 selectedStore().addresses.removeAll();
@@ -6778,8 +6767,7 @@ define("stores/stores.viewModel",
                     onRemoveFieldVariable: onRemoveFieldVariable,
                     paymentGatewayFilter: paymentGatewayFilter,
                     onSearchpaymentMethod: onSearchpaymentMethod,
-                    selectedCategoryName: selectedCategoryName,
-                    selectedThemeDimensions: selectedThemeDimensions
+                    selectedCategoryName: selectedCategoryName
 
                 };
                 //#endregion

@@ -408,6 +408,15 @@ define("myOrganization/myOrganization.viewModel",
                             
                                 
                                 selectedMyOrganization(org);
+
+                                if (selectedMyOrganization().isImperical() == true)
+                                {
+                                    selectedMyOrganization().isImperical("true");
+                                }
+                                else
+                                {
+                                    selectedMyOrganization().isImperical("false");
+                                }
                                 selectedMyOrganization().reset();
 
                                 orgnizationImage(data.ImageSource);
