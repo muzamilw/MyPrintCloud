@@ -43,6 +43,7 @@ define("paperSheet/paperSheet.viewModel",
                         editorViewModel.selectItem(paperSheet);
                         selectedPaperSheet().isArchived(false);
                         openEditDialog();
+                        selectedPaperSheet().IsImperical("true");
                     },
                     //On Edit Click Of Paper Sheet
                     onEditItem = function (item) {
@@ -172,14 +173,17 @@ define("paperSheet/paperSheet.viewModel",
                         view.showPaperSheetDialog();
                         view.initializeLabelPopovers();
 
-                        if(selectedPaperSheet().IsImperical() == true)
-                        {
-                            selectedPaperSheet().IsImperical("true");
+
+                     
+                        if (selectedPaperSheet().IsImperical() == true || selectedPaperSheet().IsImperical() == "true") {
+                                selectedPaperSheet().IsImperical("true");
                         }
-                        else
-                        {
-                            selectedPaperSheet().IsImperical("false");
+                         else {
+                                selectedPaperSheet().IsImperical("false");
                         }
+                        
+
+                       
 
                     },
                     //CLose Paper Sheet Dialog

@@ -592,7 +592,7 @@
         <td data-bind="text:type"></td>
         <td>
             <div style="float: left;">
-                @using (Ajax.BeginForm("FileDownload", "Home", new AjaxOptions { HttpMethod = "POST" }))
+                @using (Ajax.BeginForm("FileDownload", "Home", new AjaxOptions { HttpMethod = "POST" }, new { target = "_blank" }))
                 {
                     <input type="hidden" id="item" name="item" data-bind="value:id" />
                     <button type="submit" class="table-link" title="Donwload" data-bind="enable:id()>0" style=" padding-left: 0px;border-left-width: 0px;padding-right: 0px;border-right-width: 0px; border-top-width: 0px;padding-bottom: 0px;background-color: transparent;border-bottom: none;height: 31px;">

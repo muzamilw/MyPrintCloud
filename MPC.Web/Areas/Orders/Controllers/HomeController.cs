@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
@@ -89,13 +91,19 @@ namespace MPC.MIS.Areas.Orders.Controllers
             TempData["CallingMethod"] = "9";
             return RedirectToAction("Index");
         }
-        [HttpPost]
-        public FileResult FileDownload()
+
+        public ActionResult Error()
         {
-            string fileType;
-            string fileName;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult FileDownload()
+        {
+            string fileType = ".jpg";
+            string fileName = "";
             string filePath = orderService.DownloadAttachment(Request.Form["item"] != null ? Convert.ToInt64(Request.Form["item"]) : 0, out fileName, out fileType);
-            string contentType = string.Empty;
+            string contentType;
 
             if (fileType == ".pdf")
             {
@@ -130,8 +138,26 @@ namespace MPC.MIS.Areas.Orders.Controllers
             {
                 contentType = "text/plain";
             }
+            else
+            {
+                contentType = "image/jpeg";
 
-            return File(filePath, contentType, fileName + fileType);
+            }
+            try
+            {
+                if (System.IO.File.Exists(filePath))
+                {
+                    return File(filePath, contentType, fileName + fileType);
+                }
+                RedirectToAction("Error");
+            }
+            catch (FileNotFoundException ex)
+            {
+                RedirectToAction("Error");
+                
+            }
+            return RedirectToAction("Error");
+
         }
     }
 }

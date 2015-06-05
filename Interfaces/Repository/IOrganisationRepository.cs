@@ -20,6 +20,8 @@ namespace MPC.Interfaces.Repository
         void DeleteOrganisationBySP(long OrganisationID);
 
         double GetBleedSize(long OrganisationID);
+
+        bool GetImpericalFlagbyOrganisationId();
         //Estimate GetOrderByOrderID(long OrderID);
     }
 }
