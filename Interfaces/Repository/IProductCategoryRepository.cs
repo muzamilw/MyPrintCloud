@@ -16,7 +16,7 @@ namespace MPC.Interfaces.Repository
 
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
 
-        List<ProductCategory> GetAllCategoriesByStoreId(long companyId);
+        List<ProductCategory> GetAllCategoriesByStoreId(long companyId, long OrganisationId);
 
         ProductCategory GetCategoryById(long categoryId);
 

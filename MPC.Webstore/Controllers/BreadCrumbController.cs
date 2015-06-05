@@ -79,7 +79,7 @@ namespace MPC.Webstore.Controllers
                     if (categoryID > 0)
                     {
 
-                        List<ProductCategory> _productCatList = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId);
+                        List<ProductCategory> _productCatList = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                         this.BuildBreadCrumbMenu(categoryID, _productCatList);
 
                     }
