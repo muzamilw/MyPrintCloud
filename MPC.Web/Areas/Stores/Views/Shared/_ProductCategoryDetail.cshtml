@@ -702,8 +702,13 @@
 
                                                 </div>
                                                 <div class="col-lg-5">
-                                                    <img style="height: 130px; width: 240px;" data-bind="attr: { src: productCategoryThumbnailFileBinary }" />
-                                                    <div style="width:240px;margin-top:10px; text-align:center;">
+                                                    <!-- ko ifnot: productCategoryThumbnailFileBinary() -->
+                                                    <img style="height:180px; width: 200px;" src="/mis/Content/Images/imageplaceholder.png" />
+                                                    <!-- /ko -->
+                                                    <!-- ko if: productCategoryThumbnailFileBinary() -->
+                                                    <img style="height:130px; width: 220px;" data-bind="attr: { src: productCategoryThumbnailFileBinary }" />
+                                                    <!-- /ko -->
+                                                    <div style="width:220px;margin-top:10px; text-align:center;">
                                                         @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
                                                         <div class="fileUpload btn btn-primary">
                                                             @*data-bind="click:$root.openMediaLibraryDialogFromProductCategoryThumbnail"*@
@@ -711,7 +716,7 @@
                                                             <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryThumbnailFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
-                                                    <div style="width:240px;text-align:center;">
+                                                    <div style="width:220px;text-align:center;">
                                                         <span class="help-block">Category thumbnail (PNG,JPG,GIF) is displayed on Categories page. Thumbnail dimensions depend upon the selected theme.</span>
                                                     </div>
                                                 </div>
@@ -721,8 +726,13 @@
 
                                                 </div>
                                                 <div class="col-lg-5">
-                                                    <img style="height:130px; width: 240px;" data-bind="attr: { src: productCategoryImageFileBinary }" />
-                                                    <div style="width:240px;margin-top:10px; text-align:center;">
+                                                    <!-- ko ifnot: productCategoryImageFileBinary() -->
+                                                    <img style="height:180px; width: 200px;" src="/mis/Content/Images/imageplaceholder.png" />
+                                                    <!-- /ko -->
+                                                    <!-- ko if: productCategoryImageFileBinary() -->
+                                                    <img style="height:130px; width: 220px;" data-bind="attr: { src: productCategoryImageFileBinary }" />
+                                                    <!-- /ko -->
+                                                    <div style="width:220px;margin-top:10px; text-align:center;">
                                                         @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
                                                         <div class="fileUpload btn btn-primary">
                                                             @*data-bind="click:$root.openMediaLibraryDialogFromProductCategoryBanner"*@
@@ -730,7 +740,7 @@
                                                             <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
-                                                    <div style="width:240px;text-align:center;">
+                                                    <div style="width:220px;text-align:center;">
                                                         <span class="help-block">Category banner (PNG,JPG,GIF) can be displayed on the selected category page as a background Image (controlled by CSS). Dimensions depend upon the theme and how it should appear on Category page as background which can be controlled using CSS.</span>
                                                     </div>
                                                 </div>
