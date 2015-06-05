@@ -2748,6 +2748,7 @@ function pcL20_newCrop() {
         D1AO.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
         canvas.renderAll();
     }
+    console.log(XML);
     pcl20_newCropCls();
 }
 function pcl20_newCropCls() {
