@@ -112,7 +112,7 @@
             this.txtTargetRetailStoreId.Name = "txtTargetRetailStoreId";
             this.txtTargetRetailStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtTargetRetailStoreId.TabIndex = 7;
-            this.txtTargetRetailStoreId.Text = "10492";
+            this.txtTargetRetailStoreId.Text = "32896";
             // 
             // rdRetailStoreTargetNew
             // 
@@ -128,6 +128,7 @@
             // rdRetailStoreTargetExisting
             // 
             this.rdRetailStoreTargetExisting.AutoSize = true;
+            this.rdRetailStoreTargetExisting.Checked = true;
             this.rdRetailStoreTargetExisting.Location = new System.Drawing.Point(117, 19);
             this.rdRetailStoreTargetExisting.Name = "rdRetailStoreTargetExisting";
             this.rdRetailStoreTargetExisting.Size = new System.Drawing.Size(192, 17);
