@@ -76,7 +76,7 @@
                                                         <img class="photo-box" style="padding-top: 7px; cursor: pointer; height: 153px;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" />
                                                         <span data-bind="click:$root.createNewItemSection" class="label label-circle-add">&nbsp;+&nbsp;</span>
                                                     </div>
-                                                   
+
                                                 </div>
                                                 @*<div class="btn btn-success" style="font-size: x-small;margin-left: 10%;" data-bind="click:$root.createNewItemSection">
                                                         Add Sheets
@@ -592,7 +592,7 @@
         <td data-bind="text:type"></td>
         <td>
             <div style="float: left;">
-                @using (Ajax.BeginForm("FileDownload", "Home", new AjaxOptions { HttpMethod = "POST" }))
+                @using (Ajax.BeginForm("FileDownload", "Home", new AjaxOptions { HttpMethod = "POST" }, new { target = "_blank" }))
                 {
                     <input type="hidden" id="item" name="item" data-bind="value:id" />
                     <button type="submit" class="table-link" title="Donwload" data-bind="enable:id()>0" style=" padding-left: 0px;border-left-width: 0px;padding-right: 0px;border-right-width: 0px; border-top-width: 0px;padding-bottom: 0px;background-color: transparent;border-bottom: none;height: 31px;">
