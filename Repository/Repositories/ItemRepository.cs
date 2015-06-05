@@ -113,11 +113,12 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Check if product code provided already exists
         /// </summary>
-        public bool IsDuplicateProductCode(string productCode, long? itemId)
+        public bool IsDuplicateProductCode(string productCode, long? itemId, long? companyId)
         {
             try
             {
-                return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId && item.EstimateId == null);
+                return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId && 
+                    item.EstimateId == null && (!companyId.HasValue || item.CompanyId == companyId));
             }
             catch (Exception ex)
             {

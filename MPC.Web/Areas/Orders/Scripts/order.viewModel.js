@@ -370,6 +370,9 @@ define("order/order.viewModel",
                             if (company.isCustomer !== 3 && company.storeId) {
                                 selectedOrder().storeId(company.storeId);
                             }
+                            else {
+                                selectedOrder().storeId(undefined);
+                            }
                             // Get Company Address and Contacts
                             getBaseForCompany(company.id, (selectedOrder().storeId() === null || selectedOrder().storeId() === undefined) ? company.id :
                                 selectedOrder().storeId());
@@ -1375,6 +1378,7 @@ define("order/order.viewModel",
                                             selectedOrder().storeId(storeId);
                                         } else {
                                             storeId = data.CompanyId;
+                                            selectedOrder().storeId(undefined);
                                         }
                                         getBaseForCompany(data.CompanyId, storeId);
                                     }

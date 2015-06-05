@@ -435,6 +435,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
         public virtual ICollection<ShippingInformation> ShippingInformations { get; set; }
         public virtual ICollection<ProductMarketBriefQuestion> ProductMarketBriefQuestions { get; set; }
+        public virtual ICollection<PurchaseDetail> PurchaseDetails { get; set; }
 
             #endregion
         #region Additional Properties
