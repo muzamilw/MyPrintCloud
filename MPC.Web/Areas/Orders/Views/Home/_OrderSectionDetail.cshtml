@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-2 text-left" style="padding-left: 2.5%;">
+                                <div class="col-sm-2 col-lg-2 text-left" style="padding-left: 2.5%;">
                                     <label for="switchPrintOnBothSides" data-bind="visible: printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Print on both sides</label>
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
@@ -65,31 +65,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-sm-2 text-right">
-                                    <label for="switchPrintOnBothSides" class="control-label  tooltip-float" style="float: left;padding-left: 11%;">Press feed size</label>
+                            <div class="form-group" style="margin-bottom: 2px;">
+                                <div class="col-sm-5 text-right">
+                                    <label for="switchPrintOnBothSides" class="control-label  tooltip-float" style="float: left; padding-left: 4%;">Press feed size</label>
                                 </div>
-                                <div class=" col-sm-2">
-                                    &nbsp;
-                                </div>
-                                <div class=" col-sm-4">
-                                    <label style="float: left; padding-left: 38%;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">First sheet trim size</label>
+                              
+                                <div class=" col-sm-5">
+                                    <label style="float: left; padding-left: 8%;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">First sheet trim size</label>
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
                                     <!-- /ko -->
                                 </div>
-                                <div class="col-sm-2 text-right" style="width: 9%;">
-                                    &nbsp;
-                                </div>
-                                <div class="col-sm-2">
-                                    <label style="margin-right: -3%;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
+                               
+                                <div class="col-sm-2" style="padding-left: 12px;">
+                                    <label style=" float: left;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
                                     <!-- /ko -->
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-12 text-right" style="  margin-top: -2%;">
+                                <div class="col-sm-12 text-right" style=" ">
                                     <div class="col-sm-6" style="width: 45%">
                                         <div class="col-sm-8" data-bind="visible: !isSectionSizeCustom()  && printingTypeUi() !== '2'">
                                             <select style=" padding-right: 0px; width: 101%;" class=" form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
@@ -121,16 +117,14 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3" style="width: 26%; margin-left: -0.8%;">
-                                            <div class="checkbox-nice" style="padding-right: 8%;" data-bind="visible: printingTypeUi() !== '2'">
+                                        <div class="col-sm-4" style="width: 26%; margin-left: -0.8%;">
+                                           <div class="checkbox-nice" data-bind="visible: printingTypeUi() !== '2'">
                                                 <input type="checkbox" id="checkbox-5" checked="checked" data-bind="checked: isSectionSizeCustom" />
                                                 <label for="checkbox-5">
                                                     Custom
                                                 </label>
                                             </div>
-                                            <!-- ko if: printingTypeUi() !== '2' -->
-                                            &nbsp;
-                                            <!-- /ko -->
+                                          
                                         </div>
                                     </div>
                                     <div class="col-sm-6" data-bind="visible: printingTypeUi() !== '2'">
@@ -171,22 +165,17 @@
 
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-sm-3 text-right" style="padding-left: 2.5%">
-                                    <label style="float: left;"for="switchPrintOnBothSides" class="control-label text-right tooltip-float">Side 1 Press Profile</label>
+                            <div class="form-group" style="margin-bottom: 2px;">
+                                <div class="col-sm-10 text-right" style="padding-left: 2.5%">
+                                    <label style="float: left;" for="switchPrintOnBothSides" class="control-label text-right tooltip-float">Side 1 Press Profile</label>
                                 </div>
-                                <div class="radio col-sm-2">
-                                </div>
-                                <div class="radio col-sm-3">
-                                </div>
-                                <div class="col-sm-2 text-right" style="padding-right:0%;">
-                                </div>
-                                <div class=" col-sm-2" style="padding-left: 1.2%;">
+                               
+                                <div class=" col-sm-2" style="padding-left: 12px;">
                                     <label style="float: left" class="control-label text-right tooltip-float">Color #1</label>
 
                                 </div>
                             </div>
-                            <div class="form-group" style="margin-top: -2%;">
+                            <div class="form-group" >
                                 <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
                                     <select class="form-control" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressId, validationOnElement: pressId"></select>
                                 </div>
@@ -209,7 +198,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="form-group" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
+                            <div class="form-group" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'" style="margin-bottom: 2px;">
                                 <div class="col-sm-5 text-right" style="padding-left: 2.5%">
                                     <label data-bind="text: !isWorknTurn() ? 'Side 2' : 'Side 2 - Double side and Work n Trun, Passes = 2'" class="control-label tooltip-float" style="float: left;">Side 2 - Double side and Work n Trun, Passes = 2</label>
                                 </div>
@@ -225,7 +214,7 @@
 
                                 </div>
                             </div>
-                            <div class="form-group" style="margin-top: -2%;" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
+                            <div class="form-group" style="" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
                                 <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
                                     <select class="form-control" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
                                 </div>
@@ -249,9 +238,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 2px;">
                                 <div class="col-sm-3 text-right" style="padding-left: 2.5%;">
-                                    <label style="float: left"for="switchPrintOnBothSides" class="control-label text-right tooltip-float">Paper / Board / Subrate</label>
+                                    <label style="float: left" for="switchPrintOnBothSides" class="control-label text-right tooltip-float">Paper / Board / Subrate</label>
                                 </div>
                                 <div class="radio col-sm-2">
                                     &nbsp;
@@ -262,12 +251,12 @@
                                 <div class="col-sm-2 text-right" style="padding-right:0;">
                                     &nbsp;
                                 </div>
-                                <div class=" col-sm-2" style="padding-right: 2.8%;">color
+                                <div class=" col-sm-2" style="padding-right: 2.8%;">
                                     <label class="control-label text-right tooltip-float">&nbsp;</label>
 
                                 </div>
                             </div>
-                            <div class="form-group" style="margin-top: -2%;">
+                            <div class="form-group" style="">
                                 <div class="col-sm-8 text-right" style="padding-left: 2.5%;width: 70.1%;">
                                     <input type="text" style="width: 99%; margin-right: 5px;" data-bind="value: stockItemName, validationDependsOn: stockItemId, enable: false, validationOnElement: stockItemId" class="form-control OpenStockPopup-Class" id="txtStock">
                                 </div>
