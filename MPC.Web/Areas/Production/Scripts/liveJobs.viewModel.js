@@ -14,6 +14,8 @@ define("liveJobs/liveJobs.viewModel",
                     // #region Arrays
                     //Items
                     items = ko.observableArray([]),
+                    // System Users
+                    systemUsers = ko.observableArray([]),
 
                     // #endregion
                     // #region Observables
@@ -22,42 +24,63 @@ define("liveJobs/liveJobs.viewModel",
                     searchFilter = ko.observable(),
                     //Pager
                     pager = ko.observable(),
-                     //Sort On
+                    //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
                     sortIsAsc = ko.observable(true),
+
                     // #endregion
 
-                // Get Items
-                getItems = function () {
-                    dataservice.getItems({
-                        SearchString: searchFilter(),
-                        PageSize: pager().pageSize(),
-                        PageNo: pager().currentPage(),
-                        SortBy: sortOn(),
-                        IsAsc: sortIsAsc()
-                    }, {
-                        success: function (data) {
-                            items.removeAll();
-                            if (data !== null && data !== undefined) {
-                                var itemList = [];
-                                _.each(data.Items, function (item) {
-                                    itemList.push(model.Item.Create(item));
-                                });
-                                ko.utils.arrayPushAll(items(), itemList);
-                                items.valueHasMutated();
+                    // Get Items
+                    getItems = function () {
+                        dataservice.getItems({
+                            SearchString: searchFilter(),
+                            PageSize: pager().pageSize(),
+                            PageNo: pager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                resetHiddenFields();
+                                items.removeAll();
+                                if (data !== null && data !== undefined) {
+                                    var itemList = [];
+                                    _.each(data.Items, function (item) {
+                                        var itemModel = model.Item.Create(item);
+                                        var user = _.find(systemUsers(), function (sysUser) {
+                                            return sysUser.SystemUserId === itemModel.jobManagerId();
+                                        });
+                                        if (user !== null && user !== undefined) {
+                                            itemModel.jobManagerName(user.FullName);
+                                        }
+                                        itemList.push(itemModel);
 
-                                pager().totalCount(data.TotalCount);
+                                    });
+                                    ko.utils.arrayPushAll(items(), itemList);
+                                    items.valueHasMutated();
+                                    pager().totalCount(data.TotalCount);
+                                }
+
+                            },
+                            error: function () {
+                                toastr.error("Failed to Items.");
                             }
-
-                        },
-                        error: function () {
-                            toastr.error("Failed to Items.");
-                        }
-                    });
-                },
-
-                        // Get Items
+                        });
+                    },
+                    // Get Items
+                    getBaseData = function () {
+                        dataservice.getBaseData({
+                            success: function (data) {
+                                ko.utils.arrayPushAll(systemUsers(), data);
+                                systemUsers.valueHasMutated();
+                                getItems();
+                            },
+                            error: function () {
+                                toastr.error("Failed to Base data.");
+                            }
+                        });
+                    },
+                    // Download Artwork
                     downloadArtwork = function () {
                         dataservice.downloadArtwork({
                             success: function (data) {
@@ -70,12 +93,40 @@ define("liveJobs/liveJobs.viewModel",
                         });
 
                     },
+                    // on click on checkbox
+                    selectItem = function (item) {
+                        var index = items.indexOf(item);
+                        if (item.isSelected()) {
+                            item.isSelected(false);
+                            $("#item" + index).val(null);
+                        } else {
+                            item.isSelected(true);
+                            $("#item" + index).val(item.id());
+                        }
+                    },
+                    // Reset Hidden Fields
+                    resetHiddenFields = function () {
+                        for (i = 0; i < 10; i++) {
+                            $("#item" + i).val(null);
+                        }
+                    },
+                    // Enable/Disable Download button
+                    enableDownloadArtwork = ko.computed(function () {
+                        var item = _.find(items(), function (sItem) {
+                            return (sItem.isSelected() === true || sItem.isSelected() === 1);
+                        });
+                        if (item !== undefined) {
+                            return true;
+                        }
+                        return false;
+                    }),
                     //Initialize
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
-                        pager(new pagination.Pagination({ PageSize: 5 }, items, getItems));
-                        getItems();
+                        pager(new pagination.Pagination({ PageSize: 10 }, items, getItems));
+                        getBaseData();
+
 
                     };
                 //#endregion 
@@ -86,9 +137,11 @@ define("liveJobs/liveJobs.viewModel",
                     searchFilter: searchFilter,
                     pager: pager,
                     items: items,
+                    systemUsers: systemUsers,
                     getItems: getItems,
                     downloadArtwork: downloadArtwork,
-
+                    selectItem: selectItem,
+                    enableDownloadArtwork:enableDownloadArtwork
 
                 };
             })()

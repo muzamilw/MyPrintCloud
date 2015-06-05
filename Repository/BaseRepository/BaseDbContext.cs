@@ -679,7 +679,7 @@ namespace MPC.Repository.BaseRepository
         /// Machine Lookup Method DbSet
         /// </summary>
         public DbSet<MachineLookupMethod> MachineLookupMethods { get; set; }
-
+        
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
@@ -968,6 +968,21 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_PurchaseOrderReport_Result>("usp_PurchaseOrderReport", organisationIdParameter, 
                 purchaseIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_TotalEarnings_Result> usp_TotalEarnings(DateTime? fromdate, DateTime? todate)
+// ReSharper restore InconsistentNaming
+        {
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("fromdate", fromdate) :
+                new ObjectParameter("fromdate", typeof(DateTime));
+
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("todate", todate) :
+                new ObjectParameter("todate", typeof(DateTime));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_TotalEarnings_Result>("usp_TotalEarnings", fromdateParameter, todateParameter);
         }
 
         #endregion

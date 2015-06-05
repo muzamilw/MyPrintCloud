@@ -1,0 +1,164 @@
+﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@using System;
+
+<head>
+    <link href="/Content/carousel.css" rel="stylesheet" />
+    <link href="/Content/content.css" rel="stylesheet" />
+   
+    <link href="/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
+
+
+</head>
+@{         
+    var ParentCategories = ViewBag.rptParentCategoryNames as List<MPC.Models.DomainModels.ProductCategory>;
+    var Properties = ViewBag.lstProperties as List<MPC.Models.DomainModels.Listing>;
+    var ChildCategories = ViewBag.AllCategories as List<MPC.Models.DomainModels.ProductCategory>;
+    var AllListingImages = ViewBag.AllListingImages as List<MPC.Models.DomainModels.ListingImage>;
+}
+
+<div class="container">
+    <div class="sidebar-offcanvas sidebar realEs-myProfile-leftPanel" id="sidebar-left" role="navigation" style="">
+        <div style="height: 10px;">
+        </div>
+        <div class="reales-profile-pad10">
+
+            <div class="float_left_simple Fsize18">
+                <label style="color: #bebab8;font-family:Times New Roman;">My Profile</label>
+            </div>
+
+            <div class="float_right relEst-profile-sigout">
+                @Html.ActionLink(" ", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "icon-text-signout" })
+            </div>
+            <div class="float_right relEst-profile-saved">
+                <a class="icon-text-cog" href="/DashBoard" style="color:#bebab8"></a>
+            </div>
+            <div class="float_right relEst-profile-dashb">
+                <a class="icon-text-file" href="/SavedDesigns" style="color:#bebab8"></a>
+
+            </div>
+
+            <div class="clearBoth"></div>
+
+        </div>
+        <div class="reales-profile-border">
+        </div>
+        <div class="reales-profile-pad10">
+            <img id="imgUserProfile" class="float_left_simple resEst-width50" src="@Html.GetAppBasePath()@ViewBag.imgUserProfileSrc" />
+            <div class="float_left_simple resEst-profile-username">
+                <label id="lblUSerName" class="real-profile-textcolor">@ViewBag.lblUSerName</label>
+            </div>
+            <div class="clearBoth"></div>
+        </div>
+        <div class="reales-profile-border">
+        </div>
+        <div class="" id="togglemenu_sidebar">
+
+            <div class="panel-body">
+                <div class="" id="accordionmenu">
+
+                    <div id="parentCatsContainer" class="">
+                       @foreach(var ParentCategory in ParentCategories)
+                       {
+                          var filteredChildCategories=ChildCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == ParentCategory.ProductCategoryId && (category.isArchived == false || category.isArchived == null) && category.isEnabled == true && category.isPublished == true && category.CompanyId == UserCookieManager.WBStoreId).ToList().OrderBy(x => x.DisplayOrder);
+                          
+                                <div class="category-heading">
+                                    @{
+                                        var anchorId = "linkParentCategoryName" + @ParentCategory.ProductCategoryId;
+                                        var iconId = "linkChevronIcon" + @ParentCategory.ProductCategoryId;
+                                    }
+                                    <a id="@anchorId" href="/Category/@Html.ResolveString(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
+                                     @if(filteredChildCategories!=null&&filteredChildCategories.Count()>0)
+                                     {
+                                        <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
+                                            <i class="Chevron"></i>
+                                        </a>
+                                     }
+                                    <a class="clearBoth" style="height: 0px;"></a>
+                                </div>
+                                <div class="sideMenuItems panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul id="mycarasoulList" class="submenu list-unstyled" style="padding-left: 15px; line-height: 2; margin-top: 5px;">
+                                            @foreach(var ChildCategory in filteredChildCategories)
+                                            { 
+                                              <li><a id="linkChildCatLink" href="/Category/@Html.ResolveString(ChildCategory.CategoryName)/@ChildCategory.ProductCategoryId" onclick="ShowLoader();"><span id="childCatName" style="color: #bebab8;">@ChildCategory.CategoryName</span></a></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                           
+                        
+                       }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--/Left Panel-->
+    <!--Center Part-->
+    <div class="realEs-myProfile-rightPanel">
+        <div class="carousel" id="realEstateCaouselr">
+            <!-- BEGIN CONTAINER -->
+
+            <div class="slides">
+                <!-- BEGIN CAROUSEL -->
+                  
+                       @foreach (var parent in ParentCategories)
+                       { 
+                        <div class="realEs-carousal-evolution">
+                            <!-- SLIDE ITEM -->
+                            <a href="#" id="hlProductDetail" >
+                                <img id="imgThumbnail" src="@Html.GetAppBasePath()@parent.ThumbnailPath" style="width:auto !important; height:185px !important;" />
+                                <br />
+                                <label id="lblpropertyLabel">@parent.CategoryName
+                                </label>
+                            </a>
+                        </div>
+                       }
+            </div>
+            <!-- END SLIDES -->
+
+        </div>
+        <!-- END CAROUSEL -->
+    </div>
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+</div>
+<script src="/Scripts/jquery.mousewheel.min.js"></script>
+<script src="/Scripts/jquery.carousel-1.1.min.js"></script>
+<script src="/Scripts/sample01.js"></script>
+<script type="text/javascript">
+    function ExpandCollapseCategory(dataid) {
+
+        var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
+        if ($("#" + idOfCatPro + "").parent().next().hasClass('in')) {
+            $("#" + idOfCatPro + "").parent().next().removeClass('in');
+            $("#" + idOfCatPro + "").parent().next().addClass('collapse');
+            $("#" + idOfCatPro + "").parent().next().css("display", "none");
+            $("#" + idOfCatPro + "").parent().next().css("opacity", "0");
+        } else if ($("#" + idOfCatPro + "").parent().next().hasClass('collapse')) {
+            $("#" + idOfCatPro + "").parent().next().removeClass('collapse');
+            $("#" + idOfCatPro + "").parent().next().addClass('in');
+            $("#" + idOfCatPro + "").parent().next().css("display", "block");
+            $("#" + idOfCatPro + "").parent().next().css("opacity", "1");
+        }
+
+    }
+
+    //function Logout()
+    //{
+    //        $.ajax({
+    //            type: "POST",
+    //            url: "/RealestateSideBarWithSlider/LogOut",
+    //            contentType: "application/json",
+    //            async: true,
+    //            success: function (response) {
+    //            }
+    //        });
+    //}
+
+</script>

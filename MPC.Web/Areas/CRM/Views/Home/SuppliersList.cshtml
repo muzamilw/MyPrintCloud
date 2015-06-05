@@ -161,11 +161,11 @@
 @* Filter Template *@
 <script id="filterTemplate" type="text/html">
     <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
-        <form data-bind="submit:$root.getSuppliers">
+        <form data-bind="submit:$root.searchSuppliersByFilters">
             <div class="filter-block pull-right">
                 <div class="form-group pull-left">
                     <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
-                    <i class="fa fa-search search-icon" data-bind="click:$root.getSuppliers"></i>
+                    <i class="fa fa-search search-icon" data-bind="click:$root.searchSuppliersByFilters"></i>
                 </div>
                 <div class="pull-left">
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">

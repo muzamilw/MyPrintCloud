@@ -1,14 +1,14 @@
 ﻿<div class="modal fade" id="itemAddonCostCentreDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div id="itemAddonCostCentreDialogMainContainer" class="modal-dialog" data-bind="with: activeStockOption">
-        <div class="modal-content">
+        <div class="modal-content" data-bind="with: activeItemAddonCostCentre">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add/Edit Refining Options</h4>
+                <h4 class="modal-title">Add/Edit Refining Option</h4>
             </div>
-            <div class="col-lg-12 form-horizontal outerDiv-Padding" data-bind="with: activeItemAddonCostCentre">
+            <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                       <label class="control-label text-right tooltip-float">Cost Center</label>
+                    <div class="col-lg-4 text-right">
+                        <label class="control-label text-right tooltip-float">Cost Center</label>
 
                     </div>
 
@@ -18,7 +18,7 @@
 
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-3 text-right">
+                    <div class="col-lg-4 text-right">
                         <label class="control-label text-right tooltip-float">Type</label>
 
                     </div>
@@ -29,8 +29,15 @@
 
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                         <label class="control-label text-right tooltip-float">User must select this</label>
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="User must select this Refining in product to add it to shopping cart." data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label class="control-label text-right tooltip-float">Mandatory selection in product</label>
 
                     </div>
 
@@ -52,9 +59,9 @@
             </div>
 
             <div class="modal-footer">
-                <hr/>
-                <button type="button" data-dismiss="modal" class="btn btn-danger pull-left" data-bind="click: $root.onDeleteItemAddonCostCentre">Delete</button>
-                <button type="button" class="btn btn-primary" data-bind="click: $parent.onSaveItemCostCentre">Save</button>
+                <hr />
+                <button type="button" data-dismiss="modal" class="btn btn-danger pull-left" data-bind="click: $root.onDeleteItemAddonCostCentre, enable: id() > 0">Delete</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $parents[1].onSaveItemCostCentre, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.closeItemAddonCostCentreDialog" style="margin-left: 0">Close</button>
 
             </div>

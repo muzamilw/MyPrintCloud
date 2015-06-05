@@ -149,7 +149,7 @@ body:not(.compactHeader) .searchBtn {
     list-style: none;
     text-align: center;
       height: 70px;
-  width: 230%;
+   width: 170%;
 }
 
     #objectPanel > menu li {
@@ -6874,4 +6874,16 @@ font-size: 13px;
 }
 #documentMenu {
     position:absolute;
+}
+.svgColorContainer{
+      margin-left: 89px;
+  margin-top: -25px;
+}
+.btnChangeShapeColor{
+    margin-right:0px;
+    margin-left:8px;
+}
+.dimentionsBC
+{
+    display:none;
 }

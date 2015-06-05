@@ -18,6 +18,11 @@
         /// Flag Id
         /// </summary>
         public int FlagId { get; set; }
+
+        /// <summary>
+        /// Title
+        /// </summary>
+        public string Title { get; set; }
           
     }
 }

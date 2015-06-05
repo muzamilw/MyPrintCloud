@@ -68,6 +68,14 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
+        /// Get Total Earnings for a specific duration
+        /// </summary>
+        public IEnumerable<usp_TotalEarnings_Result> GetTotalEarnings(DateTime fromDate, DateTime toDate)
+        {
+            return db.usp_TotalEarnings(fromDate, toDate).ToList();
+        }
+
+        /// <summary>
         /// Get Orders For Specified Search
         /// </summary>
         public GetOrdersResponse GetOrders(GetOrdersRequest request)
@@ -81,7 +89,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<Estimate, bool>> query =
                 item =>
                     ((
-                    string.IsNullOrEmpty(request.SearchString) || 
+                    string.IsNullOrEmpty(request.SearchString) ||
                     ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.Order_Code.Contains(request.SearchString)) ||
                     (item.Estimate_Name.Contains(request.SearchString)) || (item.Items.Any(product => product.ProductName.Contains(request.SearchString)))
                     )) &&
@@ -122,7 +130,7 @@ namespace MPC.Repository.Repositories
                     ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
                     (item.isEstimate.HasValue && item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
                     ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
-                   // ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
+                    // ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
                     item.OrganisationId == OrganisationId);
 
             IEnumerable<Estimate> items = request.IsAsc
@@ -145,8 +153,8 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public int GetNewOrdersCount(int noOfLastDays, long companyId)
         {
-           DateTime currenteDate  = DateTime.UtcNow.Date.AddDays(-noOfLastDays);
-          return  DbSet.Count(estimate => estimate.isEstimate == false && companyId==estimate.CompanyId  && estimate.CreationDate >= currenteDate);
+            DateTime currenteDate = DateTime.UtcNow.Date.AddDays(-noOfLastDays);
+            return DbSet.Count(estimate => estimate.isEstimate == false && companyId == estimate.CompanyId && estimate.CreationDate >= currenteDate);
         }
 
 
@@ -157,13 +165,13 @@ namespace MPC.Repository.Repositories
         {
             return new OrderStatusesResponse
             {
-                PendingOrdersCount = DbSet.Count(order =>order.OrganisationId==OrganisationId && order.StatusId == (short)OrderStatusEnum.PendingOrder && order.isEstimate == false),
+                PendingOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.PendingOrder && order.isEstimate == false),
                 InProductionOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.InProduction && order.isEstimate == false),
                 CompletedOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.CompletedOrders && order.isEstimate == false),
                 UnConfirmedOrdersCount = DbSet.Count(estimate => estimate.OrganisationId == OrganisationId && estimate.isEstimate == true),
-                TotalEarnings = DbSet.Where(order => order.OrganisationId == OrganisationId).Sum(estimate =>estimate.Estimate_Total ),
-                CurrentMonthOdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.Order_Date.HasValue && 
-                (order.isEstimate.Value == false || !order.isEstimate.HasValue) && 
+                TotalEarnings = DbSet.Where(order => order.OrganisationId == OrganisationId).Sum(estimate => estimate.Estimate_Total),
+                CurrentMonthOdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.Order_Date.HasValue &&
+                (order.isEstimate.Value == false || !order.isEstimate.HasValue) &&
                 (order.StatusId != (int)OrderStatus.ShoppingCart && order.StatusId != (int)OrderStatus.PendingCorporateApprovel) &&
                     DateTime.Now.Month == order.Order_Date.Value.Month)
             };
@@ -176,7 +184,7 @@ namespace MPC.Repository.Repositories
         {
             return new OrderMenuCount
             {
-                AllOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.isEstimate== false),
+                AllOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.isEstimate == false),
                 PendingOrders = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.PendingOrder && order.isEstimate == false),
                 ConfirmedStarts = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.ConfirmedOrder && order.isEstimate == false),
                 InProduction = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.InProduction && order.isEstimate == false),
@@ -199,7 +207,7 @@ namespace MPC.Repository.Repositories
                 item =>
                     (item.isEstimate.HasValue && !item.isEstimate.Value) &&
                     item.CompanyId == request.CompanyId && item.StatusId != (int)OrderStatus.ShoppingCart;
-        
+
 
             IEnumerable<Estimate> items = request.IsAsc
                ? DbSet.Where(query)
@@ -223,15 +231,15 @@ namespace MPC.Repository.Repositories
         {
             Expression<Func<Estimate, bool>> query =
                 item =>
-                    (string.IsNullOrEmpty(request.SearchString) || 
+                    (string.IsNullOrEmpty(request.SearchString) ||
                     (item.Company != null && item.Company.Name.Contains(request.SearchString)) ||
                     (item.Order_Code.Contains(request.SearchString)))
                     &&
-                    (item.isEstimate.HasValue && !item.isEstimate.Value)  &&
+                    (item.isEstimate.HasValue && !item.isEstimate.Value) &&
                     (item.StatusId != (int)OrderStatus.ShoppingCart && item.StatusId != (int)OrderStatus.PendingCorporateApprovel) &&
                     item.OrganisationId == OrganisationId;
 
-            IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateId).Take(5).ToList()
+            IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x => x.EstimateId).Take(5).ToList()
                 .ToList();
 
             return items;
@@ -241,9 +249,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               return db.Estimates.Include("Company").Where(g => g.EstimateId == OrderID).FirstOrDefault();
+                return db.Estimates.Include("Company").Where(g => g.EstimateId == OrderID).FirstOrDefault();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -257,6 +265,21 @@ namespace MPC.Repository.Repositories
             return 0;
         }
 
+        /// <summary>
+        /// Get Total Earnings For Dashboard
+        /// </summary>
+        public IEnumerable<usp_TotalEarnings_Result> GetTotalEarningsForDashboard()
+        {
+            try
+            {
+                var now = DateTime.Now;
+                return db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

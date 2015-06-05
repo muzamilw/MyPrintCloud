@@ -13,6 +13,9 @@ define("dashboard.view",
                 goToOrder = function(orderId) {
                     window.open('/mis/orders/home?id=' + orderId, "_blank");
                 },
+                  goToCustomer = function (customerId) {
+                      window.open('/mis/CRM/home?id=' + customerId, "_blank");
+                  },
                 // Initialize
                 initialize = function() {
                     if (!bindingRoot) {
@@ -23,7 +26,8 @@ define("dashboard.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
-                goToOrder: goToOrder
+                goToOrder: goToOrder,
+                goToCustomer: goToCustomer
             };
         })(dashboardViewModel);
 

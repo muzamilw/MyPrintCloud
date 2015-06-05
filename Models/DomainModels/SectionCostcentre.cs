@@ -109,5 +109,36 @@ namespace MPC.Models.DomainModels
         public virtual ItemSection ItemSection { get; set; }
         public virtual ICollection<SectionCostCentreDetail> SectionCostCentreDetails { get; set; }
         public virtual ICollection<SectionCostCentreResource> SectionCostCentreResources { get; set; }
+
+        public void Clone(SectionCostcentre target)
+        {
+            target.CostCentreId = CostCentreId;
+            target.CostingActualCost = CostingActualCost;
+            target.CostingActualQty = CostingActualQty;
+            target.CostingActualTime = CostingActualTime;
+            target.Name = Name;
+            target.Qty1 = Qty1;
+            target.Qty1Charge = Qty1Charge;
+            target.Qty1NetTotal = Qty1NetTotal;
+            target.Qty1MarkUpID = Qty1MarkUpID;
+            target.Qty1MarkUpValue = Qty1MarkUpValue;
+            target.Qty2 = Qty2;
+            target.Qty2Charge = Qty2Charge;
+            target.Qty2NetTotal = Qty2NetTotal;
+            target.Qty2MarkUpID = Qty2MarkUpID;
+            target.Qty2MarkUpValue = Qty2MarkUpValue;
+            target.Qty3 = Qty3;
+            target.Qty3Charge = Qty3Charge;
+            target.Qty3NetTotal = Qty3NetTotal;
+            target.Qty3MarkUpID = Qty3MarkUpID;
+            target.Qty3MarkUpValue = Qty3MarkUpValue;
+            target.ItemSectionId = ItemSectionId;
+            target.Qty1WorkInstructions = Qty1WorkInstructions;
+            target.Qty2WorkInstructions = Qty2WorkInstructions;
+            target.Qty3WorkInstructions = Qty3WorkInstructions;
+            target.Qty1EstimatedStockCost = Qty1EstimatedStockCost;
+            target.Qty2EstimatedStockCost = Qty2EstimatedStockCost;
+            target.Qty3EstimatedStockCost = Qty3EstimatedStockCost;
+        }
     }
 }

@@ -40,9 +40,9 @@
                                 <div class="form-group">
                                     <div class="col-lg-4 text-right">
                                         <div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Smart Form Name" data-original-title="" title="">
+                                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Smart Form Name" data-original-title="" title="">
                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                            </a>
+                                            </a>*@
                                         </div>
                                         <label for="name" class="control-label text-right tooltip-float">
                                             Smart Form Name
@@ -124,7 +124,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th><span>Variables</span></th>
-                                                        <th><span>Variable Scope</span></th>
+                                                        <th><span>Variable Type</span></th>
                                                         <th><span>Type</span></th>
                                                         <th><span>Tag</span></th>
                                                     </tr>
@@ -142,7 +142,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th><span>Variables</span></th>
-                                                        <th><span>Variable Scope</span></th>
+                                                        <th><span>Variable Type</span></th>
                                                         <th><span>Type</span></th>
                                                         <th><span>Tag</span></th>
                                                     </tr>
@@ -161,7 +161,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th><span>Variables</span></th>
-                                                        <th><span>Variable Scope</span></th>
+                                                        <th><span>Variable Type</span></th>
                                                         <th><span>Type</span></th>
                                                         <th><span>Tag</span></th>
                                                     </tr>
@@ -179,7 +179,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th><span>Variables</span></th>
-                                                        <th><span>Variable Scope</span></th>
+                                                        <th><span>Variable Type</span></th>
                                                         <th><span>Type</span></th>
                                                         <th><span>Tag</span></th>
                                                     </tr>
@@ -255,8 +255,8 @@
             <div class="modal-footer">
                 <br />
                 <hr />
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSmartForm">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSmartForm, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left:0px;">Close</button>
               
             </div>
         </div>
@@ -270,7 +270,15 @@
 <script id="fieldvariableCommon" type="text/html">
     <tr data-bind="drag: $root.draggedVariableField" style="cursor: move;z-index: 10000" title="Drag variable to add to the left panel">
         <td data-bind="text:variableName"></td>
-        <td data-bind="text:scopeName"></td>
+        @*<td data-bind="text:scopeName"></td>*@
+    
+        <!-- ko if: scope()=== 7 || scope() === 8  || scope() === 9 || scope() === 10 -->
+        <td>System Defined</td>
+        <!-- /ko -->
+        <!-- ko if: scope()=== 1 || scope() === 2  || scope() === 3 || scope() === 4 -->
+      
+        <td>User Defined</td>
+        <!-- /ko -->
         <td data-bind="text:typeName"></td>
         <td data-bind="text:variableTag"></td>
     </tr>
@@ -278,7 +286,7 @@
 
     <script id="fieldVariableForSmartFormItemTemplate" type="text/html">
 
-        <!-- ko if: scope()=== 1 -->
+        <!-- ko if: scope()=== 1 || scope() === 7 -->
                 <!-- ko template: { name: 'fieldvariableCommon' }-->
                 <!-- /ko -->
         <!-- /ko -->
@@ -287,7 +295,7 @@
     </script>
 <script id="fieldVariableForSmartFormItemTemplateContact" type="text/html">
 
-    <!-- ko if: scope()=== 2 -->
+    <!-- ko if: scope()=== 2 || scope() === 8 -->
         <!-- ko template: { name: 'fieldvariableCommon' }-->
         <!-- /ko -->
     <!-- /ko -->
@@ -296,7 +304,7 @@
 </script>
 <script id="fieldVariableForSmartFormItemTemplateAddress" type="text/html">
 
-    <!-- ko if: scope()=== 3 -->
+    <!-- ko if: scope()=== 3 || scope() === 9 -->
         <!-- ko template: { name: 'fieldvariableCommon' }-->
         <!-- /ko -->
     <!-- /ko -->
@@ -305,7 +313,7 @@
 </script>
 <script id="fieldVariableForSmartFormItemTemplateTerritory" type="text/html">
 
-    <!-- ko if: scope()=== 4 -->
+    <!-- ko if: scope()=== 4 || scope() === 10 -->
     <!-- ko template: { name: 'fieldvariableCommon' }-->
     <!-- /ko -->
     <!-- /ko -->

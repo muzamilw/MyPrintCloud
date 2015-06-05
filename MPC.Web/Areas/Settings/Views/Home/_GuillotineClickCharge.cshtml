@@ -7,26 +7,26 @@
     }
 </style>
 
-<div data-bind="visible: $root.isGuillotineClickChargeEditorVisible(), with: selectedGuillotineClickCharge()" style="display: none">
+<div data-bind="visible: $root.isGuillotineClickChargeEditorVisible">
 
     <div>
         <h3 style="padding-right:10px;margin:0px;">Specify values for the click charge Lookup Calculation</h3>
     </div>
     <br />
 
-    <div class="form-group">
-        <div class="col-lg-5 text-right col-padding">
-            <div class="bs-example-tooltips tooltip-float-width">
-                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the name of the Lookup method" data-original-title="" title="">
-                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                </a>
+    @*<div class="form-group">
+            <div class="col-lg-5 text-right col-padding">
+                <div class="bs-example-tooltips tooltip-float-width">
+                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the name of the Lookup method" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+                </div>
+                <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter the name of the Lookup method</label>
             </div>
-            <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter the name of the Lookup method</label>
-        </div>
-        <div class="col-lg-7" data-bind="with:$root.selectedlookup() ">
-            <input type="text" name="Store Name" class="form-control" style="width: 95%;" data-bind="value:Name" placeholder="Guillotine Click Charge Lookup">
-        </div>
-    </div>
+            <div class="col-lg-7" data-bind="with:$root.selectedlookup() ">
+                <input type="text" name="Store Name" class="form-control" style="width: 95%;" data-bind="value:Name" placeholder="Guillotine Click Charge Lookup">
+            </div>
+        </div>*@
 
     <div class="form-group">
         <div class="col-lg-5 text-right col-padding">
@@ -39,95 +39,131 @@
         </div>
         <div class="col-lg-7">
             <div class="aligndivs">
-                <input type="text" class="form-control textboxwidth" data-bind="autoNumeric: PaperWeight1 , settings:{mDec:0}"  placeholder="0">
+                <input type="text" class="form-control textboxwidth" data-bind="value: $root.selectedGuillotineClickCharge().PaperWeight1 , settings:{mDec:0}" placeholder="0">
             </div>
             <div class="aligndivs">
-                <input type="text" class="form-control" data-bind="autoNumeric: PaperWeight2 , settings:{mDec:0}"  placeholder="0">
+                <input type="text" class="form-control" data-bind="value: $root.selectedGuillotineClickCharge().PaperWeight2 , settings:{mDec:0}" placeholder="0">
             </div>
             <div class="aligndivs">
-                <input type="text" class="form-control" data-bind="autoNumeric: PaperWeight3 , settings:{mDec:0}"  placeholder="0">
+                <input type="text" class="form-control" data-bind="value: $root.selectedGuillotineClickCharge().PaperWeight3 , settings:{mDec:0}" placeholder="0">
             </div>
             <div class="aligndivs">
-                <input type="text" class="form-control" data-bind="autoNumeric: PaperWeight4 , settings:{mDec:0}"  placeholder="0">
+                <input type="text" class="form-control" data-bind="value: $root.selectedGuillotineClickCharge().PaperWeight4 , settings:{mDec:0}" placeholder="0">
             </div>
             <div class="aligndivs">
-                <input type="text" class="form-control" data-bind="autoNumeric: PaperWeight5 , settings:{mDec:0}"  placeholder="0">
+                <input type="text" class="form-control" data-bind="value: $root.selectedGuillotineClickCharge().PaperWeight5 , settings:{mDec:0}" placeholder="0">
             </div>
         </div>
     </div>
+    <div class="form-group">
+        <div class="col-lg-5 text-right col-padding">
+            <div class="bs-example-tooltips tooltip-float-width">
+                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Paper Weights(GSM)" data-original-title="" title="">
+                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                </a>
+            </div>
+            <label for="txtCompanyName" class="control-label text-right tooltip-float">Paper Weights(GSM)</label>
+        </div>
+        <div class="col-lg-7">
+            <div class="aligndivs">
+                <input type="text" class="form-control textboxwidth" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty1 , settings:{mDec:0}" placeholder="0">
+            </div>
+            <div class="aligndivs">
+                <input type="text" class="form-control" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty2 , settings:{mDec:0}" placeholder="0">
+            </div>
+            <div class="aligndivs">
+                <input type="text" class="form-control" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty3 , settings:{mDec:0}" placeholder="0">
+            </div>
+            <div class="aligndivs">
+                <input type="text" class="form-control textboxwidth" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty4 , settings:{mDec:0}" placeholder="0">
+            </div>
+            <div class="aligndivs">
+                <input type="text" class="form-control textboxwidth" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty5 , settings:{mDec:0}" placeholder="0">
+            </div>
+        </div>
 
-    <div style="margin-top:20px;  margin-left: -7px;">
+    </div>
+    @*<div style="margin-top:20px;  margin-left: -7px;">
 
-        <div class="aligndivs" style="text-align:right;width:264px;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float">Max. no of sheets in throat of the above GSMs</label>
+            <div class="aligndivs" style="text-align:right;width:264px;">
+                <label for="txtCompanyName" class="control-label text-right tooltip-float">Max. no of sheets in throat of the above GSMs</label>
+            </div>
+            <div class="aligndivs">
+                <input type="text" class="form-control textboxwidth" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty1 , settings:{mDec:0}" placeholder="0">
+            </div>
+            <div class="aligndivs">
+                <input type="text" class="form-control" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty2 , settings:{mDec:0}" placeholder="0">
+            </div>
+            <div class="aligndivs">
+                <input type="text" class="form-control" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty3 , settings:{mDec:0}" placeholder="0">
+            </div>
+            <div class="aligndivs">
+                <input type="text" class="form-control textboxwidth" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty4 , settings:{mDec:0}" placeholder="0">
+            </div>
+            <div class="aligndivs">
+                <input type="text" class="form-control textboxwidth" data-bind="value: $root.selectedGuillotineClickCharge().PaperThroatQty5 , settings:{mDec:0}" placeholder="0">
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        <div class="col-lg-5 text-right col-padding">
+          
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric: PaperThroatQty1 , settings:{mDec:0}" placeholder="0">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric: PaperThroatQty2 , settings:{mDec:0}" placeholder="0">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric: PaperThroatQty3 , settings:{mDec:0}" placeholder="0">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric: PaperThroatQty4 , settings:{mDec:0}" placeholder="0">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric: PaperThroatQty5 , settings:{mDec:0}" placeholder="0">
-        </div>
-    </div>
-    <div class="table-responsive" style="margin-right:12px;">
-        <a href="#" class="btn btn-primary pull-right" data-bind="click:$root.AddGuiltineLookup" style="margin-top:25px;">
-            Add Guiltine
-        </a>
-        <table id="chartOfAccountTablle" class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <td align="left" class="text-style">
-                        SECTIONS
-                    </td>
-                    <td align="left" class="text-style">
-                        UPS
-                    </td>
-                    <td align="left" class="text-style">
-                        CUTS WITHOUT GUTTERS
-                    </td>
-                    <td align="left" class="text-style">
-                        CUTS WITH GUTTERS
-                    </td>
-                </tr>
-            </thead>
-            
-            <!--ko template: {name: 'GuillotinePTVTemplate' , foreach: GuillotinePTVList} -->
-            <!-- /ko -->
+        <div class="col-lg-7">
+            <div class="table-responsive" style="margin-right:12px;">
+                <a href="#" class="btn btn-primary pull-right" data-bind="click:$root.AddGuiltineLookup" style="margin-top:25px;">
+                    Add Cutline
+                </a>
+                <table id="chartOfAccountTablle" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <td align="left" class="text-style">
+                                SECTIONS
+                            </td>
+                            <td align="left" class="text-style">
+                                UPS
+                            </td>
+                            <td align="left" class="text-style">
+                                CUTS WITHOUT GUTTERS
+                            </td>
+                            <td align="left" class="text-style">
+                                CUTS WITH GUTTERS
+                            </td>
+                        </tr>
+                    </thead>
+
+                    <!--ko template: {name: 'GuillotinePTVTemplate' , foreach: $root.selectedGuillotineClickCharge().GuillotinePTVList} -->
+                    <!-- /ko -->
+
+                </table>
+            </div>
+            </div>
+     </div>
            
-        </table>
-    </div>
-</div>
-<script type="text/html" id="GuillotinePTVTemplate">
-    <tr>
-        <td style="width:100px;" >
-            <input type="text" class="form-control" data-bind="autoNumeric: NoofSections , settings:{mDec:0}">
-        </td>
-        <td style="width:70px;">
-            <input type="text" class="form-control" data-bind="autoNumeric: NoofUps , settings:{mDec:0}">
-        </td>
-        <td style="width:200px;">
-            <input type="text" class="form-control" data-bind="autoNumeric: Noofcutswithoutgutters , settings:{mDec:0}">
-        </td>
-        <td style="width:200px;">
-            <input type="text" class="form-control" data-bind="autoNumeric: Noofcutswithgutters , settings:{mDec:0}">
-        </td>
-        <td>
-           
-            <a data-bind="click:$root.DeleteGuillotinePTV" class="table-link danger">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>
-        </td>
-    </tr>
-  
-</script>
+        </div>
+        <script type="text/html" id="GuillotinePTVTemplate">
+            <tr>
+                <td style="width:100px;">
+                    <input type="text" class="form-control" data-bind="autoNumeric: NoofSections , settings:{mDec:0}">
+                </td>
+                <td style="width:70px;">
+                    <input type="text" class="form-control" data-bind="autoNumeric: NoofUps , settings:{mDec:0}">
+                </td>
+                <td style="width:200px;">
+                    <input type="text" class="form-control" data-bind="autoNumeric: Noofcutswithoutgutters , settings:{mDec:0}">
+                </td>
+                <td style="width:200px;">
+                    <input type="text" class="form-control" data-bind="autoNumeric: Noofcutswithgutters , settings:{mDec:0}">
+                </td>
+                <td>
+
+                    <a data-bind="click:$root.DeleteGuillotinePTV" class="table-link danger">
+                        <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+
+        </script>

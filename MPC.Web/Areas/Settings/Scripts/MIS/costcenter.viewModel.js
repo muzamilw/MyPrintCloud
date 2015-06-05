@@ -583,9 +583,17 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             dropped = function (source, target, event) {
                 var vstring = source.html;
+                var currentText;
                 if (event.target.disabled == false) {
+                    currentText = event.target.value + vstring;
                     event.target.value += vstring;
+                    selectedCostCenter().strPriceLabourUnParsed(currentText);
+                    formatString(currentText);
+
                 }
+            },
+            formatString = function (val) {
+                val.replace('+', '<span class="redcolor">+</span>');
             },
             selectVariableString = function (varstring, e) {
                 selectedVariableString(e.currentTarget.id);

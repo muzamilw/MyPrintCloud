@@ -90,7 +90,7 @@ namespace MPC.Repository.Repositories
             {
                 var objList = from p in db.VariableSections
                               join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == null))
+                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory))
                               orderby p.VariableSectionId,es.VariableTag, es.VariableType, es.SortOrder
                               select new
                               {
@@ -406,6 +406,22 @@ namespace MPC.Repository.Repositories
                                                 
                                         }
                                     }
+                                    else if (obj.FieldVariable.CriteriaFieldName == "StateAbbr")
+                                    {
+                                        var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                        if (address != null)
+                                        {
+                                            if (address.StateId.HasValue)
+                                            {
+                                                var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                if (state != null)
+                                                {
+                                                    fieldValue = state.StateCode;
+                                                }
+                                            }
+
+                                        }
+                                    }
                                     else if (obj.FieldVariable.CriteriaFieldName == "Country")
                                     {
                                         var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
@@ -611,6 +627,22 @@ namespace MPC.Repository.Repositories
                                                 
                                         }
                                     }
+                                 else if (obj.CriteriaFieldName == "StateAbbr")
+                                 {
+                                     var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                     if (address != null)
+                                     {
+                                         if (address.StateId.HasValue)
+                                         {
+                                             var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                             if (state != null)
+                                             {
+                                                 fieldValue = state.StateCode;
+                                             }
+                                         }
+
+                                     }
+                                 }
                                  else if (obj.CriteriaFieldName == "Country")
                                  {
                                      var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
@@ -882,6 +914,23 @@ namespace MPC.Repository.Repositories
 
                                             }
                                         }
+                                        else if (variable.CriteriaFieldName == "StateAbbr")
+                                        {
+                                            var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                            if (address != null)
+                                            {
+                                                if (address.StateId.HasValue)
+                                                {
+                                                    var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                    if (state != null)
+                                                    {
+                                                        state.StateCode = scope.Value;
+                                                    }
+                                                }
+                                                db.SaveChanges();
+
+                                            }
+                                        }
                                         else if (variable.CriteriaFieldName == "Country")
                                         {
                                             var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
@@ -1091,6 +1140,22 @@ namespace MPC.Repository.Repositories
                                                         if (country != null)
                                                         {
                                                             fieldValue = country.CountryName;
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                            else if (FieldVariable.CriteriaFieldName == "StateAbbr")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.StateId.HasValue)
+                                                    {
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            fieldValue = state.StateCode;
                                                         }
                                                     }
 

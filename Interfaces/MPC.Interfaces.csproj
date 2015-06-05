@@ -90,6 +90,7 @@
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="MISServices\IDeliveryCarriersService.cs" />
+    <Compile Include="MISServices\IDeliveryNotesService.cs" />
     <Compile Include="MISServices\IGoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\IInquiryService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Repository\ICmsTagReporistory.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\ICostCentreAnswerRepository.cs" />
+    <Compile Include="Repository\IDeliveryNoteDetailRepository.cs" />
     <Compile Include="Repository\IDeliveryNoteRepository.cs" />
     <Compile Include="Repository\IEstimateInquiryRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />
@@ -115,6 +117,8 @@
     <Compile Include="Repository\IInvoiceDetailRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
+    <Compile Include="Repository\IProductMarketBriefAnswerRepository.cs" />
+    <Compile Include="Repository\IProductMarketBriefQuestionRepository.cs" />
     <Compile Include="Repository\ISectionCostCentreDetailRepository.cs" />
     <Compile Include="Repository\IShippingInformationRepository.cs" />
     <Compile Include="Repository\ISectionInkCoverageRepository.cs" />

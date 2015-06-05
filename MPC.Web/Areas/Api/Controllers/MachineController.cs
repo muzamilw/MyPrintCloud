@@ -60,7 +60,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                return _machineService.AddMachine(request.machine.CreateFrom(), request.MachineSpoilages.Select(g => g.CreateFrom()));
+                return _machineService.AddMachine(request.machine.CreateFrom(),request.ClickChargeZone.CreateFrom(),request.MeterPerHourLookup.CreateFrom(),request.GuillotineCalc.CreateFrom(),request.GuilotinePtv.Select(x => x.CreateFrom()),request.Type);
             }
             throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
         }
@@ -76,7 +76,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         
         {
 
-            return _machineService.UpdateMachine(request.machine.CreateFrom(), request.MachineSpoilages.Select(g=>g.CreateFrom()));
+            return _machineService.UpdateMachine(request.machine.CreateFrom());
            
 
 

@@ -28,7 +28,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 QtyLimit = source.QtyLimit,
                 DeliveryTimeSupplier1 = source.DeliveryTimeSupplier1,
                 DeliveryTimeSupplier2 = source.DeliveryTimeSupplier2,
-                IsPrintItem = source.isPrintItem
+                IsPrintItem = source.isPrintItem,
+                IsAllowMarketBriefAttachment = source.isAllowMarketBriefAttachment,
+                MarketBriefSuccessMessage = source.MarketBriefSuccessMessage
             };
         }
 
@@ -52,7 +54,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 QtyLimit = source.QtyLimit,
                 DeliveryTimeSupplier1 = source.DeliveryTimeSupplier1,
                 DeliveryTimeSupplier2 = source.DeliveryTimeSupplier2,
-                isPrintItem = source.IsPrintItem
+                isPrintItem = source.IsPrintItem,
+                isAllowMarketBriefAttachment = source.IsAllowMarketBriefAttachment,
+                MarketBriefSuccessMessage = source.MarketBriefSuccessMessage
             };
         }
 

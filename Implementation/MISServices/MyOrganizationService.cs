@@ -232,9 +232,22 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.ShowBleedArea = organisation.ShowBleedArea;
             organisationDbVersion.CurrencyId = organisation.CurrencyId;
             organisationDbVersion.LanguageId = organisation.LanguageId;
-            organisationDbVersion.SystemLengthUnit = organisation.SystemLengthUnit;
+           // organisationDbVersion.SystemLengthUnit = organisation.SystemLengthUnit;
             organisationDbVersion.SystemWeightUnit = organisation.SystemWeightUnit;
+            organisationDbVersion.URL = organisation.URL;
+            organisationDbVersion.Mobile = organisation.Mobile;
+            organisationDbVersion.IsImperical = organisation.IsImperical;
+            if(organisation.IsImperical == true)
+            {
+                organisationDbVersion.SystemLengthUnit = 3;
+                organisationDbVersion.SystemWeightUnit = 1;
 
+            }
+            else
+            {
+                organisationDbVersion.SystemLengthUnit = 1;
+                organisationDbVersion.SystemWeightUnit = 3;
+            }
             #region Markup
 
             if (organisation.MarkupId != null)

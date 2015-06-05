@@ -7,6 +7,8 @@
     <div class="col-lg-12" >
         <div class="row">
             <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
+                <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
+                <input type="hidden" name="CompanyId" id="CompanyId" value="@ViewBag.CompanyId" />
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
@@ -113,7 +115,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div id="pagerDiv" style="margin-right :16px" class="pull-right">
+                                            <div id="pagerDiv" style="margin-right:0px" class="pull-right">
                                                 <!-- ko with: prospectPager -->
                                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                 <!-- /ko -->

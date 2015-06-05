@@ -1880,7 +1880,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="InputQueue" Type="ntext" />
           <Property Name="StockQueue" Type="ntext" />
           <Property Name="CostCentreQueue" Type="ntext" />
-          <Property Name="PressIdSide2" Type="bigint" />
+          <Property Name="PressIdSide2" Type="int" />
           <Property Name="ImpressionCoverageSide1" Type="int" />
           <Property Name="ImpressionCoverageSide2" Type="int" />
           <Property Name="PassesSide1" Type="int" />
@@ -2292,6 +2292,14 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ReelMakereadyTime" Type="float" />
           <Property Name="LookupMethodId" Type="bigint" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="SetupSpoilage" Type="int" />
+          <Property Name="RunningSpoilage" Type="float" />
+          <Property Name="CoverageHigh" Type="float" />
+          <Property Name="CoverageMedium" Type="float" />
+          <Property Name="CoverageLow" Type="float" />
+          <Property Name="isSheetFed" Type="bit" />
+          <Property Name="Passes" Type="int" />
+          <Property Name="IsSpotColor" Type="bit" />
         </EntityType>
         <EntityType Name="MachineCategory">
           <Key>
@@ -2620,6 +2628,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="XeroApiKey" Type="nvarchar" MaxLength="150" />
           <Property Name="TaxServiceUrl" Type="varchar" MaxLength="255" />
           <Property Name="TaxServiceKey" Type="varchar" MaxLength="255" />
+          <Property Name="IsImperical" Type="bit" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -2651,6 +2660,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="isArchived" Type="bit" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="IsImperical" Type="bit" />
         </EntityType>
         <EntityType Name="PaymentGateway">
           <Key>
@@ -2897,7 +2907,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
             <PropertyRef Name="MarketBriefQuestionId" />
           </Key>
           <Property Name="MarketBriefQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" />
+          <Property Name="ItemId" Type="bigint" />
           <Property Name="QuestionDetail" Type="nvarchar" MaxLength="500" />
           <Property Name="SortOrder" Type="int" Nullable="false" />
           <Property Name="isMultipleSelction" Type="bit" />
@@ -2943,7 +2953,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
             <PropertyRef Name="PurchaseDetailId" />
           </Key>
           <Property Name="PurchaseDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" />
+          <Property Name="ItemId" Type="bigint" />
           <Property Name="quantity" Type="float" />
           <Property Name="PurchaseId" Type="int" />
           <Property Name="price" Type="float" />
@@ -2958,6 +2968,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="freeitems" Type="int" />
           <Property Name="ItemBalance" Type="float" />
           <Property Name="DepartmentId" Type="int" />
+          <Property Name="ProductType" Type="int" />
+          <Property Name="RefItemId" Type="bigint" />
         </EntityType>
         <EntityType Name="RaveReview">
           <Key>
@@ -3406,6 +3418,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ThresholdLevel" Type="int" />
           <Property Name="ThresholdProductionQuantity" Type="int" />
           <Property Name="isAllowBackOrder" Type="bit" />
+          <Property Name="IsImperical" Type="bit" />
         </EntityType>
         <EntityType Name="StockSubCategory">
           <Key>
@@ -3620,6 +3633,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="originalTextStyles" Type="nvarchar(max)" />
           <Property Name="originalContentString" Type="nvarchar(max)" />
           <Property Name="hasInlineFontStyle" Type="bit" />
+          <Property Name="autoCollapseText" Type="bit" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -4073,18 +4087,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SmartForm__Varia__012C6796">
-          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1" />
-          <End Role="SmartFormDetail" Type="Self.SmartFormDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="SmartFormDetail">
-              <PropertyRef Name="VariableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__TemplateB__Produ__593384D5">
           <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
           <End Role="TemplateBackgroundImage" Type="Self.TemplateBackgroundImage" Multiplicity="*" />
@@ -4281,18 +4283,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CompanyContactVariable_FieldVariable">
-          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="1" />
-          <End Role="ScopeVariable" Type="Self.ScopeVariable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="ScopeVariable">
-              <PropertyRef Name="VariableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CompanyCostCentre_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CompanyCostCentre" Type="Self.CompanyCostCentre" Multiplicity="*" />
@@ -4353,6 +4343,32 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DeliveryNote_SectionFlag">
+          <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="0..1" />
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="FlagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNoteDetail_DeliveryNote">
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DeliveryNoteDetail" Type="Self.DeliveryNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryNote">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Principal>
+            <Dependent Role="DeliveryNoteDetail">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Estimate_SectionFlag">
           <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="1" />
           <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
@@ -4410,6 +4426,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="Inquiry">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InquiryItem_Pipelineproduct">
+          <End Role="PipeLineProduct" Type="Self.PipeLineProduct" Multiplicity="0..1" />
+          <End Role="InquiryItem" Type="Self.InquiryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PipeLineProduct">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="InquiryItem">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4482,6 +4510,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="ItemSection">
               <PropertyRef Name="PressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemSection_Machine2">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
+          <End Role="ItemSection" Type="Self.ItemSection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="ItemSection">
+              <PropertyRef Name="PressIdSide2" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4566,6 +4606,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="ItemVideo">
               <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Machine_LookupMethod">
+          <End Role="LookupMethod" Type="Self.LookupMethod" Multiplicity="0..1" />
+          <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupMethod">
+              <PropertyRef Name="MethodId" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="LookupMethodId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4691,6 +4743,44 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion">
+          <End Role="ProductMarketBriefQuestion" Type="Self.ProductMarketBriefQuestion" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductMarketBriefAnswer" Type="Self.ProductMarketBriefAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefAnswer">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMarketBriefQuestion_Item">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="ProductMarketBriefQuestion" Type="Self.ProductMarketBriefQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDetail_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PurchaseID">
           <End Role="Purchase" Type="Self.Purchase" Multiplicity="0..1" />
           <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
@@ -4712,6 +4802,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="RaveReview">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScopeVariable_FieldVariable">
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ScopeVariable" Type="Self.ScopeVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="ScopeVariable">
+              <PropertyRef Name="VariableId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4814,6 +4918,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="SmartForm">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartFormDetail_FieldVariable">
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SmartFormDetail" Type="Self.SmartFormDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="SmartFormDetail">
+              <PropertyRef Name="VariableId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5032,18 +5150,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="CompanyTerritory">
               <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_deliverynote_details_tbl_deliverynotes">
-          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="1" />
-          <End Role="DeliveryNoteDetail" Type="Self.DeliveryNoteDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryNote">
-              <PropertyRef Name="DeliveryNoteId" />
-            </Principal>
-            <Dependent Role="DeliveryNoteDetail">
-              <PropertyRef Name="DeliveryNoteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5489,18 +5595,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
-          <End Role="ProductMarketBriefQuestion" Type="Self.ProductMarketBriefQuestion" Multiplicity="0..1" />
-          <End Role="ProductMarketBriefAnswer" Type="Self.ProductMarketBriefAnswer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductMarketBriefQuestion">
-              <PropertyRef Name="MarketBriefQuestionId" />
-            </Principal>
-            <Dependent Role="ProductMarketBriefAnswer">
-              <PropertyRef Name="MarketBriefQuestionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tbl_report_notes_tbl_reportcategory">
           <End Role="ReportCategory" Type="Self.ReportCategory" Multiplicity="0..1" />
           <End Role="ReportNote" Type="Self.ReportNote" Multiplicity="*" />
@@ -5621,8 +5715,24 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TemplateVariable_FieldVariable">
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TemplateVariable" Type="Self.TemplateVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="TemplateVariable">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_VariableOption_FieldVariable">
-          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1" />
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VariableOption" Type="Self.VariableOption" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FieldVariable">
@@ -5793,6 +5903,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="usp_PurchaseOrderReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
           <Parameter Name="PurchaseID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_TotalEarnings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="todate" Type="datetime" Mode="In" />
         </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
@@ -6259,10 +6373,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="State" EntitySet="State" />
             <End Role="Organisation" EntitySet="Organisation" />
           </AssociationSet>
-          <AssociationSet Name="FK__SmartForm__Varia__012C6796" Association="Self.FK__SmartForm__Varia__012C6796">
-            <End Role="FieldVariable" EntitySet="FieldVariable" />
-            <End Role="SmartFormDetail" EntitySet="SmartFormDetail" />
-          </AssociationSet>
           <AssociationSet Name="FK__TemplateB__Produ__593384D5" Association="Self.FK__TemplateB__Produ__593384D5">
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImage" />
@@ -6327,10 +6437,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Address" EntitySet="Address" />
             <End Role="CompanyContact" EntitySet="CompanyContact" />
           </AssociationSet>
-          <AssociationSet Name="FK_CompanyContactVariable_FieldVariable" Association="Self.FK_CompanyContactVariable_FieldVariable">
-            <End Role="FieldVariable" EntitySet="FieldVariable" />
-            <End Role="ScopeVariable" EntitySet="ScopeVariable" />
-          </AssociationSet>
           <AssociationSet Name="FK_CompanyCostCentre_Company" Association="Self.FK_CompanyCostCentre_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyCostCentre" EntitySet="CompanyCostCentre" />
@@ -6351,6 +6457,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Company" EntitySet="Company" />
             <End Role="DeliveryNote" EntitySet="DeliveryNote" />
           </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SectionFlag" Association="Self.FK_DeliveryNote_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlag" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNoteDetail_DeliveryNote" Association="Self.FK_DeliveryNoteDetail_DeliveryNote">
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_Estimate_SectionFlag" Association="Self.FK_Estimate_SectionFlag">
             <End Role="SectionFlag" EntitySet="SectionFlag" />
             <End Role="Estimate" EntitySet="Estimate" />
@@ -6370,6 +6484,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_Inquiry_Company" Association="Self.FK_Inquiry_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Inquiry" EntitySet="Inquiry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InquiryItem_Pipelineproduct" Association="Self.FK_InquiryItem_Pipelineproduct">
+            <End Role="PipeLineProduct" EntitySet="PipeLineProduct" />
+            <End Role="InquiryItem" EntitySet="InquiryItem" />
           </AssociationSet>
           <AssociationSet Name="FK_Invoice_Company" Association="Self.FK_Invoice_Company">
             <End Role="Company" EntitySet="Company" />
@@ -6392,6 +6510,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Items" EntitySet="Items" />
           </AssociationSet>
           <AssociationSet Name="FK_ItemSection_Machine" Association="Self.FK_ItemSection_Machine">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="ItemSection" EntitySet="ItemSection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemSection_Machine2" Association="Self.FK_ItemSection_Machine2">
             <End Role="Machine" EntitySet="Machine" />
             <End Role="ItemSection" EntitySet="ItemSection" />
           </AssociationSet>
@@ -6422,6 +6544,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_ItemVideo_Items" Association="Self.FK_ItemVideo_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVideo" EntitySet="ItemVideo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Machine_LookupMethod" Association="Self.FK_Machine_LookupMethod">
+            <End Role="LookupMethod" EntitySet="LookupMethod" />
+            <End Role="Machine" EntitySet="Machine" />
           </AssociationSet>
           <AssociationSet Name="FK_MediaLibrary_Company" Association="Self.FK_MediaLibrary_Company">
             <End Role="Company" EntitySet="Company" />
@@ -6463,6 +6589,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" Association="Self.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion">
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
+            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMarketBriefQuestion_Item" Association="Self.FK_ProductMarketBriefQuestion_Item">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetail_Items" Association="Self.FK_PurchaseDetail_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_PurchaseID" Association="Self.FK_PurchaseID">
             <End Role="Purchase" EntitySet="Purchase" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
@@ -6470,6 +6608,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_RaveReview_Company" Association="Self.FK_RaveReview_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="RaveReview" EntitySet="RaveReview" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScopeVariable_FieldVariable" Association="Self.FK_ScopeVariable_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariable" />
+            <End Role="ScopeVariable" EntitySet="ScopeVariable" />
           </AssociationSet>
           <AssociationSet Name="FK_SectionCostcentre_ItemSection" Association="Self.FK_SectionCostcentre_ItemSection">
             <End Role="ItemSection" EntitySet="ItemSection" />
@@ -6502,6 +6644,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_SmartForm_Company" Association="Self.FK_SmartForm_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="SmartForm" EntitySet="SmartForm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartFormDetail_FieldVariable" Association="Self.FK_SmartFormDetail_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariable" />
+            <End Role="SmartFormDetail" EntitySet="SmartFormDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_SmartFormDetail_SmartForm" Association="Self.FK_SmartFormDetail_SmartForm">
             <End Role="SmartForm" EntitySet="SmartForm" />
@@ -6574,10 +6720,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_CustomerTerritory_tbl_contactcompanies" Association="Self.FK_tbl_CustomerTerritory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyTerritory" EntitySet="CompanyTerritory" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_deliverynote_details_tbl_deliverynotes" Association="Self.FK_tbl_deliverynote_details_tbl_deliverynotes">
-            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
-            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_deliverynote_details_tbl_items" Association="Self.FK_tbl_deliverynote_details_tbl_items">
             <End Role="Items" EntitySet="Items" />
@@ -6723,10 +6865,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Company" EntitySet="Company" />
             <End Role="ProductCategory" EntitySet="ProductCategory" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" Association="Self.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
-            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
-            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswer" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbl_report_notes_tbl_reportcategory" Association="Self.FK_tbl_report_notes_tbl_reportcategory">
             <End Role="ReportCategory" EntitySet="ReportCategory" />
             <End Role="ReportNote" EntitySet="ReportNote" />
@@ -6766,6 +6904,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_TemplateColorStyle_Company" Association="Self.FK_TemplateColorStyle_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="TemplateColorStyle" EntitySet="TemplateColorStyle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemplateVariable_FieldVariable" Association="Self.FK_TemplateVariable_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariable" />
+            <End Role="TemplateVariable" EntitySet="TemplateVariable" />
           </AssociationSet>
           <AssociationSet Name="FK_VariableOption_FieldVariable" Association="Self.FK_VariableOption_FieldVariable">
             <End Role="FieldVariable" EntitySet="FieldVariable" />
@@ -7052,10 +7194,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Campaign" EntitySet="Campaigns" />
             <End Role="CampaignImage" EntitySet="CampaignImages" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_deliverynote_details_tbl_deliverynotes" Association="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes">
-            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
-            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbl_deliverynote_details_tbl_items" Association="DomainModels.FK_tbl_deliverynote_details_tbl_items">
             <End Role="Item" EntitySet="Items" />
             <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetails" />
@@ -7198,10 +7336,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="ProductMarketBriefAnswers" EntityType="DomainModels.ProductMarketBriefAnswer" />
           <EntitySet Name="ProductMarketBriefQuestions" EntityType="DomainModels.ProductMarketBriefQuestion" />
           <EntitySet Name="Roles" EntityType="DomainModels.Role" />
-          <AssociationSet Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" Association="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
-            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
-            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswers" />
-          </AssociationSet>
           <EntitySet Name="ProductCategoryItems" EntityType="DomainModels.ProductCategoryItem" />
           <AssociationSet Name="FK_ProductCategoryItem_Items" Association="DomainModels.FK_ProductCategoryItem_Items">
             <End Role="Item" EntitySet="Items" />
@@ -7424,10 +7558,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Activity" EntitySet="Activities" />
           </AssociationSet>
           <EntitySet Name="VariableOptions" EntityType="DomainModels.VariableOption" />
-          <AssociationSet Name="FK_VariableOption_FieldVariable" Association="DomainModels.FK_VariableOption_FieldVariable">
-            <End Role="FieldVariable" EntitySet="FieldVariables" />
-            <End Role="VariableOption" EntitySet="VariableOptions" />
-          </AssociationSet>
           <EntitySet Name="SmartForms" EntityType="DomainModels.SmartForm" />
           <EntitySet Name="SmartFormDetails" EntityType="DomainModels.SmartFormDetail" />
           <AssociationSet Name="FK_Invoice_Company" Association="DomainModels.FK_Invoice_Company">
@@ -7463,14 +7593,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </AssociationSet>
           <EntitySet Name="NABTransactions" EntityType="DomainModels.NABTransaction" />
           <EntitySet Name="ScopeVariables" EntityType="DomainModels.ScopeVariable" />
-          <AssociationSet Name="FK_CompanyContactVariable_FieldVariable" Association="DomainModels.FK_CompanyContactVariable_FieldVariable">
-            <End Role="FieldVariable" EntitySet="FieldVariables" />
-            <End Role="ScopeVariable" EntitySet="ScopeVariables" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SmartForm__Varia__012C6796" Association="DomainModels.FK__SmartForm__Varia__012C6796">
-            <End Role="FieldVariable" EntitySet="FieldVariables" />
-            <End Role="SmartFormDetail" EntitySet="SmartFormDetails" />
-          </AssociationSet>
           <EntitySet Name="SaveDesignViews" EntityType="DomainModels.SaveDesignView" />
           <EntitySet Name="NewsLetterSubscribers" EntityType="DomainModels.NewsLetterSubscriber" />
           <AssociationSet Name="FK_tbl_NewsLetterSubscribers_tbl_Contacts" Association="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts">
@@ -7633,6 +7755,58 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_machines_tbl_machine_lookup_methods" Association="DomainModels.FK_tbl_machines_tbl_machine_lookup_methods">
             <End Role="Machine" EntitySet="Machines" />
             <End Role="MachineLookupMethod" EntitySet="MachineLookupMethods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Machine_LookupMethod" Association="DomainModels.FK_Machine_LookupMethod">
+            <End Role="LookupMethod" EntitySet="LookupMethods" />
+            <End Role="Machine" EntitySet="Machines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMarketBriefQuestion_Item" Association="DomainModels.FK_ProductMarketBriefQuestion_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" Association="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion">
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
+            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SectionFlag" Association="DomainModels.FK_DeliveryNote_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlags" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNoteDetail_DeliveryNote" Association="DomainModels.FK_DeliveryNoteDetail_DeliveryNote">
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InquiryItem_Pipelineproduct" Association="DomainModels.FK_InquiryItem_Pipelineproduct">
+            <End Role="PipeLineProduct" EntitySet="PipeLineProducts" />
+            <End Role="InquiryItem" EntitySet="InquiryItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemSection_Machine2" Association="DomainModels.FK_ItemSection_Machine2">
+            <End Role="Machine" EntitySet="Machines" />
+            <End Role="ItemSection" EntitySet="ItemSections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScopeVariable_FieldVariable" Association="DomainModels.FK_ScopeVariable_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+            <End Role="ScopeVariable" EntitySet="ScopeVariables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartFormDetail_FieldVariable" Association="DomainModels.FK_SmartFormDetail_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+            <End Role="SmartFormDetail" EntitySet="SmartFormDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemplateVariable_FieldVariable" Association="DomainModels.FK_TemplateVariable_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+            <End Role="TemplateVariable" EntitySet="TemplateVariables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VariableOption_FieldVariable" Association="DomainModels.FK_VariableOption_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+            <End Role="VariableOption" EntitySet="VariableOptions" />
+          </AssociationSet>
+          <FunctionImport Name="usp_TotalEarnings" ReturnType="Collection(DomainModels.usp_TotalEarnings_Result)">
+            <Parameter Name="fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="todate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <AssociationSet Name="FK_PurchaseDetail_Items" Association="DomainModels.FK_PurchaseDetail_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -7915,6 +8089,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="WeightUnit" Relationship="DomainModels.FK_Organisation_WeightUnit" FromRole="Organisation" ToRole="WeightUnit" />
           <Property Name="TaxServiceUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TaxServiceKey" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsImperical" Type="Boolean" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -7930,6 +8105,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsArchived" Type="Boolean" />
           <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="IsImperical" Type="Boolean" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -8294,6 +8470,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.FK_StockItem_ItemStockOption" FromRole="StockItem" ToRole="ItemStockOption" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_StockItem_Company" FromRole="StockItem" ToRole="Company" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="StockItem" ToRole="ItemSection" />
+          <Property Name="IsImperical" Type="Boolean" />
         </EntityType>
         <Association Name="FK_tbl_stockitems_tbl_stockcategories">
           <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="0..1" />
@@ -8368,6 +8545,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Section" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="SectionFlag" ToRole="Section" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_Estimate_SectionFlag" FromRole="SectionFlag" ToRole="Estimate" />
+          <NavigationProperty Name="DeliveryNotes" Relationship="DomainModels.FK_DeliveryNote_SectionFlag" FromRole="SectionFlag" ToRole="DeliveryNote" />
         </EntityType>
         <Association Name="FK_tbl_section_flags_tbl_sections">
           <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
@@ -9055,6 +9233,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsRealStateProduct" Type="Boolean" />
           <Property Name="ProductDisplayOptions" Type="Int32" />
           <NavigationProperty Name="ShippingInformations" Relationship="DomainModels.FK_ShippingInformation_Items" FromRole="Item" ToRole="ShippingInformation" />
+          <NavigationProperty Name="ProductMarketBriefQuestions" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="Item" ToRole="ProductMarketBriefQuestion" />
+          <NavigationProperty Name="PurchaseDetails" Relationship="DomainModels.FK_PurchaseDetail_Items" FromRole="Item" ToRole="PurchaseDetail" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -9228,11 +9408,12 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="ItemSection" ToRole="StockItem" />
           <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_SectionCostcentre_ItemSection" FromRole="ItemSection" ToRole="SectionCostcentre" />
           <NavigationProperty Name="SectionInkCoverages" Relationship="DomainModels.FK_SectionInkCoverage_ItemSection" FromRole="ItemSection" ToRole="SectionInkCoverage" />
-          <Property Name="PressIdSide2" Type="Int64" />
+          <Property Name="PressIdSide2" Type="Int32" />
           <Property Name="PassesSide1" Type="Int32" />
           <Property Name="PassesSide2" Type="Int32" />
           <Property Name="ImpressionCoverageSide1" Type="Int32" />
           <Property Name="ImpressionCoverageSide2" Type="Int32" />
+          <NavigationProperty Name="MachineSide2" Relationship="DomainModels.FK_ItemSection_Machine2" FromRole="ItemSection" ToRole="Machine" />
         </EntityType>
         <EntityType Name="ItemStockControl">
           <Key>
@@ -9960,6 +10141,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="InquiryId" Type="Int32" Nullable="false" />
           <Property Name="ProductId" Type="Int32" />
           <NavigationProperty Name="Inquiry" Relationship="DomainModels.FK_tbl_Inquiry_Items_tbl_Inquiry" FromRole="InquiryItem" ToRole="Inquiry" />
+          <NavigationProperty Name="PipeLineProduct" Relationship="DomainModels.FK_InquiryItem_Pipelineproduct" FromRole="InquiryItem" ToRole="PipeLineProduct" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
@@ -10312,9 +10494,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="SystemSiteId" Type="Int32" />
           <Property Name="IsRead" Type="Boolean" />
           <Property Name="IsPrinted" Type="Boolean" />
-          <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" FromRole="DeliveryNote" ToRole="DeliveryNoteDetail" />
           <Property Name="CompanyId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_DeliveryNote_Company" FromRole="DeliveryNote" ToRole="Company" />
+          <NavigationProperty Name="SectionFlag" Relationship="DomainModels.FK_DeliveryNote_SectionFlag" FromRole="DeliveryNote" ToRole="SectionFlag" />
+          <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_DeliveryNoteDetail_DeliveryNote" FromRole="DeliveryNote" ToRole="DeliveryNoteDetail" />
         </EntityType>
         <EntityType Name="DeliveryNoteDetail">
           <Key>
@@ -10326,8 +10509,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ItemId" Type="Int64" />
           <Property Name="ItemQty" Type="Int32" />
           <Property Name="GrossItemTotal" Type="Double" />
-          <NavigationProperty Name="DeliveryNote" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" FromRole="DeliveryNoteDetail" ToRole="DeliveryNote" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_items" FromRole="DeliveryNoteDetail" ToRole="Item" />
+          <NavigationProperty Name="DeliveryNote" Relationship="DomainModels.FK_DeliveryNoteDetail_DeliveryNote" FromRole="DeliveryNoteDetail" ToRole="DeliveryNote" />
         </EntityType>
         <Association Name="FK_tbl_CampaignImages_tbl_campaigns">
           <End Type="DomainModels.Campaign" Role="Campaign" Multiplicity="0..1" />
@@ -10338,18 +10521,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="CampaignImage">
               <PropertyRef Name="CampaignId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_deliverynote_details_tbl_deliverynotes">
-          <End Type="DomainModels.DeliveryNote" Role="DeliveryNote" Multiplicity="1" />
-          <End Type="DomainModels.DeliveryNoteDetail" Role="DeliveryNoteDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryNote">
-              <PropertyRef Name="DeliveryNoteId" />
-            </Principal>
-            <Dependent Role="DeliveryNoteDetail">
-              <PropertyRef Name="DeliveryNoteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10927,11 +11098,12 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CompanyId" Type="Int64" />
           <Property Name="OrganisationId" Type="Int64" />
           <Property Name="IsSystem" Type="Boolean" />
-          <NavigationProperty Name="VariableOptions" Relationship="DomainModels.FK_VariableOption_FieldVariable" FromRole="FieldVariable" ToRole="VariableOption" />
           <Property Name="VariableTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_FieldVariable_Company" FromRole="FieldVariable" ToRole="Company" />
-          <NavigationProperty Name="ScopeVariables" Relationship="DomainModels.FK_CompanyContactVariable_FieldVariable" FromRole="FieldVariable" ToRole="ScopeVariable" />
-          <NavigationProperty Name="SmartFormDetails" Relationship="DomainModels.FK__SmartForm__Varia__012C6796" FromRole="FieldVariable" ToRole="SmartFormDetail" />
+          <NavigationProperty Name="ScopeVariables" Relationship="DomainModels.FK_ScopeVariable_FieldVariable" FromRole="FieldVariable" ToRole="ScopeVariable" />
+          <NavigationProperty Name="SmartFormDetails" Relationship="DomainModels.FK_SmartFormDetail_FieldVariable" FromRole="FieldVariable" ToRole="SmartFormDetail" />
+          <NavigationProperty Name="TemplateVariables" Relationship="DomainModels.FK_TemplateVariable_FieldVariable" FromRole="FieldVariable" ToRole="TemplateVariable" />
+          <NavigationProperty Name="VariableOptions" Relationship="DomainModels.FK_VariableOption_FieldVariable" FromRole="FieldVariable" ToRole="VariableOption" />
         </EntityType>
         <EntityType Name="TemplateVariable">
           <Key>
@@ -10940,6 +11112,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ProductVariableId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TemplateId" Type="Int64" />
           <Property Name="VariableId" Type="Int64" />
+          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_TemplateVariable_FieldVariable" FromRole="TemplateVariable" ToRole="FieldVariable" />
         </EntityType>
         <EntityType Name="VariableSection">
           <Key>
@@ -11040,6 +11213,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="originalTextStyles" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="originalContentString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="hasInlineFontStyle" Type="Boolean" />
+          <Property Name="autoCollapseText" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Objects_Products">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
@@ -11197,18 +11371,19 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="MarketBriefAnswerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MarketBriefQuestionId" Type="Int32" />
           <Property Name="AnswerDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ProductMarketBriefQuestion" Relationship="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" FromRole="ProductMarketBriefAnswer" ToRole="ProductMarketBriefQuestion" />
+          <NavigationProperty Name="ProductMarketBriefQuestion" Relationship="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" FromRole="ProductMarketBriefAnswer" ToRole="ProductMarketBriefQuestion" />
         </EntityType>
         <EntityType Name="ProductMarketBriefQuestion">
           <Key>
             <PropertyRef Name="MarketBriefQuestionId" />
           </Key>
           <Property Name="MarketBriefQuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" />
+          <Property Name="ItemId" Type="Int64" />
           <Property Name="QuestionDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="IsMultipleSelection" Type="Boolean" />
-          <NavigationProperty Name="ProductMarketBriefAnswers" Relationship="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" FromRole="ProductMarketBriefQuestion" ToRole="ProductMarketBriefAnswer" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="ProductMarketBriefQuestion" ToRole="Item" />
+          <NavigationProperty Name="ProductMarketBriefAnswers" Relationship="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" FromRole="ProductMarketBriefQuestion" ToRole="ProductMarketBriefAnswer" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -11222,18 +11397,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsCompanyLevel" Type="Int16" Nullable="false" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
-          <End Type="DomainModels.ProductMarketBriefQuestion" Role="ProductMarketBriefQuestion" Multiplicity="0..1" />
-          <End Type="DomainModels.ProductMarketBriefAnswer" Role="ProductMarketBriefAnswer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductMarketBriefQuestion">
-              <PropertyRef Name="MarketBriefQuestionId" />
-            </Principal>
-            <Dependent Role="ProductMarketBriefAnswer">
-              <PropertyRef Name="MarketBriefQuestionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ProductCategoryItem">
           <Key>
             <PropertyRef Name="ProductCategoryItemId" />
@@ -12032,6 +12195,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="MachineMeterPerHourLookups" Relationship="DomainModels.FK_tbl_lookup_methods_tbl_machine_meterperhourlookup" FromRole="LookupMethod" ToRole="MachineMeterPerHourLookup" />
           <NavigationProperty Name="MachinePerHourLookups" Relationship="DomainModels.FK_tbl_lookup_methods_tbl_machine_perhourlookup" FromRole="LookupMethod" ToRole="MachinePerHourLookup" />
           <NavigationProperty Name="MachineSpeedWeightLookups" Relationship="DomainModels.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" FromRole="LookupMethod" ToRole="MachineSpeedWeightLookup" />
+          <NavigationProperty Name="Machines" Relationship="DomainModels.FK_Machine_LookupMethod" FromRole="LookupMethod" ToRole="Machine" />
         </EntityType>
         <EntityType Name="Machine">
           <Key>
@@ -12103,6 +12267,16 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="MarkupId" Type="Int64" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="MachineLookupMethods" Relationship="DomainModels.FK_tbl_machines_tbl_machine_lookup_methods" FromRole="Machine" ToRole="MachineLookupMethod" />
+          <Property Name="SetupSpoilage" Type="Int32" />
+          <Property Name="RunningSpoilage" Type="Double" />
+          <Property Name="CoverageHigh" Type="Double" />
+          <Property Name="CoverageMedium" Type="Double" />
+          <Property Name="CoverageLow" Type="Double" />
+          <NavigationProperty Name="LookupMethod" Relationship="DomainModels.FK_Machine_LookupMethod" FromRole="Machine" ToRole="LookupMethod" />
+          <Property Name="isSheetFed" Type="Boolean" />
+          <Property Name="Passes" Type="Int32" />
+          <Property Name="IsSpotColor" Type="Boolean" />
+          <NavigationProperty Name="ItemSectionsSide2" Relationship="DomainModels.FK_ItemSection_Machine2" FromRole="Machine" ToRole="ItemSection" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -12375,6 +12549,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </Key>
           <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="InquiryItems" Relationship="DomainModels.FK_InquiryItem_Pipelineproduct" FromRole="PipeLineProduct" ToRole="InquiryItem" />
         </EntityType>
         <EntityType Name="PipeLineSource">
           <Key>
@@ -12460,18 +12635,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="SortOrder" Type="Int32" />
           <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_VariableOption_FieldVariable" FromRole="VariableOption" ToRole="FieldVariable" />
         </EntityType>
-        <Association Name="FK_VariableOption_FieldVariable">
-          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1" />
-          <End Type="DomainModels.VariableOption" Role="VariableOption" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="VariableOption">
-              <PropertyRef Name="VariableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="SmartForm">
           <Key>
             <PropertyRef Name="SmartFormId" />
@@ -12496,7 +12659,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="SmartForm" Relationship="DomainModels.FK_SmartFormDetail_SmartForm" FromRole="SmartFormDetail" ToRole="SmartForm" />
           <Property Name="VariableId" Type="Int64" />
           <Property Name="CaptionValue" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK__SmartForm__Varia__012C6796" FromRole="SmartFormDetail" ToRole="FieldVariable" />
+          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_SmartFormDetail_FieldVariable" FromRole="SmartFormDetail" ToRole="FieldVariable" />
         </EntityType>
         <Association Name="FK_Invoice_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -12650,32 +12813,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="VariableId" Type="Int64" Nullable="false" />
           <Property Name="Value" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="Scope" Type="Int32" />
-          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_CompanyContactVariable_FieldVariable" FromRole="ScopeVariable" ToRole="FieldVariable" />
+          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_ScopeVariable_FieldVariable" FromRole="ScopeVariable" ToRole="FieldVariable" />
         </EntityType>
-        <Association Name="FK_CompanyContactVariable_FieldVariable">
-          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="1" />
-          <End Type="DomainModels.ScopeVariable" Role="ScopeVariable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="ScopeVariable">
-              <PropertyRef Name="VariableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SmartForm__Varia__012C6796">
-          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1" />
-          <End Type="DomainModels.SmartFormDetail" Role="SmartFormDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FieldVariable">
-              <PropertyRef Name="VariableId" />
-            </Principal>
-            <Dependent Role="SmartFormDetail">
-              <PropertyRef Name="VariableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="SaveDesignView">
           <Key>
             <PropertyRef Name="ItemID" />
@@ -13174,7 +13313,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <PropertyRef Name="PurchaseDetailId" />
           </Key>
           <Property Name="PurchaseDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" />
+          <Property Name="ItemId" Type="Int64" />
           <Property Name="quantity" Type="Double" />
           <Property Name="PurchaseId" Type="Int32" />
           <Property Name="price" Type="Double" />
@@ -13190,6 +13329,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ItemBalance" Type="Double" />
           <Property Name="DepartmentId" Type="Int32" />
           <NavigationProperty Name="Purchase" Relationship="DomainModels.FK_PurchaseID" FromRole="PurchaseDetail" ToRole="Purchase" />
+          <Property Name="ProductType" Type="Int32" />
+          <Property Name="RefItemId" Type="Int64" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_PurchaseDetail_Items" FromRole="PurchaseDetail" ToRole="Item" />
         </EntityType>
         <Association Name="FK_GoodsreceivedID">
           <End Type="DomainModels.GoodsReceivedNote" Role="GoodsReceivedNote" Multiplicity="0..1" />
@@ -14016,6 +14158,170 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Machine_LookupMethod">
+          <End Type="DomainModels.LookupMethod" Role="LookupMethod" Multiplicity="0..1" />
+          <End Type="DomainModels.Machine" Role="Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupMethod">
+              <PropertyRef Name="MethodId" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="LookupMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMarketBriefQuestion_Item">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.ProductMarketBriefQuestion" Role="ProductMarketBriefQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion">
+          <End Type="DomainModels.ProductMarketBriefQuestion" Role="ProductMarketBriefQuestion" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.ProductMarketBriefAnswer" Role="ProductMarketBriefAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefAnswer">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_SectionFlag">
+          <End Type="DomainModels.SectionFlag" Role="SectionFlag" Multiplicity="0..1" />
+          <End Type="DomainModels.DeliveryNote" Role="DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="FlagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNoteDetail_DeliveryNote">
+          <End Type="DomainModels.DeliveryNote" Role="DeliveryNote" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.DeliveryNoteDetail" Role="DeliveryNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryNote">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Principal>
+            <Dependent Role="DeliveryNoteDetail">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InquiryItem_Pipelineproduct">
+          <End Type="DomainModels.PipeLineProduct" Role="PipeLineProduct" Multiplicity="0..1" />
+          <End Type="DomainModels.InquiryItem" Role="InquiryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PipeLineProduct">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="InquiryItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemSection_Machine2">
+          <End Type="DomainModels.Machine" Role="Machine" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemSection" Role="ItemSection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="ItemSection">
+              <PropertyRef Name="PressIdSide2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScopeVariable_FieldVariable">
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.ScopeVariable" Role="ScopeVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="ScopeVariable">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartFormDetail_FieldVariable">
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.SmartFormDetail" Role="SmartFormDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="SmartFormDetail">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemplateVariable_FieldVariable">
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.TemplateVariable" Role="TemplateVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="TemplateVariable">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VariableOption_FieldVariable">
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.VariableOption" Role="VariableOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="VariableOption">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="usp_TotalEarnings_Result">
+          <Property Type="Double" Name="Total" Nullable="true" />
+          <Property Type="Int32" Name="Orders" Nullable="true" />
+          <Property Type="String" Name="store" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Month" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="monthname" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+        </ComplexType>
+        <Association Name="FK_PurchaseDetail_Items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.PurchaseDetail" Role="PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14230,6 +14536,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
                 <ScalarProperty Name="TaxServiceKey" ColumnName="TaxServiceKey" />
                 <ScalarProperty Name="TaxServiceUrl" ColumnName="TaxServiceUrl" />
                 <ScalarProperty Name="XeroApiKey" ColumnName="XeroApiKey" />
@@ -14270,6 +14577,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="PaperSizes">
             <EntityTypeMapping TypeName="DomainModels.PaperSize">
               <MappingFragment StoreEntitySet="PaperSize">
+                <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsArchived" ColumnName="isArchived" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
@@ -14456,6 +14764,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="StockItems">
             <EntityTypeMapping TypeName="DomainModels.StockItem">
               <MappingFragment StoreEntitySet="StockItem">
+                <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
                 <ScalarProperty Name="isAllowBackOrder" ColumnName="isAllowBackOrder" />
                 <ScalarProperty Name="ThresholdProductionQuantity" ColumnName="ThresholdProductionQuantity" />
                 <ScalarProperty Name="ThresholdLevel" ColumnName="ThresholdLevel" />
@@ -16462,6 +16771,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="TemplateObjects">
             <EntityTypeMapping TypeName="DomainModels.TemplateObject">
               <MappingFragment StoreEntitySet="TemplateObject">
+                <ScalarProperty Name="autoCollapseText" ColumnName="autoCollapseText" />
                 <ScalarProperty Name="hasInlineFontStyle" ColumnName="hasInlineFontStyle" />
                 <ScalarProperty Name="originalContentString" ColumnName="originalContentString" />
                 <ScalarProperty Name="originalTextStyles" ColumnName="originalTextStyles" />
@@ -17145,6 +17455,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="IsSpotColor" ColumnName="IsSpotColor" />
+                <ScalarProperty Name="Passes" ColumnName="Passes" />
+                <ScalarProperty Name="isSheetFed" ColumnName="isSheetFed" />
+                <ScalarProperty Name="CoverageLow" ColumnName="CoverageLow" />
+                <ScalarProperty Name="CoverageMedium" ColumnName="CoverageMedium" />
+                <ScalarProperty Name="CoverageHigh" ColumnName="CoverageHigh" />
+                <ScalarProperty Name="RunningSpoilage" ColumnName="RunningSpoilage" />
+                <ScalarProperty Name="SetupSpoilage" ColumnName="SetupSpoilage" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="MarkupId" ColumnName="MarkupId" />
                 <ScalarProperty Name="LookupMethodId" ColumnName="LookupMethodId" />
@@ -17898,6 +18216,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="PurchaseDetails">
             <EntityTypeMapping TypeName="DomainModels.PurchaseDetail">
               <MappingFragment StoreEntitySet="PurchaseDetail">
+                <ScalarProperty Name="RefItemId" ColumnName="RefItemId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="ItemBalance" ColumnName="ItemBalance" />
                 <ScalarProperty Name="freeitems" ColumnName="freeitems" />
@@ -18576,6 +18896,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_TotalEarnings" FunctionName="DomainModels.Store.usp_TotalEarnings">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_TotalEarnings_Result">
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Orders" ColumnName="Orders" />
+                <ScalarProperty Name="store" ColumnName="store" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="monthname" ColumnName="monthname" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

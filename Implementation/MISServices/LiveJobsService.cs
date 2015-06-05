@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web;
 using Ionic.Zip;
 using MPC.Interfaces.MISServices;
@@ -26,6 +22,8 @@ namespace MPC.Implementation.MISServices
         /// Private members
         /// </summary>
         private readonly IOrderRepository orderRepository;
+        private readonly IItemAttachmentRepository itemAttachmentRepository;
+        private readonly ISystemUserRepository systemUserRepository;
 
         #endregion
 
@@ -34,9 +32,11 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public LiveJobsService(IOrderRepository orderRepository)
+        public LiveJobsService(IOrderRepository orderRepository, IItemAttachmentRepository itemAttachmentRepository, ISystemUserRepository systemUserRepository)
         {
             this.orderRepository = orderRepository;
+            this.itemAttachmentRepository = itemAttachmentRepository;
+            this.systemUserRepository = systemUserRepository;
         }
 
         #endregion
@@ -56,28 +56,42 @@ namespace MPC.Implementation.MISServices
         /// 
         /// </summary>
         /// <returns></returns>
-        public Stream DownloadArtwork()
+        public Stream DownloadArtwork(List<long?> itemList)
         {
-            string filePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Attachments/1/32845/Invoices/57281/abc.docx");
-            string filePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Attachments/1/32845/Invoices/57281/abc.xlsx");
-            string filePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Attachments/1/32845/Invoices/57281/abc.txt");
-            string filePath3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Attachments/1/32845/Invoices/57281/abc.png");
+            List<ItemAttachment> attachments = itemAttachmentRepository.GetItemAttachmentsByIds(itemList);
             MemoryStream outputStream = new MemoryStream();
-
-            using (var zip = new ZipFile())
+            ZipFile zip = new ZipFile();
+            if (attachments != null)
             {
-
-                //zip.AddEntry(filePath);
-                zip.AddFile(filePath, "Files");
-                zip.AddFile(filePath1, "Files");
-                zip.AddFile(filePath2, "Files");
-                zip.AddFile(filePath3, "Files");
-
-                zip.Save(outputStream);
+                string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+                foreach (var attachment in attachments)
+                {
+                    HttpServerUtility server = HttpContext.Current.Server;
+                    string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
+                    string attachmentMapPath = mapPath + attachment.ItemId + "\\" + attachment.FileName + attachment.FileType;
+                    if (File.Exists(attachmentMapPath))
+                    {
+                        zip.AddFile(attachmentMapPath, "Files");
+                    }
+                }
             }
+            zip.Save(outputStream);
             return outputStream;
+        }
+        
+        
+       
+        /// <summary>
+        /// Get System Users
+        /// </summary>
+        public IEnumerable<SystemUser> GetSystemUsers()
+        {
+            return systemUserRepository.GetAll();
         }
 
         #endregion
     }
+
+
 }
+

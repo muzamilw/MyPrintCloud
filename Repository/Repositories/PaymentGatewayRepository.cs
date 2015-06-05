@@ -36,11 +36,9 @@ namespace MPC.Repository.Repositories
             bool isPaymentGatewayIdInSearch = request.PaymentGatewayId != 0;
             Expression<Func<PaymentGateway, bool>> query =
                 s =>
-                    (isSearchFilterSpecified && (s.BusinessEmail.Contains(request.SearchFilter)) ||
+                    (isSearchFilterSpecified && (s.PaymentMethod.MethodName.Contains(request.SearchFilter)) ||
                      (s.BusinessEmail.Contains(request.SearchFilter)) ||
-                     !isSearchFilterSpecified)
-                     && isPaymentGatewayIdInSearch && (s.PaymentGatewayId == request.PaymentGatewayId) || !isPaymentGatewayIdInSearch
-                     ;
+                     !isSearchFilterSpecified) && (s.CompanyId == request.CompanyId);
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch

@@ -7,6 +7,7 @@ namespace MPC.MIS.Areas.Api.Models
 {
     public class LookupMethodResponse
     {
+        public long LookupMethodId { get; set; }
         public LookupMethod LookupMethod { get; set; }
         public MachineClickChargeLookup ClickChargeLookup { get; set; }
         public MachineClickChargeZone ClickChargeZone { get; set; }

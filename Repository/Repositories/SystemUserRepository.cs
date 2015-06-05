@@ -84,6 +84,7 @@ namespace MPC.Repository.Repositories
             return db.SystemUsers.Where(s => s.OrganizationId == OrganisationID).ToList();
             //db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
         }
+       
         #endregion
     }
 }

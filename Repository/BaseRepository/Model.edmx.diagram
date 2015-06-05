@@ -114,7 +114,6 @@
         <EntityTypeShape EntityType="DomainModels.DeliveryNote" Width="1.5" PointX="21.125" PointY="29.125" />
         <EntityTypeShape EntityType="DomainModels.DeliveryNoteDetail" Width="1.5" PointX="23.625" PointY="41.625" />
         <AssociationConnector Association="DomainModels.FK_tbl_CampaignImages_tbl_campaigns" />
-        <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" />
         <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_items" />
         <EntityTypeShape EntityType="DomainModels.CompanyCMYKColor" Width="1.5" PointX="22.375" PointY="1" />
         <EntityTypeShape EntityType="DomainModels.DiscountVoucher" Width="1.5" PointX="23.375" PointY="8" />
@@ -165,7 +164,6 @@
         <EntityTypeShape EntityType="DomainModels.ProductMarketBriefAnswer" Width="1.5" PointX="31.375" PointY="6" />
         <EntityTypeShape EntityType="DomainModels.ProductMarketBriefQuestion" Width="1.5" PointX="31.375" PointY="3.375" />
         <EntityTypeShape EntityType="DomainModels.Role" Width="1.5" PointX="31.375" PointY="8.125" />
-        <AssociationConnector Association="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" />
         <EntityTypeShape EntityType="DomainModels.ProductCategoryItem" Width="1.5" PointX="26.625" PointY="43.375" />
         <AssociationConnector Association="DomainModels.FK_ProductCategoryItem_Items" />
         <AssociationConnector Association="DomainModels.FK_ProductCategoryItem_ProductCategory" />
@@ -240,7 +238,7 @@
         <AssociationConnector Association="DomainModels.FK_Organisation_Currency" />
         <AssociationConnector Association="DomainModels.FK_Organisation_LengthUnit" />
         <AssociationConnector Association="DomainModels.FK_Organisation_WeightUnit" />
-        <EntityTypeShape EntityType="DomainModels.CostCenterChoice" Width="1.5" PointX="35.375" PointY="32.875" />
+        <EntityTypeShape EntityType="DomainModels.CostCenterChoice" Width="1.5" PointX="35.375" PointY="33.5" />
         <EntityTypeShape EntityType="DomainModels.InkCoverageGroup" Width="1.5" PointX="35.375" PointY="35.875" />
         <EntityTypeShape EntityType="DomainModels.MachineSpoilage" Width="1.5" PointX="5.375" PointY="36.875" />
         <EntityTypeShape EntityType="DomainModels.Report" Width="1.5" PointX="37.375" PointY="29.875" />
@@ -251,7 +249,6 @@
         <EntityTypeShape EntityType="DomainModels.ActivityType" Width="1.5" PointX="38.375" PointY="3.75" />
         <AssociationConnector Association="DomainModels.FK__Activity__Compan__2D3FF3FE" />
         <EntityTypeShape EntityType="DomainModels.VariableOption" Width="1.5" PointX="25.625" PointY="16.5" />
-        <AssociationConnector Association="DomainModels.FK_VariableOption_FieldVariable" />
         <EntityTypeShape EntityType="DomainModels.SmartForm" Width="1.5" PointX="3" PointY="57.5" />
         <EntityTypeShape EntityType="DomainModels.SmartFormDetail" Width="1.5" PointX="5.25" PointY="57.5" />
         <AssociationConnector Association="DomainModels.FK_Invoice_Company" />
@@ -266,8 +263,6 @@
         <AssociationConnector Association="DomainModels.FK_tbl_PrePayments_tbl_PayPalResponses" />
         <EntityTypeShape EntityType="DomainModels.NABTransaction" Width="1.5" PointX="27.375" PointY="32.75" />
         <EntityTypeShape EntityType="DomainModels.ScopeVariable" Width="1.5" PointX="25.625" PointY="52.75" />
-        <AssociationConnector Association="DomainModels.FK_CompanyContactVariable_FieldVariable" />
-        <AssociationConnector Association="DomainModels.FK__SmartForm__Varia__012C6796" />
         <EntityTypeShape EntityType="DomainModels.SaveDesignView" Width="1.5" PointX="39.375" PointY="6.75" />
         <EntityTypeShape EntityType="DomainModels.NewsLetterSubscriber" Width="1.5" PointX="11" PointY="72.25" />
         <AssociationConnector Association="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts" />
@@ -316,6 +311,18 @@
         <AssociationConnector Association="DomainModels.FK_Inquiry_Company" />
         <EntityTypeShape EntityType="DomainModels.MachineLookupMethod" Width="1.5" PointX="37.625" PointY="60.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_lookup_methods" />
+        <AssociationConnector Association="DomainModels.FK_Machine_LookupMethod" />
+        <AssociationConnector Association="DomainModels.FK_ProductMarketBriefQuestion_Item" />
+        <AssociationConnector Association="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" />
+        <AssociationConnector Association="DomainModels.FK_DeliveryNote_SectionFlag" />
+        <AssociationConnector Association="DomainModels.FK_DeliveryNoteDetail_DeliveryNote" />
+        <AssociationConnector Association="DomainModels.FK_InquiryItem_Pipelineproduct" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_Machine2" />
+        <AssociationConnector Association="DomainModels.FK_ScopeVariable_FieldVariable" />
+        <AssociationConnector Association="DomainModels.FK_SmartFormDetail_FieldVariable" />
+        <AssociationConnector Association="DomainModels.FK_TemplateVariable_FieldVariable" />
+        <AssociationConnector Association="DomainModels.FK_VariableOption_FieldVariable" />
+        <AssociationConnector Association="DomainModels.FK_PurchaseDetail_Items" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

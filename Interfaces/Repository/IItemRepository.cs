@@ -28,7 +28,7 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Check if Product Code is Duplicate
         /// </summary>
-        bool IsDuplicateProductCode(string productCode, long? itemId);
+        bool IsDuplicateProductCode(string productCode, long? itemId, long? companyId);
 
         /// <summary>
         /// Get Items

@@ -52,7 +52,16 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<StockCategory> GetAll()
         {
-            return DbSet.Where(stockCategory => stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId==0).ToList();
+            return DbSet.Where(stockCategory => stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId == 0).ToList();
+        }
+
+        /// <summary>
+        /// Get Stock Categories For Inventory
+        /// </summary>
+        public IEnumerable<StockCategory> GetStockCategoriesForInventory()
+        {
+            return DbSet.Where(stockCategory => (stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId == 0)
+                && stockCategory.CategoryId != 3 && stockCategory.CategoryId != 4).ToList();
         }
         public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
         {
@@ -91,7 +100,7 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-               // List<StockCategory> stockcategories = new List<StockCategory>();
+                // List<StockCategory> stockcategories = new List<StockCategory>();
 
                 Mapper.CreateMap<StockCategory, StockCategory>()
                 .ForMember(x => x.StockItems, opt => opt.Ignore());
@@ -126,9 +135,9 @@ namespace MPC.Repository.Repositories
                     }
                 }
                 return oOutputStockItems;
-            
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 

@@ -19,7 +19,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 LiveStoresCount = source.LiveStoresCount,
                 TotalEarnings = source.TotalEarnings,
                 UnConfirmedOrdersCount = source.UnConfirmedOrdersCount,
-                Estimates = source.Estimates.Select(x=>x.CreateFromForListView())
+                Estimates = source.Estimates.Select(x=>x.CreateFromForListView()),
+                Companies = source.Companies.Select(company => company.CreateFromCustomer())
             };
         }
     }

@@ -65,6 +65,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateTotal = source.Estimate_Total,
                 CreationDate = source.CreationDate,
                 CreationTime = source.CreationTime,
+                RefEstimateId = source.RefEstimateId,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
                 new List<OrderItem>(),
                 ItemsCount = source.Items != null ? source.Items.Count : 0,

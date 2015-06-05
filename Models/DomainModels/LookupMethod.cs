@@ -19,6 +19,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<MachineGuillotineCalc> MachineGuillotineCalcs { get; set; }
         public virtual ICollection<MachineMeterPerHourLookup> MachineMeterPerHourLookups { get; set; }
         public virtual ICollection<MachinePerHourLookup> MachinePerHourLookups { get; set; }
-        public virtual ICollection<MachineSpeedWeightLookup> MachineSpeedWeightLookups { get; set; } 
+        public virtual ICollection<MachineSpeedWeightLookup> MachineSpeedWeightLookups { get; set; }
+        public virtual ICollection<Machine> Machines { get; set; }
     }
 }

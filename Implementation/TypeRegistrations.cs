@@ -90,6 +90,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ITemplateVariableService, TemplateVariableService>();
             unityContainer.RegisterType<IInquiryService, InquiryService>();
             unityContainer.RegisterType<ILiveJobsService, LiveJobsService>();
+            unityContainer.RegisterType<IDeliveryNotesService, DeliveryNotesService>();
 
         }
     }

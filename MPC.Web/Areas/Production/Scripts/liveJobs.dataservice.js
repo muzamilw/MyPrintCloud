@@ -18,6 +18,13 @@ define("liveJobs/liveJobs.dataservice", function () {
                         type: 'GET'
                     }),
                     // Define request to get Items
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/LiveJobsBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    }),
+
+                    // Define request to get Items
                     amplify.request.define('downloadArtwork', 'ajax', {
                         url: ist.siteUrl + '/Production/Home/Test',
                         dataType: 'json',
@@ -53,6 +60,16 @@ define("liveJobs/liveJobs.dataservice", function () {
                 error: callbacks.error,
             });
         },
+
+
+        getBaseData = function (callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getBaseData',
+                success: callbacks.success,
+                error: callbacks.error
+            });
+        },
             getItems = function (param, callbacks) {
                 initialize();
                 return amplify.request({
@@ -67,6 +84,7 @@ define("liveJobs/liveJobs.dataservice", function () {
         return {
             getItems: getItems,
             saveItem: saveItem,
+            getBaseData: getBaseData,
             downloadArtwork: downloadArtwork
 
         };

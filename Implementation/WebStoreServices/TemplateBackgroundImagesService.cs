@@ -304,6 +304,8 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 string[] fileName = ImgName.Split(new string[] { "/" }, StringSplitOptions.None);
                 string pathToDownload =  System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" )+ TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
+                if (!Directory.Exists(System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/") + TemplateID.ToString() + "/"))
+                    Directory.CreateDirectory(System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/") + TemplateID.ToString() + "/");
                 DesignerUtils.DownloadFile(ImgPath, pathToDownload);
                 // generate thumbnail 
                 string ext = Path.GetExtension(fileName[fileName.Length - 1]);

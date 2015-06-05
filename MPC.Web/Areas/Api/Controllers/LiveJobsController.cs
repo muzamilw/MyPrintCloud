@@ -1,13 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
-
-using ICSharpCode.SharpZipLib.Zip;
+﻿using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.Models.RequestModels;
@@ -23,6 +14,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly ILiveJobsService liveJobsService;
+
 
         #endregion
 

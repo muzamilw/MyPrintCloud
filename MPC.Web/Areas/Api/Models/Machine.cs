@@ -70,8 +70,18 @@ namespace MPC.MIS.Areas.Api.Models
         public double? ReelMakereadyTime { get; set; }     
      
         public long? LookupMethodId { get; set; }
+
+        public int? SetupSpoilage { get; set; }
+        public double? RunningSpoilage { get; set; }
+        public double? CoverageHigh { get; set; }
+        public double? CoverageMedium { get; set; }
+        public double? CoverageLow { get; set; }
+
+        public bool? isSheetFed { get; set; }
+        public int? Passes { get; set; }
+        public bool? IsSpotColor { get; set; }
+
         public IEnumerable<MachineInkCoverage> MachineInkCoverages { get; set; }
-       // public virtual ICollection<MachineResource> MachineResources { get; set; }
     }
 }
 

@@ -56,6 +56,7 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public virtual Section Section { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<DeliveryNote> DeliveryNotes { get; set; } 
         #endregion
     }
 }

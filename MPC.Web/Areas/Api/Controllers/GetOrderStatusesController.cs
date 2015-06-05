@@ -17,19 +17,21 @@ namespace MPC.MIS.Areas.Api.Controllers
     public class GetOrderStatusesController : ApiController
     {
         #region Private
-        private readonly IDashboardService   dashboardService;
+        private readonly IDashboardService dashboardService;
         #endregion
+
         #region Constructor
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public GetOrderStatusesController( IDashboardService dashboardService)
+        public GetOrderStatusesController(IDashboardService dashboardService)
         {
             this.dashboardService = dashboardService;
         }
 
         #endregion
+
         #region Public
 
         /// <summary>
@@ -45,6 +47,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return dashboardService.GetOrderStatusesCount(request).CreateFrom();
         }
+
         #endregion
     }
 }
