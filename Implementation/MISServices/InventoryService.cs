@@ -95,7 +95,10 @@ namespace MPC.Implementation.MISServices
                 PaperBasisAreas = paperBasisAreaRepository.GetAll(),
                 Organisation = organisation,
                 WeightUnit = organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
-                Region = organisation.GlobalLanguage.culture
+                Region = organisation.GlobalLanguage.culture,
+                IsImperical = organisation.IsImperical ?? false
+
+                
             };
         }
 
@@ -252,6 +255,9 @@ namespace MPC.Implementation.MISServices
             stockItem.StockCreated = DateTime.Now;
             stockItem.ItemCode = prefixRepository.GetNextItemCodePrefix();
             stockItem.LastModifiedDateTime = DateTime.Now;
+
+            bool isImperical = organisationRepository.GetImpericalFlagbyOrganisationId();
+            stockItem.IsImperical = isImperical;
             stockItemRepository.Add(stockItem);
             stockItemRepository.SaveChanges();
             //After save item content for list view

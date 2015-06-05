@@ -19,7 +19,7 @@ namespace MPC.Interfaces.WebStoreServices
         DesignerDamImageWrapper getImages(int isCalledFrom, int imageSetType, long productId, long contactCompanyID, long contactID, long territoryId, int pageNumner, string SearchKeyword, long OrganisationID);
         TemplateBackgroundImage getImage(long imgID, long OrganisationID);
         TemplateBackgroundImage UpdateImage(long imageID, int imType, string imgTitle, string imgDescription, string imgKeywords);
-        string InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID);
+        TemplateBackgroundImage InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID);
         List<CompanyTerritory> getCompanyTerritories(long companyId);
 
         List<ImagePermission> getImgTerritories(long imgID);

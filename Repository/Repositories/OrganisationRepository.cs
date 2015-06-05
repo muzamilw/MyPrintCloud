@@ -3205,5 +3205,19 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        public bool GetImpericalFlagbyOrganisationId()
+        {
+            try
+            {
+                return db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.IsImperical ?? false).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
     }
 }

@@ -63,7 +63,10 @@ $('#imageUploader').change(function () {
                     if (IsCalledFrom == 2)
                         contactIDlocal = CustomerID;
                     $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + contactIDlocal + "/" + organisationId + "/" + panelType + "/" + CustomerID,
-                        function (result) {
+                        function (res) {
+                            LiImgs.push(res);
+                            var result = res.BackgroundImageAbsolutePath;
+                            alert(result);
                             if (result != "uploadedPDFBK") {
                                 $("#progressbar").css("display", "none");
                                 $(".imageEditScreenContainer").css("display", "block");
