@@ -10,7 +10,7 @@
             
             <div class="col-lg-12 form-horizontal outerDiv-Padding" data-bind="with: $root.selectedPaperSheet">
                 <div class="form-horizontal clearfix">
-                    <div class="col-lg-6">
+                    <div class="col-lg-9">
                         <div class="form-group ">
                             <div class="col-lg-5 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -21,7 +21,7 @@
                                 <label class="control-label text-right tooltip-float">Name</label>
                             </div>
 
-                            <div class="col-lg-7">
+                            <div class="col-lg-5">
                                 <input type="text" class="form-control" data-bind="value: name, validationTooltip: name" />
                             </div>
                         </div>
@@ -72,19 +72,26 @@
                                 </div>
                                 <label class="control-label text-right tooltip-float">Width</label>
                             </div>
-                            <div class="col-lg-7">
+                            <div class="col-lg-5">
                                 <input type="text" class="form-control" data-bind="value: width, validationTooltip: width" />
                             </div>
-                           
+                            <div class="col-lg-2">
+                                <!-- ko if: IsImperical() === "true" -->
+                                (<label class="control-label">inch</label>)
+                                <!-- /ko -->
+                                <!-- ko if: IsImperical() === "false" -->
+                                (<label class="control-label">mm</label> )
+                                <!-- /ko -->
+                            </div>
                         </div>
                         @*<div class="form-group">
                             <div class="col-lg-3 text-left">
-                                (<!-- ko if: IsImperical -->
-                                <label class="control-label">inch</label> 
+                                <!-- ko if: IsImperical() === "true" -->
+                                (<label class="control-label">inch</label> )
                                 <!-- /ko -->
-                                <!-- ko ifnot: IsImperical -->
-                                <label class="control-label">mm</label> 
-                                <!-- /ko -->)
+                                <!-- ko if: IsImperical() === "false" -->
+                                (<label class="control-label">mm</label> )
+                                <!-- /ko -->
                             </div>
 
                         </div>*@
@@ -98,17 +105,17 @@
                                 </div>
                                 <label class="control-label text-right tooltip-float">Height</label>
                             </div>
-                            <div class="col-lg-7">
+                            <div class="col-lg-5">
                                 <input type="text" class="form-control" data-bind="value: height, validationTooltip: height" />
                             </div>
-                            @*<div class="col-lg-2">
-                                (<!-- ko if: IsImperical() -->
-                                <label class="control-label">inch</label>
+                            <div class="col-lg-2">
+                                <!-- ko if: IsImperical() === "true" -->
+                                (<label class="control-label">inch</label>)
                                 <!-- /ko -->
-                                <!-- ko ifnot: IsImperical() -->
-                                <label class="control-label">mm</label>
-                                <!-- /ko -->)
-                            </div>*@
+                                <!-- ko if: IsImperical() === "false" -->
+                                (<label class="control-label">mm</label>)
+                                <!-- /ko -->
+                            </div>
                         </div>
                        
                         

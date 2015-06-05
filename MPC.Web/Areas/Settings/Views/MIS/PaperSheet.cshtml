@@ -88,14 +88,14 @@
             <td class="col-lg-6"><a href="#" class="store-user-link" data-bind="text: name, click : $root.onEditItem"></a></td>
             <td class="col-lg-2" data-bind="text: height"></td>
             <td class="col-lg-2" data-bind="text: width"></td>
-            @*<!-- ko if: isImperical() -->
+            <!-- ko if: IsImperical() -->
             <td>Imperical</td>
             <!-- /ko -->
-            <!-- ko ifnot: isImperical() -->
+            <!-- ko ifnot: IsImperical() -->
             <td>Metric</td>
-            <!-- /ko -->*@
+            <!-- /ko -->
       
-            @*<td class="col-lg-2" data-bind="text: width"></td>*@
+           
             <td class="col-lg-2" id="actionColumn">
                 @*<!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->*@
