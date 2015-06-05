@@ -15,9 +15,13 @@
 
                         <div class="clearfix">
 
-                            <img style="width:240px;height:130px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
-                            <img style="width:240px;height:130px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
-                            <div class="col-lg-11" style="margin-top: 5px;text-align:center;">
+                            <!-- ko ifnot: imageSource() -->
+                            <img style="width:200px;height:180px;" src="/mis/Content/Images/imageplaceholder.png" />
+                            <!-- /ko -->
+                            <!-- ko if: imageSource() -->
+                            <img style="width:220px;height:130px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
+                            <!-- /ko -->
+                            <div class="col-lg-11" style="margin-top:5px;text-align:center;width:220px;">
                                 
                                     <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
                                         <span>Upload</span>
@@ -26,7 +30,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-lg-11 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;">Banner Image.</div>
+                            <div class="col-lg-11 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;width:220px;">Banner Image.</div>
                             @*<div class="profile-stars">
                                 <span data-bind="value: type"></span>
                             </div>*@
