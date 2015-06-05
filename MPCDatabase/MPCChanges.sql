@@ -4562,7 +4562,7 @@ group by month,store,monthname,year
 END
 
 
-
+/* Executed on Staging, USA server */
 /* Execution Date: 04/06/2015 */
 
 update fieldVariable set CriteriaFieldName = 'StateAbbr' where VariableName = 'State Abbreviation'
@@ -4591,5 +4591,5 @@ add ProductType int null
 alter table PurchaseDetail
 add RefItemId bigint null
 
-
+/* Executed on Staging */
 

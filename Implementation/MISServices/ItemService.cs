@@ -2156,7 +2156,7 @@ namespace MPC.Implementation.MISServices
             Item itemTarget = GetById(item.ItemId) ?? CreateNewItem();
 
             // Check for Code Duplication
-            bool isDuplicateCode = itemRepository.IsDuplicateProductCode(item.ProductCode, item.ItemId);
+            bool isDuplicateCode = itemRepository.IsDuplicateProductCode(item.ProductCode, item.ItemId, item.CompanyId);
             if (isDuplicateCode)
             {
                 throw new MPCException(LanguageResources.ItemService_ProductCodeDuplicated, itemRepository.OrganisationId);

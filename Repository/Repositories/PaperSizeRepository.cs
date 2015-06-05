@@ -65,10 +65,12 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<PaperSize> GetAll()
         {
-           // Organisation org = db.Organisations.Where(o => o.OrganisationId == this.OrganisationId).FirstOrDefault();
+            Organisation org = db.Organisations.Where(o => o.OrganisationId == this.OrganisationId).FirstOrDefault();
             //string sCulture = org.GlobalLanguage != null ? org.GlobalLanguage.culture : string.Empty;
-            return DbSet.Where(s => s.OrganisationId == OrganisationId).OrderBy(s => s.Area).ToList();
+            return DbSet.Where(s => s.OrganisationId == OrganisationId && s.IsImperical == org.IsImperical && s.IsArchived == false).OrderBy(s => s.Area).ToList();
         }
+
+        
 
         /// <summary>
         /// Search Paper Sheet
