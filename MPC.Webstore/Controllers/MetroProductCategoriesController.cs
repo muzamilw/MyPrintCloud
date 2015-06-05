@@ -21,7 +21,7 @@ namespace MPC.Webstore.Controllers
         {
             List<ProductCategory> AllCategroies = new List<ProductCategory>();
             //List<ProductCategory> ChildCategories = new List<ProductCategory>();
-            AllCategroies = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId);
+            AllCategroies = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
 
             ViewBag.ParentCategory = AllCategroies.Where(i => i.ParentCategoryId == null || i.ParentCategoryId == 0).OrderBy(g => g.DisplayOrder).ToList();
 
