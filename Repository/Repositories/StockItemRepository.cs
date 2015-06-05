@@ -66,6 +66,9 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public InventorySearchResponse GetStockItems(InventorySearchRequestModel request)
         {
+            //((string.IsNullOrEmpty(request.Region) || stockItem.Region == request.Region)
+
+            bool isImperical = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(c => c.IsImperical ?? false).FirstOrDefault();
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             Expression<Func<StockItem, bool>> query =
@@ -73,7 +76,7 @@ namespace MPC.Repository.Repositories
                     (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
                      (stockItem.AlternateName.Contains(request.SearchString))) && (
                          (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) &&
-                         (!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId)) && stockItem.OrganisationId == OrganisationId && ((string.IsNullOrEmpty(request.Region) || stockItem.Region == request.Region));
+                         (!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId)) && stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical;
 
             IEnumerable<StockItem> stockItems = request.IsAsc
                ? DbSet.Where(query)
@@ -94,7 +97,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public InventorySearchResponse GetStockItemsInOrders(InventorySearchRequestModel request)
         {
-
+            bool isImperical = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(c => c.IsImperical ?? false).FirstOrDefault();
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             Expression<Func<StockItem, bool>> query =
@@ -102,7 +105,7 @@ namespace MPC.Repository.Repositories
                     (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
                      (stockItem.AlternateName.Contains(request.SearchString)) || (stockItem.StockCategory.Name.Contains(request.SearchString))
                      || (stockItem.StockSubCategory.Name.Contains(request.SearchString)) || (stockItem.Company.Name.Contains(request.SearchString))) && (
-                         (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId)) && stockItem.OrganisationId == OrganisationId ;
+                         (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId)) && stockItem.OrganisationId == OrganisationId & stockItem.IsImperical == isImperical;
 
             IEnumerable<StockItem> stockItems = request.IsAsc
                ? DbSet.Where(query)

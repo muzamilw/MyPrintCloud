@@ -43,6 +43,8 @@ define("inventory/inventory.viewModel",
                     categoryFilter = ko.observable(),
                     //Sub category filter
                     subCategoryFilter = ko.observable(),
+                    // bind Label
+                    weightLabel = ko.observable(),
                     // #region Arrays
                     //Paper Sheets
                     inventories = ko.observableArray([]),
@@ -151,6 +153,14 @@ define("inventory/inventory.viewModel",
                                     if (selectedInventory().paperTypeId() === 2) {
                                         selectedInventory().paperType("Roll Paper");
                                     }
+
+                                    if (selectedInventory().IsImperical() == true)
+                                    {
+                                        weightLabel("lbs");
+                                    }
+                                    else {
+                                        weightLabel("kg");
+                                    }
                                     selectedInventory().reset();
 
                                     inventoryHasChanges.reset();
@@ -232,6 +242,15 @@ define("inventory/inventory.viewModel",
 
                                 currencySymbol(data.CurrencySymbol);
                                 weightUnit(data.WeightUnit);
+
+                                if(data.IsImperical == true)
+                                {
+                                    weightLabel("lbs");
+                                }
+                                else
+                                {
+                                    weightLabel("kg");
+                                }
                             },
                             error: function () {
                                 toastr.error("Failed to base data.");
@@ -706,6 +725,7 @@ define("inventory/inventory.viewModel",
                     orgRegion: orgRegion,
                     hasChangesOnInventory: hasChangesOnInventory,
                     weightUnit: weightUnit,
+                    weightLabel: weightLabel,
                     filteredSubCategoriesForDetail: filteredSubCategoriesForDetail
                 };
             })()
