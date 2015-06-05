@@ -20,7 +20,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        PaperSizeId = source.PaperSizeId,
                        Region = source.Region,
                        SizeMeasure = source.SizeMeasure,
-                       Width = source.Width
+                       Width = source.Width,
+                       IsImperical = source.IsImperical
                    };
         }
         /// <summary>
@@ -38,7 +39,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        PaperSizeId = source.PaperSizeId,
                        Region = source.Region,
                        SizeMeasure = source.SizeMeasure ?? 0,
-                       Width = source.Width
+                       Width = source.Width,
+                       IsImperical = source.IsImperical
                    };
         }
     }

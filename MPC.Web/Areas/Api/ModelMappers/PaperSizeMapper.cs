@@ -16,7 +16,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new PaperSizeDropDown
             {
                 PaperSizeId = source.PaperSizeId,
-                Name = source.Name + " " + source.Width + " x " + source.Height,
+                Name = source.Name,
                 Height = source.Height,
                 Width = source.Width
             };

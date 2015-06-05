@@ -63,5 +63,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Weight Unit
         /// </summary>
         public string WeightUnit { get; set; }
+
+        /// <summary>
+        /// IsImperical
+        /// </summary>
+        public bool IsImperical { get; set; }
     }
 }
