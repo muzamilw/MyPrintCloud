@@ -1483,20 +1483,11 @@ define("order/order.viewModel",
                     //    selectedOrder().items.splice(0, 0, newItem);
                     //},
                     addItemFromRetailStore = function (newItem) {
-                        var itemSectionForAddView = itemModel.ItemSection.Create({});
-                        counterForSection = counterForSection - 1;
-                        itemSectionForAddView.id(counterForSection);
-                        itemSectionForAddView.flagForAdd(true);
-                        newItem.itemSections.push(itemSectionForAddView);
-
                         selectedProduct(newItem);
-                        //newItem.itemSections()[0].baseCharge1();
                         selectedOrder().items.splice(0, 0, newItem);
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
-
                         //Req: Open Edit dialog of product on adding product
                         editItem(newItem);
-
                     },
                     onAddCostCenter = function () {
                         // ReSharper disable AssignedValueIsNeverUsed

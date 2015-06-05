@@ -294,6 +294,7 @@ define("common/addProduct.viewModel",
                                 selectedStockOptionName(itemStockOption.label());
                                 selectedStockOptionSequenceNumber(count);
                                 selectedStockOption(itemStockOption);
+                                subscribeRefiningOptionSelectionChange();
                             }
                         });
                     }),

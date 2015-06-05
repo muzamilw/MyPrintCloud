@@ -60,10 +60,10 @@ namespace MPC.Repository.Repositories
             
         }
 
-        public List<ProductCategory> GetAllCategoriesByStoreId(long companyId) 
+        public List<ProductCategory> GetAllCategoriesByStoreId(long companyId, long OrganisationId) 
         {
             return db.ProductCategories.Where(
-                p => p.CompanyId == companyId && (p.isArchived == false || p.isArchived == null) && p.isPublished == true && p.isEnabled == true ).ToList();
+                p => p.CompanyId == companyId && p.OrganisationId == OrganisationId && (p.isArchived == false || p.isArchived == null) && p.isPublished == true && p.isEnabled == true).ToList();
         }
 
         public ProductCategory GetCategoryById(long categoryId)

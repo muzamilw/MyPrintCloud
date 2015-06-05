@@ -49,6 +49,8 @@ define("paperSheet/paperSheet.viewModel",
                         selectedPaperSheetForDelete(item);
                         editorViewModel.selectItem(item);
                         openEditDialog();
+
+
                     },
                     //Delete Paper Sheet
                     deletePaperSheet = function (paperSheet) {
@@ -169,6 +171,16 @@ define("paperSheet/paperSheet.viewModel",
                     openEditDialog = function () {
                         view.showPaperSheetDialog();
                         view.initializeLabelPopovers();
+
+                        if(selectedPaperSheet().IsImperical() == true)
+                        {
+                            selectedPaperSheet().IsImperical("true");
+                        }
+                        else
+                        {
+                            selectedPaperSheet().IsImperical("false");
+                        }
+
                     },
                     //CLose Paper Sheet Dialog
                     closeEditDialog = function () {

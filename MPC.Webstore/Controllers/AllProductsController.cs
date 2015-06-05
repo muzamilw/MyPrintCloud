@@ -34,7 +34,7 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
 
-            var model = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId);
+            var model = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             ViewData["ParentCats"] = model.Where(p => p.ParentCategoryId == null || p.ParentCategoryId == 0).OrderBy(s => s.DisplayOrder).ToList();
             ViewData["SubCats"] = model.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).OrderBy(s => s.DisplayOrder).ToList();
             return View("PartialViews/AllProducts");
