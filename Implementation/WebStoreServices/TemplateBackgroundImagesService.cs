@@ -416,14 +416,15 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _templateImagesRepository.getCompanyTerritories(companyId);
         }
-        public string InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID)
+        public TemplateBackgroundImage InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID)
         {
             var result = "false";
             System.Drawing.Image objImage = null;
+            var bgImg = new TemplateBackgroundImage();
             // fileName = fileID;
             try
             {
-
+                
                 bool isPdfBackground = false;
                 // string product = idOfObject1; productId
                 string ext = System.IO.Path.GetExtension(imageName);
@@ -497,7 +498,7 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         foreach (TemplateBackgroundImage obj in uploadedPdfRecords)
                         {
-                            var bgImg = new TemplateBackgroundImage();
+                            
                             bgImg.Name = UploadPathForPDF + obj.Name;
                             bgImg.ImageName = UploadPathForPDF + obj.Name;
                             bgImg.ProductId = productId;
@@ -553,7 +554,7 @@ namespace MPC.Implementation.WebStoreServices
                                 //ImageWidth = Convert.ToInt32(width);
                                 //ImageHeight = Convert.ToInt32(height);
                             }
-                            var bgImg = new TemplateBackgroundImage();
+                            
                             bgImg.Name = Imname;
                             bgImg.ImageName = Imname;
                             bgImg.ProductId = productId;
@@ -601,7 +602,8 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
             }
-            return result;
+            bgImg.BackgroundImageAbsolutePath = result;
+            return bgImg;
         }
 
         public int generatePdfAsBackgroundDesigner(string physicalPath, long TemplateID,long organisationId)

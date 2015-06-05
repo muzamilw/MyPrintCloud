@@ -2369,8 +2369,8 @@ function j8(src) {
                                 }
                                 bestPer -= 0.10;
                             }
-                            var wdth = parseInt(D1AO.getWidth() * 2);
-                            var hght = parseInt(D1AO.getHeight() * 2);
+                            var wdth = parseInt(D1AO.getWidth()/ bestPer);
+                            var hght = parseInt(D1AO.getHeight() / bestPer);
                             var XML = new XMLWriter();
                             XML.BeginNode("Cropped");
                             XML.Node("sx", "0");
