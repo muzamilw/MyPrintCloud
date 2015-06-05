@@ -39,17 +39,17 @@
 
             <div class="input-group">
                 <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
-                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,click:$root.onSaveDeliveryNotes, enable: ($root.selectedDeliveryNote().hasChanges() && $root.selectedDeliveryNote().isStatus()!==20), css: { 'btn-warning': $root.selectedDeliveryNote().hasChanges() }">
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().isStatus()!==20,click:$root.onSaveDeliveryNotes, enable: ($root.selectedPurchaseOrder().hasChanges() && $root.selectedPurchaseOrder().isStatus()!==20), css: { 'btn-warning': $root.selectedPurchaseOrder().hasChanges() }">
                     &nbsp;Save
                 </button>
-                <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onDeleteDeliveryNote">&nbsp;Delete</button>
-                @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedDeliveryNote().deliveryNoteId()!==undefined"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>*@
-                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onPostDeliveryNote">&nbsp;Post</button>
+                <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().isStatus()!==20,enable:($root.selectedPurchaseOrder().deliveryNoteId()!==undefined && $root.selectedPurchaseOrder().isStatus()!==20),click:$root.onDeleteDeliveryNote">&nbsp;Delete</button>
+                @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedPurchaseOrder().deliveryNoteId()!==undefined"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>*@
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().isStatus()!==20,enable:($root.selectedPurchaseOrder().deliveryNoteId()!==undefined && $root.selectedPurchaseOrder().isStatus()!==20),click:$root.onPostDeliveryNote">&nbsp;Post</button>
 
             </div>
         </div>
     </div>
-    <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote" style="padding-left: 18px; padding-right: 20px; margin-top: 5.5%; ">
+    <div class="row" id="user-profile" data-bind="with: selectedPurchaseOrder" style="padding-left: 18px; padding-right: 20px; margin-top: 5.5%; ">
         <div class="col-lg-12 col-md-8 col-sm-8">
             <div class="main-box clearfix">
                 <div class="col-lg-12 form-horizontal" style="margin-top: 3%;">
@@ -64,7 +64,7 @@
                                 <label class="control-label tooltip-float">&nbsp;</label>
                             </div>
                             <div class="col-lg-6">
-                                <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedDeliveryNote().deliveryNoteId() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
+                                <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedPurchaseOrder().deliveryNoteId() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                             </div>
                             <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
                                 <button data-bind="click: $root.openCompanyDialog, enable: (deliveryNoteId() <= 0) || (deliveryNoteId()===undefined)" class="btn btn-primary pull-right">
@@ -339,7 +339,7 @@
     }
 </script>
 <script id="editDeliveryNoteDetailemplate" type="text/html">
-    <tr data-bind="css: { selectedRow: $data === $root.selectedDeliveryNoteDetail() }">
+    <tr data-bind="css: { selectedRow: $data === $root.selectedPurchaseOrderDetail() }">
         <td style="width: 94%">
             <input type="text" class="form-control" data-bind="value: description, validationTooltip: description" />
         </td>

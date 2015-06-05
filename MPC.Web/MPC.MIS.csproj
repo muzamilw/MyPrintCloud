@@ -340,6 +340,7 @@
     <Compile Include="Areas\Api\Controllers\LiveJobsBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\LiveJobsController.cs" />
     <Compile Include="Areas\Api\Controllers\ProgressEstimateController.cs" />
+    <Compile Include="Areas\Api\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -2200,8 +2201,6 @@
     <Content Include="Content\less\Orders.css.map">
       <DependentUpon>Orders.css</DependentUpon>
     </Content>
-    <Content Include="MPC_Content\Attachments\1\32845\Products\60758\2015March3-100101 -ORD-001-100407-ITM-0-001-60758-Side1.pdf" />
-    <Content Include="MPC_Content\Attachments\1\32845\2015March3-100101 -ORD-001-100407-ITM-0-001-60758-Side1.pdf" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -3431,6 +3430,7 @@
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="MPC_Content\Artworks\" />
     <Folder Include="MPC_Content\Assets\" />
+    <Folder Include="MPC_Content\Attachments\1\" />
     <Folder Include="MPC_Content\CostCentres\" />
     <Folder Include="MPC_Content\DefaultCss\" />
     <Folder Include="MPC_Content\DefaultSprite\" />

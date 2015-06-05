@@ -11,9 +11,9 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
             initialize = function () {
                 if (!isInitialized) {
 
-                    // Define request to get Items
-                    amplify.request.define('getdeliveryNotes', 'ajax', {
-                        url: ist.siteUrl + '/Api/DeliveryNotes',
+                    // Define request to get Purchase Orders
+                    amplify.request.define('getPurchaseOrders', 'ajax', {
+                        url: ist.siteUrl + '/Api/PurchaseOrder',
                         dataType: 'json',
                         type: 'GET'
                     }),
@@ -110,10 +110,10 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
            data: param
        });
    },
-        getdeliveryNotes = function (param, callbacks) {
+        getPurchaseOrders = function (param, callbacks) {
             initialize();
             return amplify.request({
-                resourceId: 'getdeliveryNotes',
+                resourceId: 'getPurchaseOrders',
                 success: callbacks.success,
                 error: callbacks.error,
                 data: param
@@ -122,7 +122,7 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
 
 
         return {
-            getdeliveryNotes: getdeliveryNotes,
+            getPurchaseOrders: getPurchaseOrders,
             getDetaildeliveryNote: getDetaildeliveryNote,
             saveDeliveryNote: saveDeliveryNote,
             getBaseData: getBaseData,
