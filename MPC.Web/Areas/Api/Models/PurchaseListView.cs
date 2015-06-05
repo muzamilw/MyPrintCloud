@@ -8,6 +8,9 @@ namespace MPC.MIS.Areas.Api.Models
         public string Code { get; set; }
         public DateTime? DatePurchase { get; set; }
         public string SupplierName { get; set; }
+        public int? FlagID { get; set; }
+        public string RefNo { get; set; }
+        public string FlagColor { get; set; }
         public double? TotalPrice { get; set; }
 
     }
