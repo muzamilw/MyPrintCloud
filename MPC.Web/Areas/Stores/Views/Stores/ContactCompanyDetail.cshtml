@@ -263,10 +263,20 @@
                                                 </div>
 
                                                 <div class="col-lg-12" style="margin-top: 10px;text-align:center;width:220px;padding-right:0px;">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>Upload </span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                    <div class="col-lg-8">
+                                                        <div class="fileUpload btn btn-primary" style="float: right;">
+                                                            <span>Upload </span>
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
                                                     </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="bs-example-tooltips tooltip-float-width" style="margin-right: 45px;">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="left" data-html="true" data-content="Theme Yellow :(192px w x 40px h)
+                                                                <br /> Theme Purple :(240px w x 50px h) <br /> Theme Brown :(240px w x 50px h) <br /> Theme Pink :(240px w x 50px h) <br /> Theme Private Store(Saloon) :<br />(240px w x 50px h) <br /> Theme Private Store(RealEstate):<br />(290px w x 70px h) " data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                </div>
                                                 </div>
                                                 <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px;width:220px;padding-left:20px;">
                                                     Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.

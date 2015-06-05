@@ -61,7 +61,7 @@
                 // Status Name
                 statusName = ko.observable(specifiedStatusName || undefined),
                 // Qty 1
-                qty1 = ko.observable(specifiedQty1 || 0),
+                qty1 = ko.observable(specifiedQty1 || 0).extend({ number: true }),
                 // Qty 1 Net Total
                 qty1NetTotal = ko.observable(specifiedQty1NetTotal || 0),
                 // Qty1 NetTotal Computed 
@@ -86,9 +86,9 @@
                     }
                 }),
                  // Qty 2
-                qty2 = ko.observable(specifiedQty2 || 0),
+                qty2 = ko.observable(specifiedQty2 || 0).extend({ number: true }),
                  // Qty 3
-                qty3 = ko.observable(specifiedQty3 || 0),
+                qty3 = ko.observable(specifiedQty3 || 0).extend({ number: true }),
                 // Item Notes
                 itemNotes = ko.observable(specifiedItemNotes || undefined),
                 // Job Code
@@ -620,11 +620,11 @@
                 // Guillotine Id
                 guillotineId = ko.observable(specifiedGuillotineId || undefined),
                 // Qty1
-                qty1 = ko.observable(specifiedQty1 || 0),
+                qty1 = ko.observable(specifiedQty1 || 0).extend({ number: true }),
                 // Qty2
-                qty2 = ko.observable(specifiedQty2 || 0),
+                qty2 = ko.observable(specifiedQty2 || 0).extend({ number: true }),
                 // Qty3
-                qty3 = ko.observable(specifiedQty3 || 0),
+                qty3 = ko.observable(specifiedQty3 || 0).extend({ number: true }),
                 // Qty1 Profit
                 qty1Profit = ko.observable(specifiedQty1Profit || 0),
                 // Qty2Profit Width
