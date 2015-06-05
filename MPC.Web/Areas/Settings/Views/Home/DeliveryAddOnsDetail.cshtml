@@ -273,17 +273,17 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <div class="clearfix" style="text-align:center">
+                                                    <div class="clearfix">
                                                        
-                                                        <img style="width:200px;" id="idCostcenterimage" data-bind="visible: costcentreImageFileBinary() ==undefined , attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
-                                                        <img style="width:200px;" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
-                                                        <div class="pull-right" style="margin-right: 127px;margin-top: 5px;">
+                                                        <img style="width:200px;height:180px;" id="idCostcenterimage" data-bind="visible: costcentreImageFileBinary() ==undefined , attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
+                                                        <img style="width:220px;height:130px;" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
+                                                        <div style="margin-top:10px;width:220px;text-align:center;">
                                                             <div class="fileUpload btn btn-primary">
                                                                 <span>Upload </span>
                                                                 <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.costcenterImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                             </div>
                                                         </div>
-                                                        <div class="ThoumbnailCostCenter">Upload Cost Center Image </div>
+                                                        <div class="ThoumbnailCostCenter" style="margin-top:10px;width:225px;text-align:center;">Upload Cost Center Image </div>
                                                         <div class="profile-stars">
                                                             <span data-bind="value: type"></span>
                                                         </div>
@@ -319,7 +319,7 @@
                                                 </div>
 
                                                 <div class="col-lg-8">
-                                                    <textarea class="form-control" id="txtInternalDesc" style="background-color: rgb(254, 254, 198); position: relative; width: 242px;" placeholder="Notes" rows="5" data-bind="value: description"></textarea>
+                                                    <textarea class="form-control" id="txtInternalDesc" style="background-color: rgb(254, 254, 198); position: relative; width: 220px;" placeholder="Notes" rows="5" data-bind="value: description"></textarea>
 
                                                 </div>
                                             </div>

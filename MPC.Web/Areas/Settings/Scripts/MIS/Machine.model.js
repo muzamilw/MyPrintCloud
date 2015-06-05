@@ -89,8 +89,7 @@
         return self;
     };
     var machine = function () {
-        var
-            self,
+        var self,
             MachineId = ko.observable(),
             MachineName = ko.observable(),
             MachineCatId = ko.observable(),
@@ -117,8 +116,8 @@
             gripdepth = ko.observable(10),
             gripsideorientaion = ko.observable(),
             Orientation = ko.observableArray([
-                    new OrientationModel({ id: "1", name: "Long Side" }),
-                    new OrientationModel({ id: "2", name: "Short Side" })]),
+                new OrientationModel({ id: "1", name: "Long Side" }),
+                new OrientationModel({ id: "2", name: "Short Side" })]),
             lookupList = ko.observableArray([]),
             markupList = ko.observableArray([]),
             deFaultPaperSizeName = ko.observable(),
@@ -130,7 +129,7 @@
             headdepth = ko.observable(10),
             MarkupId = ko.observable(),
             PressSizeRatio = ko.observable(),
-            Description = ko.observable().extend({required: true}), 
+            Description = ko.observable().extend({ required: true }),
             Priority = ko.observable(0),
             DirectCost = ko.observable(),
             Image = ko.observable(),
@@ -161,11 +160,11 @@
             TimePerCut = ko.observable(),
             MakeReadyTime = ko.observable(),
             WashupTime = ko.observable(),
-            RunningSpoilage = ko.observable(),
-            SetupSpoilage = ko.observable(),
-            CoverageHigh = ko.observable(),
-            CoverageMedium = ko.observable(),
-            CoverageLow = ko.observable(),
+            RunningSpoilage = ko.observable().extend({ number: true }),
+            SetupSpoilage = ko.observable().extend({ number: true}),
+            CoverageHigh = ko.observable().extend({ number: true, max: 10, min: 0, message: 'Max value can be 10'}),
+            CoverageMedium = ko.observable().extend({number: true, max: 10, min: 0, message:'Max value can be 10'}),
+            CoverageLow = ko.observable().extend({number: true, max: 10, min: 0, message:'Max value can be 10'}),
             isSheetFed = ko.observable(),
             Passes = ko.observable(),
             ReelMakereadyTime = ko.observable(),
@@ -385,20 +384,20 @@
         self.name = ko.observable(data.name);
     };
 
-    var lookupMethod = function (data) {
+    var lookupMethod = function(data) {
         var self = this;
         self.MethodId = ko.observable(data.MethodId);
         self.Name = ko.observable(data.Name);
-    }
+    };
 
-    var MachineLookupMethods = function (data) {
+    var MachineLookupMethods = function(data) {
         var self = this;
         self.Id = ko.observable();
         self.MachineId = ko.observable();
         self.MethodId = ko.observable();
         self.DefaultMethod = ko.observable();
 
-    }
+    };
 
   
 
@@ -407,14 +406,15 @@
         olookup.MethodId(source.MethodId);
         olookup.Name(source.Name);
     };
-    CreateMachineInkCoverage = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
+    CreateMachineInkCoverage = function(specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
         return {
             //Id = source.Id,
             //SideInkOrder = source.SideInkOrder,
             //SideInkOrderCoverage = source.SideInkOrderCoverage,
             //MachineId = source.MachineId
+            
         };
-    }
+    };
 
     var MachineInkCoveragesListClientMapper = function (source, StockItemforInkList, InkCoveragItems) {
         var
