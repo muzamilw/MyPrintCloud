@@ -326,7 +326,7 @@ var croppedInstance = null;
       width: 200,
       height: 200,
       zoom: 10,
-      maxZoom: 1,
+      maxZoom: 2,
       controls: null,
       showControls: 'auto'
     };

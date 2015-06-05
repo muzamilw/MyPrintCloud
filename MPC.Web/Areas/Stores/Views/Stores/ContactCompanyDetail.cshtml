@@ -261,11 +261,19 @@
                                                         <span>Upload </span>
                                                         <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
+                                                    <div class="bs-example-tooltips tooltip-float-width" style="float: left;">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Theme Yellow :192px w x 40px h &nbsp;
+                                                            Theme Purple :240px w x 50px h &nbsp;
+                                                            Theme Brown :240px w x 50px h &nbsp;
+                                                            Theme Pink :240px w x 50px h &nbsp;
+                                                            Theme Private Store(Saloon) :240px w x 50px h &nbsp;
+                                                            Theme Private Store(RealEstate):290px w x 70px h &nbsp;" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px;width:250px;">
-                                                    <!--ko if: $root.selectedThemeDimensions()!==undefined-->
-                                                    <span data-bind="text:$root.selectedThemeDimensions"></span><br />
-                                                    <!--/ko-->
+
                                                     <span> Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.</span>
                                                 </div>
                                                 <div class="profile-stars">
@@ -2193,10 +2201,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="col-lg-9">
                                             <div class="form-group" id="taxLabel">
                                                 <div class="col-lg-3 text-right">
-                                                       <label class="control-label text-right tooltip-float">Tax Title/Label</label>
+                                                    <label class="control-label text-right tooltip-float">Tax Title/Label</label>
                                                 </div>
-                                                    <div class="col-lg-3" style="padding-right:6px;">
-                                                        <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
+                                                <div class="col-lg-3" style="padding-right:6px;">
+                                                    <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
                                                 </div>
                                             </div>
 
@@ -2231,13 +2239,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
-                                                       
+
                                                 </div>
-                                                    <div class="col-lg-3" style="padding-left:4px;">
+                                                <div class="col-lg-3" style="padding-left:4px;">
                                                     <div class="input-group">
-                                                           
-                                                            <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
-                                                            <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
+
+                                                        <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
+                                                        <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
                                                     </div>
                                                 </div>
                                             </div>
