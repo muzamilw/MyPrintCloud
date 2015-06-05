@@ -4,42 +4,30 @@
 define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
 
-        // #region __________________  Delivery Note List View   ______________________
-        deliverNoteListView = function (specifieddeliveryNoteId, specifiedcode, specifieddeliveryDate, specifiedflagId, specifiedcontactCompany,
-            specifiedOrderReff, specifiedCreationDateTime, specifiedCompanyName, specifiedFlagColor) {
+        // #region __________________  Purchase List View   ______________________
+        PurchaseListView = function (specifiedPurchaseId, specifiedCode, specifiedPurchaseDate, specifiedRefNo,
+            specifiedCompanyName, specifiedFlagColor) {
 
             var self,
-                deliveryNoteId = ko.observable(specifieddeliveryNoteId),
-                code = ko.observable(specifiedcode),
-                deliveryDate = ko.observable(specifieddeliveryDate !== null ? moment(specifieddeliveryDate).toDate() : undefined),
-                flagId = ko.observable(specifiedflagId),
-                contactCompany = ko.observable(specifiedcontactCompany),
+                id = ko.observable(specifiedPurchaseId),
+                code = ko.observable(specifiedCode),
+                purchaseOrderDate = ko.observable(specifiedPurchaseDate !== null ? moment(specifiedPurchaseDate).toDate() : undefined),
                 companyName = ko.observable(specifiedCompanyName),
-                orderReff = ko.observable(specifiedOrderReff),
-                flagColor = ko.observable(specifiedFlagColor),
-                creationDateTime = ko.observable(specifiedCreationDateTime !== null ? moment(specifiedCreationDateTime).toDate() : undefined),
+                refNo = ko.observable(specifiedRefNo),
+                flagColor = ko.observable(specifiedFlagColor);
 
-                convertToServerData = function () {
-                    return {
-
-                    };
-                };
-
-            self = {
-                deliveryNoteId: deliveryNoteId,
+            return {
+                id: id,
                 code: code,
-                deliveryDate: deliveryDate,
+                purchaseOrderDate: purchaseOrderDate,
                 flagId: flagId,
                 flagColor: flagColor,
-                contactCompany: contactCompany,
                 companyName: companyName,
-                orderReff: orderReff,
-                creationDateTime: creationDateTime,
-                convertToServerData: convertToServerData
+                refNo: refNo,
             };
-            return self;
+
         },
-        // #endregion __________________  dDelivery Note List View    ______________________
+        // #endregion __________________  Purchase List View    ______________________
 
         // #region __________________  System User   ______________________
         SystemUser = function (specifiedId, specifiedName, specifiedFullName) {
@@ -279,10 +267,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return new DeliveryNoteDetail(source.DeliveryDetailid, source.Description);
     };
 
-    // Delivery Notes List View Factory
-    deliverNoteListView.Create = function (source) {
-        return new deliverNoteListView(source.DeliveryNoteId, source.Code, source.DeliveryDate, source.FlagId, source.ContactCompany, source.OrderReff,
-            source.CreationDateTime, source.CompanyName, source.FlagColor);
+    // Purchase List View Factory
+    PurchaseListView.Create = function (source) {
+        return new PurchaseListView(source.PurchaseId, source.Code, source.DatePurchase, source.RefNo,
+             source.SupplierName, source.FlagColor);
     };
 
     // Delivery Notes Factory
@@ -320,7 +308,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     return {
-        deliverNoteListView: deliverNoteListView,
+        PurchaseListView: PurchaseListView,
         Address: Address,
         CompanyContact: CompanyContact,
         DeliveryNote: DeliveryNote,
