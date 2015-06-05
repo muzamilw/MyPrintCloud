@@ -351,7 +351,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.MarkupId = source.markupId() === undefined ? null : source.markupId();
         result.CountryId = source.country() === undefined ? null : source.country();
         result.StateId = source.state() === undefined ? null : source.state();
-        result.IsImperical = source.isImperical = undefined ? null : source.isImperical();
+        result.IsImperical = source.isImperical() === undefined ? null : source.isImperical();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

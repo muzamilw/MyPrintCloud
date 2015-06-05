@@ -57,7 +57,7 @@
         specifiedItemSizeSelectedUnitId, specifiedPerQtyQty, specifiedItemSizeCustom, specifiedStockLocation, specifiedItemSizeId, specifiedItemSizeHeight,
         specifiedItemSizeWidth, specifiedPerQtyType, specifiedPackageQty, specifiedRollWidth, specifiedRollLength, specifiedReOrderLevel, specifiedReorderQty,
         specifiedItemWeight, specifiedItemColour, specifiedInkAbsorption, specifiedPaperBasicAreaId, specifiedItemCoated, specifiedItemCoatedType,
-        specifiedItemWeightSelectedUnit, specifiedAllocated, specifiedOnOrder, specifiedLastOrderQty, specifiedLastOrderDate, specifiedSupplierName
+        specifiedItemWeightSelectedUnit, specifiedAllocated, specifiedOnOrder, specifiedLastOrderQty, specifiedLastOrderDate, specifiedSupplierName,specifiedIsImperical
            ) {
         var
             self,
@@ -139,6 +139,9 @@
             lastOrderQty = ko.observable(specifiedLastOrderQty),
             //Last Order Date
             lastOrderDate = ko.observable(specifiedLastOrderDate),
+
+            // is empirical
+            IsImperical = ko.observable(specifiedIsImperical),
             //header computed Value based on selection unit size itm 
         headerComputedValue = ko.observable(),
         //Stock Cost And Price List
@@ -209,6 +212,7 @@
             lastOrderDate: lastOrderDate,
             headerComputedValue: headerComputedValue,
             supplierName: supplierName,
+            IsImperical: IsImperical,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
         }),
         // Has Changes
@@ -250,6 +254,7 @@
                 ItemCoatedType: itemCoatedType(),
                 Status: statusId(),
                 isDisabled: isDisabled(),
+                IsImperical: IsImperical(),
                 ItemWeightSelectedUnit: itemWeightSelectedUnit(),
                 StockCostAndPrices: stockCostAndPriceListInInventory()
             }
@@ -299,6 +304,7 @@
             lastOrderDate: lastOrderDate,
             headerComputedValue: headerComputedValue,
             supplierName: supplierName,
+            IsImperical: IsImperical,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
             paperType: paperType,
             isValid: isValid,
@@ -400,7 +406,7 @@
             source.PerQtyQty, source.ItemSizeCustom, source.StockLocation, source.ItemSizeId, source.ItemSizeHeight, source.ItemSizeWidth, source.PerQtyType, source.PackageQty,
             source.RollWidth, source.RollLength, source.ReOrderLevel, source.ReorderQty, source.ItemWeight, source.ItemColour, source.InkAbsorption, source.PaperBasicAreaId,
             source.ItemCoated, source.ItemCoatedType, source.ItemWeightSelectedUnit, source.Allocated, source.onOrder, source.LastOrderQty, source.LastOrderDate,
-            source.SupplierName);
+            source.SupplierName,source.IsImperical);
     };
     //Stock Cost And Price Item For Client Factory
     StockCostAndPrice.CreateForClient = function (source) {

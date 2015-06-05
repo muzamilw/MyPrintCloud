@@ -4072,7 +4072,7 @@ namespace MPC.Implementation.MISServices
             }
             //OrderSheet PTV Calculation
             //Calculating the PTV for Paper Sheet and Print Sheet
-            if (oItemSection.IsSectionSizeCustom == false)
+            if (oItemSection.IsSectionSizeCustom != true)
             {
                 PaperSize size = itemsectionRepository.GetPaperSizeById(Convert.ToInt32(oItemSection.SectionSizeId));
                 if (size != null)
@@ -4713,7 +4713,7 @@ namespace MPC.Implementation.MISServices
                 }
 
                 //Calculating the PTV of Working Sheet and Print Sheet / Order PTV
-                if (oItemSection.IsSectionSizeCustom == false)
+                if (oItemSection.IsSectionSizeCustom != true)
                 {
                     PaperSize size = itemsectionRepository.GetPaperSizeById(Convert.ToInt32(oItemSection.SectionSizeId));
                     if (size != null)
@@ -4723,7 +4723,7 @@ namespace MPC.Implementation.MISServices
                     }
                 }
                 PtvDTO oPTV = CalculatePTV(0, 0, false, false, false, Convert.ToInt32(oItemSection.SectionSizeHeight), Convert.ToInt32(oItemSection.SectionSizeWidth), Convert.ToInt32(intOrderSheetHeight), Convert.ToInt32(intOrderSheetWidth), 0,
-                (int)GripSide.LongSide, 0, 0, 0, 0, 0, (bool)oItemSection.isWorknTurn, (bool)oItemSection.isWorkntumble);
+                (int)GripSide.LongSide, 0, 0, 0, 0, 0, oItemSection.isWorknTurn?? false, oItemSection.isWorkntumble?? false);
 
                 if (oPTV.LandscapePTV > oPTV.PortraitPTV)
                 {
@@ -6272,8 +6272,10 @@ namespace MPC.Implementation.MISServices
             //Highest setup spoilage between the two presses will be set.
            var value= currentSection.IsDoubleSided ?? false ;
            if (value)
-            {
-                if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
+           {
+               currentSection.PassesSide1 = pressSide1.Passes ?? 1;
+               currentSection.PassesSide2 = pressSide2.Passes ?? 1;
+               if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
                     SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
                 else
                     SetupSpoilage = pressSide2.SetupSpoilage ?? 0;
@@ -6346,8 +6348,12 @@ namespace MPC.Implementation.MISServices
             {
                 updatedSection.IsFirstTrim = true;
                 var guillotine = machineRepository.GetDefaultGuillotine();
-                if(guillotine != null)
+                if (guillotine != null)
+                {
+                    updatedSection.GuillotineId = guillotine.MachineId;
                     updatedSection = CalculateGuillotineCost(updatedSection, guillotine.MachineId, false, false);
+                }
+                    
             }
 
             updatedSection.BaseCharge1 = updatedSection.SectionCostcentres.Sum(a => a.Qty1NetTotal);

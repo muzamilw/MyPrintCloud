@@ -811,6 +811,36 @@ define("common/itemDetail.viewModel",
                             }
                             getSectionSystemCostCenters();
                         });
+
+                        selectedSection().qty1.subscribe(function (value) {
+                            if (value !== selectedSection().qty1()) {
+                                selectedSection().qty1(value);
+                            }
+                            getSectionSystemCostCenters();
+                        });
+
+                        selectedSection().qty2.subscribe(function (value) {
+                            if (value !== selectedSection().qty2()) {
+                                selectedSection().qty2(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        selectedSection().isSecondTrim.subscribe(function (value) {
+                            if (value !== selectedSection().isSecondTrim()) {
+                                selectedSection().isSecondTrim(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        selectedSection().isPaperSupplied.subscribe(function (value) {
+                            if (value !== selectedSection().isPaperSupplied()) {
+                                selectedSection().isPaperSupplied(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        
                     },
                     // Get Press By Id
                     getPressById = function (pressId) {
@@ -1388,21 +1418,7 @@ define("common/itemDetail.viewModel",
                             }
                         });
                     },
-                    setDecimalPlaceValue = function (chargevalue) {
-                        if (chargevalue) {
-                            var val = parseFloat(chargevalue);
-                            var calc;
-                            if (!isNaN(val)) {
-                                calc = (val.toFixed(2));
-                                return calc;
-                            } else {
-                                calc = 0.00;
-                                return calc;
-                            }
-                        } else {
-                            return 0.00;
-                        }
-                    },
+
                     selectBestPressFromWizard = function (bestPress) {
                         selectedBestPressFromWizard(bestPress);
                         selectedSection().pressId(bestPress.id);
