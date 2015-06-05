@@ -355,6 +355,8 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public bool? isAllowBackOrder { get; set; }
 
+        public bool? IsImperical { get; set; }
+
         #endregion
 
         #region Reference Properties

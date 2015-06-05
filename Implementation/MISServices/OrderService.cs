@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -597,7 +598,7 @@ namespace MPC.Implementation.MISServices
         {
             return new InquiryBaseResponse
             {
-                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int) SectionEnum.Inquiries)
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Inquiries)
             };
         }
 
@@ -974,8 +975,8 @@ namespace MPC.Implementation.MISServices
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-              return GenerateOrderArtworkArchive(OrderID, sZipName);
-           // return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
+            return GenerateOrderArtworkArchive(OrderID, sZipName);
+            // return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
@@ -1001,7 +1002,7 @@ namespace MPC.Implementation.MISServices
 
             try
             {
-               Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
+                Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
                 if (sZipName == string.Empty)
                 {
                     sZipFileName = GetArchiveFileName(oOrder.Order_Code, oOrder.Company.Name, oOrder.EstimateId);
@@ -1017,13 +1018,13 @@ namespace MPC.Implementation.MISServices
                 ReturnPhysicalPath = sCreateDirectory + "\\" + sZipFileName;
                 if (File.Exists(ReturnPhysicalPath))
                 {
-                    ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId +"/" +sZipFileName;
+                    ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
                     return ReturnPhysicalPath;
                 }
 
                 //filter the items which are of type delivery i.e. itemtype = 2
                 List<Item> ItemsList = itemRepository.GetItemsWithAttachmentsByOrderID(OrderID);
-                
+
                 MakeArtWorkProductionReady = true;
 
                 if (oOrder.Company != null)
@@ -1032,7 +1033,7 @@ namespace MPC.Implementation.MISServices
                     {
                         IncludeOrderReport = oOrder.Company.includeEmailArtworkOrderReport ?? false;
                         IncludeJobCardReport = oOrder.Company.includeEmailArtworkOrderJobCard ?? false;
-                        IncludeOrderXML = oOrder.Company.includeEmailArtworkOrderXML ?? false;                        
+                        IncludeOrderXML = oOrder.Company.includeEmailArtworkOrderXML ?? false;
                     }
                     else
                     {
@@ -1055,18 +1056,18 @@ namespace MPC.Implementation.MISServices
                 //making the artwork production ready and regenerating template PDFs
                 if (MakeArtWorkProductionReady)
                 {
-                    
+
                     ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder);
 
                 }
 
-                
+
 
                 //ReturnRelativePath = szDirectory + "/" + PathConstants.DownloadableFilesPath + sZipFileName;
-                
+
                 if (File.Exists(ReturnPhysicalPath))
                 {
-                    
+
                     return ReturnPhysicalPath;
                 }
                 else
@@ -1156,7 +1157,7 @@ namespace MPC.Implementation.MISServices
                         // DeleteFiles();
                     }
                     ReturnRelativePath = sCreateDirectory;
-                    ReturnPhysicalPath = "/MPC_Content/Artworks/"+ OrganisationId +"/" + sZipFileName;
+                    ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
                     //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }
@@ -3174,13 +3175,9 @@ namespace MPC.Implementation.MISServices
             fileName = attachment.FileName;
             fileTpe = attachment.FileType;
 
-            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
-            string attachmentMapPath = mapPath + attachment.ItemId + "\\" + attachment.FileName + attachment.FileType;
-            if (!File.Exists(attachmentMapPath))
-            {
-                attachmentMapPath = string.Empty;
-            }
-
+            //string mapPath1 = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
+            string mapPath = server.MapPath("~/" + attachment.FolderPath + "/");
+            string attachmentMapPath = mapPath + attachment.FileName + attachment.FileType;
             return attachmentMapPath;
         }
     }

@@ -13,6 +13,7 @@
         public string Region { get; set; }
         public bool? IsArchived { get; set; }
 
+        public bool? IsImperical { get; set; }
         #endregion
     }
 }

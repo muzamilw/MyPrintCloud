@@ -275,7 +275,8 @@
                                             <input type="text" style="text-align:right;" class="form-control" id="weight" data-bind="value:itemWeight, validationTooltip: itemWeight, validationOnElement:itemWeight" />
                                         </div>
                                         <div class="col-lg-4">
-                                            <select class="form-control" data-bind="options: $root.weightUnits, optionsText: 'UnitName', optionsValue: 'Id',value:itemWeightSelectedUnit "></select>
+                                            (<label class="control-label" data-bind="text: $root.weightLabel"></label>)
+                                            @*<select class="form-control" data-bind="options: $root.weightUnits, optionsText: 'UnitName', optionsValue: 'Id',value:itemWeightSelectedUnit "></select>*@
                                         </div>
                                     </div>
 
