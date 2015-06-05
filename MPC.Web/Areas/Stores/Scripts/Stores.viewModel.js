@@ -4232,8 +4232,16 @@ define("stores/stores.viewModel",
                     dataservice.saveStore(
                         storeToSave, {
                             success: function (data) {
-                                isStoreEditorVisible(false);
-                                isEditorVisible(false);
+                                //#region Req: Not Close Store Edit Dialog On Saving
+
+                                //isStoreEditorVisible(false);
+                                //isEditorVisible(false);
+                                getStoreForEditting();
+                                getBaseData();
+                                $('.nav-tabs li:first-child a').tab('show');
+                                $('.nav-tabs li:eq(0) a').tab('show');
+                                //#endregion
+
                                 //new store adding
                                 if (selectedStore().companyId() == undefined || selectedStore().companyId() == 0) {
                                     selectedStore().companyId(data.CompanyId);
