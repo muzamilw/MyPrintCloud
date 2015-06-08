@@ -16,12 +16,14 @@
              @foreach (var ParentProduct in ParentCategory)
              {
                  int count = AllChildCategories.Where(g => g.ParentCategoryId == ParentProduct.ProductCategoryId).Count();
-                    if(count>0)
-                    { 
+                     
                     <div id="MainDiv" class="MetroProCats">
                         <h2 class="Metrowidth_allPro">
-                            <a id="ltrlParentCatName" class="MetroParent_Cat_allPro">@ParentProduct.CategoryName</a>
+                            <a id="ltrlParentCatName" class="MetroParent_Cat_allPro" href="/Category/@Html.ResolveString(ParentProduct.CategoryName)/@ParentProduct.ProductCategoryId">@ParentProduct.CategoryName</a>
                         </h2>
+                        @if(count>0)
+                        {
+                            <div>
                         <div class="MetrocolContainer">
                             @{
                               var ChildCategories = AllChildCategories.Where(i => i.ParentCategoryId == ParentProduct.ProductCategoryId).ToList();
@@ -37,10 +39,12 @@
                             <div class="clearBoth">
                             </div>
                         </div>
+                                </div>
+                        }
                         <div class="clearBoth">
                         </div>
                     </div>
-                    }
+                    //}
                 
               }
         </div>
