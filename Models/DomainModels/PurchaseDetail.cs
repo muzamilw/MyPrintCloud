@@ -23,6 +23,7 @@
         public int? DepartmentId { get; set; }
         public long? RefItemId { get; set; }
         public int? ProductType { get; set; }
+        public double? TaxValue { get; set; }
 
         public virtual Purchase Purchase { get; set; }
         public virtual Item Item { get; set; }

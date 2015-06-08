@@ -55,7 +55,7 @@
                             });
 
                         }
-                    }
+                    },
                     SelectReportById = function (report) {
                         $(".dd-handle").removeClass("selectedReport")
                         $("#" + report.ReportId()).addClass("selectedReport");
