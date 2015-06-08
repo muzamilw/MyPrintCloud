@@ -7,23 +7,23 @@
     <div class="col-lg-12">
         <div class="row">
             @*<div class="col-lg-12">
-                <ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li><a href="/CRM/SuppliersList">CRM</a></li>
-                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
-                    <li class="active"><span>Supplier</span></li>
-                    <!-- /ko -->
-                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() != 2-->
-                    <li class="active"><span>Customers</span></li>
-                    <!-- /ko -->
-                                                                                                
-                </ol>
-                <!--ko if: $root.selectedStore() != undefined -->
-                <h1 data-bind="text: $root.selectedStore().name()"></h1>
-                <!-- /ko -->
-                ```````
+                    <ol class="breadcrumb">
+                        <li><a href="~/Dashboard/Index">Home</a></li>
+                        <li><a href="/CRM/SuppliersList">CRM</a></li>
+                        <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                        <li class="active"><span>Supplier</span></li>
+                        <!-- /ko -->
+                        <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() != 2-->
+                        <li class="active"><span>Customers</span></li>
+                        <!-- /ko -->
 
-            </div>*@
+                    </ol>
+                    <!--ko if: $root.selectedStore() != undefined -->
+                    <h1 data-bind="text: $root.selectedStore().name()"></h1>
+                    <!-- /ko -->
+                    ```````
+
+                </div>*@
         </div>
         <div class="row" id="user-profile">
             <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
@@ -80,22 +80,22 @@
                             <div class="tab-pane fade in active" id="tab-newsfeedForCrm">
                                 <div class="col-lg-12 form-horizontal">
                                     @*<!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
-                                    <h3 class="group-header">Prospect Details</h3>
-                                    <!-- /ko -->
-                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
-                                    <h3 class="group-header">Customer Details</h3>
-                                    <!-- /ko -->
-                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
-                                    <h3 class="group-header">Supplier Details</h3>
-                                    <!-- /ko -->*@
+                                        <h3 class="group-header">Prospect Details</h3>
+                                        <!-- /ko -->
+                                        <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
+                                        <h3 class="group-header">Customer Details</h3>
+                                        <!-- /ko -->
+                                        <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                                        <h3 class="group-header">Supplier Details</h3>
+                                        <!-- /ko -->*@
 
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width" style="margin-top:18px;">
                                                     @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the store that will be displayed on the web." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>*@
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>*@
                                                 </div>
                                                 <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
                                                 <label for="txtCompanyName" style="margin-top:14px;" class="control-label text-right tooltip-float">Company Name</label>
@@ -112,17 +112,17 @@
                                                 <input type="text" style="height:60px;" name="Store Name" class="form-control height60 font24px" id="txtCompanyName" placeholder="Enter Company Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
 
 
-                                         
+
                                                 @*<!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
-                                                <span class="help-block text-right">Name of Prospect.</span>
-                                                <!-- /ko -->
-                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
-                                                <span class="help-block text-right">Name of Customer.</span>
-                                                <!-- /ko -->
-                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
-                                                <span class="help-block text-right">Name of Supplier.</span>
-                                                <!-- /ko -->*@
-                                                
+                                                    <span class="help-block text-right">Name of Prospect.</span>
+                                                    <!-- /ko -->
+                                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
+                                                    <span class="help-block text-right">Name of Customer.</span>
+                                                    <!-- /ko -->
+                                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                                                    <span class="help-block text-right">Name of Supplier.</span>
+                                                    <!-- /ko -->*@
+
                                             </div>
                                         </div>
                                         @*<div class="form-group">
@@ -157,10 +157,10 @@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="ex. (999) 999-9999" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>*@
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="ex. (999) 999-9999" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>*@
                                                 @*<label class="control-label tooltip-float" for="maskedPhone"></label>*@
                                             </div>
                                             <div class="col-lg-6">
@@ -168,17 +168,17 @@
                                                     <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus"><i class="fa fa-phone"></i></span>
                                                     <input type="text" class="form-control" id="maskedPhone" data-bind="value: phoneNo">
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="User notes for the store." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>*@
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="User notes for the store." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>*@
                                             </div>
                                             <div class="col-lg-6">
                                                 <textarea class="form-control notes" id="txtNotes" rows="5" data-bind="value: notes"></textarea>
@@ -207,46 +207,46 @@
                                         </div>
 
 
-                                     
 
-                                       
+
+
 
 
                                         @*<div class="main-box clearfix">
-                                            <header class="main-box-header clearfix textAlignCenter">
-                                                <h2><label data-bind="text: name"></label></h2>
-                                            </header>
-                                            <div class="main-box-body clearfix">
-                                                <div class="profile-status">
-                                                </div>
-                                                <img style="width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
-                                                <div class="pull-right">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                <header class="main-box-header clearfix textAlignCenter">
+                                                    <h2><label data-bind="text: name"></label></h2>
+                                                </header>
+                                                <div class="main-box-body clearfix">
+                                                    <div class="profile-status">
+                                                    </div>
+                                                    <img style="width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
+                                                    <div class="pull-right">
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>....</span>
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-label profileLabelPadding">
+                                                        <!-- ko if: status() == 1 -->
+                                                        <span class="label label-success">Active</span>
+                                                        <!-- /ko -->
+                                                        <!-- ko if: status() != 1 -->
+                                                        <span class="label label-danger">In-Active</span>
+                                                        <!-- /ko -->
+                                                    </div>
+                                                    <div class="profile-stars">
+                                                        <span data-bind="value: type"></span>
+                                                    </div>
+                                                    <div class="profile-since" data-bind="value: accountOpenDate">
                                                     </div>
                                                 </div>
-                                                <div class="profile-label profileLabelPadding">
-                                                    <!-- ko if: status() == 1 -->
-                                                    <span class="label label-success">Active</span>
-                                                    <!-- /ko -->
-                                                    <!-- ko if: status() != 1 -->
-                                                    <span class="label label-danger">In-Active</span>
-                                                    <!-- /ko -->
-                                                </div>
-                                                <div class="profile-stars">
-                                                    <span data-bind="value: type"></span>
-                                                </div>
-                                                <div class="profile-since" data-bind="value: accountOpenDate">
-                                                </div>
-                                            </div>
-                                        </div>*@
+                                            </div>*@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Account Details</h3>
                                     <div class="col-lg-9">
-                                       
+
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right" style="padding-left:0px;">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -351,31 +351,31 @@
 
                                         @*<div class="col-lg-12 clearfix">
 
-                    <div class="main-box-body clearfix">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th><span>Territory</span></th>
-                                        <th><span>Code</span></th>
-                                        <th>&nbsp;</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- ko template: { name: 'itemCompanyTerritoryTemplate' , foreach: $root.selectedStore().companyTerritories } -->
-                                    <!-- /ko -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <footer class="main-box-header pull-right">
-                        <div id="pagerDiv">
-                            <!-- ko with: $root.companyTerritoryPager -->
-                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                            <!-- /ko -->
-                        </div>
-                    </footer>
-                </div>*@
+                                                <div class="main-box-body clearfix">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th><span>Territory</span></th>
+                                                                    <th><span>Code</span></th>
+                                                                    <th>&nbsp;</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!-- ko template: { name: 'itemCompanyTerritoryTemplate' , foreach: $root.selectedStore().companyTerritories } -->
+                                                                <!-- /ko -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <footer class="main-box-header pull-right">
+                                                    <div id="pagerDiv">
+                                                        <!-- ko with: $root.companyTerritoryPager -->
+                                                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                        <!-- /ko -->
+                                                    </div>
+                                                </footer>
+                                            </div>*@
                                     </div>
                                     <!--/ko-->
                                     <h3 class="group-header">Multiple Shipping and billing addresses for this company</h3>
@@ -390,7 +390,7 @@
                                                 </div>
                                                 <div class="col-lg-6" style="padding-left:2px;">
                                                     <header class="main-box-header clearfix" style="width:220%;">
-                                                        
+
                                                         <div class="filter-block">
                                                             <div class="filter-block pull-right">
                                                                 <div class="form-group pull-left" style="padding-right:0px; margin-right: -14px;margin-bottom:5px;">
@@ -403,8 +403,8 @@
                                                     </header>
                                                     <div style="background-color:gainsboro; border-radius:3px; width:220%;">
                                                         @*<header class="main-box-header clearfix">
-                                                            <div style="float:left;"><span style="font-size:24px">Addresses</span></div>
-                                                        </header>*@
+                                                                <div style="float:left;"><span style="font-size:24px">Addresses</span></div>
+                                                            </header>*@
                                                         <div class="main-box-body clearfix">
                                                             <div class="table-responsive">
                                                                 <div style="float:left;margin-top:12px;margin-bottom:10px;margin-left:8px;"><span style="font-size:24px">Addresses</span></div>
@@ -452,44 +452,44 @@
 
 
                                         @*<header class="main-box-header clearfix">
-                    <div class="filter-block">
-                        <div class="filter-block pull-right col-xs-5">
-                            <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
-                                <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
-                            </div>
-                            <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" style="margin-right: -8px" class="btn btn-primary pull-right">
-                                Add Address
-                            </a>
-                        </div>
-                    </div>
-                </header>
-                <div class="main-box-body clearfix">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th><span>Address Name</span></th>
-                                    <th><span>City</span></th>
+                                                <div class="filter-block">
+                                                    <div class="filter-block pull-right col-xs-5">
+                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
+                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
+                                                        </div>
+                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" style="margin-right: -8px" class="btn btn-primary pull-right">
+                                                            Add Address
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </header>
+                                            <div class="main-box-body clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><span>Address Name</span></th>
+                                                                <th><span>City</span></th>
 
-                                    <th><span>Company Default Shipping Address</span></th>
-                                    <th><span>Company Default Address</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- ko template: { name: 'itemAddressTemplate' , foreach: $root.selectedStore().addresses } -->
-                                <!-- /ko -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <footer class="main-box-header pull-right">
-                    <div id="pagerDivAddress" style="margin-right: -10px">
-                        <!-- ko with: $root.addressPager -->
-                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                        <!-- /ko -->
-                    </div>
-                </footer>*@
+                                                                <th><span>Company Default Shipping Address</span></th>
+                                                                <th><span>Company Default Address</span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'itemAddressTemplate' , foreach: $root.selectedStore().addresses } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <footer class="main-box-header pull-right">
+                                                <div id="pagerDivAddress" style="margin-right: -10px">
+                                                    <!-- ko with: $root.addressPager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
+                                                </div>
+                                            </footer>*@
                                     </div>
                                 </div>
                                 <div class="col-lg-12  form-horizontal">
@@ -516,8 +516,8 @@
                                                 </header>
                                                 <div style="background-color:gainsboro; border-radius:3px; width:220%;">
                                                     @*<header class="main-box-header clearfix">
-                                                        <div style="float:left;"><span style="font-size:24px">Users</span></div>
-                                                    </header>*@
+                                                            <div style="float:left;"><span style="font-size:24px">Users</span></div>
+                                                        </header>*@
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
                                                             <div style="float:left;margin-top:12px;margin-bottom:10px;"><span style="font-size:24px">Users and Visitors</span></div>
@@ -527,7 +527,7 @@
                                                                         <th><span>Name</span></th>
                                                                         <th>Email</th>
                                                                         <th>Cell Number</th>
-                                                                        
+
 
 
                                                                     </tr>
@@ -538,7 +538,7 @@
                                                                 </tbody>
 
                                                             </table>
-                                                        </div> 
+                                                        </div>
                                                     </div>
                                                     <footer class="main-box-header pull-right" style="padding-right:10px;">
                                                         <div id="pagerDivAddress" style="margin-right: -10px">
@@ -570,51 +570,51 @@
 
 
                                     @*<div class="col-lg-12 clearfix">
-                <header class="main-box-header clearfix">
+                                            <header class="main-box-header clearfix">
 
-                    <div class="filter-block pull-right">
-                        <div class="form-group pull-left">
-                            <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
-                            <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
-                        </div>
-                        <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" style="margin-right: -3px" class="btn btn-primary pull-right">
-                            Add User
-                        </a>
-                    </div>
-                </header>
-                <div class="main-box-body clearfix">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th><span>Name</span></th>
-                                    <th>Role</th>
-                                    <th>Has Web Access</th>
-                                    <th>Can Place Order</th>
-                                    <th>Approval Required</th>
-                                    <th>Can See Prices</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- ko template: { name: 'itemCompanyContactTemplate' , foreach: $root.selectedStore().users } -->
-                                <!-- /ko -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <footer class="main-box-header pull-right">
-                    <div id="pagerDivUsers" style="margin-right: 0px; text-align: right">
-                        <!-- ko with: $root.contactCompanyPager -->
-                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                        <!-- /ko -->
-                    </div>
-                </footer>
-            </div>*@
+                                                <div class="filter-block pull-right">
+                                                    <div class="form-group pull-left">
+                                                        <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
+                                                        <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
+                                                    </div>
+                                                    <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" style="margin-right: -3px" class="btn btn-primary pull-right">
+                                                        Add User
+                                                    </a>
+                                                </div>
+                                            </header>
+                                            <div class="main-box-body clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><span>Name</span></th>
+                                                                <th>Role</th>
+                                                                <th>Has Web Access</th>
+                                                                <th>Can Place Order</th>
+                                                                <th>Approval Required</th>
+                                                                <th>Can See Prices</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'itemCompanyContactTemplate' , foreach: $root.selectedStore().users } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <footer class="main-box-header pull-right">
+                                                <div id="pagerDivUsers" style="margin-right: 0px; text-align: right">
+                                                    <!-- ko with: $root.contactCompanyPager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
+                                                </div>
+                                            </footer>
+                                        </div>*@
                                 </div>
 
                             </div>
                             <div class="tab-pane fade" id="tab-territoryForCrm">
-                             
+
                             </div>
                             <div class="tab-pane fade" id="tab-DAM">
                                 <div class="col-md-12 form-horizontal">
@@ -977,7 +977,7 @@
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-purchaseOrders">
                                 <div class="col-lg-12">
-                                    
+
                                     <div class="col-lg-12">
                                         <div class="col-lg-12 clearfix">
                                             <div class="main-box-body clearfix">
@@ -1011,7 +1011,7 @@
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-goodRecievedNotesInvoices">
                                 <div class="col-lg-12">
-                                    
+
                                     <div class="col-lg-12">
                                         <div class="col-lg-12 clearfix">
                                             <div class="main-box-body clearfix">
@@ -1121,17 +1121,17 @@
             <td data-bind="text: city"></td>
             @*<td data-bind="text: territoryName"></td>*@
             @*<!--ko if: $root.selectedStore().type() == 4-->
-            <!--ko if: isDefaultShippingAddress() == true -->
-            <td class="type">
-                <span class="label label-success">Yes </span>
-            </td>
-            <!-- /ko -->
-            <!--ko if: isDefaultShippingAddress() != true-->
-            <td class="type">
-                <span class="label label-danger">No </span>
-            </td>
-            <!-- /ko -->
-            <!--/ko-->*@
+                <!--ko if: isDefaultShippingAddress() == true -->
+                <td class="type">
+                    <span class="label label-success">Yes </span>
+                </td>
+                <!-- /ko -->
+                <!--ko if: isDefaultShippingAddress() != true-->
+                <td class="type">
+                    <span class="label label-danger">No </span>
+                </td>
+                <!-- /ko -->
+                <!--/ko-->*@
             @*<!--ko if:  $root.selectedStore().type() == 3-->*@
             <!--ko if: isDefaultShippingAddress() == true -->
             <td class="type">
@@ -1155,9 +1155,9 @@
             </td>
             <!-- /ko -->
             @*<td id="actionColumn" class="text-right">
-                <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->
-            </td>*@
+                    <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                    <!-- /ko -->
+                </td>*@
         </tr>
     </script>
     <script id="actionsCompanyContactTemplate" type="text/html">
@@ -1183,40 +1183,40 @@
                         <a href="#" class="store-user-link" data-bind="text: firstName,click : undefined"></a>
                     </div>
                 </div>
-                
+
             </td>
             <td style="width: 10%; max-width: 10%;">
                 <div class="time online" data-bind="text: email">
                 </div>
             </td>
             @*
-            <td data-bind="text: firstName "></td>
-            <td data-bind="text: contactRoleId"></td>*@
+                <td data-bind="text: firstName "></td>
+                <td data-bind="text: contactRoleId"></td>*@
             <td style="width: 10%; max-width: 10%;">
                 <div class="type">
                     <span class="label" style="color:black !important;padding-left:0px;" data-bind="text: mobile"></span>   @*class="label label-danger"*@
                 </div>
             </td>
             @*<td style="width: 10%; max-width: 10%;">
-                <div class="type">
-                    <span class="label" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No', css: { 'label-success': (isPlaceOrder() == true),'label-danger': (isPlaceOrder() != true)}"></span>
-                </div>
-            </td>*@
+                    <div class="type">
+                        <span class="label" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No', css: { 'label-success': (isPlaceOrder() == true),'label-danger': (isPlaceOrder() != true)}"></span>
+                    </div>
+                </td>*@
             @*<td style="width: 10%; max-width: 10%;">
-                <div class="type">
-                    <span class="label" data-bind="text: canUserPlaceOrderWithoutApproval() != true ? 'Yes' : 'No', css: { 'label-success': (canUserPlaceOrderWithoutApproval() != true),'label-danger': (canUserPlaceOrderWithoutApproval() == true)}"></span>
-                </div>
-            </td>
-            <td style="width: 10%; max-width: 10%;">
-                <div class="type">
-                    <span class="label" data-bind="text: isPricingshown() == true ? 'Yes' : 'No', css: { 'label-success': (isPricingshown() == true),'label-danger': (isPricingshown() != true)}"></span>
-                </div>
-            </td>*@
+                    <div class="type">
+                        <span class="label" data-bind="text: canUserPlaceOrderWithoutApproval() != true ? 'Yes' : 'No', css: { 'label-success': (canUserPlaceOrderWithoutApproval() != true),'label-danger': (canUserPlaceOrderWithoutApproval() == true)}"></span>
+                    </div>
+                </td>
+                <td style="width: 10%; max-width: 10%;">
+                    <div class="type">
+                        <span class="label" data-bind="text: isPricingshown() == true ? 'Yes' : 'No', css: { 'label-success': (isPricingshown() == true),'label-danger': (isPricingshown() != true)}"></span>
+                    </div>
+                </td>*@
             @*<td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>*@
             @*<td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
-                <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->
-            </td>*@
+                    <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                    <!-- /ko -->
+                </td>*@
         </tr>
     </script>
     <script id="mediaLibraryItemTemplate" type="text/html">
