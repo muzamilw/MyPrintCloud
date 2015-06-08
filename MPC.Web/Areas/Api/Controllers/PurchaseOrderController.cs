@@ -46,6 +46,17 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return purchaseService.GetPurchaseOrders(request).CreateFrom();
         }
+
+        [ApiException]
+        public PurchaseListView Post(Purchase purchase)
+        {
+            if (purchase == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            // return _deliveryNotesService.SaveDeliveryNote(deliveryNote.CreateFrom()).CreateFromListView();
+            return null;
+        }
         #endregion
     }
 }

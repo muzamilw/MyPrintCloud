@@ -24,13 +24,10 @@
 </head>
 <body>
     <div class="container">
-
-       
-       
         @if (Model.Id > 0)
         {
             @Html.Action("GetReport", "Home", new { area = "", Model = Model });
-            }
+        }
 
     </div>
 </body>

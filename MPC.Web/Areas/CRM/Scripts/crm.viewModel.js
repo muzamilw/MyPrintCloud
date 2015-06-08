@@ -1824,6 +1824,7 @@ define("crm/crm.viewModel",
                                         selectedStore().companyId(data.CompanyId);
                                         // ReSharper disable once InconsistentNaming
                                         var tempCustomerListView = new model.customerViewListModel();
+                                        tempCustomerListView.customerTYpe(selectedStore().isCustomer() || 0);    // Prospect 
                                         tempCustomerListView.id(data.CompanyId);
                                         tempCustomerListView.name(data.Name);
                                         tempCustomerListView.creationdate(data.CreationDate);
@@ -1874,6 +1875,7 @@ define("crm/crm.viewModel",
                                         _.each(customersForListView(), function (customer) {
                                             if (customer.id() == selectedStore().companyId()) {
                                                 customer.name(data.Name);
+                                                customer.customerTYpe(selectedStore().isCustomer() || 0);    // Prospect 
                                                 customer.creationdate(data.CreationDate);
                                                 customer.status(data.Status);
                                                 customer.storeImageFileBinary(data.StoreImagePath);

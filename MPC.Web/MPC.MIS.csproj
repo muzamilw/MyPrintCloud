@@ -355,6 +355,7 @@
     <Compile Include="Areas\Api\Controllers\LiveJobsBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\LiveJobsController.cs" />
     <Compile Include="Areas\Api\Controllers\ProgressEstimateController.cs" />
+    <Compile Include="Areas\Api\Controllers\PurchaseBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
@@ -473,6 +474,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PurchaseBaseResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportparamMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
@@ -605,6 +607,8 @@
     <Compile Include="Areas\Api\Models\ProductMarketBriefQuestion.cs" />
     <Compile Include="Areas\Api\Models\PtvDTO.cs" />
     <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\Purchase.cs" />
+    <Compile Include="Areas\Api\Models\PurchaseDetail.cs" />
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
     <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
     <Compile Include="Areas\Api\Models\Report.cs" />
@@ -2202,6 +2206,7 @@
     <Content Include="Areas\Orders\Views\Home\_ProgressToOrderDialog.cshtml" />
     <Content Include="Areas\Products\Views\Home\_AddProductMarketBriefQuestion.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_AttachmentDialog.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_PurchaseDetailDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

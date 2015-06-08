@@ -38,7 +38,7 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                     }),
                     // Define request to get order by id
                     amplify.request.define('getBaseData', 'ajax', {
-                        url: ist.siteUrl + '/Api/DeliveryNoteBase',
+                        url: ist.siteUrl + '/Api/PurchaseBase',
                         dataType: 'json',
                         type: 'GET'
                     }),
@@ -49,9 +49,9 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                         dataType: 'json',
                         type: 'Delete'
                     }),
-                    // Define request to Save Delivery Notes
-                    amplify.request.define('saveDeliveryNote', 'ajax', {
-                        url: ist.siteUrl + '/Api/DeliveryNotes',
+                    // Define request to Save Purchase
+                    amplify.request.define('savePurchase', 'ajax', {
+                        url: ist.siteUrl + '/Api/PurchaseOrder',
                         dataType: 'json',
                         type: 'Post'
                     });
@@ -60,11 +60,11 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                 }
             },
 
-            // Save Delivery Notes
-            saveDeliveryNote = function (param, callbacks) {
+            // Save Purchase
+            savePurchase = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'saveDeliveryNote',
+                    resourceId: 'savePurchase',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
@@ -124,7 +124,7 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
         return {
             getPurchaseOrders: getPurchaseOrders,
             getDetaildeliveryNote: getDetaildeliveryNote,
-            saveDeliveryNote: saveDeliveryNote,
+            savePurchase: savePurchase,
             getBaseData: getBaseData,
             getBaseDataForCompany: getBaseDataForCompany,
             deleteDeliveryNote: deleteDeliveryNote

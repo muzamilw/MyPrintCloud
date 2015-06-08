@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
    
-    $('#realEstateCaouselr').carousel({ carouselWidth: 700, carouselHeight: 195, directionNav: true, shadow: true, buttonNav: 'bullets' });
+    $('.carousel').carousel({ carouselWidth: 700, carouselHeight: 195, directionNav: true, shadow: true, buttonNav: 'bullets' });
 });
