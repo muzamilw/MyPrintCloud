@@ -39,7 +39,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     // Default Status of first tab i-e All Purchased Orders
                     currentTab = ko.observable(0),
                     // #region Observables
-                    selectedPurchaseOrder = ko.observable(model.DeliveryNote()),
+                    selectedPurchaseOrder = ko.observable(model.Purchase()),
                     // For List View
                     selectedPurchaseOrderForListView = ko.observable(),
                     // Active Delivery Note Detail
@@ -94,79 +94,67 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         pager().reset();
                         getPurchaseOrders();
                     },
-                // Get Purchase Orders
-                getPurchaseOrders = function () {
-                    dataservice.getPurchaseOrders({
-                        SearchString: searchFilter(),
-                        PurchaseOrderType: purchaseOrderTypeFilter(),
-                        PageSize: pager().pageSize(),
-                        PageNo: pager().currentPage(),
-                        SortBy: sortOn(),
-                        Status: currentTab(),
-                        IsAsc: sortIsAsc()
-                    }, {
-                        success: function (data) {
-                            purchaseOrders.removeAll();
-                            if (data !== null && data !== undefined) {
-                                var itemList = [];
-                                _.each(data.PurchasesList, function (item) {
-                                    itemList.push(model.PurchaseListView.Create(item));
-                                });
-                                ko.utils.arrayPushAll(purchaseOrders(), itemList);
-                                purchaseOrders.valueHasMutated();
-                                pager().totalCount(data.TotalCount);
-                            }
-
-                        },
-                        error: function () {
-                            toastr.error("Failed to Items.");
-                        }
-                    });
-                },
-
-                // Get Delivery Note By ID
-                getDetaildeliveryNote = function (id) {
-                    isCompanyBaseDataLoaded(false);
-                    dataservice.getDetaildeliveryNote({
-                        deliverNoteId: id
-                    }, {
-                        success: function (data) {
-                            if (data !== null && data !== undefined) {
-                                var dNote = model.DeliveryNote.Create(data);
-                                selectedPurchaseOrder(dNote);
-                                selectedPurchaseOrder().companyName(data.CompanyName);
-                                // Get Base Data For Company
-                                if (data.CompanyId) {
-                                    var storeId = 0;
-                                    if (data.IsCustomer !== 3 && data.StoreId) {
-                                        storeId = data.StoreId;
-                                        selectedPurchaseOrder().storeId(storeId);
-                                    } else {
-                                        storeId = data.CompanyId;
-                                    }
-                                    selectedPurchaseOrder().reset();
-                                    getBaseForCompany(data.CompanyId, storeId);
-                                }
-                            }
-                        },
-                        error: function () {
-                            toastr.error("Failed to Items.");
-                        }
-                    });
-                },
-                        // Get Items
-                    downloadArtwork = function () {
-                        dataservice.downloadArtwork({
+                    // Get Purchase Orders
+                    getPurchaseOrders = function () {
+                        dataservice.getPurchaseOrders({
+                            SearchString: searchFilter(),
+                            PurchaseOrderType: purchaseOrderTypeFilter(),
+                            PageSize: pager().pageSize(),
+                            PageNo: pager().currentPage(),
+                            SortBy: sortOn(),
+                            Status: currentTab(),
+                            IsAsc: sortIsAsc()
+                        }, {
                             success: function (data) {
-
+                                purchaseOrders.removeAll();
+                                if (data !== null && data !== undefined) {
+                                    var itemList = [];
+                                    _.each(data.PurchasesList, function (item) {
+                                        itemList.push(model.PurchaseListView.Create(item));
+                                    });
+                                    ko.utils.arrayPushAll(purchaseOrders(), itemList);
+                                    purchaseOrders.valueHasMutated();
+                                    pager().totalCount(data.TotalCount);
+                                }
 
                             },
                             error: function () {
                                 toastr.error("Failed to Items.");
                             }
                         });
-
                     },
+
+                    // Get Delivery Note By ID
+                    getDetaildeliveryNote = function (id) {
+                        isCompanyBaseDataLoaded(false);
+                        dataservice.getDetaildeliveryNote({
+                            deliverNoteId: id
+                        }, {
+                            success: function (data) {
+                                if (data !== null && data !== undefined) {
+                                    var dNote = model.DeliveryNote.Create(data);
+                                    selectedPurchaseOrder(dNote);
+                                    selectedPurchaseOrder().companyName(data.CompanyName);
+                                    // Get Base Data For Company
+                                    if (data.CompanyId) {
+                                        var storeId = 0;
+                                        if (data.IsCustomer !== 3 && data.StoreId) {
+                                            storeId = data.StoreId;
+                                            selectedPurchaseOrder().storeId(storeId);
+                                        } else {
+                                            storeId = data.CompanyId;
+                                        }
+                                        selectedPurchaseOrder().reset();
+                                        getBaseForCompany(data.CompanyId, storeId);
+                                    }
+                                }
+                            },
+                            error: function () {
+                                toastr.error("Failed to Items.");
+                            }
+                        });
+                    },
+
                     searchData = function () {
                         pager().reset();
                         getPurchaseOrders();
@@ -299,10 +287,10 @@ define("purchaseOrders/purchaseOrders.viewModel",
                              }
                          });
                      },
-                     // Add New Delivery Notes
-                     addDeliveryNotes = function () {
-                         var deliveryNotes = model.DeliveryNote();
-                         deliveryNotes.isStatus(19);
+                     // Add New Purchase
+                     CreatePurchaseOrder = function () {
+                         var purchase = model.Purchase();
+                         purchase.status(31);
                          selectedPurchaseOrder(deliveryNotes);
                          isEditorVisible(true);
                      },
@@ -355,85 +343,85 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         return;
                     },
                     // Delete Delivry Notes
-                onDeleteDeliveryNote = function () {
-                    confirmation.afterProceed(function () {
-                        deleteDeliveryNote(selectedPurchaseOrder().convertToServerData());
-                    });
-                    confirmation.afterCancel(function () {
+                    onDeleteDeliveryNote = function () {
+                        confirmation.afterProceed(function () {
+                            deleteDeliveryNote(selectedPurchaseOrder().convertToServerData());
+                        });
+                        confirmation.afterCancel(function () {
 
-                    });
-                    confirmation.show();
-                    return;
-                },
-                deleteDeliveryNote = function (deliveryNote) {
-                    dataservice.deleteDeliveryNote(deliveryNote, {
-                        success: function (data) {
-                            purchaseOrders.remove(selectedPurchaseOrderForListView());
-                            isEditorVisible(false);
-                            toastr.success("Delete Successfully.");
-                        },
-                        error: function (exceptionMessage, exceptionType) {
-                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
-                                toastr.error(exceptionMessage);
-                            } else {
-                                toastr.error("Failed to delete.");
-                            }
-                        }
-                    });
-                },
-                // Save Delivery Notes
-                saveDeliveryNote = function (deliveryNote) {
-                    dataservice.saveDeliveryNote(deliveryNote, {
-                        success: function (data) {
-                            //For Add New
-                            if (selectedPurchaseOrder().deliveryNoteId() === undefined || selectedPurchaseOrder().deliveryNoteId() === 0) {
-                                purchaseOrders.splice(0, 0, model.purchaseOrders.Create(data));
-                            } else {
-                                selectedPurchaseOrderForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
-                                selectedPurchaseOrderForListView().flagId(data.FlagId);
-                                selectedPurchaseOrderForListView().contactCompany(data.ContactCompany);
-                                selectedPurchaseOrderForListView().companyName(data.CompanyName);
-                                selectedPurchaseOrderForListView().flagColor(data.FlagColor);
-                                selectedPurchaseOrderForListView().orderReff(data.OrderReff);
-                                selectedPurchaseOrderForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
-                                if (currentTab() !== data.IsStatus) {
-                                    purchaseOrders.remove(selectedPurchaseOrderForListView());
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                    deleteDeliveryNote = function (deliveryNote) {
+                        dataservice.deleteDeliveryNote(deliveryNote, {
+                            success: function (data) {
+                                purchaseOrders.remove(selectedPurchaseOrderForListView());
+                                isEditorVisible(false);
+                                toastr.success("Delete Successfully.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                    toastr.error(exceptionMessage);
+                                } else {
+                                    toastr.error("Failed to delete.");
                                 }
                             }
-                            isEditorVisible(false);
-                            toastr.success("Saved Successfully.");
-                        },
-                        error: function (exceptionMessage, exceptionType) {
-                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
-                                toastr.error(exceptionMessage);
-                            } else {
-                                toastr.error("Failed to save.");
+                        });
+                    },
+                    // Save Delivery Notes
+                    saveDeliveryNote = function (deliveryNote) {
+                        dataservice.saveDeliveryNote(deliveryNote, {
+                            success: function (data) {
+                                //For Add New
+                                if (selectedPurchaseOrder().deliveryNoteId() === undefined || selectedPurchaseOrder().deliveryNoteId() === 0) {
+                                    purchaseOrders.splice(0, 0, model.purchaseOrders.Create(data));
+                                } else {
+                                    selectedPurchaseOrderForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
+                                    selectedPurchaseOrderForListView().flagId(data.FlagId);
+                                    selectedPurchaseOrderForListView().contactCompany(data.ContactCompany);
+                                    selectedPurchaseOrderForListView().companyName(data.CompanyName);
+                                    selectedPurchaseOrderForListView().flagColor(data.FlagColor);
+                                    selectedPurchaseOrderForListView().orderReff(data.OrderReff);
+                                    selectedPurchaseOrderForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
+                                    if (currentTab() !== data.IsStatus) {
+                                        purchaseOrders.remove(selectedPurchaseOrderForListView());
+                                    }
+                                }
+                                isEditorVisible(false);
+                                toastr.success("Saved Successfully.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                    toastr.error(exceptionMessage);
+                                } else {
+                                    toastr.error("Failed to save.");
+                                }
                             }
+                        });
+                    },
+                    dobeforeSave = function () {
+                        var flag = true;
+                        if (!selectedPurchaseOrder().isValid()) {
+                            selectedPurchaseOrder().showAllErrors();
+                            selectedPurchaseOrder().setValidationSummary(errorList);
+                            flag = false;
                         }
-                    });
-                },
-                dobeforeSave = function () {
-                    var flag = true;
-                    if (!selectedPurchaseOrder().isValid()) {
-                        selectedPurchaseOrder().showAllErrors();
-                        selectedPurchaseOrder().setValidationSummary(errorList);
-                        flag = false;
-                    }
-                    return flag;
-                },
-                // Go To Element
-                gotoElement = function (validation) {
-                    view.gotoElement(validation.element);
-                },
-                //Initialize
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(new pagination.Pagination({ PageSize: 5 }, purchaseOrders, getPurchaseOrders));
-                   // getBaseData();
-                   // getPurchaseOrders();
+                        return flag;
+                    },
+                    // Go To Element
+                    gotoElement = function (validation) {
+                        view.gotoElement(validation.element);
+                    },
+                    //Initialize
+                    initialize = function (specifiedView) {
+                        view = specifiedView;
+                        ko.applyBindings(view.viewModel, view.bindingRoot);
+                        pager(new pagination.Pagination({ PageSize: 5 }, purchaseOrders, getPurchaseOrders));
+                        // getBaseData();
+                        // getPurchaseOrders();
 
-                };
+                    };
                 //#endregion 
 
 
@@ -448,7 +436,6 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     pager: pager,
                     purchaseOrders: purchaseOrders,
                     getPurchaseOrders: getPurchaseOrders,
-                    downloadArtwork: downloadArtwork,
                     isEditorVisible: isEditorVisible,
                     onCloseEditor: onCloseEditor,
                     openCompanyDialog: openCompanyDialog,
@@ -466,7 +453,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                     // Utilities
                     getBaseData: getBaseData,
-                    addDeliveryNotes: addDeliveryNotes,
+                    CreatePurchaseOrder: CreatePurchaseOrder,
                     addDeliveryNoteDetail: addDeliveryNoteDetail,
                     templateToUseDeliveryNoteDetail: templateToUseDeliveryNoteDetail,
                     selectDeliveryNoteDetail: selectDeliveryNoteDetail,

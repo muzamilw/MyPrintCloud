@@ -587,6 +587,7 @@
     <Compile Include="Areas\Api\Models\ProductMarketBriefQuestion.cs" />
     <Compile Include="Areas\Api\Models\PtvDTO.cs" />
     <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\Purchase.cs" />
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
     <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
     <Compile Include="Areas\Api\Models\Report.cs" />

@@ -51,48 +51,34 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         },
         // #endregion __________________  Section Flag  ______________________
 
-        // #region __________________  Delivery Note  ______________________
-        DeliveryNote = function (specifieddeliveryNoteId, specifiedcode, specifieddeliveryDate, specifiedflagId, specifiedcontactCompany,
-            specifiedOrderReff, specifiedCreationDateTime, spcCompanyId, spcFootnote, spcComments, spcLockedBy, spcIsStatus, spcContactId, spcCustomerOrderReff, spcAddressId,
-            spcCreatedBy, spcSupplierId, spcSupplierTelNo, spcSupplierURL, spcEstimateId, spcJobId, spcInvoiceId, spcOrderId, spcUserNotes,
-            spcNotesUpdateDateTime, spcNotesUpdatedByUserId, spcSystemSiteId, spcIsRead, spcIsPrinted, spcCsNo, spcRaisedBy) {
+        // #region __________________  Purchase  ______________________
+        Purchase = function (specifiedPurchaseId, specifiedcode, specifieddate_Purchase, spcSupplierId, spcContactId,
+            specifiedRefNo, spcSupplierContactAddressID, spcStatus, specifiedflagId, spcComments, spcFootnote,
+            spcCreatedBy, spcDiscount, spcdiscountType, spcTotalPrice, spcNetTotal, spcTotalTax, spcGrandTotal) {
 
             var self,
-                deliveryNoteId = ko.observable(specifieddeliveryNoteId),
+                id = ko.observable(specifiedPurchaseId),
                 code = ko.observable(specifiedcode),
-                deliveryDate = ko.observable(specifieddeliveryDate !== null ? moment(specifieddeliveryDate).toDate() : undefined),
+                purchaseDate = ko.observable(specifieddate_Purchase !== null ? moment(specifieddate_Purchase).toDate() : undefined),
                 flagId = ko.observable(specifiedflagId),
-                contactCompany = ko.observable(specifiedcontactCompany),
-                orderReff = ko.observable(specifiedOrderReff),
-                creationDateTime = ko.observable(specifiedCreationDateTime !== null ? moment(specifiedCreationDateTime).toDate() : undefined),
-                companyId = ko.observable(spcCompanyId).extend({ required: true }),
+                reffNo = ko.observable(specifiedRefNo),
                 footnote = ko.observable(spcFootnote),
                 comments = ko.observable(spcComments),
-                lockedBy = ko.observable(spcLockedBy),
-                isStatus = ko.observable(spcIsStatus),
+                status = ko.observable(spcStatus),
                 contactId = ko.observable(spcContactId),
-                customerOrderReff = ko.observable(spcCustomerOrderReff),
                 // Store Id
                 storeId = ko.observable(undefined),
-                addressId = ko.observable(spcAddressId),
+                addressId = ko.observable(spcSupplierContactAddressID),
                 createdBy = ko.observable(spcCreatedBy),
-                supplierId = ko.observable(spcSupplierId),
-                supplierTelNo = ko.observable(spcSupplierTelNo),
-                supplierUrl = ko.observable(spcSupplierURL),
-                estimateId = ko.observable(spcEstimateId),
-                jobId = ko.observable(spcJobId),
-
-                invoiceId = ko.observable(spcInvoiceId),
-                orderId = ko.observable(spcOrderId),
-                userNotes = ko.observable(spcUserNotes),
-                notesUpdateDateTime = ko.observable(spcNotesUpdateDateTime),
-                notesUpdatedByUserId = ko.observable(spcNotesUpdatedByUserId),
-                systemSiteId = ko.observable(spcSystemSiteId),
-                isRead = ko.observable(spcIsRead),
-                isPrinted = ko.observable(spcIsPrinted),
+                discountType = ko.observable(spcdiscountType),
+                totalPrice = ko.observable(spcTotalPrice),
+                netTotal = ko.observable(spcNetTotal),
+                totalTax = ko.observable(spcTotalTax),
+                grandTotal = ko.observable(spcGrandTotal),
+                supplierId = ko.observable(spcSupplierId).extend({ required: true }),
+                //supplierTelNo = ko.observable(spcSupplierTelNo),
+                discount = ko.observable(spcDiscount),
                 companyName = ko.observable(undefined),
-                csNo = ko.observable(spcCsNo),
-                raisedBy = ko.observable(spcRaisedBy),
                 deliveryNoteDetails = ko.observableArray([]),
                 // Set Validation Summary
                 setValidationSummary = function (validationSummaryList) {
@@ -101,9 +87,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         validationSummaryList.push({ name: "Customer", element: companyId.domElement });
                     }
                 },
-                 // Errors
+                // Errors
                 errors = ko.validation.group({
-                    companyId: companyId
+                    supplierId: supplierId
                 }),
                 // Is Valid 
                 isValid = ko.computed(function () {
@@ -114,23 +100,26 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     // Show Item Errors
                     errors.showAllMessages();
                 },
-                 // True if the order has been changed
-                  dirtyFlag = new ko.dirtyFlag({
-                      deliveryDate: deliveryDate,
-                      flagId: flagId,
-                      orderReff: orderReff,
-                      companyId: companyId,
-                      footnote: footnote,
-                      comments: comments,
-                      contactId: contactId,
-                      supplierId: supplierId,
-                      userNotes: userNotes,
-                      supplierTelNo: supplierTelNo,
-                      csNo: csNo,
-                      raisedBy: raisedBy,
-                      deliveryNoteDetails: deliveryNoteDetails,
-
-                  }),
+                // True if the order has been changed
+                dirtyFlag = new ko.dirtyFlag({
+                    purchaseDate: purchaseDate,
+                    flagId: flagId,
+                    reffNo: reffNo,
+                    footnote: footnote,
+                    comments: comments,
+                    status: status,
+                    contactId: contactId,
+                    storeId: storeId,
+                    addressId: addressId,
+                    createdBy: createdBy,
+                    discountType: discountType,
+                    totalPrice: totalPrice,
+                    netTotal: netTotal,
+                    totalTax: totalTax,
+                    grandTotal: grandTotal,
+                    supplierId: supplierId,
+                    discount: discount,
+                }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
                     return dirtyFlag.isDirty();
@@ -141,64 +130,49 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 },
                 convertToServerData = function () {
                     return {
-                        DeliveryNoteId: deliveryNoteId(),
-                        Code: code(),
-                        DeliveryDate: deliveryDate() ? moment(deliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
-                        FlagId: flagId(),
-                        ContactCompany: contactCompany(),
-                        OrderReff: orderReff(),
-                        CreationDateTime: creationDateTime() ? moment(creationDateTime()).format(ist.utcFormat) + 'Z' : undefined,
-                        CompanyId: companyId(),
-                        Comments: comments(),
-                        IsStatus: isStatus(),
-                        ContactId: contactId(),
-                        AddressId: addressId(),
-                        SupplierId: supplierId(),
-                        SupplierTelNo: supplierTelNo(),
-                        UserNotes: userNotes(),
-                        SystemSiteId: systemSiteId(),
-                        CsNo: csNo(),
-                        RaisedBy: raisedBy(),
-                        DeliveryNoteDetails: []
+                        PurchaseId: id(),
+                        purchaseDate: purchaseDate(),
+                        flagId: flagId(),
+                        reffNo: reffNo(),
+                        footnote: footnote(),
+                        comments: comments(),
+                        status: status(),
+                        contactId: contactId(),
+                        addressId: addressId(),
+                        createdBy: createdBy(),
+                        discountType: discountType(),
+                        totalPrice: totalPrice(),
+                        netTotal: netTotal(),
+                        totalTax: totalTax(),
+                        grandTotal: grandTotal(),
+                        supplierId: supplierId(),
+                        discount: discount(),
                     };
                 };
 
             self = {
-                deliveryNoteId: deliveryNoteId,
+                id: id,
                 code: code,
-                deliveryDate: deliveryDate,
+                purchaseDate: purchaseDate,
                 flagId: flagId,
-                contactCompany: contactCompany,
-                orderReff: orderReff,
-                creationDateTime: creationDateTime,
-                companyId: companyId,
+                reffNo: reffNo,
                 footnote: footnote,
-                storeId: storeId,
                 comments: comments,
-                lockedBy: lockedBy,
-                isStatus: isStatus,
+                status: status,
                 contactId: contactId,
-                customerOrderReff: customerOrderReff,
+                storeId: storeId,
                 addressId: addressId,
                 createdBy: createdBy,
+                discountType: discountType,
+                totalPrice: totalPrice,
+                netTotal: netTotal,
+                totalTax: totalTax,
+                grandTotal: grandTotal,
                 supplierId: supplierId,
-                supplierTelNo: supplierTelNo,
-                supplierUrl: supplierUrl,
-                estimateId: estimateId,
-                jobId: jobId,
-                invoiceId: invoiceId,
-                orderId: orderId,
-                userNotes: userNotes,
-                notesUpdateDateTime: notesUpdateDateTime,
-                notesUpdatedByUserId: notesUpdatedByUserId,
-                systemSiteId: systemSiteId,
-                isRead: isRead,
-                isPrinted: isPrinted,
-                csNo: csNo,
+                discount: discount,
+                companyName: companyName,
                 setValidationSummary: setValidationSummary,
                 deliveryNoteDetails: deliveryNoteDetails,
-                companyName: companyName,
-                raisedBy: raisedBy,
                 convertToServerData: convertToServerData,
                 errors: errors,
                 isValid: isValid,
@@ -212,8 +186,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // #endregion __________________  Delivery Note  ______________________
 
         // #region __________________  Delivery Note Detail ______________________
-         DeliveryNoteDetail = function (specifiedId, specifiedDescription) {
-             var self,
+        DeliveryNoteDetail = function (specifiedId, specifiedDescription) {
+            var self,
                 id = ko.observable(specifiedId),
                 description = ko.observable(specifiedDescription),
 
@@ -224,43 +198,56 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     };
                 };
 
-             self = {
-                 id: id,
-                 description: description,
-                 convertToServerData: convertToServerData
-             };
-             return self;
-         },
+            self = {
+                id: id,
+                description: description,
+                convertToServerData: convertToServerData
+            };
+            return self;
+        },
 
-         // #endregion __________________  Delivery Note Detail  ______________________
+    // #endregion __________________  Delivery Note Detail  ______________________
 
         // #region __________________  Address ______________________
-        // Address Entity
-        Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1, specifiedIsDefault) {
-            // ReSharper restore InconsistentNaming
-            return {
-                id: specifiedId,
-                name: specifiedName,
-                address1: specifiedAddress1 || "",
-                address2: specifiedAddress2 || "",
-                telephone1: specifiedTelephone1 || "",
-                isDefault: specifiedIsDefault
-            };
-        },
-        // #endregion __________________  Address  ______________________
+    // Address Entity
+    Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1, specifiedIsDefault) {
+        // ReSharper restore InconsistentNaming
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            address1: specifiedAddress1 || "",
+            address2: specifiedAddress2 || "",
+            telephone1: specifiedTelephone1 || "",
+            isDefault: specifiedIsDefault
+        };
+    },
+    // #endregion __________________  Address  ______________________
 
         // #region __________________  Company Contact ______________________
-        // Company Contact Entity
-        CompanyContact = function (specifiedId, specifiedName, specifiedEmail, specifiedIsDefault) {
-            // ReSharper restore InconsistentNaming
-            return {
-                id: specifiedId,
-                name: specifiedName,
-                email: specifiedEmail || "",
-                isDefault: specifiedIsDefault
-            };
+    // Company Contact Entity
+    CompanyContact = function (specifiedId, specifiedName, specifiedEmail, specifiedIsDefault) {
+        // ReSharper restore InconsistentNaming
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            email: specifiedEmail || "",
+            isDefault: specifiedIsDefault
         };
+    };
     // #endregion __________________  Compan yContact  ______________________
+
+    // Purchase Factory
+    Purchase.Create = function (source) {
+        var deliveryNote = new Purchase(source.PurchaseId, source.Code, source.date_Purchase, source.SupplierId, source.ContactId, source.RefNo
+            , source.SupplierContactAddressID, source.Status, source.FlagID, source.Comments, source.Footnote, source.CreatedBy, source.Discount,
+            source.discountType, source.TotalPrice, source.NetTotal, source.TotalTax, source.GrandTotal);
+
+        _.each(source.DeliveryNoteDetails, function (dNoteDetail) {
+            deliveryNote.deliveryNoteDetails.push(DeliveryNoteDetail.Create(dNoteDetail));
+        });
+        return deliveryNote;
+    };
+
 
     // Delivery Notes Detail factory
     DeliveryNoteDetail.Create = function (source) {
@@ -273,19 +260,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              source.SupplierName, source.FlagColor);
     };
 
-    // Delivery Notes Factory
-    DeliveryNote.Create = function (source) {
-        var deliveryNote = new DeliveryNote(source.DeliveryNoteId, source.Code, source.DeliveryDate, source.FlagId, source.ContactCompany, source.OrderReff,
-          source.CreationDateTime, source.CompanyId, source.Footnote, source.Comments, source.LockedBy, source.IsStatus, source.ContactId, source.CustomerOrderReff,
-             source.AddressId, source.CreatedBy, source.SupplierId, source.SupplierTelNo, source.SupplierURL, source.EstimateId, source.JobId, source.InvoiceId,
-             source.OrderId, source.UserNotes, source.NotesUpdateDateTime, source.NotesUpdatedByUserId, source.SystemSiteId, source.IsRead, source.IsPrinted, source.CsNo,
-             source.RaisedBy);
 
-        _.each(source.DeliveryNoteDetails, function (dNoteDetail) {
-            deliveryNote.deliveryNoteDetails.push(DeliveryNoteDetail.Create(dNoteDetail));
-        });
-        return deliveryNote;
-    };
 
     // Address Factory
     Address.Create = function (source) {
@@ -311,7 +286,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         PurchaseListView: PurchaseListView,
         Address: Address,
         CompanyContact: CompanyContact,
-        DeliveryNote: DeliveryNote,
+        Purchase: Purchase,
         SectionFlag: SectionFlag,
         SystemUser: SystemUser,
         DeliveryNoteDetail: DeliveryNoteDetail
