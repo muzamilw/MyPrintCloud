@@ -81,7 +81,7 @@
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-machineBasic">
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Name and Description</h3>
+                                   
                                     <div class="col-lg-9">
                                         <div class="form-group" id="isSheetFedRadio">
                                             <div class="col-lg-4 text-right">
@@ -117,18 +117,18 @@
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                                                    @*<a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                    </a>*@
 
                                                 </div>
-                                                <label for="txtCompanyName" data-bind="text: $root.MachineName" class="control-label text-right tooltip-float"></label>
+                                                <label  class="control-label text-right tooltip-float">Name</label>
 
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" placeholder="Enter Machine Name" data-bind="value:MachineName">
-                                                <span class=" help-block text-right"></span>
+                                                
                                             </div>
 
                                         </div>
@@ -137,18 +137,18 @@
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Description of Machine ." data-original-title="" title="">
+                                                    @*<a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Description of Machine ." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                    </a>*@
 
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Description</label>
+                                                <label class="control-label text-right tooltip-float">Description</label>
 
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <textarea class="form-control notes" placeholder="Enter Description" id="descMachines" rows="6" data-bind="value:Description,  validationTooltip: Description"></textarea>
-                                                <span class="help-block text-right"></span>
+                                                
                                             </div>
 
                                         </div>
@@ -178,23 +178,23 @@
 
                                                 </div>
                                                 @*<div class="col-lg-6 text-right" data-bind="visible: ismakereadyused">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+        <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
+                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+            </a>
 
-                                                    </div>
-                                                    <label class="control-label text-right">Plate Makeready Price Per Head</label>
+        </div>
+        <label class="control-label text-right">Plate Makeready Price Per Head</label>
 
-                                                </div>*@
-                                                <span data-bind="text:CurrencySymbol, visible: ismakereadyused" class="CurrencySymbol"></span>
-                                                <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible: ismakereadyused">
+    </div>
+    <span data-bind="text:CurrencySymbol, visible: ismakereadyused" class="CurrencySymbol"></span>
+    <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible: ismakereadyused">
 
-                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Enter Plate MakeReady Charge" data-bind="autoNumeric: MakeReadyPrice, settings:{mDec:2}" />
+        <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Enter Plate MakeReady Charge" data-bind="autoNumeric: MakeReadyPrice, settings:{mDec:2}" />
 
-                                                </div>
-
+    </div>
+                                                *@
 
                                             </div>
                                         </div>
@@ -219,19 +219,19 @@
                                                     @*<span data-bind="text:WeightUnit" class="help-block text-right"></span>*@
                                                 </div>
                                                 @*<div class="col-lg-6 text-right" data-bind="visible:iswashupused">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+        <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-                                                    <label class="control-label text-right">Washup Price Per Head</label>
-                                                </div>*@
-                                                <span data-bind="text:CurrencySymbol, visible:iswashupused" class="CurrencySymbol"></span>
-                                                <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible:iswashupused">
-                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Washup Charge" data-bind="autoNumeric: WashupPrice, settings:{mDec:2}" />
+            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
+                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+            </a>
+        </div>
+        <label class="control-label text-right">Washup Price Per Head</label>
+    </div>
+    <span data-bind="text:CurrencySymbol, visible:iswashupused" class="CurrencySymbol"></span>
+    <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible:iswashupused">
+        <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Washup Charge" data-bind="autoNumeric: WashupPrice, settings:{mDec:2}" />
 
-                                                </div>
+    </div>*@
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -243,7 +243,7 @@
                                                     </a>
 
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Uplift charged to Work ‘n’ Turn Plans</label>
+                                                <label  class="control-label text-right tooltip-float">Uplift charged to Work ‘n’ Turn Plans</label>
 
                                             </div>
 
@@ -251,6 +251,41 @@
                                                 <span class="CurrencySymbol" data-bind="text:CurrencySymbol"></span>
                                                 <input type="text" class="form-control txtBox-contentAlignRight" style="width:23%;" placeholder="Premium Per Head" data-bind="autoNumeric: worknturncharge, settings:{mDec:2}">
                                                 @*<span data-bind="text:WeightUnit" class="help-block text-right" style="width:22%;"></span> *@
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content=" <p>Digital CMYK presses are generally treated as a single Unit. i.e. one pass is required to print all 4 colors on one side.</p> <p >Each unit will attract a separate:</p> <p >• Makeready charge </p><p >• Wash Up charge</p><p >• And a Plate (CTP) charge</p><p >Typically ZERO charges are applied for Digital presses.</p><p >Litho presses generally have one unit per color per pass.  So a four color press would have 4 Units.  </p>" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+
+                                                <label class="control-label tooltip-float">Mode of Print</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-5">
+
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadiosColorType" id="optionsRadiosColor" value="true" checked data-bind="checked: IsSpotColor">
+                                                        <label for="optionsRadiosColor">
+                                                            Is Spot Color
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadiosColorType" id="optionsRadiosColorCMYK" value="false" data-bind="checked: IsSpotColor">
+                                                        <label for="optionsRadiosColorCMYK">
+                                                            CMYK Color
+                                                        </label>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -492,7 +527,7 @@
 
 
 
-                                                <label class="control-label tooltip-float">Maximum Color Units</label>
+                                                <label class="control-label tooltip-float">Color Units</label>
 
                                             </div>
                                             <div class="col-lg-6">
@@ -507,41 +542,7 @@
 
 
 
-                                        <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content=" <p>Digital CMYK presses are generally treated as a single Unit. i.e. one pass is required to print all 4 colors on one side.</p> <p >Each unit will attract a separate:</p> <p >• Makeready charge </p><p >• Wash Up charge</p><p >• And a Plate (CTP) charge</p><p >Typically ZERO charges are applied for Digital presses.</p><p >Litho presses generally have one unit per color per pass.  So a four color press would have 4 Units.  </p>" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-
-
-
-                                                <label class="control-label tooltip-float">Maximum Color Units</label>
-
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-5">
-
-                                                    <div class="radio">
-                                                        <input type="radio" name="optionsRadiosColorType" id="optionsRadiosColor" value="true" checked data-bind="checked: IsSpotColor">
-                                                        <label for="optionsRadiosColor">
-                                                            Is Spot Color
-                                                        </label>
-                                                    </div>
-                                                    <div class="radio">
-                                                        <input type="radio" name="optionsRadiosColorType" id="optionsRadiosColorCMYK" value="false" data-bind="checked: IsSpotColor">
-                                                        <label for="optionsRadiosColorCMYK">
-                                                            CMYK Color
-                                                        </label>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                    </div>
-                                            </div>
-
-                                        </div>
+                                       
 
                                                 </div>
 
