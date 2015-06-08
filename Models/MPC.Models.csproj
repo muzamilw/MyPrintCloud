@@ -441,6 +441,7 @@
     <Compile Include="RequestModels\ProgressEstimateRequestModel.cs" />
     <Compile Include="RequestModels\ProgressInquiryToEstimateParams.cs" />
     <Compile Include="RequestModels\PTVRequestModel.cs" />
+    <Compile Include="RequestModels\PurchaseOrderSearchRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
     <Compile Include="RequestModels\ReportNoteRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />

@@ -62,5 +62,31 @@ namespace MPC.Repository.Repositories
 
             return new PurchaseResponseModel { Purchases = items, TotalCount = DbSet.Count(query) };
         }
+
+        /// <summary>
+        /// Get Purchase Orders
+        /// </summary>
+        public PurchaseResponseModel GetPurchaseOrders(PurchaseOrderSearchRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStatusSpecified = request.Status == 0;//if true get all then get by status
+
+            Expression<Func<Purchase, bool>> query = null;
+                //item =>
+                //    (
+                //    string.IsNullOrEmpty(request.SearchString) ||
+                //    ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.Order_Code.Contains(request.SearchString)) ||
+                //    (item.Estimate_Name.Contains(request.SearchString)) || (item.Items.Any(product => product.ProductName.Contains(request.SearchString)))
+                //    ) && ((!isStatusSpecified && item.Status == request.Status || isStatusSpecified)) && item.isproduct = request.PurchaseOrderType
+                //    );
+
+            IEnumerable<Purchase> items = DbSet.Where(query)
+                .OrderBy(x => x.date_Purchase)
+                .Skip(fromRow)
+                .Take(toRow)
+                .ToList();
+            return new PurchaseResponseModel { Purchases = items, TotalCount = DbSet.Count(query) };
+        }
     }
 }
