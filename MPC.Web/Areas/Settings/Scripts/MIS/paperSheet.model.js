@@ -15,6 +15,11 @@
                 region = ko.observable(specifiedRegion),
                 isArchived = ko.observable(specifiedIsArchived),
                 IsImperical = ko.observable(specifiedIsImperical),
+                isImpericalUi = ko.computed(function () {
+                   
+                    return IsImperical() == true ? "1" : "0";
+                    
+                }),
              // Errors
              errors = ko.validation.group({
                  name: name,
@@ -38,7 +43,8 @@
                  isFixed: isFixed,
                  region: region,
                  isArchived: isArchived,
-                 IsImperical: IsImperical
+                 IsImperical: IsImperical,
+                 isImpericalUi: isImpericalUi
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -55,7 +61,8 @@
                      IsFixed: isFixed(),
                      Region: culture != null ? culture : region(),
                      IsArchived: isArchived(),
-                     IsImperical: IsImperical()
+                     IsImperical: IsImperical(),
+                     isImpericalUi: isImpericalUi()
                  };
              },
             // Reset
@@ -73,6 +80,7 @@
                 region: region,
                 isArchived: isArchived,
                 IsImperical: IsImperical,
+                isImpericalUi: isImpericalUi,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,

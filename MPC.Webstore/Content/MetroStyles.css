@@ -81,10 +81,10 @@ object, embed
     border-color: #999999;
 }
 
-.container
+/*.container
 {
     width: 100%;
-}
+}*/
 
 btn, .btn:hover, .btn:focus, .btn:active, .btn.active, .btn.disabled, .btn[disabled]
 {
