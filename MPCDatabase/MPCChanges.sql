@@ -4593,3 +4593,27 @@ add RefItemId bigint null
 
 /* Executed on Staging */
 
+/* Execution Date: 08/06/2015 */
+
+alter table purchase
+drop constraint DF__tbl_purch__Suppl__74994623
+
+alter table purchase
+alter column supplierid bigint null
+
+update purchase
+set supplierid = null
+
+alter table purchase
+add constraint FK_Purchase_Company
+foreign key (SupplierId)
+references Company (CompanyId)
+
+update purchase
+set flagid = null
+
+alter table purchase
+add constraint FK_Purchase_SectionFlag
+foreign key (FlagId)
+references SectionFlag (SectionFlagId)
+
