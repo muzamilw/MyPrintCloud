@@ -64,5 +64,7 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public string WeightUnit { get; set; }
 
+        public bool IsImperical { get; set; }
+
     }
 }

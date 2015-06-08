@@ -252,21 +252,34 @@
 
                                             <div class="clearfix">
                                                 <div class="col-lg-12">
-                                                    <img id="idCostcenterimage" style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                                    <img style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+
+                                                    <!-- ko ifnot: storeImageFileBinary() -->
+                                                    <img id="idCostcenterimage" style="width:200px;height:180px;" src="/mis/Content/Images/imageplaceholder.png" />
+                                                    <!-- /ko -->
+                                                    <!-- ko if: storeImageFileBinary() -->
+                                                    <img style="width:220px;height:130px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                                    <!-- /ko -->
+
                                                 </div>
 
-                                                <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:250px;">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>Upload </span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                <div class="col-lg-12" style="margin-top: 10px;text-align:center;width:220px;padding-right:0px;">
+                                                    <div class="col-lg-8">
+                                                        <div class="fileUpload btn btn-primary" style="float: right;">
+                                                            <span>Upload </span>
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
                                                     </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="bs-example-tooltips tooltip-float-width" style="margin-right: 45px;">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="left" data-html="true" data-content="Theme Yellow :(192px w x 40px h)
+                                                                <br /> Theme Purple :(240px w x 50px h) <br /> Theme Brown :(240px w x 50px h) <br /> Theme Pink :(240px w x 50px h) <br /> Theme Private Store(Saloon) :<br />(240px w x 50px h) <br /> Theme Private Store(RealEstate):<br />(290px w x 70px h) " data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
                                                 </div>
-                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px;width:250px;">
-                                                    <!--ko if: $root.selectedThemeDimensions()!==undefined-->
-                                                    <span data-bind="text:$root.selectedThemeDimensions"></span><br />
-                                                    <!--/ko-->
-                                                    <span> Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.</span>
+                                                </div>
+                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px;width:220px;padding-left:20px;">
+                                                    Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.
                                                 </div>
                                                 <div class="profile-stars">
                                                     <span data-bind="value: type"></span>
@@ -1007,7 +1020,7 @@
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Current Theme</label>
                                             </div>
-                                            <div class="col-lg-9" style="padding: 0px;padding-left: 8px;">
+                                            <div class="col-lg-9" style="padding: 0px;padding-left:6px;">
                                                 <!-- ko if: $root.themes().length > 0 -->
                                                 @*<select class="form-control" data-bind="options: $root.themes,optionsCaption:'Select Theme', optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>*@
 
@@ -1055,10 +1068,13 @@
                                             <div class="col-lg-3">
 
                                                 <div class="clearfix">
-
-                                                    <img style="width:240px;height:130px;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
-                                                    <img style="width:240px;height:130px;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
-                                                    <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:242px;">
+                                                    <!-- ko ifnot: storeBackgroudImageImageSource() -->
+                                                    <img style="width:200px;height:180px;" id="idCostcenterimage" src="/mis/Content/Images/imageplaceholder.png" />
+                                                    <!-- /ko -->
+                                                    <!-- ko if: storeBackgroudImageImageSource() -->
+                                                    <img style="width:220px;height:130px;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
+                                                    <!-- /ko -->
+                                                    <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:228px;">
                                                         <div class="fileUpload btn btn-primary">
                                                             @*data-bind="click:$root.showMediaLibraryDialogFromStoreBackground"*@
                                                             <span>Change Background</span>
@@ -1066,7 +1082,7 @@
                                                         </div>
 
                                                     </div>
-                                                    <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;width:242px;text-align:center">Background image could be a PNG or JPG file. Behaviour of background  image is controlled using CSS.</div>
+                                                    <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;width:220px;text-align:center">Background image could be a PNG or JPG file. Behaviour of background  image is controlled using CSS.</div>
                                                     <div class="profile-stars">
                                                         <span data-bind="value: type"></span>
                                                     </div>
@@ -1131,17 +1147,20 @@
 
                                                         <div class="clearfix" style="margin-left:10px;margin-top:10px;">
 
-
-                                                            <img style="width:240px;height:130px;" data-bind="visible:mapImageUrlBinary()===undefined,attr: { src: '@Url.Content("~/")' +mapImageUrl() }" />
-                                                            <img style="width:240px;height:130px;" data-bind="visible:mapImageUrlBinary()!==undefined,attr: { src: mapImageUrlBinary }" />
-                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:240px;">
+                                                            <!-- ko ifnot: mapImageUrlBinary() -->
+                                                            <img style="width:200px;height:180px;" src="/mis/Content/Images/imageplaceholder.png" />
+                                                            <!-- /ko -->
+                                                            <!-- ko if: mapImageUrlBinary() -->
+                                                            <img style="width:220px;height:130px;" data-bind="visible:mapImageUrlBinary()!==undefined,attr: { src: mapImageUrlBinary }" />
+                                                            <!-- /ko -->
+                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:220px;">
                                                                 <div class="fileUpload btn btn-primary">
                                                                     <span>Upload</span>
                                                                     <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeMapImageLoadedCallback, fileFilter: 'image.*'}" />
                                                                 </div>
 
                                                             </div>
-                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center; margin-top:10px !important;width:240px;">Upoad Your Map.</div>
+                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center; margin-top:10px !important;width:220px;">Upoad Your Map.</div>
                                                             <div class="profile-stars">
                                                                 <span data-bind="value: type"></span>
                                                             </div>
@@ -1210,14 +1229,14 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-5 ThoumbnailCostCenter" style="margin-top:10px;padding-left:0px;width:200px;margin-top:10px;text-align:center;">
+                                                <div class="col-lg-5 ThoumbnailCostCenter" style="margin-top:10px;padding-left:0px;width:170px;margin-top:10px;text-align:center;">
                                                     Upload Media files (JPG,GIF,PNG) here which can be used throughout store in Home Page banners,  user defined pages banners etc.
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="padding-left:2px;">
                                         <div class="form-group">
                                             <div class="col-lg-2 text-right">
 
@@ -1408,13 +1427,10 @@
 
 
                                                 <div class="clearfix">
-                                                    <img alt="" style="border: dotted; border-width: 1px;float:left; width:240px; height: 130px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
-
-                                                    @*<img width="250" id="idCostcenterimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                                        <img width="250" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />*@
+                                                    <img alt="" style="border: dotted;border-width:1px;float:left;width:220px;height: 130px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
 
                                                     <div class="col-lg-12" style="padding-left:0px;">
-                                                        <div class="col-lg-6" style="margin-top: 5px;text-align:center;padding-left: 0px;width: 250px;">
+                                                        <div class="col-lg-6" style="margin-top:10px;text-align:center;padding-left:0px;padding-right:0px; width: 220px;">
                                                             <div class="fileUpload btn btn-primary">
                                                                 <span>Upload </span>
                                                                 <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.spriteImageLoadedCallback, fileFilter: 'image.*'}" />
@@ -1428,7 +1444,7 @@
 
                                                         </div>*@
                                                     <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;padding-left:0px;">
-                                                        <div class="col-lg-6" style="width:250px;">
+                                                        <div class="col-lg-6" style="width:220px;">
                                                             Download and make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings.
                                                         </div>
 
@@ -1979,17 +1995,20 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <div class="form-group">
                                                     <div class="col-lg-6">
                                                         <div class="clearfix" style="margin-left:10px;">
-
-                                                            <img style="width:240px;height:130px;" data-bind="visible:storeWorkflowImage()==undefined,attr: { src: '@Url.Content("~/")' + $root.selectedStore().storeWorkflowImageBinary() }" />
-                                                            <img style="width:240px;height:130px;" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />
-                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:240px;">
+                                                            <!-- ko ifnot: storeWorkflowImage() -->
+                                                            <img style="width:200px;height:180px;" src="/mis/Content/Images/imageplaceholder.png" />
+                                                            <!-- /ko -->
+                                                            <!-- ko if: storeWorkflowImage() -->
+                                                            <img style="width:220px;height:130px;" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />
+                                                            <!-- /ko -->
+                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:220px;">
                                                                 <div class="fileUpload btn btn-primary">
                                                                     <span>Upload </span>
                                                                     <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeWorkflowImageLoadedCallback, fileFilter: 'image.*'}" />
                                                                 </div>
 
                                                             </div>
-                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;width:240px;text-align:center;">Upload a image (PNG,JPG,GIF) which will be used as watermark in PDF and image proofs of Designer artwork output for proofing purpose.</div>
+                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;width:220px;text-align:center;">Upload a image (PNG,JPG,GIF) which will be used as watermark in PDF and image proofs of Designer artwork output for proofing purpose.</div>
                                                             @*<div class="profile-stars">
                                                                     <span data-bind="value: type"></span>
                                                                 </div>*@
@@ -2193,10 +2212,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="col-lg-9">
                                             <div class="form-group" id="taxLabel">
                                                 <div class="col-lg-3 text-right">
-                                                       <label class="control-label text-right tooltip-float">Tax Title/Label</label>
+                                                    <label class="control-label text-right tooltip-float">Tax Title/Label</label>
                                                 </div>
-                                                    <div class="col-lg-3" style="padding-right:6px;">
-                                                        <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
+                                                <div class="col-lg-3" style="padding-right:6px;">
+                                                    <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
                                                 </div>
                                             </div>
 
@@ -2231,13 +2250,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
-                                                       
+
                                                 </div>
-                                                    <div class="col-lg-3" style="padding-left:4px;">
+                                                <div class="col-lg-3" style="padding-left:4px;">
                                                     <div class="input-group">
-                                                           
-                                                            <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
-                                                            <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
+
+                                                        <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
+                                                        <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
                                                     </div>
                                                 </div>
                                             </div>

@@ -2919,7 +2919,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="PurchaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="50" />
           <Property Name="date_Purchase" Type="datetime" />
-          <Property Name="SupplierId" Type="int" />
+          <Property Name="SupplierId" Type="bigint" />
           <Property Name="ContactId" Type="int" Nullable="false" />
           <Property Name="SupplierContactCompany" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SupplierContactAddressID" Type="int" Nullable="false" />
@@ -4769,6 +4769,30 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Purchase_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchase_SectionFlag">
+          <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="0..1" />
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="FlagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PurchaseDetail_Items">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
@@ -6597,6 +6621,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Items" EntitySet="Items" />
             <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
           </AssociationSet>
+          <AssociationSet Name="FK_Purchase_Company" Association="Self.FK_Purchase_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Purchase" EntitySet="Purchase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchase_SectionFlag" Association="Self.FK_Purchase_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlag" />
+            <End Role="Purchase" EntitySet="Purchase" />
+          </AssociationSet>
           <AssociationSet Name="FK_PurchaseDetail_Items" Association="Self.FK_PurchaseDetail_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
@@ -7808,6 +7840,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Item" EntitySet="Items" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_Purchase_Company" Association="DomainModels.FK_Purchase_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Purchase" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchase_SectionFlag" Association="DomainModels.FK_Purchase_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlags" />
+            <End Role="Purchase" EntitySet="Purchases" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -7943,6 +7983,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="TemplateColorStyles" Relationship="DomainModels.FK_TemplateColorStyle_Company" FromRole="Company" ToRole="TemplateColorStyle" />
           <NavigationProperty Name="DeliveryNotes" Relationship="DomainModels.FK_DeliveryNote_Company" FromRole="Company" ToRole="DeliveryNote" />
           <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_Inquiry_Company" FromRole="Company" ToRole="Inquiry" />
+          <NavigationProperty Name="Purchases" Relationship="DomainModels.FK_Purchase_Company" FromRole="Company" ToRole="Purchase" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -8546,6 +8587,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_Estimate_SectionFlag" FromRole="SectionFlag" ToRole="Estimate" />
           <NavigationProperty Name="DeliveryNotes" Relationship="DomainModels.FK_DeliveryNote_SectionFlag" FromRole="SectionFlag" ToRole="DeliveryNote" />
+          <NavigationProperty Name="Purchases" Relationship="DomainModels.FK_Purchase_SectionFlag" FromRole="SectionFlag" ToRole="Purchase" />
         </EntityType>
         <Association Name="FK_tbl_section_flags_tbl_sections">
           <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
@@ -13278,7 +13320,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="PurchaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="date_Purchase" Type="DateTime" Precision="3" />
-          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="SupplierId" Type="Int64" />
           <Property Name="ContactId" Type="Int32" Nullable="false" />
           <Property Name="SupplierContactCompany" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SupplierContactAddressID" Type="Int32" Nullable="false" />
@@ -13307,6 +13349,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsPrinted" Type="Boolean" />
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PurchaseDetails" Relationship="DomainModels.FK_PurchaseID" FromRole="Purchase" ToRole="PurchaseDetail" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Purchase_Company" FromRole="Purchase" ToRole="Company" />
+          <NavigationProperty Name="SectionFlag" Relationship="DomainModels.FK_Purchase_SectionFlag" FromRole="Purchase" ToRole="SectionFlag" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -14319,6 +14363,30 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="PurchaseDetail">
               <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchase_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Purchase" Role="Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchase_SectionFlag">
+          <End Type="DomainModels.SectionFlag" Role="SectionFlag" Multiplicity="0..1" />
+          <End Type="DomainModels.Purchase" Role="Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="FlagID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

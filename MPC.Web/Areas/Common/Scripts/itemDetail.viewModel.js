@@ -811,6 +811,46 @@ define("common/itemDetail.viewModel",
                             }
                             getSectionSystemCostCenters();
                         });
+
+                        selectedSection().qty1.subscribe(function (value) {
+                            if (isNaN(value)) {
+                                return;
+                            }
+                            var qty1Value = parseInt(value);
+                            if (qty1Value !== parseInt(selectedProduct().qty1())) {
+                                selectedProduct().qty1(qty1Value);
+                            }
+                            getSectionSystemCostCenters();
+                        });
+
+                        selectedSection().qty2.subscribe(function (value) {
+                            if (isNaN(value)) {
+                                return;
+                            }
+                            var qty2Value = parseInt(value);
+                            if (qty2Value !== parseInt(selectedProduct().qty2())) {
+                                selectedProduct().qty2(qty2Value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        
+                        selectedSection().isSecondTrim.subscribe(function (value) {
+                            if (value !== selectedSection().isSecondTrim()) {
+                                selectedSection().isSecondTrim(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        
+                        selectedSection().isPaperSupplied.subscribe(function (value) {
+                            if (value !== selectedSection().isPaperSupplied()) {
+                                selectedSection().isPaperSupplied(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        
                     },
                     // Get Press By Id
                     getPressById = function (pressId) {
@@ -1388,21 +1428,7 @@ define("common/itemDetail.viewModel",
                             }
                         });
                     },
-                    setDecimalPlaceValue = function (chargevalue) {
-                        if (chargevalue) {
-                            var val = parseFloat(chargevalue);
-                            var calc;
-                            if (!isNaN(val)) {
-                                calc = (val.toFixed(2));
-                                return calc;
-                            } else {
-                                calc = 0.00;
-                                return calc;
-                            }
-                        } else {
-                            return 0.00;
-                        }
-                    },
+
                     selectBestPressFromWizard = function (bestPress) {
                         selectedBestPressFromWizard(bestPress);
                         selectedSection().pressId(bestPress.id);

@@ -40,14 +40,30 @@ define("paperSheet/paperSheet.viewModel",
                     //Create New Paper Sheet
                     createNewPaperSheet = function () {
                         var paperSheet = new model.PaperSheet();
+                        //paperSheet.IsImperical("true");
                         editorViewModel.selectItem(paperSheet);
                         selectedPaperSheet().isArchived(false);
                         openEditDialog();
+                        selectedPaperSheet().IsImperical("true");
+                        selectedPaperSheet().reset();
                     },
                     //On Edit Click Of Paper Sheet
                     onEditItem = function (item) {
+                      
+                        if (item.IsImperical() == true || item.IsImperical() == "true") {
+                            item.IsImperical("true");
+                        }
+                        else {
+                            item.IsImperical("false");
+                        }
+                           
+
                         selectedPaperSheetForDelete(item);
+
+
                         editorViewModel.selectItem(item);
+                        
+
                         openEditDialog();
 
 
@@ -172,14 +188,17 @@ define("paperSheet/paperSheet.viewModel",
                         view.showPaperSheetDialog();
                         view.initializeLabelPopovers();
 
-                        if(selectedPaperSheet().IsImperical() == true)
-                        {
-                            selectedPaperSheet().IsImperical("true");
-                        }
-                        else
-                        {
-                            selectedPaperSheet().IsImperical("false");
-                        }
+
+                     
+                        //if (selectedPaperSheet().IsImperical() == true || selectedPaperSheet().IsImperical() == "true") {
+                        //        selectedPaperSheet().IsImperical("true");
+                        //}
+                        // else {
+                        //        selectedPaperSheet().IsImperical("false");
+                        //}
+                        
+                       // ist.paperSheet
+                       
 
                     },
                     //CLose Paper Sheet Dialog

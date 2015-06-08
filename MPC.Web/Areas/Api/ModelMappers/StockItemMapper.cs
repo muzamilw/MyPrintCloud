@@ -32,7 +32,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaperBasisAreas = source.PaperBasisAreas != null ? source.PaperBasisAreas.Select(p => p.CreateFromDropDown()).ToList() : null,
                 RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(q => q.CreateFromDropDown()) : new List<ApiModels.RegistrationQuestionDropDown>(),
                 CurrencySymbol = (source.Organisation != null && source.LengthUnits != null) ? source.Organisation.Currency.CurrencySymbol : string.Empty,
-                WeightUnit = source.WeightUnit
+                WeightUnit = source.WeightUnit,
+                IsImperical = source.IsImperical
             };
         }
 
@@ -142,6 +143,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaperBasicAreaId = source.PaperBasicAreaId,
                 ItemCoatedType = source.ItemCoatedType,
                 ItemWeightSelectedUnit = source.ItemWeightSelectedUnit,
+                IsImperical = source.IsImperical,
                 StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null
             };
         }
@@ -189,6 +191,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaperBasicAreaId = source.PaperBasicAreaId,
                 ItemCoatedType = source.ItemCoatedType,
                 ItemWeightSelectedUnit = source.ItemWeightSelectedUnit,
+                IsImperical = source.IsImperical,
                 StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null
             };
         }

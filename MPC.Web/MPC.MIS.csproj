@@ -340,6 +340,7 @@
     <Compile Include="Areas\Api\Controllers\LiveJobsBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\LiveJobsController.cs" />
     <Compile Include="Areas\Api\Controllers\ProgressEstimateController.cs" />
+    <Compile Include="Areas\Api\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -3429,7 +3430,7 @@
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="MPC_Content\Artworks\" />
     <Folder Include="MPC_Content\Assets\" />
-    <Folder Include="MPC_Content\Attachments\" />
+    <Folder Include="MPC_Content\Attachments\1\" />
     <Folder Include="MPC_Content\CostCentres\" />
     <Folder Include="MPC_Content\DefaultCss\" />
     <Folder Include="MPC_Content\DefaultSprite\" />

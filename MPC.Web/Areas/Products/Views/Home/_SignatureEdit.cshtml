@@ -221,17 +221,17 @@
                             <div class="col-lg-2 text-right" style="padding-right:0;">
                                 &nbsp;
                             </div>
-                            <div class=" col-lg-2" style="padding-left: 12px;">
+                            <div class=" col-lg-2" style="padding-left: 12px;" data-bind="visible: !isWorknTurn()">
                                 <label class="control-label">Color #2</label>
 
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -2%;" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
+                        <div class="form-group" style="margin-top: -2%;" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2' && !isWorknTurn()">
                             <div class="col-lg-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
                                 <select class="form-control" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
                             </div>
                             <div class="col-lg-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
-                                <select class="form-control" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression'"></select>
+                                <select class="form-control" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide2"></select>
                             </div>
                             <div class="col-lg-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
                                 <!-- ko if: pressIdSide2IsSpotColor -->

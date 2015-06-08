@@ -11,7 +11,7 @@ namespace MPC.Models.DomainModels
         public int PurchaseId { get; set; }
         public string Code { get; set; }
         public DateTime? date_Purchase { get; set; }
-        public int? SupplierId { get; set; }
+        public long? SupplierId { get; set; }
         public int ContactId { get; set; }
         public string SupplierContactCompany { get; set; }
         public int SupplierContactAddressID { get; set; }
@@ -39,7 +39,8 @@ namespace MPC.Models.DomainModels
         public bool? IsRead { get; set; }
         public bool? IsPrinted { get; set; }
         public string XeroAccessCode { get; set; }
-
+        public virtual Company Company { get; set; }
+        public virtual SectionFlag SectionFlag { get; set; }
         public virtual ICollection<PurchaseDetail> PurchaseDetails { get; set; }
     }
 }
