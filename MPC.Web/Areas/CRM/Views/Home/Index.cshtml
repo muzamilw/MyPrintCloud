@@ -126,14 +126,14 @@
                                 @{
                                     Html.RenderPartial("~/Areas/CRM/Views/Home/CompaniesDetail.cshtml");
                                 }
+                            </div>
                         </div>
+
+
                     </div>
-
-
                 </div>
-            </div>
 
-        </div>
+            </div>
             <script id="filterTemplate" type="text/html">
                 <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
 
@@ -147,6 +147,9 @@
                                 <i class="fa fa-search search-icon" data-bind="click: $root.filterHandler"></i>
                             </div>
                             <div class="pull-left">
+                                <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
+                                    Reports
+                                </button>
                                 <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
                                     Add Customer
                                 </a>
@@ -158,12 +161,14 @@
                     <div class="clearfix">
                     </div>
                 </div>
-        </script>
+            </script>
+        </div>
     </div>
 </div>
+    @Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
 @section Scripts{
     <script>
-        require(["crm/crm.view", "common/confirmation.view"]);
+        require(["crm/crm.view", "common/confirmation.view", "common/reportManager.view"]);
         $(function () {
             $('#licrm').addClass('active');
         });

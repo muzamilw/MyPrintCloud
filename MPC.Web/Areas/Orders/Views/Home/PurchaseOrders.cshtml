@@ -55,6 +55,9 @@
                 <div class="col-lg-12">
                     @*Remove End from here for Login*@
                     <div class="pull-right" style="margin-right: 3%;">
+                        <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
+                            Reports
+                        </button>
                         <a class="btn btn-primary patial-edit">
                             Create New Purchase Order
                         </a>
@@ -123,11 +126,11 @@
 
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
-
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
 
 @section Scripts{
     <script>
-        require(["purchaseOrders/purchaseOrders.view", "common/companySelector.view", , "common/confirmation.view"]);
+        require(["purchaseOrders/purchaseOrders.view", "common/companySelector.view", , "common/confirmation.view", "common/reportManager.view"]);
         $(document).ready(function () {
             $('#lipurchases').addClass('active');
         });

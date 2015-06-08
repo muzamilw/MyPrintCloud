@@ -167,7 +167,11 @@
                     <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
                     <i class="fa fa-search search-icon" data-bind="click:$root.searchSuppliersByFilters"></i>
                 </div>
+               
                 <div class="pull-left">
+                    <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
+                        Reports
+                    </button>
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
                         Add Supplier
                     </a>
@@ -178,11 +182,11 @@
         </div>
     </div>
 </script>
-
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
 @section Scripts{
 
     <script>
-        require(["crm/crm.supplier.view", "common/confirmation.view"]);
+        require(["crm/crm.supplier.view", "common/confirmation.view", "common/reportManager.view"]);
         $(function () {
             $('#licrm').addClass('active');
         });
