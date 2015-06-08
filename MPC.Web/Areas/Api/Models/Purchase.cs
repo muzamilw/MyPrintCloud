@@ -15,6 +15,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string RefNo { get; set; }
         public int? isproduct { get; set; }
         public int? Status { get; set; }
+        public int SupplierContactAddressID { get; set; }
         public int? FlagID { get; set; }
         public string Comments { get; set; }
         public string FootNote { get; set; }

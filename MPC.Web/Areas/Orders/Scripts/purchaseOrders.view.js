@@ -13,20 +13,17 @@ define("purchaseOrders/purchaseOrders.view",
                 viewModel = specifiedViewModel,
                     // Binding root used with knockout
                 bindingRoot = $("#purchaseOrderBinding")[0],
+                // Hide purchase Detail Dialog
+                hidePurchaseDetailDialog = function () {
+                    $("#purchaseDetailDialog").modal("hide");
+                },
+                 // Show purchase Detail Dialog
+                showPurchaseDetailDialog = function () {
+                    $("#purchaseDetailDialog").modal("show");
+                },
                 // Go To Element with Validation Errors
                 gotoElement = function (element) {
-                    //var tab = $(element).closest(".tab-pane");
-                    //if (!tab) {
-                    //    return;
-                    //}
-
-                    //var liElement = $('a[href=#' + tab.attr('id') + ']');
-                    //if (!liElement) {
-                    //    return;
-                    //}
-
-                    //liElement.click();
-
+                    
                     var target = $(element);
                     target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
                     if (target.length) {
@@ -50,7 +47,9 @@ define("purchaseOrders/purchaseOrders.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
-                gotoElement:gotoElement
+                gotoElement: gotoElement,
+                showPurchaseDetailDialog:showPurchaseDetailDialog,
+                hidePurchaseDetailDialog: hidePurchaseDetailDialog,
 
             };
         })(deliveryNotesViewModel);

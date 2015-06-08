@@ -70,7 +70,7 @@
                     <form data-bind="submit:$root.searchData">
                         <div class="filter-block pull-right">
                             <div class="form-group pull-left">
-                                <select class="form-control col-sm-4" data-bind="options:$root.purchaseOrderTypes,optionsText:'name',optionsValue:'id', value: $root.purchaseOrderTypeFilter"></select>
+                                <select class="form-control col-sm-4" data-bind="options:$root.purchaseOrderTypes,optionsText:'name',optionsValue:'id', value: $root.purchaseOrderTypeFilter, event:{ change: $root.changePurchaseTypeFilter}"></select>
                             </div>
                             <div class="form-group pull-left">
                                 <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root. searchFilter">
@@ -117,17 +117,19 @@
     </div>
 
     @Html.Partial("_partialpurchaseOrders")
-
+    @Html.Partial("~/Areas/Orders/Views/Home/_PurchaseDetailDialog.cshtml")
 </div>
 
 
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
+
 
 
 @section Scripts{
     <script>
-        require(["purchaseOrders/purchaseOrders.view", "common/companySelector.view", , "common/confirmation.view"]);
+        require(["purchaseOrders/purchaseOrders.view", "common/companySelector.view", "common/confirmation.view", "common/stockItem.view"]);
         $(document).ready(function () {
             $('#lipurchases').addClass('active');
         });
