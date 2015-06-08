@@ -554,9 +554,9 @@ namespace MPC.Implementation.WebStoreServices
            
        //}
 
-       public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber)
+       public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId)
        {
-           return _OrderRepository.GetAllCorpOrders(ContactCompany, orderStatus, fromDate, toDate, orderRefNumber);
+           return _OrderRepository.GetAllCorpOrders(ContactCompany, orderStatus, fromDate, toDate, orderRefNumber, IsManager, TerritoryId);
        
        }
        public long GetOrderID(long CompanyID,long ContactID,string orderTitle,long OrganisationId)
