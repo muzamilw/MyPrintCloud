@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsC187CE01B91433C95CD6845E634A8D334DE6F72DE0FFC1BAFD17B86945596231))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsE69A62740E1A148F1255FDC18D411DFC655201647289470D84C7EC012491F6FB))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsC187CE01B91433C95CD6845E634A8D334DE6F72DE0FFC1BAFD17B86945596231 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsE69A62740E1A148F1255FDC18D411DFC655201647289470D84C7EC012491F6FB : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsC187CE01B91433C95CD6845E634A8D334DE6F72DE0FFC1BAFD17B86945596231()
+        public ViewsForBaseEntitySetsE69A62740E1A148F1255FDC18D411DFC655201647289470D84C7EC012491F6FB()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "fe6591ed394bed267d562c43ccd5b7820d7bac8f0698b5891c35eb5ca4eaf74d";
-            this.HashOverAllExtentViews = "17f0a6aee5dbbb7be28983b37de48e1480303f700ff186ddc8ee439ee77292ed";
+            this.HashOverMappingClosure = "bb9fdc0640ab6f585b9fcc899de53d7ba6923526b9f45bd4e66afb05191046a4";
+            this.HashOverAllExtentViews = "91e4dc3d49680b3af7a2939d3dfbd5d5497ad137719b86c08131e940f5c890f0";
             this.ViewCount = 336;
         }
         
@@ -5388,21 +5388,22 @@ namespace Edm_EntityMappingGeneratedViews
                     "etail, T1.PurchaseDetail_ItemName, T1.PurchaseDetail_TaxId, T1.PurchaseDetail_To" +
                     "talPrice, T1.PurchaseDetail_Discount, T1.PurchaseDetail_NetTax, T1.PurchaseDetai" +
                     "l_freeitems, T1.PurchaseDetail_ItemBalance, T1.PurchaseDetail_DepartmentId, T1.P" +
-                    "urchaseDetail_ProductType, T1.PurchaseDetail_RefItemId)\r\n    FROM (\r\n        SEL" +
-                    "ECT \r\n            T.PurchaseDetailId AS PurchaseDetail_PurchaseDetailId, \r\n     " +
-                    "       T.ItemId AS PurchaseDetail_ItemId, \r\n            T.quantity AS PurchaseDe" +
-                    "tail_quantity, \r\n            T.PurchaseId AS PurchaseDetail_PurchaseId, \r\n      " +
-                    "      T.price AS PurchaseDetail_price, \r\n            T.packqty AS PurchaseDetail" +
-                    "_packqty, \r\n            T.ItemCode AS PurchaseDetail_ItemCode, \r\n            T.S" +
-                    "erviceDetail AS PurchaseDetail_ServiceDetail, \r\n            T.ItemName AS Purcha" +
-                    "seDetail_ItemName, \r\n            T.TaxId AS PurchaseDetail_TaxId, \r\n            " +
-                    "T.TotalPrice AS PurchaseDetail_TotalPrice, \r\n            T.Discount AS PurchaseD" +
-                    "etail_Discount, \r\n            T.NetTax AS PurchaseDetail_NetTax, \r\n            T" +
-                    ".freeitems AS PurchaseDetail_freeitems, \r\n            T.ItemBalance AS PurchaseD" +
-                    "etail_ItemBalance, \r\n            T.DepartmentId AS PurchaseDetail_DepartmentId, " +
-                    "\r\n            T.ProductType AS PurchaseDetail_ProductType, \r\n            T.RefIt" +
-                    "emId AS PurchaseDetail_RefItemId, \r\n            True AS _from0\r\n        FROM Bas" +
-                    "eDbContext.PurchaseDetails AS T\r\n    ) AS T1");
+                    "urchaseDetail_ProductType, T1.PurchaseDetail_RefItemId, T1.PurchaseDetail_TaxVal" +
+                    "ue)\r\n    FROM (\r\n        SELECT \r\n            T.PurchaseDetailId AS PurchaseDeta" +
+                    "il_PurchaseDetailId, \r\n            T.ItemId AS PurchaseDetail_ItemId, \r\n        " +
+                    "    T.quantity AS PurchaseDetail_quantity, \r\n            T.PurchaseId AS Purchas" +
+                    "eDetail_PurchaseId, \r\n            T.price AS PurchaseDetail_price, \r\n           " +
+                    " T.packqty AS PurchaseDetail_packqty, \r\n            T.ItemCode AS PurchaseDetail" +
+                    "_ItemCode, \r\n            T.ServiceDetail AS PurchaseDetail_ServiceDetail, \r\n    " +
+                    "        T.ItemName AS PurchaseDetail_ItemName, \r\n            T.TaxId AS Purchase" +
+                    "Detail_TaxId, \r\n            T.TotalPrice AS PurchaseDetail_TotalPrice, \r\n       " +
+                    "     T.Discount AS PurchaseDetail_Discount, \r\n            T.NetTax AS PurchaseDe" +
+                    "tail_NetTax, \r\n            T.freeitems AS PurchaseDetail_freeitems, \r\n          " +
+                    "  T.ItemBalance AS PurchaseDetail_ItemBalance, \r\n            T.DepartmentId AS P" +
+                    "urchaseDetail_DepartmentId, \r\n            T.ProductType AS PurchaseDetail_Produc" +
+                    "tType, \r\n            T.RefItemId AS PurchaseDetail_RefItemId, \r\n            T.Ta" +
+                    "xValue AS PurchaseDetail_TaxValue, \r\n            True AS _from0\r\n        FROM Ba" +
+                    "seDbContext.PurchaseDetails AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -9470,21 +9471,22 @@ namespace Edm_EntityMappingGeneratedViews
                     ", T1.PurchaseDetail_ItemName, T1.PurchaseDetail_TaxId, T1.PurchaseDetail_TotalPr" +
                     "ice, T1.PurchaseDetail_Discount, T1.PurchaseDetail_NetTax, T1.PurchaseDetail_fre" +
                     "eitems, T1.PurchaseDetail_ItemBalance, T1.PurchaseDetail_DepartmentId, T1.Purcha" +
-                    "seDetail_ProductType, T1.PurchaseDetail_RefItemId)\r\n    FROM (\r\n        SELECT \r" +
-                    "\n            T.PurchaseDetailId AS PurchaseDetail_PurchaseDetailId, \r\n          " +
-                    "  T.ItemId AS PurchaseDetail_ItemId, \r\n            T.quantity AS PurchaseDetail_" +
-                    "quantity, \r\n            T.PurchaseId AS PurchaseDetail_PurchaseId, \r\n           " +
-                    " T.price AS PurchaseDetail_price, \r\n            T.packqty AS PurchaseDetail_pack" +
-                    "qty, \r\n            T.ItemCode AS PurchaseDetail_ItemCode, \r\n            T.Servic" +
-                    "eDetail AS PurchaseDetail_ServiceDetail, \r\n            T.ItemName AS PurchaseDet" +
-                    "ail_ItemName, \r\n            T.TaxId AS PurchaseDetail_TaxId, \r\n            T.Tot" +
-                    "alPrice AS PurchaseDetail_TotalPrice, \r\n            T.Discount AS PurchaseDetail" +
-                    "_Discount, \r\n            T.NetTax AS PurchaseDetail_NetTax, \r\n            T.free" +
-                    "items AS PurchaseDetail_freeitems, \r\n            T.ItemBalance AS PurchaseDetail" +
-                    "_ItemBalance, \r\n            T.DepartmentId AS PurchaseDetail_DepartmentId, \r\n   " +
-                    "         T.ProductType AS PurchaseDetail_ProductType, \r\n            T.RefItemId " +
-                    "AS PurchaseDetail_RefItemId, \r\n            True AS _from0\r\n        FROM DomainMo" +
-                    "delsStoreContainer.PurchaseDetail AS T\r\n    ) AS T1");
+                    "seDetail_ProductType, T1.PurchaseDetail_RefItemId, T1.PurchaseDetail_TaxValue)\r\n" +
+                    "    FROM (\r\n        SELECT \r\n            T.PurchaseDetailId AS PurchaseDetail_Pu" +
+                    "rchaseDetailId, \r\n            T.ItemId AS PurchaseDetail_ItemId, \r\n            T" +
+                    ".quantity AS PurchaseDetail_quantity, \r\n            T.PurchaseId AS PurchaseDeta" +
+                    "il_PurchaseId, \r\n            T.price AS PurchaseDetail_price, \r\n            T.pa" +
+                    "ckqty AS PurchaseDetail_packqty, \r\n            T.ItemCode AS PurchaseDetail_Item" +
+                    "Code, \r\n            T.ServiceDetail AS PurchaseDetail_ServiceDetail, \r\n         " +
+                    "   T.ItemName AS PurchaseDetail_ItemName, \r\n            T.TaxId AS PurchaseDetai" +
+                    "l_TaxId, \r\n            T.TotalPrice AS PurchaseDetail_TotalPrice, \r\n            " +
+                    "T.Discount AS PurchaseDetail_Discount, \r\n            T.NetTax AS PurchaseDetail_" +
+                    "NetTax, \r\n            T.freeitems AS PurchaseDetail_freeitems, \r\n            T.I" +
+                    "temBalance AS PurchaseDetail_ItemBalance, \r\n            T.DepartmentId AS Purcha" +
+                    "seDetail_DepartmentId, \r\n            T.ProductType AS PurchaseDetail_ProductType" +
+                    ", \r\n            T.RefItemId AS PurchaseDetail_RefItemId, \r\n            T.TaxValu" +
+                    "e AS PurchaseDetail_TaxValue, \r\n            True AS _from0\r\n        FROM DomainM" +
+                    "odelsStoreContainer.PurchaseDetail AS T\r\n    ) AS T1");
         }
         
         /// <Summary>

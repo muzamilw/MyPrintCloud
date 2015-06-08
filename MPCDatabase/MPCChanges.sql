@@ -4617,3 +4617,5 @@ add constraint FK_Purchase_SectionFlag
 foreign key (FlagId)
 references SectionFlag (SectionFlagId)
 
+alter table PurchaseDetail
+add TaxValue float null
