@@ -304,7 +304,11 @@ namespace MPC.Webstore.Controllers
 
               if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
               {
-                  ordersList = _orderservice.GetAllCorpOrders(_webstoreclaimHelper.loginContactCompanyID(), 0, SearchOrder.FromData, SearchOrder.ToDate, SearchOrder.poSearch);
+                  ordersList = _orderservice.GetAllCorpOrders(_webstoreclaimHelper.loginContactCompanyID(), 0, SearchOrder.FromData, SearchOrder.ToDate, SearchOrder.poSearch, false, _webstoreclaimHelper.loginContactTerritoryID());
+              }
+              else if(UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager)
+              {
+                  ordersList = _orderservice.GetAllCorpOrders(_webstoreclaimHelper.loginContactCompanyID(), 0, SearchOrder.FromData, SearchOrder.ToDate, SearchOrder.poSearch, true, _webstoreclaimHelper.loginContactTerritoryID());
               }
               else
               {

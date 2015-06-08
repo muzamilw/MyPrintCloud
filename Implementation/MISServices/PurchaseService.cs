@@ -27,5 +27,10 @@ namespace MPC.Implementation.MISServices
         {
             return purchaseRepository.GetPurchases(requestModel);
         }
+
+        public PurchaseResponseModel GetPurchaseOrders(PurchaseOrderSearchRequestModel request)
+        {
+            return purchaseRepository.GetPurchaseOrders(request);
+        }
     }
 }
