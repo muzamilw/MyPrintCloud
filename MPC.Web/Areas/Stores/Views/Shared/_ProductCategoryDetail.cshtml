@@ -702,12 +702,7 @@
 
                                                 </div>
                                                 <div class="col-lg-5">
-                                                    <!-- ko ifnot: productCategoryThumbnailFileBinary() -->
-                                                    <img style="height:180px; width: 200px;" src="/mis/Content/Images/imageplaceholder.png" />
-                                                    <!-- /ko -->
-                                                    <!-- ko if: productCategoryThumbnailFileBinary() -->
-                                                    <img style="height:130px; width: 220px;" data-bind="attr: { src: productCategoryThumbnailFileBinary }" />
-                                                    <!-- /ko -->
+                                                    <img style="height: 130px; width: 220px;" data-bind="attr: { src: productCategoryThumbnailFileBinary }">
                                                     <div style="width:220px;margin-top:10px; text-align:center;">
                                                         @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
                                                         <div class="fileUpload btn btn-primary">
@@ -726,12 +721,7 @@
 
                                                 </div>
                                                 <div class="col-lg-5">
-                                                    <!-- ko ifnot: productCategoryImageFileBinary() -->
-                                                    <img style="height:180px; width: 200px;" src="/mis/Content/Images/imageplaceholder.png" />
-                                                    <!-- /ko -->
-                                                    <!-- ko if: productCategoryImageFileBinary() -->
-                                                    <img style="height:130px; width: 220px;" data-bind="attr: { src: productCategoryImageFileBinary }" />
-                                                    <!-- /ko -->
+                                                    <img style="height:130px; width: 220px;" data-bind="attr: { src: productCategoryImageFileBinary }">
                                                     <div style="width:220px;margin-top:10px; text-align:center;">
                                                         @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
                                                         <div class="fileUpload btn btn-primary">
