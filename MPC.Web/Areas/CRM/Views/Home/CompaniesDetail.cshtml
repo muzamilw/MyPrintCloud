@@ -189,9 +189,13 @@
                                     <div class="col-lg-3 col-md-4 col-sm-4">
 
                                         <div class="clearfix">
-
-                                            <img style="width:240px;height:130px;" id="idCompanyimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                            <!--ko ifnot:storeImageFileBinary()-->
+                                            <img style="width:200px;height:180px;" src="/mis/Content/Images/imageplaceholder.png">
+                                            <!--/ko-->
+                                            <!--ko if:storeImageFileBinary()-->
                                             <img style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                            <!--/ko-->
+                                            
                                             <div class="col-lg-12" style="margin-top:5px;text-align:center;width:240px;">
                                                 <div class="fileUpload btn btn-primary">
                                                     <span>Upload </span>
