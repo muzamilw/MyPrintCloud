@@ -1,4 +1,5 @@
 ﻿
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -10,5 +11,10 @@ namespace MPC.Interfaces.MISServices
         /// Gets list of Purchases
         /// </summary>
         PurchaseResponseModel GetPurchases(PurchaseRequestModel model);
+
+        /// <summary>
+        ///  Gets list of Purchase Orders
+        /// </summary>
+        PurchaseResponseModel GetPurchaseOrders(PurchaseOrderSearchRequestModel model);
     }
 }

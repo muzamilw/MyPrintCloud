@@ -14,13 +14,10 @@
                     <div class="col-lg-4">
 
                         <div class="clearfix">
-
-                            <!-- ko ifnot: imageSource() -->
-                            <img style="width:200px;height:180px;" src="/mis/Content/Images/imageplaceholder.png" />
-                            <!-- /ko -->
-                            <!-- ko if: imageSource() -->
+                            
+                            <img style="width:240px;height:130px;" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
                             <img style="width:220px;height:130px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
-                            <!-- /ko -->
+                            
                             <div class="col-lg-11" style="margin-top:5px;text-align:center;width:220px;">
                                 
                                     <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">

@@ -15,7 +15,9 @@ namespace MPC.Interfaces.Repository
     {
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
-        List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber);
+        List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId);
+
+
         string FormatDateValue(DateTime? dateTimeValue);
         ShoppingCart ExtractShoppingCartForOrder(Estimate tblEstimate);
         bool ApplyCurrentTax(List<Item> ClonedITem, double TaxValue, int TaxID);
