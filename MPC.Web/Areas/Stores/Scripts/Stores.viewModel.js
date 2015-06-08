@@ -3207,6 +3207,21 @@ define("stores/stores.viewModel",
                 selectedCompanyContact().image(data);
                 selectedCompanyContact().fileName(file.name);
             },
+            selectedCsvFileForCompanyContact = function (file, data) {
+                dataservice.importCompanyContact({
+                    FileName: file.name,
+                    FileBytes: data,
+                    CompanyId: selectedStore().companyId()
+                }, {
+                    success: function (successData) {
+                        toastr.success("Company Contacts imported successfully!");
+                        searchCompanyContact();
+                    },
+                    error: function (response) {
+                        toastr.error("Company Contacts failed to import! "+ response);
+                    }
+                });
+            },
 
             getAddressByAddressId = function (addressId) {
                 var result = _.find(allCompanyAddressesList(), function (address) {
@@ -6619,6 +6634,7 @@ define("stores/stores.viewModel",
                     selectedPageCategory: selectedPageCategory,
                     allCompanyAddressesList: allCompanyAddressesList,
                     UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback,
+                    selectedCsvFileForCompanyContact: selectedCsvFileForCompanyContact,
                     onCloseCompanyBanner: onCloseCompanyBanner,
                     widgets: widgets,
                     paymentMethods: paymentMethods,
