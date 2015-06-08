@@ -29,7 +29,7 @@
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
 
-                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Email/UserName</label>
+                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>
                                                             </div>
                                                             <div class="col-lg-7">
                                                                 <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
@@ -144,7 +144,12 @@
                                                                 
                                                             </div>
                                                             <div class="col-lg-6" style="text-align: center;">
-                                                                <img style="height:130px; width: 215px; border:1px solid rgb(238, 238, 238)" data-bind="attr: { src: image }" />
+                                                                <!--ko ifnot:image()-->
+                                                                <img style="height:180px; width:200px;" src="/mis/Content/Images/imageplaceholder.png" />
+                                                                <!--/ko-->
+                                                                <!--ko if:image()-->
+                                                                <img style="height:130px; width:215px; border:1px solid rgb(238, 238, 238)" data-bind="attr: { src: image }" />
+                                                                <!--/ko-->
                                                                 <div style="width:215px;text-align:center;">
                                                                     <div class="fileUpload btn btn-primary marginT5">
                                                                         <span>Upload</span>
@@ -508,7 +513,7 @@
                                                 <div class="col-lg-6">
                                                    <div class="form-group ">
                                                         <div class="col-lg-4 text-right">
-                                                            <label for="ddbussinessAddress" class="control-label">Bussiness Address</label>
+                                                            <label for="ddbussinessAddress" class="control-label">Business Address</label>
 
                                                         </div>
                                                         <div class="col-lg-7">

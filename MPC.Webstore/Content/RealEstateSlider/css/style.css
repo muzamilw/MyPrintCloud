@@ -1,0 +1,50 @@
+.row {
+	text-align: center;
+}
+
+.carousel {
+	left: 66%;
+	position: absolute;
+	width: 936px;
+	margin-left: -500px;
+	overflow: hidden;
+	height: 500px;
+	top: 50px;
+}
+
+.carousel .item {
+	width: 350px;
+	height: 250px;
+	background: url('http://placehold.it/350x250') top left no-repeat;
+	background-size: 100%;
+	vertical-align: middle;
+	line-height: 150px;
+	box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.controls {
+	position: absolute;
+	top: 485px;
+	left: 65%;
+	width: 150px;
+	margin-left: -75px;
+}
+
+.controls a {
+	display: block;
+    color:black!important;
+}
+
+.controls .previous {
+	float: left;
+}
+
+.controls .next {
+	float: right;
+}
+#previous {
+    color:black!important;
+}
+#next {
+color:black!important;
+}

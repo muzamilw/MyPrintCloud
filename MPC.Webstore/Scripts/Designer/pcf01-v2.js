@@ -905,10 +905,16 @@ function d5_sub(pageID, isloading) {
                 while ((canvasHeight * DzoomFactor) <= contentAreaheight || (canvasWidth * DzoomFactor) <= contentAreaWidth) {
                     D1CS = D1CS * D1SF;
                     dfZ1l = D1CS;
-                    DzoomFactor *= D1SF;D1CZL += 1;
+                    DzoomFactor *= D1SF;
+                    D1CZL += 1;
                 }
                 // zoom in 
             }
+            // zoom out once more 
+            DzoomFactor /= D1SF;
+            D1CS = D1CS / D1SF;
+            dfZ1l = D1CS;
+            DzoomFactor /= D1SF; D1CZL -= 1;
 
             canvas.setHeight(canvasHeight  * dfZ1l);
             canvas.setWidth(canvasWidth * dfZ1l);
@@ -1630,10 +1636,11 @@ function fu02() {
     canvas.observe('selection:cleared', function (e) {
         pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable, #divVariableContainer  ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
-        if ($('#selectedTab').css('top') == "280px")
+        if ($('#selectedTab').css('left') == "292px")
         {
-            $("#btnAdd").click();
-        }
+            $("#documentMenuCopy > button").css("visibility", "hidden");
+            $("#collapseDesignerMenu").click();
+        } 
     });
 }
 
@@ -2369,8 +2376,8 @@ function j8(src) {
                                 }
                                 bestPer -= 0.10;
                             }
-                            var wdth = parseInt(D1AO.getWidth() * 2);
-                            var hght = parseInt(D1AO.getHeight() * 2);
+                            var wdth = parseInt(D1AO.getWidth()/ bestPer);
+                            var hght = parseInt(D1AO.getHeight() / bestPer);
                             var XML = new XMLWriter();
                             XML.BeginNode("Cropped");
                             XML.Node("sx", "0");
@@ -3408,6 +3415,10 @@ function k16(TempImgType, ImC, Caller) {
                         $("#" + title).click(function (event) {
                             j9(event, funcUrl, title);
                         });
+                        if( imToLoad  == title)
+                        {
+                            imToLoad = ""; j9(event, funcUrl, title); 
+                        }
                     });
                     var he21 = $("." + strName + " li").length;
                     he21 = (he21 / 4) * ($("." + strName + " li").height() + 2);

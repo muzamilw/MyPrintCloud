@@ -13,7 +13,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     currencySymbol = ko.observable(),
                     // #region Arrays
                     //Items
-                    deliverNoteListView = ko.observableArray([]),
+                    purchaseOrders = ko.observableArray([]),
                         // company contacts
                     companyContacts = ko.observableArray([]),
                     // Company Addresses
@@ -22,6 +22,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     sectionFlags = ko.observableArray([]),
                     // System Users
                     systemUsers = ko.observableArray([]),
+                    // Purchase Order Types
+                    purchaseOrderTypes = ko.observableArray([
+                        { id: 1, name: "Product" },
+                        { id: 2, name: "Service" }
+                    ]),
                     // Delivery Carriers
                     deliveryCarriers = ko.observableArray([]),
                     // Errors List
@@ -31,15 +36,18 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     isEditorVisible = ko.observable(false),
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
-                    currentTab = ko.observable(19),
+                    // Default Status of first tab i-e All Purchased Orders
+                    currentTab = ko.observable(0),
                     // #region Observables
-                    selectedDeliveryNote = ko.observable(model.DeliveryNote()),
+                    selectedPurchaseOrder = ko.observable(model.DeliveryNote()),
                     // For List View
-                    selectedDeliveryNoteForListView = ko.observable(),
+                    selectedPurchaseOrderForListView = ko.observable(),
                     // Active Delivery Note Detail
-                    selectedDeliveryNoteDetail = ko.observable(),
+                    selectedPurchaseOrderDetail = ko.observable(),
                     // Search Filter
                     searchFilter = ko.observable(),
+                    // purchase Order Type Filter, Default is Product
+                    purchaseOrderTypeFilter = ko.observable(1),
                     //Pager
                     pager = ko.observable(),
                      //Sort On
@@ -56,40 +64,41 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
                      // Selected Address
                     selectedAddress = ko.computed(function () {
-                        if (!selectedDeliveryNote() || !selectedDeliveryNote().addressId() || companyAddresses().length === 0) {
+                        if (!selectedPurchaseOrder() || !selectedPurchaseOrder().addressId() || companyAddresses().length === 0) {
                             return defaultAddress();
                         }
 
                         var addressResult = companyAddresses.find(function (address) {
-                            return address.id === selectedDeliveryNote().addressId();
+                            return address.id === selectedPurchaseOrder().addressId();
                         });
 
                         return addressResult || defaultAddress();
                     }),
                     // Selected Company Contact
                     selectedCompanyContact = ko.computed(function () {
-                        if (!selectedDeliveryNote() || !selectedDeliveryNote().contactId() || companyContacts().length === 0) {
+                        if (!selectedPurchaseOrder() || !selectedPurchaseOrder().contactId() || companyContacts().length === 0) {
                             return defaultCompanyContact();
                         }
 
                         var contactResult = companyContacts.find(function (contact) {
-                            return contact.id === selectedDeliveryNote().contactId();
+                            return contact.id === selectedPurchaseOrder().contactId();
                         });
 
                         return contactResult || defaultCompanyContact();
                     }),
                     // #endregion
-                    getDeliveryNotesOnTabChange = function (currentTabStatus) {
+                    getPurchaseOrdersOnTabChange = function (currentTabStatus) {
                         searchFilter(undefined);
                         currentTab(currentTabStatus);
-                        pager(new pagination.Pagination({ PageSize: 5 }, deliverNoteListView, getdeliveryNotes));
+                        //pager(new pagination.Pagination({ PageSize: 5 }, purchaseOrders, getPurchaseOrders));
                         pager().reset();
-                        getdeliveryNotes();
+                        getPurchaseOrders();
                     },
-                // Get Delivery Notes
-                getdeliveryNotes = function () {
-                    dataservice.getdeliveryNotes({
+                // Get Purchase Orders
+                getPurchaseOrders = function () {
+                    dataservice.getPurchaseOrders({
                         SearchString: searchFilter(),
+                        PurchaseOrderType: purchaseOrderTypeFilter(),
                         PageSize: pager().pageSize(),
                         PageNo: pager().currentPage(),
                         SortBy: sortOn(),
@@ -97,15 +106,14 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         IsAsc: sortIsAsc()
                     }, {
                         success: function (data) {
-                            deliverNoteListView.removeAll();
+                            purchaseOrders.removeAll();
                             if (data !== null && data !== undefined) {
                                 var itemList = [];
-                                _.each(data.DeliveryNotes, function (item) {
-                                    itemList.push(model.deliverNoteListView.Create(item));
+                                _.each(data.PurchasesList, function (item) {
+                                    itemList.push(model.PurchaseListView.Create(item));
                                 });
-                                ko.utils.arrayPushAll(deliverNoteListView(), itemList);
-                                deliverNoteListView.valueHasMutated();
-
+                                ko.utils.arrayPushAll(purchaseOrders(), itemList);
+                                purchaseOrders.valueHasMutated();
                                 pager().totalCount(data.TotalCount);
                             }
 
@@ -125,18 +133,18 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         success: function (data) {
                             if (data !== null && data !== undefined) {
                                 var dNote = model.DeliveryNote.Create(data);
-                                selectedDeliveryNote(dNote);
-                                selectedDeliveryNote().companyName(data.CompanyName);
+                                selectedPurchaseOrder(dNote);
+                                selectedPurchaseOrder().companyName(data.CompanyName);
                                 // Get Base Data For Company
                                 if (data.CompanyId) {
                                     var storeId = 0;
                                     if (data.IsCustomer !== 3 && data.StoreId) {
                                         storeId = data.StoreId;
-                                        selectedDeliveryNote().storeId(storeId);
+                                        selectedPurchaseOrder().storeId(storeId);
                                     } else {
                                         storeId = data.CompanyId;
                                     }
-                                    selectedDeliveryNote().reset();
+                                    selectedPurchaseOrder().reset();
                                     getBaseForCompany(data.CompanyId, storeId);
                                 }
                             }
@@ -161,15 +169,15 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     },
                     searchData = function () {
                         pager().reset();
-                        getdeliveryNotes();
+                        getPurchaseOrders();
                     },
                     onEditPurchaseOrder = function (item) {
-                    //    selectedDeliveryNoteForListView(item);
-                  //      getDetaildeliveryNote(item.deliveryNoteId());
+                        //    selectedPurchaseOrderForListView(item);
+                        //      getDetaildeliveryNote(item.deliveryNoteId());
                         isEditorVisible(true);
                     },
                     onCloseEditor = function () {
-                        if (selectedDeliveryNote().hasChanges() && selectedDeliveryNote().isStatus() !== 20) {
+                        if (selectedPurchaseOrder().hasChanges() && selectedPurchaseOrder().isStatus() !== 20) {
                             confirmation.messageText("Do you want to save changes?");
                             confirmation.afterProceed(function () {
                                 onSaveDeliveryNotes();
@@ -191,20 +199,20 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         if (!company) {
                             return;
                         }
-                        if (selectedDeliveryNote().companyId() === company.id) {
+                        if (selectedPurchaseOrder().companyId() === company.id) {
                             return;
                         }
 
-                        selectedDeliveryNote().companyId(company.id);
-                        selectedDeliveryNote().companyName(company.name);
+                        selectedPurchaseOrder().companyId(company.id);
+                        selectedPurchaseOrder().companyName(company.name);
                         selectedCompany(company);
 
                         if (company.isCustomer !== 3 && company.storeId) {
-                            selectedDeliveryNote().storeId(company.storeId);
+                            selectedPurchaseOrder().storeId(company.storeId);
                         }
                         // Get Company Address and Contacts
-                        getBaseForCompany(company.id, (selectedDeliveryNote().storeId() === null || selectedDeliveryNote().storeId() === undefined) ? company.id :
-                            selectedDeliveryNote().storeId());
+                        getBaseForCompany(company.id, (selectedPurchaseOrder().storeId() === null || selectedPurchaseOrder().storeId() === undefined) ? company.id :
+                            selectedPurchaseOrder().storeId());
                     },
                     // Get Company Base Data
                     getBaseForCompany = function (id, storeId) {
@@ -226,7 +234,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                         setDefaultContactForCompany();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
-                                    selectedDeliveryNote().reset();
+                                    selectedPurchaseOrder().reset();
                                 }
                                 isCompanyBaseDataLoaded(true);
                             },
@@ -248,26 +256,26 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         observableList.valueHasMutated();
                     }, // Select Default Address For Company in case of new Delivery Note
                     setDefaultAddressForCompany = function () {
-                        if (selectedDeliveryNote().deliveryNoteId() > 0) {
+                        if (selectedPurchaseOrder().deliveryNoteId() > 0) {
                             return;
                         }
                         var defaultCompanyAddress = companyAddresses.find(function (address) {
                             return address.isDefault;
                         });
                         if (defaultCompanyAddress) {
-                            selectedDeliveryNote().addressId(defaultCompanyAddress.id);
+                            selectedPurchaseOrder().addressId(defaultCompanyAddress.id);
                         }
                     },
                     // Select Default Contact For Company in case of new Delivery Note
                     setDefaultContactForCompany = function () {
-                        if (selectedDeliveryNote().deliveryNoteId() > 0) {
+                        if (selectedPurchaseOrder().deliveryNoteId() > 0) {
                             return;
                         }
                         var defaultContact = companyContacts.find(function (contact) {
                             return contact.isDefault;
                         });
                         if (defaultContact) {
-                            selectedDeliveryNote().contactId(defaultContact.id);
+                            selectedPurchaseOrder().contactId(defaultContact.id);
                         }
                     },
                      getBaseData = function () {
@@ -295,33 +303,33 @@ define("purchaseOrders/purchaseOrders.viewModel",
                      addDeliveryNotes = function () {
                          var deliveryNotes = model.DeliveryNote();
                          deliveryNotes.isStatus(19);
-                         selectedDeliveryNote(deliveryNotes);
+                         selectedPurchaseOrder(deliveryNotes);
                          isEditorVisible(true);
                      },
                      // add Delivery Note Detail
                      addDeliveryNoteDetail = function () {
                          var deliveyNoteDetail = model.DeliveryNoteDetail();
-                         selectedDeliveryNoteDetail(deliveyNoteDetail);
-                         selectedDeliveryNote().deliveryNoteDetails.splice(0, 0, deliveyNoteDetail);
+                         selectedPurchaseOrderDetail(deliveyNoteDetail);
+                         selectedPurchaseOrder().deliveryNoteDetails.splice(0, 0, deliveyNoteDetail);
                      },
                      // Template Chooser For Delivery Note Detail
                     templateToUseDeliveryNoteDetail = function (deliveryNoteDetail) {
-                        return (deliveryNoteDetail === selectedDeliveryNoteDetail() ? 'editDeliveryNoteDetailemplate' : 'itemDeliveryNoteDetailTemplate');
+                        return (deliveryNoteDetail === selectedPurchaseOrderDetail() ? 'editDeliveryNoteDetailemplate' : 'itemDeliveryNoteDetailTemplate');
                     },
                     selectDeliveryNoteDetail = function (deliveryNoteDetail) {
-                        selectedDeliveryNoteDetail(deliveryNoteDetail);
+                        selectedPurchaseOrderDetail(deliveryNoteDetail);
                     },
                     // Delete Delivery Notes
                     onDeleteDeliveryNoteDetail = function (deliveryNoteDetail) {
-                        selectedDeliveryNote().deliveryNoteDetails.remove(deliveryNoteDetail);
+                        selectedPurchaseOrder().deliveryNoteDetails.remove(deliveryNoteDetail);
                     },
                     // Save Delivery Notes
                     onSaveDeliveryNotes = function (deliveryNote) {
                         if (!dobeforeSave()) {
                             return;
                         }
-                        var deliveryNotes = selectedDeliveryNote().convertToServerData();
-                        _.each(selectedDeliveryNote().deliveryNoteDetails(), function (item) {
+                        var deliveryNotes = selectedPurchaseOrder().convertToServerData();
+                        _.each(selectedPurchaseOrder().deliveryNoteDetails(), function (item) {
                             deliveryNotes.DeliveryNoteDetails.push(item.convertToServerData(item));
                         });
                         saveDeliveryNote(deliveryNotes);
@@ -333,9 +341,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                         confirmation.messageText("Are you sure you want to Post Delivery Note?");
                         confirmation.afterProceed(function () {
-                            selectedDeliveryNote().isStatus(20);
-                            var deliveryNotes = selectedDeliveryNote().convertToServerData();
-                            _.each(selectedDeliveryNote().deliveryNoteDetails(), function (item) {
+                            selectedPurchaseOrder().isStatus(20);
+                            var deliveryNotes = selectedPurchaseOrder().convertToServerData();
+                            _.each(selectedPurchaseOrder().deliveryNoteDetails(), function (item) {
                                 deliveryNotes.DeliveryNoteDetails.push(item.convertToServerData(item));
                             });
                             saveDeliveryNote(deliveryNotes);
@@ -349,7 +357,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     // Delete Delivry Notes
                 onDeleteDeliveryNote = function () {
                     confirmation.afterProceed(function () {
-                        deleteDeliveryNote(selectedDeliveryNote().convertToServerData());
+                        deleteDeliveryNote(selectedPurchaseOrder().convertToServerData());
                     });
                     confirmation.afterCancel(function () {
 
@@ -360,7 +368,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                 deleteDeliveryNote = function (deliveryNote) {
                     dataservice.deleteDeliveryNote(deliveryNote, {
                         success: function (data) {
-                            deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                            purchaseOrders.remove(selectedPurchaseOrderForListView());
                             isEditorVisible(false);
                             toastr.success("Delete Successfully.");
                         },
@@ -378,18 +386,18 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     dataservice.saveDeliveryNote(deliveryNote, {
                         success: function (data) {
                             //For Add New
-                            if (selectedDeliveryNote().deliveryNoteId() === undefined || selectedDeliveryNote().deliveryNoteId() === 0) {
-                                deliverNoteListView.splice(0, 0, model.deliverNoteListView.Create(data));
+                            if (selectedPurchaseOrder().deliveryNoteId() === undefined || selectedPurchaseOrder().deliveryNoteId() === 0) {
+                                purchaseOrders.splice(0, 0, model.purchaseOrders.Create(data));
                             } else {
-                                selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
-                                selectedDeliveryNoteForListView().flagId(data.FlagId);
-                                selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
-                                selectedDeliveryNoteForListView().companyName(data.CompanyName);
-                                selectedDeliveryNoteForListView().flagColor(data.FlagColor);
-                                selectedDeliveryNoteForListView().orderReff(data.OrderReff);
-                                selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
+                                selectedPurchaseOrderForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
+                                selectedPurchaseOrderForListView().flagId(data.FlagId);
+                                selectedPurchaseOrderForListView().contactCompany(data.ContactCompany);
+                                selectedPurchaseOrderForListView().companyName(data.CompanyName);
+                                selectedPurchaseOrderForListView().flagColor(data.FlagColor);
+                                selectedPurchaseOrderForListView().orderReff(data.OrderReff);
+                                selectedPurchaseOrderForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
                                 if (currentTab() !== data.IsStatus) {
-                                    deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                                    purchaseOrders.remove(selectedPurchaseOrderForListView());
                                 }
                             }
                             isEditorVisible(false);
@@ -406,9 +414,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
                 },
                 dobeforeSave = function () {
                     var flag = true;
-                    if (!selectedDeliveryNote().isValid()) {
-                        selectedDeliveryNote().showAllErrors();
-                        selectedDeliveryNote().setValidationSummary(errorList);
+                    if (!selectedPurchaseOrder().isValid()) {
+                        selectedPurchaseOrder().showAllErrors();
+                        selectedPurchaseOrder().setValidationSummary(errorList);
                         flag = false;
                     }
                     return flag;
@@ -421,9 +429,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(new pagination.Pagination({ PageSize: 5 }, deliverNoteListView, getdeliveryNotes));
-                    getBaseData();
-                    getdeliveryNotes();
+                    pager(new pagination.Pagination({ PageSize: 5 }, purchaseOrders, getPurchaseOrders));
+                   // getBaseData();
+                   // getPurchaseOrders();
 
                 };
                 //#endregion 
@@ -432,13 +440,14 @@ define("purchaseOrders/purchaseOrders.viewModel",
                 return {
                     initialize: initialize,
                     searchFilter: searchFilter,
+                    purchaseOrderTypeFilter: purchaseOrderTypeFilter,
                     onEditPurchaseOrder: onEditPurchaseOrder,
                     searchData: searchData,
-                    selectedDeliveryNote: selectedDeliveryNote,
-                    selectedDeliveryNoteDetail: selectedDeliveryNoteDetail,
+                    selectedPurchaseOrder: selectedPurchaseOrder,
+                    selectedPurchaseOrderDetail: selectedPurchaseOrderDetail,
                     pager: pager,
-                    deliverNoteListView: deliverNoteListView,
-                    getdeliveryNotes: getdeliveryNotes,
+                    purchaseOrders: purchaseOrders,
+                    getPurchaseOrders: getPurchaseOrders,
                     downloadArtwork: downloadArtwork,
                     isEditorVisible: isEditorVisible,
                     onCloseEditor: onCloseEditor,
@@ -449,9 +458,13 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     companyAddresses: companyAddresses,
                     selectedAddress: selectedAddress,
                     selectedCompanyContact: selectedCompanyContact,
+                    // Arrays
                     sectionFlags: sectionFlags,
                     systemUsers: systemUsers,
+                    purchaseOrderTypes: purchaseOrderTypes,
                     errorList: errorList,
+
+                    // Utilities
                     getBaseData: getBaseData,
                     addDeliveryNotes: addDeliveryNotes,
                     addDeliveryNoteDetail: addDeliveryNoteDetail,
@@ -464,7 +477,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     onDeleteDeliveryNote: onDeleteDeliveryNote,
                     onPostDeliveryNote: onPostDeliveryNote,
                     currentTab: currentTab,
-                    getDeliveryNotesOnTabChange: getDeliveryNotesOnTabChange
+                    getPurchaseOrdersOnTabChange: getPurchaseOrdersOnTabChange
                 };
             })()
         };

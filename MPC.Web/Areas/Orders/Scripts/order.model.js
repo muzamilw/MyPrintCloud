@@ -379,7 +379,6 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     officialOrderSetBy: officialOrderSetBy,
                     officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                     footNotes: footNotes,
-                    taxRate: taxRate,
                     sectionFlagId: sectionFlagId,
                     statusId: statusId
                 }),
@@ -442,7 +441,6 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         HeadNotes: headNotes(),
                         FootNotes: footNotes(),
                         EnquiryId: enquiryId(),
-                        TaxRate: taxRate(),
                         ArtworkByDate: artworkByDate() ? moment(artworkByDate()).format(ist.utcFormat) + 'Z' : undefined,
                         DataByDate: dataByDate() ? moment(dataByDate()).format(ist.utcFormat) + 'Z' : undefined,
                         PaperByDate: paperByDate() ? moment(paperByDate()).format(ist.utcFormat) + 'Z' : undefined,

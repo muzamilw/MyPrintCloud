@@ -340,6 +340,7 @@
     <Compile Include="Areas\Api\Controllers\LiveJobsBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\LiveJobsController.cs" />
     <Compile Include="Areas\Api\Controllers\ProgressEstimateController.cs" />
+    <Compile Include="Areas\Api\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />

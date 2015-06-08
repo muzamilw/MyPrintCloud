@@ -1673,6 +1673,7 @@ function inList(list,obj) {
 }
 function g5(e) {
     IsDesignModified = true;
+    $("#documentMenuCopy > button").css("visibility", "visible");
     var D1AO = canvas.getActiveObject();
     var D1AG = canvas.getActiveGroup();
     if (D1AG) {
@@ -2199,6 +2200,7 @@ function l3(e) {
     }
     if (D1CD && (e.keyCode == cKey)) {
         if (N1LA != 1) {
+            $("#documentMenuPaste > button").css("visibility", "visible");
             var D1AG = canvas.getActiveGroup();
             var D1AO = canvas.getActiveObject();
             D1CO = [];
@@ -2538,7 +2540,7 @@ function pcL10() {
     pcL36('hide', '#DivLayersPanel');
     var D1AG = canvas.getActiveGroup();
     var D1AO = canvas.getActiveObject();
-    D1CO = [];
+    D1CO = []; $("#documentMenuPaste > button").css("visibility", "visible");
     if (D1AG) {
         var objectsInGroup = D1AG.getObjects();
         $.each(objectsInGroup, function (j, Obj) {

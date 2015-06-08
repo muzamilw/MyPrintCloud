@@ -813,19 +813,28 @@ define("common/itemDetail.viewModel",
                         });
 
                         selectedSection().qty1.subscribe(function (value) {
-                            if (value !== selectedSection().qty1()) {
-                                selectedSection().qty1(value);
+                            if (isNaN(value)) {
+                                return;
+                            }
+                            var qty1Value = parseInt(value);
+                            if (qty1Value !== parseInt(selectedProduct().qty1())) {
+                                selectedProduct().qty1(qty1Value);
                             }
                             getSectionSystemCostCenters();
                         });
 
                         selectedSection().qty2.subscribe(function (value) {
-                            if (value !== selectedSection().qty2()) {
-                                selectedSection().qty2(value);
+                            if (isNaN(value)) {
+                                return;
+                            }
+                            var qty2Value = parseInt(value);
+                            if (qty2Value !== parseInt(selectedProduct().qty2())) {
+                                selectedProduct().qty2(qty2Value);
                             }
                             getSectionSystemCostCenters();
 
                         });
+                        
                         selectedSection().isSecondTrim.subscribe(function (value) {
                             if (value !== selectedSection().isSecondTrim()) {
                                 selectedSection().isSecondTrim(value);
@@ -833,6 +842,7 @@ define("common/itemDetail.viewModel",
                             getSectionSystemCostCenters();
 
                         });
+                        
                         selectedSection().isPaperSupplied.subscribe(function (value) {
                             if (value !== selectedSection().isPaperSupplied()) {
                                 selectedSection().isPaperSupplied(value);
