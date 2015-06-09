@@ -19,6 +19,11 @@ namespace MPC.Webstore
               "Error",
               new { controller = "Home", action = "Error", Message = UrlParameter.Optional }
            );
+            routes.MapRoute(
+          "NotFound",
+          "NotFound",
+          new { controller = "Home", action = "NotFound", Message = UrlParameter.Optional }
+       );
 
             routes.MapRoute("clear"
                  , "clear/{name}"

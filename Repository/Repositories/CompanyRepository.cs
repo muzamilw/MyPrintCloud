@@ -709,6 +709,10 @@ namespace MPC.Repository.Repositories
                         .Skip(fromRow)
                         .Take(toRow)
                         .ToList();
+                foreach(var comp in companies)
+                {
+                    comp.StoreName = GetStoreNameByStoreId(comp.StoreId ?? 0);
+                }
                 return new CompanyResponse
                 {
                     RowCount = rowCount,
@@ -722,6 +726,18 @@ namespace MPC.Repository.Repositories
             }
         }
 
+
+        public string GetStoreNameByStoreId(long StoreId)
+        {
+            try
+            {
+                return db.Companies.Where(c => c.CompanyId == StoreId).Select(c => c.Name).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         public CompanyResponse SearchCompaniesForCustomerOnDashboard(CompanyRequestModel request)
         {
             {

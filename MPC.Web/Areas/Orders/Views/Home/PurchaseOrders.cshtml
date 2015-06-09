@@ -58,7 +58,7 @@
                         <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
                             Reports
                         </button>
-  <a class="btn btn-primary patial-edit" data-bind="click:$root.CreatePurchaseOrder">
+                        <a class="btn btn-primary patial-edit" data-bind="click:$root.CreatePurchaseOrder">
 
                             Create New Purchase Order
                         </a>
@@ -162,7 +162,7 @@
 
 </script>
 <script id="purchaseListViewTemplate" type="text/html">
-    <tr style="cursor: pointer">
+    <tr style="cursor: pointer" data-bind="click:$root.onEditPurchaseOrder">
         <td>
             <a href="#" class="user-link patial-edit" data-bind="text:companyName"></a>
             <span class="user-subhead" data-bind="text:refNo"></span>

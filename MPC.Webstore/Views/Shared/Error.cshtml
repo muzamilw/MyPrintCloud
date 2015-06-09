@@ -1,106 +1,118 @@
-﻿@*@model System.Web.Mvc.HandleErrorInfo
-
-@{
-    ViewBag.Title = "Error";
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">@ViewBag.ErrorMessage</h2>*@
-
 <head>
-    <link href="/Content/ErrorPage/bootstrap.css" rel="stylesheet" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'> <!-- Google web font link-->
-    <link href="/Content/ErrorPage/font-awesome.css" rel="stylesheet" />
-    <link href="/Content/ErrorPage/custom.css" rel="stylesheet" />
-    <link href="/Content/ErrorPage/animate.css" rel="stylesheet" />
-    <script src="/Content/ErrorPage/jquery-1.10.1.min.js"></script>
-    <script src="/Content/ErrorPage/countUp.js"></script>
-    <script src="/Content/ErrorPage/wow.js"></script>
+ <style>
+     .row2 {
+  color: #979797;
+  background-color: #FFFFFF;
+}
+     .container {
+  padding: 30px 0;font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#header, .container, #footer {
+  display: block;
+  width: 830px;
+  margin: 0 auto;
+}
+#fof {
+  display: block;
+  width: 100%;
+  margin: 80px 0 100px 0;
+  line-height: 1.6em;
+  text-align: center;
+}
+.clear {
+  display: inline-block;
+  clear: both;
+}
+.fl_left {
+  float: left;
+}
+#fof .fl_left h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 220px;
+}
+div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, div.wrapper h6 {
+  margin: 0 0 15px 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: normal;
+}
+#fof .fl_left h1 span {
+  font-size: 60px;color: #979797;font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#fof .fl_left h1 strong {
+  color: #000000;
+  background-color: #FFFFFF;  font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#fof .fl_right {
+  margin-top: 60px;
+  text-align: left;color: rgb(151, 151, 151);
+display: block;
+font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.fl_right {
+  float: right;
+}
+#fof .fl_right h2 {
+  font-size: 30px;
+  text-align: center;
+  text-transform: uppercase;font-family: Georgia, 'Times New Roman', Times, serif;
+}
+div.wrapper {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+.row2 {
+  color: #979797;
+  background-color: #FFFFFF;
+}
+ </style>
 </head>
 <body>
     <section>
         <div class="container">
-            <div class="row row1">
-                <div class="col-md-12">
-                    <h3 class="center capital f1 wow fadeInLeft" data-wow-duration="2s">@ViewBag.ErrorMessage</h3>
-                    <h1 id="error" class="center wow fadeInRight" data-wow-duration="2s">0</h1>
-                    <p class="center wow bounceIn" data-wow-delay="2s">Page not Found!</p>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="cflask-holder" class="wow fadeIn" data-wow-delay="2800ms">
-                        <span class="wow tada " data-wow-delay="3000ms">
-                            <i class="fa fa-flask fa-5x flask wow flip" data-wow-delay="3300ms"></i>
-                            <i id="b1" class="bubble"></i>
-                            <i id="b2" class="bubble"></i>
-                            <i id="b3" class="bubble"></i>
-
-                        </span>
+            
+                <!-- ####################################################################################################### -->
+                <!-- ####################################################################################################### -->
+                <!-- ####################################################################################################### -->
+                <!-- ####################################################################################################### -->
+                <div id="fof" class="clear">
+                    <!-- ####################################################################################################### -->
+                    <div class="fl_left">
+                        <h1><span>Error</span><strong>?</strong></h1>
                     </div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <!--Search Form Start-->
-                <div class="col-md-12">
-                    <div class="col-md-6 col-md-offset-3 search-form wow fadeInUp" data-wow-delay="4000ms">
-                        <form action="#" method="get">
-                        </form>
+                    <div class="fl_left" style="width: 1px;
+  background: #f3f3f3;
+  height: 200px;
+  margin-top: 50px;
+  margin-left: 80px;">
+                       
                     </div>
-                </div>
-            </div> <!--Search Form End-->
-
-
-            <div class="row">
-                <!--Links Start-->
-                <div class="col-md-12">
-                    <div class="links-wrapper col-md-6 col-md-offset-3" style="margin-left:386px;">
-                        <ul class="links col-md-9">
-                            <li class="wow fadeInRight" data-wow-delay="4400ms"><a href="/"><i class="fa fa-home fa-2x"></i></a></li>
-                            <li class="wow fadeInRight" data-wow-delay="4300ms"><a href="@ViewBag.FacebookURL"><i class="fa fa-facebook fa-2x"></i></a></li>
-                            <li class="wow fadeInRight" data-wow-delay="4200ms"><a href="@ViewBag.TwitterURL"><i class="fa fa-twitter fa-2x"></i></a></li>
-                            @*<li class="wow fadeInLeft" data-wow-delay="4200ms"><a href="#"><i class="fa fa-google-plus fa-2x"></i></a></li>
-                            <li class="wow fadeInLeft" data-wow-delay="4300ms"><a href="#"><i class="fa fa-pinterest fa-2x"></i></a></li>
-                            <li class="wow fadeInLeft" data-wow-delay="4400ms"><a href="#"><i class="fa fa-dribbble fa-2x"></i></a></li>*@
+                    <div class="fl_right">
+                        <h2>Sorry, Possible Reasons:</h2>
+                        <ul>
+                            <li>@ViewBag.ErrorMessage.</li>
                         </ul>
-
                     </div>
-                </div>
+                   <div style="clear:both;">
 
-            </div> <!-- Links End-->
+                   </div>
+                    <!-- ####################################################################################################### -->
+                </div>
+                <!-- ####################################################################################################### -->
+                <!-- ####################################################################################################### -->
+                <!-- ####################################################################################################### -->
+                <!-- ####################################################################################################### -->
+          
         </div>
     </section>
-
-    <!--ADDING THE REQUIRED SCRIPT FILES-->
-    <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="js/countUp.js"></script>
-    <script type="text/javascript" src="js/wow.js"></script>
-
-    <!--Initiating the CountUp Script-->
-    <script type="text/javascript">
-            "use strict";
-            var count = new countUp("error", 0, 404, 0, 3);
-
-            window.onload = function() {
-                // fire animation
-                count.start();
-            }
-    </script>
-
-    <!--Initiating the Wow Script-->
-    <script>
-
-            "use strict";
-            var wow = new WOW(
-            {
-                animateClass: 'animated',
-                offset:       100
-            }
-        );
-            wow.init();
-    </script>
 
 
 </body>
