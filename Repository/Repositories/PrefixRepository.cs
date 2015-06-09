@@ -105,6 +105,32 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+      
+        /// <summary>
+        /// Returns Next Purchase Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextPurchaseCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.PoPrefix + "-001-" + prefix.PoNext;
+
+                // Update Order Next
+                prefix.OrderNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
         /// <summary>

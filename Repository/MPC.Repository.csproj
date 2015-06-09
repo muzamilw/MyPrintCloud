@@ -228,6 +228,7 @@
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefAnswerRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefQuestionRepository.cs" />
+    <Compile Include="Repositories\PurchaseDetailRepository.cs" />
     <Compile Include="Repositories\SectionCostCentreDetailRepository.cs" />
     <Compile Include="Repositories\ShippingInformationRepository.cs" />
     <Compile Include="Repositories\SectionInkCoverageRepository.cs" />
