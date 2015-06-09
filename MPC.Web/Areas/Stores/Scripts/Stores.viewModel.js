@@ -3678,6 +3678,21 @@ define("stores/stores.viewModel",
                     }
                 }
             },
+            //Computed To set Product Category dirty Flag 
+            setProductCategoryDirtyFlag = ko.computed(function() {
+                if (addressTerritoryList().length > 0) {
+                    _.filter(addressTerritoryList(), function(territory) {
+                        return territory.isSelected() == true;
+                    });
+                    if (selectedProductCategoryForEditting() != undefined) {
+                        if (selectedProductCategoryForEditting().isCategoryTerritoriesListChanged()) {
+                            selectedProductCategoryForEditting().isCategoryTerritoriesListChanged(false);
+                        } else {
+                            selectedProductCategoryForEditting().isCategoryTerritoriesListChanged(true);
+                        }
+                    }
+                }
+            }),
             //On Save Product Category
             onSaveProductCategory = function () {
 
@@ -6612,6 +6627,7 @@ define("stores/stores.viewModel",
                     resetProductCategoryCounter: resetProductCategoryCounter,
                     getCategoryChildListItems: getCategoryChildListItems,
                     openProductCategoryDetail: openProductCategoryDetail,
+                    setProductCategoryDirtyFlag: setProductCategoryDirtyFlag,
                     //#endregion Product Category
                     //editorViewModelListView: editorViewModelListView,
                     selectedStoreListView: selectedStoreListView,
