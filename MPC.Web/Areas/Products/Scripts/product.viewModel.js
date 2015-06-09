@@ -1616,6 +1616,7 @@ define("product/product.viewModel",
                                     }
                                 }
                                 isLoadingProducts(false);
+                                selectedProduct().reset();
                             },
                             error: function (response) {
                                 isLoadingProducts(false);
