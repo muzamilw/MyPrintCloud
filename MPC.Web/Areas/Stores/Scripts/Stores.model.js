@@ -3692,6 +3692,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             productCategoryThumbnailName = ko.observable(),
             productCategoryImageName = ko.observable(),
             productCategoryImageFileBinary = ko.observable(specifiedProductCategoryImageFileBinary),
+            isCategoryTerritoriesListChanged = ko.observable(false),
             errors = ko.validation.group({
                 categoryName: categoryName
             }),
@@ -3755,6 +3756,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 isShowStockStatus: isShowStockStatus,
                 isShowProductDescription: isShowProductDescription,
                 isShowProductShortDescription: isShowProductShortDescription,
+                productCategoryThumbnailFileBinary: productCategoryThumbnailFileBinary,
+                productCategoryThumbnailName: productCategoryThumbnailName,
+                productCategoryImageName: productCategoryImageName,
+                productCategoryImageFileBinary: productCategoryImageFileBinary,
+                isCategoryTerritoriesListChanged: isCategoryTerritoriesListChanged
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -3891,6 +3897,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             productCategoryImageFileBinary: productCategoryImageFileBinary,
             productCategoryThumbnailName: productCategoryThumbnailName,
             productCategoryImageName: productCategoryImageName,
+            isCategoryTerritoriesListChanged: isCategoryTerritoriesListChanged,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,

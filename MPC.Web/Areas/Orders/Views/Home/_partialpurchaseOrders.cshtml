@@ -38,7 +38,7 @@
         <div class="row" id="prefixesdata" style="float: right; padding-right: 1.1%; margin-top: 1%; ">
 
             <div class="input-group">
-                <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:5px">
+                <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:5px">
                     Reports
                 </button>
                 <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
