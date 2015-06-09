@@ -26,6 +26,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockLabel = source.StockLabel,
                 StockId = source.StockId,
                 OptionSequence = source.OptionSequence,
+                
                 ItemAddOnCostCentres = source.ItemAddonCostCentres != null ? source.ItemAddonCostCentres.Select(addon => addon.CreateFrom()) :
                 new List<ItemAddOnCostCentre>()
             };
@@ -35,6 +36,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 var sourceStockItem = source.StockItem;
                 itemStockOption.StockItemName = sourceStockItem.ItemName;
                 itemStockOption.StockItemDescription = sourceStockItem.ItemDescription;
+                itemStockOption.inStock = sourceStockItem.inStock;
+                itemStockOption.Allocated = sourceStockItem.Allocated;
             }
 
             if (string.IsNullOrEmpty(source.ImageURL))

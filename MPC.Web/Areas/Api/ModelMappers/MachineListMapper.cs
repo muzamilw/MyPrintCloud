@@ -30,7 +30,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 LookupMethodName = LookupMethod !=null? LookupMethod.Name:null,
                 isSheetFed = source.isSheetFed,
                 Image = bytes,
-                LookupMethodId = source.LookupMethodId
+                LookupMethodId = source.LookupMethodId,
+                IsSpotColor = source.IsSpotColor
             };
         }
         

@@ -223,7 +223,7 @@ namespace MPC.Webstore.Controllers
             //{
                // if (!string.IsNullOrEmpty(Item.BriefSuccessMessage))
                // {
-                    ViewBag.SuccessMessage = "Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. <br /> <br /> If your brief is not approved, marketing will be in contact with you.";
+            ViewBag.SuccessMessage = Item.BriefSuccessMessage;// "Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. <br /> <br /> If your brief is not approved, marketing will be in contact with you.";
                // }
 
            // }

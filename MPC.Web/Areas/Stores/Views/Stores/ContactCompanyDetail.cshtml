@@ -47,6 +47,9 @@
                     <div class="col-xs-2">
                     </div>
                     <div class="col-xs-4" style="text-align: right; padding-right: 0;">
+                        <button class="btn btn-primary" data-bind="click: $root.openReportsOrder" style="">
+                            Reports
+                        </button>
                         <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedStore().companyId() > 0">Delete</button>
                         <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: $root.hasChangesOnStore, css: { 'btn-warning': $root.hasChangesOnStore }">Save</button>
                         <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
@@ -666,7 +669,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;">
+                                                    <div class="col-lg-12 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;padding-left:0px;">
                                                         <div class="col-lg-5">
                                                             <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary">
                                                                 Add New Contact
@@ -1014,7 +1017,7 @@
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Current Theme</label>
                                             </div>
-                                            <div class="col-lg-9" style="padding: 0px;padding-left: 8px;">
+                                            <div class="col-lg-9" style="padding: 0px;padding-left: 5px;">
                                                 <!-- ko if: $root.themes().length > 0 -->
                                                 @*<select class="form-control" data-bind="options: $root.themes,optionsCaption:'Select Theme', optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>*@
 
@@ -1229,7 +1232,7 @@
                                             <div class="col-lg-2 text-right">
 
                                             </div>
-                                            <div class="col-lg-10" style="padding-right:0px;">
+                                            <div class="col-lg-10" style="padding-right:0px;padding-left:4px;">
                                                 <div class="main-box-body" style="padding-right:0px;">
                                                     <div id="gallery-photos-lightbox">
                                                         <ul class="clearfix gallery-photos">
@@ -2051,7 +2054,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 @*<label class="control-label text-right tooltip-float">Payment processing option</label>*@
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="padding-left:4px;">
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="true" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
                                                     <label for="optionsRadiosForceOnlinePayment">
@@ -2200,6 +2203,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="col-lg-9">
                                             <div class="form-group" id="taxLabel">
                                                 <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        
+
+                                                    </div>
                                                     <label class="control-label text-right tooltip-float">Tax Title/Label</label>
                                                 </div>
                                                 <div class="col-lg-3" style="padding-right:6px;">
@@ -3488,7 +3495,6 @@ Public  - allows users to see other users addresses and orders." data-original-t
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductsFilter.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ChooseUsIcon.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
-
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
     <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">

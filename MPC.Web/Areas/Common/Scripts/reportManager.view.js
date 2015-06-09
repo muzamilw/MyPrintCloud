@@ -19,6 +19,14 @@ define("common/reportManager.view",
                 hide = function () {
                     $("#divReportManager").modal("hide");
                 },
+                 // Show the dialog
+                showEmailView = function () {
+                    $("#reportEmailView").modal("show");
+                },
+                // Hide the dialog
+                hideEmailView = function () {
+                    $("#reportEmailView").modal("hide");
+                },
             showWebViewer = function () {
                 $("#idReportViewerHtml").modal("show");
             },
@@ -32,7 +40,9 @@ define("common/reportManager.view",
                 show: show,
                 hide: hide,
                 showWebViewer: showWebViewer,
-                hideWebViewer: hideWebViewer
+                hideWebViewer: hideWebViewer,
+                showEmailView: showEmailView,
+                hideEmailView: hideEmailView
             };
         })(ist.reportManager.viewModel);
 
