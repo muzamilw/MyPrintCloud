@@ -1845,7 +1845,6 @@ define("stores/stores.viewModel",
                     selectedEmail().hTMLMessageA(hTMLMessageA + img);
                     //selectedEmail().hTMLMessageA(); //imageSource
                 }
-
             },
             //#endregion
 
