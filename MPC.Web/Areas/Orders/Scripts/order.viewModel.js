@@ -2093,8 +2093,8 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    openReportsOrder = function () {
-                        reportManager.show(ist.reportCategoryEnums.Orders, 0, 0);
+                    openReportsOrder = function (isFromEditor) {
+                        reportManager.show(ist.reportCategoryEnums.Orders, isFromEditor == true ? true : false, 0);
                     },
                     openExternalReportsOrder = function () {
                         reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());

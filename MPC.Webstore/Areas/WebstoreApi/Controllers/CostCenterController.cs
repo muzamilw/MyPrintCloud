@@ -66,7 +66,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     string CacheKeyName = "CompanyBaseResponse";
                     ObjectCache cache = MemoryCache.Default;
 
-                    string OrganizationName = "PinkCards";//(cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId].Organisation.OrganisationName;
+                    string OrganizationName = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId].Organisation.OrganisationName;
                     OrganizationName = Utils.specialCharactersEncoderCostCentre(OrganizationName);
 
                     AppDomainSetup _AppDomainSetup = new AppDomainSetup();
