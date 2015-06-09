@@ -76,10 +76,8 @@ namespace MPC.Repository.Repositories
             item =>
                 (
                 string.IsNullOrEmpty(request.SearchString) ||
-                ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.Code.Contains(request.SearchString)) ||
-                (item.Code.Contains(request.SearchString)) || (item.PurchaseDetails.Any(puchaseDet => puchaseDet.ItemCode.Contains(request.SearchString)))
-                ) && ((!isStatusSpecified && item.Status == request.Status || isStatusSpecified)) && (item.isproduct.HasValue && item.isproduct == request.PurchaseOrderType)
-                );
+                ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.RefNo.Contains(request.SearchString))
+                )) && (!isStatusSpecified && item.Status == request.Status || isStatusSpecified) && (item.isproduct.HasValue && item.isproduct == request.PurchaseOrderType);
 
             IEnumerable<Purchase> items = DbSet.Where(query)
                 .OrderBy(x => x.date_Purchase)
