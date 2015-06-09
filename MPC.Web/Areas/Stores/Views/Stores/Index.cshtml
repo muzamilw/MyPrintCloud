@@ -20,6 +20,9 @@
                         </a>
                     </div>*@
                 <div class="btn-group pull-right top-page-ui">
+                    <button class="btn btn-primary" data-bind="click: $root.openReportsOrder"  style="margin-right: 6px;">
+                        Reports
+                    </button>
                     <button class="btn btn-primary">
                         Add Store
                     </button>
@@ -148,13 +151,15 @@
 <!-- /ko -->
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+
 
 @section Scripts{
 
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
 
-        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view", "common/stockItem.view"]);
+        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view", "common/stockItem.view", "common/reportManager.view"]);
 
         $(function () {
 

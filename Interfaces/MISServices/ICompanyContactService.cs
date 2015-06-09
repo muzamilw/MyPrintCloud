@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -32,7 +33,7 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         CompanyBaseResponse GetBaseData();
 
-      
+        bool SaveImportedContact(IEnumerable<CompanyContact> companyContacts);
 
     }
 }

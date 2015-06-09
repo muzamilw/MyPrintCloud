@@ -31,6 +31,7 @@ var D1CZL = 0; var LIFT = true; var TIC = 0; var TotalImgLoaded = 0; var canvas;
 var highlightEditableText = false; var IsInputSelected = false;
 var isBkPnlUploads = false;
 var TempOB = [];
+var imToLoad = "";
 //old vars
 var hasObjects = false;
 var IsEmbedded = true;   //l1

@@ -12,6 +12,18 @@ var ist = {
     dateTimeWithSecondsPattern: "DD/MM/YY HH:mm:ss",
     // UTC Date Format
     utcFormat: "YYYY-MM-DDTHH:mm:ss",
+    // For Reporting 
+    reportCategoryEnums : {
+        CRM: 4,
+        Stores: 1,
+        Suppliers: 2,
+        PurchaseOrders: 5,
+        Delivery: 6,
+        Orders: 12,
+        Invoice: 13,
+        GRN: 15,
+        Inventory:7
+    },
     //server exceptions enumeration 
     exceptionType: {
         MPCGeneralException: 'MPCGeneralException',

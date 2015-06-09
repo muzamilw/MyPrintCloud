@@ -4688,7 +4688,7 @@ h2 + .gallery {
 }
 
     #documentMenuUndo > button {
-        background: #00969c no-repeat center / 14px;
+        background: #000000 no-repeat center / 14px;
         background-image: url('assets-v2/icon_undo.png');
         min-width: 0;
         padding: 0;
@@ -4698,12 +4698,12 @@ h2 + .gallery {
     }
 
         #documentMenuUndo > button:hover {
-            background: #048489 no-repeat center / 14px;
+            background: #1F2020 no-repeat center / 14px;
             background-image: url('assets-v2/icon_undo.png');
         }
 
     #documentMenuRedo > button {
-        background: #00969c no-repeat center / 14px;
+        background: #000000 no-repeat center / 14px;
         background-image: url('assets-v2/icon_redo.png');
         min-width: 0;
         padding: 0;
@@ -4713,12 +4713,12 @@ h2 + .gallery {
     }
 
         #documentMenuRedo > button:hover {
-            background: #048489 no-repeat center / 14px;
+            background: #1F2020  no-repeat center / 14px;
             background-image: url('assets-v2/icon_redo.png');
         }
 
 #documentMenuGuides > button {
-    background: #00969c no-repeat center / 14px;
+    background: #000000 no-repeat center / 14px;
     background-image: url('assets-v2/bleed_area.png');
     min-width: 0;
     padding: 0;
@@ -4728,7 +4728,7 @@ h2 + .gallery {
 }
 
     #documentMenuGuides > button:hover {
-        background: #048489 no-repeat center / 14px;
+        background: #1F2020  no-repeat center / 14px;
         background-image: url('assets-v2/bleed_area.png');
     }
 
@@ -5549,37 +5549,38 @@ margin-left:1px;
 }
 
     #documentMenuPaste > button {
-        background: #00969c no-repeat center / 14px;
+        background: #000000 no-repeat center / 14px;
         background-image: url('assets-v2/paste.png');
         min-width: 0;
         padding: 0;
         text-align: center;
         width: 37px;
         border-radius: 10px;
+        visibility:hidden;
     }
 
         #documentMenuPaste > button:hover {
-            background: #048489 no-repeat center / 14px;
+            background: #1F2020 no-repeat center / 14px;
             background-image: url('assets-v2/paste.png');
         }
 
     #documentMenuCopy > button {
-        background: #00969c no-repeat center / 14px;
+        background: #000000 no-repeat center / 14px;
         background-image: url('assets-v2/copy.png');
         min-width: 0;
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 10px;
+        border-radius: 10px;visibility:hidden;
     }
 
         #documentMenuCopy > button:hover {
-            background: #048489 no-repeat center / 14px;
+            background: #1F2020 no-repeat center / 14px;
             background-image: url('assets-v2/copy.png');
         }
 
 #zoomIn, #zoomOut {
-    background: #00969c no-repeat center / 14px;
+    background: #000000  no-repeat center / 14px;
     min-width: 0;
     padding: 0;
     text-align: center;
@@ -5590,7 +5591,7 @@ margin-left:1px;
 }
 
     #zoomIn:hover, #zoomOut:hover {
-        background: #048489 no-repeat center / 14px;
+        background: #1F2020 no-repeat center / 14px;
     }
 
 .QtextData {

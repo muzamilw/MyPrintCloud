@@ -2067,7 +2067,6 @@ define("order/order.viewModel",
 
                     // Get Estimates
                     getEstimates = function (currentTab) {
-
                         isLoadingOrders(true);
                         currentScreen(currentTab);
                         dataservice.getEstimates({
@@ -2095,10 +2094,10 @@ define("order/order.viewModel",
                         });
                     },
                     openReportsOrder = function () {
-                        reportManager.show(12, 0, 0);
+                        reportManager.show(ist.reportCategoryEnums.Orders, 0, 0);
                     },
                     openExternalReportsOrder = function () {
-                        reportManager.show(12, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+                        reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
                     },
                     //#endregion
                     //#region Inquiries tab

@@ -18,7 +18,7 @@
         <div class="row" id="user-profile">
             <div class="clearfix">
                 <h1 class="pull-left" style="min-height: 30px;" data-bind="text: name()"></h1>
-                <div class="pull-right top-page-ui">
+                <div class="pull-right top-page-ui" style="margin-right:8px;">
                     <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
                         <span class="fa fa-save"></span>&nbsp;Save
                     </button>
@@ -275,7 +275,7 @@
                                                 <div class="col-md-6">
                                                     <div class="clearfix">
                                                        
-                                                        <img style="width:200px;height:180px;" id="idCostcenterimage" data-bind="visible: costcentreImageFileBinary() ==undefined , attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
+                                                        <img style="width:220px;" id="idCostcenterimage" data-bind="visible: costcentreImageFileBinary() ==undefined , attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
                                                         <img style="width:220px;height:130px;" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
                                                         <div style="margin-top:10px;width:220px;text-align:center;">
                                                             <div class="fileUpload btn btn-primary">

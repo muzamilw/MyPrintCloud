@@ -1,10 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MPC.MIS.Areas.Api.Models;
+using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
-    using DomainModels = MPC.Models.DomainModels;
-    using System.Collections.Generic;
     public static class PurchaseMapper
     {
         /// <summary>
@@ -12,14 +12,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static PurchaseListView CreateFromForListView(this DomainModels.Purchase source)
         {
-            
+
             PurchaseListView purchase = new PurchaseListView
             {
                 PurchaseId = source.PurchaseId,
                 Code = source.Code,
                 DatePurchase = source.date_Purchase,
-                //todo SupplierName = source.SupplierId,
-                TotalPrice = source.TotalPrice
+                SupplierName = source.Company != null ? source.Company.Name : string.Empty,
+                TotalPrice = source.TotalPrice,
+                RefNo = source.RefNo,
+                FlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : string.Empty
 
             };
 
@@ -34,6 +36,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 RowCount = source.TotalCount,
                 PurchasesList = source.Purchases.Select(order => order.CreateFromForListView())
+            };
+        }
+
+        /// <summary>
+        /// Create Form Base response
+        /// </summary>
+        public static PurchaseBaseResponse CreateFrom(this MPC.Models.ResponseModels.PurchaseBaseResponse source)
+        {
+            return new PurchaseBaseResponse
+            {
+                SectionFlags = source.SectionFlags != null ? source.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
+                SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(cc => cc.CreateFrom()) :
+           new List<SystemUserDropDown>(),
             };
         }
     }
