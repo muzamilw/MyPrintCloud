@@ -170,15 +170,13 @@ define("common/addProduct.viewModel",
                     createNewRetailStoreProduct = function() {
                         var newItem = createItemFromOrder(selecteditem());
                         newItem.estimateId(orderId);
-                        //var item = selecteditem().convertToServerData();
-                        //item.EstimateId = orderId;
-                        //var newItem = model.Item.Create(item);
                         counterForItem(counterForItem() - 1);
                         newItem.id(0);
                         newItem.qty1NetTotal(totalProductPriceWithoutTax());
                         newItem.itemSections()[0].baseCharge1(totalProductPriceWithoutTax());
                         newItem = addSelectedAddOnsAsCostCenters(newItem);
                         newItem.productType(1);
+                        newItem.refItemId(selecteditem().id());
                         afterAddCostCenter(newItem);
                     },
                     onSaveRetailStoreProduct = function() {
