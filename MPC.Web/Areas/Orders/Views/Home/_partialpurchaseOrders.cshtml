@@ -45,9 +45,10 @@
                 <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="click:$root.onSavePurchaseOrder,css: { 'btn-warning': $root.selectedPurchaseOrder().hasChanges() }">
                     &nbsp;Save
                 </button>
-                <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()!==31,enable:($root.selectedPurchaseOrder().id()!==undefined && $root.selectedPurchaseOrder().status()!==31),click:$root.onDeleteDeliveryNote">&nbsp;Delete</button>
-                @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedPurchaseOrder().id()!==undefined"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>*@
-                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()!==31,enable:($root.selectedPurchaseOrder().id()!==undefined && $root.selectedPurchaseOrder().status()!==31),click:$root.onPostDeliveryNote">&nbsp;Post</button>
+                <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onDeletePurchase">&nbsp;Delete</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onPostPurchaseOrder">&nbsp;Post PO</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onCancelPurchaseOrder">&nbsp;Cancel PO</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().id()!==undefined">&nbsp;Print</button>
 
             </div>
         </div>
@@ -171,8 +172,8 @@
                     <div class="col-lg-6">
 
                         <div class="form-group">
-                            <div class="col-sm-4 text-right" style="padding-top:10px;">
-                                <label class="control-label text-right tooltip-float">Delivery Status</label>
+                            <div class="col-sm-4 text-right" style="padding-top:14px;">
+                                <label class="control-label text-right tooltip-float">Status</label>
                             </div>
                             <div class="col-sm-6">
                                 <input type="text" style="height: 60px;" data-bind="value: status()===31 ? 'Open' :'Posted'" readonly class="form-control font24px" id="code" />
@@ -201,7 +202,7 @@
 
 
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-lg-4 text-right" style="margin-top: 2%">
 
                                 <label class="control-label text-right tooltip-float">Purchase Date</label>
                             </div>
@@ -312,8 +313,8 @@
                                 <div class="col-lg-6 text-right">
                                     <label class="control-label text-right tooltip-float" style="font-weight: 800;">Total Price</label>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label class="control-label" data-bind="text:totalPrice"></label>
+                                <div class="col-lg-6" style="text-align: right">
+                                    <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput:totalPrice"></span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -350,16 +351,16 @@
                                 <div class="col-lg-6 text-right">
                                     <label class="control-label text-right tooltip-float" style="font-weight: 800;">Net Total</label>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label class="control-label" data-bind="text:netTotal"></label>
+                                <div class="col-lg-6 text-right">
+                                    <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput:netTotal"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-6 text-right">
                                     <label class="control-label text-right tooltip-float" style="font-weight: 800;">Total Tax</label>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label class="control-label" data-bind="text:totalTax"></label>
+                                <div class="col-lg-6 text-right">
+                                    <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput:totalTax"></span>
                                 </div>
 
                             </div>
@@ -382,8 +383,8 @@
                         <div class="col-lg-5 text-right">
                             <label class="control-label text-right tooltip-float" style="padding-right: 10%;font-weight: 800;">Grand Total</label>
                         </div>
-                        <div class="col-lg-2">
-                            <label class="control-label" data-bind="text:grandTotal"></label>
+                        <div class="col-lg-1 text-right" style="padding-right: 0px;">
+                            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput:grandTotal"></span>
                         </div>
                     </div>
                 </div>
@@ -414,12 +415,12 @@
         <td data-bind="text: serviceDetail"></td>
         <td data-bind="text: packqty,click:$root.editPurchaseDetail,click:$root.editPurchaseDetail"></td>
         <td data-bind="text: quantity,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: price,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: totalPrice,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: taxValue,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: netTax,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: price,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: taxValue,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: netTax,click:$root.editPurchaseDetail"></td>
         <td data-bind="text: freeitems,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: discount,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: discount,click:$root.editPurchaseDetail"></td>
         <td style="width: 5%">
             <!-- ko template: { name: 'deletePurchaseDetailTemplate' } -->
             <!-- /ko -->
@@ -429,11 +430,11 @@
 <script id="serviceItemTemplate" type="text/html">
     <tr style="cursor: pointer">
         <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: price,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: totalPrice,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: taxValue,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: netTax,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: discount,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: price,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: taxValue,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: netTax,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: discount,click:$root.editPurchaseDetail"></td>
         <td style="width: 5%">
             <!-- ko template: { name: 'deletePurchaseDetailTemplate' } -->
             <!-- /ko -->
