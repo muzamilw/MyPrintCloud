@@ -187,10 +187,10 @@ namespace MPC.Repository.Repositories
         {
 
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
-            
+            Machine machine = new Machine {MachineName = "New Machine", SetupSpoilage = 20, RunningSpoilage = 3, Passes = 1, IsSpotColor = true};
             return new MachineResponseModel
             {
-                machine = null,
+                machine = machine,
                 lookupMethods = GetAllLookupMethodList(IsGuillotine),
                 Markups = null,
                 StockItemforInk = GetAllStockItemforInk(),
