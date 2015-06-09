@@ -2,8 +2,8 @@
     Module with the view model for the crm
 */
 define("crm/crm.viewModel",
-    ["jquery", "amplify", "ko", "crm/crm.dataservice", "crm/crm.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVm) {
+    ["jquery", "amplify", "ko", "crm/crm.dataservice", "crm/crm.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVm, reportManager) {
         var ist = window.ist || {};
         ist.crm = {
             viewModel: (function () {
@@ -1522,7 +1522,13 @@ define("crm/crm.viewModel",
                 // #endregion
 
                 //#region ___________ UTILITY FUNCTIONS ______
-
+                openReport = function () {
+                    if (isProspectOrCustomerScreen()) {
+                        reportManager.show(ist.reportCategoryEnums.CRM, 0, 0);
+                    } else {
+                        reportManager.show(ist.reportCategoryEnums.Suppliers, 0, 0);
+                    }
+                },
                 onCreateNewStore = function () {
                     resetObservableArrays();
                     var store = new model.Store();
@@ -2303,6 +2309,7 @@ define("crm/crm.viewModel",
                 //#region ____________ INITIALIZE ____________
                initialize = function (specifiedView) {
                    view = specifiedView;
+
                    ko.applyBindings(view.viewModel, view.bindingRoot);
                    if (isProspectOrCustomerScreen()) {
                        prospectPager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
@@ -2345,6 +2352,7 @@ define("crm/crm.viewModel",
                     resetSupplierFilterSection: resetSupplierFilterSection,
                     //#endregion
                     prospectPager: prospectPager,
+                    openReport: openReport,
                     searchFilter: searchFilter,
                     isEditorVisible: isEditorVisible,
                     isProspectOrCustomerScreen: isProspectOrCustomerScreen,

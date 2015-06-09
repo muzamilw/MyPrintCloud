@@ -2,9 +2,8 @@
     Module with the view model for the live Jobs.
 */
 define("purchaseOrders/purchaseOrders.viewModel",
-    ["jquery", "amplify", "ko", "purchaseOrders/purchaseOrders.dataservice", "purchaseOrders/purchaseOrders.model", "common/pagination",
-        "common/companySelector.viewModel", "common/confirmation.viewModel", "common/stockItem.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, companySelector, confirmation, stockVM) {
+    ["jquery", "amplify", "ko", "purchaseOrders/purchaseOrders.dataservice", "purchaseOrders/purchaseOrders.model", "common/pagination", "common/companySelector.viewModel", "common/confirmation.viewModel", "common/reportManager.viewModel", "common/stockItem.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, companySelector, confirmation, reportManager, stockVM) {
         var ist = window.ist || {};
         ist.purchaseOrders = {
             viewModel: (function () {
@@ -78,6 +77,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                         return addressResult || defaultAddress();
                     }),
+                     openReport = function () {
+                         reportManager.show(ist.reportCategoryEnums.PurchaseOrders, 0, 0);
+                     },
                     // Selected Company Contact
                     selectedCompanyContact = ko.computed(function () {
                         if (!selectedPurchaseOrder() || !selectedPurchaseOrder().contactId() || companyContacts().length === 0) {
@@ -542,6 +544,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     onPostDeliveryNote: onPostDeliveryNote,
                     currentTab: currentTab,
                     getPurchaseOrdersOnTabChange: getPurchaseOrdersOnTabChange,
+                    openReport: openReport,
                     changePurchaseTypeFilter: changePurchaseTypeFilter,
                     discountTypes: discountTypes,
                     addPurchaseDetail: addPurchaseDetail,

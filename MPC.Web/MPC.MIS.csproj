@@ -54,6 +54,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FileHelpers">
+      <HintPath>..\packages\FileHelpers.2.0.0.0\lib\FileHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="FileHelpers.ExcelStorage">
+      <HintPath>..\packages\FileHelpers.2.0.0.0\lib\FileHelpers.ExcelStorage.dll</HintPath>
+    </Reference>
     <Reference Include="GrapeCity.ActiveReports.Document.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
@@ -84,6 +90,14 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.4.0, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ICSharpCode.SharpZipLib.Patched.0.86.4\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Excel">
+      <HintPath>..\packages\FileHelpers.2.0.0.0\lib\Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.Office">
+      <HintPath>..\packages\FileHelpers.2.0.0.0\lib\Interop.Office.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -332,6 +346,7 @@
     <Compile Include="Areas\Api\Controllers\EstimateBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetTotalEarningsForDashboardController.cs" />
     <Compile Include="Areas\Api\Controllers\GetDashboardDataController.cs" />
+    <Compile Include="Areas\Api\Controllers\ImportController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryController.cs" />
     <Compile Include="Areas\Api\Controllers\InquiryItemController.cs" />
@@ -437,6 +452,7 @@
     <Compile Include="Areas\Api\ModelMappers\DeliveryNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GetInquiryResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ImportCompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryItemMapper.cs" />
@@ -554,6 +570,8 @@
     <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\ImportCompanyContact.cs" />
+    <Compile Include="Areas\Api\Models\ImportCompanyContactCsv.cs" />
     <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
     <Compile Include="Areas\Api\Models\Inquiry.cs" />
     <Compile Include="Areas\Api\Models\InquiryAttachment.cs" />
@@ -2220,6 +2238,7 @@
     <Content Include="RichTextEditor\skins\moono\readme.md" />
     <None Include="Properties\PublishProfiles\mvcMISpublish.pubxml" />
     <None Include="Properties\PublishProfiles\MZ MIS Publish.pubxml" />
+    <Content Include="Resources\CompanyContact.xlsx" />
     <None Include="Scripts\amplify-vsdoc.js" />
     <Content Include="Scripts\amplify.js" />
     <Content Include="Scripts\amplify.min.js" />
@@ -3397,6 +3416,7 @@
     <Folder Include="Areas\Api\Views\EstimateBase\" />
     <Folder Include="Areas\Api\Views\GetDashboardData\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
+    <Folder Include="Areas\Api\Views\ImportController\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\InquiryItem\" />
     <Folder Include="Areas\Api\Views\InquiryProgress\" />
