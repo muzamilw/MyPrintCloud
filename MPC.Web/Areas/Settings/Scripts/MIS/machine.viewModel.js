@@ -596,7 +596,7 @@ define("machine/machine.viewModel",
 
                         if (pagetype != null) {
                             if (pagetype == 'press') {
-                                MachineName("Click Charge Name");
+                                MachineName("Press Name");
                                 isGuillotineList(false);
                                 getMachines();
                                

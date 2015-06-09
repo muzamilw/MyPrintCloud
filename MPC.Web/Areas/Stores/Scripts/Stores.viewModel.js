@@ -3392,7 +3392,9 @@ define("stores/stores.viewModel",
             //Select Child Product Category
             selectChildProductCategory = function (categoryId, event) {
                 selectedProductCategory(undefined);
+               
                 var id = $(event.target).closest('li')[0].id;
+                selectedCategoryName(event.target.innerText);
                 if (id) {
                     // Notify the event subscribers
                     view.productCategorySelectedEvent(id);
@@ -3443,7 +3445,7 @@ define("stores/stores.viewModel",
                         isLoadingStores(false);
                         toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
                     }
-                });
+                });1
             },
             //Open Product Category Detail
             // ReSharper disable UnusedParameter

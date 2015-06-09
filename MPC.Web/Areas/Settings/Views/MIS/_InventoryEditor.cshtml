@@ -28,6 +28,7 @@
                             </div>
                         </div>
                         <div class="pull-right top-page-ui" style="padding-right:10PX;">
+                            <button class="btn btn-danger" id="delButton" data-bind="click: $root.onArchiveStock, visible:itemId()!== 0">Archive</button>
                             <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:-1px">
                                 Reports
                             </button>
@@ -52,9 +53,9 @@
                                     <div class="form-group ">
                                         <div class="col-lg-5 text-right" style="margin-top:12px;">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Enter Stock Name" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Enter Stock Name" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                                </a>*@
                                             </div>
                                             <label for="name" class="control-label text-right tooltip-float">Inventory Name</label>
                                         </div>
@@ -92,9 +93,9 @@
                                     <div class="form-group " data-bind="visible:itemId()!== 0">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Description" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Description" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                                </a>*@
                                             </div>
                                             <label for="description" class="control-label text-right tooltip-float">Description / Friendly Name</label>
                                         </div>
@@ -127,16 +128,16 @@
                                         <div class="form-group ">
                                             <div class="col-lg-5 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Paper Type" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                    @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Paper Type" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                    </a>*@
                                                 </div>
                                                 <label for="flag" class="control-label text-right tooltip-float">Paper Type</label>
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="col-sm-4">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosPaperType" id="optionsRadiosSheet" value="1" data-bind="checked: paperTypeId">
+                                                        <input type="radio" name="optionsRadiosPaperType" id="optionsRadiosSheet" value="1" data-bind="checked: paperTypeId, enable: itemId() <= 0">
                                                         <label for="optionsRadiosSheet">
                                                             Sheet
                                                         </label>
@@ -144,7 +145,7 @@
                                                 </div>
                                                 <div class="col-sm-7">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosPaperType" id="optionsRadiosRoll" value="2" data-bind="checked: paperTypeId">
+                                                        <input type="radio" name="optionsRadiosPaperType" id="optionsRadiosRoll" value="2" data-bind="checked: paperTypeId, enable: itemId() <= 0">
                                                         <label for="optionsRadiosRoll">
                                                             Roll Paper
                                                         </label>
@@ -156,7 +157,7 @@
 
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="form-group " data-bind="visible:itemId()!== 0">
+                                    @*<div class="form-group " data-bind="visible:itemId()!== 0">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Status" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
@@ -168,8 +169,8 @@
                                         <div class="col-lg-7" style="padding-left:14px;">
                                             <select id="status" class="form-control" data-bind="options: $root.statusList, optionsText: 'Text', optionsValue: 'Id',value:statusId, validationTooltip: statusId"></select>
                                         </div>
-                                    </div>
-                                    <div class="form-group " data-bind="visible:itemId()!== 0">
+                                    </div>*@
+                                    @*<div class="form-group " data-bind="visible:itemId()!== 0">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Disabled" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
@@ -184,7 +185,7 @@
                                                 <label for="isDisabled"></label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
 
 
                                 </div> <!--this one -->
@@ -265,14 +266,14 @@
                             <div class="col-lg-12 form-horizontal" data-bind="visible:( categoryId()=== 1 ||categoryId()=== 2)">
                                 <h3 class="group-header">Inventory Attributes</h3>
                                 <div class="col-lg-6">
-                                    <div class="form-group" data-bind="visible:categoryId() !== 2">
-                                        <div class="col-lg-5 text-right" style="padding-left: 0px;padding-right: 0px;">
+                                    <div class="form-group" data-bind="visible:categoryId() !== 2 && IsImperical() === false">
+                                        <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Weight" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                 </a>
                                             </div>
-                                            <label for="weight" class="control-label text-right tooltip-float">Paper / Board / Substrate weight</label>
+                                            <label for="weight" class="control-label text-right tooltip-float">Paper / Board weight</label>
                                         </div>
                                         <div class="col-lg-3">
                                             <input type="text" style="text-align:right;" class="form-control" id="weight" data-bind="value:itemWeight, validationTooltip: itemWeight, validationOnElement:itemWeight" />
@@ -283,7 +284,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group" data-bind="visible:categoryId() !== 2 ">
+                                    <div class="form-group" data-bind="visible:categoryId() !== 2 && IsImperical() === true ">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Paper Basis Area" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
@@ -319,9 +320,9 @@
                                     <div class="form-group " data-bind="visible:itemId()!== 0">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Opening Stock" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Opening Stock" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                                </a>*@
                                             </div>
                                             <label for="openingStock" class="control-label text-right tooltip-float">Opening Stock count</label>
                                         </div>
@@ -332,9 +333,9 @@
                                     <div class="form-group " data-bind="visible:itemId()!==0">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="In Stock" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="In Stock" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                                </a>*@
                                             </div>
                                             <label for="weight" class="control-label text-right tooltip-float">In Stock</label>
                                         </div>
@@ -397,9 +398,9 @@
                                     <div class="form-group " data-bind="visible:itemId()!==0">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Last Qty Order" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Last Qty Order" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                                </a>*@
                                             </div>
                                             <label for="weight" class="control-label text-right tooltip-float">Last Quantity Ordered</label>
                                         </div>
@@ -410,9 +411,9 @@
                                     <div class="form-group " data-bind="visible:itemId()!==0">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Last Order Date" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Last Order Date" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                                </a>*@
                                             </div>
                                             <label for="weight" class="control-label text-right tooltip-float">Last Order Date</label>
                                         </div>
