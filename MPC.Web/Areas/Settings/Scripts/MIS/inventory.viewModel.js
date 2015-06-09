@@ -96,8 +96,8 @@ define("inventory/inventory.viewModel",
                         costPriceList: costPriceList,
 
                     }),
-                     openReport = function () {
-                         reportManager.show(ist.reportCategoryEnums.Inventory, 0, 0);
+                     openReport = function (isFromEditor) {
+                         reportManager.show(ist.reportCategoryEnums.Inventory, isFromEditor == true ? true : false, 0);
                      },
                     // Has Changes
                     hasChangesOnInventory = ko.computed(function () {

@@ -4619,3 +4619,14 @@ references SectionFlag (SectionFlagId)
 
 alter table PurchaseDetail
 add TaxValue float null
+
+/* Execution Date: 09/06/2015 */
+
+alter table purchasedetail
+drop constraint FK_PurchaseID
+
+alter table purchaseDetail
+add constraint FK_PurchaseDetail_Purchase
+foreign key (PurchaseId)
+references Purchase (PurchaseId)
+on delete cascade

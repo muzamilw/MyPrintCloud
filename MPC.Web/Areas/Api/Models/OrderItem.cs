@@ -137,6 +137,7 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? ItemCreationDateTime { get; set; }
         public string InvoiceDescription { get; set; }
         public Guid? JobCardPrintedBy { get; set; }
+        public int? RefItemId { get; set; }
         public IEnumerable<string> ProductCategories { get; set; }
         public IEnumerable<ItemSection> ItemSections { get; set; }
         public  ICollection<ItemAttachment> ItemAttachments { get; set; }

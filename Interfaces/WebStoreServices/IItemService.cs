@@ -107,7 +107,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
 
         Item GetItemByOrderID(long OrderID);
-        void GenerateThumbnailForPdf(string url, bool insertCuttingMargin);
+        void GenerateThumbnailForPdf(string url, bool insertCuttingMargin, long ItemId);
         List<Item> GetItemsByOrderID(long OrderID);
 
         List<Item> GetListOfDeliveryItemByOrderID(long OID);

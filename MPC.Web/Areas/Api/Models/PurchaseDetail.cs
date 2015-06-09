@@ -18,6 +18,6 @@
         public int? freeitems { get; set; }
         public long? RefItemId { get; set; }
         public int? ProductType { get; set; }
-       // public int? TaxId { get; set; }
+        public double? TaxValue { get; set; }
     }
 }

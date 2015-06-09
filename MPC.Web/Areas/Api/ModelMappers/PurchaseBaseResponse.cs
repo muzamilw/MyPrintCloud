@@ -17,5 +17,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// System Users
         /// </summary>
         public IEnumerable<SystemUserDropDown> SystemUsers { get; set; }
+
+        /// <summary>
+        /// Currency Symbol
+        /// </summary>
+        public string CurrencySymbol { get; set; }
     }
 }

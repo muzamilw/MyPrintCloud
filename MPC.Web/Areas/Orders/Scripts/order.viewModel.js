@@ -398,6 +398,8 @@ define("order/order.viewModel",
                     },
                     // Edit Item
                     editItem = function (item) {
+                        var itemHasChanges = item.hasChanges();
+                        var orderGotChanges = selectedOrder().hasChanges();
                         itemCodeHeader(item.code());
                         var itemSection = _.find(item.itemSections(), function (itemSec) {
                             return itemSec.flagForAdd() === true;
@@ -408,10 +410,14 @@ define("order/order.viewModel",
                             counterForSection = counterForSection - 1;
                             itemSectionForAddView.id(counterForSection);
                             item.itemSections.push(itemSectionForAddView);
-                            item.reset();
+                            if (!itemHasChanges) {
+                                item.reset();
+                            }
                         }
                         selectedProduct(item);
-                        selectedOrder().reset();
+                        if (!orderGotChanges) {
+                            selectedOrder().reset();
+                        }
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
                         openItemDetail();
@@ -2093,8 +2099,8 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    openReportsOrder = function () {
-                        reportManager.show(ist.reportCategoryEnums.Orders, 0, 0);
+                    openReportsOrder = function (isFromEditor) {
+                        reportManager.show(ist.reportCategoryEnums.Orders, isFromEditor == true ? true : false, 0);
                     },
                     openExternalReportsOrder = function () {
                         reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
