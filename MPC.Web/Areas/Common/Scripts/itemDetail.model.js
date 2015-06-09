@@ -10,7 +10,7 @@
             specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty) {
+            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -280,6 +280,8 @@
                 // Job Estimated Completion Date Time
                 jobEstimatedCompletionDateTime = ko.observable(specifiedJobEstimatedCompletionDateTime ?
                     moment(specifiedJobEstimatedCompletionDateTime).toDate() : undefined),
+                // Ref Item Id
+                refItemId = ko.observable(specifiedRefItemId || undefined),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
                 // Errors
@@ -358,9 +360,7 @@
                     defaultItemTax: defaultItemTax,
                     jobEstimatedStartDateTime: jobEstimatedStartDateTime,
                     jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
-                    jobManagerId: jobManagerId,
-                    itemSections: itemSections,
-                    itemAttachments: itemAttachments
+                    jobManagerId: jobManagerId
                 }),
                 // Item Section Changes
                 itemSectionHasChanges = ko.computed(function () {
@@ -436,6 +436,7 @@
                         Tax1: tax1(),
                         JobSelectedQty: jobSelectedQty(),
                         InvoiceDescription: invoiceDescription(),
+                        RefItemId: refItemId(),
                         ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
@@ -520,6 +521,7 @@
                 jobProgressedByUser: jobProgressedByUser,
                 setJobProgressedBy: setJobProgressedBy,
                 jobSignedByUser: jobSignedByUser,
+                refItemId: refItemId,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -2108,7 +2110,8 @@
             source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobEstimatedStartDateTime,
             source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
-            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId, source.JobSelectedQty);
+            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId,
+            source.JobSelectedQty, source.RefItemId);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {

@@ -475,6 +475,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseBaseResponse.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PurchaseDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportparamMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
@@ -1216,7 +1217,7 @@
     <Content Include="Content\Images\Ptv\imgLongSide.gif" />
     <Content Include="Content\Images\Ptv\imgShortSide.gif" />
     <Content Include="Content\Images\OrderSection-right-arrow.jpg" />
-    <Content Include="Content\Images\Section_spotColor.jpg" />
+    <Content Include="Content\Images\Section_spotColor.jpeg" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\Inventory.css">
       <DependentUpon>Inventory.less</DependentUpon>
@@ -2207,6 +2208,7 @@
     <Content Include="Areas\Products\Views\Home\_AddProductMarketBriefQuestion.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_AttachmentDialog.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_PurchaseDetailDialog.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_ReportViaEmail.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

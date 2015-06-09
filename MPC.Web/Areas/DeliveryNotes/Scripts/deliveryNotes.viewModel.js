@@ -86,8 +86,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         pager().reset();
                         getdeliveryNotes();
                     },
-                      openReport = function () {
-                          reportManager.show(ist.reportCategoryEnums.Delivery, 0, 0);
+                      openReport = function (isFromEditor) {
+                          reportManager.show(ist.reportCategoryEnums.Delivery, isFromEditor == true ? true : false, 0);
                       },
                 // Get Delivery Notes
                 getdeliveryNotes = function () {

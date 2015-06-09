@@ -1522,11 +1522,11 @@ define("crm/crm.viewModel",
                 // #endregion
 
                 //#region ___________ UTILITY FUNCTIONS ______
-                openReport = function () {
+                openReport = function (isFromEditor) {
                     if (isProspectOrCustomerScreen()) {
-                        reportManager.show(ist.reportCategoryEnums.CRM, 0, 0);
+                        reportManager.show(ist.reportCategoryEnums.CRM, isFromEditor == true ? true : false, 0);
                     } else {
-                        reportManager.show(ist.reportCategoryEnums.Suppliers, 0, 0);
+                        reportManager.show(ist.reportCategoryEnums.Suppliers, isFromEditor == true ? true : false, 0);
                     }
                 },
                 onCreateNewStore = function () {

@@ -313,8 +313,8 @@ define("stores/stores.viewModel",
                     onCreatePublicStore = function () {
                         createStore(organizationId(), publicStoreName());
                     },
-                      openReportsOrder = function () {
-                          reportManager.show(ist.reportCategoryEnums.Stores, 0, 0);
+                      openReport = function (isFromEditor) {
+                          reportManager.show(ist.reportCategoryEnums.Stores, isFromEditor == true ? true : false, 0);
                       },
                     onCreatePrivateStore = function () {
                         createStore(organizationId(), privateStoreName());
@@ -1845,7 +1845,6 @@ define("stores/stores.viewModel",
                     selectedEmail().hTMLMessageA(hTMLMessageA + img);
                     //selectedEmail().hTMLMessageA(); //imageSource
                 }
-
             },
             //#endregion
 
@@ -3679,6 +3678,21 @@ define("stores/stores.viewModel",
                     }
                 }
             },
+            //Computed To set Product Category dirty Flag 
+            setProductCategoryDirtyFlag = ko.computed(function() {
+                if (addressTerritoryList().length > 0) {
+                    _.filter(addressTerritoryList(), function(territory) {
+                        return territory.isSelected() == true;
+                    });
+                    if (selectedProductCategoryForEditting() != undefined) {
+                        if (selectedProductCategoryForEditting().isCategoryTerritoriesListChanged()) {
+                            selectedProductCategoryForEditting().isCategoryTerritoriesListChanged(false);
+                        } else {
+                            selectedProductCategoryForEditting().isCategoryTerritoriesListChanged(true);
+                        }
+                    }
+                }
+            }),
             //On Save Product Category
             onSaveProductCategory = function () {
 
@@ -6421,7 +6435,7 @@ define("stores/stores.viewModel",
                     SecondaryImageFileLoadedCallback: SecondaryImageFileLoadedCallback,
                     filteredCompanySetId: filteredCompanySetId,
                     stores: stores,
-                    openReportsOrder:openReportsOrder,
+                    openReport: openReport,
                     storeImage: storeImage,
                     systemUsers: systemUsers,
                     isLoadingStores: isLoadingStores,
@@ -6613,6 +6627,7 @@ define("stores/stores.viewModel",
                     resetProductCategoryCounter: resetProductCategoryCounter,
                     getCategoryChildListItems: getCategoryChildListItems,
                     openProductCategoryDetail: openProductCategoryDetail,
+                    setProductCategoryDirtyFlag: setProductCategoryDirtyFlag,
                     //#endregion Product Category
                     //editorViewModelListView: editorViewModelListView,
                     selectedStoreListView: selectedStoreListView,

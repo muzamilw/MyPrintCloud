@@ -377,6 +377,8 @@
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="ModelMappers\ProductMarketBriefAnswerMapper.cs" />
     <Compile Include="ModelMappers\ProductMarketBriefQuestionMapper.cs" />
+    <Compile Include="ModelMappers\PurchaseMapper.cs" />
+    <Compile Include="ModelMappers\PurchaseMapperActions.cs" />
     <Compile Include="ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="ModelMappers\SectionInkCoverageMapper.cs" />

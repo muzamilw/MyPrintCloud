@@ -17,5 +17,10 @@ namespace MPC.Models.ResponseModels
         /// System Users
         /// </summary>
         public IEnumerable<SystemUser> SystemUsers { get; set; }
+
+        /// <summary>
+        /// Currency Symbol
+        /// </summary>
+        public string CurrencySymbol { get; set; }
     }
 }

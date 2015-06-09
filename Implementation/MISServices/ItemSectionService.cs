@@ -3491,7 +3491,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty1MarkUpValue = 0;
                     oItemSectionCostCenter.Qty1NetTotal = 0;
                     oItemSectionCostCenter.Qty1EstimatedStockCost = 0;
-
+                    sMinimumCost = "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
@@ -3529,7 +3529,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty2MarkUpValue = 0;
                     oItemSectionCostCenter.Qty2NetTotal = 0;
                     oItemSectionCostCenter.Qty2EstimatedStockCost = 0;
-
+                    sMinimumCost += "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
@@ -3567,7 +3567,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty3MarkUpValue = 0;
                     oItemSectionCostCenter.Qty3NetTotal = 0;
                     oItemSectionCostCenter.Qty3EstimatedStockCost = 0;
-
+                    sMinimumCost += "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
@@ -4363,6 +4363,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty1MarkUpValue = 0;
                     oItemSectionCostCenter.Qty1NetTotal = 0;
                     oItemSectionCostCenter.Qty1EstimatedStockCost = 0;
+                    sMinimumCost = "0";
 
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
@@ -4397,7 +4398,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty2MarkUpValue = 0;
                     oItemSectionCostCenter.Qty2NetTotal = 0;
                     oItemSectionCostCenter.Qty2EstimatedStockCost = 0;
-
+                    sMinimumCost += "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
@@ -4432,7 +4433,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty3MarkUpValue = 0;
                     oItemSectionCostCenter.Qty3NetTotal = 0;
                     oItemSectionCostCenter.Qty3EstimatedStockCost = 0;
-
+                    sMinimumCost += "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
