@@ -17,6 +17,8 @@
                      selectedItemName = ko.observable(),
                      selectedItemCode = ko.observable(),
                      selectedItemTitle = ko.observable(),
+                       ckEditorOpenFrom = ko.observable("stores"),
+                    hTmlMessageA = ko.observable(),
                     OpenReport = function () {
                         if (selectedReportId() > 0) {
                           //  getParams();
@@ -27,7 +29,7 @@
                                 view.showWebViewer();
                                 hideProgress();
                             } else if (outputTo() == "email") {
-
+                                showEmailView();
                             } else if (outputTo() == "pdf") {
 
                             } else if (outputTo() == "excel") {
@@ -104,8 +106,19 @@
                         //  resetDialog();
                         view.hide();
                     },
-
-
+                    showEmailView= function() {
+                        view.showEmailView();
+                    },
+                    hideEmailView= function() {
+                        view.hideEmailView();
+                    },
+                    
+            // Widget being dropped
+            // ReSharper disable UnusedParameter
+            droppedEmailSection = function (source, target, event) {
+                var val = CKEDITOR.instances.content.getData();
+                hTmlMessageA(val);
+            },
                 // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -127,7 +140,12 @@
                     selectedItemTitle: selectedItemTitle,
                     errorList:errorList,
                     show: show,
-                    hide: hide
+                    hide: hide,
+                    showEmailView: showEmailView,
+                    hideEmailView: hideEmailView,
+                    hTmlMessageA: hTmlMessageA,
+                    droppedEmailSection: droppedEmailSection,
+                    ckEditorOpenFrom: ckEditorOpenFrom
                 };
             })()
         };
