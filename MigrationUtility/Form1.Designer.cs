@@ -112,7 +112,7 @@
             this.txtTargetRetailStoreId.Name = "txtTargetRetailStoreId";
             this.txtTargetRetailStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtTargetRetailStoreId.TabIndex = 7;
-            this.txtTargetRetailStoreId.Text = "32896";
+            this.txtTargetRetailStoreId.Text = "63395";
             // 
             // rdRetailStoreTargetNew
             // 
