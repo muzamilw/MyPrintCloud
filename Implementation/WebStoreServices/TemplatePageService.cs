@@ -123,10 +123,10 @@ namespace MPC.Implementation.WebStoreServices
                                 theDoc.MediaBox.Height = width;
                                 theDoc.MediaBox.Width = height;
                             }
-                            theDoc.Save(basePath + "Side" + (i + 1).ToString() + ".pdf");
-                            if (File.Exists(basePath + "templatImgBk" + (i + 1).ToString() + ".jpg"))
+                            theDoc.Save(basePath + "Side" + PagesList[i].PageNo.ToString() + ".pdf");
+                            if (File.Exists(basePath + "templatImgBk" + (PagesList[i].PageNo).ToString() + ".jpg"))
                             {
-                                File.Delete(basePath + "templatImgBk" + (i + 1).ToString() + ".jpg");
+                                File.Delete(basePath + "templatImgBk" + (PagesList[i].PageNo).ToString() + ".jpg");
                             }
                         }
                         catch (Exception ex)

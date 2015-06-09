@@ -423,6 +423,11 @@ function SvcLoad2ndTemplate() {
             fu06(true);
             fu07();
         });
+         $(".additionalPages").css("visibility", "hidden");
+         $.each(TP, function (i, IT) {
+             $("#thumbPageSP" + IT.PageNo).css("visibility", "visible");
+             $("#thumbPageSP" + IT.PageNo + " .thumb-content p").html(IT.PageName);
+         }); 
      });
 
 
