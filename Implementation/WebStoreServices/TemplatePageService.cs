@@ -167,7 +167,7 @@ namespace MPC.Implementation.WebStoreServices
                         theDoc.MediaBox.Width = height;
 
                     }
-                    theDoc.Save(basePath + oPage.PageName + oPage.PageNo.ToString() + ".pdf");
+                    theDoc.Save(basePath + "Side" + oPage.PageNo.ToString() + ".pdf");
                     if (File.Exists(basePath + "templatImgBk" + oPage.PageNo.ToString() + ".jpg"))
                     {
                         File.Delete(basePath + "templatImgBk" + oPage.PageNo.ToString() + ".jpg");
