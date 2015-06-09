@@ -2583,6 +2583,16 @@ function k0() {
         $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
     });
+    if (IsCalledFrom == 3) {
+        for (var i = TP[TP.length - 1].PageNo +1; i <= 12; i++) {
+            ////$("#sliderDesigner").append('<img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
+            ////$("#thumbs").append(' <div id="thumbPageSP' + i + '"style="visibility:hidden;"  class="thumb additionalPages"><div class="frame"><img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
+
+            $("#sliderDesigner").append('<img  style="visibility:hidden;" src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
+            $("#thumbs").append(' <div id="thumbPageSP' + i + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
+
+        }
+    }
     $.each(TP, function (i, IT) {
         $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
         $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
@@ -2637,6 +2647,7 @@ function k0() {
     //        }
     //    });
     //}
+
 }
 function k4() {
     var D1AO = canvas.getActiveObject();
