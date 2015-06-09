@@ -2010,6 +2010,8 @@ function fu14() {
             $("#btntemplateBkImagesCorp").css("display", "block !important");
             $("#btnFreeImgsCorp").css("display", "block !important");
             $("#clearBackground").css("margin-top", "20px"); $("#uploadBackgroundMn").css("margin-top", "20px");
+        } else {
+            $("#btnImagePlaceHolderUser").css("display", "block !important");
         }
 
     }
