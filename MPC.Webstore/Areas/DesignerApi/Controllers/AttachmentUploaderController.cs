@@ -62,7 +62,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                         File.Delete(srcPath);
                         if (fileExt == ".pdf" || fileExt == ".TIF" || fileExt == ".TIFF")
                         {
-                            itemService.GenerateThumbnailForPdf(desPath, false);
+                            itemService.GenerateThumbnailForPdf(desPath, false, Convert.ToInt64(parameter3));
 
                         }
                         else 
