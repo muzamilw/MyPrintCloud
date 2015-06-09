@@ -313,8 +313,8 @@ define("stores/stores.viewModel",
                     onCreatePublicStore = function () {
                         createStore(organizationId(), publicStoreName());
                     },
-                      openReportsOrder = function () {
-                          reportManager.show(ist.reportCategoryEnums.Stores, 0, 0);
+                      openReport = function (isFromEditor) {
+                          reportManager.show(ist.reportCategoryEnums.Stores, isFromEditor == true ? true : false, 0);
                       },
                     onCreatePrivateStore = function () {
                         createStore(organizationId(), privateStoreName());
@@ -6420,7 +6420,7 @@ define("stores/stores.viewModel",
                     SecondaryImageFileLoadedCallback: SecondaryImageFileLoadedCallback,
                     filteredCompanySetId: filteredCompanySetId,
                     stores: stores,
-                    openReportsOrder:openReportsOrder,
+                    openReport: openReport,
                     storeImage: storeImage,
                     systemUsers: systemUsers,
                     isLoadingStores: isLoadingStores,
