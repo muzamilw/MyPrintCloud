@@ -3,8 +3,8 @@
 */
 define("stores/stores.viewModel",
     ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination",
-        "common/sharedNavigation.viewModel", "product/product.viewModel", "p71"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, productViewModel, p71) {
+        "common/sharedNavigation.viewModel", "product/product.viewModel", "p71", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, productViewModel, p71, reportManager) {
         var ist = window.ist || {};
         ist.stores = {
             viewModel: (function () {
@@ -313,6 +313,9 @@ define("stores/stores.viewModel",
                     onCreatePublicStore = function () {
                         createStore(organizationId(), publicStoreName());
                     },
+                      openReportsOrder = function () {
+                          reportManager.show(ist.reportCategoryEnums.Stores, 0, 0);
+                      },
                     onCreatePrivateStore = function () {
                         createStore(organizationId(), privateStoreName());
                     },
@@ -3203,6 +3206,21 @@ define("stores/stores.viewModel",
             UserProfileImageFileLoadedCallback = function (file, data) {
                 selectedCompanyContact().image(data);
                 selectedCompanyContact().fileName(file.name);
+            },
+            selectedCsvFileForCompanyContact = function (file, data) {
+                dataservice.importCompanyContact({
+                    FileName: file.name,
+                    FileBytes: data,
+                    CompanyId: selectedStore().companyId()
+                }, {
+                    success: function (successData) {
+                        toastr.success("Company Contacts imported successfully!");
+                        searchCompanyContact();
+                    },
+                    error: function (response) {
+                        toastr.error("Company Contacts failed to import! "+ response);
+                    }
+                });
             },
 
             getAddressByAddressId = function (addressId) {
@@ -6403,6 +6421,7 @@ define("stores/stores.viewModel",
                     SecondaryImageFileLoadedCallback: SecondaryImageFileLoadedCallback,
                     filteredCompanySetId: filteredCompanySetId,
                     stores: stores,
+                    openReportsOrder:openReportsOrder,
                     storeImage: storeImage,
                     systemUsers: systemUsers,
                     isLoadingStores: isLoadingStores,
@@ -6617,6 +6636,7 @@ define("stores/stores.viewModel",
                     selectedPageCategory: selectedPageCategory,
                     allCompanyAddressesList: allCompanyAddressesList,
                     UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback,
+                    selectedCsvFileForCompanyContact: selectedCsvFileForCompanyContact,
                     onCloseCompanyBanner: onCloseCompanyBanner,
                     widgets: widgets,
                     paymentMethods: paymentMethods,

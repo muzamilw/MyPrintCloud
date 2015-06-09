@@ -503,6 +503,7 @@
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
+    <Compile Include="ResponseModels\PurchaseBaseResponse.cs" />
     <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
     <Compile Include="ResponseModels\ReportparamResponse.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />

@@ -42,5 +42,6 @@ namespace MPC.Models.Common
         public double DeliveryCost {get; set;}
         public string SOrderDate { get; set; }
         public string SOrderDeliveryDate { get; set; }
+        public long TerritoryId { get; set;}
     }
 }

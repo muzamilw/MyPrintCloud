@@ -2539,7 +2539,7 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
         }
 
-        public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber)
+        public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber,bool IsManager,long TerritoryId)
         {
 
             List<Order> ordersList = null;
@@ -2558,8 +2558,6 @@ namespace MPC.Repository.Repositories
 
             if (!string.IsNullOrWhiteSpace(toDate) && DateTime.TryParse(toDate, out resultToDate))
                 actualToDate = resultToDate;
-
-
 
             //if (actualToDate.HasValue)
             //{
@@ -2597,7 +2595,7 @@ namespace MPC.Repository.Repositories
                             DeliveryDate = tblOrd.StartDeliveryDate,
                             YourRef = tblOrd.CustomerPO,
                             CustomerName = tblContacts.FirstName,
-
+                            TerritoryId=tblContacts.TerritoryId??0,
                             CompanyName = tblcompany.Name
                         };
 
@@ -2641,6 +2639,10 @@ namespace MPC.Repository.Repositories
 
             resultData.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             resultData.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
+            if (IsManager == true)
+            {
+                resultData.Where(i => i.TerritoryId == TerritoryId).ToList();
+            }
             return resultData;
         }
 
