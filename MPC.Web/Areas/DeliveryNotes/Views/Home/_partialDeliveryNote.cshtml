@@ -45,7 +45,9 @@
                 <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onDeleteDeliveryNote">&nbsp;Delete</button>
                 @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedDeliveryNote().deliveryNoteId()!==undefined"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>*@
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onPostDeliveryNote">&nbsp;Post</button>
-
+                <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:5px">
+                    Reports
+                </button>
             </div>
         </div>
     </div>

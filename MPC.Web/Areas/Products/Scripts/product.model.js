@@ -267,7 +267,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             }),
             // Packaging Weight
-            packagingWeight = ko.observable(specifiedPackagingWeight || undefined),
+            packagingWeight = ko.observable(specifiedPackagingWeight || 0.1),
             // Default Item Tax
             defaultItemTax = ko.observable(specifiedDefaultItemTax || undefined),
             // supplier id
@@ -275,7 +275,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // supplier id 2
             internalSupplierId2 = ko.observable(specifiedSupplierId2 || undefined),
             // Estimate Production Time
-            estimateProductionTime = ko.observable(specifiedEstimateProductionTime || undefined),
+            estimateProductionTime = ko.observable(specifiedEstimateProductionTime || 3),
             // Is Template Design Mode
             isTemplateDesignMode = ko.observable(specifiedIsTemplateDesignMode || 1),
             // Is TemplateDesignMode for ui
@@ -2242,12 +2242,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Stock Option Entity
     ItemStockOption = function (specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
-        specifiedOptionSequence, specifiedItemId, callbacks) {
+        specifiedOptionSequence, specifiedItemId, callbacks,specifiedInStock,specifiedAllocated) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
             // Label
             label = ko.observable(specifiedStockLabel || undefined).extend({ required: true }),
+
+            // in stock
+            inStock = ko.observable(specifiedInStock || undefined),
+            // allocated
+            allocated = ko.observable(specifiedAllocated || undefined),
             // Stock Item Id
             stockItemId = ko.observable(specifiedStockId || undefined),
             // Stock Item Name
@@ -2306,6 +2311,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 stockItemName(stockItem.name);
                 stockItemDescription(stockItem.description);
                 label(stockItem.name);
+                inStock(stockItem.inStock);
+                allocated(stockItem.allocated)
             },
             // On Select File
             onSelectImage = function (file, data) {
@@ -2365,6 +2372,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: id,
             stockItemId: stockItemId,
             label: label,
+            inStock: inStock,
+            allocated: allocated,
             stockItemName: stockItemName,
             stockItemDescription: stockItemDescription,
             itemId: itemId,
@@ -3814,7 +3823,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Stock Option Factory
     ItemStockOption.Create = function (source, callbacks) {
         var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
-            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks);
+            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks,source.inStock,source.Allocated);
 
         // If Item Addon CostCentres exists then add
         if (source.ItemAddOnCostCentres) {

@@ -41,15 +41,17 @@
                                                 <div class="no-header clearfix">
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
-                                                            <h2 id="machineDetailHeading">Configure sheet (or roll) fed Digital and Litho presses and plotters.</h2>
+                                                            <p class="group-header-description">Configure sheet (or roll) fed Digital and Litho presses and plotters.</p>
+                                                            
                                                             <br />
                                                             <table class="table user-list">
                                                                 <thead>
                                                                     <tr>
+                                                                        <th class="col-lg-1"></th>
                                                                         <th><span>Machine Name</span></th>
                                                                         <th><span>Max Sheet Size</span></th>
                                                                         <th><span>Min Sheet Size</span></th>
-                                                                        <th><span>Calculation Method</span></th>
+                                                                        @*<th><span>Calculation Method</span></th>*@
                                                                         <th>&nbsp;</th>
                                                                     </tr>
                                                                 </thead>
@@ -78,7 +80,8 @@
                                                 <div class="no-header clearfix">
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
-                                                            <h2>Set guillotines throat intake and cutting speeds.</h2>
+                                                            <p class="group-header-description">Set guillotines throat intake and cutting speeds.</p>
+                                                            
                                                             <br />
                                                             <table class="table user-list">
                                                                 <thead>
@@ -86,7 +89,7 @@
                                                                         <th><span>Machine Name</span></th>
                                                                         <th><span>Max Sheet Size</span></th>
                                                                         <th><span>Min Sheet Size</span></th>
-                                                                        <th><span>Calculation Method</span></th>
+                                                                        @*<th><span>Calculation Method</span></th>*@
                                                                         <th>&nbsp;</th>
                                                                     </tr>
                                                                 </thead>
@@ -123,6 +126,15 @@
 <script id="itemMachineTemplate" type="text/html">
     @*<tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedMachine}">*@
     <tr>
+       
+        <!-- ko ifnot: MachineCatId()=== 4 -->       
+        <!-- ko if: isSpotColor() -->
+        <td><img src="@Url.Content("~/Content/Images/Section_spotColor.jpeg")" style="  width: 100%; float: left;" /></td>
+        <!-- /ko -->
+        <!-- ko ifnot: isSpotColor() -->
+            <td><img src="@Url.Content("~/Content/Images/Order_Section_CMYK_circle.jpeg")" style="  width: 100%; float: left;" /></td>        
+        <!-- /ko -->
+        <!-- /ko -->
         <td>
             <a href="#" data-bind="text:MachineName, click: $root.onEditItem" class="user-link"></a>
             <span data-bind="text:Description" class="user-subhead machine-list-margin"></span>
@@ -130,26 +142,11 @@
         <td><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
         <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
 
-        <!-- ko if: MachineCatId()=== 4 -->
-                <td>Guillotine Click Charge</td>
-        <!-- /ko -->
-        <!-- ko ifnot: MachineCatId()=== 4 -->
-        <!-- ko if: isSheetFed() -->
-                <td>Click Charge Zone</td>
+        @*<td id="actionColumn">
+                <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->
-                <!-- ko ifnot: isSheetFed() -->
-                <td>Meter Per Hour</td>
-                <!-- /ko -->
-        <!-- /ko -->
 
-       
-
-        @*<td data-bind="text: LookupMethodName"></td>*@
-        <td id="actionColumn">
-            <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-            <!-- /ko -->
-
-        </td>
+            </td>*@
     </tr>
 </script>
 

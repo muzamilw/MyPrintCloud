@@ -17,6 +17,9 @@
 
                 </div>
                 <div class="pull-right top-page-ui">
+                    <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:5px">
+                        Reports
+                    </button>
                     <button class="btn btn-primary" data-bind="click:createInventory">
                         Add New Inventory
                     </button>
@@ -93,10 +96,12 @@
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_SupplierDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+
 <!-- /ko -->
 @section Scripts{
     <script>
-        require(["inventory/inventory.view", "common/confirmation.view", "common/supplier.view"]);
+        require(["inventory/inventory.view", "common/confirmation.view", "common/supplier.view", "common/reportManager.view"]);
         $(function () {
             $('#liinventory').addClass('active');
         });
