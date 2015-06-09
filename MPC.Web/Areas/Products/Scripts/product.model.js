@@ -2283,6 +2283,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             onEditItemAddonCostCentre = function (itemAddonCostCentre) {
                 activeItemAddonCostCentre(itemAddonCostCentre);
+                activeItemAddonCostCentre().reset();
             },
             // Save ItemAddonCostCentre
             saveItemAddonCostCentre = function () {
