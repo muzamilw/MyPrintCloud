@@ -2,8 +2,8 @@
     Module with the view model for the live Jobs.
 */
 define("deliveryNotes/deliveryNotes.viewModel",
-    ["jquery", "amplify", "ko", "deliveryNotes/deliveryNotes.dataservice", "deliveryNotes/deliveryNotes.model", "common/pagination", "common/companySelector.viewModel", "common/confirmation.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, companySelector, confirmation) {
+    ["jquery", "amplify", "ko", "deliveryNotes/deliveryNotes.dataservice", "deliveryNotes/deliveryNotes.model", "common/pagination", "common/companySelector.viewModel", "common/confirmation.viewModel", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, companySelector, confirmation, reportManager) {
         var ist = window.ist || {};
         ist.deliveryNotes = {
             viewModel: (function () {
@@ -86,6 +86,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         pager().reset();
                         getdeliveryNotes();
                     },
+                      openReport = function () {
+                          reportManager.show(ist.reportCategoryEnums.Delivery, 0, 0);
+                      },
                 // Get Delivery Notes
                 getdeliveryNotes = function () {
                     dataservice.getdeliveryNotes({
@@ -464,7 +467,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     onDeleteDeliveryNote: onDeleteDeliveryNote,
                     onPostDeliveryNote: onPostDeliveryNote,
                     currentTab: currentTab,
-                    getDeliveryNotesOnTabChange: getDeliveryNotesOnTabChange
+                    getDeliveryNotesOnTabChange: getDeliveryNotesOnTabChange,
+                    openReport: openReport
                 };
             })()
         };

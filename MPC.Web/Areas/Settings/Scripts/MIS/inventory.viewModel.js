@@ -3,8 +3,8 @@
 */
 define("inventory/inventory.viewModel",
     ["jquery", "amplify", "ko", "inventory/inventory.dataservice", "inventory/inventory.model", "common/confirmation.viewModel", "common/pagination"
-        , "common/supplier.model", "common/supplier.viewModel", "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, supplierModel, supplierVm, sharedNavigationVM) {
+        , "common/supplier.model", "common/supplier.viewModel", "common/sharedNavigation.viewModel", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, supplierModel, supplierVm, sharedNavigationVM, reportManager) {
         var ist = window.ist || {};
         ist.inventory = {
             viewModel: (function () {
@@ -96,6 +96,9 @@ define("inventory/inventory.viewModel",
                         costPriceList: costPriceList,
 
                     }),
+                     openReport = function () {
+                         reportManager.show(ist.reportCategoryEnums.Inventory, 0, 0);
+                     },
                     // Has Changes
                     hasChangesOnInventory = ko.computed(function () {
                         return ((selectedInventory() && selectedInventory().hasChanges()) || inventoryHasChanges.isDirty());
@@ -726,7 +729,8 @@ define("inventory/inventory.viewModel",
                     hasChangesOnInventory: hasChangesOnInventory,
                     weightUnit: weightUnit,
                     weightLabel: weightLabel,
-                    filteredSubCategoriesForDetail: filteredSubCategoriesForDetail
+                    filteredSubCategoriesForDetail: filteredSubCategoriesForDetail,
+                    openReport: openReport
                 };
             })()
         };

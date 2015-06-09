@@ -28,6 +28,9 @@
                             </div>
                         </div>
                         <div class="pull-right top-page-ui" style="padding-right:10PX;">
+                            <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:-1px">
+                                Reports
+                            </button>
                             <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: $root.hasChangesOnInventory, css: { 'btn-warning': $root.hasChangesOnInventory }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
                         </div>
