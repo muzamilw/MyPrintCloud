@@ -3,8 +3,8 @@
 */
 define("invoice/invoice.viewModel",
     ["jquery", "amplify", "ko", "invoice/invoice.dataservice", "invoice/invoice.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog, addCostCenterVM, addProductVm, itemDetailVm, itemModel) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog, addCostCenterVM, addProductVm, itemDetailVm, itemModel, reportManager) {
         var ist = window.ist || {};
         ist.invoice = {
             viewModel: (function () {
@@ -140,6 +140,9 @@ define("invoice/invoice.viewModel",
 
                         return addressResult || defaultAddress();
                     }),
+                     openReport = function (isFromEditor) {
+                         reportManager.show(ist.reportCategoryEnums.Invoice, isFromEditor == true ? true : false, 0);
+                     },
                     // Selected Company Contact
                     selectedCompanyContact = ko.computed(function () {
                         if (!selectedInvoice() || !selectedInvoice().contactId() || companyContacts().length === 0) {
@@ -1092,6 +1095,7 @@ define("invoice/invoice.viewModel",
                     onCreateNewBlankPrintProduct: onCreateNewBlankPrintProduct,
                     getInvoicesOfCurrentScreen: getInvoicesOfCurrentScreen,
                     filterText: filterText,
+                    openReport:openReport,
                     orderType: orderType,
                     getBaseData: getBaseData,
                     editInvoice: editInvoice,

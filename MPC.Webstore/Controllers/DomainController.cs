@@ -72,7 +72,7 @@ namespace MPC.Webstore.Controllers
         #endregion
 
         // GET: Domain
-        public void Index()
+        public ActionResult Index()
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -84,8 +84,8 @@ namespace MPC.Webstore.Controllers
             long storeId = _myCompanyService.GetStoreIdFromDomain(url);
             if (storeId == 0)
             {
-                Response.Redirect("/Error");
-
+                TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
+                return RedirectToAction("Error", "Home");
             }
             else
             {
@@ -139,12 +139,11 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    RedirectToAction("Error", "Home");
+                    TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
+                    return RedirectToAction("Error", "Home");
                 }
             }
-
-            // return RedirectToAction("Index", "Home");
-            //  return View();
+            return null;
         }
 
         public void updateCache(string name)

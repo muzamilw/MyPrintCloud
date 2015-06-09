@@ -1282,7 +1282,8 @@
         },
         // Item Addon Cost Centre Entity
         ItemAddonCostCentre = function(specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
-            specifiedCostCentreType, specifiedTotalPrice, callbacks, specifiedProductItemTax, specifiedCompanyTaxRate) {
+            specifiedCostCentreType, specifiedTotalPrice, callbacks, specifiedProductItemTax, specifiedCompanyTaxRate, specifiedCostCentreQuantitySourceType,
+            specifiedCostCentreTimeSourceType, specifiedCostCentreTypeId) {
             // ReSharper restore InconsistentNaming
             var // self reference
                 self,
@@ -1296,6 +1297,12 @@
                 costCentreName = ko.observable(specifiedCostCentreName || undefined),
                 // Cost Centre Type
                 costCentreType = ko.observable(specifiedCostCentreType || undefined),
+                // Cost Centre Type Id
+                costCentreTypeId = ko.observable(specifiedCostCentreTypeId || undefined),
+                // Cost Centre Quantity Source Type
+                costCentreQuantitySourceType = ko.observable(specifiedCostCentreQuantitySourceType || undefined),
+                // Cost Centre Time Source Type
+                costCentreTimeSourceType = ko.observable(specifiedCostCentreTimeSourceType || undefined),
                 // Total Price
                 totalPrice = ko.observable(specifiedTotalPrice || undefined).extend({ numberInput: ist.numberFormat }),
                  // Total Price With tax
@@ -1366,6 +1373,9 @@
                 costCentreId: costCentreId,
                 costCentreName: costCentreName,
                 costCentreType: costCentreType,
+                costCentreTypeId: costCentreTypeId,
+                costCentreQuantitySourceType: costCentreQuantitySourceType,
+                costCentreTimeSourceType: costCentreTimeSourceType,
                 totalPrice: totalPrice,
                 totalPriceWithTax: totalPriceWithTax,
                 isMandatory: isMandatory,
@@ -1771,7 +1781,8 @@
     // Item Addon Cost Centre Factory
    ItemAddonCostCentre.Create = function (source, callbacks) {
        return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-           source.CostCentreTypeName, source.TotalPrice, callbacks, source.ProductItemTax, source.CompanyTaxRate);
+           source.CostCentreTypeName, source.TotalPrice, callbacks, source.ProductItemTax, source.CompanyTaxRate, source.CostCentreQuantitySourceType, 
+           source.CostCentreTimeSourceType, source.CostCentreType);
    };
     // Section Cost Centre Factory
    SectionCostCenterDetail.Create = function (source) {

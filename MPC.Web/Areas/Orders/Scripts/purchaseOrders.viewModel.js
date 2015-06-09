@@ -78,8 +78,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                         return addressResult || defaultAddress();
                     }),
-                     openReport = function () {
-                         reportManager.show(ist.reportCategoryEnums.PurchaseOrders, 0, 0);
+                     openReport = function (isFromEditor) {
+                         reportManager.show(ist.reportCategoryEnums.PurchaseOrders, isFromEditor==true ? true :false, 0);
                      },
                     // Selected Company Contact
                     selectedCompanyContact = ko.computed(function () {

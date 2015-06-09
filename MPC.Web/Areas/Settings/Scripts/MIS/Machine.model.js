@@ -49,6 +49,7 @@
             minimumsheetheight = ko.observable(),
             LookupMethodId = ko.observable(),
             isSheetFed = ko.observable(),
+            isSpotColor = ko.observable(),
             errors = ko.validation.group({
                 name: MachineName,
                 type: MachineCatId,
@@ -83,7 +84,8 @@
             maximumsheetheight: maximumsheetheight,
             minimumsheetwidth: minimumsheetwidth,
             minimumsheetheight: minimumsheetheight,
-            LookupMethodName:LookupMethodName,
+            LookupMethodName: LookupMethodName,
+            isSpotColor:isSpotColor,
             reset: reset
         };
         return self;
@@ -480,6 +482,7 @@
         omachineList.LookupMethodName(source.LookupMethodName);
         omachineList.LookupMethodId(source.LookupMethodId);
         omachineList.isSheetFed(source.isSheetFed);
+        omachineList.isSpotColor(source.IsSpotColor);
         return omachineList;
 
     };
@@ -499,6 +502,7 @@
         
         omachineList.LookupMethodId(source.LookupMethodId());
         omachineList.isSheetFed(source.isSheetFed());
+        omachineList.isSpotColor(source.isSpotColor());
         return omachineList;
 
     };
@@ -1011,9 +1015,9 @@
             MeterPerHourLookup: MeterPerHourClickChargelookup,
             GuillotineCalc: GuillotineClickChargelookup,
             GuilotinePtv: GuillotineClickChargePTVlookup,
-           // MachineSpoilages: MachineSpoilageItemsList
-        }
-        
+            // MachineSpoilages: MachineSpoilageItemsList
+        };
+
     };
     var newMachineClientMapper = function (source) {
         var omachine = new machine();
@@ -1021,7 +1025,10 @@
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
-
+        omachine.SetupSpoilage(source.machine.SetupSpoilage);
+        omachine.RunningSpoilage(source.machine.RunningSpoilage);
+        omachine.Passes(source.machine.Passes);
+        omachine.MachineName(source.machine.MachineName);
         //omachine.markupList.removeAll();
         //ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
         //omachine.markupList.valueHasMutated();

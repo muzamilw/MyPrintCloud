@@ -770,7 +770,7 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-        public  void GenerateThumbnailForPdf( string url, bool insertCuttingMargin)
+        public  void GenerateThumbnailForPdf(string url, bool insertCuttingMargin, long ItemId)
         {
             using (Doc theDoc = new Doc())
             {
@@ -791,7 +791,7 @@ namespace MPC.Implementation.WebStoreServices
                 theDoc.Clear();
                 theDoc.Dispose();
 
-                CreatAndSaveThumnail(oImgstream, url,"");
+                CreatAndSaveThumnail(oImgstream, url, ItemId + "/");
 
             }
         }
@@ -808,7 +808,7 @@ namespace MPC.Implementation.WebStoreServices
                 sideThumbnailPath = Path.GetFileNameWithoutExtension(sideThumbnailPath) + "Thumb.png";
                
 
-                sideThumbnailPath = baseAddress + "\\" + itemId  +sideThumbnailPath;
+                sideThumbnailPath = baseAddress + "\\" + itemId  + sideThumbnailPath;
 
                 Image origImage = null;
                 if (oImgstream != null)
