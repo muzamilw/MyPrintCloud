@@ -836,6 +836,10 @@ namespace MPC.Repository.Repositories
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
+            foreach (var comp in companyContacts)
+            {
+                comp.Company.StoreName = GetStoreNameByStoreId(comp.Company.StoreId ?? 0);
+            }
             return new CompanyContactResponse
             {
                 RowCount = rowCount,
@@ -843,6 +847,17 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        public string GetStoreNameByStoreId(long StoreId)
+        {
+            try
+            {
+                return db.Companies.Where(c => c.CompanyId == StoreId).Select(c => c.Name).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID)
         {
             var query = (from c in db.CompanyContacts

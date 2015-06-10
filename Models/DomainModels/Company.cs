@@ -154,6 +154,9 @@ namespace MPC.Models.DomainModels
 
         public long? StoreId { get; set; }
 
+        [NotMapped]
+        public string StoreName { get; set; }
+
         public bool? isAddCropMarks { get; set; }
 
         public bool? isCalculateTaxByService { get; set; }

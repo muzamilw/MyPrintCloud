@@ -594,6 +594,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,
                 EstimateId = source.EstimateId,
+                RefItemId = source.RefItemId,
                 ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
             };
             return item;

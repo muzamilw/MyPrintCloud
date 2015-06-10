@@ -942,6 +942,7 @@
     <Content Include="Views\Shared\PartialViews\RealStateFooter.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealestateSideBarWithSlider.cshtml" />
     <Content Include="Views\Shared\PartialViews\ErrorPage404.cshtml" />
+    <Content Include="Views\Home\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

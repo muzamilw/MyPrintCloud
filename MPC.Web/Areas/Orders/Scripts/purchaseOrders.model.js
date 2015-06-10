@@ -53,7 +53,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // #region __________________  Purchase  ______________________
         Purchase = function (specifiedPurchaseId, specifiedcode, specifieddate_Purchase, spcSupplierId, spcContactId,
             specifiedRefNo, spcSupplierContactAddressID, spcStatus, specifiedflagId, spcComments, spcFootnote,
-            spcCreatedBy, spcDiscount, spcdiscountType, spcTotalPrice, spcNetTotal, spcTotalTax, spcGrandTotal, spcisproduct) {
+            spcCreatedBy, spcDiscount, spcdiscountType, spcTotalPrice, spcNetTotal, spcTotalTax, spcGrandTotal, spcisproduct, spcSupplierContactCompany) {
 
             var self,
                 id = ko.observable(specifiedPurchaseId),
@@ -64,20 +64,21 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 footnote = ko.observable(spcFootnote),
                 comments = ko.observable(spcComments),
                 status = ko.observable(spcStatus),
-                contactId = ko.observable(spcContactId),
+                contactId = ko.observable(spcContactId).extend({ required: true }),
+                supplierContactCompany = ko.observable(spcSupplierContactCompany),
                 // Store Id
                 storeId = ko.observable(undefined),
-                addressId = ko.observable(spcSupplierContactAddressID),
+                addressId = ko.observable(spcSupplierContactAddressID).extend({ required: true }),
                 createdBy = ko.observable(spcCreatedBy),
                 discountType = ko.observable(spcdiscountType),
-                totalPrice = ko.observable(spcTotalPrice),
-                netTotal = ko.observable(spcNetTotal),
+                totalPrice = ko.observable(spcTotalPrice || 0).extend({ numberInput: ist.numberFormat }),
+                netTotal = ko.observable(spcNetTotal || 0).extend({ numberInput: ist.numberFormat }),
                 isproduct = ko.observable(spcisproduct),
-                totalTax = ko.observable(spcTotalTax),
-                grandTotal = ko.observable(spcGrandTotal),
+                totalTax = ko.observable(spcTotalTax || 0).extend({ numberInput: ist.numberFormat }),
+                grandTotal = ko.observable(spcGrandTotal || 0).extend({ numberInput: ist.numberFormat }),
                 supplierId = ko.observable(spcSupplierId).extend({ required: true }),
                 //supplierTelNo = ko.observable(spcSupplierTelNo),
-                discount = ko.observable(spcDiscount),
+                discount = ko.observable(spcDiscount || 0),
                 companyName = ko.observable(undefined),
                 taxRate = ko.observable(0),
                 purchaseDetails = ko.observableArray([]),
@@ -87,6 +88,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (supplierId.error) {
                         validationSummaryList.push({ name: "Customer", element: supplierId.domElement });
                     }
+                    if (contactId.error) {
+                        validationSummaryList.push({ name: "Contact", element: contactId.domElement });
+                    }
+                    if (addressId.error) {
+                        validationSummaryList.push({ name: "Address", element: addressId.domElement });
+                    }
+
                 },
                 // Errors
                 errors = ko.validation.group({
@@ -150,6 +158,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         SupplierId: supplierId(),
                         Discount: discount(),
                         isproduct: isproduct(),
+                        SupplierContactCompany: supplierContactCompany(),
+                        PurchaseDetails: []
                     };
                 };
 
@@ -176,6 +186,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 supplierId: supplierId,
                 discount: discount,
                 companyName: companyName,
+                supplierContactCompany: supplierContactCompany,
                 setValidationSummary: setValidationSummary,
                 purchaseDetails: purchaseDetails,
                 convertToServerData: convertToServerData,
@@ -217,8 +228,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 convertToServerData = function (source) {
                     return {
-                        PurchaseDetailId: source.id(),
-                        ItemId: source.itemId(),
+                        PurchaseDetailId: source.id() < 0 ? 0 : source.id(),
                         quantity: source.quantity(),
                         price: source.price(),
                         packqty: source.packqty(),
@@ -286,14 +296,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Purchase Factory
     Purchase.Create = function (source) {
-        var deliveryNote = new Purchase(source.PurchaseId, source.Code, source.date_Purchase, source.SupplierId, source.ContactId, source.RefNo
-            , source.SupplierContactAddressID, source.Status, source.FlagID, source.Comments, source.Footnote, source.CreatedBy, source.Discount,
-            source.discountType, source.TotalPrice, source.NetTotal, source.TotalTax, source.GrandTotal, source.isproduct);
+        var purchase = new Purchase(source.PurchaseId, source.Code, source.date_Purchase, source.SupplierId, source.ContactId, source.RefNo
+            , source.SupplierContactAddressID, source.Status, source.FlagID, source.Comments, source.FootNote, source.CreatedBy, source.Discount,
+            source.discountType, source.TotalPrice, source.NetTotal, source.TotalTax, source.GrandTotal, source.isproduct, source.SupplierContactCompany);
 
-        _.each(source.PurchaseDetails, function (dNoteDetail) {
-            deliveryNote.purchaseDetails.push(DeliveryNoteDetail.Create(dNoteDetail));
+        _.each(source.PurchaseDetails, function (purchaseDet) {
+            purchase.purchaseDetails.push(PurchaseDetail.Create(purchaseDet));
         });
-        return deliveryNote;
+        return purchase;
     };
 
 
