@@ -5955,8 +5955,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         </Function>
         <Function Name="usp_GeneratePurchaseOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrderID" Type="int" Mode="In" />
-          <Parameter Name="CreatedBy" Type="int" Mode="In" />
-          <Parameter Name="TaxID" Type="int" Mode="In" />
+          <Parameter Name="CreatedBy" Type="uniqueidentifier" Mode="In" />
         </Function>
         <Function Name="usp_GetRealEstateProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
@@ -7905,12 +7904,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </AssociationSet>
           <EntitySet Name="StagingImportCompanyContactAddresses" EntityType="DomainModels.StagingImportCompanyContactAddress" />
           <FunctionImport Name="usp_DeletePurchaseOrders">
-            <Parameter Name="OrderID" Mode="In" Type="Int32" />
+          <Parameter Name="OrderID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_GeneratePurchaseOrders">
             <Parameter Name="OrderID" Mode="In" Type="Int32" />
-            <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
-            <Parameter Name="TaxID" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedBy" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="usp_importTerritoryContactAddressByStore">
             <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
