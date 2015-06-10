@@ -33,60 +33,85 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Index()
         {
-            if (_myClaimHelper.isUserLoggedIn())
+            try 
             {
-                bool ApproveOrders = false;
-                CompanyContact LoginContact = _CompanyService.GetContactByID(_myClaimHelper.loginContactID());
-                if (LoginContact != null)
+                if (_myClaimHelper.isUserLoggedIn())
                 {
-                    if (LoginContact.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || LoginContact.ContactRoleId == Convert.ToInt32(Roles.Manager))
+                    bool ApproveOrders = false;
+                    CompanyContact LoginContact = _CompanyService.GetContactByID(_myClaimHelper.loginContactID());
+                    if (LoginContact != null)
                     {
-                        ApproveOrders = true;
+                        if (LoginContact.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || LoginContact.ContactRoleId == Convert.ToInt32(Roles.Manager))
+                        {
+                            ApproveOrders = true;
+                        }
+                        else
+                        {
+                            ApproveOrders = false;
+                        }
                     }
-                    else
-                    {
-                        ApproveOrders = false;
-                    }
+                    BindGrid(ApproveOrders, _myClaimHelper.loginContactID(), LoginContact);
                 }
-                BindGrid(ApproveOrders, _myClaimHelper.loginContactID(), LoginContact);
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
             }
             return View("PartialViews/ProductPendingOrders");
         }
 
         public void BindGrid(bool ApproveOrders,long ContactID,CompanyContact LoginContact)
         {
-            List<Order> ordersList = null;
-            List<Order> ManagerordersList = new List<Order>();
-            ordersList = _CompanyService.GetPendingApprovelOrdersList(ContactID, ApproveOrders);
-            if (ordersList == null || ordersList.Count == 0)
+            try 
             {
-                // do nothing
-            }
-            else {
-                if (LoginContact.ContactRoleId == Convert.ToInt32(Roles.Manager))
+                List<Order> ordersList = null;
+                List<Order> ManagerordersList = new List<Order>();
+                ordersList = _CompanyService.GetPendingApprovelOrdersList(ContactID, ApproveOrders);
+                if (ordersList == null || ordersList.Count == 0)
                 {
-                    foreach (var o in ordersList)
-                    {
-                        if (o.ContactTerritoryID == LoginContact.TerritoryId)
-                        {
-                            ManagerordersList.Add(o);
-                        }
-                    }
-                    if (ManagerordersList == null || ManagerordersList.Count == 0)
-                    {
-                        
-                    }
-                    else
-                    {
-                        ViewBag.OrderList = ManagerordersList;
-                        ViewBag.TotalOrders = ManagerordersList.Count;
-                    }
+                    ViewBag.OrderList = ordersList;
+                    ViewBag.TotalOrders = ordersList.Count;
+
+                     TempData["Status"] = "No Records Found";
+                     TempData["HeaderStatus"] = false;
                 }
                 else
                 {
-                    ViewBag.OrderList= ordersList;
-                    ViewBag.TotalOrders = ordersList.Count;
+
+                    
+                    TempData["HeaderStatus"] = true;
+
+                    if (LoginContact.ContactRoleId == Convert.ToInt32(Roles.Manager))
+                    {
+                        foreach (var o in ordersList)
+                        {
+                            if (o.ContactTerritoryID == LoginContact.TerritoryId)
+                            {
+                                ManagerordersList.Add(o);
+                            }
+                        }
+                        if (ManagerordersList == null || ManagerordersList.Count == 0)
+                        {
+
+                        }
+                        else
+                        {
+                            ViewBag.OrderList = ManagerordersList;
+                            ViewBag.TotalOrders = ManagerordersList.Count;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.OrderList = ordersList;
+                        ViewBag.TotalOrders = ordersList.Count;
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
             }
         }
         
