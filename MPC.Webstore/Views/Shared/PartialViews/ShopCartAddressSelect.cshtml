@@ -90,7 +90,7 @@
 
 <div class="container content_area">
 
-    <div class="row left_right_padding">
+    <div class="left_right_padding">
         <ul class="bonhamsOption navM cursor_pointer">
             <li>
                 1. Select
@@ -122,7 +122,7 @@
             </div>
         }
 
-        <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
+        <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12 checkout-container">
             <label id="lblCheckout" class="sign_in_heading">Checkout</label>
         </div>
         <div class="clearBoth">
@@ -131,7 +131,7 @@
         <br />
         @using (Html.BeginForm())
         {
-            <div>
+            <div class="col-lg-12 col-md-12 col-xs-12">
                 <div id="maincntCheckout" class="check_out_right_div center_align">
                     <div class="clearBoth mainHeadingAveniorCheckout" style="display:none;">
                         <label id="Label2">Special Instructions</label>
@@ -149,7 +149,7 @@
                     <div class="col-md-12 col-lg-12 col-xs-12 ckecoutWidthAvenior TTL_Checkout">
                         <label id="ltrlnotes" class="col-md-3 col-lg-3 col-xs-12 checkoutNoteslbl">Notes</label>
 
-                        @Html.TextBoxFor(model => model.Notes, new { id = "txtInstNotes", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", onblur= "ChangeNotesTxt();", @Placeholder = "Additional information" })
+                        @Html.TextBoxFor(model => model.Notes, new { id = "txtInstNotes", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", onblur = "ChangeNotesTxt();", @Placeholder = "Additional information" })
 
                     </div>
                     <div class="clearBoth">
@@ -492,13 +492,13 @@
                                                             pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
                                                             if (FolderPathOfAttachment[0] == '/')
                                                             {
-                                                                imgToShowURL =  FolderPathOfAttachment + "/" + shopcart.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                                imgToShowURL = FolderPathOfAttachment + "/" + shopcart.Attatchment.FileName + ThumnbString;// completeImgPath;
                                                             }
-                                                            else 
+                                                            else
                                                             {
                                                                 imgToShowURL = "/" + FolderPathOfAttachment + "/" + shopcart.Attatchment.FileName + ThumnbString;// completeImgPath;
                                                             }
-                                                            
+
                                                         }
                                                     }
                                                     else
@@ -734,7 +734,7 @@
                             <br />
                         }
 
-                        <div class="textAlignLeft paddingLeft10px">
+                        <div class="textAlignLeft paddingLeft10px" id="contact-us-detail-container">
                             <span id="lblContactNotxt" class="black_sub_heading">Contact No:</span>
                             <label id="lblContactNo" class="ContactNumberlb">@Model.ContactTel</label>
                         </div>
@@ -746,39 +746,39 @@
                         <br />
                         <div id="DivSpclNotes" style="display: none;" class="textAlignLeft paddingLeft10px">
                             <span id="lblSpecialNoteTxt"
-                                   style="color: #C72965;" class="black_sub_heading">Special instructions(notes):</span><br />
+                                  style="color: #C72965;" class="black_sub_heading">Special instructions(notes):</span><br />
                             <br />
                             <label id="lblNotesDetail" class="SpecialNotesContainer" style="color: #C72965;" />
                         </div>
 
                         <div class="clearBoth">
                         </div>
-                        <div class="pad10">
+                        <div class="">
                             <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
                                 @if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
-                    {
+                                {
                                     <div class="super_admin_message" id="DivretailMesg" visible="false">
                                         <label id="ltrlSomeOmeCallU"> Some one will call you</label>
                                         <label id="ltrlconfirmDetails">to reconfirm details.</label>
                                     </div>
-                    }
-                    </div>
-                                <div class="float_right marginLeft">
-                                    @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
+                                }
+                            </div>
+                            <div class="float_right marginLeft">
+                                @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
                                 {
 
-                                        <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="Continue" />
+                                    <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="Continue" />
 
                                 }
-                                </div>
-                                <div class="float_right">
-
-                                    <button type="submit" id="btnShopCart" onclick="return BackToShopping('@Model.OrderId'); ShowLoader();" class="btn_brown rounded_corners5">BACK TO SHOPPING</button>
-                                </div>
-                                <div class="clearBoth">
-                                    &nbsp;
-                                </div>
                             </div>
+                            <div class="float_right">
+
+                                <button type="submit" id="btnShopCart" onclick="return BackToShopping('@Model.OrderId'); ShowLoader();" class="btn_brown rounded_corners5">BACK TO SHOPPING</button>
+                            </div>
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                        </div>
                     </div>
                     <br />
                     <br />
@@ -786,7 +786,7 @@
                 <div class="clearBoth">
                     &nbsp;
                 </div>
-              
+
                 <div class="textAlignCenter">
                     @*<label ID="lblMsg"  Text="Your Cart is empty!" Visible="false" >Your Cart is empty!</label>*@
                     <label id="lblStatus" class="errorMessage"></label>
