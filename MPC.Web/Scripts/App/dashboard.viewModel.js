@@ -15,7 +15,11 @@ define("dashboard.viewModel",
                     totalEarnings = ko.observableArray([]),
                     date = new Date(),
                     year = date.getFullYear(),
-
+                    counter = 1,
+                    // Y axis point for chart
+                    yAxisPoints = [0],
+                    yAxisPointsWithStoreName = ko.observableArray([]),
+                    chartLabels = [""],
                      // customers
                      customers = ko.observableArray([]),
                     dummyTotalEarnings = ko.observableArray([
@@ -91,27 +95,47 @@ define("dashboard.viewModel",
                         }
                     });
                 },
+
                 // Map Orders 
                     mapTotalEarnings = function (data) {
                         //totalEarnings.removeAll();
+                        _.each(data, function (item) {
+                            var categor = _.filter(yAxisPointsWithStoreName(), function (tEarn) {
+                                return item.store != null && tEarn.store.toLowerCase() === item.store.toLowerCase();
+                            });
+                            if (yAxisPointsWithStoreName().length === 0 || categor.length === 0) {
 
+                                yAxisPointsWithStoreName().push({ y: counter, store: item.store });
+                                yAxisPoints.push(counter);
+                                chartLabels.push(item.store);
+                                counter = counter + 1;
+                            }
+                        });
                         _.each(data, function (tEarning) {
                             if (tEarning.monthname !== null && tEarning.monthname !== 0) {
                                 var item = dummyTotalEarnings()[tEarning.monthname - 1];
                                 if (item !== undefined && item !== null) {
-                                    if (item.flag === 0) {
-                                        item.orders = tEarning.Orders;
-                                        item.total = tEarning.Total;
-                                        item.monthname = tEarning.monthname;
-                                        item.year = tEarning.year;
-                                        item.store = tEarning.store;
-                                        item.flag = 1;
-                                    }
-                                    else {
-                                        var duplicateItem = model.TotalEarnings.Create(tEarning);
-                                        duplicateItem.month = item.month;
-                                        dummyTotalEarnings.push(duplicateItem);
-                                    }
+                                    var duplicateItem = model.TotalEarnings.Create(tEarning);
+                                    var category = _.filter(yAxisPointsWithStoreName(), function (tEarn) {
+                                        return duplicateItem.store != null && tEarn.store.toLowerCase() === duplicateItem.store.toLowerCase();
+                                    });
+
+                                    duplicateItem.month = item.month;
+                                    duplicateItem[category[0].y] = duplicateItem.total;
+                                    dummyTotalEarnings.push(duplicateItem);
+                                    //if (item.flag === 0) {
+                                    //    item.orders = tEarning.Orders;
+                                    //    item.total = tEarning.Total;
+                                    //    item.monthname = tEarning.monthname;
+                                    //    item.year = tEarning.year;
+                                    //    item.store = tEarning.store;
+                                    //    item.flag = 1;
+                                    //}
+                                    //else {
+                                    //    var duplicateItem = model.TotalEarnings.Create(tEarning);
+                                    //    duplicateItem.month = item.month;
+                                    //    dummyTotalEarnings.push(duplicateItem);
+                                    //}
                                 }
                             }
                         });
@@ -191,7 +215,9 @@ define("dashboard.viewModel",
                     line: line,
                     totalEarnings: totalEarnings,
                     customers: customers,
-                    goToCustomer: goToCustomer
+                    goToCustomer: goToCustomer,
+                    yAxisPoints: yAxisPoints,
+                    chartLabels: chartLabels
                 };
             })()
         };
