@@ -2372,7 +2372,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public IEnumerable<Item> GetItemsByCompanyId(ItemSearchRequestModel request)
+        public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
             return itemRepository.GetItemsByCompanyId(request);
         }

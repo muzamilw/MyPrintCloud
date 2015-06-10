@@ -31,7 +31,7 @@ namespace MPC.Repository.Repositories
             return db.ProductCategories.Where(
                 p => p.CompanyId == companyId && p.OrganisationId == OrganisationId && (p.ParentCategoryId == null || p.ParentCategoryId == 0)
                 && p.isEnabled == true && p.isPublished == true
-                             && (p.isArchived == false || p.isArchived == null)).ToList();
+                             && (p.isArchived == false || p.isArchived == null)).OrderBy(o => o.DisplayOrder).ToList();
            
         }
 

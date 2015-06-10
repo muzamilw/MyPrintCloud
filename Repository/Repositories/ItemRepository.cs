@@ -3792,19 +3792,26 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public IEnumerable<Item> GetItemsByCompanyId(ItemSearchRequestModel requestModel)
+        public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
-            try
-            {
-                return
-                    DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == requestModel.CompanyId && i.OrganisationId == OrganisationId && i.IsPublished == true && i.EstimateId == null && (requestModel.SearchString != null ? i.ProductName.Contains(requestModel.SearchString) : true))
-                   .ToList();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<Item, bool>> query =
+                item =>
+                    (string.IsNullOrEmpty(request.SearchString) || (item.ProductName.Contains(request.SearchString)) ||
+                     (item.ProductCode.Contains(request.SearchString)))
+                     && item.CompanyId.HasValue && item.CompanyId == request.CompanyId && item.OrganisationId == OrganisationId && item.IsPublished == true && item.EstimateId == null;
+            List<Item> totalItems=DbSet.Where(query).ToList();
 
+            List<Item> items = totalItems.OrderBy(item => item.ItemCreationDateTime)
+           .Skip(fromRow)
+            .Take(toRow)
+            .ToList();
+            return new ItemSearchResponse
+            {
+                Items= items,
+                TotalCount = totalItems.Count
+            };
         }
 
         /// <summary>

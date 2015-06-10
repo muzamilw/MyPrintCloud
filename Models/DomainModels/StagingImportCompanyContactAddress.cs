@@ -39,5 +39,16 @@
         public string AddInfo4 { get; set; }
         public string AddInfo5 { get; set; }
         public long? OrganisationId { get; set; }
+        public string SkypeId { get; set; }
+        public string LinkedInUrl { get; set; }
+        public string FacebookUrl { get; set; }
+        public string TwitterUrl { get; set; }
+        public bool? CanEditProfile { get; set; }
+        public bool? CanPlaceOrderWithoutApproval { get; set; }
+        public bool? CanPlaceDirectOrder { get; set; }
+        public bool? CanPayByPersonalCreditCard { get; set; }
+        public bool? CanSeePrices { get; set; }
+        public bool? HasWebAccess { get; set; }
+        public bool? CanPlaceOrder { get; set; }
     }
 }

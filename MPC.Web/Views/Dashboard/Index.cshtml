@@ -241,7 +241,7 @@
                                         @*<div class="graph" id="graph-line" style="max-height: 335px;"></div>*@
                                         @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'year', ykeys: ['Value'], gridTextColor: '#ffffff',lineColors: ['#ffffff']}"
                                              style="max-height: 335px;"></div>*@
-                                        <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.totalEarnings, xkey: 'month', ykeys: ['total'], labels: ['Retail Store'],gridTextColor: '#ffffff',lineColors: ['#ffffff'],resize: true}"
+                                        <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.totalEarnings, xkey: 'month', ykeys:$root.yAxisPoints, labels: $root.chartLabels,gridTextColor: '#ffffff',resize: true}"
                                              style="max-height: 335px;"></div>
                                     </div>
                                 </div>
