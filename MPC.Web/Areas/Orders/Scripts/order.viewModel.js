@@ -913,7 +913,7 @@ define("order/order.viewModel",
                     createNewCostCenterProduct = function () {
                         view.hideCostCentersQuantityDialog();
                         //selectedCostCentre(costCenter);
-                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
+                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id(), RefItemId: selectedCostCentre().id() });
                         applyProductTax(item);
                         selectedProduct(item);
                         item.productName(selectedCostCentre().name());
@@ -984,7 +984,7 @@ define("order/order.viewModel",
                     //Req. Change: When adding CostCenter Product For shipping charge
                     //Do not show quantity dialog
                     createNewCostCenterProductForShippingCharge = function () {
-                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
+                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id(), RefItemId: selectedCostCentre().id() });
                         applyProductTax(item);
                         selectedProduct(item);
                         item.productName(selectedCostCentre().name());
@@ -1508,7 +1508,7 @@ define("order/order.viewModel",
                         } else {
                             companyId = selectedOrder().companyId();
                         }
-                        addCostCenterVM.show(afterSelectCostCenter, companyId, true, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
+                        addCostCenterVM.show(afterSelectCostCenter, companyId, true, currencySymbol(), selectedCompanyTaxRate());
                     },
                     onAddCostCenterForProduct = function () {
                         getCostCentersForProduct();
@@ -1603,7 +1603,7 @@ define("order/order.viewModel",
                         }
                     },
                     onSaveProductInventory = function () {
-                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
+                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id(), RefItemId: inventoryStockItemToCreate().id });
                         item.productName(inventoryStockItemToCreate().name);
 
                         updateQuantitiesValues();
