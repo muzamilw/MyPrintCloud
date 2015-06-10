@@ -159,7 +159,7 @@ define("stores/stores.viewModel",
                     //Filtered States
                     filteredStates = ko.observableArray([]),
                     priceFlags = ko.observableArray([]),
-                    
+
                     //#endregion
 
                     //#region _________E D I T O R I AL   V I E W    M O D E L_______
@@ -719,14 +719,14 @@ define("stores/stores.viewModel",
                         selectedStore().raveReviews.splice(0, 0, selectedRaveReview());
                     }
                     //else if (selectedRaveReview().reviewId() > 0) {
-                        var count = 0;
-                        _.each(selectedStore().raveReviews(), function(raveReview) {
-                            if (raveReview.reviewId() == selectedRaveReview().reviewId()) {
-                                selectedStore().raveReviews.remove(raveReview);
-                                selectedStore().raveReviews.splice(count, 0, selectedRaveReview());
-                            }
-                            count = count + 1;
-                        });
+                    var count = 0;
+                    _.each(selectedStore().raveReviews(), function (raveReview) {
+                        if (raveReview.reviewId() == selectedRaveReview().reviewId()) {
+                            selectedStore().raveReviews.remove(raveReview);
+                            selectedStore().raveReviews.splice(count, 0, selectedRaveReview());
+                        }
+                        count = count + 1;
+                    });
                     //}
 
                     view.hideRaveReviewDialog();
@@ -1198,12 +1198,13 @@ define("stores/stores.viewModel",
                 }
                 if (doBeforeSaveCompanyCMYKColor() && isSavingNew() !== true) {
                     //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
-
+                    var count = 0;
                     _.each(selectedStore().companyCMYKColors(), function (color) {
                         if (color.colorId() == selectedCompanyCMYKColor().colorId()) {
                             selectedStore().companyCMYKColors.remove(color);
-                            selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                            selectedStore().companyCMYKColors.splice(count, 0, selectedCompanyCMYKColor());
                         }
+                        count = count + 1;
                     });
                     view.hideCompanyCMYKColorDialog();
                     isSavingNew(false);
@@ -1883,7 +1884,7 @@ define("stores/stores.viewModel",
             //Selected Address
             addressEditorViewModel = new ist.ViewModel(model.Address),
             selectedAddress = addressEditorViewModel.itemForEditing,
-           
+
             //SelectedAddressTerritoryFilter
             addressTerritoryFilter = ko.observable(),
             //List for Address Territory
@@ -2286,7 +2287,7 @@ define("stores/stores.viewModel",
                 //selectedAddress(address);
                 //selectedCompanyCMYKColor(companyCMYKColor);
                 addressEditorViewModel.selectItem(address);
-                
+
                 isSavingNewAddress(false);
                 view.showAddressDialog();
                 if (selectedAddress().addressId() !== undefined && selectedStore().companyId() !== undefined) {
@@ -3076,7 +3077,7 @@ define("stores/stores.viewModel",
                 //selectedCompanyContact(companyContact);
                 //selectedCompanyContactEmail(companyContact.email());
                 isSavingNewCompanyContact(false);
-                
+
                 companyContactEditorViewModel.selectItem(companyContact);
                 selectedCompanyContact().reset();
 
@@ -3260,7 +3261,7 @@ define("stores/stores.viewModel",
                         searchCompanyContact();
                     },
                     error: function (response) {
-                        toastr.error("Company Contacts failed to import! "+ response);
+                        toastr.error("Company Contacts failed to import! " + response);
                     }
                 });
             },
@@ -3286,7 +3287,9 @@ define("stores/stores.viewModel",
             isAccessCodeSectionVisible = ko.observable(false),
             paymentMethodName = ko.observable(),
             //Selected Payment Gateway
-            selectedPaymentGateway = ko.observable(),
+            paymentGatewayEditorViewModel = new ist.ViewModel(model.PaymentGateway),
+            selectedPaymentGateway = paymentGatewayEditorViewModel.itemForEditing,
+
             // Template Chooser For Payment Gateway
             templateToUsePaymentGateways = function (paymentGateway) {
                 return (paymentGateway === selectedPaymentGateway() ? 'editPaymentGatewayTemplate' : 'itemPaymentGatewayTemplate');
@@ -3335,7 +3338,7 @@ define("stores/stores.viewModel",
                 return;
             },
             onEditPaymentGateway = function (paymentGateway) {
-                selectedPaymentGateway(paymentGateway);
+                paymentGatewayEditorViewModel.selectItem(paymentGateway);
                 selectedPaymentGateway().reset();
                 view.showPaymentGatewayDialog();
             },
@@ -3358,19 +3361,24 @@ define("stores/stores.viewModel",
                             selectedPaymentGateway().paymentMethodName(paymentMethod.methodName());
                         }
                     });
-                    if (selectedPaymentGateway().paymentGatewayId() == undefined || selectedPaymentGateway().paymentGatewayId() <= 0) {
+                    if (selectedPaymentGateway().paymentGatewayId() == undefined) {// || selectedPaymentGateway().paymentGatewayId() <= 0
                         selectedPaymentGateway().paymentGatewayId(newPaymentGatewayId);
                         addNewPaymentGatewayId();
                     }
                     var notFound = true;
+                    var count = 0;
                     _.each(selectedStore().paymentGateway(), function (item) {
                         if (notFound && item.paymentGatewayId() == selectedPaymentGateway().paymentGatewayId()) {
+                            selectedStore().paymentGateway.remove(item);
+                            selectedStore().paymentGateway.splice(count, 0, selectedPaymentGateway());
                             notFound = false;
                         }
+                        count = count + 1;
                     });
                     if (notFound) {
                         selectedStore().paymentGateway.splice(0, 0, selectedPaymentGateway());
                     }
+                    
                     view.hidePaymentGatewayDialog();
                 }
             },
@@ -3435,7 +3443,7 @@ define("stores/stores.viewModel",
             //Select Child Product Category
             selectChildProductCategory = function (categoryId, event) {
                 selectedProductCategory(undefined);
-               
+
                 var id = $(event.target).closest('li')[0].id;
                 selectedCategoryName(event.target.innerText);
                 if (id) {
@@ -3488,7 +3496,7 @@ define("stores/stores.viewModel",
                         isLoadingStores(false);
                         toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
                     }
-                });1
+                }); 1
             },
             //Open Product Category Detail
             // ReSharper disable UnusedParameter
@@ -3722,9 +3730,9 @@ define("stores/stores.viewModel",
                 }
             },
             //Computed To set Product Category dirty Flag 
-            setProductCategoryDirtyFlag = ko.computed(function() {
+            setProductCategoryDirtyFlag = ko.computed(function () {
                 if (addressTerritoryList().length > 0) {
-                    _.filter(addressTerritoryList(), function(territory) {
+                    _.filter(addressTerritoryList(), function (territory) {
                         return territory.isSelected() == true;
                     });
                     if (selectedProductCategoryForEditting() != undefined) {
@@ -4776,7 +4784,7 @@ define("stores/stores.viewModel",
                 isBaseDataLoded(false);
                 isThemeNameSet(false);
                 selectedTheme(undefined);
-                
+
                 pickUpLocationValue(undefined);
                 companyTerritoryCounter = -1,
                 selectedStore().addresses.removeAll();
@@ -6193,7 +6201,9 @@ define("stores/stores.viewModel",
 
             //#region ________ Smart Form___________
             //Active Smart Form
-            selectedSmartForm = ko.observable(),
+            //selectedSmartForm = ko.observable(),
+            smartFormEditorViewModel = new ist.ViewModel(model.SmartForm),
+            selectedSmartForm = smartFormEditorViewModel.itemForEditing,
             //Group Caption Text
             groupCaption = ko.observable("Drag a Group Caption"),
             //line Seperator
@@ -6306,6 +6316,14 @@ define("stores/stores.viewModel",
                             selectedSmartForm().id(data);
                             smartForms.splice(0, 0, selectedSmartForm());
                         }
+                        else {
+                            _.each(smartForms(), function(smartFormitem) {
+                                if (smartFormitem.id() == selectedSmartForm().id()) {
+                                    smartFormitem.name(selectedSmartForm().name());
+                                    smartFormitem.heading(selectedSmartForm().heading());
+                                }
+                            });
+                        }
                         view.hideSmartFormDialog();
                         toastr.success("Successfully saved.");
                     },
@@ -6336,7 +6354,8 @@ define("stores/stores.viewModel",
             //Edit Smart Form
             onEditSmartForm = function (smartForm) {
                 if (smartForm.id() === undefined || smartForm.id() === 0) {
-                    selectedSmartForm(smartForm);
+                    //selectedSmartForm(smartForm);
+                    smartFormEditorViewModel.selectItem(smartForm);
                     selectedSmartForm().reset();
                     view.showSmartFormDialog();
                 } else {
@@ -6378,7 +6397,8 @@ define("stores/stores.viewModel",
                     success: function (data) {
                         if (data != null) {
                             smartForm.smartFormDetails.removeAll();
-                            selectedSmartForm(smartForm);
+                            //selectedSmartForm(smartForm);
+                            smartFormEditorViewModel.selectItem(smartForm);
                             _.each(data, function (item) {
                                 var smartFormDetail = model.SmartFormDetail.Create(item);
                                 if (item.ObjectType === 3) {
