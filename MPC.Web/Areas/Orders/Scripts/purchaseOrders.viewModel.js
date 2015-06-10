@@ -79,7 +79,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         return addressResult || defaultAddress();
                     }),
                      openReport = function (isFromEditor) {
-                         reportManager.show(ist.reportCategoryEnums.PurchaseOrders, isFromEditor==true ? true :false, 0);
+                         reportManager.show(ist.reportCategoryEnums.PurchaseOrders, isFromEditor == true ? true : false, 0);
                      },
                     // Selected Company Contact
                     selectedCompanyContact = ko.computed(function () {
@@ -483,9 +483,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         view.hidePurchaseDetailDialog();
                     },
                     // Delete Delivry Notes
-                    onDeletePurchaseDetail = function () {
+                    onDeletePurchaseDetail = function (purchaseDetail) {
                         confirmation.afterProceed(function () {
-                            selectedPurchaseOrder().purchaseDetails.remove(selectedPurchaseOrderDetail());
+                            selectedPurchaseOrder().purchaseDetails.remove(purchaseDetail);
                         });
                         confirmation.afterCancel(function () {
 
@@ -503,7 +503,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     setTaxValue = ko.computed(function () {
                         if (selectedPurchaseOrder() !== undefined) {
                             _.each(selectedPurchaseOrder().purchaseDetails(), function (item) {
-                                item.taxValue(selectedPurchaseOrder().taxRate());
+                                if (item.taxValue() === null || item.taxValue() === undefined && item.id() < 0) {
+                                    item.taxValue(selectedPurchaseOrder().taxRate());
+                                }
                             });
 
                             var tPrice = 0;
