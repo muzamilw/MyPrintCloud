@@ -325,6 +325,7 @@
         <AssociationConnector Association="DomainModels.FK_Purchase_Company" />
         <AssociationConnector Association="DomainModels.FK_Purchase_SectionFlag" />
         <AssociationConnector Association="DomainModels.FK_PurchaseDetail_Purchase" />
+        <EntityTypeShape EntityType="DomainModels.StagingImportCompanyContactAddress" Width="1.5" PointX="42.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

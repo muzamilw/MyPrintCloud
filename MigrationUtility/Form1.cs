@@ -792,6 +792,7 @@ namespace MigrationUtility
                             oItem.OrganisationId = OrganizationId;
                             oItem.CompanyId = RetailStoreId;
                             oItem.Tax3 = item.ItemID; ////saving old itemid for ref
+                            oItem.FlagId = 716;
 
 
 
@@ -982,6 +983,7 @@ namespace MigrationUtility
                             {
                                 ItemPriceMatrix oItemPriceMatrix = Mapper.Map<tbl_items_PriceMatrix, ItemPriceMatrix>(oootbl_items_PriceMatrix);
                                 oItemPriceMatrix.ItemId = oItem.ItemId;
+                                oItemPriceMatrix.FlagId = 716;
                                 MPCContext.ItemPriceMatrices.Add(oItemPriceMatrix);
                             }
 
@@ -1368,7 +1370,7 @@ namespace MigrationUtility
                                     if (item.Description2 != null &&  item.Description2.Trim() != "0")
                                     {
                                         string scat = item.Description2;
-                                        var pCat = MPCContext.ProductCategories.Where(g => g.ContentType.Contains(scat) && g.CompanyId == RetailStoreId).SingleOrDefault();
+                                        var pCat = MPCContext.ProductCategories.Where(g => g.ContentType.Contains(scat) && g.CompanyId == RetailStoreId).FirstOrDefault();
                                         if (pCat != null)
                                         {
                                             item.ParentCategoryId = Convert.ToInt32(pCat.ProductCategoryId);
@@ -1433,6 +1435,7 @@ namespace MigrationUtility
                                     oItem.OrganisationId = OrganizationId;
                                     oItem.CompanyId = RetailStoreId;
                                     oItem.Tax3 = item.ItemID; ////saving old itemid for ref
+                                    oItem.FlagId = 716;
 
 
 
@@ -1488,7 +1491,7 @@ namespace MigrationUtility
                                     ProductCategoryItem oProductCategoryItem = new ProductCategoryItem();
                                     string scatid = item.ProductCategoryID.ToString();
 
-                                    var targetCategory = MPCContext.ProductCategories.Where(g => g.ContentType == scatid).FirstOrDefault();
+                                    var targetCategory = MPCContext.ProductCategories.Where(g => g.ContentType == scatid && g.CompanyId == RetailStoreId).FirstOrDefault();
                                     if (targetCategory != null)
                                     {
                                         oProductCategoryItem.CategoryId = targetCategory.ProductCategoryId;
@@ -1654,6 +1657,7 @@ namespace MigrationUtility
                                     {
                                         ItemPriceMatrix oItemPriceMatrix = Mapper.Map<tbl_items_PriceMatrix, ItemPriceMatrix>(oootbl_items_PriceMatrix);
                                         oItemPriceMatrix.ItemId = oItem.ItemId;
+                                        oItemPriceMatrix.FlagId = 716;
                                         MPCContext.ItemPriceMatrices.Add(oItemPriceMatrix);
                                     }
 
