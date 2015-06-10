@@ -29,6 +29,7 @@ using System.Threading;
 using FluentScheduler;
 using System.Collections.Generic;
 using System.Runtime.Caching;
+using MPC.Webstore.Controllers;
 namespace MPC.Webstore
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -198,8 +199,31 @@ namespace MPC.Webstore
             }
         }
 
-      
+        private void Application_Error(object sender, EventArgs e)
+        {
+            var exception = Server.GetLastError();
+
+            var httpContext = ((HttpApplication)sender).Context;
+            httpContext.Response.Clear();
+            httpContext.ClearError();
+            ExecuteErrorController(httpContext, exception);
+        }
+        private void ExecuteErrorController(HttpContext httpContext, Exception exception)
+        {
+            var routeData = new RouteData();
+            routeData.Values["controller"] = "Error";
+            routeData.Values["action"] = "Index";
+            routeData.Values["errorType"] = 10; //this is your error code. Can this be retrieved from your error controller instead?
+            routeData.Values["exception"] = exception;
+
+            using (Controller controller = new ErrorController())
+            {
+                ((IController)controller).Execute(new RequestContext(new HttpContextWrapper(httpContext), routeData));
+            }
+        }
     }
+
+    
 
   
 }
