@@ -5362,3 +5362,147 @@ END
 
 
 
+/******Date : 10-6-2015***************/
+ALTER PROCEDURE [dbo].[usp_TotalEarnings] (@fromdate as datetime, @todate as datetime)
+
+AS
+
+--define limits
+
+--set @fromdate = '2015-01-01'
+
+--set @todate = '2015-12-31'
+
+ BEGIN
+
+ DECLARE  @Organisationid  bigint
+
+ SET @Organisationid = 1
+
+;With DateSequence( [Date] ) as
+
+(
+
+    Select @fromdate as [Date]
+
+        union all
+
+    Select dateadd(day, 1, [Date])
+
+        from DateSequence
+
+        where Date < @todate
+
+)
+
+ 
+
+--select result
+
+Select
+
+    CONVERT(VARCHAR,[Date],112) as ID,
+
+    [Date] as [Date],
+
+    DATEPART(DAY,[Date]) as [Day],
+
+    CASE
+
+         WHEN DATEPART(DAY,[Date]) = 1 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'st'
+
+         WHEN DATEPART(DAY,[Date]) = 2 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'nd'
+
+         WHEN DATEPART(DAY,[Date]) = 3 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'rd'
+
+         ELSE CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'th'
+
+    END as [DaySuffix],
+
+    DATENAME(dw, [Date]) as [DayOfWeek],
+
+    DATEPART(DAYOFYEAR,[Date]) as [DayOfYear],
+
+    DATEPART(WEEK,[Date]) as [WeekOfYear],
+
+    DATEPART(WEEK,[Date]) + 1 - DATEPART(WEEK,CAST(DATEPART(MONTH,[Date]) AS VARCHAR) + '/1/' + CAST(DATEPART(YEAR,[Date]) AS VARCHAR)) as [WeekOfMonth],
+
+    DATEPART(MONTH,[Date]) as [Month],
+
+    DATENAME(MONTH,[Date]) as [MonthName],
+
+    DATEPART(QUARTER,[Date]) as [Quarter],
+
+    CASE DATEPART(QUARTER,[Date])
+
+        WHEN 1 THEN 'First'
+
+        WHEN 2 THEN 'Second'
+
+        WHEN 3 THEN 'Third'
+
+        WHEN 4 THEN 'Fourth'
+
+    END as [QuarterName],
+
+    DATEPART(YEAR,[Date]) as [Year]
+
+	into #dt
+
+from DateSequence option (MaxRecursion 10000)
+
+
+
+
+
+--select * from #dt
+
+
+
+select sum(Estimate_Total) Total,count(*) Orders,store,Month,monthname,year
+
+	from
+
+	(
+	
+
+		select  estimateid, o.Estimate_Total,
+
+		DATENAME(MONTH,O.Order_Date) as [Month],
+
+		DATEPART(MONTH,O.Order_Date) as [MonthName],
+
+		DATEPART(YEAR,O.Order_Date) as [Year],
+
+		(Case when C.Iscustomer = 3 then C.name when C.IsCustomer = 1 then S.name End) as store,
+
+		C.IsCustomer
+
+
+		from Estimate O
+
+		inner join Company C on O.CompanyId = C.companyid
+
+		left outer join Company S on C.StoreId = S.companyid
+
+		where (O.StatusId <> 3 and O.StatusId <> 34) and C.OrganisationId = @Organisationid and C.IsCustomer <> 0
+
+
+
+		
+
+
+
+	) data
+
+group by month,store,monthname,year
+order by monthname
+
+
+END
+
+
+
+
+
+
