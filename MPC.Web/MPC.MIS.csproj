@@ -475,6 +475,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseBaseResponse.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PurchaseDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportparamMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />

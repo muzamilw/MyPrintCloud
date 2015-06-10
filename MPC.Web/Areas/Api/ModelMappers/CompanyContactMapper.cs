@@ -217,6 +217,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        OrganisationId = source.OrganisationId,
                        RoleName = source.CompanyContactRole != null ? source.CompanyContactRole.ContactRoleName : string.Empty,
                        FileName = fileName,
+                       StoreName = source.Company.StoreName
 
                    };
         }

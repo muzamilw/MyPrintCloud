@@ -12,6 +12,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string RefNo { get; set; }
         public string FlagColor { get; set; }
         public double? TotalPrice { get; set; }
+        public int? Status { get; set; }
 
     }
 }

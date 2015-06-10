@@ -47,6 +47,12 @@ namespace MPC.MIS.Areas.Api.Controllers
             return purchaseService.GetPurchaseOrders(request).CreateFrom();
         }
 
+        public Purchase Get(int purchaseId)
+        {
+            return purchaseService.GetPurchaseById(purchaseId).CreateFrom();
+
+        }
+
         [ApiException]
         public PurchaseListView Post(Purchase purchase)
         {
@@ -54,8 +60,19 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            // return _deliveryNotesService.SaveDeliveryNote(deliveryNote.CreateFrom()).CreateFromListView();
-            return null;
+            return purchaseService.SavePurchase(purchase.CreateFrom()).CreateFromForListView();
+        }
+
+        [ApiException]
+        [HttpDelete]
+        public int Delete(Purchase purchase)
+        {
+            if (purchase == null)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            purchaseService.DeletePurchaseOrder(purchase.PurchaseId);
+            return 1;
         }
         #endregion
     }
