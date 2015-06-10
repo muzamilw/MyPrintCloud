@@ -59,6 +59,8 @@ define("common/addProduct.viewModel",
                     storeName = ko.observable(),
                     callerNaMe = ko.observable(),
                     selectedCompanyName = ko.observable(),
+                     //Pager
+                    pager = ko.observable(0),
                     // Show
                     show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem, companyTaxRateParam, productName, callerName, companyName) {
                         resetFields();
@@ -74,6 +76,7 @@ define("common/addProduct.viewModel",
                         saveSectionCostCenterForproduct = saveSectionCostCenter;
                         createItemFromOrder = createItem;
                         companyTaxRate = companyTaxRateParam;
+                        pager(new pagination.Pagination({ PageSize: 5 }, orderProductItems, getItemsByCompanyId));
                         getItemsByCompanyId();
                     },
                     resetFields = function() {
@@ -93,21 +96,27 @@ define("common/addProduct.viewModel",
                     },                    
                     //Get Items By CompanyId
                     getItemsByCompanyId = function() {
-
                         dataservice.getItemsByCompanyId({
                                 CompanyId: companyIdFromOrder,
-                                SearchString: searchFilter()
+                                SearchString: searchFilter(),
+                                PageSize: pager().pageSize(),
+                    PageNo: pager().currentPage(),
                             }, {
                                 success: function(data) {
                                     if (data != null) {
                                         orderProductItems.removeAll();
                                         productQuantitiesList.removeAll();
+                                        if (selectedStockOption()) {
+                                            selectedStockOption().itemAddonCostCentres.removeAll();
+                                        }
                                         selecteditem(undefined);
 
-                                        _.each(data.Items, function(item) {
+                                        _.each(data.Items, function (item) {
                                             var itemToBePushed = new model.Item.Create(item);
                                             orderProductItems.push(itemToBePushed);
                                         });
+                                        pager().totalCount(data.TotalCount);
+
                                         //Select First Item by Default if list is not empty
                                         if (orderProductItems().length > 0) {
                                            // updateItemsDataOnItemSelection(orderProductItems()[0]);
@@ -136,6 +145,7 @@ define("common/addProduct.viewModel",
                                         item.itemPriceMatrices.removeAll();
                                         item.itemSections.removeAll();
                                         productQuantitiesList.removeAll();
+                                       // selectedStockOption().itemAddonCostCentres.removeAll();
                                         _.each(data.ItemStockOptions, function(itemStockoption) {
                                             itemStockoption.ProductItemTax = item.defaultItemTax();
                                             itemStockoption.CompanyTaxRate = companyTaxRate;
@@ -158,7 +168,7 @@ define("common/addProduct.viewModel",
                                             var itemSectionToBePushed = new model.ItemSection.Create(data.ItemSection);
                                             item.itemSections.push(itemSectionToBePushed);
                                         }
-
+                                      
                                         selecteditem(item);
                                     }
                                 },
@@ -470,7 +480,8 @@ define("common/addProduct.viewModel",
                     selecteditemName: selecteditemName,
                     storeName: storeName,
                     callerNaMe: callerNaMe,
-                    isQuantitySelected: isQuantitySelected
+                    isQuantitySelected: isQuantitySelected,
+                    pager: pager
                 };
             })()
         };
