@@ -64,7 +64,7 @@ $('#imageUploader').change(function () {
                         contactIDlocal = CustomerID;
                     $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + contactIDlocal + "/" + organisationId + "/" + panelType + "/" + CustomerID,
                         function (res) {
-                            LiImgs.push(res);
+                            LiImgs.push(res); 
                             var result = res.BackgroundImageAbsolutePath;
                             if (result != "uploadedPDFBK") {
                                 imToLoad = res.BackgroundImageAbsolutePath;

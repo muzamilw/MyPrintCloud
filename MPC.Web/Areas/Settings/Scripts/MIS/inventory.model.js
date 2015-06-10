@@ -59,8 +59,7 @@
         specifiedItemWeight, specifiedItemColour, specifiedInkAbsorption, specifiedPaperBasicAreaId, specifiedItemCoated, specifiedItemCoatedType,
         specifiedItemWeightSelectedUnit, specifiedAllocated, specifiedOnOrder, specifiedLastOrderQty, specifiedLastOrderDate, specifiedSupplierName,specifiedIsImperical
            ) {
-        var
-            self,
+        var self,
             //item Id
             itemId = ko.observable(specifiedItemId === undefined ? 0 : specifiedItemId),
             //Item Name
@@ -107,7 +106,7 @@
             itemSizeWidth = ko.observable(specifiedItemSizeWidth).extend({ number: true }),
             //Per Qty Type
             perQtyType = ko.observable(specifiedPerQtyType),
-           //Package Qty
+            //Package Qty
             packageQty = ko.observable(specifiedPackageQty === undefined ? 100 : specifiedPackageQty).extend({ number: true }),
             //Roll Width
             rollWidth = ko.observable(specifiedRollWidth).extend({ number: true }),
@@ -132,11 +131,11 @@
             //Item Weight Selected Unit
             itemWeightSelectedUnit = ko.observable(specifiedItemWeightSelectedUnit),
             //Allocated
-            allocated = ko.observable(specifiedAllocated),
+            allocated = ko.observable(specifiedAllocated == undefined || specifiedAllocated == null ? 0 : specifiedAllocated),
             //On Order
-            onOrder = ko.observable(specifiedOnOrder),
+            onOrder = ko.observable(specifiedOnOrder == undefined || specifiedOnOrder == null ? 0 : specifiedOnOrder),
             //Last Order Qty
-            lastOrderQty = ko.observable(specifiedLastOrderQty),
+            lastOrderQty = ko.observable(specifiedLastOrderQty == undefined || specifiedLastOrderQty == null ? 0 : specifiedLastOrderQty),
             //Last Order Date
             lastOrderDate = ko.observable(specifiedLastOrderDate),
 
