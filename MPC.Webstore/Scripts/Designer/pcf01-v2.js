@@ -2346,6 +2346,8 @@ function j8_FindBestPercentage() {
 
 }
 function j8(src) {
+    var fileNameIndex = src.lastIndexOf("/") + 1;
+    var filename = src.substr(fileNameIndex);
     var D1AO = canvas.getActiveObject();
     if (D1AO.type === 'image') {
         $.each(TO, function (i, IT) {
@@ -2353,7 +2355,7 @@ function j8(src) {
                 if (src.indexOf('.svg') == -1) {
                     D1AO.ImageClippedInfo = null;
                     $.each(LiImgs, function (i, IT) {
-                        if (src.indexOf(IT.ImageName) != -1) {
+                        if (IT.ImageName.indexOf(filename) != -1) {
                             IW = IT.ImageWidth;
                             IH = IT.ImageHeight;
                             var originalWidth = IW;
@@ -2393,7 +2395,6 @@ function j8(src) {
                             XML.Node("crv5", "0");
                             XML.EndNode();
                             XML.Close();
-                            console.log(XML);
                             D1AO.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
                             D1AO.height = (D1AO.getHeight());
                             D1AO.width = (D1AO.getWidth());
