@@ -86,5 +86,62 @@ namespace MPC.Repository.Repositories
                 .ToList();
             return new PurchaseResponseModel { Purchases = items, TotalCount = DbSet.Count(query) };
         }
+
+        /// <summary>
+        /// Generate PO By SP
+        /// </summary>
+        public bool GeneratePO(long OrderId,Guid CreatedBy)
+        {
+            try
+            {
+              //  db.usp_GeneratePurchaseOrders()
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Get Purchases List
+        /// </summary>
+        public Dictionary<int, long> GetPurchasesList(long OrderId)
+        {
+            try
+            {
+                Dictionary<int, long> DictPurchases = new Dictionary<int, long>();
+                var ListPurchases = (from i in db.Items
+                                     join izs in
+                                         (from p in db.Purchases
+                                          join pd in this.db.PurchaseDetails on p.PurchaseId equals pd.PurchaseId
+                                          select new
+                                          {
+                                              ItemID = pd.ItemId,
+                                              PurchaseID = p.PurchaseId,
+                                              SupplierID = p.SupplierId
+
+                                          }) on i.ItemId equals izs.ItemID
+                                     where i.EstimateId == OrderId
+                                     select new
+                                     {
+                                         PurchaseID = izs.PurchaseID,
+                                         SupplierID = izs.SupplierID
+
+                                     }).Distinct();
+
+
+                foreach(var purchase in ListPurchases)
+                {
+                    DictPurchases.Add(purchase.PurchaseID, purchase.SupplierID ?? 0);
+                }
+                return DictPurchases;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

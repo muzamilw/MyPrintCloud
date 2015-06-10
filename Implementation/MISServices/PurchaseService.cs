@@ -5,7 +5,10 @@ using MPC.Models.DomainModels;
 using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web;
 
 namespace MPC.Implementation.MISServices
 {
@@ -19,7 +22,10 @@ namespace MPC.Implementation.MISServices
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IOrganisationRepository organisationRepository;
         private readonly IPrefixRepository prefixRepository;
-
+        private readonly ICampaignRepository campaignRepository;
+        private readonly IOrderRepository orderRepository;
+        private readonly IExportReportHelper exportReportHelper;
+        private readonly ICompanyRepository companyRepository;
         #endregion
 
         #region Constructor
@@ -27,7 +33,8 @@ namespace MPC.Implementation.MISServices
         /// Constructor 
         /// </summary>
         public PurchaseService(IPurchaseRepository purchaseRepository, ISectionFlagRepository sectionFlagRepository, ISystemUserRepository systemUserRepository,
-            IOrganisationRepository organisationRepository, IPrefixRepository prefixRepository, IPurchaseDetailRepository purchaseDetailRepository)
+            IOrganisationRepository organisationRepository, IPrefixRepository prefixRepository, IPurchaseDetailRepository purchaseDetailRepository, IExportReportHelper ExportReportHelper, ICampaignRepository campaignRepository, IOrderRepository OrderRepository,
+            ICompanyRepository companyRepository)
         {
             this.purchaseRepository = purchaseRepository;
             this.sectionFlagRepository = sectionFlagRepository;
@@ -35,6 +42,10 @@ namespace MPC.Implementation.MISServices
             this.organisationRepository = organisationRepository;
             this.prefixRepository = prefixRepository;
             this.purchaseDetailRepository = purchaseDetailRepository;
+            this.exportReportHelper = ExportReportHelper;
+            this.campaignRepository = campaignRepository;
+            this.orderRepository = OrderRepository;
+            this.companyRepository = companyRepository;
         }
 
         #endregion
@@ -138,12 +149,87 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        //public bool GeneratePO(long OrderID, string ServerPath,int ContactID,int ContactCompanyID)
-        //{
-        //    ObjectContext.usp_GeneratePurchaseOrders(OrderID, CreatedBy, TaxID);
-        //    POEmail(ServerPath, OrderID, ContactID, ContactCompanyID);
-        //    return true;
-        //}
+        public bool GeneratePO(long OrderID,long ContactID, long CompanyId,Guid CreatedBy)
+        {
+            string ServerPath = string.Empty;// System.Web.HttpContext.Current.Request.doma
+            bool IsPOGenerate = purchaseRepository.GeneratePO(OrderID, CreatedBy);
+            if (IsPOGenerate)
+            {
+                POEmail(ServerPath, OrderID, ContactID, CompanyId);
+            }
+
+            
+            
+            return true;
+        }
+
+        public void POEmail(string ServerPath, long OrderID, long ContactID, long CompanyId)
+        {
+           // string szDirectory = WebConfigurationManager.AppSettings["VirtualDirectory"].ToString();
+            List<string> AttachmentsList = new List<string>();
+
+
+            var ListPurchases = purchaseRepository.GetPurchasesList(OrderID);
+
+
+            if (ListPurchases != null)
+            {
+
+
+                foreach (var purchase in ListPurchases)
+                {
+                    string FileName = exportReportHelper.ExportPDF(100, purchase.Key,ReportType.PurchaseOrders,OrderID,string.Empty);
+
+                   
+
+
+                    int ItemIDs = orderRepository.GetFirstItemIDByOrderId(OrderID);
+                    Organisation CompOrganisation = organisationRepository.GetOrganizatiobByID();
+                    Company objCompany = companyRepository.GetCompanyByCompanyID(CompanyId);
+                    SystemUser saleManager = systemUserRepository.GetUserrById(objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid());
+
+
+                    string SalesManagerFile = ImagePathConstants.ReportPath + CompOrganisation.OrganisationId + "/" + purchase.Key + "_PurchaseOrder.pdf";
+                    campaignRepository.POEmailToSalesManager(OrderID,CompanyId,ContactID,250,purchase.Value,SalesManagerFile,objCompany);
+                    
+                    
+                    
+                    if(objCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                    {
+                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, ContactID, CompanyId, OrderID, CompOrganisation, CompOrganisation.OrganisationId,0, StoreMode.Corp, CompanyId,saleManager, ItemIDs, "", "", 0);
+                    }
+                    else
+                    {
+                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, ContactID, CompanyId, OrderID, CompOrganisation, CompOrganisation.OrganisationId, 0, StoreMode.Retail, CompanyId, saleManager, ItemIDs, "", "", 0);
+                    }
+
+
+                    string SourceFile = FileName;
+                    string DestinationFileSupplier = ImagePathConstants.ReportPath + CompOrganisation.OrganisationId + "/" + purchase.Value + "/" + purchase.Key + "_PurchaseOrder.pdf";
+
+                    string DestinationPhysicalFileSupplier = HttpContext.Current.Server.MapPath(DestinationFileSupplier);
+                    if (File.Exists(SourceFile))
+                    {
+                        File.Copy(SourceFile, DestinationPhysicalFileSupplier);
+                    }
+
+                    campaignRepository.POEmailToSupplier(OrderID,CompanyId,ContactID,250,purchase.Value,DestinationFileSupplier,objCompany);
+
+                    
+                   // SendEmailToSupplier(ServerPath, OrderID, ContactCompanyID, ContactID, 250, purchase.SupplierID ?? 0, DestinationFileSupplier);
+
+
+
+
+                    // AttachmentsList.Add(FilePath);
+
+                }
+             
+            }
+
+
+        }
+
         #endregion
     }
 }
