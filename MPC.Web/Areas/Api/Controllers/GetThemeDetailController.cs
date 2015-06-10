@@ -69,7 +69,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    string url = "/clear/" + companyId;
+                    string url = "WebstoreApi/StoreCache/Get?id=" + companyId;
                     var response = client.GetAsync(url);
                 }
             }
