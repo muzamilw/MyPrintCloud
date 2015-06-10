@@ -4630,3 +4630,153 @@ add constraint FK_PurchaseDetail_Purchase
 foreign key (PurchaseId)
 references Purchase (PurchaseId)
 on delete cascade
+
+/* Execution Date: 10/06/2015 */
+
+
+/****** Object:  Table [dbo].[StagingImportCompanyContactAddress]    Script Date: 6/9/2015 6:17:18 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[StagingImportCompanyContactAddress](
+	[StagingId] [bigint] IDENTITY(1,1) NOT NULL,
+	[CompanyName] [nvarchar](250) NULL,
+	[CompanyId] [bigint] NULL,
+	[AddressId] [bigint] NULL,
+	[AddressName] [varchar](200) NULL,
+	[Address1] [varchar](250) NULL,
+	[Address2] [varchar](250) NULL,
+	[Address3] [varchar](250) NULL,
+	[City] [varchar](250) NULL,
+	[State] [varchar](250) NULL,
+	[StateId] [bigint] NULL,
+	[Country] [varchar](50) NULL,
+	[CountryId] [bigint] NULL,
+	[Postcode] [varchar](50) NULL,
+	[TerritoryId] [bigint] NULL,
+	[TerritoryName] [varchar](250) NULL,
+	[AddressPhone] [nvarchar](50) NULL,
+	[AddressFax] [nvarchar](50) NULL,
+	[ContactId] [bigint] NULL,
+	[ContactFirstName] [varchar](250) NULL,
+	[ContactLastName] [varchar](250) NULL,
+	[JobTitle] [varchar](250) NULL,
+	[Email] [varchar](250) NULL,
+	[password] [nvarchar](50) NULL,
+	[Mobile] [varchar](50) NULL,
+	[RoleId] [bigint] NULL,
+	[ContactPhone] [nvarchar](50) NULL,
+	[ContactFax] [varchar](50) NULL,
+	[AddInfo1] [nvarchar](1500) NULL,
+	[AddInfo2] [nvarchar](1000) NULL,
+	[AddInfo3] [nvarchar](1000) NULL,
+	[AddInfo4] [nvarchar](1500) NULL,
+	[AddInfo5] [nvarchar](1500) NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_StagingImportCompanyContactAddress] PRIMARY KEY CLUSTERED 
+(
+	[StagingId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_importTerritoryContactAddressByStore]    Script Date: 5/25/2015 12:46:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ CREATE Procedure [dbo].[usp_importTerritoryContactAddressByStore]
+		@OrganisationId bigint,
+		@StoreId bigint
+	 
+	 as 
+	 Begin
+  
+		  update StagingImportCompanyContactAddress set CompanyId = @StoreId, OrganisationId = @OrganisationId
+		  
+		  --update Country Id by country name
+		  update StagingImportCompanyContactAddress set CountryId = c.CountryId
+		  from StagingImportCompanyContactAddress i , country c
+		  where c.CountryName = i.Country
+		  --update StateId by State Name 
+		  update StagingImportCompanyContactAddress set StateId = c.StateId
+		  from StagingImportCompanyContactAddress i , State c
+		  where c.StateName = i.State
+		  --update TerritoryId from Territory Name
+		  update StagingImportCompanyContactAddress set TerritoryId = c.TerritoryId
+		  from StagingImportCompanyContactAddress i , CompanyTerritory c
+		  where c.TerritoryCode = i.TerritoryName
+
+				BEGIN TRY
+
+					Declare @count int = (select count(*) from StagingImportCompanyContactAddress)
+					Declare @counter int = 1
+					Declare @StagingId bigint, @AddressId bigint, @TerritoryId bigint, @AddrssName varchar(200), @Address1 varchar(200), @Address2 varchar(200), @City varchar(100),
+							@TerritoryName varchar(200), @isNewTerritory bit
+  
+					While @counter <= @count
+					Begin
+					set @isNewTerritory = 0
+					select @AddrssName = AddressName, @Address1 = Address1, @Address2 = Address2, @City = City, @TerritoryName = TerritoryName from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+					where r = @counter
+					 --Check Territory Exist otherwise Insert Territory
+					 if(exists(select * from CompanyTerritory where companyId = @StoreId and TerritoryName = @TerritoryName))
+					 begin
+						set @TerritoryId = (select top 1 TerritoryId from CompanyTerritory where companyId = @StoreId and TerritoryName = @TerritoryName)
+					 end
+					 else
+					 begin
+							 insert into CompanyTerritory(CompanyID, TerritoryCode, TerritoryName)
+							 select CompanyId, 'TCImport', TerritoryName   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) xx
+									where r = @counter
+							set @TerritoryId = (select SCOPE_IDENTITY())
+							set @isNewTerritory = 1
+					 end
+
+
+				    --Check If Address Exist otherwise insert Address
+					if(exists(select * from Address where companyId = @StoreId and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City))
+						begin
+							set @AddressID = (select top 1 AddressId from Address where companyId = @StoreId and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City)
+						end
+					else
+						begin
+							insert into Address(OrganisationId, CompanyID, AddressName, Address1, Address2, Address3, City, StateId, PostCode, TerritoryID, CountryId, Tel1, isDefaultTerrorityBilling, isDefaultTerrorityShipping, isArchived, IsDefaultAddress)
+							select @OrganisationId, CompanyId, AddressName, Address1, Address2, Address3, City, StateId,Postcode, @TerritoryId, CountryId, ContactPhone, 0, 0, 0, 0   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter
+							set @Addressid = (select SCOPE_IDENTITY())
+							if(@isNewTerritory = 1 and @TerritoryId > 0)
+								Begin
+									update address set isDefaultTerrorityBilling = 1, isDefaultTerrorityShipping = 1 where AddressId = @AddressId
+								End
+						end
+					 --Insert New Contact
+						insert into CompanyContact(OrganisationId, CompanyId, TerritoryID, AddressID, ShippingAddressID, FirstName, LastName, Email, Password, HomePostCode, Mobile, isArchived, ContactRoleID, JobTitle, HomeTel1, Notes, IsDefaultContact, isWebAccess, canPlaceDirectOrder, canUserPlaceOrderWithoutApproval, IsPricingshown)
+						select @OrganisationId, CompanyId, TerritoryId, @Addressid, @Addressid, ContactFirstName, ContactLastName, Email,password, postcode, Mobile,0, RoleId, JobTitle, ContactPhone, 'contact import for this store, default password is guest', 0, 1, 1, 1, 1  
+						from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+						where r = @counter
+
+
+						set @counter = @counter + 1;
+					End
+						Commit Transaction
+				End Try
+				BEGIN CATCH
+						IF @@TRANCOUNT > 0
+							ROLLBACK
+				END CATCH
+End
+
