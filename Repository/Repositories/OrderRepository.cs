@@ -6849,7 +6849,6 @@ namespace MPC.Repository.Repositories
            .Skip(fromRow)
             .Take(toRow)
             .ToList();
-
             return new LiveJobsSearchResponse { Items = items, TotalCount = estimates.Count() };
         }
 

@@ -30,7 +30,7 @@
                         <div class="pull-right top-page-ui" style="padding-right:10PX;">
                             <button class="btn btn-danger" id="delButton" data-bind="click: $root.onArchiveStock, visible:itemId()!== 0">Archive</button>
                             <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:-1px">
-                                Reports
+                                Print
                             </button>
                             <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: $root.hasChangesOnInventory, css: { 'btn-warning': $root.hasChangesOnInventory }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
@@ -584,7 +584,7 @@
                                                             <th style="width: 28%"> <span>Price/ <span data-bind="text:headerComputedValue"></span></span></th>
                                                             <th style="width: 22%"> <span>From<span></span></span></th>
                                                             <th style="width: 22%"> <span>To<span></span></span></th>
-                                                            <th style="width: 22%"> <span>Pack Cost<span></span></span></th>
+                                                            <th style="width: 22%"> <span>Pack Price<span></span></span></th>
                                                             <th style="width: 5%">&nbsp;</th>
                                                         </tr>
                                                     </thead>
