@@ -1036,8 +1036,12 @@ namespace MPC.Implementation.MISServices
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                string url = "clear/" + companyDbVersion.CompanyId;
+                string url = "WebstoreApi/StoreCache/Get?id=" + companyDbVersion.CompanyId;
                 var response = client.GetAsync(url);
+                if (!response.Result.IsSuccessStatusCode)
+                {
+                    //throw new MPCException("Failed to clear store cache", companyRepository.OrganisationId);
+                }
             }
             return companySavingModel.Company;
         }
