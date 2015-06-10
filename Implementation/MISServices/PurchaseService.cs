@@ -137,6 +137,13 @@ namespace MPC.Implementation.MISServices
             purchaseRepository.SaveChanges();
         }
 
+
+        //public bool GeneratePO(long OrderID, string ServerPath,int ContactID,int ContactCompanyID)
+        //{
+        //    ObjectContext.usp_GeneratePurchaseOrders(OrderID, CreatedBy, TaxID);
+        //    POEmail(ServerPath, OrderID, ContactID, ContactCompanyID);
+        //    return true;
+        //}
         #endregion
     }
 }
