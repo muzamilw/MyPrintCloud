@@ -26,8 +26,8 @@ namespace MPC.Webstore
        );
 
             routes.MapRoute("clear"
-                 , "clear/{name}"
-                 , new { controller = "Domain", action = "updateCache", name = "" });
+                 , "clear/{StoreId}"
+                 , new { controller = "Domain", action = "ClearCache", StoreId = UrlParameter.Optional });
 
 
             routes.MapRoute("Orderhistory"
