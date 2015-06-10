@@ -1,131 +1,86 @@
 ﻿
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 <head>
-    <style>
-        .row2 {
-            color: #979797;
-            background-color: #FFFFFF;
-        }
+ <style>
+     .row2 {
+  color: #979797;
+  background-color: #FFFFFF;
+}
+     .container {
+  padding: 30px 0;font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#header, .container, #footer {
+  display: block;
+  width: 720px;
+  margin: 0 auto;
+}
+#fof {
+  display: block;
+  width: 100%;
+  margin: 80px 0 100px 0;
+  line-height: 1.6em;
+  text-align: center;
+}
+.clear {
+  display: inline-block;
+  clear: both;
+}
+.fl_left {
+  float: left;
+}
 
-        .container {
-            padding: 30px 0;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
+div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, div.wrapper h6 {
+  margin: 0 0 15px 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: normal;
+}
 
-        #header, .container, #footer {
-            display: block;
-            width: 830px;
-            margin: 0 auto;
-        }
-
-        #fof {
-            display: block;
-            width: 100%;
-            margin: 80px 0 100px 0;
-            line-height: 1.6em;
-            text-align: center;
-        }
-
-        .clear {
-            display: inline-block;
-            clear: both;
-        }
-
-        .fl_left {
-            float: left;
-        }
-
-        #fof .fl_left h1 {
-            margin: 0;
-            padding: 0;
-            font-size: 220px;
-        }
-
-        div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, div.wrapper h6 {
-            margin: 0 0 15px 0;
-            padding: 0;
-            font-size: 20px;
-            font-weight: normal;
-            line-height: normal;
-        }
-
-        #fof .fl_left h1 span {
-            font-size: 60px;
-            color: #979797;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        #fof .fl_left h1 strong {
-            color: #000000;
-            background-color: #FFFFFF;
-            font-weight: bold;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        #fof .fl_right {
-            margin-top: 60px;
-            text-align: left;
-            color: rgb(151, 151, 151);
-            display: block;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        .fl_right {
-            float: right;
-        }
-
-        #fof .fl_right h2 {
-            font-size: 30px;
-            text-align: center;
-            text-transform: uppercase;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        div.wrapper {
-            display: block;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            text-align: left;
-        }
-
-        .row2 {
-            color: #979797;
-            background-color: #FFFFFF;
-        }
-    </style>
+#fof .fl_right {
+  margin-top: 60px;
+  text-align: left;color: rgb(151, 151, 151);
+display: block;
+font-family: Georgia, 'Times New Roman', Times, serif;  width: 480px;
+}
+.fl_right {
+  float: right;
+}
+#fof .fl_right h2 {
+  font-size: 25px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+div.wrapper {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+.row2 {
+  color: #979797;
+  background-color: #FFFFFF;
+}
+ </style>
 </head>
 <body>
     <section>
         <div class="container">
+            
+                <div id="fof" class="clear">
+                   
+                    <div class="fl_left">
 
-            <div id="fof" class="clear">
-                <div class="fl_left">
-                    <h1><span>404 Error</span><strong>?</strong></h1>
+                        <img src="/Content/Images/bugzy.PNG" />
+                    </div>
+                    <div class="fl_right">
+                        <h2>Your URL is invalid.</h2>
+                    </div>
+                   <div style="clear:both;">
+
+                   </div>
+                    
                 </div>
-                <div class="fl_left" style="width: 1px;
-  background: #f3f3f3;
-  height: 200px;
-  margin-top: 50px;
-  margin-left: 10px;">
-
-                </div>
-                <div class="fl_right">
-
-                
-                        <h2>Sorry, Possible Reasons:</h2>
-
-                    <ul>
-                            <li>Your url is invalid.</li>
-                        </ul>
-                </div>
-                <div style="clear:both;">
-
-                </div>
-            </div>
-
+               
         </div>
     </section>
 
