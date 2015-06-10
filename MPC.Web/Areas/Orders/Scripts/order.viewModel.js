@@ -878,7 +878,6 @@ define("order/order.viewModel",
                             }
                         });
                     },
-
                     selectedSectionCostCenter = ko.observable(),
                     selectedQty = ko.observable(),
                     //Opens Cost Center dialog for Shipping
