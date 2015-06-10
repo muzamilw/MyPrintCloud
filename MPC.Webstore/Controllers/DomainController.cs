@@ -146,10 +146,10 @@ namespace MPC.Webstore.Controllers
             return null;
         }
 
-        public void updateCache(string name)
+        public ActionResult ClearCache(long StoreId)
         {
-            _myCompanyService.GetStoreFromCache(Convert.ToInt64(name), true);
-            RedirectToAction("Error", "Home");
+            _myCompanyService.GetStoreFromCache(StoreId, true);
+            return View();
         }
 
        

@@ -36,11 +36,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         [CompressFilterAttribute]
         public ItemSearchResponse Get([FromUri]ItemSearchRequestModel request)
         {
-            IEnumerable<Item> items = itemService.GetItemsByCompanyId(request);
+            var response = itemService.GetItemsByCompanyId(request);
             ItemSearchResponse itemSearchResponse = new ItemSearchResponse
             {
-                TotalCount = items.Count(),
-                Items = items.Select(x => x.CreateFromForOrderAddProduct())
+                TotalCount = response.TotalCount,
+                Items = response.Items.Select(x => x.CreateFromForOrderAddProduct())
             };
             return itemSearchResponse;
         }

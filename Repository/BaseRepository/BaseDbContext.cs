@@ -997,7 +997,7 @@ namespace MPC.Repository.BaseRepository
         }
 
 // ReSharper disable InconsistentNaming
-        public int usp_GeneratePurchaseOrders(int? orderId, int? createdBy, int? taxId)
+        public int usp_GeneratePurchaseOrders(int? orderId, Guid? createdBy)
 // ReSharper restore InconsistentNaming
         {
             var orderIdParameter = orderId.HasValue ?
@@ -1006,13 +1006,9 @@ namespace MPC.Repository.BaseRepository
 
             var createdByParameter = createdBy.HasValue ?
                 new ObjectParameter("CreatedBy", createdBy) :
-                new ObjectParameter("CreatedBy", typeof(int));
+                new ObjectParameter("CreatedBy", typeof(System.Guid));
 
-            var taxIdParameter = taxId.HasValue ?
-                new ObjectParameter("TaxID", taxId) :
-                new ObjectParameter("TaxID", typeof(int));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_GeneratePurchaseOrders", orderIdParameter, createdByParameter, taxIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_GeneratePurchaseOrders", orderIdParameter, createdByParameter);
         }
 
 // ReSharper disable InconsistentNaming
