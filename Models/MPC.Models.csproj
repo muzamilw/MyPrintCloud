@@ -226,6 +226,7 @@
     <Compile Include="DomainModels\ShippingInformation.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
+    <Compile Include="DomainModels\StagingImportCompanyContactAddress.cs" />
     <Compile Include="DomainModels\usp_DeliveryReport_Result.cs" />
     <Compile Include="DomainModels\usp_EstimateReport_Result.cs" />
     <Compile Include="DomainModels\usp_InvoiceReport_Result.cs" />
@@ -377,6 +378,8 @@
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="ModelMappers\ProductMarketBriefAnswerMapper.cs" />
     <Compile Include="ModelMappers\ProductMarketBriefQuestionMapper.cs" />
+    <Compile Include="ModelMappers\PurchaseMapper.cs" />
+    <Compile Include="ModelMappers\PurchaseMapperActions.cs" />
     <Compile Include="ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="ModelMappers\SectionInkCoverageMapper.cs" />

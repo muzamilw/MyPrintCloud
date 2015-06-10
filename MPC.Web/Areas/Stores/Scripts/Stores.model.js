@@ -4664,12 +4664,20 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
+    SmartForm.CreateFromClientModel = function (source) {
+        return new SmartForm(
+            source.id,
+            source.name,
+            source.companyId,
+            source.heading
+        );
+    };
     //Smart Form Create Factory
     SmartForm.Create = function (source) {
         return new SmartForm(
             source.SmartFormId,
-             source.Name,
-             source.CompanyId,
+            source.Name,
+            source.CompanyId,
             source.Heading);
     };
     // #endregion ______________  Field Variable   _________________

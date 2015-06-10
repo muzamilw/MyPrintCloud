@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsE69A62740E1A148F1255FDC18D411DFC655201647289470D84C7EC012491F6FB))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets8FF818238E036EC9A887CB7A5888FC4B0BF534A46E73650A07C5C66C66E66877))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsE69A62740E1A148F1255FDC18D411DFC655201647289470D84C7EC012491F6FB : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets8FF818238E036EC9A887CB7A5888FC4B0BF534A46E73650A07C5C66C66E66877 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsE69A62740E1A148F1255FDC18D411DFC655201647289470D84C7EC012491F6FB()
+        public ViewsForBaseEntitySets8FF818238E036EC9A887CB7A5888FC4B0BF534A46E73650A07C5C66C66E66877()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "bb9fdc0640ab6f585b9fcc899de53d7ba6923526b9f45bd4e66afb05191046a4";
-            this.HashOverAllExtentViews = "91e4dc3d49680b3af7a2939d3dfbd5d5497ad137719b86c08131e940f5c890f0";
-            this.ViewCount = 336;
+            this.HashOverMappingClosure = "6ccfc9e0517d3488731eac8a08b344fcfffd6007f61679444b76d6e4f08e69ad";
+            this.HashOverAllExtentViews = "2fe321a8dd869228e65301de7bfde9497e07d3ff4f627e97040b8cb21994d6ca";
+            this.ViewCount = 338;
         }
         
         /// <Summary>
@@ -1380,6 +1380,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 335))
             {
                 return GetView335();
+            }
+            if ((index == 336))
+            {
+                return GetView336();
+            }
+            if ((index == 337))
+            {
+                return GetView337();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -12969,6 +12977,138 @@ namespace Edm_EntityMappingGeneratedViews
                     " Reportparam_MaxValue, \r\n            T.FilterType AS Reportparam_FilterType, \r\n " +
                     "           T.SortOrder AS Reportparam_SortOrder, \r\n            True AS _from0\r\n " +
                     "       FROM DomainModelsStoreContainer.Reportparam AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.StagingImportCompanyContactAddress
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView336()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4496);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing StagingImportCompanyContactAddress\r\n        [");
+            viewString.Append("DomainModels.Store.StagingImportCompanyContactAddress](T1.StagingImportCompanyCo");
+            viewString.Append("ntactAddress_StagingId, T1.StagingImportCompanyContactAddress_CompanyName, T1.St");
+            viewString.Append("agingImportCompanyContactAddress_CompanyId, T1.StagingImportCompanyContactAddres");
+            viewString.Append("s_AddressId, T1.StagingImportCompanyContactAddress_AddressName, T1.StagingImport");
+            viewString.Append("CompanyContactAddress_Address1, T1.StagingImportCompanyContactAddress_Address2, ");
+            viewString.Append("T1.StagingImportCompanyContactAddress_Address3, T1.StagingImportCompanyContactAd");
+            viewString.Append("dress_City, T1.StagingImportCompanyContactAddress_State, T1.StagingImportCompany");
+            viewString.Append("ContactAddress_StateId, T1.StagingImportCompanyContactAddress_Country, T1.Stagin");
+            viewString.Append("gImportCompanyContactAddress_CountryId, T1.StagingImportCompanyContactAddress_Po");
+            viewString.Append("stcode, T1.StagingImportCompanyContactAddress_TerritoryId, T1.StagingImportCompa");
+            viewString.Append("nyContactAddress_TerritoryName, T1.StagingImportCompanyContactAddress_AddressPho");
+            viewString.Append("ne, T1.StagingImportCompanyContactAddress_AddressFax, T1.StagingImportCompanyCon");
+            viewString.Append("tactAddress_ContactId, T1.StagingImportCompanyContactAddress_ContactFirstName, T");
+            viewString.Append("1.StagingImportCompanyContactAddress_ContactLastName, T1.StagingImportCompanyCon");
+            viewString.Append("tactAddress_JobTitle, T1.StagingImportCompanyContactAddress_Email, T1.StagingImp");
+            viewString.Append("ortCompanyContactAddress_password, T1.StagingImportCompanyContactAddress_Mobile,");
+            viewString.Append(" T1.StagingImportCompanyContactAddress_RoleId, T1.StagingImportCompanyContactAdd");
+            viewString.Append("ress_ContactPhone, T1.StagingImportCompanyContactAddress_ContactFax, T1.StagingI");
+            viewString.Append("mportCompanyContactAddress_AddInfo1, T1.StagingImportCompanyContactAddress_AddIn");
+            viewString.Append("fo2, T1.StagingImportCompanyContactAddress_AddInfo3, T1.StagingImportCompanyCont");
+            viewString.Append("actAddress_AddInfo4, T1.StagingImportCompanyContactAddress_AddInfo5, T1.StagingI");
+            viewString.Append("mportCompanyContactAddress_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n       ");
+            viewString.Append("     T.StagingId AS StagingImportCompanyContactAddress_StagingId, \r\n            ");
+            viewString.Append("T.CompanyName AS StagingImportCompanyContactAddress_CompanyName, \r\n            T");
+            viewString.Append(".CompanyId AS StagingImportCompanyContactAddress_CompanyId, \r\n            T.Addr");
+            viewString.Append("essId AS StagingImportCompanyContactAddress_AddressId, \r\n            T.AddressNa");
+            viewString.Append("me AS StagingImportCompanyContactAddress_AddressName, \r\n            T.Address1 A");
+            viewString.Append("S StagingImportCompanyContactAddress_Address1, \r\n            T.Address2 AS Stagi");
+            viewString.Append("ngImportCompanyContactAddress_Address2, \r\n            T.Address3 AS StagingImpor");
+            viewString.Append("tCompanyContactAddress_Address3, \r\n            T.City AS StagingImportCompanyCon");
+            viewString.Append("tactAddress_City, \r\n            T.State AS StagingImportCompanyContactAddress_St");
+            viewString.Append("ate, \r\n            T.StateId AS StagingImportCompanyContactAddress_StateId, \r\n  ");
+            viewString.Append("          T.Country AS StagingImportCompanyContactAddress_Country, \r\n           ");
+            viewString.Append(" T.CountryId AS StagingImportCompanyContactAddress_CountryId, \r\n            T.Po");
+            viewString.Append("stcode AS StagingImportCompanyContactAddress_Postcode, \r\n            T.Territory");
+            viewString.Append("Id AS StagingImportCompanyContactAddress_TerritoryId, \r\n            T.TerritoryN");
+            viewString.Append("ame AS StagingImportCompanyContactAddress_TerritoryName, \r\n            T.Address");
+            viewString.Append("Phone AS StagingImportCompanyContactAddress_AddressPhone, \r\n            T.Addres");
+            viewString.Append("sFax AS StagingImportCompanyContactAddress_AddressFax, \r\n            T.ContactId");
+            viewString.Append(" AS StagingImportCompanyContactAddress_ContactId, \r\n            T.ContactFirstNa");
+            viewString.Append("me AS StagingImportCompanyContactAddress_ContactFirstName, \r\n            T.Conta");
+            viewString.Append("ctLastName AS StagingImportCompanyContactAddress_ContactLastName, \r\n            ");
+            viewString.Append("T.JobTitle AS StagingImportCompanyContactAddress_JobTitle, \r\n            T.Email");
+            viewString.Append(" AS StagingImportCompanyContactAddress_Email, \r\n            T.password AS Stagin");
+            viewString.Append("gImportCompanyContactAddress_password, \r\n            T.Mobile AS StagingImportCo");
+            viewString.Append("mpanyContactAddress_Mobile, \r\n            T.RoleId AS StagingImportCompanyContac");
+            viewString.Append("tAddress_RoleId, \r\n            T.ContactPhone AS StagingImportCompanyContactAddr");
+            viewString.Append("ess_ContactPhone, \r\n            T.ContactFax AS StagingImportCompanyContactAddre");
+            viewString.Append("ss_ContactFax, \r\n            T.AddInfo1 AS StagingImportCompanyContactAddress_Ad");
+            viewString.Append("dInfo1, \r\n            T.AddInfo2 AS StagingImportCompanyContactAddress_AddInfo2,");
+            viewString.Append(" \r\n            T.AddInfo3 AS StagingImportCompanyContactAddress_AddInfo3, \r\n    ");
+            viewString.Append("        T.AddInfo4 AS StagingImportCompanyContactAddress_AddInfo4, \r\n           ");
+            viewString.Append(" T.AddInfo5 AS StagingImportCompanyContactAddress_AddInfo5, \r\n            T.Orga");
+            viewString.Append("nisationId AS StagingImportCompanyContactAddress_OrganisationId, \r\n            T");
+            viewString.Append("rue AS _from0\r\n        FROM BaseDbContext.StagingImportCompanyContactAddresses A");
+            viewString.Append("S T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StagingImportCompanyContactAddress", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.StagingImportCompanyContactAddresses
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView337()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4503);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing StagingImportCompanyContactAddresses\r\n       ");
+            viewString.Append(" [DomainModels.StagingImportCompanyContactAddress](T1.StagingImportCompanyContac");
+            viewString.Append("tAddress_StagingId, T1.StagingImportCompanyContactAddress_CompanyName, T1.Stagin");
+            viewString.Append("gImportCompanyContactAddress_CompanyId, T1.StagingImportCompanyContactAddress_Ad");
+            viewString.Append("dressId, T1.StagingImportCompanyContactAddress_AddressName, T1.StagingImportComp");
+            viewString.Append("anyContactAddress_Address1, T1.StagingImportCompanyContactAddress_Address2, T1.S");
+            viewString.Append("tagingImportCompanyContactAddress_Address3, T1.StagingImportCompanyContactAddres");
+            viewString.Append("s_City, T1.StagingImportCompanyContactAddress_State, T1.StagingImportCompanyCont");
+            viewString.Append("actAddress_StateId, T1.StagingImportCompanyContactAddress_Country, T1.StagingImp");
+            viewString.Append("ortCompanyContactAddress_CountryId, T1.StagingImportCompanyContactAddress_Postco");
+            viewString.Append("de, T1.StagingImportCompanyContactAddress_TerritoryId, T1.StagingImportCompanyCo");
+            viewString.Append("ntactAddress_TerritoryName, T1.StagingImportCompanyContactAddress_AddressPhone, ");
+            viewString.Append("T1.StagingImportCompanyContactAddress_AddressFax, T1.StagingImportCompanyContact");
+            viewString.Append("Address_ContactId, T1.StagingImportCompanyContactAddress_ContactFirstName, T1.St");
+            viewString.Append("agingImportCompanyContactAddress_ContactLastName, T1.StagingImportCompanyContact");
+            viewString.Append("Address_JobTitle, T1.StagingImportCompanyContactAddress_Email, T1.StagingImportC");
+            viewString.Append("ompanyContactAddress_password, T1.StagingImportCompanyContactAddress_Mobile, T1.");
+            viewString.Append("StagingImportCompanyContactAddress_RoleId, T1.StagingImportCompanyContactAddress");
+            viewString.Append("_ContactPhone, T1.StagingImportCompanyContactAddress_ContactFax, T1.StagingImpor");
+            viewString.Append("tCompanyContactAddress_AddInfo1, T1.StagingImportCompanyContactAddress_AddInfo2,");
+            viewString.Append(" T1.StagingImportCompanyContactAddress_AddInfo3, T1.StagingImportCompanyContactA");
+            viewString.Append("ddress_AddInfo4, T1.StagingImportCompanyContactAddress_AddInfo5, T1.StagingImpor");
+            viewString.Append("tCompanyContactAddress_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n           ");
+            viewString.Append(" T.StagingId AS StagingImportCompanyContactAddress_StagingId, \r\n            T.Co");
+            viewString.Append("mpanyName AS StagingImportCompanyContactAddress_CompanyName, \r\n            T.Com");
+            viewString.Append("panyId AS StagingImportCompanyContactAddress_CompanyId, \r\n            T.AddressI");
+            viewString.Append("d AS StagingImportCompanyContactAddress_AddressId, \r\n            T.AddressName A");
+            viewString.Append("S StagingImportCompanyContactAddress_AddressName, \r\n            T.Address1 AS St");
+            viewString.Append("agingImportCompanyContactAddress_Address1, \r\n            T.Address2 AS StagingIm");
+            viewString.Append("portCompanyContactAddress_Address2, \r\n            T.Address3 AS StagingImportCom");
+            viewString.Append("panyContactAddress_Address3, \r\n            T.City AS StagingImportCompanyContact");
+            viewString.Append("Address_City, \r\n            T.State AS StagingImportCompanyContactAddress_State,");
+            viewString.Append(" \r\n            T.StateId AS StagingImportCompanyContactAddress_StateId, \r\n      ");
+            viewString.Append("      T.Country AS StagingImportCompanyContactAddress_Country, \r\n            T.C");
+            viewString.Append("ountryId AS StagingImportCompanyContactAddress_CountryId, \r\n            T.Postco");
+            viewString.Append("de AS StagingImportCompanyContactAddress_Postcode, \r\n            T.TerritoryId A");
+            viewString.Append("S StagingImportCompanyContactAddress_TerritoryId, \r\n            T.TerritoryName ");
+            viewString.Append("AS StagingImportCompanyContactAddress_TerritoryName, \r\n            T.AddressPhon");
+            viewString.Append("e AS StagingImportCompanyContactAddress_AddressPhone, \r\n            T.AddressFax");
+            viewString.Append(" AS StagingImportCompanyContactAddress_AddressFax, \r\n            T.ContactId AS ");
+            viewString.Append("StagingImportCompanyContactAddress_ContactId, \r\n            T.ContactFirstName A");
+            viewString.Append("S StagingImportCompanyContactAddress_ContactFirstName, \r\n            T.ContactLa");
+            viewString.Append("stName AS StagingImportCompanyContactAddress_ContactLastName, \r\n            T.Jo");
+            viewString.Append("bTitle AS StagingImportCompanyContactAddress_JobTitle, \r\n            T.Email AS ");
+            viewString.Append("StagingImportCompanyContactAddress_Email, \r\n            T.password AS StagingImp");
+            viewString.Append("ortCompanyContactAddress_password, \r\n            T.Mobile AS StagingImportCompan");
+            viewString.Append("yContactAddress_Mobile, \r\n            T.RoleId AS StagingImportCompanyContactAdd");
+            viewString.Append("ress_RoleId, \r\n            T.ContactPhone AS StagingImportCompanyContactAddress_");
+            viewString.Append("ContactPhone, \r\n            T.ContactFax AS StagingImportCompanyContactAddress_C");
+            viewString.Append("ontactFax, \r\n            T.AddInfo1 AS StagingImportCompanyContactAddress_AddInf");
+            viewString.Append("o1, \r\n            T.AddInfo2 AS StagingImportCompanyContactAddress_AddInfo2, \r\n ");
+            viewString.Append("           T.AddInfo3 AS StagingImportCompanyContactAddress_AddInfo3, \r\n        ");
+            viewString.Append("    T.AddInfo4 AS StagingImportCompanyContactAddress_AddInfo4, \r\n            T.A");
+            viewString.Append("ddInfo5 AS StagingImportCompanyContactAddress_AddInfo5, \r\n            T.Organisa");
+            viewString.Append("tionId AS StagingImportCompanyContactAddress_OrganisationId, \r\n            True ");
+            viewString.Append("AS _from0\r\n        FROM DomainModelsStoreContainer.StagingImportCompanyContactAd");
+            viewString.Append("dress AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StagingImportCompanyContactAddresses", viewString.ToString());
         }
     }
 }

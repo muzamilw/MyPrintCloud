@@ -136,6 +136,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IDeliveryNoteRepository, DeliveryNoteRepository>();
             unityContainer.RegisterType<IProductMarketBriefAnswerRepository, ProductMarketBriefAnswerRepository>();
             unityContainer.RegisterType<IDeliveryNoteDetailRepository, DeliveryNoteDetailRepository>();
+            unityContainer.RegisterType<IPurchaseDetailRepository, PurchaseDetailRepository>();
         }
     }
 }

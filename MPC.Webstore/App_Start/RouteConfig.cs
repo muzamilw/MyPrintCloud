@@ -19,6 +19,11 @@ namespace MPC.Webstore
               "Error",
               new { controller = "Home", action = "Error", Message = UrlParameter.Optional }
            );
+            routes.MapRoute(
+          "NotFound",
+          "NotFound",
+          new { controller = "Home", action = "NotFound", Message = UrlParameter.Optional }
+       );
 
             routes.MapRoute("clear"
                  , "clear/{name}"
@@ -377,6 +382,15 @@ namespace MPC.Webstore
                "",        // URL with parameters
                new { controller = "Home", action = "Index", id = UrlParameter.Optional }  // Parameter defaults
            );
+            routes.MapRoute(
+               name: "404-PageNotFound",
+                        // This will handle any non-existing urls
+               url: "{*url}",
+                        // "Shared" is the name of your error controller, and "Error" is the action/page
+                        // that handles all your custom errors
+               defaults: new { controller = "Home", action = "NotFound" }
+           );
         }
+
     }
 }

@@ -644,6 +644,7 @@ namespace MPC.Models.ModelMappers
             target.InvoiceDescription = source.InvoiceDescription;
             target.ItemNotes = source.ItemNotes;
             target.ItemId = source.ItemId;
+            target.RefItemId = source.RefItemId;
 
             // Update Charges
             UpdateCharges(source, target);

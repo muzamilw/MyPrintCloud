@@ -193,20 +193,13 @@ namespace MPC.Webstore
                                 Response.Redirect("/Login");
                             }
                         }
-                       
-                    }
-                    else
-                    {
-                        //  Response.Redirect("/Error");
                     }
                 }
-                else
-                {
-                    //  Response.Redirect("/Error");
-                }
-
             }
-          
         }
+
+      
     }
+
+  
 }

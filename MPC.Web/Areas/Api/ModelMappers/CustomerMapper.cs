@@ -63,6 +63,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompnayId = source.CompanyId,
                 Image = bytes,
                 StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
+                StoreName = source.StoreName
             };
         }
         #endregion

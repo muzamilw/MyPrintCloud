@@ -3291,6 +3291,45 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="VariableId" Type="bigint" />
           <Property Name="CaptionValue" Type="varchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="StagingImportCompanyContactAddress">
+          <Key>
+            <PropertyRef Name="StagingId" />
+          </Key>
+          <Property Name="StagingId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="250" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="AddressId" Type="bigint" />
+          <Property Name="AddressName" Type="varchar" MaxLength="200" />
+          <Property Name="Address1" Type="varchar" MaxLength="250" />
+          <Property Name="Address2" Type="varchar" MaxLength="250" />
+          <Property Name="Address3" Type="varchar" MaxLength="250" />
+          <Property Name="City" Type="varchar" MaxLength="250" />
+          <Property Name="State" Type="varchar" MaxLength="250" />
+          <Property Name="StateId" Type="bigint" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="CountryId" Type="bigint" />
+          <Property Name="Postcode" Type="varchar" MaxLength="50" />
+          <Property Name="TerritoryId" Type="bigint" />
+          <Property Name="TerritoryName" Type="varchar" MaxLength="250" />
+          <Property Name="AddressPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="AddressFax" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactId" Type="bigint" />
+          <Property Name="ContactFirstName" Type="varchar" MaxLength="250" />
+          <Property Name="ContactLastName" Type="varchar" MaxLength="250" />
+          <Property Name="JobTitle" Type="varchar" MaxLength="250" />
+          <Property Name="Email" Type="varchar" MaxLength="250" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
+          <Property Name="RoleId" Type="bigint" />
+          <Property Name="ContactPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactFax" Type="varchar" MaxLength="50" />
+          <Property Name="AddInfo1" Type="nvarchar" MaxLength="1500" />
+          <Property Name="AddInfo2" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AddInfo3" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AddInfo4" Type="nvarchar" MaxLength="1500" />
+          <Property Name="AddInfo5" Type="nvarchar" MaxLength="1500" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
         <EntityType Name="State">
           <Key>
             <PropertyRef Name="StateId" />
@@ -4806,8 +4845,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PurchaseID">
-          <End Role="Purchase" Type="Self.Purchase" Multiplicity="0..1" />
+        <Association Name="FK_PurchaseDetail_Purchase">
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Purchase">
@@ -5901,6 +5942,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="usp_DeleteProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="itemid" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_DeletePurchaseOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderID" Type="int" Mode="In" />
+        </Function>
         <Function Name="usp_DeliveryReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationID" Type="bigint" Mode="In" />
           <Parameter Name="DeliveryID" Type="bigint" Mode="In" />
@@ -5909,8 +5953,16 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
           <Parameter Name="EstimateID" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_GeneratePurchaseOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderID" Type="int" Mode="In" />
+          <Parameter Name="CreatedBy" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="usp_GetRealEstateProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_importTerritoryContactAddressByStore" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
+          <Parameter Name="StoreId" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_InvoiceReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Organisationid" Type="bigint" Mode="In" />
@@ -6076,6 +6128,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="ShippingInformation" EntityType="Self.ShippingInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartForm" EntityType="Self.SmartForm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartFormDetail" EntityType="Self.SmartFormDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StagingImportCompanyContactAddress" EntityType="Self.StagingImportCompanyContactAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockCategory" EntityType="Self.StockCategory" Schema="dbo" store:Type="Tables" />
@@ -6634,7 +6687,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Items" EntitySet="Items" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_PurchaseID" Association="Self.FK_PurchaseID">
+          <AssociationSet Name="FK_PurchaseDetail_Purchase" Association="Self.FK_PurchaseDetail_Purchase">
             <End Role="Purchase" EntitySet="Purchase" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
           </AssociationSet>
@@ -7690,10 +7743,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="GoodsReceivedNote" EntitySet="GoodsReceivedNotes" />
             <End Role="GoodsReceivedNoteDetail" EntitySet="GoodsReceivedNoteDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_PurchaseID" Association="DomainModels.FK_PurchaseID">
-            <End Role="Purchase" EntitySet="Purchases" />
-            <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
-          </AssociationSet>
           <FunctionImport Name="usp_DeleteOrganisation">
           <Parameter Name="OrganisationID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -7849,6 +7898,22 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="SectionFlag" EntitySet="SectionFlags" />
             <End Role="Purchase" EntitySet="Purchases" />
           </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetail_Purchase" Association="DomainModels.FK_PurchaseDetail_Purchase">
+            <End Role="Purchase" EntitySet="Purchases" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
+          </AssociationSet>
+          <EntitySet Name="StagingImportCompanyContactAddresses" EntityType="DomainModels.StagingImportCompanyContactAddress" />
+          <FunctionImport Name="usp_DeletePurchaseOrders">
+          <Parameter Name="OrderID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GeneratePurchaseOrders">
+            <Parameter Name="OrderID" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedBy" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="usp_importTerritoryContactAddressByStore">
+            <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+            <Parameter Name="StoreId" Mode="In" Type="Int64" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -13349,9 +13414,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsRead" Type="Boolean" />
           <Property Name="IsPrinted" Type="Boolean" />
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PurchaseDetails" Relationship="DomainModels.FK_PurchaseID" FromRole="Purchase" ToRole="PurchaseDetail" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Purchase_Company" FromRole="Purchase" ToRole="Company" />
           <NavigationProperty Name="SectionFlag" Relationship="DomainModels.FK_Purchase_SectionFlag" FromRole="Purchase" ToRole="SectionFlag" />
+          <NavigationProperty Name="PurchaseDetails" Relationship="DomainModels.FK_PurchaseDetail_Purchase" FromRole="Purchase" ToRole="PurchaseDetail" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -13373,11 +13438,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="freeitems" Type="Int32" />
           <Property Name="ItemBalance" Type="Double" />
           <Property Name="DepartmentId" Type="Int32" />
-          <NavigationProperty Name="Purchase" Relationship="DomainModels.FK_PurchaseID" FromRole="PurchaseDetail" ToRole="Purchase" />
           <Property Name="ProductType" Type="Int32" />
           <Property Name="RefItemId" Type="Int64" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_PurchaseDetail_Items" FromRole="PurchaseDetail" ToRole="Item" />
           <Property Name="TaxValue" Type="Double" />
+          <NavigationProperty Name="Purchase" Relationship="DomainModels.FK_PurchaseDetail_Purchase" FromRole="PurchaseDetail" ToRole="Purchase" />
         </EntityType>
         <Association Name="FK_GoodsreceivedID">
           <End Type="DomainModels.GoodsReceivedNote" Role="GoodsReceivedNote" Multiplicity="0..1" />
@@ -13388,18 +13453,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="GoodsReceivedNoteDetail">
               <PropertyRef Name="GoodsreceivedId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseID">
-          <End Type="DomainModels.Purchase" Role="Purchase" Multiplicity="0..1" />
-          <End Type="DomainModels.PurchaseDetail" Role="PurchaseDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Purchase">
-              <PropertyRef Name="PurchaseId" />
-            </Principal>
-            <Dependent Role="PurchaseDetail">
-              <PropertyRef Name="PurchaseId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14392,6 +14445,59 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PurchaseDetail_Purchase">
+          <End Type="DomainModels.Purchase" Role="Purchase" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.PurchaseDetail" Role="PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchase">
+              <PropertyRef Name="PurchaseId" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StagingImportCompanyContactAddress">
+          <Key>
+            <PropertyRef Name="StagingId" />
+          </Key>
+          <Property Name="StagingId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="AddressId" Type="Int64" />
+          <Property Name="AddressName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Address3" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="StateId" Type="Int64" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryId" Type="Int64" />
+          <Property Name="Postcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerritoryId" Type="Int64" />
+          <Property Name="TerritoryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AddressPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddressFax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactId" Type="Int64" />
+          <Property Name="ContactFirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ContactLastName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="JobTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RoleId" Type="Int64" />
+          <Property Name="ContactPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactFax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AddInfo1" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="AddInfo2" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AddInfo3" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AddInfo4" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="AddInfo5" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="OrganisationId" Type="Int64" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -18979,6 +19085,49 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="StagingImportCompanyContactAddresses">
+            <EntityTypeMapping TypeName="DomainModels.StagingImportCompanyContactAddress">
+              <MappingFragment StoreEntitySet="StagingImportCompanyContactAddress">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="AddInfo5" ColumnName="AddInfo5" />
+                <ScalarProperty Name="AddInfo4" ColumnName="AddInfo4" />
+                <ScalarProperty Name="AddInfo3" ColumnName="AddInfo3" />
+                <ScalarProperty Name="AddInfo2" ColumnName="AddInfo2" />
+                <ScalarProperty Name="AddInfo1" ColumnName="AddInfo1" />
+                <ScalarProperty Name="ContactFax" ColumnName="ContactFax" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="ContactLastName" ColumnName="ContactLastName" />
+                <ScalarProperty Name="ContactFirstName" ColumnName="ContactFirstName" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="AddressFax" ColumnName="AddressFax" />
+                <ScalarProperty Name="AddressPhone" ColumnName="AddressPhone" />
+                <ScalarProperty Name="TerritoryName" ColumnName="TerritoryName" />
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="AddressName" ColumnName="AddressName" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="StagingId" ColumnName="StagingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_DeletePurchaseOrders" FunctionName="DomainModels.Store.usp_DeletePurchaseOrders" />
+          <FunctionImportMapping FunctionImportName="usp_GeneratePurchaseOrders" FunctionName="DomainModels.Store.usp_GeneratePurchaseOrders" />
+          <FunctionImportMapping FunctionImportName="usp_importTerritoryContactAddressByStore" FunctionName="DomainModels.Store.usp_importTerritoryContactAddressByStore" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
