@@ -17,9 +17,9 @@ define("dashboard.viewModel",
                     year = date.getFullYear(),
                     counter = 1,
                     // Y axis point for chart
-                    yAxisPoints = [0],
+                    yAxisPoints = [],
                     yAxisPointsWithStoreName = ko.observableArray([]),
-                    chartLabels = [""],
+                    chartLabels = [],
                      // customers
                      customers = ko.observableArray([]),
                     dummyTotalEarnings = ko.observableArray([
