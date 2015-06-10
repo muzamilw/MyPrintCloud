@@ -215,6 +215,9 @@ define("invoice/invoice.viewModel",
                         if (company.isCustomer !== 3 && company.storeId) {
                             selectedInvoice().storeId(company.storeId);
                         }
+                        else {
+                            selectedInvoice().storeId(undefined);
+                        }
                         // Get Company Address and Contacts
                         getBaseForCompany(company.id, (selectedInvoice().storeId() === null || selectedInvoice().storeId() === undefined) ? company.id :
                             selectedInvoice().storeId());
@@ -421,7 +424,7 @@ define("invoice/invoice.viewModel",
                      createNewCostCenterProduct = function () {
                          view.hideCostCentersQuantityDialog();
                          //selectedCostCentre(costCenter);
-                         var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id() });
+                         var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id(), RefItemId: selectedCostCentre().id() });
                          applyProductTax(item);
                          selectedProduct(item);
                          item.productName(selectedCostCentre().name());
@@ -882,7 +885,7 @@ define("invoice/invoice.viewModel",
                         }
                     },
                     onSaveProductInventory = function () {
-                        var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id() });
+                        var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id(), RefItemId: inventoryStockItemToCreate().id });
                         applyProductTax(item);
                         item.productName(inventoryStockItemToCreate().name);
                         item.qty1(selectedCostCentre().quantity1());
