@@ -58,22 +58,19 @@ namespace MPC.Webstore.Controllers
             double TaxRate = 0;
             bool includeVAT = false;
             List<ItemStockOptionList> StockOptions = new List<ItemStockOptionList>();
-           // MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-
+         
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-          //  MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
+        
             includeVAT = StoreBaseResopnse.Company.isIncludeVAT ?? false;
             TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
             ViewBag.organisationId = StoreBaseResopnse.Organisation.OrganisationId;
-            //long ContactID = _myClaimHelper.loginContactID();
+         
             ViewBag.CompanyID = _myClaimHelper.loginContactCompanyID();
             long CategoryID = Convert.ToInt64(id);
             ProductCategory Category = _myCompanyService.GetCategoryById(CategoryID);
 
             if (Category != null)
             {
-
-                //SetPageMEtaTitle(Category.CategoryName, Category.MetaDescription, Category.MetaKeywords, Category.MetaTitle, baseResponse);
 
                 List<ProductCategory> subCategoryList = new List<ProductCategory>();
 
@@ -98,7 +95,7 @@ namespace MPC.Webstore.Controllers
 
                 var productList = _myCompanyService.GetRetailOrCorpPublishedProducts(CategoryID);
                 productList = productList.Where(p => p.CompanyId == UserCookieManager.WBStoreId).ToList();
-                //  pnlAllProductTopLevel.Visible = true;
+               
                 if (productList != null && productList.Count > 0)
                 {
                     if (_webstoreAuthorizationChecker.loginContactID() > 0)
@@ -199,10 +196,7 @@ namespace MPC.Webstore.Controllers
                                 ppm.ItemID = (int)product.ItemId;
 
                                 ppm.Price = Price;
-                                //if (!string.IsNullOrEmpty(DPrice))
-                                //    ppm.DiscountPrice = Convert.ToDouble(DPrice);
 
-                                //ppm.isDiscounted = isDiscounted;
                                 ProductPriceMatrix.Add(ppm);
 
                                 ViewData["PriceMatrix"] = ProductPriceMatrix;
@@ -253,33 +247,13 @@ namespace MPC.Webstore.Controllers
 
                                         }
                                     }
-                                    //if (matrix.IsDiscounted == true) // IsDiscounted is removed from table
-                                    //{
-                                    //    isDiscounted = true;
-                                    //    //lblPrice1.CssClass = "strikeThrough"; 
-                                    //    //lblDiscountedPrice1.Visible = true;
-                                    //    DPrice = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(_myCompanyService.CalculateDiscount(Convert.ToDouble(Price), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
 
-                                    //}
-                                    //else
                                     isDiscounted = false;
-
-
-                                    //if (matrixlist[1].PricePaperType1 > 0)
-                                    //{
-                                    //    SecPricetr.Visible = true;
-                                    //}
-                                    //else
-                                    //{
-                                    //    SecPricetr.Visible = false;
-                                    //}
-                                  //  Price = StoreBaseResopnse.Currency + Price;
 
                                     ProductPriceMatrixViewModel ppm = new ProductPriceMatrixViewModel();
                                     ppm.Quantity = Quantity;
                                     ppm.ItemID = (int)product.ItemId;
-                                    //if (!string.IsNullOrEmpty(Price))
-                                    //    ppm.Price = Convert.ToDouble(Price);
+                                   
                                     ppm.Price =  Price;
                                     ProductPriceMatrix.Add(ppm);
 
