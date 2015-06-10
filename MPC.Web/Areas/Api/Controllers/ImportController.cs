@@ -59,12 +59,15 @@ namespace MPC.MIS.Areas.Api.Controllers
                  FileHelperEngine<ImportCompanyContact> engine = new FileHelperEngine<ImportCompanyContact>();
 
                  ImportCompanyContact[] dataLoaded = engine.ReadFile(filePath);
-                 if (dataLoaded.Count() > 1)
+                 List<ImportCompanyContact> tmp = new List<ImportCompanyContact>(dataLoaded);
+                 tmp.RemoveAt(0);
+                 dataLoaded = tmp.ToArray();
+                 if (dataLoaded.Any())
                  {
                      IEnumerable<StagingImportCompanyContactAddress> enumerable = dataLoaded.Select(x => x.Createfrom(request.CompanyId)).ToList();
-                     List<StagingImportCompanyContactAddress> list = enumerable as List<StagingImportCompanyContactAddress>;
-                     list.Remove(list[0]);
-                     enumerable = list;
+                     //List<StagingImportCompanyContactAddress> list = enumerable as List<StagingImportCompanyContactAddress>;
+                     //list.Remove(list[0]);
+                     //enumerable = list;
                      companyService.SaveImportedCompanyContact(enumerable);
                  }
              }

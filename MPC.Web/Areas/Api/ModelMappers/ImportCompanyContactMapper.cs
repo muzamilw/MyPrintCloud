@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System;
+using MPC.MIS.Areas.Api.Models;
 using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -12,31 +13,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new StagingImportCompanyContactAddress
             {
-                //CompanyName = source.CompanyName,
                 CompanyId = companyId,
-                //AddressId = source.AddressId,
                 AddressName = source.AddressName,
                 Address1 = source.Address1,
                 Address2 = source.Address2,
-                //Address3 = source.Address3,
                 City = source.City,
                 State = source.State,
-                //StateId = source.StateId,
                 Country = source.Country,
-                //CountryId = source.CountryId,
                 Postcode = source.Postcode,
-                //TerritoryId = source.TerritoryId,
                 TerritoryName = source.TerritoryName,
                 AddressPhone = source.AddressPhone,
                 AddressFax = source.AddressFax,
-                //ContactId = source.ContactId,
                 ContactFirstName = source.ContactFirstName,
                 ContactLastName = source.ContactLastName,
                 JobTitle = source.JobTitle,
                 Email = source.Email,
-                //password = source.password,
                 Mobile = source.Mobile,
-                //RoleId = source.RoleId,
                 ContactPhone = source.ContactPhone,
                 ContactFax = source.ContactFax,
                 AddInfo1 = source.AddInfo1,
@@ -44,7 +36,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AddInfo3 = source.AddInfo3,
                 AddInfo4 = source.AddInfo4,
                 AddInfo5 = source.AddInfo5,
-                //OrganisationId = source.OrganisationId,
+                SkypeId = source.SkypeId,
+                LinkedInUrl = source.LinkedInUrl,
+                FacebookUrl = source.FacebookUrl,
+                TwitterUrl = source.TwitterUrl,
+                CanEditProfile = Convert.ToBoolean(source.CanEditProfile == ""? "false": source.CanEditProfile),
+                CanPlaceOrderWithoutApproval = Convert.ToBoolean(source.CanPlaceOrderWithoutApproval == "" ? "false" : source.CanPlaceOrderWithoutApproval),
+                CanPlaceDirectOrder = Convert.ToBoolean(source.CanPlaceDirectOrder == "" ? "false" : source.CanPlaceDirectOrder),
+                CanPayByPersonalCreditCard = Convert.ToBoolean(source.CanPayByPersonalCreditCard == "" ? "false" : source.CanPayByPersonalCreditCard),
+                CanSeePrices = Convert.ToBoolean(source.CanSeePrices == "" ? "false" : source.CanSeePrices),
+                HasWebAccess = Convert.ToBoolean(source.HasWebAccess == "" ? "false" : source.HasWebAccess),
+                CanPlaceOrder = Convert.ToBoolean(source.CanPlaceOrder == "" ? "false" : source.CanPlaceOrder) 
             };
         }
     }
