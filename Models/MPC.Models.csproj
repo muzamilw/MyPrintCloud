@@ -446,6 +446,7 @@
     <Compile Include="RequestModels\PTVRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseOrderSearchRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
+    <Compile Include="RequestModels\ReportEmailRequestModel.cs" />
     <Compile Include="RequestModels\ReportNoteRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\SmartFormRequestModel.cs" />
@@ -508,6 +509,7 @@
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
     <Compile Include="ResponseModels\PurchaseBaseResponse.cs" />
     <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
+    <Compile Include="ResponseModels\ReportEmailResponseModel.cs" />
     <Compile Include="ResponseModels\ReportparamResponse.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
     <Compile Include="ResponseModels\SmartFormResponse.cs" />

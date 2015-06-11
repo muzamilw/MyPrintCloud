@@ -14,7 +14,7 @@
                                 <label for="txtEmail" class="control-label text-right tooltip-float">To</label>
                             </div>
                             <div class="col-lg-7">
-                                <input type="text" class="form-control" id="txtEmail" data-bind="">
+                                <input type="text" class="form-control" id="txtEmail" data-bind="value: $root.To">
                             </div>
                         </div>
                         <div class="form-group ">
@@ -23,7 +23,7 @@
                                 <label for="txtEmail" class="control-label text-right tooltip-float">Cc</label>
                             </div>
                             <div class="col-lg-7">
-                                <input type="text" class="form-control" id="txtEmail" data-bind="">
+                                <input type="text" class="form-control" id="txtEmail" data-bind="value: $root.CC">
                             </div>
                         </div>
                         <div class="form-group ">
@@ -32,19 +32,38 @@
                                 <label for="txtEmail" class="control-label text-right tooltip-float">Subject</label>
                             </div>
                             <div class="col-lg-7">
-                                <input type="text" class="form-control" id="txtEmail" data-bind="">
+                                <input type="text" class="form-control" id="txtEmail" data-bind="value: $root.Subject">
                             </div>
                             <div class="col-lg-1">
                                 <button class="btn btn-primary">Send</button>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-lg-1 text-right"></div>
-                            <div class="col-lg-11">
-                                <textarea name="html_link_content" id="content" data-bind="editor: hTmlMessageA,drop: $root.droppedEmailSection,openFrom:$root.ckEditorOpenFrom" ></textarea>
+
+                      
+                        <div class="form-group ">
+                            <div class="col-lg-1 text-right">
+
+                                
+                            </div>
+                            <div class="col-lg-7">
+
+                                <img src="#" />
+                               @* <asp:Image runat="server" ID="AttchmentFinder" Width="20px" ImageUrl="~/StoredImages/AppImages/ImageAttach.png" />*@
+                                <a data-bind="href: $root.AttacmentPath" target="_blank"></a>
+                               @* <a id="anchrAttachment" runat="server" class="EmailViewerTxtBox" onclick="lblAttachment_Click" target="_blank"></a>*@
+                             </div>
+                            <div class="col-lg-1">
+
+                                </div>
+                         </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-1 text-right"></div>
+                                <div class="col-lg-11">
+                                    <textarea name="html_link_content" id="content" data-bind="editor: hTmlMessageA,drop: $root.droppedEmailSection,openFrom:$root.ckEditorOpenFrom"></textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">

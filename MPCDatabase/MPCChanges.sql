@@ -5501,7 +5501,10 @@ order by monthname
 
 END
 
+------------------------------------------------------------------------
 
+
+delete from report where ReportId in (150,151,152,153,154)
 
 
 
