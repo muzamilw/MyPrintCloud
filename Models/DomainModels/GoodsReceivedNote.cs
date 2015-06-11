@@ -11,7 +11,7 @@ namespace MPC.Models.DomainModels
         public int GoodsReceivedId { get; set; }
         public int? PurchaseId { get; set; }
         public DateTime? date_Received { get; set; }
-        public int? SupplierId { get; set; }
+        public long? SupplierId { get; set; }
         public double? TotalPrice { get; set; }
         public int? UserId { get; set; }
         public string Address { get; set; }
@@ -42,7 +42,8 @@ namespace MPC.Models.DomainModels
         public string Reference1 { get; set; }
         public string Reference2 { get; set; }
         public int? CarrierId { get; set; }
-
+        public virtual Company Company { get; set; }
+        public virtual SectionFlag SectionFlag { get; set; }
         public virtual ICollection<GoodsReceivedNoteDetail> GoodsReceivedNoteDetails { get; set; }
     }
 }

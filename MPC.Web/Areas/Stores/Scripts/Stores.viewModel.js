@@ -3323,6 +3323,7 @@ define("stores/stores.viewModel",
             //Create Payment Gateway
             onCreateNewPaymentGateway = function () {
                 var paymentGateway = new model.PaymentGateway();
+                paymentGateway.isActive(false);
                 selectedPaymentGateway(paymentGateway);
                 view.showPaymentGatewayDialog();
             },
@@ -3367,6 +3368,9 @@ define("stores/stores.viewModel",
                     var notFound = true;
                     var count = 0;
                     _.each(selectedStore().paymentGateway(), function (item) {
+                        if (selectedPaymentGateway().isActive() && item.paymentGatewayId() != selectedPaymentGateway().paymentGatewayId()) {
+                            item.isActive(false);
+                        }
                         if (notFound && item.paymentGatewayId() == selectedPaymentGateway().paymentGatewayId()) {
                             selectedStore().paymentGateway.remove(item);
                             selectedStore().paymentGateway.splice(count, 0, selectedPaymentGateway());
