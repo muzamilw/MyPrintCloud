@@ -684,6 +684,11 @@ namespace MPC.Repository.BaseRepository
         /// Machine Lookup Method DbSet
         /// </summary>
         public DbSet<MachineLookupMethod> MachineLookupMethods { get; set; }
+
+        /// <summary>
+        /// Variable Extension DbSet
+        /// </summary>
+        public DbSet<VariableExtension> VariableExtensions { get; set; }
         
         /// <summary>
         /// Clone Template Stored Procedure
@@ -976,7 +981,7 @@ namespace MPC.Repository.BaseRepository
         }
 
 // ReSharper disable InconsistentNaming
-        public ObjectResult<usp_TotalEarnings_Result> usp_TotalEarnings(DateTime? fromdate, DateTime? todate)
+        public ObjectResult<usp_TotalEarnings_Result> usp_TotalEarnings(DateTime? fromdate, DateTime? todate, long? organisationid)
 // ReSharper restore InconsistentNaming
         {
             var fromdateParameter = fromdate.HasValue ?
@@ -987,7 +992,12 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("todate", todate) :
                 new ObjectParameter("todate", typeof(DateTime));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_TotalEarnings_Result>("usp_TotalEarnings", fromdateParameter, todateParameter);
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("Organisationid", organisationid) :
+                new ObjectParameter("Organisationid", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_TotalEarnings_Result>("usp_TotalEarnings", fromdateParameter, 
+                todateParameter, organisationidParameter);
         }
 
 // ReSharper disable InconsistentNaming
