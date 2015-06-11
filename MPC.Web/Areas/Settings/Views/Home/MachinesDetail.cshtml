@@ -254,7 +254,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" data-bind="visible: !$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -885,8 +885,8 @@
 
                                         <div class="tab-pane fade PressControls" id="tab-lookup">
                                             <div class="col-md-12 form-horizontal">
-                                                <h3 class="group-header">Lookup Methods</h3>
-                                                <div class="col-md-9">
+                                                <h3 class="group-header" data-bind="visible: !$root.isGuillotineList()">Lookup Methods</h3>
+                                                <div class="col-md-9" data-bind="visible: !$root.isGuillotineList()">
                                                     <div class="form-group">
                                                         <div class="col-lg-4 text-right">
 
@@ -904,8 +904,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="col-lg-3" style="padding-left:0px;">
 
-                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:SetupSpoilage" >
-                                                                
+                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:SetupSpoilage">
+
                                                             </div>
                                                             <div class="col-lg-1 help-block text-left">Sheets</div>
                                                         </div>
@@ -913,25 +913,25 @@
                                                     </div>
 
                                                     @*<div class="form-group">
-                            <div class="col-lg-4 text-right">
+                <div class="col-lg-4 text-right">
 
-                                <div class="bs-example-tooltips tooltip-float-width">
+                    <div class="bs-example-tooltips tooltip-float-width">
 
-                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
+                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
 
-                                </div>
-                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Setup Sheets</label>
+                    </div>
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Setup Sheets</label>
 
-                            </div>
+                </div>
 
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" placeholder="Enter Setup Sheets" data-bind="value:MachineName">
-                                <span class=" help-block text-right"></span>
-                            </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control" placeholder="Enter Setup Sheets" data-bind="value:MachineName">
+                    <span class=" help-block text-right"></span>
+                </div>
 
-                        </div>*@
+            </div>*@
 
                                                     <div class="form-group">
                                                         <div class="col-lg-4 text-right">

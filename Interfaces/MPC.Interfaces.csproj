@@ -91,6 +91,7 @@
     <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="MISServices\IDeliveryCarriersService.cs" />
     <Compile Include="MISServices\IDeliveryNotesService.cs" />
+    <Compile Include="MISServices\IExportReportHelper.cs" />
     <Compile Include="MISServices\IGoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\IInquiryService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Repository\IPipeLineSourceRepository.cs" />
     <Compile Include="Repository\ISmartFormDetailRepository.cs" />
     <Compile Include="Repository\ISmartFormRepository.cs" />
+    <Compile Include="Repository\IStagingImportCompanyContactAddressRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
     <Compile Include="Repository\IStatusRepository.cs" />

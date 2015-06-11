@@ -2285,7 +2285,6 @@ define("stores/stores.viewModel",
             },
             onEditAddress = function (address) {
                 //selectedAddress(address);
-                //selectedCompanyCMYKColor(companyCMYKColor);
                 addressEditorViewModel.selectItem(address);
 
                 isSavingNewAddress(false);
@@ -3324,6 +3323,7 @@ define("stores/stores.viewModel",
             //Create Payment Gateway
             onCreateNewPaymentGateway = function () {
                 var paymentGateway = new model.PaymentGateway();
+                paymentGateway.isActive(false);
                 selectedPaymentGateway(paymentGateway);
                 view.showPaymentGatewayDialog();
             },
@@ -3368,6 +3368,9 @@ define("stores/stores.viewModel",
                     var notFound = true;
                     var count = 0;
                     _.each(selectedStore().paymentGateway(), function (item) {
+                        if (selectedPaymentGateway().isActive() && item.paymentGatewayId() != selectedPaymentGateway().paymentGatewayId()) {
+                            item.isActive(false);
+                        }
                         if (notFound && item.paymentGatewayId() == selectedPaymentGateway().paymentGatewayId()) {
                             selectedStore().paymentGateway.remove(item);
                             selectedStore().paymentGateway.splice(count, 0, selectedPaymentGateway());
@@ -6474,6 +6477,12 @@ define("stores/stores.viewModel",
                 });
                 confirmation.show();
             },
+            // Get Company By Id
+            getCompanyByIdFromListView = function(id) {
+                return stores.find(function(store) {
+                    return store.companyId() === id;
+                });
+            },
             // Delete Company Permanently
             deleteCompanyPermanently = function (id) {
                 dataservice.deleteCompanyPermanent({ CompanyId: id }, {
@@ -6481,7 +6490,10 @@ define("stores/stores.viewModel",
                         toastr.success("Store deleted successfully!");
                         isEditorVisible(false);
                         if (selectedStore()) {
-                            stores.remove(selectedStore());
+                            var store = getCompanyByIdFromListView(selectedStore().companyId());
+                            if (store) {
+                                stores.remove(store);
+                            }
                         }
                         resetStoreEditor();
                     },

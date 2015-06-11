@@ -55,11 +55,11 @@ namespace MPC.Interfaces.MISServices
         string DownloadOrderArtwork(int OrderID, string sZipName);
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
 
-        string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
+        //string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
 
-        string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat);
+        //string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat);
 
-        string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
+        //string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
         bool ProgressEstimateToOrder(ProgressEstimateRequestModel requestModel);
         Estimate CloneOrder(Estimate source);
         InquiryBaseResponse GetBaseDataForInquiries();
