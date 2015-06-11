@@ -49,7 +49,8 @@ define("crm/crm.viewModel",
                     //Is Loading stores
                     isLoadingStores = ko.observable(false),
                     //Selected Company Contact
-                    selectedCompanyContact = ko.observable(),
+                    companyContactEditorViewModel = new ist.ViewModel(model.CompanyContact),
+                    selectedCompanyContact = companyContactEditorViewModel.itemForEditing,
                     //Check if screen is Prospect Or Customer Screen
                     isProspectOrCustomerScreen = ko.observable(false),
                     //Setting up computed method calling 
@@ -550,7 +551,8 @@ define("crm/crm.viewModel",
                 // #region _________A D D R E S S E S __________________________
 
                 //Selected AddresssearchCompanyTerritory
-                selectedAddress = ko.observable(),
+                addressEditorViewModel = new ist.ViewModel(model.Address),
+                selectedAddress = addressEditorViewModel.itemForEditing,
                 //SelectedAddressTerritoryFilter
                 addressTerritoryFilter = ko.observable(),
                 //List for Address Territory
@@ -905,7 +907,7 @@ define("crm/crm.viewModel",
                     }
                 },
                 onEditAddress = function (address) {
-                    selectedAddress(address);
+                    addressEditorViewModel.selectItem(address);
                     isSavingNewAddress(false);
                     selectedAddress().reset();
                     view.showAddressDialog();
@@ -1346,7 +1348,8 @@ define("crm/crm.viewModel",
             },
             selectedCompanyContactEmail = ko.observable(),
             onEditCompanyContact = function (companyContact) {
-                selectedCompanyContact(companyContact);
+                //selectedCompanyContact(companyContact);
+                companyContactEditorViewModel.selectItem(companyContact);
                 selectedCompanyContactEmail(companyContact.email());
                 selectedCompanyContact().reset();
                 isSavingNewCompanyContact(false);
@@ -1413,10 +1416,20 @@ define("crm/crm.viewModel",
                                         }
                                         else {
                                             selectedCompanyContact(savedCompanyContact);
+                                            //_.each(selectedStore().users(), function (user) {
+                                            //    if (user.contactId() == savedCompanyContact.contactId()) {
+                                            //        user.roleName(savedCompanyContact.roleName());
+                                            //    }
+                                            //});
+                                            var count = 0;
                                             _.each(selectedStore().users(), function (user) {
                                                 if (user.contactId() == savedCompanyContact.contactId()) {
-                                                    user.roleName(savedCompanyContact.roleName());
+                                                    var totalCount = contactCompanyPager().totalCount();
+                                                    selectedStore().users.remove(user);
+                                                    selectedStore().users.splice(count, 0, savedCompanyContact);
+                                                    contactCompanyPager().totalCount(totalCount);
                                                 }
+                                                count = count + 1;
                                             });
                                         }
                                         if (savedCompanyContact.isDefaultContact()) {
