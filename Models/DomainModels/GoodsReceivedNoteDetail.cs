@@ -6,7 +6,7 @@
     public class GoodsReceivedNoteDetail
     {
         public int GoodsReceivedDetailId { get; set; }
-        public int? ItemId { get; set; }
+        public long? ItemId { get; set; }
         public double? QtyReceived { get; set; }
         public int? GoodsreceivedId { get; set; }
         public double? Price { get; set; }
@@ -21,7 +21,10 @@
         public double? Discount { get; set; }
         public int? FreeItems { get; set; }
         public int? DepartmentId { get; set; }
-
+        public double? TaxValue { get; set; }
+        public long? RefItemId { get; set; }
+        public int? ProductType { get; set; }
+        public virtual Item Item { get; set; }
         public virtual GoodsReceivedNote GoodsReceivedNote { get; set; }
     }
 }

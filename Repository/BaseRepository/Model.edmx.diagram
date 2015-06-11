@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="73">
+      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="71">
         <EntityTypeShape EntityType="DomainModels.Company" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="9.125" PointY="3.125" />
@@ -287,7 +287,6 @@
         <EntityTypeShape EntityType="DomainModels.GoodsReceivedNoteDetail" Width="1.5" PointX="42.625" PointY="16" />
         <EntityTypeShape EntityType="DomainModels.Purchase" Width="1.5" PointX="39.375" PointY="35.125" />
         <EntityTypeShape EntityType="DomainModels.PurchaseDetail" Width="1.5" PointX="41.625" PointY="36.625" />
-        <AssociationConnector Association="DomainModels.FK_GoodsreceivedID" />
         <EntityTypeShape EntityType="DomainModels.JobPreference" Width="1.5" PointX="7.375" PointY="40.75" />
         <EntityTypeShape EntityType="DomainModels.InkPlateSide" Width="1.5" PointX="40.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.SectionInkCoverage" Width="1.5" PointX="40.375" PointY="3.75" />
@@ -326,6 +325,11 @@
         <AssociationConnector Association="DomainModels.FK_Purchase_SectionFlag" />
         <AssociationConnector Association="DomainModels.FK_PurchaseDetail_Purchase" />
         <EntityTypeShape EntityType="DomainModels.StagingImportCompanyContactAddress" Width="1.5" PointX="42.375" PointY="0.75" />
+        <AssociationConnector Association="DomainModels.FK_GoodsReceivedNote_Company" />
+        <AssociationConnector Association="DomainModels.FK_GoodsReceivedNote_SectionFlag" />
+        <AssociationConnector Association="DomainModels.FK_GoodsReceivedNoteDetail_Items" />
+        <EntityTypeShape EntityType="DomainModels.VariableExtension" Width="1.5" PointX="9.375" PointY="40.875" />
+        <AssociationConnector Association="DomainModels.FK_GoodsReceivedNoteDetail_GoodsReceivedNote" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

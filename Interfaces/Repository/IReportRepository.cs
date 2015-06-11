@@ -34,6 +34,8 @@ namespace MPC.Interfaces.Repository
         void UpdateReportNotes(List<ReportNote> reportNotes);
         List<ReportparamResponse> getParamsById(long Id);
 
+        List<usp_PurchaseOrderReport_Result> GetPOReport(long PurchaseId);
+
 
     }
 }

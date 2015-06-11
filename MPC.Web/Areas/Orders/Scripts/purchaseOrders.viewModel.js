@@ -602,8 +602,10 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         target.discount(source.discount());
                         target.companyName(source.companyName());
                         target.taxRate(source.taxRate());
-
                     },
+                    //mapPurchaseDetailToGRNDetail=function(source, target) {
+                    //    target.(source.());
+                    //},
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;

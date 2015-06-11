@@ -73,15 +73,15 @@ namespace MPC.Repository.Repositories
             int toRow = request.PageSize;
             bool isStatusSpecified = request.Status == 0;//if true get all then get by status
 
-            Expression<Func<GoodsReceivedNote, bool>> query = null;
-            //item =>
-            //    (
-            //    string.IsNullOrEmpty(request.SearchString) ||
-            //    ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.RefNo.Contains(request.SearchString))
-            //    )) && (!isStatusSpecified && item.Status == request.Status || isStatusSpecified);
+            Expression<Func<GoodsReceivedNote, bool>> query = 
+            item =>
+                (
+                string.IsNullOrEmpty(request.SearchString) ||
+                ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.RefNo.Contains(request.SearchString))
+                )) && (!isStatusSpecified && item.Status == request.Status || isStatusSpecified);
 
             IEnumerable<GoodsReceivedNote> items = DbSet.Where(query)
-                .OrderBy(x => x)
+                .OrderBy(x => x.DeliveryDate)
                 .Skip(fromRow)
                 .Take(toRow)
                 .ToList();

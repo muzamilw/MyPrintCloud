@@ -234,6 +234,7 @@
     <Compile Include="DomainModels\usp_OrderReport_Result.cs" />
     <Compile Include="DomainModels\usp_PurchaseOrderReport_Result.cs" />
     <Compile Include="DomainModels\usp_TotalEarnings_Result.cs" />
+    <Compile Include="DomainModels\VariableExtension.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
