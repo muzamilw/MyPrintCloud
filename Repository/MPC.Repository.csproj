@@ -287,6 +287,7 @@
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\SmartFormDetailRepository.cs" />
     <Compile Include="Repositories\SmartFormRepository.cs" />
+    <Compile Include="Repositories\StagingImportCompanyContactAddressRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\CostCenterTypeRepository.cs" />
     <Compile Include="Repositories\StatusRepository.cs" />

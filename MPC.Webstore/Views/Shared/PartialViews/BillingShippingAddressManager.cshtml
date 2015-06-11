@@ -9,27 +9,28 @@
 
 <div class="content_area container" id="BillingShiping">
     
-    <div class="left_right_padding row">
-      
-        <div class="signin_heading_div float_left_simple ">
-            <label class="sign_in_heading" id="HistryBtn">My Saved Billing & Shipping Details</label>
-        </div>
-        <div class="dashBoardRetrunLink dashboard_heading_signin">
-            <div class=" left_align">
-                <h1>
-                    <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                        Back to my dashboard
-                    </a>
-                </h1>
-                <div class="clearBoth"></div>
+    <div class="left_right_padding">
+        <div class="col-md-12 col-lg-12 col-xs-12">
+            <div class="signin_heading_div float_left_simple ">
+                <label class="sign_in_heading" id="HistryBtn">My Saved Billing & Shipping Details</label>
+            </div>
+            <div class="dashBoardRetrunLink dashboard_heading_signin">
+                <div class=" left_align">
+                    <h1>
+                        <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
+                            Back to my dashboard
+                        </a>
+                    </h1>
+                    <div class="clearBoth"></div>
+                </div>
+            </div>
+            <div class="clearBoth">
             </div>
         </div>
-        <div class="clearBoth">
-        </div>
-        <div class="paddingTop15px">
-
+       
+        <div class="paddingTop15px col-md-12 col-lg-12 col-xs-12">
             <div class="cursor_pointer">
-               
+
                 <div class="new_caption">
                     <input type="button" id="btnCopyProduct" class="add-address-btn" onclick="ResetTextboxes()" value="Add new address">
                 </div>
@@ -43,71 +44,35 @@
                         <td>
                             @*<asp:Literal ID="ltrlSearchrecords" runat="server" Text=" Search Address"></asp:Literal>*@
                             <label id="ltrlSearchrecords"></label>
-
                         </td>
-                        @using(Html.BeginForm())
+                        @using (Html.BeginForm())
                         {
-                        <td style="padding-left: 10px;">
-                            @*<asp:TextBox ID="txtsearch" runat="server" Width="400px" CssClass="text_box150 rounded_corners5"></asp:TextBox>*@
+                            <td style="padding-left: 10px;">
+                                @*<asp:TextBox ID="txtsearch" runat="server" Width="400px" CssClass="text_box150 rounded_corners5"></asp:TextBox>*@
+                                @*@Html.TextBoxFor(model => model.FirstName, new { id = "txtsearch", @class = "text_box150 rounded_corners5", placeholder = "Search", maxlength = 500, })*@
+                                <input id="txtsearch" type="text" style="width:248px;" class="text_box150 rounded_corners5" name="SearchString" placeholder="Search Address" />
+                            </td>
 
-                            @*@Html.TextBoxFor(model => model.FirstName, new { id = "txtsearch", @class = "text_box150 rounded_corners5", placeholder = "Search", maxlength = 500, })*@
-                            <input id="txtsearch" type="text" style="width:248px;"  class="text_box150 rounded_corners5" name="SearchString" placeholder="Search Address" />
-                        </td>
+                            <td style="padding-left: 10px;">
+                                @*<asp:Button ID="btnsearch" runat="server" Text="Go" CssClass="start_creating_btn rounded_corners5"
+                                OnClick="btnsearch_Click" />*@
+                                <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Go</button>
+                            </td>
 
-                        <td style="padding-left: 10px;">
-                            @*<asp:Button ID="btnsearch" runat="server" Text="Go" CssClass="start_creating_btn rounded_corners5"
-                            OnClick="btnsearch_Click" />*@
-                            <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Go</button>
-                        </td>
-                          
-                        <td style="padding-left: 10px;">
-                            @*<asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="start_creating_btn rounded_corners5"
-                            OnClick="btnReset_Click" />*@
-                            <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Clear</button>
-                        </td>
+                            <td style="padding-left: 10px;">
+                                @*<asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="start_creating_btn rounded_corners5"
+                                OnClick="btnReset_Click" />*@
+                                <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Clear</button>
+                            </td>
                         }
                     </tr>
                 </table>
             </div>
             <div class="white_background rounded_corners textAlignLeft">
-                
+
                 <div class="border_bottom_line">
-                    
+
                 </div>
-
-                @*<asp:Repeater ID="rptrShippingAddress" runat="server" OnItemDataBound="rptrShippingAddress_ItemDataBound"
-                              OnItemCommand="rptrShippingAddress_ItemCommand">
-                    <itemtemplate>
-                        <div class="territory_row_padding" title="click to edit address">
-                            <div id="divContainer" runat="server" class="cursor_pointer">
-                                <div class="address_title_corp_div">
-                                    <%# Eval("AddressName")%>&nbsp;
-                                </div>
-                                <div class="address_detil_corp_div ">
-                                    <%# Eval("Address1")%>&nbsp;
-                                </div>
-                                <div class="main_contact_corp_div">
-                                    <asp:Label ID="lblDefaultAddress" runat="server"></asp:Label>&nbsp;
-                                </div>
-                            </div>
-                            <div class="float_right">
-                                <%--commented by Naveed on 08/12/2014--%>
-                                <asp:ImageButton ID="btnDelete" runat="server" OnClientClick="return confirm('Are you sure you want to delete this address?');" style="display:none;"
-                                                 ToolTip="Delete Address" ImageUrl="~/images/delete.png" Height="28" Width="28" CommandName="DeleteRecord" CommandArgument='<%# Eval("AddressID") %>' />
-                            </div>
-                        </div>
-                        <div class="clearBoth">
-                        </div>
-                        <div class="border_bottom_line">
-                            &nbsp;
-                        </div>
-                    </itemtemplate>
-                </asp:Repeater>
-                <asp:Button ID="btnEditRecord" runat="server" Text="Edit" Style="display: none;"
-                            OnClick="btnEditRecord_Click" />
-
-
-                <asp:asyncpostbacktrigger controlid="btnSaveShippingAddress" eventname="Click" />*@
                 <div class="territory_row_paddingNew">
                     <div id="divContainer" class="cursor_pointer">
                         @grid.Table(
@@ -121,66 +86,45 @@
 
     grid.Column("Address Title",format:@<p>@item.AddressName</p>,style:"WebGridPadding"),
     grid.Column("Address Details",format:@<p>@item.Address1</p>),
-    @*grid.Column("Main Contact",format:@<p>
+grid.Column("Default Shipping",format:@<p>
 
-                            @if (item.IsDefaultAddress == null)
+                            @if (item.IsDefaultShippingAddress == true)
                             {
-                            <p>No</p>
+                            <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
+                            }
+                            else
+                            {
+                                if (item.IsDefaultShippingAddress == null || item.IsDefaultShippingAddress == false)
+                                {
+                                    <p></p>
+                                }
+                            }
+
+                            </p>),
+
+       grid.Column("Default Billing",format:@<p>
+
+                            @if (item.IsDefaultAddress == true)
+                            {
+                            <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
 
                             }
                             else
                             {
-                                if (item.IsDefaultAddress == true)
+                                if (item.IsDefaultAddress == null || item.IsDefaultAddress == false)
                                 {
-                                    <p>Yes</p>
+                                    <p></p>
                                 }
-                                else
-                                {
-                                    <p>Yes</p>
-                                }
+
                             }
+
                             </p>),
-grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ShowBillingShippingDetails(@item.addressid)" />
-            </text>)*@
-grid.Column("Default Shipping",format:@<p>
 
-                                @if (item.IsDefaultShippingAddress == true)
-                                {
-                                <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
-                                }
-                                else
-                                {
-                                    if (item.IsDefaultShippingAddress == null || item.IsDefaultShippingAddress==false)
-                                    {
-                                        <p></p>
-                                    }
-                                }
-
-                                </p>),
-
-       grid.Column("Default Billing",format:@<p>
-
-    @if (item.IsDefaultAddress == true)
-    {
-    <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
-
-    } 
-    else
-    {
-        if (item.IsDefaultAddress == null || item.IsDefaultAddress == false)
-        {
-            <p></p>
-        }
-
+    grid.Column("Edit", format:@<text> <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
+    </text>,style:"WebGridPadding")
     }
 
-    </p>),
-
-    grid.Column("Edit", format:@<text> <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)" ></i>
-                </text>,style:"WebGridPadding")
-    }
-
-)
+         )
 
                         @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
                         {
@@ -190,53 +134,17 @@ grid.Column("Default Shipping",format:@<p>
                         }
                     </div>
                 </div>
-            
+
                 <div class="float_right"></div>
                 <div class="clearBoth">
                 </div>
-               
 
             </div>
-            @*<div id="PnlPagerControl" class="Width100Percent" runat="server">
-                <table border="0" cellpadding="0" cellspacing="0" class="Width100Percent textAlignRight">
-                    <tr>
-                        <td>
-                            <div id="PagerRighArea">
-                                <div class="divTblLayout Width100Percent">
-                                    <div class="tblRow">
-                                        <div class="divCell">
-                                            <asp:LinkButton ID="lnkBtnPreviouBullet" runat="server" CssClass="imgPreviousBullet"
-                                                            OnClick="lnkBtnPreviouBullet_Click" Visible="false" />
-                                        </div>
-                                        <div class="divCell">
-                                            <div id="PagerPageDisplayInfo">
-                                                <asp:Label ID="lblPageInfoDisplay" CssClass="simpleText" runat="server" Text="1 of 1"
-                                                           Visible="false" />
-                                            </div>
-                                        </div>
-                                        <div class="divCell">
-                                            <asp:LinkButton ID="lnkBtnNextBullet" runat="server" CssClass="imgNextBullet" OnClick="lnkBtnNextBullet_Click"
-                                                            Visible="false" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>*@
-            @*<asp:Button ID="btnAddressPopup" runat="server" Style="display: none; width: 0px; height: 0px" />*@
-            @*<ajaxToolkit:ModalPopupExtender ID="mpeAddress" runat="server" BackgroundCssClass="ModalPopupBG"
-                                            PopupControlID="pnlAddress" TargetControlID="btnAddressPopup" BehaviorID="mpeAddress"
-                                            CancelControlID="btnCancelShippingAddress" DropShadow="false">
-            </ajaxToolkit:ModalPopupExtender>*@
-
-
         </div>
         </div>
     </div>
 
-<div id="UpdateModelPopUp" class="pop_body_MesgPopUp" style="padding: 25px; visibility:hidden;">
+<div id="UpdateModelPopUp" class="pop_body_MesgPopUp" style="padding: 25px; display:none;">
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
         <div id="container" style="margin-left: 85px;">
         @*<div class="address_label_area1 ">

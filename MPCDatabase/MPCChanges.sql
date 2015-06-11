@@ -4630,3 +4630,879 @@ add constraint FK_PurchaseDetail_Purchase
 foreign key (PurchaseId)
 references Purchase (PurchaseId)
 on delete cascade
+
+/* Execution Date: 10/06/2015 */
+
+
+/****** Object:  Table [dbo].[StagingImportCompanyContactAddress]    Script Date: 6/9/2015 6:17:18 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[StagingImportCompanyContactAddress](
+	[StagingId] [bigint] IDENTITY(1,1) NOT NULL,
+	[CompanyName] [nvarchar](250) NULL,
+	[CompanyId] [bigint] NULL,
+	[AddressId] [bigint] NULL,
+	[AddressName] [varchar](200) NULL,
+	[Address1] [varchar](250) NULL,
+	[Address2] [varchar](250) NULL,
+	[Address3] [varchar](250) NULL,
+	[City] [varchar](250) NULL,
+	[State] [varchar](250) NULL,
+	[StateId] [bigint] NULL,
+	[Country] [varchar](50) NULL,
+	[CountryId] [bigint] NULL,
+	[Postcode] [varchar](50) NULL,
+	[TerritoryId] [bigint] NULL,
+	[TerritoryName] [varchar](250) NULL,
+	[AddressPhone] [nvarchar](50) NULL,
+	[AddressFax] [nvarchar](50) NULL,
+	[ContactId] [bigint] NULL,
+	[ContactFirstName] [varchar](250) NULL,
+	[ContactLastName] [varchar](250) NULL,
+	[JobTitle] [varchar](250) NULL,
+	[Email] [varchar](250) NULL,
+	[password] [nvarchar](50) NULL,
+	[Mobile] [varchar](50) NULL,
+	[RoleId] [bigint] NULL,
+	[ContactPhone] [nvarchar](50) NULL,
+	[ContactFax] [varchar](50) NULL,
+	[AddInfo1] [nvarchar](1500) NULL,
+	[AddInfo2] [nvarchar](1000) NULL,
+	[AddInfo3] [nvarchar](1000) NULL,
+	[AddInfo4] [nvarchar](1500) NULL,
+	[AddInfo5] [nvarchar](1500) NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_StagingImportCompanyContactAddress] PRIMARY KEY CLUSTERED 
+(
+	[StagingId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_importTerritoryContactAddressByStore]    Script Date: 5/25/2015 12:46:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ CREATE Procedure [dbo].[usp_importTerritoryContactAddressByStore]
+		@OrganisationId bigint,
+		@StoreId bigint
+	 
+	 as 
+	 Begin
+  
+		  update StagingImportCompanyContactAddress set CompanyId = @StoreId, OrganisationId = @OrganisationId
+		  
+		  --update Country Id by country name
+		  update StagingImportCompanyContactAddress set CountryId = c.CountryId
+		  from StagingImportCompanyContactAddress i , country c
+		  where c.CountryName = i.Country
+		  --update StateId by State Name 
+		  update StagingImportCompanyContactAddress set StateId = c.StateId
+		  from StagingImportCompanyContactAddress i , State c
+		  where c.StateName = i.State
+		  --update TerritoryId from Territory Name
+		  update StagingImportCompanyContactAddress set TerritoryId = c.TerritoryId
+		  from StagingImportCompanyContactAddress i , CompanyTerritory c
+		  where c.TerritoryCode = i.TerritoryName
+
+				BEGIN TRY
+
+					Declare @count int = (select count(*) from StagingImportCompanyContactAddress)
+					Declare @counter int = 1
+					Declare @StagingId bigint, @AddressId bigint, @TerritoryId bigint, @AddrssName varchar(200), @Address1 varchar(200), @Address2 varchar(200), @City varchar(100),
+							@TerritoryName varchar(200), @isNewTerritory bit
+  
+					While @counter <= @count
+					Begin
+					set @isNewTerritory = 0
+					select @AddrssName = AddressName, @Address1 = Address1, @Address2 = Address2, @City = City, @TerritoryName = TerritoryName from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+					where r = @counter
+					 --Check Territory Exist otherwise Insert Territory
+					 if(exists(select * from CompanyTerritory where companyId = @StoreId and TerritoryName = @TerritoryName))
+					 begin
+						set @TerritoryId = (select top 1 TerritoryId from CompanyTerritory where companyId = @StoreId and TerritoryName = @TerritoryName)
+					 end
+					 else
+					 begin
+							 insert into CompanyTerritory(CompanyID, TerritoryCode, TerritoryName)
+							 select CompanyId, 'TCImport', TerritoryName   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) xx
+									where r = @counter
+							set @TerritoryId = (select SCOPE_IDENTITY())
+							set @isNewTerritory = 1
+					 end
+
+
+				    --Check If Address Exist otherwise insert Address
+					if(exists(select * from Address where companyId = @StoreId and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City))
+						begin
+							set @AddressID = (select top 1 AddressId from Address where companyId = @StoreId and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City)
+						end
+					else
+						begin
+							insert into Address(OrganisationId, CompanyID, AddressName, Address1, Address2, Address3, City, StateId, PostCode, TerritoryID, CountryId, Tel1, isDefaultTerrorityBilling, isDefaultTerrorityShipping, isArchived, IsDefaultAddress)
+							select @OrganisationId, CompanyId, AddressName, Address1, Address2, Address3, City, StateId,Postcode, @TerritoryId, CountryId, ContactPhone, 0, 0, 0, 0   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter
+							set @Addressid = (select SCOPE_IDENTITY())
+							if(@isNewTerritory = 1 and @TerritoryId > 0)
+								Begin
+									update address set isDefaultTerrorityBilling = 1, isDefaultTerrorityShipping = 1 where AddressId = @AddressId
+								End
+						end
+					 --Insert New Contact
+						insert into CompanyContact(OrganisationId, CompanyId, TerritoryID, AddressID, ShippingAddressID, FirstName, LastName, Email, Password, HomePostCode, Mobile, isArchived, ContactRoleID, JobTitle, HomeTel1, Notes, IsDefaultContact, isWebAccess, canPlaceDirectOrder, canUserPlaceOrderWithoutApproval, IsPricingshown)
+						select @OrganisationId, CompanyId, TerritoryId, @Addressid, @Addressid, ContactFirstName, ContactLastName, Email,password, postcode, Mobile,0, RoleId, JobTitle, ContactPhone, 'contact import for this store, default password is guest', 0, 1, 1, 1, 1  
+						from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+						where r = @counter
+
+
+						set @counter = @counter + 1;
+					End
+						Commit Transaction
+				End Try
+				BEGIN CATCH
+						IF @@TRANCOUNT > 0
+							ROLLBACK
+				END CATCH
+End
+
+/****** Object:  StoredProcedure [dbo].[usp_DeletePurchaseOrders]    Script Date: 6/10/2015 11:50:01 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[usp_DeletePurchaseOrders]
+@OrderID as int
+AS
+BEGIN
+	
+	SET NOCOUNT OFF
+	DECLARE @Err int
+	
+    Declare 
+         @ItemsCount as int,
+         @Counter as int,
+		 @DeletedPurchaseID as int,
+		 @POCounter as int,
+		 @POCount as int,
+         @ItemID as int
+         
+    DECLARE @ITEMS AS TABLE(
+     ROWID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+     ItemID int
+    
+     )
+   
+  													
+     
+ --   INSERT INTO @ITEMS 
+	--SELECT ItemID
+	--			FROM tbl_items 
+	--			WHERE EstimateID = @OrderID and (itemType is null or itemType <> 2)
+	
+	 INSERT INTO @ITEMS 
+	SELECT ItemID
+				FROM items 
+				WHERE EstimateID = @OrderID 
+			
+	--select @ItemsCount = count(*) from tbl_items where EstimateID = @OrderID and (itemType is null or itemType <> 2)
+	select @ItemsCount = count(*) from items where EstimateID = @OrderID							
+	        
+	SET @Counter = 1
+
+    WHILE (@Counter <= @ItemsCount)
+    BEGIN
+
+					Select @ItemID = ItemID	 
+					from @ITEMS where ROWID = @Counter
+					select @DeletedPurchaseID = purchaseid from purchasedetail where itemid = @ItemID
+					delete from purchasedetail where purchaseid = @DeletedPurchaseID
+					delete from purchase where purchaseid = @DeletedPurchaseID
+					select 'delete successfully' as MSG
+							
+			   SET @Counter = @Counter + 1
+		end
+		
+		 SET @Err = @@Error	
+		RETURN @Err
+END
+
+/****** Object:  StoredProcedure [dbo].[usp_GeneratePurchaseOrders]    Script Date: 6/10/2015 11:32:50 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ALTER PROCEDURE [dbo].[usp_GeneratePurchaseOrders]
+@OrderID as int,
+@CreatedBy as uniqueidentifier
+AS
+BEGIN
+	
+	SET NOCOUNT OFF
+	DECLARE @Err int
+	
+    Declare 
+         @ItemsCount as int,
+         @Counter as int,
+		 @RefItemID as int,
+		 @ItemQty as int,
+		 @IsExternal as bit,
+		 @IsQtyLimit as bit,
+		 @AutoCreateUnPostedPO as bit,
+		 @QtyLimit as int,
+		 @SupplierID as int,
+		 @ItemID as int,
+		 @SupplierName as varchar(50),
+		 @SupplierAdressID as int,
+		 @SupplierContactID as int,
+		 @ContactCompanyID as int,
+		 @Code as varchar(50),
+		 @ProductCategoryID as int,
+		 @ProductCompleteName as varchar(100),
+         @ItemType as int,
+         @MarkupVaue as float,
+         @NetTotal as float,         
+		@POPrefix as varchar(10),
+		@POStart as bigint,
+		@PONext as varchar(20),
+		@NewPO as bigint,
+		@UserNotes as nvarchar(2000)
+		
+
+    DECLARE @ITEMS AS TABLE(
+     ROWID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+     ItemID int,
+     RefItemID INT,
+     Qty1 int,
+     Qty1GrossTotal float,
+     ProductName varchar(150),
+     ItemCode varchar(50),
+    -- ProductCategoryID INT,
+     Qty1Tax1Value float,
+     ItemType int,
+     Qty1MarkUp1Value float
+     )
+     
+     DECLARE @ITEMDETAIL AS TABLE(
+     ROWID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+     IsInternalActivity bit,
+     IsQtyLimit bit,
+     QtyLimit int,
+     ItemID int,
+     isAutoCreateSupplierPO bit)	
+     
+     --Declare @SupplierIDs as table(
+     --ROWID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+     --SupplierID int)
+     
+    declare @SupplierIDs table
+    (
+       SupplierID int,
+       PurchaseID int,
+       LTotalPrice float,
+       LTotalTax float,
+       LGrandTotal float,
+       LNetTotal float
+																				   
+    )
+      declare @LastTotalPrice as float,
+		      @LastDiscount as float,
+			  @LastTotalTax as float,
+		      @LastGrandTotal as float,
+			  @LastNetTotal as float															
+     
+    INSERT INTO @ITEMS  --- insert items in temp table
+	SELECT ItemID,RefItemID, Qty1, Qty1GrossTotal,ProductName,ItemCode,Qty1Tax1Value,ItemType,Qty1MarkUp1Value
+				FROM Items 
+				WHERE EstimateID = @OrderID
+    select @UserNotes = usernotes from estimate where EstimateID = @OrderID			
+	-- getting count of items
+	select @ItemsCount = count(*) from items where EstimateID = @OrderID
+									
+	
+	declare @Qty1GrossTotal as float,
+	        @Qty1 as int,
+	        @ItemCode as varchar(50),
+	        @ProductName as varchar(100),
+	        @CategoryName as Varchar(100),
+	        @Qty1Tax1Value as float,
+	        @ProductDetailCount as int,
+	        @SupplierTableCount as int,
+	        @PurchaseID as int,
+	        @PurchaseDetailID as int,
+	        @StockItemID1 as int,
+	        @Sequence as int,
+	        @PricePaperType as int,
+	        @SystemSiteID as int,
+			--@TaxIDGS as int,
+	        @NetTax as float
+	SET @Counter = 1
+    
+    -- loop start for each item
+    WHILE (@Counter <= @ItemsCount)
+    BEGIN
+    	
+    	            -- getting ref item id of particular item
+					SELECT @RefItemID = RefItemID FROM @ITEMS WHERE ROWID = @Counter
+					
+					-- setting variables/fields from particular item
+					Select @ItemID = ItemID,
+								@RefItemID = RefItemID,	  
+									   @Qty1 = Qty1,
+									   @ItemCode = ItemCode,
+									   @ProductName = ProductName,
+									  -- @ProductCategoryID = ProductCategoryID,
+									   @ItemType = ItemType
+									    --@Qty1GrossTotal = Qty1GrossTotal,
+									   --@Qty1Tax1Value = Qty1Tax1Value,
+									  -- @MarkupVaue = Qty1MarkUp1Value
+								from @ITEMS where ROWID = @Counter
+
+					-- if item is stoct
+					if (@ItemType = 3) -- stock
+					   begin
+					       -- select supplierand name   of particular stock item
+						   select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from stockitem where StockItemID = @RefItemID),
+						          @ProductCompleteName = (Select TOP 1 isnull(ItemName,'') from stockitem where StockItemID = @RefItemID)
+						          
+					       if (@SupplierID > 0)
+					           begin    
+					              -- getting price of stock item	
+								   Select @Qty1GrossTotal = (select top 1 isnull(CostPrice,0) from StockCostAndPrice where ItemID = @RefItemID and CostOrPriceIdentifier = 0)
+                                   if @Qty1GrossTotal is null
+                                      begin
+                                         select @Qty1GrossTotal = 0
+                                      end
+							  
+							  end
+					   end
+					else if (@ItemType = 2)
+					   begin
+					   
+					     -- select supplier and name   of particular cost center item
+							select @SupplierID = (Select TOP 1 isnull(PreferredSupplierID,0) from CostCentre where CostCentreID = @RefItemID),
+							   @ProductCompleteName = (Select TOP 1 isnull(Name,'') from CostCentre where CostCentreID = @RefItemID)
+						      if (@SupplierID > 0)
+					           begin    	
+					           
+					                -- getting price of cost center
+									declare @CostPrice as float
+									select @CostPrice = CostPerUnitQuantity from CostCentre where CostCentreID = @RefItemID
+									select @Qty1GrossTotal = @CostPrice / @Qty1
+								    if @Qty1GrossTotal is null
+                                      begin
+                                         select @Qty1GrossTotal = 0
+                                      end
+							  end
+					   end
+					else		
+					  begin			 
+                                -- getting product name
+								--select @CategoryName = CategoryName from productcategory where ProductCategoryID = @ProductCategoryID
+								
+								-- making complete name
+								select @ProductCompleteName =  @ProductName
+								
+								-- getting item qty
+								SELECT @ItemQty = isnull(Qty1,0) FROM @ITEMS WHERE ROWID = @Counter
+									
+							    -- insert item detail in temp table				
+								INSERT INTO @ITEMDETAIL 
+										SELECT top 1 isInternalActivity,isQtyLimit,QtyLimit, ItemID, isAutoCreateSupplierPO
+										FROM ItemProductDetail 
+										WHERE ItemID = @RefItemID
+										
+										
+										
+								SET @ProductDetailCount = ISNULL(@@ROWCOUNT, 0)
+								
+								-- check product detail count is greater then 1 or not
+								if (@ProductDetailCount > 0)
+								  begin
+									if (@MarkupVaue > 0)
+										begin
+										   select @MarkupVaue = 0
+										end	
+										
+									
+									-- checking is internal flag
+									Select @IsExternal = isInternalActivity from @ITEMDETAIL where ItemID = @RefItemID
+									if (@IsExternal = 1)
+									  begin
+										 select * from items where itemid = @itemid
+									  end
+									else
+									  begin
+									        -- check isAutoCreateSupplierPO is On or off
+									        select @AutoCreateUnPostedPO =  isAutoCreateSupplierPO from @ITEMDETAIL where itemid = @RefItemID
+									        
+									        if (@AutoCreateUnPostedPO = 1)
+									           begin
+														-- check is qty limit flag
+														select @IsQtyLimit = IsQtyLimit from  @ITEMDETAIL where ItemID = @RefItemID
+														
+													
+														-- getting qty limit
+														select @QtyLimit = isnull(QtyLimit,0) from @ITEMDETAIL where ItemID = @RefItemID
+														
+														-- getting supplier id for item
+														select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 1)
+							 
+													  --  if (@SupplierID is null)
+															--select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from tbl_items_PriceMatrix where ItemID = @RefItemID and SupplierSequence = 2)
+														
+														-- if is qty limit is true
+														if(@IsQtyLimit = 1)
+														  begin
+																-- if order qty is greater than qty limit
+																if (@ItemQty > @QtyLimit)
+																   begin
+																	  select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 1)
+																	  if (@SupplierID is null)
+																		select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 2)
+																	  
+																	 -- insert into @SupplierIDs
+															
+																	  
+																	end
+																 else --  else part of qty conditions
+																   begin
+																	  select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 2)
+																	   if (@SupplierID is null)
+																		select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 1)
+														               
+																   end
+																 
+													 					
+														  end
+											  
+														 if (@SupplierID > 0)
+															begin  
+																	select @StockItemID1 = (select top 1 StockItemID1 from ItemSection where itemid = @ItemID and sectionno = 1)
+																   
+																   
+																	 select @Sequence = (select top 1 OptionSequence from ItemStockOption where itemid = @RefItemID and StockID = @StockItemID1 and companyid is null)
+																   
+																	if (@Sequence = 1)
+																	   begin
+																		 select @Qty1GrossTotal = (select top 1 PricePaperType1 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	   end
+																	else if (@Sequence = 2)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PricePaperType2 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 3)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PricePaperType3 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 4)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType4 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 5)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType5 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 6)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType6 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 7)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType7 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	 else if (@Sequence = 8)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType8 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 9)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType9 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	   else if (@Sequence = 10)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType10 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 11)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType11 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+													    
+														  end -- if supplier > 0 end
+											   end -- isAutoPOCreate end
+										end	 -- is external end
+								  end -- product detail count 
+								  
+						end -- item end
+						declare @OrderCompanyID as int
+						declare @OrderCompanyIsCustomer as int
+						declare @OrderCompanyTaxRate as float
+						declare @StoreID as int
+											  if (@SupplierID > 0)
+													   begin
+													   
+													    	    select @OrderCompanyID =  CompanyID from Estimate where EstimateId = @OrderID
+
+																select @OrderCompanyIsCustomer = iscustomer from Company where companyid = @OrderCompanyID
+
+																if (@OrderCompanyIsCustomer = 3)
+																  begin
+																	select @OrderCompanyTaxRate = TaxRate from Company where companyid = @OrderCompanyID
+																  end
+																else
+																  begin
+																	select @StoreID = StoreId from Company where companyid = @OrderCompanyID
+																	
+																    select @OrderCompanyTaxRate = TaxRate from Company where companyid = @StoreID
+																  end
+
+																 --select @TaxIDGS =  StateTaxID from tbl_company_sites where companyid =  2
+																 declare @TaxPercentage as float
+																 -- direct form company
+																select @TaxPercentage = @OrderCompanyTaxRate
+																		   
+																select @NetTax = (@Qty1GrossTotal * @TaxPercentage) / 100
+																		   					   
+																select @Qty1Tax1Value = 0
+																--select @NetTotal = @Qty1GrossTotal + @NetTax
+																			
+																  IF EXISTS(SELECT SupplierID From @SupplierIDs where SupplierID = @SupplierID)
+																	begin
+																		--SET @PurchaseID = (SELECT SCOPE_IDENTITY());
+																		
+																		declare @TotalPrice as float,
+																				@Discount as float,
+																				@TotalTax as float,
+																				@GrandTotal as float,
+																				@AgainNetTotal as float,
+																                @FootNotes as varchar(2000),
+																                @SystemUserName as varchar(500),
+																                @LastPurchaseID as int,
+																                 @LTotalPrice as float,
+																                  @LTotalTax as float,
+																                  @LGrandTotal as float,
+																                   @LNetTotal as float
+																                
+																                select @LastPurchaseID = PurchaseID,
+																                       @LTotalPrice = LTotalPrice,
+																                       @LTotalTax = LTotalTax,
+																                        @LGrandTotal = LGrandTotal,
+																                        @LNetTotal = LNetTotal
+									
+																                
+																                 from @SupplierIDs where SupplierID = @SupplierID
+																                
+																		 -- select @TotalPrice =   
+																		--select @TotalPrice = @LastTotalPrice + @Qty1GrossTotal,
+																		--	   --@Discount = @LastDiscount + @MarkupVaue,
+																		--	   @TotalTax = @LastTotalTax + @NetTax,
+																		--	  -- @TotalTax = null,
+																		--	   @GrandTotal = @LastGrandTotal + @Qty1GrossTotal,
+																		--	   @AgainNetTotal = @LastNetTotal + @Qty1GrossTotal + @NetTax
+																			   
+																			   
+																			   	select @TotalPrice = @LTotalPrice + @Qty1GrossTotal,
+																			   --@Discount = @LastDiscount + @MarkupVaue,
+																			   @TotalTax = @LTotalTax + @NetTax,
+																			  -- @TotalTax = null,
+																			   @GrandTotal = @LGrandTotal + @Qty1GrossTotal,
+																			   @AgainNetTotal = @LNetTotal + @Qty1GrossTotal + @NetTax
+																               
+																		--insert into tbl_purchasedetail (ItemID,quantity,PurchaseID,price,TotalPrice,packqty,ItemCode,
+																		--	ItemName, Discount, NetTax, freeitems,ItemBalance, TaxID,ServiceDetail) values 
+																		--	(@ItemID,0,@PurchaseID, @Qty1GrossTotal, @Qty1GrossTotal, @Qty1, @ItemCode, @ProductName,@MarkupVaue,@Qty1Tax1Value,0,0,@TaxID,@ProductCompleteName)
+															                
+															                
+																			insert into PurchaseDetail (ItemID,quantity,PurchaseID,price,TotalPrice,packqty,ItemCode,
+																			ItemName, freeitems,ItemBalance,ServiceDetail,NetTax) values 
+																			(@ItemID,1,@LastPurchaseID, @Qty1GrossTotal, @Qty1GrossTotal, @Qty1, @ItemCode, @ProductName,0,0,@ProductCompleteName,@NetTax)
+																		 set @PurchaseDetailID = (SELECT SCOPE_IDENTITY());
+																	     
+																	    
+																		update Purchase
+																		set TotalPrice = @TotalPrice,
+																			--Discount = @Discount,
+																			TotalTax = @TotalTax,
+																			GrandTotal = @GrandTotal,
+																			NetTotal = @AgainNetTotal where PurchaseID = @LastPurchaseID
+																	        
+																	   --select @LastTotalPrice = @TotalPrice,
+																			 -- --@LastDiscount =  @Discount,
+																			 -- @LastTotalTax =  @TotalTax,
+																			 -- @LastGrandTotal = @GrandTotal,
+																			 -- @LastNetTotal = @AgainNetTotal
+																			 
+																			 
+																	
+																			 
+																			 	insert into @SupplierIDs values (@SupplierID,@LastPurchaseID,@TotalPrice,@TotalTax,@GrandTotal,@AgainNetTotal)
+																		-- total price
+																		-- discount
+																		-- total tax 
+																		-- grand total
+																		-- net total
+																	     
+																	 end
+																   else
+																	 begin
+																		 --- 1p and 1pd create
+																		 
+																		  select @SupplierName = Name,
+																				  @ContactCompanyID = CompanyId
+																			from Company where companyid = @SupplierID
+																          
+																		   SELECT @SupplierContactID = ContactID,
+																				  @SupplierAdressID = AddressID
+																		   FROM   CompanyContact where companyid = @ContactCompanyID 
+																		   
+																		   --Naveed Commenting to test the change -- comment starts--																	        
+																		   --select @POPrefix = POPrefix,
+																				 -- @POStart  = POStart,
+																				 -- @PONext = PONext
+																		   --from tbl_prefixes where SystemSiteID = 1
+																		   
+																		   --set @Code = @POPrefix + '-001-' + @PONext
+																		   
+																		   --set @NewPO = @PONext + 1
+																		   
+																		   
+																		   --Update tbl_prefixes set PONext = @NewPO where SystemSiteID = 1	
+																		   		-------mnz comments end----	  
+																				
+																				--New line added mnz---
+																				select @Code = (select top 1 POPrefix + '-001-'+ cast(PONext as varchar) from prefix)
+																				------ 
+																		 --	 select @TaxIDGS =  StateTaxID from tbl_company_sites where companyid =  2
+																		 --  declare @TaxPercentage as float
+																		 --  select @TaxPercentage = Tax1 from tbl_taxrate where taxid = @TaxIDGS
+																		   
+																		 --  select @NetTax = (@Qty1GrossTotal * @TaxPercentage) / 100
+																		   					   
+																		 --  select @Qty1Tax1Value = 0
+																			select @NetTotal = @Qty1GrossTotal + @NetTax
+																		    
+																		   
+																		   --insert into tbl_purchase (date_Purchase,TotalPrice,isproduct,Status,Discount,TotalTax,GrandTotal,NetTotal,
+																		   --CreatedBy,SupplierID,Code,SupplierContactCompany,SupplierContactAddressID,ContactID) values (GetDate(), @Qty1GrossTotal, 2, 31, @MarkupVaue, @Qty1Tax1Value, @Qty1GrossTotal, @NetTotal, @CreatedBy, @SupplierID,@Code,@SupplierName,
+																		   --@SupplierAdressID,@SupplierContactID)  
+																		   select @SystemSiteID = 1
+																	       
+																		  
+																		   
+																           select @FootNotes =  isnull(FootNotes,'') from ReportNote where reportcategoryid = 5 and isdefault = 1 
+																		  
+																		 
+																		   declare @FlagId as int
+																		   select @FlagId = (select top 1 sectionflagid from sectionflag where SectionId = 7)
+																		   insert into Purchase (date_Purchase,TotalPrice,isproduct,Status,GrandTotal,NetTotal,
+																		   CreatedBy,SupplierID,Code,SupplierContactCompany,SupplierContactAddressID,ContactID,SystemSiteID,FootNote,TotalTax, UserNotes,FlagID) values (GetDate(), @Qty1GrossTotal, 2, 31,  @Qty1GrossTotal, @NetTotal, @CreatedBy, @SupplierID,@Code,@SupplierName,
+																		   @SupplierAdressID,@SupplierContactID,@SystemSiteID, @FootNotes,@NetTax, @UserNotes,@FlagId)  
+																           
+																			SET @PurchaseID = (SELECT SCOPE_IDENTITY());
+																            
+																			
+																			--insert into tbl_purchasedetail (ItemID,quantity,PurchaseID,price,TotalPrice,packqty,ItemCode,
+																			--ItemName, Discount, NetTax, freeitems,ItemBalance, TaxID,ServiceDetail) values 
+																			--(@ItemID,0,@PurchaseID, @Qty1GrossTotal, @Qty1GrossTotal, @Qty1, @ItemCode, @ProductName,@MarkupVaue,@Qty1Tax1Value,0,0,@TaxID,@ProductCompleteName)
+															            
+																		   insert into PurchaseDetail (ItemID,quantity,PurchaseID,price,TotalPrice,packqty,ItemCode,
+																			ItemName,  freeitems,ItemBalance,ServiceDetail,NetTax) values 
+																			(@ItemID,1,@PurchaseID, @Qty1GrossTotal, @Qty1GrossTotal, @Qty1, @ItemCode, @ProductName,0,0,@ProductCompleteName,@NetTax)
+																			set @PurchaseDetailID = (SELECT SCOPE_IDENTITY());
+																			
+																			--select @LastTotalPrice = @Qty1GrossTotal,
+																			--	   @LastTotalTax = @NetTax,
+																			--	   @LastGrandTotal = @Qty1GrossTotal,
+																			--	   @LastNetTotal = @NetTotal
+																			
+																			
+																				   --@LastDiscount = @MarkupVaue  
+																			
+																		
+																			
+																			insert into @SupplierIDs values (@SupplierID,@PurchaseID,@Qty1GrossTotal,@NetTax,@Qty1GrossTotal,@NetTotal)
+																			Update top(1) prefix set PONext = PONext + 1  --line added by naveed after commenting lines above
+																			
+																	 end  -- end of else part of exist 
+							   end -- end of supplier > 0
+							
+						
+						
+		    SET @Counter = @Counter + 1
+		 end -- end of while
+		
+		 SET @Err = @@Error	
+		 select @PurchaseDetailID as MSG
+	
+		RETURN @Err
+END
+
+
+
+
+
+
+
+
+/******Date : 10-6-2015***************/
+ALTER PROCEDURE [dbo].[usp_TotalEarnings] (@fromdate as datetime, @todate as datetime)
+
+AS
+
+--define limits
+
+--set @fromdate = '2015-01-01'
+
+--set @todate = '2015-12-31'
+
+ BEGIN
+
+ DECLARE  @Organisationid  bigint
+
+ SET @Organisationid = 1
+
+;With DateSequence( [Date] ) as
+
+(
+
+    Select @fromdate as [Date]
+
+        union all
+
+    Select dateadd(day, 1, [Date])
+
+        from DateSequence
+
+        where Date < @todate
+
+)
+
+ 
+
+--select result
+
+Select
+
+    CONVERT(VARCHAR,[Date],112) as ID,
+
+    [Date] as [Date],
+
+    DATEPART(DAY,[Date]) as [Day],
+
+    CASE
+
+         WHEN DATEPART(DAY,[Date]) = 1 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'st'
+
+         WHEN DATEPART(DAY,[Date]) = 2 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'nd'
+
+         WHEN DATEPART(DAY,[Date]) = 3 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'rd'
+
+         ELSE CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'th'
+
+    END as [DaySuffix],
+
+    DATENAME(dw, [Date]) as [DayOfWeek],
+
+    DATEPART(DAYOFYEAR,[Date]) as [DayOfYear],
+
+    DATEPART(WEEK,[Date]) as [WeekOfYear],
+
+    DATEPART(WEEK,[Date]) + 1 - DATEPART(WEEK,CAST(DATEPART(MONTH,[Date]) AS VARCHAR) + '/1/' + CAST(DATEPART(YEAR,[Date]) AS VARCHAR)) as [WeekOfMonth],
+
+    DATEPART(MONTH,[Date]) as [Month],
+
+    DATENAME(MONTH,[Date]) as [MonthName],
+
+    DATEPART(QUARTER,[Date]) as [Quarter],
+
+    CASE DATEPART(QUARTER,[Date])
+
+        WHEN 1 THEN 'First'
+
+        WHEN 2 THEN 'Second'
+
+        WHEN 3 THEN 'Third'
+
+        WHEN 4 THEN 'Fourth'
+
+    END as [QuarterName],
+
+    DATEPART(YEAR,[Date]) as [Year]
+
+	into #dt
+
+from DateSequence option (MaxRecursion 10000)
+
+
+
+
+
+--select * from #dt
+
+
+
+select sum(Estimate_Total) Total,count(*) Orders,store,Month,monthname,year
+
+	from
+
+	(
+	
+
+		select  estimateid, o.Estimate_Total,
+
+		DATENAME(MONTH,O.Order_Date) as [Month],
+
+		DATEPART(MONTH,O.Order_Date) as [MonthName],
+
+		DATEPART(YEAR,O.Order_Date) as [Year],
+
+		(Case when C.Iscustomer = 3 then C.name when C.IsCustomer = 1 then S.name End) as store,
+
+		C.IsCustomer
+
+
+		from Estimate O
+
+		inner join Company C on O.CompanyId = C.companyid
+
+		left outer join Company S on C.StoreId = S.companyid
+
+		where (O.StatusId <> 3 and O.StatusId <> 34) and C.OrganisationId = @Organisationid and C.IsCustomer <> 0
+
+
+
+		
+
+
+
+	) data
+
+group by month,store,monthname,year
+order by monthname
+
+
+END
+
+
+
+
+
+

@@ -100,6 +100,7 @@ namespace MPC.Implementation.MISServices
         private readonly MPC.Interfaces.WebStoreServices.ITemplateService templateService;
         private readonly ICampaignRepository campaignRepository;
         private readonly ITemplateFontsRepository templatefonts;
+        private readonly IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository;
 
         #endregion
 
@@ -1036,8 +1037,12 @@ namespace MPC.Implementation.MISServices
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                string url = "/clear/" + companyDbVersion.CompanyId;
+                string url = "WebstoreApi/StoreCache/Get?id=" + companyDbVersion.CompanyId;
                 var response = client.GetAsync(url);
+                if (!response.Result.IsSuccessStatusCode)
+                {
+                    //throw new MPCException("Failed to clear store cache", companyRepository.OrganisationId);
+                }
             }
             return companySavingModel.Company;
         }
@@ -2956,7 +2961,7 @@ namespace MPC.Implementation.MISServices
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
             ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository,
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
-            ITemplateColorStylesRepository templateColorStylesRepository)
+            ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository)
         {
             if (bannerSetRepository == null)
             {
@@ -3027,6 +3032,7 @@ namespace MPC.Implementation.MISServices
             this.templatefonts = templateFontRepository;
             this.markupRepository = markupRepository;
             this.templateColorStylesRepository = templateColorStylesRepository;
+            this.stagingImportCompanyContactRepository = stagingImportCompanyContactRepository;
 
         }
         #endregion
@@ -3550,6 +3556,24 @@ namespace MPC.Implementation.MISServices
             target.isEnabled = source.isEnabled;
             target.CompanyId = source.CompanyId;
             return target;
+        }
+        /// <summary>
+        /// Save Imported Company Contacts
+        /// </summary>
+        /// <param name="stagingImportCompanyContact"></param>
+        /// <returns></returns>
+        public bool SaveImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact)
+        {
+            foreach (var companyContact in stagingImportCompanyContact)
+            {
+                companyContact.OrganisationId = stagingImportCompanyContactRepository.OrganisationId;
+                stagingImportCompanyContactRepository.Add(companyContact);
+            }
+            companyContactRepository.SaveChanges();
+            stagingImportCompanyContactRepository.RunProcedure(stagingImportCompanyContactRepository.OrganisationId,
+                stagingImportCompanyContact.FirstOrDefault().CompanyId);
+            
+            return true;
         }
         #endregion
 

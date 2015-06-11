@@ -348,6 +348,7 @@
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\FileAttachmentsController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\StoreCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />
     <Compile Include="Common\Constants.cs" />
@@ -363,6 +364,7 @@
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
@@ -479,18 +481,11 @@
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
     <Content Include="Content\ErrorPage.css" />
-    <Content Include="Content\ErrorPage\animate.css" />
-    <Content Include="Content\ErrorPage\bootstrap.css" />
-    <Content Include="Content\ErrorPage\countUp.js" />
-    <Content Include="Content\ErrorPage\custom.css" />
-    <Content Include="Content\ErrorPage\font-awesome.css" />
-    <Content Include="Content\ErrorPage\jquery-1.10.1.min.js" />
-    <Content Include="Content\ErrorPage\noise.png" />
-    <Content Include="Content\ErrorPage\wow.js" />
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\HomeBannerS4.js" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
+    <Content Include="Content\Images\bugzy.PNG" />
     <Content Include="Content\Images\costcentreLoader.gif" />
     <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\download-icon.png" />
@@ -943,6 +938,8 @@
     <Content Include="Views\Shared\PartialViews\RealestateSideBarWithSlider.cshtml" />
     <Content Include="Views\Shared\PartialViews\ErrorPage404.cshtml" />
     <Content Include="Views\Home\NotFound.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Domain\ClearCache.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -951,13 +948,6 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\ErrorPage404\" />
-    <Folder Include="Views\ErrorPage\" />
-    <Folder Include="Views\MetroProductCategories\" />
-    <Folder Include="Views\MetroTestimonial\" />
-    <Folder Include="Views\RealestateSideBarWithSlider\" />
-    <Folder Include="Views\RealStateFooter\" />
-    <Folder Include="Views\Twitter\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
