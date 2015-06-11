@@ -183,38 +183,38 @@ namespace MPC.Webstore.Controllers
                             {
                                 case 1: //PayPal
                                     {
-                                        Response.Redirect("SignupPaypal/" + OrderId);
+                                        Response.Redirect("/SignupPaypal/" + OrderId);
                                         break;
                                     }
 
                                 case 2:
                                     {
-                                        Response.Redirect("payments/paymentAuthorizeNet/" + OrderId);
+                                        Response.Redirect("/payments/paymentAuthorizeNet/" + OrderId);
                                         break;
                                     }
                                 case 3:
                                     {
-                                        Response.Redirect("payments/ANZSubmit/" + OrderId);
+                                        Response.Redirect("/payments/ANZSubmit/" + OrderId);
                                         break;
                                     }
                                 case 4:
                                     {
-                                        Response.Redirect("paymentAuthorizeNet/" + OrderId);
+                                        Response.Redirect("/paymentAuthorizeNet/" + OrderId);
                                         break;
                                     }
                                 case 5:
                                     {
-                                        Response.Redirect("payments/stGeorgeSubmit/" + OrderId);
+                                        Response.Redirect("/payments/stGeorgeSubmit/" + OrderId);
                                         break;
                                     }
                                 case 6:
                                     {
-                                        Response.Redirect("payments/NabSubmit/" + OrderId);
+                                        Response.Redirect("/payments/NabSubmit/" + OrderId);
                                         break;
                                     }
                                 case 7:
                                     {
-                                        Response.Redirect("payments/PayJunctionSubmit/" + OrderId);
+                                        Response.Redirect("/payments/PayJunctionSubmit/" + OrderId);
                                         break;
 
                                     }
