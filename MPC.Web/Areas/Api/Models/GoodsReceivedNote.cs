@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -12,7 +13,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int? PurchaseId { get; set; }
         public string code { get; set; }
         public DateTime? date_Received { get; set; }
-        public int? SupplierId { get; set; }
+        public long? SupplierId { get; set; }
         public int? ContactId { get; set; }
         public string RefNo { get; set; }
         public int? Status { get; set; }
@@ -32,19 +33,15 @@ namespace MPC.MIS.Areas.Api.Models
         public string Reference1 { get; set; }
         public string Reference2 { get; set; }
         public int? CarrierId { get; set; }
-        
-        public int? UserId { get; set; }
+        public List<GoodsReceivedNoteDetail> GoodsReceivedNoteDetails { get; set; }
 
 
 
-       
-       
 
 
-      
-        
 
 
-       
+
+
     }
 }

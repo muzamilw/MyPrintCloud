@@ -107,7 +107,8 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
                 }
             }
-            SmartFormUserData result = new SmartFormUserData(usersListData, objSmartform, smartFormObjs, scopeVariable, AllUserScopeVariables);
+            List<VariableExtension> extension = smartFormService.getVariableExtensions(scopeVariable,parameter1);
+            SmartFormUserData result = new SmartFormUserData(usersListData, objSmartform, smartFormObjs, scopeVariable, AllUserScopeVariables,extension);
 
 
             var formatter = new JsonMediaTypeFormatter();
@@ -137,7 +138,9 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         // parameter 2 = contactID 
         public HttpResponseMessage GetUserVariableData(long parameter1, long parameter2)
         {
-            var result = smartFormService.GetUserTemplateVariables(parameter1, parameter2);
+            var listVar = smartFormService.GetUserTemplateVariables(parameter1, parameter2);
+            List<VariableExtension> extension = smartFormService.getVariableExtensions(listVar, parameter2);
+            UserVariableData result = new UserVariableData(listVar, extension);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -162,13 +165,25 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public List<ScopeVariable> scopeVariables { get; set; }
         public Dictionary<long, List<ScopeVariable>> AllUserScopeVariables;
 
-        public SmartFormUserData(List<SmartFormUserList> usersList, SmartForm smartForm, List<SmartFormDetail> smartFormObjs, List<ScopeVariable> scopeVariables, Dictionary<long, List<ScopeVariable>> AllUserScopeVariables)
+        public List<VariableExtension> variableExtensions { get; set; }
+        public SmartFormUserData(List<SmartFormUserList> usersList, SmartForm smartForm, List<SmartFormDetail> smartFormObjs, List<ScopeVariable> scopeVariables, Dictionary<long, List<ScopeVariable>> AllUserScopeVariables, List<VariableExtension> variableExtensions)
         {
             this.usersList = usersList;
             this.smartForm = smartForm;
             this.smartFormObjs = smartFormObjs;
             this.scopeVariables = scopeVariables;
             this.AllUserScopeVariables = AllUserScopeVariables;
+            this.variableExtensions = variableExtensions;
+        }
+    }
+    public class UserVariableData
+    {
+        public List<ScopeVariable> scopeVariables { get; set; }
+        public List<VariableExtension> variableExtensions { get; set; }
+        public UserVariableData( List<ScopeVariable> scopeVariables,List<VariableExtension> variableExtensions)
+        {
+            this.scopeVariables = scopeVariables;
+            this.variableExtensions = variableExtensions;
         }
     }
 }

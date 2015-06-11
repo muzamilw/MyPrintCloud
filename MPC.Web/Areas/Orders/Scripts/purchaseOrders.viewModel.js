@@ -33,6 +33,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         { id: 1, name: "PO" },
                         { id: 2, name: "GRN" }
                     ]),
+                     // Purchase Order Detail Types
+                    purchaseOrderDetailTypes = ko.observableArray([
+                        { id: 1, name: "Product" },
+                        { id: 2, name: "Service" }
+                    ]),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // #endregion
@@ -310,6 +315,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     },
                     // Save Purchase Order
                     onSavePurchaseOrder = function (purchase) {
+                        errorList.removeAll();
                         if (!dobeforeSave()) {
                             return;
                         }
@@ -318,13 +324,15 @@ define("purchaseOrders/purchaseOrders.viewModel",
                             confirmation.messageText("Do you want to Post the Purchase Order?");
                             confirmation.afterProceed(function () {
                                 selectedPurchaseOrder().status(32);
-                                savePurchaseOrder();
+
                             });
                             confirmation.afterCancel(function () {
                                 savePurchaseOrder();
                             });
                             confirmation.show();
                             return;
+                        } else {
+                            savePurchaseOrder();
                         }
                     },
                     // Post PO
@@ -466,6 +474,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                             selectedPurchaseOrderDetail().taxValue(selectedPurchaseOrder().taxRate());
                             selectedPurchaseOrderDetail().quantity(1);
                             selectedPurchaseOrderDetail().discount(discountCalculate());
+                            selectedPurchaseOrderDetail().productType(selectedPurchaseOrder().isproduct());
                             if (selectedPurchaseOrder().isproduct() === 1) {
                                 openStockItemDialogForAddingStock();
 
@@ -582,6 +591,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     onCreateGRN = function () {
                         var grn = model.GoodsReceivedNote();
                         mapPurachaseOrderToGRN(selectedPurchaseOrder(), grn);
+                        selectedGRN(grn);
+                        saveGRN();
                     },
                     mapPurachaseOrderToGRN = function (source, target) {
                         target.purchaseId(source.id());
@@ -589,6 +600,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         target.flagId(source.flagId());
                         target.reffNo(source.reffNo());
                         target.footnote(source.footnote());
+                        target.supplierId(source.supplierId());
                         target.comments(source.comments());
                         target.status(31);
                         target.contactId(source.contactId());
@@ -602,10 +614,60 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         target.discount(source.discount());
                         target.companyName(source.companyName());
                         target.taxRate(source.taxRate());
+
+                        _.each(source.purchaseDetails(), function (pDetail) {
+                            var grnDetail = model.GoodsReceivedNoteDetail();
+                            mapPurchaseDetailToGRNDetail(pDetail, grnDetail);
+                            target.goodsReceivedNoteDetails.push(grnDetail);
+                        });
                     },
-                    //mapPurchaseDetailToGRNDetail=function(source, target) {
-                    //    target.(source.());
-                    //},
+                    mapPurchaseDetailToGRNDetail = function (source, target) {
+                        target.quantity(source.quantity());
+                        target.price(source.price());
+                        target.packqty(source.packqty());
+                        target.itemCode(source.itemCode());
+                        target.serviceDetail(source.serviceDetail());
+                        target.taxValue(source.taxValue());
+                        target.totalPrice(source.totalPrice());
+                        target.quantity(source.quantity());
+                        target.discount(source.discount());
+                        target.freeitems(source.freeitems());
+                        target.refItemId(source.refItemId());
+                        target.productType(source.productType());
+                    },
+
+                    // Save GRN
+                    saveGRN = function () {
+                        var grn = selectedGRN().convertToServerData();
+                        _.each(selectedGRN().goodsReceivedNoteDetails(), function (item) {
+                            grn.GoodsReceivedNoteDetails.push(item.convertToServerData(item));
+                        });
+                        dataservice.saveGRN(grn, {
+                            success: function (data) {
+                                //For Add New
+                                if (selectedPurchaseOrder().id() === undefined || selectedPurchaseOrder().id() === 0) {
+                                    purchaseOrders.splice(0, 0, model.PurchaseListView.Create(data));
+                                } else {
+                                    selectedPurchaseOrderForListView().purchaseOrderDate(data.DatePurchase !== null ? moment(data.DatePurchase).toDate() : undefined);
+                                    selectedPurchaseOrderForListView().flagColor(data.FlagColor);
+                                    selectedPurchaseOrderForListView().refNo(data.RefNo);
+
+                                    if (currentTab() !== 0 && currentTab() !== data.Status) {
+                                        purchaseOrders.remove(selectedPurchaseOrderForListView());
+                                    }
+                                }
+                                isEditorVisible(false);
+                                toastr.success("Saved Successfully.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                    toastr.error(exceptionMessage);
+                                } else {
+                                    toastr.error("Failed to save.");
+                                }
+                            }
+                        });
+                    },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -663,7 +725,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     onDeletePurchaseDetail: onDeletePurchaseDetail,
                     editPurchaseDetail: editPurchaseDetail,
                     onCancelPurchaseOrder: onCancelPurchaseOrder,
-                    onCreateGRN: onCreateGRN
+                    onCreateGRN: onCreateGRN,
+                    purchaseOrderDetailTypes: purchaseOrderDetailTypes
                 };
             })()
         };
