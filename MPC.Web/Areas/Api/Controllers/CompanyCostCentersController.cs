@@ -49,8 +49,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [CompressFilterAttribute]
         public MPC.MIS.Areas.Api.Models.CostCentreResponseModel Get([FromUri]GetCostCentresRequest requestModel)
         {
-            var v = companyCostCentreService.GetCompanyCostCentreByCompanyId(requestModel).CreateFrom();
-            return v;
+            return companyCostCentreService.GetCompanyCostCentreByCompanyId(requestModel).CreateFrom();
         }
 
         #endregion

@@ -3803,7 +3803,7 @@ namespace MPC.Repository.Repositories
                      && item.CompanyId.HasValue && item.CompanyId == request.CompanyId && item.OrganisationId == OrganisationId && item.IsPublished == true && item.EstimateId == null;
             List<Item> totalItems=DbSet.Where(query).ToList();
 
-            List<Item> items = totalItems.OrderBy(item => item.ItemCreationDateTime)
+            List<Item> items = totalItems.OrderBy(item => item.ProductCode)
            .Skip(fromRow)
             .Take(toRow)
             .ToList();
