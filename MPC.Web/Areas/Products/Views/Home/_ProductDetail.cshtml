@@ -2630,7 +2630,7 @@
                                                 <div class="filter-block pull-right">
 
                                                     <a href="#" class="btn btn-primary pull-right" data-bind="click: onAddProductMarketBriefQuestion">
-                                                        Add Question
+                                                        Add New Question
                                                     </a>
                                                 </div>
                                             </header>
@@ -2639,8 +2639,8 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="width:175px;"><span>#</span></th>
+                                                            <th><span>Question</span></th>
                                                             <th><span>Multiple Selection</span> </th>
-                                                            <th><span>Title</span></th>
                                                             <th style="text-align:center;"><span>Order</span></th>
                                                         </tr>
                                                     </thead>
@@ -3241,18 +3241,19 @@
     
     @* Marketing Brief Question Template *@
     <script id="marketingBriefQuestionTemplate" type="text/html">
-        <tr data-bind="click: $parent.onEditProductMarketBriefQuestion.bind($data)" style="cursor: pointer">
+        <tr >
             <td>
                 <span data-bind="text: $index() + 1"></span>
+            </td>
+            <td>
+                <a data-bind="text: questionDetail, click: $parent.onEditProductMarketBriefQuestion.bind($data)" class="user-link" style="cursor: pointer"></a>
             </td>
             <td>
                 <div class="type">
                     <span class="label" data-bind="text: isMultipleSelection() ? 'Yes' : 'No' , css: { 'label-success': isMultipleSelection, 'label-danger': !isMultipleSelection() }"></span>
                 </div>
             </td>
-            <td>
-                <span data-bind="text: questionDetail"></span>
-            </td>
+            
             <td class="text-center">
                 <!-- ko if: $index() < $parent.productMarketBriefQuestions().length - 1 -->
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowDown.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionDown" />
