@@ -105,7 +105,7 @@ namespace MigrationUtility
 
             try
             {
-
+                OrganizationId = Convert.ToInt64(txtOrganisationId.Text);
                 //Mapper.CreateMap<tbl_costcentres, CostCentre>();
 
 
@@ -1085,7 +1085,25 @@ namespace MigrationUtility
         private void RetailStoreImport()
         {
 
-            
+                OrganizationId = Convert.ToInt64( txtOrganisationId.Text);
+
+                if (txtMPCContentBasePath.Text != string.Empty)
+                    MPCContentBasePath = txtMPCContentBasePath.Text;
+
+                if (txtPinkCardsStoredImagesBasePath.Text != string.Empty)
+                    PinkCardsStoredImagesBasePath = txtPinkCardsStoredImagesBasePath.Text;
+
+                if ( Directory.Exists(MPCContentBasePath) == false)
+                {
+                    MessageBox.Show("Invalid Content Folder");
+                    return;
+                }
+
+                if (Directory.Exists(PinkCardsStoredImagesBasePath) == false)
+                {
+                    MessageBox.Show("Invalid Stored Images Folder");
+                    return;
+                }
 
                 bool RetailStoreTargetNew = rdRetailStoreTargetExisting.Checked == true ? false : true;
 
@@ -1760,7 +1778,7 @@ namespace MigrationUtility
 
         private void CorporateStoreImport()
         {
-
+            OrganizationId = Convert.ToInt64(txtOrganisationId.Text);
             try
             {
 
@@ -2737,6 +2755,29 @@ namespace MigrationUtility
         private void button1_Click(object sender, EventArgs e)
         {
             BaseDataSettingsImport();
+        }
+
+        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnContentPath_Click(object sender, EventArgs e)
+        {
+            DialogResult result =  folderBrowserDialog1.ShowDialog();
+            if ( result == System.Windows.Forms.DialogResult.OK)
+            {
+                txtMPCContentBasePath.Text = this.folderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                txtPinkCardsStoredImagesBasePath.Text = this.folderBrowserDialog1.SelectedPath;
+            }
         }
 
       
