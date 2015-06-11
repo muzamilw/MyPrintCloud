@@ -383,6 +383,22 @@ namespace MPC.Webstore.Controllers
                 }
             }
 
+            if (referenceItem.ProductType == (int)ProductType.NonPrintProduct)
+            {
+                if(referenceItem.ThumbnailPath == null)
+                {
+                    ViewBag.FinishedGoodProduct = null;
+                }
+                else
+                {
+                    ViewBag.FinishedGoodProduct = referenceItem.ThumbnailPath;
+                }
+                
+            }
+            else 
+            {
+                ViewBag.FinishedGoodProduct = null;
+            }
 
             
 

@@ -214,7 +214,7 @@
                                              {
                                                  if (prod.ProductType == (int)ProductType.NonPrintProduct)
                                                  {
-                                                     string completeImgPath = prod.ThumbnailPath;
+                                                     string completeImgPath = "/" + prod.ThumbnailPath;
                                                      pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                      imgToShowURL = completeImgPath;
                                                  }

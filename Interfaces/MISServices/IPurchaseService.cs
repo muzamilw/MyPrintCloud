@@ -17,6 +17,11 @@ namespace MPC.Interfaces.MISServices
         PurchaseResponseModel GetPurchaseOrders(PurchaseOrderSearchRequestModel model);
 
         /// <summary>
+        /// Ge Goods Received Notes
+        /// </summary>
+        GoodsReceivedNotesResponseModel GetGoodsReceivedNotes(PurchaseOrderSearchRequestModel request);
+
+        /// <summary>
         /// base Data for Purchase
         /// </summary>
         PurchaseBaseResponse GetBaseData();

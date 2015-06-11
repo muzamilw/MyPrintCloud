@@ -2099,7 +2099,7 @@ namespace MPC.Repository.Repositories
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies =
-                    DbSet.Where(query).OrderByDescending(x => x.Name)
+                    DbSet.Where(query).OrderBy(x => x.Name)
                          .Skip(fromRow)
                         .Take(toRow)
                         .ToList();
