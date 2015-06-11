@@ -2285,7 +2285,6 @@ define("stores/stores.viewModel",
             },
             onEditAddress = function (address) {
                 //selectedAddress(address);
-                //selectedCompanyCMYKColor(companyCMYKColor);
                 addressEditorViewModel.selectItem(address);
 
                 isSavingNewAddress(false);
