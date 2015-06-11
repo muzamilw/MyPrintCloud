@@ -84,7 +84,7 @@ namespace MPC.Webstore.Controllers
             long storeId = _myCompanyService.GetStoreIdFromDomain(url);
             if (storeId == 0)
             {
-                TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
+                TempData["ErrorMessage"] = "The Domain in requested url does not point to any of the available stores.";
                 return RedirectToAction("Error", "Home");
             }
             else
@@ -139,17 +139,17 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
+                    TempData["ErrorMessage"] = "The Domain in requested url does not point to any of the available stores.";
                     return RedirectToAction("Error", "Home");
                 }
             }
             return null;
         }
 
-        public void updateCache(string name)
+        public ActionResult ClearCache(long StoreId)
         {
-            _myCompanyService.GetStoreFromCache(Convert.ToInt64(name), true);
-            RedirectToAction("Error", "Home");
+            _myCompanyService.GetStoreFromCache(StoreId, true);
+            return View();
         }
 
        

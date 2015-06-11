@@ -1754,11 +1754,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.itemURL,
             source.buttonURL,
             source.companySetId,
-            source.setName,
-            source.filename,
-            source.fileBinary,
-            source.fileType,
-            source.imageSource
+            source.imageSource,
+            source.filePath
             );
     };
     // #endregion ______________  Company Banner   _________________
