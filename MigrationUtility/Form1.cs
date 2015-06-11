@@ -1377,6 +1377,7 @@ namespace MigrationUtility
                                         oProductCategory.ThumbnailPath = oProductCategory.ThumbnailPath.Replace("/StoredImages/ProductCategoryImages/", "/mpc_content/assets/" + OrganizationId.ToString() + "/" + RetailStoreId.ToString() + "/ProductCategories/");
 
                                     }
+                                    output.Text += "cat : " + oProductCategory.CategoryName + Environment.NewLine;
 
                                     MPCContext.SaveChanges();
 
