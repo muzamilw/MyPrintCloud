@@ -1279,13 +1279,13 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
 
                if (CostCenterType == "2") {
-                   $("#createNewCostCenterId").html("New Pre Press Cost Center")
-                   $("#idcostcentertypename").html("Pre Press Cost Centers")
+                   //$("#createNewCostCenterId").html("Add New Pre Press Cost Center");
+                   $("#idcostcentertypename").html("Pre Press Cost Centers");
 
 
                } else if (CostCenterType == "3") {
-                   $("#createNewCostCenterId").html("New Post Press Cost Center")
-                   $("#idcostcentertypename").html("Post Press Cost Centers")
+                  // $("#createNewCostCenterId").html("Add New Post Press Cost Center");
+                   $("#idcostcentertypename").html("Post Press Cost Centers");
                }
                getCostCenters();
                // getCostCentersBaseData();
