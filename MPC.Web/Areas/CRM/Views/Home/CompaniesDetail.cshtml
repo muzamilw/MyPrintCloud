@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-xs-12" style="text-align: right; padding-right: 8px;" data-bind="with: $root.selectedStore()">
                         <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
-                            Reports
+                            Print
                         </button>
                         <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                         <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
@@ -545,7 +545,7 @@
                                                     </div>
                                                     <footer class="main-box-header pull-right" style="padding-right:10px;">
                                                         <div id="pagerDivAddress" style="margin-right: -10px">
-                                                            <!-- ko with: $root.addressPager -->
+                                                            <!-- ko with: $root.contactCompanyPager -->
                                                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                             <!-- /ko -->
                                                         </div>

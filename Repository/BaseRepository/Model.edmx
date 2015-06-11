@@ -1191,7 +1191,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="GoodsReceivedId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PurchaseId" Type="int" />
           <Property Name="date_Received" Type="datetime" />
-          <Property Name="SupplierId" Type="int" />
+          <Property Name="SupplierId" Type="bigint" />
           <Property Name="TotalPrice" Type="float" />
           <Property Name="UserId" Type="int" />
           <Property Name="Address" Type="varchar" MaxLength="30" />
@@ -1228,7 +1228,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
             <PropertyRef Name="GoodsReceivedDetailId" />
           </Key>
           <Property Name="GoodsReceivedDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" />
+          <Property Name="ItemId" Type="bigint" />
           <Property Name="QtyReceived" Type="float" />
           <Property Name="GoodsreceivedId" Type="int" />
           <Property Name="Price" Type="float" />
@@ -1243,6 +1243,9 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Discount" Type="float" />
           <Property Name="FreeItems" Type="int" />
           <Property Name="DepartmentId" Type="int" />
+          <Property Name="TaxValue" Type="float" />
+          <Property Name="ProductType" Type="int" />
+          <Property Name="RefItemId" Type="bigint" />
         </EntityType>
         <EntityType Name="Groups">
           <Key>
@@ -2841,8 +2844,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="ParentCategoryId" Type="int" />
           <Property Name="DisplayOrder" Type="int" Nullable="false" />
-          <Property Name="ImagePath" Type="nvarchar" MaxLength="100" />
-          <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="100" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="400" />
+          <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="400" />
           <Property Name="isEnabled" Type="bit" />
           <Property Name="isMarketPlace" Type="bit" />
           <Property Name="TemplateDesignerMappedCategoryName" Type="nvarchar" MaxLength="200" />
@@ -3329,6 +3332,17 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="AddInfo4" Type="nvarchar" MaxLength="1500" />
           <Property Name="AddInfo5" Type="nvarchar" MaxLength="1500" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="SkypeId" Type="nvarchar" MaxLength="200" />
+          <Property Name="LinkedInUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="FacebookUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="TwitterUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="CanEditProfile" Type="bit" />
+          <Property Name="CanPlaceOrderWithoutApproval" Type="bit" />
+          <Property Name="CanPlaceDirectOrder" Type="bit" />
+          <Property Name="CanPayByPersonalCreditCard" Type="bit" />
+          <Property Name="CanSeePrices" Type="bit" />
+          <Property Name="HasWebAccess" Type="bit" />
+          <Property Name="CanPlaceOrder" Type="bit" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -3703,6 +3717,19 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ProductVariableId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TemplateId" Type="bigint" />
           <Property Name="VariableId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="VariableExtension">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FieldVariableId" Type="int" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="OrganisationId" Type="int" />
+          <Property Name="VariablePrefix" Type="nvarchar(max)" />
+          <Property Name="VariablePostfix" Type="nvarchar(max)" />
+          <Property Name="CollapsePrefix" Type="bit" />
+          <Property Name="CollapsePostfix" Type="bit" />
         </EntityType>
         <EntityType Name="VariableOption">
           <Key>
@@ -4445,8 +4472,34 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_GoodsreceivedID">
-          <End Role="GoodsReceivedNote" Type="Self.GoodsReceivedNote" Multiplicity="0..1" />
+        <Association Name="FK_GoodsReceivedNote_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="GoodsReceivedNote" Type="Self.GoodsReceivedNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="GoodsReceivedNote">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsReceivedNote_SectionFlag">
+          <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="1" />
+          <End Role="GoodsReceivedNote" Type="Self.GoodsReceivedNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="GoodsReceivedNote">
+              <PropertyRef Name="FlagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsReceivedNoteDetail_GoodsReceivedNote">
+          <End Role="GoodsReceivedNote" Type="Self.GoodsReceivedNote" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="GoodsReceivedNoteDetail" Type="Self.GoodsReceivedNoteDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="GoodsReceivedNote">
@@ -4454,6 +4507,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="GoodsReceivedNoteDetail">
               <PropertyRef Name="GoodsreceivedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsReceivedNoteDetail_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="GoodsReceivedNoteDetail" Type="Self.GoodsReceivedNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="GoodsReceivedNoteDetail">
+              <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5984,6 +6049,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="usp_TotalEarnings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fromdate" Type="datetime" Mode="In" />
           <Parameter Name="todate" Type="datetime" Mode="In" />
+          <Parameter Name="Organisationid" Type="bigint" Mode="In" />
         </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
@@ -6144,6 +6210,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="TemplateObject" EntityType="Self.TemplateObject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplatePage" EntityType="Self.TemplatePage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateVariable" EntityType="Self.TemplateVariable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VariableExtension" EntityType="Self.VariableExtension" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VariableOption" EntityType="Self.VariableOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VariableSection" EntityType="Self.VariableSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
@@ -6555,8 +6622,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Company" EntitySet="Company" />
             <End Role="FieldVariable" EntitySet="FieldVariable" />
           </AssociationSet>
-          <AssociationSet Name="FK_GoodsreceivedID" Association="Self.FK_GoodsreceivedID">
+          <AssociationSet Name="FK_GoodsReceivedNote_Company" Association="Self.FK_GoodsReceivedNote_Company">
+            <End Role="Company" EntitySet="Company" />
             <End Role="GoodsReceivedNote" EntitySet="GoodsReceivedNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsReceivedNote_SectionFlag" Association="Self.FK_GoodsReceivedNote_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlag" />
+            <End Role="GoodsReceivedNote" EntitySet="GoodsReceivedNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsReceivedNoteDetail_GoodsReceivedNote" Association="Self.FK_GoodsReceivedNoteDetail_GoodsReceivedNote">
+            <End Role="GoodsReceivedNote" EntitySet="GoodsReceivedNote" />
+            <End Role="GoodsReceivedNoteDetail" EntitySet="GoodsReceivedNoteDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsReceivedNoteDetail_Items" Association="Self.FK_GoodsReceivedNoteDetail_Items">
+            <End Role="Items" EntitySet="Items" />
             <End Role="GoodsReceivedNoteDetail" EntitySet="GoodsReceivedNoteDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_Inquiry_Company" Association="Self.FK_Inquiry_Company">
@@ -7739,10 +7818,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="GoodsReceivedNoteDetails" EntityType="DomainModels.GoodsReceivedNoteDetail" />
           <EntitySet Name="Purchases" EntityType="DomainModels.Purchase" />
           <EntitySet Name="PurchaseDetails" EntityType="DomainModels.PurchaseDetail" />
-          <AssociationSet Name="FK_GoodsreceivedID" Association="DomainModels.FK_GoodsreceivedID">
-            <End Role="GoodsReceivedNote" EntitySet="GoodsReceivedNotes" />
-            <End Role="GoodsReceivedNoteDetail" EntitySet="GoodsReceivedNoteDetails" />
-          </AssociationSet>
           <FunctionImport Name="usp_DeleteOrganisation">
           <Parameter Name="OrganisationID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -7885,6 +7960,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <FunctionImport Name="usp_TotalEarnings" ReturnType="Collection(DomainModels.usp_TotalEarnings_Result)">
             <Parameter Name="fromdate" Mode="In" Type="DateTime" />
             <Parameter Name="todate" Mode="In" Type="DateTime" />
+            <Parameter Name="Organisationid" Mode="In" Type="Int64" />
           </FunctionImport>
           <AssociationSet Name="FK_PurchaseDetail_Items" Association="DomainModels.FK_PurchaseDetail_Items">
             <End Role="Item" EntitySet="Items" />
@@ -7914,6 +7990,23 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
             <Parameter Name="StoreId" Mode="In" Type="Int64" />
           </FunctionImport>
+          <AssociationSet Name="FK_GoodsReceivedNote_Company" Association="DomainModels.FK_GoodsReceivedNote_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="GoodsReceivedNote" EntitySet="GoodsReceivedNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsReceivedNote_SectionFlag" Association="DomainModels.FK_GoodsReceivedNote_SectionFlag">
+            <End Role="SectionFlag" EntitySet="SectionFlags" />
+            <End Role="GoodsReceivedNote" EntitySet="GoodsReceivedNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsReceivedNoteDetail_Items" Association="DomainModels.FK_GoodsReceivedNoteDetail_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="GoodsReceivedNoteDetail" EntitySet="GoodsReceivedNoteDetails" />
+          </AssociationSet>
+          <EntitySet Name="VariableExtensions" EntityType="DomainModels.VariableExtension" />
+          <AssociationSet Name="FK_GoodsReceivedNoteDetail_GoodsReceivedNote" Association="DomainModels.FK_GoodsReceivedNoteDetail_GoodsReceivedNote">
+            <End Role="GoodsReceivedNote" EntitySet="GoodsReceivedNotes" />
+            <End Role="GoodsReceivedNoteDetail" EntitySet="GoodsReceivedNoteDetails" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8050,6 +8143,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="DeliveryNotes" Relationship="DomainModels.FK_DeliveryNote_Company" FromRole="Company" ToRole="DeliveryNote" />
           <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_Inquiry_Company" FromRole="Company" ToRole="Inquiry" />
           <NavigationProperty Name="Purchases" Relationship="DomainModels.FK_Purchase_Company" FromRole="Company" ToRole="Purchase" />
+          <NavigationProperty Name="GoodsReceivedNotes" Relationship="DomainModels.FK_GoodsReceivedNote_Company" FromRole="Company" ToRole="GoodsReceivedNote" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -8227,8 +8321,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CompanyId" Type="Int64" />
           <Property Name="ParentCategoryId" Type="Int32" />
           <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThumbnailPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ImagePath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="ThumbnailPath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="isEnabled" Type="Boolean" />
           <Property Name="isMarketPlace" Type="Boolean" />
           <Property Name="TemplateDesignerMappedCategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -8654,6 +8748,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_Estimate_SectionFlag" FromRole="SectionFlag" ToRole="Estimate" />
           <NavigationProperty Name="DeliveryNotes" Relationship="DomainModels.FK_DeliveryNote_SectionFlag" FromRole="SectionFlag" ToRole="DeliveryNote" />
           <NavigationProperty Name="Purchases" Relationship="DomainModels.FK_Purchase_SectionFlag" FromRole="SectionFlag" ToRole="Purchase" />
+          <NavigationProperty Name="GoodsReceivedNotes" Relationship="DomainModels.FK_GoodsReceivedNote_SectionFlag" FromRole="SectionFlag" ToRole="GoodsReceivedNote" />
         </EntityType>
         <Association Name="FK_tbl_section_flags_tbl_sections">
           <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
@@ -9343,6 +9438,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="ShippingInformations" Relationship="DomainModels.FK_ShippingInformation_Items" FromRole="Item" ToRole="ShippingInformation" />
           <NavigationProperty Name="ProductMarketBriefQuestions" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="Item" ToRole="ProductMarketBriefQuestion" />
           <NavigationProperty Name="PurchaseDetails" Relationship="DomainModels.FK_PurchaseDetail_Items" FromRole="Item" ToRole="PurchaseDetail" />
+          <NavigationProperty Name="GoodsReceivedNoteDetails" Relationship="DomainModels.FK_GoodsReceivedNoteDetail_Items" FromRole="Item" ToRole="GoodsReceivedNoteDetail" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -13324,7 +13420,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="GoodsReceivedId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PurchaseId" Type="Int32" />
           <Property Name="date_Received" Type="DateTime" Precision="3" />
-          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="SupplierId" Type="Int64" />
           <Property Name="TotalPrice" Type="Double" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="Address" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -13355,14 +13451,16 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="Reference1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Reference2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CarrierId" Type="Int32" />
-          <NavigationProperty Name="GoodsReceivedNoteDetails" Relationship="DomainModels.FK_GoodsreceivedID" FromRole="GoodsReceivedNote" ToRole="GoodsReceivedNoteDetail" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_GoodsReceivedNote_Company" FromRole="GoodsReceivedNote" ToRole="Company" />
+          <NavigationProperty Name="SectionFlag" Relationship="DomainModels.FK_GoodsReceivedNote_SectionFlag" FromRole="GoodsReceivedNote" ToRole="SectionFlag" />
+          <NavigationProperty Name="GoodsReceivedNoteDetails" Relationship="DomainModels.FK_GoodsReceivedNoteDetail_GoodsReceivedNote" FromRole="GoodsReceivedNote" ToRole="GoodsReceivedNoteDetail" />
         </EntityType>
         <EntityType Name="GoodsReceivedNoteDetail">
           <Key>
             <PropertyRef Name="GoodsReceivedDetailId" />
           </Key>
           <Property Name="GoodsReceivedDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" />
+          <Property Name="ItemId" Type="Int64" />
           <Property Name="QtyReceived" Type="Double" />
           <Property Name="GoodsreceivedId" Type="Int32" />
           <Property Name="Price" Type="Double" />
@@ -13377,7 +13475,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="Discount" Type="Double" />
           <Property Name="FreeItems" Type="Int32" />
           <Property Name="DepartmentId" Type="Int32" />
-          <NavigationProperty Name="GoodsReceivedNote" Relationship="DomainModels.FK_GoodsreceivedID" FromRole="GoodsReceivedNoteDetail" ToRole="GoodsReceivedNote" />
+          <Property Name="TaxValue" Type="Double" />
+          <Property Name="ProductType" Type="Int32" />
+          <Property Name="RefItemId" Type="Int64" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_GoodsReceivedNoteDetail_Items" FromRole="GoodsReceivedNoteDetail" ToRole="Item" />
+          <NavigationProperty Name="GoodsReceivedNote" Relationship="DomainModels.FK_GoodsReceivedNoteDetail_GoodsReceivedNote" FromRole="GoodsReceivedNoteDetail" ToRole="GoodsReceivedNote" />
         </EntityType>
         <EntityType Name="Purchase">
           <Key>
@@ -13444,18 +13546,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="TaxValue" Type="Double" />
           <NavigationProperty Name="Purchase" Relationship="DomainModels.FK_PurchaseDetail_Purchase" FromRole="PurchaseDetail" ToRole="Purchase" />
         </EntityType>
-        <Association Name="FK_GoodsreceivedID">
-          <End Type="DomainModels.GoodsReceivedNote" Role="GoodsReceivedNote" Multiplicity="0..1" />
-          <End Type="DomainModels.GoodsReceivedNoteDetail" Role="GoodsReceivedNoteDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GoodsReceivedNote">
-              <PropertyRef Name="GoodsReceivedId" />
-            </Principal>
-            <Dependent Role="GoodsReceivedNoteDetail">
-              <PropertyRef Name="GoodsreceivedId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="JobPreference">
           <Key>
             <PropertyRef Name="Id" />
@@ -14497,7 +14587,81 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="AddInfo4" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
           <Property Name="AddInfo5" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
           <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="SkypeId" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LinkedInUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TwitterUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CanEditProfile" Type="Boolean" />
+          <Property Name="CanPlaceOrderWithoutApproval" Type="Boolean" />
+          <Property Name="CanPlaceDirectOrder" Type="Boolean" />
+          <Property Name="CanPayByPersonalCreditCard" Type="Boolean" />
+          <Property Name="CanSeePrices" Type="Boolean" />
+          <Property Name="HasWebAccess" Type="Boolean" />
+          <Property Name="CanPlaceOrder" Type="Boolean" />
         </EntityType>
+        <Association Name="FK_GoodsReceivedNote_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.GoodsReceivedNote" Role="GoodsReceivedNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="GoodsReceivedNote">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsReceivedNote_SectionFlag">
+          <End Type="DomainModels.SectionFlag" Role="SectionFlag" Multiplicity="1" />
+          <End Type="DomainModels.GoodsReceivedNote" Role="GoodsReceivedNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectionFlag">
+              <PropertyRef Name="SectionFlagId" />
+            </Principal>
+            <Dependent Role="GoodsReceivedNote">
+              <PropertyRef Name="FlagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsReceivedNoteDetail_Items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.GoodsReceivedNoteDetail" Role="GoodsReceivedNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="GoodsReceivedNoteDetail">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VariableExtension">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FieldVariableId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int32" />
+          <Property Name="VariablePrefix" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VariablePostfix" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CollapsePrefix" Type="Boolean" />
+          <Property Name="CollapsePostfix" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_GoodsReceivedNoteDetail_GoodsReceivedNote">
+          <End Type="DomainModels.GoodsReceivedNote" Role="GoodsReceivedNote" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.GoodsReceivedNoteDetail" Role="GoodsReceivedNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsReceivedNote">
+              <PropertyRef Name="GoodsReceivedId" />
+            </Principal>
+            <Dependent Role="GoodsReceivedNoteDetail">
+              <PropertyRef Name="GoodsreceivedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -18333,6 +18497,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="GoodsReceivedNoteDetails">
             <EntityTypeMapping TypeName="DomainModels.GoodsReceivedNoteDetail">
               <MappingFragment StoreEntitySet="GoodsReceivedNoteDetail">
+                <ScalarProperty Name="RefItemId" ColumnName="RefItemId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="FreeItems" ColumnName="FreeItems" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
@@ -19088,6 +19255,17 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="StagingImportCompanyContactAddresses">
             <EntityTypeMapping TypeName="DomainModels.StagingImportCompanyContactAddress">
               <MappingFragment StoreEntitySet="StagingImportCompanyContactAddress">
+                <ScalarProperty Name="CanPlaceOrder" ColumnName="CanPlaceOrder" />
+                <ScalarProperty Name="HasWebAccess" ColumnName="HasWebAccess" />
+                <ScalarProperty Name="CanSeePrices" ColumnName="CanSeePrices" />
+                <ScalarProperty Name="CanPayByPersonalCreditCard" ColumnName="CanPayByPersonalCreditCard" />
+                <ScalarProperty Name="CanPlaceDirectOrder" ColumnName="CanPlaceDirectOrder" />
+                <ScalarProperty Name="CanPlaceOrderWithoutApproval" ColumnName="CanPlaceOrderWithoutApproval" />
+                <ScalarProperty Name="CanEditProfile" ColumnName="CanEditProfile" />
+                <ScalarProperty Name="TwitterUrl" ColumnName="TwitterUrl" />
+                <ScalarProperty Name="FacebookUrl" ColumnName="FacebookUrl" />
+                <ScalarProperty Name="LinkedInUrl" ColumnName="LinkedInUrl" />
+                <ScalarProperty Name="SkypeId" ColumnName="SkypeId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="AddInfo5" ColumnName="AddInfo5" />
                 <ScalarProperty Name="AddInfo4" ColumnName="AddInfo4" />
@@ -19128,6 +19306,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <FunctionImportMapping FunctionImportName="usp_DeletePurchaseOrders" FunctionName="DomainModels.Store.usp_DeletePurchaseOrders" />
           <FunctionImportMapping FunctionImportName="usp_GeneratePurchaseOrders" FunctionName="DomainModels.Store.usp_GeneratePurchaseOrders" />
           <FunctionImportMapping FunctionImportName="usp_importTerritoryContactAddressByStore" FunctionName="DomainModels.Store.usp_importTerritoryContactAddressByStore" />
+          <EntitySetMapping Name="VariableExtensions">
+            <EntityTypeMapping TypeName="DomainModels.VariableExtension">
+              <MappingFragment StoreEntitySet="VariableExtension">
+                <ScalarProperty Name="CollapsePostfix" ColumnName="CollapsePostfix" />
+                <ScalarProperty Name="CollapsePrefix" ColumnName="CollapsePrefix" />
+                <ScalarProperty Name="VariablePostfix" ColumnName="VariablePostfix" />
+                <ScalarProperty Name="VariablePrefix" ColumnName="VariablePrefix" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="FieldVariableId" ColumnName="FieldVariableId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -74,6 +74,7 @@
             <div class="modal-footer">
                 <hr />
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveRaveReview, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
+                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseRaveReview" style="margin-left: 0px;">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteRaveReview, enable: $root.selectedRaveReview().reviewId() != undefined">Archive</button>
             </div>
         </div>

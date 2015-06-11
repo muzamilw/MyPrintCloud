@@ -5356,9 +5356,220 @@ BEGIN
 END
 
 
+/* Execution Date: 11-06-2015 */
+
+/****** Object:  StoredProcedure [dbo].[usp_TotalEarnings]    Script Date: 6/11/2015 1:02:24 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO 
+
+ALTER PROCEDURE [dbo].[usp_TotalEarnings] (@fromdate as datetime, @todate as datetime, @Organisationid bigint)
+
+AS
+
+--define limits
+
+--set @fromdate = '2015-01-01'
+
+--set @todate = '2015-12-31'
+
+ BEGIN
+ 
+;With DateSequence( [Date] ) as
+
+(
+
+    Select @fromdate as [Date]
+
+        union all
+
+    Select dateadd(day, 1, [Date])
+
+        from DateSequence
+
+        where Date < @todate
+
+)
+
+ 
+
+--select result
+
+Select
+
+    CONVERT(VARCHAR,[Date],112) as ID,
+
+    [Date] as [Date],
+
+    DATEPART(DAY,[Date]) as [Day],
+
+    CASE
+
+         WHEN DATEPART(DAY,[Date]) = 1 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'st'
+
+         WHEN DATEPART(DAY,[Date]) = 2 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'nd'
+
+         WHEN DATEPART(DAY,[Date]) = 3 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'rd'
+
+         ELSE CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'th'
+
+    END as [DaySuffix],
+
+    DATENAME(dw, [Date]) as [DayOfWeek],
+
+    DATEPART(DAYOFYEAR,[Date]) as [DayOfYear],
+
+    DATEPART(WEEK,[Date]) as [WeekOfYear],
+
+    DATEPART(WEEK,[Date]) + 1 - DATEPART(WEEK,CAST(DATEPART(MONTH,[Date]) AS VARCHAR) + '/1/' + CAST(DATEPART(YEAR,[Date]) AS VARCHAR)) as [WeekOfMonth],
+
+    DATEPART(MONTH,[Date]) as [Month],
+
+    DATENAME(MONTH,[Date]) as [MonthName],
+
+    DATEPART(QUARTER,[Date]) as [Quarter],
+
+    CASE DATEPART(QUARTER,[Date])
+
+        WHEN 1 THEN 'First'
+
+        WHEN 2 THEN 'Second'
+
+        WHEN 3 THEN 'Third'
+
+        WHEN 4 THEN 'Fourth'
+
+    END as [QuarterName],
+
+    DATEPART(YEAR,[Date]) as [Year]
+
+	into #dt
+
+from DateSequence option (MaxRecursion 10000)
+
+--select * from #dt
+
+select sum(Estimate_Total) Total,count(*) Orders,store,Month,monthname,year
+
+	from
+
+	(
+	
+
+		select  estimateid, o.Estimate_Total,
+
+		DATENAME(MONTH,O.Order_Date) as [Month],
+
+		DATEPART(MONTH,O.Order_Date) as [MonthName],
+
+		DATEPART(YEAR,O.Order_Date) as [Year],
+
+		(Case when C.Iscustomer = 3 then C.name when C.IsCustomer = 1 then S.name End) as store,
+
+		C.IsCustomer
+
+
+		from Estimate O
+
+		inner join Company C on O.CompanyId = C.companyid
+
+		left outer join Company S on C.StoreId = S.companyid
+
+		where (O.StatusId <> 3 and O.StatusId <> 34) and C.OrganisationId = @Organisationid and C.IsCustomer <> 0
 
 
 
+		
 
 
 
+	) data
+
+group by month,store,monthname,year
+order by monthname
+
+
+END
+
+
+/****** Object:  Table [dbo].[VariableExtension]    Script Date: 11/06/2015 11:20:58 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[VariableExtension](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FieldVariableId] [int] NULL,
+	[CompanyId] [int] NULL,
+	[OrganisationId] [int] NULL,
+	[VariablePrefix] [nvarchar](max) NULL,
+	[VariablePostfix] [nvarchar](max) NULL,
+	[CollapsePrefix] [bit] NULL,
+	[CollapsePostfix] [bit] NULL,
+ CONSTRAINT [PK_VariableExtension] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+alter table goodsreceivednote
+drop constraint DF__tbl_goods__Suppl__52E34C9D
+
+alter table goodsreceivednote
+alter column supplierid bigint null
+
+update goodsreceivednote
+set supplierid = null
+
+alter table goodsreceivednote
+add constraint FK_GoodsReceivedNote_Company
+foreign key (SupplierId)
+references Company (CompanyId)
+
+alter table goodsreceivednoteDetail
+add TaxValue float null
+
+alter table goodsreceivednoteDetail
+drop constraint FK_GoodsreceivedID
+
+alter table goodsreceivednoteDetail
+add constraint FK_GoodsReceivedNoteDetail_GoodsReceivedNote
+foreign key (GoodsReceivedId)
+references GoodsReceivedNote (GoodsReceivedId)
+on delete cascade
+
+delete from goodsreceivednote
+
+alter table goodsreceivednote
+add constraint FK_GoodsReceivedNote_SectionFlag
+foreign key (FlagId)
+references SectionFlag (SectionFlagId)
+
+alter table goodsreceivednoteDetail
+alter column itemid bigint null
+
+update goodsreceivednoteDetail
+set ItemId = null
+where ItemId not in (select ItemId from Items)
+
+alter table goodsreceivednoteDetail
+add constraint FK_GoodsReceivedNoteDetail_Items
+foreign key (ItemId)
+references Items (ItemId)
+
+alter table goodsreceivednoteDetail
+add ProductType int null
+
+alter table goodsreceivednoteDetail
+add RefItemId bigint null
+
+alter table productcategory
+alter column ImagePath nvarchar(400) null
+
+alter table productcategory
+alter column ThumbnailPath nvarchar(400) null

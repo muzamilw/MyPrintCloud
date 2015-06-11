@@ -1,6 +1,4 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿
 <head>
     <style>
         .row2 {
@@ -15,7 +13,7 @@
 
         #header, .container, #footer {
             display: block;
-            width: 830px;
+            width: 720px;
             margin: 0 auto;
         }
 
@@ -36,31 +34,12 @@
             float: left;
         }
 
-        #fof .fl_left h1 {
-            margin: 0;
-            padding: 0;
-            font-size: 220px;
-        }
-
         div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, div.wrapper h6 {
             margin: 0 0 15px 0;
             padding: 0;
             font-size: 20px;
             font-weight: normal;
             line-height: normal;
-        }
-
-        #fof .fl_left h1 span {
-            font-size: 60px;
-            color: #979797;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        #fof .fl_left h1 strong {
-            color: #000000;
-            background-color: #FFFFFF;
-            font-weight: bold;
-            font-family: Georgia, 'Times New Roman', Times, serif;
         }
 
         #fof .fl_right {
@@ -77,9 +56,7 @@
         }
 
         #fof .fl_right h2 {
-            font-size: 30px;
-            text-align: center;
-            text-transform: uppercase;
+            font-size: 25px;
             font-family: Georgia, 'Times New Roman', Times, serif;
         }
 
@@ -101,45 +78,33 @@
     <section>
         <div class="container">
 
-            <!-- ####################################################################################################### -->
-            <!-- ####################################################################################################### -->
-            <!-- ####################################################################################################### -->
-            <!-- ####################################################################################################### -->
             <div id="fof" class="clear">
-                <!-- ####################################################################################################### -->
+
                 <div class="fl_left">
-                    <h1><span>Error</span><strong>?</strong></h1>
-                </div>
-                <div class="fl_left" style="width: 1px;
-  background: #f3f3f3;
-  height: 200px;
-  margin-top: 50px;
-  margin-left: 80px;">
 
+                    <img src="/Content/Images/bugzy.PNG" />
                 </div>
                 <div class="fl_right">
-                    <h2>Sorry, Possible Reasons:</h2>
-                    <ul>
-                        <li>@ViewBag.Exception</li>
-                    </ul>
+                    <div>
+                        
+                        <ul>
+                            <li>@ViewBag.Exception</li>
+                        </ul>
 
-                </div>
-                <div class="fl_right">
-                    <h2>Stack trace</h2>
-                    <ul>
-                        <li>@ViewBag.StackTrace</li>
-                    </ul>
+                    </div>
+                    <div>
+                        <h2>Stack trace</h2>
+                        <ul>
+                            <li>@ViewBag.StackTrace</li>
+                        </ul>
 
+                    </div>
                 </div>
                 <div style="clear:both;">
 
                 </div>
-                <!-- ####################################################################################################### -->
+
             </div>
-            <!-- ####################################################################################################### -->
-            <!-- ####################################################################################################### -->
-            <!-- ####################################################################################################### -->
-            <!-- ####################################################################################################### -->
 
         </div>
     </section>
