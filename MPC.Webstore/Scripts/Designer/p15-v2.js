@@ -154,6 +154,7 @@ function fu04_1GetItem(DT)
                            function (DT2) {
                                $(".QuickTxt").css("visibility", "visible");
                                pcl41(DT2);
+                               lstVariableExtensions = DT2.variableExtensions;
                                smartFormClicked = false;
                                fu04_TempCbkGen(DT);
                            });
@@ -164,7 +165,10 @@ function fu04_1GetItem(DT)
                  } else {
                      $(".QuickTxt").css("visibility", "hidden");
                      $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
-                          function (userData) {
+                          function (dt25) {
+                              userData = dt25.scopeVariables;
+                              lstVariableExtensions = dt25.variableExtensions;
+                              console.log(userData);
                               userVariableData = userData;
                               fu04_TempCbkGen(DT);
                               if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
