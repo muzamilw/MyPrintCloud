@@ -22,7 +22,7 @@ namespace MigrationUtility
         long OrganizationId = 1;
         string MPCContentBasePath = @"E:\Development\MyPrintCloud\MyPrintCloud.Cloud\MyPrintCloud\MPC.Web\MPC_Content\";
 
-        string PinkCardsStoredImagesBasePath = @"E:\eazyprintImages\StoredImages\";
+        string PinkCardsStoredImagesBasePath = @"E:\eazyprint_storedImages\";
 
 
         string goldwelldesignerbasePath = @"E:\goldwell templates\goldwell templates\";

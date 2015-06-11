@@ -348,10 +348,7 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 });
-                // Handles styling changes 
-                instance.on('afterCommandExec', handleAfterCommandExec);
-                // Handles styling Drop down changes like font size, font family 
-                instance.on('selectionChange', handleAfterCommandExec);
+
                 function handleAfterCommandExec(event) {
                     if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
                         ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
@@ -360,6 +357,12 @@ require(["ko", "knockout-validation"], function (ko) {
                         ist.stores.viewModel.selectedEmail().hTMLMessageA(instance.getData());
                     }
                 }
+
+                // Handles styling changes 
+                instance.on('afterCommandExec', handleAfterCommandExec);
+                // Handles styling Drop down changes like font size, font family 
+                instance.on('selectionChange', handleAfterCommandExec);
+               
 
                 value.subscribe(function (newValue) {
                     if (!isEditorChange) {

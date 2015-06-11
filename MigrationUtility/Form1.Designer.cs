@@ -54,10 +54,10 @@
             // output
             // 
             this.output.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.output.Location = new System.Drawing.Point(0, 242);
+            this.output.Location = new System.Drawing.Point(0, 243);
             this.output.Multiline = true;
             this.output.Name = "output";
-            this.output.Size = new System.Drawing.Size(1317, 429);
+            this.output.Size = new System.Drawing.Size(1251, 429);
             this.output.TabIndex = 0;
             // 
             // btnImportRetail
@@ -121,7 +121,7 @@
             this.txtTargetRetailStoreId.Name = "txtTargetRetailStoreId";
             this.txtTargetRetailStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtTargetRetailStoreId.TabIndex = 7;
-            this.txtTargetRetailStoreId.Text = "63395";
+            this.txtTargetRetailStoreId.Text = "63399";
             // 
             // rdRetailStoreTargetNew
             // 
@@ -236,7 +236,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1317, 671);
+            this.ClientSize = new System.Drawing.Size(1251, 672);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtOrganisationId);
             this.Controls.Add(this.button2);
