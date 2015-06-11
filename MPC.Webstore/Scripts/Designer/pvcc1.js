@@ -152,6 +152,7 @@ var item =  null;
 var smartFormData = null;
 var userVariableData = null;
 var smartFormClicked = true;
+var lstVariableExtensions = null;
 var productDimensionUpdated = false;
 var objectsSelectable = true;
 var selectedPathIndex = 0;
