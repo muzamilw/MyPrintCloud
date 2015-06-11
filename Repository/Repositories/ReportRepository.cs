@@ -388,6 +388,22 @@ namespace MPC.Repository.Repositories
 
             return lstReportNotes;  
         }
+
+
+        /// <summary>
+        /// SP for PO Report
+        /// </summary>
+        public List<usp_PurchaseOrderReport_Result> GetPOReport(long PurchaseId)
+        {
+            try
+            {
+               return db.usp_PurchaseOrderReport(OrganisationId, PurchaseId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
        // GetReportsByOrganisationID
     }
 }
