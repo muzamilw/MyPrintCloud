@@ -94,7 +94,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                //db.usp_GeneratePurchaseOrders()
+                db.usp_GeneratePurchaseOrders((int)OrderId, CreatedBy);
 
                 return true;
             }
@@ -104,6 +104,23 @@ namespace MPC.Repository.Repositories
             }
         }
 
+
+        /// <summary>
+        /// Delete PO By SP
+        /// </summary>
+        public bool DeletePO(long OrderId)
+        {
+            try
+            {
+                db.usp_DeletePurchaseOrders((int)OrderId);
+               
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         /// <summary>
         /// Get Purchases List
         /// </summary>
@@ -143,5 +160,8 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+
+      
     }
 }

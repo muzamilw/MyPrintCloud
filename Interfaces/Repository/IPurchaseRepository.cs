@@ -18,5 +18,9 @@ namespace MPC.Interfaces.Repository
         bool GeneratePO(long OrderId, Guid CreatedBy);
 
         Dictionary<int, long> GetPurchasesList(long OrderId);
+
+        bool DeletePO(long OrderId);
+
+       
     }
 }

@@ -151,7 +151,9 @@ namespace MPC.Implementation.MISServices
 
         public bool GeneratePO(long OrderID,long ContactID, long CompanyId,Guid CreatedBy)
         {
-            string ServerPath = string.Empty;// System.Web.HttpContext.Current.Request.doma
+
+
+            string ServerPath = HttpContext.Current.Request.Url.Host;
             bool IsPOGenerate = purchaseRepository.GeneratePO(OrderID, CreatedBy);
             if (IsPOGenerate)
             {
@@ -230,6 +232,14 @@ namespace MPC.Implementation.MISServices
 
         }
 
+
+
+        public void DeletePO(long OrderID)
+        {
+
+            purchaseRepository.DeletePO(OrderID);
+
+        }
         #endregion
     }
 }

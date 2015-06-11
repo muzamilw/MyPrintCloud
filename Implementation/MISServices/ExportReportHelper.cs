@@ -1,4 +1,5 @@
 ﻿using GrapeCity.ActiveReports;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -14,7 +15,7 @@ using System.Xml;
 
 namespace MPC.Implementation.MISServices
 {
-    public class ExportReportHelper
+    public class ExportReportHelper : IExportReportHelper
     {
 
         #region Private
@@ -158,6 +159,12 @@ namespace MPC.Implementation.MISServices
                     {
                         sFileName = iRecordID + "InvoiceReport.pdf";
                         List<usp_InvoiceReport_Result> rptInvoiceSource = ReportRepository.getInvoiceReportResult(OrganisationID, iRecordID);
+                        currReport.DataSource = rptInvoiceSource;
+                    }
+                    else if (type == ReportType.PurchaseOrders)
+                    {
+                        sFileName = iRecordID + "PurchaseReport.pdf";
+                        List<usp_PurchaseOrderReport_Result> rptInvoiceSource = ReportRepository.GetPOReport(iRecordID);
                         currReport.DataSource = rptInvoiceSource;
                     }
                     else if (type == ReportType.Internal)
