@@ -809,7 +809,7 @@
                                                         <div class="filter-block">
                                                             <div class="filter-block pull-right" style="margin-right: -10px;">
                                                                 <form data-bind="submit:$root.searchCompanyTerritoryByFilter ">
-                                                                    <div class="form-group pull-left" style="padding-right: 0px; margin-right: 14px;">
+                                                                    <div class="form-group pull-left" style="padding-right: 0px; margin-right: 14px;margin-bottom:6px;">
                                                                         <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
                                                                         <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritoryByFilter"></i>
                                                                     </div>
@@ -915,7 +915,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 1</label>
                                             </div>
-                                            <div class="col-lg-6" style="margin-left:10px;">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId1"></select>   @*,value: $root.selectedClaimFilterListitem*@
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -929,7 +929,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 2</label>
                                             </div>
-                                            <div class="col-lg-6" style="margin-left:10px;">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class=" form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId2"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -943,7 +943,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 1</label>
                                             </div>
-                                            <div class="col-lg-6" style="margin-left:10px;">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class=" form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId1"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -957,7 +957,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 2</label>
                                             </div>
-                                            <div class="col-lg-6" style="margin-left:10px;">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId2"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -971,7 +971,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 1</label>
                                             </div>
-                                            <div class="col-lg-6" style="margin-left:10px;">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId1"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -985,7 +985,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 2</label>
                                             </div>
-                                            <div class="col-lg-6" style="margin-left:10px;">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId2"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -1028,7 +1028,7 @@
                                                 <!-- ko if: $root.themes().length > 0 -->
                                                 @*<select class="form-control" data-bind="options: $root.themes,optionsCaption:'Select Theme', optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>*@
 
-                                                <div class="form-control" id="ops_theme_dropdown" style="margin-right:7px;">
+                                                <div class="form-control" id="ops_theme_dropdown" style="margin-right:7px;width:241px;">
                                                     <div id="ops_theme_list">
                                                         <a style="color:black;" data-bind="text: $root.selectedThemeName" href="#">
 
@@ -1227,7 +1227,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-5 ThoumbnailCostCenter" style="margin-top:10px;padding-left:0px;width:200px;margin-top:10px;text-align:center;">
+                                                <div class="col-lg-5 ThoumbnailCostCenter" style="margin-top:10px;padding-left:0px;width:170px;margin-top:10px;text-align:center;">
                                                     Upload Media files (JPG,GIF,PNG) here which can be used throughout store in Home Page banners,  user defined pages banners etc.
                                                 </div>
                                             </div>
@@ -1286,9 +1286,7 @@
                                         <div class="form-group" data-bind="visible: isDisplayBanners">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Current Active Banner Set" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                   
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Current Active Banner Set</label>
                                             </div>
@@ -2090,7 +2088,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="padding-top:5px;">
                                                 <label style="padding: 0px;" for="switchDisplayDVoucher">Display Discount Vouchers in Shopping Cart and allow discount</label>
 
                                             </div>
@@ -2109,7 +2107,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="padding-top:5px;">
                                                 <label style="padding:0px;margin-top:5px;" for="switchProductPrices">Show product pricing on category pages</label>
 
                                             </div>
@@ -2128,7 +2126,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="padding-top:5px;">
                                                 <label style="padding:0px;margin-top:5px;" for="switchCorpBranding">Show your organizational details on Order Receipts and brand them</label>
 
                                             </div>
@@ -2148,7 +2146,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="padding-top:5px;">
                                                 <label style="padding:0px;margin-top:5px;" for="switchRegistrationFromWebsite">Allow new user registrations on store</label>
 
                                             </div>
@@ -2168,7 +2166,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="padding-top:5px;">
                                                 <label style="padding:0px;margin-top:5px;" for="switchOrderWithoutApproval">Users can place order without manager's approval</label>
 
                                             </div>
@@ -2350,7 +2348,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;margin-left:-6px;">
+                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;margin-left:-6px;padding-left:9px;">
                                                     <a data-toggle="modal" class="btn btn-primary" data-bind="click:$root.onCreateNewPaymentGateway">
                                                         Add New Payment Gateway
                                                     </a>
@@ -2388,7 +2386,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-6" style="padding-left:4px;padding-top:5px;">
                                                     <label style="padding:0px;margin-top:5px;" for="switchProductPrices">Include Order detailed Report</label>
 
                                                 </div>
@@ -2436,7 +2434,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-6" style="padding-left:4px;padding-top:5px;">
                                                     <label style="padding: 0px;margin-top:5px;" for="switchProductPrices">Include Order information in XML format</label>
 
                                                 </div>
@@ -2476,7 +2474,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-6" style="padding-left:4px;padding-top:5px;">
                                                     <label style="padding: 0px;margin-top:5px;" for="switchProductPrices">Include Job Card report for each item/product</label>
 
                                                 </div>
@@ -2515,7 +2513,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-6" style="padding-left:4px;padding-top:2px;">
                                                     <label style="padding: 0px;margin-top:8px;" for="switchProductPrices">Make template artwork production ready by removing watermarks</label>
 
                                                 </div>
