@@ -48,7 +48,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new ApiModels.InventorySearchResponse
             {
-                StockItems = source.StockItems != null ? source.StockItems.Select(stockItem => stockItem.CreateFrom()).ToList() : null,
+                StockItems = source.StockItems != null ? source.StockItems.Select(stockItem => stockItem.CreateFrom()) : null,
                 TotalCount = source.TotalCount
             };
         }

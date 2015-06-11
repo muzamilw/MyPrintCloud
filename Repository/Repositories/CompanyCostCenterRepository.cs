@@ -58,12 +58,12 @@ namespace MPC.Repository.Repositories
            // ReSharper disable once ConditionalTernaryEqualBranch
            IEnumerable<CompanyCostCentre> costCentres = request.IsAsc
                ? DbSet.Where(query)
-                   .OrderByDescending(x => x.CompanyId)
+                   .OrderBy(x => x.CostCentre.Name)
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList()
                : DbSet.Where(query)
-                   .OrderByDescending(x => x.CompanyId)
+                    .OrderBy(x => x.CostCentre.Name)
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();

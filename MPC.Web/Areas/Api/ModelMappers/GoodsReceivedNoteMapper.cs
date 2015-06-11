@@ -36,5 +36,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 GoodsReceivedNotesList = source.GoodsReceivedNotes.Select(order => order.CreateFromForListView())
             };
         }
+
+
+        /// <summary>
+        /// Create From 
+        /// </summary>
+        public static PurchaseListView CreateFromForGRN(this DomainModels.GoodsReceivedNote source)
+        {
+
+            return new PurchaseListView
+            {
+                PurchaseId = source.GoodsReceivedId,
+                Code = source.code,
+                DatePurchase = source.date_Received,
+                //todo SupplierName = source.SupplierId,
+                TotalPrice = source.TotalPrice
+
+            };
+        }
     }
 }

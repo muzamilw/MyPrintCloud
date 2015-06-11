@@ -475,6 +475,7 @@
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
+    <Compile Include="ResponseModels\GoodsReceivedNotesResponseModel.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="ResponseModels\InquiryBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />
