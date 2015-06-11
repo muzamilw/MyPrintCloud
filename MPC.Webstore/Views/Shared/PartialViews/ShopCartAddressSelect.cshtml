@@ -505,7 +505,7 @@
                                                     {
                                                         if (shopcart.ProductType == (int)ProductType.NonPrintProduct)
                                                         {
-                                                            string completeImgPath = shopcart.ThumbnailPath;
+                                                            string completeImgPath = "/" + shopcart.ThumbnailPath;
                                                             pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                             imgToShowURL = completeImgPath;
                                                         }
