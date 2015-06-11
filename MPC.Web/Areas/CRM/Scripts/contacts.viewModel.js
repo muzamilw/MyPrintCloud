@@ -39,7 +39,11 @@ define("crm/contacts.viewModel",
                     allCompanyAddressesList = ko.observableArray([]),
                     // Selected Company
                     //selectedCompanyContact = ko.observable(),
+<<<<<<< HEAD
                     companyContactEditorViewModel = new ist.ViewModel(model.CompanyContact),
+=======
+                    companyContactEditorViewModel = new ist.ViewModel(model.CompanyContact),
+>>>>>>> 0a3f4fa2eed5b53ec26996213e8e9e7de7c9651f
                     selectedCompanyContact = companyContactEditorViewModel.itemForEditing,
                     // Selected Role Id
                     contactRoleId = ko.observable(true),
@@ -233,8 +237,13 @@ define("crm/contacts.viewModel",
                                         contactCompanyTerritoriesFilter.push(territory);
                                     });
                                     //selectedCompanyContact(contact);
+<<<<<<< HEAD
                                     companyContactEditorViewModel.selectItem(contact);
                                     selectedCompanyContact().reset();
+=======
+                                    companyContactEditorViewModel.selectItem(contact);
+                                    selectedCompanyContact().reset();
+>>>>>>> 0a3f4fa2eed5b53ec26996213e8e9e7de7c9651f
                                 }
                             },
                             error: function () {
@@ -335,6 +344,7 @@ define("crm/contacts.viewModel",
                                          toastr.success("Saved Successfully");
                                          selectedCompanyContact().contactId(data.ContactId);
                                          var savedCompanyContact = model.CompanyContact.Create(data);
+<<<<<<< HEAD
                                          var count = 0;
                                          _.each(companyContactsForListView(), function (user) {
                                              if (user.contactId() == savedCompanyContact.contactId()) {
@@ -342,6 +352,15 @@ define("crm/contacts.viewModel",
                                                  user.email(savedCompanyContact.email());
                                              }
                                              count = count + 1;
+=======
+                                         var count = 0;
+                                         _.each(companyContactsForListView(), function (user) {
+                                             if (user.contactId() == savedCompanyContact.contactId()) {
+                                                 user.firstName(savedCompanyContact.firstName());
+                                                 user.email(savedCompanyContact.email());
+                                             }
+                                             count = count + 1;
+>>>>>>> 0a3f4fa2eed5b53ec26996213e8e9e7de7c9651f
                                          });
                                          if (afterSaveForCalendarActivity && typeof afterSaveForCalendarActivity === "function") {
                                              afterSaveForCalendarActivity(selectedCompanyContact());
