@@ -91,6 +91,7 @@
     <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="MISServices\IDeliveryCarriersService.cs" />
     <Compile Include="MISServices\IDeliveryNotesService.cs" />
+    <Compile Include="MISServices\IExportReportHelper.cs" />
     <Compile Include="MISServices\IGoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\IInquiryService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
