@@ -23,9 +23,12 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationRepository organisationRepository;
         private readonly IPrefixRepository prefixRepository;
         private readonly IGoodRecieveNoteRepository goodRecieveNoteRepository;
-
         private readonly ICampaignRepository campaignRepository;
         private readonly IOrderRepository orderRepository;
+        private readonly ICampaignRepository campaignRepository;
+        private readonly IOrderRepository orderRepository;
+        private readonly IExportReportHelper exportReportHelper;
+        private readonly ICompanyRepository companyRepository;
         private readonly IExportReportHelper exportReportHelper;
         private readonly ICompanyRepository companyRepository;
         #endregion
@@ -37,6 +40,8 @@ namespace MPC.Implementation.MISServices
         public PurchaseService(IPurchaseRepository purchaseRepository, ISectionFlagRepository sectionFlagRepository, ISystemUserRepository systemUserRepository,
              IGoodRecieveNoteRepository goodRecieveNoteRepository,IOrganisationRepository organisationRepository, IPrefixRepository prefixRepository, 
             IPurchaseDetailRepository purchaseDetailRepository, IExportReportHelper ExportReportHelper, ICampaignRepository campaignRepository, 
+            IOrganisationRepository organisationRepository, IPrefixRepository prefixRepository, IPurchaseDetailRepository purchaseDetailRepository, IExportReportHelper ExportReportHelper, ICampaignRepository campaignRepository, IOrderRepository OrderRepository,
+            ICompanyRepository companyRepository)
             IOrderRepository OrderRepository,ICompanyRepository companyRepository)
 
         {
@@ -50,6 +55,10 @@ namespace MPC.Implementation.MISServices
             this.goodRecieveNoteRepository = goodRecieveNoteRepository;
 
             this.exportReportHelper = ExportReportHelper;
+            this.exportReportHelper = ExportReportHelper;
+            this.campaignRepository = campaignRepository;
+            this.orderRepository = OrderRepository;
+            this.companyRepository = companyRepository;
             this.campaignRepository = campaignRepository;
             this.orderRepository = OrderRepository;
             this.companyRepository = companyRepository;
