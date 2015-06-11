@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿
+
 <div class="modal fade my-modal" id="myEditBannerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedCompanyBanner">
         <div class="modal-content">
@@ -10,28 +9,28 @@
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
-                       
+
                     </div>
                     <div class="col-lg-4">
 
                         <div class="clearfix">
-                            
+
                             <img style="width:240px;height:130px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
                             <img style="width:220px;height:130px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
-                            
+
                             <div class="col-lg-11" style="margin-top:5px;text-align:center;width:220px;">
-                                
-                                    <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
-                                        <span>Upload</span>
-                                        @*<input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
-                                 
+
+                                <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
+                                    <span>Upload</span>
+                                    @*<input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
+
                                 </div>
 
                             </div>
                             <div class="col-lg-11 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;width:220px;">Banner Image.</div>
                             @*<div class="profile-stars">
-                                <span data-bind="value: type"></span>
-                            </div>*@
+                                    <span data-bind="value: type"></span>
+                                </div>*@
 
                         </div>
 
@@ -42,19 +41,19 @@
 
                         @*<img style="min-height: 200px; width: 270px;" data-bind="attr: { src: fileBinary }" />*@
                         @*<img height="200" width="270" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
-                        <img height="200" width="270" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />*@
+                            <img height="200" width="270" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />*@
 
                     </div>
                     <div class="col-lg-1">
                         @*<div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
-                            <span>....</span>
-                         
-                        </div>*@
+                                <span>....</span>
+
+                            </div>*@
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
-                        
+
                         <label class="control-label text-right tooltip-float">Banner set</label>
                     </div>
                     <div class="col-lg-5">
@@ -100,7 +99,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
-                        <label  class="control-label text-right tooltip-float">Banner Button URL</label>
+                        <label class="control-label text-right tooltip-float">Banner Button URL</label>
                     </div>
                     <div class="col-lg-5">
                         <input type="text" class="form-control" id="txtBtnUrl" data-bind="value:buttonURL">
@@ -120,126 +119,3 @@
 
 
 @* Wizard Popup ends here*@
-=======
-﻿
-<div class="modal fade my-modal" id="myEditBannerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedCompanyBanner">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add/Edit Banner</h4>
-            </div>
-            <div class="col-lg-12 form-horizontal outerDiv-Padding">
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                       
-                    </div>
-                    <div class="col-lg-4">
-
-                        <div class="clearfix">
-                            
-                            <img style="width:240px;height:130px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
-                            <img style="width:220px;height:130px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
-                            
-                            <div class="col-lg-11" style="margin-top:5px;text-align:center;width:220px;">
-                                
-                                    <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
-                                        <span>Upload</span>
-                                        @*<input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
-                                 
-                                </div>
-
-                            </div>
-                            <div class="col-lg-11 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;width:220px;">Banner Image.</div>
-                            @*<div class="profile-stars">
-                                <span data-bind="value: type"></span>
-                            </div>*@
-
-                        </div>
-
-
-
-
-
-
-                        @*<img style="min-height: 200px; width: 270px;" data-bind="attr: { src: fileBinary }" />*@
-                        @*<img height="200" width="270" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
-                        <img height="200" width="270" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />*@
-
-                    </div>
-                    <div class="col-lg-1">
-                        @*<div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
-                            <span>....</span>
-                         
-                        </div>*@
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        
-                        <label class="control-label text-right tooltip-float">Banner set</label>
-                    </div>
-                    <div class="col-lg-5">
-                        <select class="form-control" data-bind="options: $root.companyBannerSetList, optionsText: 'setName', optionsValue: 'id',value:companySetId, validationTooltip: companySetId"></select>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="btn btn-primary pull-left" data-bind="click:$root.onAddSetBanner">
-                            Add New Banner Set
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-
-                        <label for="txtBannerHead" class="control-label text-right tooltip-float">Banner Heading</label>
-
-                    </div>
-
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtBannerHead" data-bind="value:heading, validationTooltip:heading">
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Description</label>
-                    </div>
-
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtdesc" data-bind="value:description">
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Item URL ( Image URL ) </label>
-                    </div>
-
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtItemUrl" data-bind="value:itemURL">
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        <label  class="control-label text-right tooltip-float">Banner Button URL</label>
-                    </div>
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtBtnUrl" data-bind="value:buttonURL">
-                    </div>
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <hr />
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveCompanyBanner, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" data-bind="click:$root.onCloseCompanyBanner" style="margin-left: 0px;">Close</button>
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyBanner, enable: $root.selectedCompanyBanner().id() != undefined">Archive</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-@* Wizard Popup ends here*@
->>>>>>> 0a3f4fa2eed5b53ec26996213e8e9e7de7c9651f

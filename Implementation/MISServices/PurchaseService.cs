@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
+using MPC.Repository.Repositories;
 
 namespace MPC.Implementation.MISServices
 {
@@ -25,12 +26,8 @@ namespace MPC.Implementation.MISServices
         private readonly IGoodRecieveNoteRepository goodRecieveNoteRepository;
         private readonly ICampaignRepository campaignRepository;
         private readonly IOrderRepository orderRepository;
-        private readonly ICampaignRepository campaignRepository;
-        private readonly IOrderRepository orderRepository;
-        private readonly IExportReportHelper exportReportHelper;
         private readonly ICompanyRepository companyRepository;
         private readonly IExportReportHelper exportReportHelper;
-        private readonly ICompanyRepository companyRepository;
         #endregion
 
         #region Constructor
@@ -38,12 +35,10 @@ namespace MPC.Implementation.MISServices
         /// Constructor 
         /// </summary>
         public PurchaseService(IPurchaseRepository purchaseRepository, ISectionFlagRepository sectionFlagRepository, ISystemUserRepository systemUserRepository,
-             IGoodRecieveNoteRepository goodRecieveNoteRepository,IOrganisationRepository organisationRepository, IPrefixRepository prefixRepository, 
-            IPurchaseDetailRepository purchaseDetailRepository, IExportReportHelper ExportReportHelper, ICampaignRepository campaignRepository, 
-            IOrganisationRepository organisationRepository, IPrefixRepository prefixRepository, IPurchaseDetailRepository purchaseDetailRepository, IExportReportHelper ExportReportHelper, ICampaignRepository campaignRepository, IOrderRepository OrderRepository,
-            ICompanyRepository companyRepository)
-            IOrderRepository OrderRepository,ICompanyRepository companyRepository)
-
+             IGoodRecieveNoteRepository goodRecieveNoteRepository,
+             OrganisationRepository organisationRepository, IPrefixRepository prefixRepository, IPurchaseDetailRepository purchaseDetailRepository, IExportReportHelper ExportReportHelper, ICampaignRepository campaignRepository, IOrderRepository OrderRepository,
+            ICompanyRepository companyRepository
+           )
         {
             this.purchaseRepository = purchaseRepository;
             this.sectionFlagRepository = sectionFlagRepository;
@@ -177,7 +172,7 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        public bool GeneratePO(long OrderID,long ContactID, long CompanyId,Guid CreatedBy)
+        public bool GeneratePO(long OrderID, long ContactID, long CompanyId, Guid CreatedBy)
         {
 
 
@@ -188,14 +183,14 @@ namespace MPC.Implementation.MISServices
                 POEmail(ServerPath, OrderID, ContactID, CompanyId);
             }
 
-            
-            
+
+
             return true;
         }
 
         public void POEmail(string ServerPath, long OrderID, long ContactID, long CompanyId)
         {
-           // string szDirectory = WebConfigurationManager.AppSettings["VirtualDirectory"].ToString();
+            // string szDirectory = WebConfigurationManager.AppSettings["VirtualDirectory"].ToString();
             List<string> AttachmentsList = new List<string>();
 
 
@@ -208,9 +203,9 @@ namespace MPC.Implementation.MISServices
 
                 foreach (var purchase in ListPurchases)
                 {
-                    string FileName = exportReportHelper.ExportPDF(100, purchase.Key,ReportType.PurchaseOrders,OrderID,string.Empty);
+                    string FileName = exportReportHelper.ExportPDF(100, purchase.Key, ReportType.PurchaseOrders, OrderID, string.Empty);
 
-                   
+
 
 
                     int ItemIDs = orderRepository.GetFirstItemIDByOrderId(OrderID);
@@ -220,13 +215,13 @@ namespace MPC.Implementation.MISServices
 
 
                     string SalesManagerFile = ImagePathConstants.ReportPath + CompOrganisation.OrganisationId + "/" + purchase.Key + "_PurchaseOrder.pdf";
-                    campaignRepository.POEmailToSalesManager(OrderID,CompanyId,ContactID,250,purchase.Value,SalesManagerFile,objCompany);
-                    
-                    
-                    
-                    if(objCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                    campaignRepository.POEmailToSalesManager(OrderID, CompanyId, ContactID, 250, purchase.Value, SalesManagerFile, objCompany);
+
+
+
+                    if (objCompany.IsCustomer == (int)CustomerTypes.Corporate)
                     {
-                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, ContactID, CompanyId, OrderID, CompOrganisation, CompOrganisation.OrganisationId,0, StoreMode.Corp, CompanyId,saleManager, ItemIDs, "", "", 0);
+                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, ContactID, CompanyId, OrderID, CompOrganisation, CompOrganisation.OrganisationId, 0, StoreMode.Corp, CompanyId, saleManager, ItemIDs, "", "", 0);
                     }
                     else
                     {
@@ -243,10 +238,10 @@ namespace MPC.Implementation.MISServices
                         File.Copy(SourceFile, DestinationPhysicalFileSupplier);
                     }
 
-                    campaignRepository.POEmailToSupplier(OrderID,CompanyId,ContactID,250,purchase.Value,DestinationFileSupplier,objCompany);
+                    campaignRepository.POEmailToSupplier(OrderID, CompanyId, ContactID, 250, purchase.Value, DestinationFileSupplier, objCompany);
 
-                    
-                   // SendEmailToSupplier(ServerPath, OrderID, ContactCompanyID, ContactID, 250, purchase.SupplierID ?? 0, DestinationFileSupplier);
+
+                    // SendEmailToSupplier(ServerPath, OrderID, ContactCompanyID, ContactID, 250, purchase.SupplierID ?? 0, DestinationFileSupplier);
 
 
 
@@ -254,7 +249,7 @@ namespace MPC.Implementation.MISServices
                     // AttachmentsList.Add(FilePath);
 
                 }
-             
+
             }
 
 
