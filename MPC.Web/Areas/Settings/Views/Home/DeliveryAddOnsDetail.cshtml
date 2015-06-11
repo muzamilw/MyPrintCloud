@@ -109,13 +109,7 @@
                                             <div class="form-group" data-bind="visible: carrierId() === 1">
                                                 <div class="col-lg-6 text-right">
 
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        @*<a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
-
-                                                    </div>
+                                                    
                                                     <label for="ddCarrier" class="control-label text-right tooltip-float">Fedex Service Type</label>
 
                                                 </div>
@@ -128,13 +122,7 @@
                                             <div class="form-group" data-bind="visible: carrierId() === 3">
                                                 <div class="col-lg-6 text-right">
 
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        @*<a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Delivery price" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
-
-                                                    </div>
+                                                    
 
 
                                                     <label for="txtDelcharges" class="control-label text-right tooltip-float">Fixed Shipping Price</label>
@@ -152,12 +140,7 @@
                                             <div class="form-group" data-bind="visible: carrierId() === 3">
                                                 <div class="col-lg-6 text-right">
 
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        @*<a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Delivery Time" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
-                                                    </div>
+                                                    
                                                     <label for="txtDelvTime" class="control-label text-right tooltip-float">Fixed Delivery Time</label>
                                                 </div>
                                                 <div>
@@ -171,11 +154,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check enable cost center." data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
+                                                    
                                                     <label for="switchisDisabled" class="control-label text-right tooltip-float">Is Cost Center enable</label>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -192,13 +171,7 @@
                                             <div class="form-group">
 
                                                 <div class="col-lg-6 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check Map on Contact" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-
-                                                    </div>
+                                                   
                                                     <label for="switchIsPublished" class="control-label text-right tooltip-float">Is Cost Center Published on Webstore</label>
 
                                                 </div>
@@ -258,68 +231,15 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="col-md-4 text-right">
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-
-                                                            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-
-                                                        </div>
-
-                                                        <label class="control-label text-right tooltip-float">Thumbnail</label>*@
-
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="clearfix">
-                                                       
-                                                        <img style="width:220px;" id="idCostcenterimage" data-bind="visible: costcentreImageFileBinary() ==undefined , attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
-                                                        <img style="width:220px;height:130px;" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
-                                                        <div style="margin-top:10px;width:220px;text-align:center;">
-                                                            <div class="fileUpload btn btn-primary">
-                                                                <span>Upload </span>
-                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.costcenterImageFilesLoadedCallback, fileFilter: 'image.*'}" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="ThoumbnailCostCenter" style="margin-top:10px;width:225px;text-align:center;">Upload Cost Center Image </div>
-                                                        <div class="profile-stars">
-                                                            <span data-bind="value: type"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                @*<div class="col-lg-6">
-                                                        <div id="dropzoneM" class="dropzonepl">
-                                                            <form id="demo-uploadMM" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                                <div class="dz-default dz-message">
-                                                                    <span>Drop file here to upload(png file formate 100 X 100)</span>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>*@
-
-                                            </div>
                                             <div class="form-group ">
                                                 <div class="col-lg-4 text-right">
 
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-
-                                                            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-
-                                                        </div>
-
-
-                                                        <label for="txtFName" class="control-label text-right tooltip-float">Internal Description</label>*@
+                                                   
 
                                                 </div>
 
                                                 <div class="col-lg-8">
-                                                    <textarea class="form-control" id="txtInternalDesc" style="background-color: rgb(254, 254, 198); position: relative; width: 220px;" placeholder="Notes" rows="5" data-bind="value: description"></textarea>
+                                                    <textarea class="form-control notes" id="txtInternalDesc" style="position: relative; width: 220px;" placeholder="Notes" rows="5" data-bind="value: description"></textarea>
 
                                                 </div>
                                             </div>

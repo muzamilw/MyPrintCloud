@@ -676,6 +676,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Reportparam> Reportparams { get; set; }
 
         /// <summary>
+        /// Staging Import Company Contact Address DbSet
+        /// </summary>
+        public DbSet<StagingImportCompanyContactAddress> StagingImportCompanyContactAddresses { get; set; }
+
+        /// <summary>
         /// Machine Lookup Method DbSet
         /// </summary>
         public DbSet<MachineLookupMethod> MachineLookupMethods { get; set; }

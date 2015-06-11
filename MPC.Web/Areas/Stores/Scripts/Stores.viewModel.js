@@ -6474,6 +6474,12 @@ define("stores/stores.viewModel",
                 });
                 confirmation.show();
             },
+            // Get Company By Id
+            getCompanyByIdFromListView = function(id) {
+                return stores.find(function(store) {
+                    return store.companyId() === id;
+                });
+            },
             // Delete Company Permanently
             deleteCompanyPermanently = function (id) {
                 dataservice.deleteCompanyPermanent({ CompanyId: id }, {
@@ -6481,7 +6487,10 @@ define("stores/stores.viewModel",
                         toastr.success("Store deleted successfully!");
                         isEditorVisible(false);
                         if (selectedStore()) {
-                            stores.remove(selectedStore());
+                            var store = getCompanyByIdFromListView(selectedStore().companyId());
+                            if (store) {
+                                stores.remove(store);
+                            }
                         }
                         resetStoreEditor();
                     },

@@ -140,6 +140,13 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         void DeleteFieldVariable(long variableId);
 
+        /// <summary>
+        /// Save Imported Company Contact
+        /// </summary>
+        /// <param name="stagingImportCompanyContact"></param>
+        /// <returns></returns>
+        bool SaveImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact);
+
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);

@@ -8,11 +8,13 @@ using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
 using FileHelpers;
+using GrapeCity.ActiveReports.PageReportModel;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -20,38 +22,18 @@ namespace MPC.MIS.Areas.Api.Controllers
     public class ImportController : ApiController
     {
         #region Private
-        private readonly ICompanyContactService companyContactService;
+        private readonly ICompanyService companyService;
 
         #endregion
         #region Constructor
-        public ImportController(ICompanyContactService companyContactService)
+        public ImportController(ICompanyService companyService)
         {
-            this.companyContactService = companyContactService;
+            this.companyService = companyService;
         }
         #endregion
         #region Public
-         [System.Web.Http.HttpGet]
-        public void CompanyContact()
-        {
-            string mapPath = HostingEnvironment.MapPath("~/Resources/CompanyContacts.csv");
-            if (mapPath != null)
-            {
-                var filePath = Path.Combine(mapPath);
+        
 
-                FileHelperEngine<ImportCompanyContact> engine = new FileHelperEngine<ImportCompanyContact>();
-
-                ImportCompanyContact[] dataLoaded = engine.ReadFile(filePath);
-                if (dataLoaded.Any())
-                {
-                    //IEnumerable<ReferringDoctor> enumerable = dataLoaded.Select(x => x.CreateFrom()).ToList();
-                    //foreach (ReferringDoctor company in enumerable)
-                    //{
-                    //    DoctorRepository.Insert(company);
-                    //}
-                    //Cruder._uow.Save();
-                }
-            }
-        }
          [ApiException]
          [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
          [CompressFilter]
@@ -77,10 +59,16 @@ namespace MPC.MIS.Areas.Api.Controllers
                  FileHelperEngine<ImportCompanyContact> engine = new FileHelperEngine<ImportCompanyContact>();
 
                  ImportCompanyContact[] dataLoaded = engine.ReadFile(filePath);
+                 List<ImportCompanyContact> tmp = new List<ImportCompanyContact>(dataLoaded);
+                 tmp.RemoveAt(0);
+                 dataLoaded = tmp.ToArray();
                  if (dataLoaded.Any())
                  {
-                     IEnumerable<CompanyContact> enumerable = dataLoaded.Select(x => x.Createfrom()).ToList();
-                     companyContactService.SaveImportedContact(enumerable.Select(x=>x.Createfrom()));
+                     IEnumerable<StagingImportCompanyContactAddress> enumerable = dataLoaded.Select(x => x.Createfrom(request.CompanyId)).ToList();
+                     //List<StagingImportCompanyContactAddress> list = enumerable as List<StagingImportCompanyContactAddress>;
+                     //list.Remove(list[0]);
+                     //enumerable = list;
+                     companyService.SaveImportedCompanyContact(enumerable);
                  }
              }
              if (File.Exists(savePath))
