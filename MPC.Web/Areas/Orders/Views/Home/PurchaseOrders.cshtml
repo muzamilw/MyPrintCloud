@@ -91,6 +91,7 @@
                             <li class="active"><a href="#tab-ShowAll" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(0);}">Show All</a></li>
                             <li><a href="#tab-Open" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(31);}">Open</a></li>
                             <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(32);}">Posted</a></li>
+                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(33);}">Cancelled</a></li>
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -103,6 +104,10 @@
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-ShowAll">
+                            <!-- ko template: { name: 'tabTemplate' } -->
+                            <!-- /ko -->
+                        </div>
+                        <div class="tab-pane" id="tab-Cancelled">
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>

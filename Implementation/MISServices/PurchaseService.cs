@@ -19,6 +19,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IOrganisationRepository organisationRepository;
         private readonly IPrefixRepository prefixRepository;
+        private readonly IGoodRecieveNoteRepository goodRecieveNoteRepository;
 
         #endregion
 
@@ -27,7 +28,7 @@ namespace MPC.Implementation.MISServices
         /// Constructor 
         /// </summary>
         public PurchaseService(IPurchaseRepository purchaseRepository, ISectionFlagRepository sectionFlagRepository, ISystemUserRepository systemUserRepository,
-            IOrganisationRepository organisationRepository, IPrefixRepository prefixRepository, IPurchaseDetailRepository purchaseDetailRepository)
+            IOrganisationRepository organisationRepository, IPrefixRepository prefixRepository, IPurchaseDetailRepository purchaseDetailRepository, IGoodRecieveNoteRepository goodRecieveNoteRepository)
         {
             this.purchaseRepository = purchaseRepository;
             this.sectionFlagRepository = sectionFlagRepository;
@@ -35,6 +36,7 @@ namespace MPC.Implementation.MISServices
             this.organisationRepository = organisationRepository;
             this.prefixRepository = prefixRepository;
             this.purchaseDetailRepository = purchaseDetailRepository;
+            this.goodRecieveNoteRepository = goodRecieveNoteRepository;
         }
 
         #endregion
@@ -45,9 +47,20 @@ namespace MPC.Implementation.MISServices
             return purchaseRepository.GetPurchases(requestModel);
         }
 
+        /// <summary>
+        /// Get Purchase Orders
+        /// </summary>
         public PurchaseResponseModel GetPurchaseOrders(PurchaseOrderSearchRequestModel request)
         {
             return purchaseRepository.GetPurchaseOrders(request);
+        }
+
+        /// <summary>
+        /// Ge Goods Received Notes
+        /// </summary>
+        public GoodsReceivedNotesResponseModel GetGoodsReceivedNotes(PurchaseOrderSearchRequestModel request)
+        {
+            return goodRecieveNoteRepository.GetGoodsReceivedNotes(request);
         }
 
         /// <summary>

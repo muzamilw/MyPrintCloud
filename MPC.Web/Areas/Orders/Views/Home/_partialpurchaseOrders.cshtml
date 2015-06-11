@@ -38,17 +38,17 @@
         <div class="row" id="prefixesdata" style="float: right; padding-right: 1.1%; margin-top: 1%; ">
 
             <div class="input-group">
-                <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:5px">
+                <button class="btn btn-primary" data-bind="visible:$root.selectedPurchaseOrder().id()!==undefined,click: $root.openReport.bind($data, true) " style="margin-right:5px">
                     Print
                 </button>
                 <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
-                <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="click:$root.onSavePurchaseOrder,css: { 'btn-warning': $root.selectedPurchaseOrder().hasChanges() }">
+                <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31,click:$root.onSavePurchaseOrder,css: { 'btn-warning': $root.selectedPurchaseOrder().hasChanges() }">
                     &nbsp;Save
                 </button>
                 <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onDeletePurchase">&nbsp;Delete</button>
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onPostPurchaseOrder">&nbsp;Post PO</button>
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onCancelPurchaseOrder">&nbsp;Cancel PO</button>
-                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().id()!==undefined">&nbsp;Print</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===32 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onCreateGRN">&nbsp;Create GRN</button>
 
             </div>
         </div>
@@ -82,7 +82,7 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
+                                <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
+                                <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                             <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
@@ -152,7 +152,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div>
-                                    <input type="text" value="Double-Sided A4" placeholder="Order Ref. No" class="form-control" data-bind="value:reffNo" />
+                                    <input type="text" value="Double-Sided A4" placeholder="Order Ref. No" class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value:reffNo" />
 
                                 </div>
                             </div>
@@ -184,7 +184,7 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId"></select>
+                                <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId,validationOptions:flagId, validationOnElement:flagId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
@@ -207,7 +207,7 @@
                                 <label class="control-label text-right tooltip-float">Purchase Date</label>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" style="height:60px;" class="form-control" data-bind="datepicker:purchaseDate">
+                                <input type="text" style="height:60px;" class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,datepicker:purchaseDate">
                             </div>
                         </div>
                     </div>
@@ -285,7 +285,7 @@
                                         </div>
                                     </div>
                                     <div class="btn-group" style="float: left; margin-top: 10px;">
-                                        <button type="button" class="btn btn-primary" data-bind="click:$root.addPurchaseDetail">Add Purchase Detail</button>
+                                        <button type="button" class="btn btn-primary" data-bind="enable:$root.selectedPurchaseOrder().status()===31,click:$root.addPurchaseDetail">Add Purchase Detail</button>
                                     </div>
                                 </div>
                             </div>
@@ -304,7 +304,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="col-sm-11" style="padding-right: 5px;padding-left: 5px;">
-                                <textarea class="form-control" id="EstimateHeader" rows="4" data-bind="value: comments"></textarea>
+                                <textarea class="form-control" id="EstimateHeader" rows="4" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value: comments"></textarea>
                             </div>
                         </div>
 
@@ -322,10 +322,10 @@
                                     <label class="control-label text-right tooltip-float">Discount</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" data-bind="value:discount">
+                                    <input type="text" class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value:discount">
                                 </div>
                                 <div class="col-sm-5">
-                                    <select class="form-control" data-bind="options: $root.discountTypes, optionsText: 'name', optionsValue: 'id',value:discountType"></select>
+                                    <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.discountTypes, optionsText: 'name', optionsValue: 'id',value:discountType"></select>
 
                                 </div>
                             </div>
@@ -342,7 +342,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="col-sm-11" style="padding-right: 5px;padding-left: 5px;">
-                                <textarea class="form-control" id="EstimateHeader" rows="4" data-bind="value: footnote"></textarea>
+                                <textarea class="form-control" id="EstimateHeader" rows="4" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value: footnote"></textarea>
                             </div>
                         </div>
 
@@ -377,7 +377,7 @@
                             <label class="control-label text-right tooltip-float">Created By</label>
                         </div>
                         <div class="col-sm-3" style="padding-right: 5px;">
-                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id', optionsCaption: 'Select a system user',value:createdBy"></select>
+                            <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id', optionsCaption: 'Select a system user',value:createdBy"></select>
                             <span class="help-block text-right"></span>
                         </div>
                         <div class="col-sm-5 text-right">
@@ -434,7 +434,7 @@
     </tr>
 </script>
 <script id="serviceItemTemplate" type="text/html">
-    <tr style="cursor: pointer">
+    <tr style="cursor: pointer" data-bind="enable:$root.selectedPurchaseOrder().status()===31">
         <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
         <td data-bind="numberInput: price,click:$root.editPurchaseDetail"></td>
         <td data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></td>

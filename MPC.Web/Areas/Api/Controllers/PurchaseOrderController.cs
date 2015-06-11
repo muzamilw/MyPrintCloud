@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Web;
 using System.Web.Http;
-using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -44,7 +43,14 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return purchaseService.GetPurchaseOrders(request).CreateFrom();
+            // In case Of Purcahse Order ,PurchaseOrderType is 1
+            if (request.PurchaseOrderType == 1)
+            {
+                return purchaseService.GetPurchaseOrders(request).CreateFrom();
+            }
+            // PurchaseOrderType 2, that is GRN
+            return purchaseService.GetGoodsReceivedNotes(request).CreateFromGRN();
+
         }
 
         public Purchase Get(int purchaseId)

@@ -12,6 +12,7 @@ namespace MPC.Implementation.MISServices
         private readonly IGoodRecieveNoteRepository goodRecieveNoteRepository;
 
         #endregion
+        
         #region Constructor
         /// <summary>
         /// Constructor 
