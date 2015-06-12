@@ -127,150 +127,159 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
+                int outCustomRequestID = 0;
+
+                int.TryParse(Request["custom"], out  outCustomRequestID);
+                int orderID = outCustomRequestID;// GetRequestOrderID(outCustomRequestID);
                 Estimate modelOrder = null;
                 string strFormValues = Encoding.ASCII.GetString(Request.BinaryRead(Request.ContentLength));
                 string strNewValue;
-                PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
-                // getting the URL to work with
-                string URL;
-                if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
-                    URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";//oGateWay.TestApiUrl;
-                else
-                    URL = "https://www.paypal.com/cgi-bin/webscr"; //oGateWay.LiveApiUrl;
 
-                // Create the request back
-                HttpWebRequest req = (HttpWebRequest)(WebRequest.Create(URL));
+                long StoreId = _OrderService.GetStoreIdByOrderId(orderID);
 
-                // Set values for the request back
-                req.Method = "POST";
-                req.ContentType = "application/x-www-form-urlencoded";
-                strNewValue = strFormValues + "&cmd=_notify-validate";
-                req.ContentLength = strNewValue.Length;
-
-                // Write the request back IPN strings
-                StreamWriter stOut = new StreamWriter(req.GetRequestStream(), Encoding.ASCII);
-                stOut.Write(strNewValue);
-                stOut.Close();
-
-                // send the request, read the response
-                HttpWebResponse strResponse = (HttpWebResponse)(req.GetResponse());
-                Stream IPNResponseStream = strResponse.GetResponseStream();
-                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
-                StreamReader readStream = new StreamReader(IPNResponseStream, encode);
-                string strResponseString = readStream.ReadToEnd();
-                readStream.Close();
-                strResponse.Close();
-
-                double outGrossTotal = 0;
-                int outCustomRequestID = 0;
-              
-                int.TryParse(Request["custom"], out  outCustomRequestID);
-                double.TryParse(Request["mc_gross"], out outGrossTotal);
-
-                int orderID = outCustomRequestID;// GetRequestOrderID(outCustomRequestID);
-
-                //string amount = GetRequestPrice(this.Request["custom"].ToString());
-
-                // if the request is verified
-                if (String.Compare(strResponseString, "VERIFIED", false) == 0)
+                if(StoreId > 0)
                 {
+                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(StoreId);
+                    // getting the URL to work with
+                    string URL;
+                    if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
+                        URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";//oGateWay.TestApiUrl;
+                    else
+                        URL = "https://www.paypal.com/cgi-bin/webscr"; //oGateWay.LiveApiUrl;
 
-                    string pendingReasion = string.IsNullOrWhiteSpace(this.Request["pending_reason"]) ? string.Empty : this.Request["pending_reason"];
+                    // Create the request back
+                    HttpWebRequest req = (HttpWebRequest)(WebRequest.Create(URL));
 
-                    // write a response from PayPal
-                    long payPalResponseID = this.CreatePaymentResponses(orderID, this.Request["txn_id"],
-                         outGrossTotal,
-                         this.Request["payer_email"],
-                         this.Request["first_name"],
-                         this.Request["last_name"],
-                         this.Request["address_street"],
-                         this.Request["address_city"],
-                         this.Request["address_state"],
-                         this.Request["address_zip"],
-                         this.Request["address_country"],
-                         outCustomRequestID, false, pendingReasion);
-                    //Carts.WriteFile("Success in IPNHandler: PaymentResponses created");
-                    ///////////////////////////////////////////////////
-                    // Here we notify the person responsible for goods delivery that the payment was performed and 
-                    // providing him with all needed information about the payment. Some flags informing that user paid 
-                    // for a services can be also set here. For example, if user paid for registration on the site, 
-                    // then the flag should be set allowing the user who paid to access the site
-                    //////////////////////////////////////////////////
+                    // Set values for the request back
+                    req.Method = "POST";
+                    req.ContentType = "application/x-www-form-urlencoded";
+                    strNewValue = strFormValues + "&cmd=_notify-validate";
+                    req.ContentLength = strNewValue.Length;
 
-                    long? customerID = null;
-                    if (payPalResponseID > 0)
+                    // Write the request back IPN strings
+                    StreamWriter stOut = new StreamWriter(req.GetRequestStream(), Encoding.ASCII);
+                    stOut.Write(strNewValue);
+                    stOut.Close();
+
+                    // send the request, read the response
+                    HttpWebResponse strResponse = (HttpWebResponse)(req.GetResponse());
+                    Stream IPNResponseStream = strResponse.GetResponseStream();
+                    Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+                    StreamReader readStream = new StreamReader(IPNResponseStream, encode);
+                    string strResponseString = readStream.ReadToEnd();
+                    readStream.Close();
+                    strResponse.Close();
+
+                    double outGrossTotal = 0;
+                  
+                    double.TryParse(Request["mc_gross"], out outGrossTotal);
+
+
+
+                    //string amount = GetRequestPrice(this.Request["custom"].ToString());
+
+                    // if the request is verified
+                    if (String.Compare(strResponseString, "VERIFIED", false) == 0)
                     {
-                        //CompanySiteManager CSM = new CompanySiteManager();
-                        //   company_sites Serversettingss = CompanySiteManager.GetCompanySite();
-                        string paymentStatus = this.Request["payment_status"];
-                        StoreMode ModeOfStore = StoreMode.Retail;
-                        if (string.Compare(paymentStatus, "pending", true) == 0 || string.Compare(paymentStatus, "completed", true) == 0)
+
+                        string pendingReasion = string.IsNullOrWhiteSpace(this.Request["pending_reason"]) ? string.Empty : this.Request["pending_reason"];
+
+                        // write a response from PayPal
+                        long payPalResponseID = this.CreatePaymentResponses(orderID, this.Request["txn_id"],
+                             outGrossTotal,
+                             this.Request["payer_email"],
+                             this.Request["first_name"],
+                             this.Request["last_name"],
+                             this.Request["address_street"],
+                             this.Request["address_city"],
+                             this.Request["address_state"],
+                             this.Request["address_zip"],
+                             this.Request["address_country"],
+                             outCustomRequestID, false, pendingReasion);
+                        //Carts.WriteFile("Success in IPNHandler: PaymentResponses created");
+                        ///////////////////////////////////////////////////
+                        // Here we notify the person responsible for goods delivery that the payment was performed and 
+                        // providing him with all needed information about the payment. Some flags informing that user paid 
+                        // for a services can be also set here. For example, if user paid for registration on the site, 
+                        // then the flag should be set allowing the user who paid to access the site
+                        //////////////////////////////////////////////////
+
+                        long? customerID = null;
+                        if (payPalResponseID > 0)
                         {
-                            modelOrder = _OrderService.GetOrderByID(orderID);
-
-                            if (modelOrder != null)
-                                customerID = modelOrder.CompanyId;
-
-                            // order code and order creation date
-                            CampaignEmailParams cep = new CampaignEmailParams();
-                            cep.OrganisationId = 1;
-                            string HTMLOfShopReceipt = null;
-                            cep.ContactId = modelOrder.ContactId ?? 0;
-                            cep.CompanyId = modelOrder.CompanyId;
-                            cep.EstimateId = orderID; //PageParameters.OrderID;
-                            Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
-                            CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
-                            _OrderService.SetOrderCreationDateAndCode(orderID);
-                            SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
-
-                            if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                            //CompanySiteManager CSM = new CompanySiteManager();
+                            //   company_sites Serversettingss = CompanySiteManager.GetCompanySite();
+                            string paymentStatus = this.Request["payment_status"];
+                            StoreMode ModeOfStore = StoreMode.Retail;
+                            if (string.Compare(paymentStatus, "pending", true) == 0 || string.Compare(paymentStatus, "completed", true) == 0)
                             {
-                                HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, CustomrContact.ContactId); // corp
-                                ModeOfStore = StoreMode.Corp;
+                                modelOrder = _OrderService.GetOrderByID(orderID);
+
+                                if (modelOrder != null)
+                                    customerID = modelOrder.CompanyId;
+
+                                // order code and order creation date
+                                CampaignEmailParams cep = new CampaignEmailParams();
+                                cep.OrganisationId = 1;
+                                string HTMLOfShopReceipt = null;
+                                cep.ContactId = modelOrder.ContactId ?? 0;
+                                cep.CompanyId = modelOrder.CompanyId;
+                                cep.EstimateId = orderID; //PageParameters.OrderID;
+                                Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
+                                CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
+                                _OrderService.SetOrderCreationDateAndCode(orderID);
+                                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
+
+                                if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                                {
+                                    HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, CustomrContact.ContactId); // corp
+                                    ModeOfStore = StoreMode.Corp;
+                                }
+                                else
+                                {
+                                    HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, 0); // retail
+                                }
+
+                                Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                                cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
+                                cep.StoreId = UserCookieManager.WBStoreId;
+                                cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
+                                long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
+                                cep.CorporateManagerID = ManagerID;
+                                if (CustomerCompany.StoreId != null) ///Retail Mode
+                                {
+                                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                                }
+                                else
+                                {
+                                    _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, UserCookieManager.WEBOrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+
+                                }
+
+                                //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
+                                // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
+
+
+                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(CustomerCompany.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+
+                                _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), payPalResponseID, this.Request["txn_id"], outGrossTotal, ModeOfStore);
                             }
                             else
                             {
-                                HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, 0); // retail
+                                throw new Exception("Invalid Payment Status");
                             }
-
-                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
-                            cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
-                            cep.StoreId = UserCookieManager.WBStoreId;
-                            cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
-                            long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
-                            cep.CorporateManagerID = ManagerID;
-                            if (CustomerCompany.StoreId != null) ///Retail Mode
-                            {
-                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID,  UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail,UserCookieManager.WBStoreId, EmailOFSM);
-                            }
-                            else
-                            {
-                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, UserCookieManager.WEBOrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.WBStoreId,EmailOFSM);
-                           
-                            }
-                            
-                            //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
-                            // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
-                          
-
-                            _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(CustomerCompany.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
-
-                            _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), payPalResponseID, this.Request["txn_id"], outGrossTotal, ModeOfStore);
                         }
                         else
                         {
-                            throw new Exception("Invalid Payment Status");
+                            throw new Exception("Invalid paypal responseid.");
                         }
                     }
                     else
                     {
-                        throw new Exception("Invalid paypal responseid.");
+                        throw new Exception("INVALID HandShake_against_RequestID =  " + outCustomRequestID.ToString() + " " + DateTime.Now.ToString());
                     }
                 }
-                else
-                {
-                    throw new Exception("INVALID HandShake_against_RequestID =  " + outCustomRequestID.ToString() + " " + DateTime.Now.ToString());
-                 }
+                
             }
             catch (Exception ex)
             {
