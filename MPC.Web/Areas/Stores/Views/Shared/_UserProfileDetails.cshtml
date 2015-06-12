@@ -34,10 +34,10 @@
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
                                                             </div>*@
-                                                            <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>
+                                                            <label for="txtEmail" class="control-label text-right tooltip-float">Secondary Email</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -141,12 +141,6 @@
                                                 </div>
                                                 <div class="col-lg-6">
 
-                                                   
-
-
-
-
-
                                                     <div class="form-group">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
@@ -177,12 +171,6 @@
 
                                                             </div>
 
-
-
-
-
-
-
                                                             @*<img style="min-height: 170px; width: 170px;" data-bind="attr: { src: image }" />
                                                             <div class="col-lg-1 pull-right">
                                                                 <div class="fileUpload btn btn-primary">
@@ -193,7 +181,19 @@
                                                             <span class="help-block text-right"></span>*@
                                                         </div>
                                                     </div>
-                                                   
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-5 text-right">
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email/UserName" data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+                                                            </div>*@
+                                                            <label for="txtEmail" class="control-label text-right tooltip-float">UserName/Email</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                        </div>
+                                                    </div>
                                                     <div class="form-group" style="margin-top:24px;">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
@@ -820,8 +820,8 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsDefaultContact" data-bind="checked: isDefaultContact">
-                                                            <label class="onoffswitch-label" for="switchIsDefaultContact">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsDefaultContact" data-bind="checked: isDefaultContact, disable  : isDefaultContact">
+                                                            <label class=" onoffswitch-label" for="switchIsDefaultContact">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
                                                             </label>

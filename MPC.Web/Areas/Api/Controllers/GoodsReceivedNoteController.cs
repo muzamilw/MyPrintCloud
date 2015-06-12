@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.WebBase.Mvc;
-using GoodsReceivedNoteResponseModel = MPC.MIS.Areas.Api.Models.GoodsReceivedNoteResponseModel;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -53,6 +52,13 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
             return goodsReceivedNoteService.SaveGRN(grn.CreateFrom()).CreateFromForGRN();
+        }
+
+        [HttpGet]
+        public GoodsReceivedNote Get( int grnId)
+        {
+            return goodsReceivedNoteService.GetById(grnId).CreateFrom();
+
         }
         #endregion
     }

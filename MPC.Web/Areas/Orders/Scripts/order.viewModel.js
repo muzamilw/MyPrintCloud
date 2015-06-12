@@ -1773,7 +1773,7 @@ define("order/order.viewModel",
                     //#endregion
                     //#region Add Blank Print Product
                     onCreateNewBlankPrintProduct = function () {
-                        var newItem = itemModel.Item.Create({});
+                        var newItem = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
                         applyProductTax(newItem);
                         //Req: Item Product code is set to '1', so while editting item's section is mandatory
                         newItem.productType(1);

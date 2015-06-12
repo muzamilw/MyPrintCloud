@@ -26,7 +26,7 @@
             <li id="layersPanel" class="layersPanel" style="width:72px;"><a>Layers</a></li>
             <li id="layoutsPanel" class="layoutsPanel" style="display: none;"><a>Layouts</a></li>
             <li id="collapseDesignerMenu" class="collapseDesignerMenu " style="position:absolute;bottom:10px;" title="Collapse"><a></a></li>
-            <li id="Homebtn" class="Homebtn "   title="Go to home page"><a href="/"></a></li>
+            @*<li id="Homebtn" class="Homebtn "   title="Go to home page"><a href="/">Go to store</a></li>*@
             
         </menu>
       
@@ -1086,28 +1086,30 @@
                 <li id="Li2" class="btnUploadYourDesign">
                     <button class="buttonDesigner" id="btnGoToLandingPage" title="Upload your own Design" style="visibility:hidden;">Upload your <br /> own Design</button>
                 </li>
-                <li id="Li2" class="zoomBtns">
-                    <button class="buttonDesigner" id="zoomOut" title="Zoom out">-</button>
-                </li>
-                <li class="listText">ZOOM</li>
-                <li id="Li1" class="zoomBtns" style="margin-right: 25px;">
-                    <button class="buttonDesigner" id="zoomIn" title="Zoom In">+</button>
-                </li>
-
                 <li id="documentMenuCopy" class="mainMenuItem">
                     <button class="buttonDesigner" id="btnMenuCopy" title="Copy Selected Objects"></button>
                 </li>
                 <li id="documentMenuPaste" class="mainMenuItem">
                     <button class="buttonDesigner" id="btnMenuPaste" title="Paste"></button>
                 </li>
+                <li id="Li2" class="zoomBtns" style="margin-left:22px;">
+                    <button class="buttonDesigner" id="zoomOut" title="Zoom out">-</button>
+                </li>
+                <li class="listText">ZOOM</li>
+                <li id="Li1" class="zoomBtns" style="margin-left: 9px;">
+                    <button class="buttonDesigner" id="zoomIn" title="Zoom In">+</button>
+                </li>
                 <li id="documentMenuUndo" class="mainMenuItem">
-                    <button class="buttonDesigner" id="BtnUndo" title="Undo"></button>
+                    <button class="buttonDesigner" id="BtnUndo" title="Undo">Undo</button>
                 </li>
                 <li id="documentMenuRedo" class="mainMenuItem">
-                    <button class="buttonDesigner" id="BtnRedo" title="Redo"></button>
+                    <button class="buttonDesigner" id="BtnRedo" title="Redo">Redo</button>
                 </li>
                 <li id="documentMenuGuides" class="mainMenuItem" style="display:none;">
                     <button class="buttonDesigner" id="BtnGuides" title="Show / Hide Trim Line"></button>
+                </li>
+                <li id="HomebtnContainer" class="HomebtnContainer">
+                    <button class="buttonDesigner" id="Homebtn2" title="Go to your store">Go to store</button>
                 </li>
             </menu>
             <menu id="documentMenu" class="documentMenu dark" style="top: 70px!important;">

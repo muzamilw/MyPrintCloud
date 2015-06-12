@@ -22,5 +22,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string ScopeName { get; set; }
 
         public List<VariableOption> VariableOptions { get; set; }
+        public List<VariableExtension> VariableExtensions { get; set; }
+
     }
 }

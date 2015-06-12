@@ -5494,9 +5494,12 @@ END
 
 ------------------------------------------------------------------------
 
+/****** Object:  Table [dbo].[VariableExtension]    Script Date: 11/06/2015 11:20:58 AM ******/
+SET ANSI_NULLS ON
+GO
 
-<<<<<<< HEAD
-delete from report where ReportId in (150,151,152,153,154)
+SET QUOTED_IDENTIFIER ON
+GO
 =======
 /****** Object:  Table [dbo].[VariableExtension]    Script Date: 11/06/2015 11:20:58 AM ******/
 SET ANSI_NULLS ON
@@ -5504,6 +5507,21 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
+CREATE TABLE [dbo].[VariableExtension](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FieldVariableId] [int] NULL,
+	[CompanyId] [int] NULL,
+	[OrganisationId] [int] NULL,
+	[VariablePrefix] [nvarchar](max) NULL,
+	[VariablePostfix] [nvarchar](max) NULL,
+	[CollapsePrefix] [bit] NULL,
+	[CollapsePostfix] [bit] NULL,
+ CONSTRAINT [PK_VariableExtension] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 CREATE TABLE [dbo].[VariableExtension](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
@@ -5528,6 +5546,13 @@ drop constraint DF__tbl_goods__Suppl__52E34C9D
 alter table goodsreceivednote
 alter column supplierid bigint null
 
+--Executed on Staging, USA, Europe, Australia servers on 20150611---
+update goodsreceivednote
+set supplierid = null
+
+alter table goodsreceivednote
+alter column supplierid bigint null
+
 update goodsreceivednote
 set supplierid = null
 
@@ -5535,13 +5560,6 @@ alter table goodsreceivednote
 add constraint FK_GoodsReceivedNote_Company
 foreign key (SupplierId)
 references Company (CompanyId)
-
-alter table goodsreceivednoteDetail
-add TaxValue float null
->>>>>>> 84395508cfd0794876c3b74334bedd7613c3287f
-
-alter table goodsreceivednoteDetail
-drop constraint FK_GoodsreceivedID
 
 alter table goodsreceivednoteDetail
 add constraint FK_GoodsReceivedNoteDetail_GoodsReceivedNote
@@ -5579,3 +5597,16 @@ alter column ImagePath nvarchar(400) null
 
 alter table productcategory
 alter column ThumbnailPath nvarchar(400) null
+
+/* Execution Date: 12/06/2015 */
+
+alter table VariableExtension
+alter column FieldVariableId bigint null
+
+alter table VariableExtension
+add constraint FK_VariableExtension_FieldVariable
+foreign key (FieldVariableId)
+references FieldVariable (VariableId)
+
+alter table CompanyContact
+add SecondaryEmail varchar(200) null
