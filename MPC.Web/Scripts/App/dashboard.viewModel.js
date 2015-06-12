@@ -119,25 +119,12 @@ define("dashboard.viewModel",
                                     var category = _.filter(yAxisPointsWithStoreName(), function (tEarn) {
                                         return duplicateItem.store !== null && tEarn.store !== null && tEarn.store.toLowerCase() === duplicateItem.store.toLowerCase();
                                     });
-                                    if (category.lenght > 0) {
+                                    if (category.length > 0) {
                                         duplicateItem.month = item.month;
                                         duplicateItem[category[0].y] = duplicateItem.total;
                                         dummyTotalEarnings.push(duplicateItem);
                                     }
 
-                                    //if (item.flag === 0) {
-                                    //    item.orders = tEarning.Orders;
-                                    //    item.total = tEarning.Total;
-                                    //    item.monthname = tEarning.monthname;
-                                    //    item.year = tEarning.year;
-                                    //    item.store = tEarning.store;
-                                    //    item.flag = 1;
-                                    //}
-                                    //else {
-                                    //    var duplicateItem = model.TotalEarnings.Create(tEarning);
-                                    //    duplicateItem.month = item.month;
-                                    //    dummyTotalEarnings.push(duplicateItem);
-                                    //}
                                 }
                             }
                         });

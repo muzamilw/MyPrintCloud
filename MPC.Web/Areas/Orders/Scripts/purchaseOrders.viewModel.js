@@ -43,6 +43,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     // #endregion
                     // is editor visible 
                     isEditorVisible = ko.observable(false),
+                    // GRN Editor visiblek
+                    isGRNEditorVisible = ko.observable(false),
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
                     // Default Status of first tab i-e All Purchased Orders
@@ -57,7 +59,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     selectedPurchaseOrderDetail = ko.observable(),
                     // Search Filter
                     searchFilter = ko.observable(),
-                    // purchase Order Type Filter, Default is Product
+                    // purchase Order Type Filter, Default is Purchase Order
                     purchaseOrderTypeFilter = ko.observable(1),
                     //Pager
                     pager = ko.observable(),
@@ -177,8 +179,14 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     onEditPurchaseOrder = function (item) {
                         resetObservable();
                         selectedPurchaseOrderForListView(item);
-                        getPurchaseOrderById(item.id());
-                        isEditorVisible(true);
+                        if (purchaseOrderTypeFilter() === 1) {
+                            getPurchaseOrderById(item.id());
+                            isEditorVisible(true);
+                            isGRNEditorVisible(false);
+                        } else {
+                            isEditorVisible(false);
+                            isGRNEditorVisible(true);
+                        }
                     },
                     // Close PO editor
                     onCloseEditor = function () {
@@ -644,18 +652,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         });
                         dataservice.saveGRN(grn, {
                             success: function (data) {
-                                //For Add New
-                                if (selectedPurchaseOrder().id() === undefined || selectedPurchaseOrder().id() === 0) {
-                                    purchaseOrders.splice(0, 0, model.PurchaseListView.Create(data));
-                                } else {
-                                    selectedPurchaseOrderForListView().purchaseOrderDate(data.DatePurchase !== null ? moment(data.DatePurchase).toDate() : undefined);
-                                    selectedPurchaseOrderForListView().flagColor(data.FlagColor);
-                                    selectedPurchaseOrderForListView().refNo(data.RefNo);
-
-                                    if (currentTab() !== 0 && currentTab() !== data.Status) {
-                                        purchaseOrders.remove(selectedPurchaseOrderForListView());
-                                    }
-                                }
+                                selectedGRN().id(data.PurchaseId);
                                 isEditorVisible(false);
                                 toastr.success("Saved Successfully.");
                             },
