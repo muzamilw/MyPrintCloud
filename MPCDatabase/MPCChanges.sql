@@ -5523,6 +5523,7 @@ drop constraint DF__tbl_goods__Suppl__52E34C9D
 alter table goodsreceivednote
 alter column supplierid bigint null
 
+--Executed on Staging, USA, Europe, Australia servers on 20150611---
 update goodsreceivednote
 set supplierid = null
 
