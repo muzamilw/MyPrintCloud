@@ -33,6 +33,9 @@ namespace MPC.MIS.Areas.Api.Models
         public string Reference1 { get; set; }
         public string Reference2 { get; set; }
         public int? CarrierId { get; set; }
+        public long? StoreId { get; set; }
+        public short IsCustomer { get; set; }
+        public string CompanyName { get; set; }
         public List<GoodsReceivedNoteDetail> GoodsReceivedNoteDetails { get; set; }
 
 
