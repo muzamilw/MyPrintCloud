@@ -656,6 +656,23 @@ define("inventory/inventory.viewModel",
                     supplierVm.getSuppliers();
                     supplierVm.show();
                 },
+                onArchiveStock = function() {
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        var inventory = selectedInventory();
+                        inventory.isDisabled(true);
+                        _.each(inventories(), function(itm) {
+                            if (itm.itemId() == inventory.itemId()) {
+                                inventories.remove(itm);
+                               pager().totalCount(inventories().length);
+                            }
+                                
+                        });
+                        
+                        saveInventory();
+                    });
+                    confirmation.show();
+                },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -730,7 +747,8 @@ define("inventory/inventory.viewModel",
                     weightUnit: weightUnit,
                     weightLabel: weightLabel,
                     filteredSubCategoriesForDetail: filteredSubCategoriesForDetail,
-                    openReport: openReport
+                    openReport: openReport,
+                    onArchiveStock: onArchiveStock
                 };
             })()
         };
