@@ -29,7 +29,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableTitle = source.VariableTitle,
                 VariableType = source.VariableType,
                 WaterMark = source.WaterMark,
-                VariableOptions = source.VariableOptions != null ? source.VariableOptions.Select(vo => vo.CreateFrom()).ToList() : null
+                VariableOptions = source.VariableOptions != null ? source.VariableOptions.Select(vo => vo.CreateFrom()).ToList() : null,
+                VariableExtensions = source.VariableExtensions != null ? source.VariableExtensions.Select(vo => vo.CreateFrom()).ToList() : new List<VariableExtension>()
             };
         }
 
@@ -51,7 +52,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableTitle = source.VariableTitle,
                 VariableType = source.VariableType,
                 WaterMark = source.WaterMark,
-                VariableOptions = source.VariableOptions != null ? source.VariableOptions.Select(vo => vo.CreateFrom()).ToList() : null
+                VariableOptions = source.VariableOptions != null ? source.VariableOptions.Select(vo => vo.CreateFrom()).ToList() : null,
+                VariableExtensions = source.VariableExtensions != null ? source.VariableExtensions.Select(vo => vo.CreateFrom()).ToList() : null
             };
         }
 

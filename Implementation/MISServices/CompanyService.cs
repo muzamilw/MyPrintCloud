@@ -2442,6 +2442,16 @@ namespace MPC.Implementation.MISServices
         {
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
+
+
+            if (fieldVariable.VariableExtensions != null)
+            {
+                foreach (var vExtension in fieldVariable.VariableExtensions)
+                {
+                    vExtension.OrganisationId = (int)fieldVariableRepository.OrganisationId;
+                }
+            }
+
             fieldVariableRepository.Add(fieldVariable);
             List<ScopeVariable> scopeVariables = new List<ScopeVariable>();
             fieldVariable.ScopeVariables = scopeVariables;
@@ -2562,7 +2572,23 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
+                if (fieldVariable.VariableExtensions != null && fieldVariableDbVersion.VariableExtensions != null)
+                {
 
+                    foreach (var item in fieldVariable.VariableExtensions)
+                    {
+                        VariableExtension variableExtensionDb = fieldVariableDbVersion.VariableExtensions.FirstOrDefault(vx => vx.Id == item.Id);
+                        if (variableExtensionDb != null)
+                        {
+                            variableExtensionDb.CompanyId = item.CompanyId;
+                            variableExtensionDb.VariablePrefix = item.VariablePrefix;
+                            variableExtensionDb.VariablePostfix = item.VariablePostfix;
+                            variableExtensionDb.CollapsePrefix = item.CollapsePrefix;
+                            variableExtensionDb.CollapsePostfix = item.CollapsePostfix;
+                            variableExtensionDb.OrganisationId = (int)fieldVariableRepository.OrganisationId;
+                        }
+                    }
+                }
                 #region Delete
                 //find missing items
                 List<VariableOption> missingVariableOptionListItems = new List<VariableOption>();
@@ -3346,8 +3372,8 @@ namespace MPC.Implementation.MISServices
             //Check for Duplicate Name and Variable Tag
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
             string dublicateErrorMsg =
-                fieldVariableRepository.IsFiedlVariableNameOrTagDuplicate(fieldVariable.VariableName,
-                    fieldVariable.VariableTag, companyId, fieldVariable.VariableId);
+                            fieldVariableRepository.IsFiedlVariableNameOrTagDuplicate(fieldVariable.VariableName,
+                                fieldVariable.VariableTag, companyId, fieldVariable.VariableId);
             if (dublicateErrorMsg != null)
             {
                 throw new MPCException(dublicateErrorMsg, fieldVariableRepository.OrganisationId);
@@ -3572,7 +3598,7 @@ namespace MPC.Implementation.MISServices
             companyContactRepository.SaveChanges();
             stagingImportCompanyContactRepository.RunProcedure(stagingImportCompanyContactRepository.OrganisationId,
                 stagingImportCompanyContact.FirstOrDefault().CompanyId);
-            
+
             return true;
         }
         #endregion

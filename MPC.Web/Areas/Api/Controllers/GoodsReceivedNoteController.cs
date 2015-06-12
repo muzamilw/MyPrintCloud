@@ -53,6 +53,13 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return goodsReceivedNoteService.SaveGRN(grn.CreateFrom()).CreateFromForGRN();
         }
+
+        [HttpGet]
+        public GoodsReceivedNote Get( int grnId)
+        {
+            return goodsReceivedNoteService.GetById(grnId).CreateFrom();
+
+        }
         #endregion
     }
 }
