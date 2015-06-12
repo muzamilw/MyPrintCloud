@@ -74,7 +74,7 @@
                          view = specifiedView;
                          ko.applyBindings(view.viewModel, view.bindingRoot);
 
-                         GetLookupList();
+                       //  GetLookupList();
                         // isClickChargeZonesEditorVisible(true);
 
                      },
@@ -436,70 +436,136 @@
                 //    }
                 //},
 
-                 GetMachineLookupById = function (mMethodId) {
+                 GetMachineLookupById = function (mMethodId,MachineType) {
                      $('[data-toggle="popover"]').popover('hide');
                      //view.initializeLabelPopovers();
-                     if (isClickChargeEditorVisible() || isSpeedWeightEditorVisible() || isPerHourEditorVisible() || isClickChargeZonesEditorVisible() || isGuillotineClickChargeEditorVisible() || isMeterPerHourClickChargeEditorVisible()) {
+                   
+                     if (isClickChargeZonesEditorVisible() || isGuillotineClickChargeEditorVisible() || isMeterPerHourClickChargeEditorVisible()) {
 
-                         return oncloseEditor(mMethodId);
+                         return oncloseEditor(mMethodId,MachineType);
 
                      } else {
-                         onCancal(mMethodId);
+                         GetLookupMethodById(mMethodId,MachineType);
                          
                          
                      }
                  },
 
-                onCancal = function (mMethodId) {
-                    selectedSpeedWeight(null);
-                    selectedClickCharge(null);
-                    selectedClickChargeZones(model.ClickChargeZone());
-                    selectedMeterPerHourClickCharge(model.MeterPerHourLookup());
-                    selectedPerHour(null);
-                    selectedGuillotineClickCharge(model.GuillotineCalc());
-                    isClickChargeEditorVisible(false);
-                    isSpeedWeightEditorVisible(false);
-                    isPerHourEditorVisible(false);
+                //onCancal = function (mMethodId) {
+                //    //selectedSpeedWeight(null);
+                //    //selectedClickCharge(null);
+                //    selectedClickChargeZones(model.ClickChargeZone());
+                //    selectedMeterPerHourClickCharge(model.MeterPerHourLookup());
+                //   // selectedPerHour(null);
+                //    selectedGuillotineClickCharge(model.GuillotineCalc());
+                //   // isClickChargeEditorVisible(false);
+                ////    isSpeedWeightEditorVisible(false);
+                //   // isPerHourEditorVisible(false);
+                //    isClickChargeZonesEditorVisible(false);
+                //    isGuillotineClickChargeEditorVisible(false);
+                //    isMeterPerHourClickChargeEditorVisible(false);
+                //    IsSelected(false);
+                //    dataservice.GetLookup({
+                //        MethodId: mMethodId,
+                //    }, {
+                //        success: function (data) {
+                            
+                //         //   selectedlookup(olookup);
+                //            IsSelected(true);
+                            
+                //            if (data.ClickChargeLookup != null) {
+                //                isClickChargeEditorVisible(true);
+
+                //                selectedClickCharge(model.ClickChargeLookup(data.ClickChargeLookup));
+                //                sharedNavigationVM.initialize(selectedClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+                //            } else if (data.ClickChargeZone != null) {
+                //               // isClickChargeZonesEditorVisible(true);
+                //                selectedClickChargeZones(model.ClickChargeZone(data.ClickChargeZone));
+                //                sharedNavigationVM.initialize(selectedClickChargeZones, function (saveCallback) { saveLookup(saveCallback); });
+                //            } else if (data.GuillotineCalc != null) {
+                //              //  isGuillotineClickChargeEditorVisible(true);
+                //                selectedGuillotineClickCharge(model.GuillotineCalc(data.GuillotineCalc, data.GuilotinePtv));
+                //                sharedNavigationVM.initialize(selectedGuillotineClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+
+                //            } else if (data.MeterPerHourLookup != null) {
+                //            //    isMeterPerHourClickChargeEditorVisible(true);
+                //                selectedMeterPerHourClickCharge(model.MeterPerHourLookup(data.MeterPerHourLookup));
+                //                sharedNavigationVM.initialize(selectedMeterPerHourClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+                //            } else if (data.PerHourLookup != null) {
+                //                isPerHourEditorVisible(true);
+                //                selectedPerHour(model.PerHourLookup(data.PerHourLookup));
+                //                sharedNavigationVM.initialize(selectedPerHour, function (saveCallback) { saveLookup(saveCallback); });
+                //            } else if (data.SpeedWeightLookup != null) {
+                //                isSpeedWeightEditorVisible(true);
+                //                selectedSpeedWeight(model.SpeedWeightLookup(data.SpeedWeightLookup));
+                //                sharedNavigationVM.initialize(selectedSpeedWeight, function (saveCallback) { saveLookup(saveCallback); });
+
+                //            }
+                //            view.initializeLabelPopovers();
+                //        },
+                //        error: function (response) {
+
+                //            toastr.error("Error: Failed to Load Lookup List Data." + response);
+                //        }
+                //    });
+                //},
+
+
+
+                GetLookupMethodById = function (mMethodId,MachineType) {
+                    //selectedSpeedWeight(null);
+                    //selectedClickCharge(null);
+                    if (MachineType == 1)
+                    {
+                        selectedClickChargeZones(model.ClickChargeZone());
+                    }
+                    else if(MachineType == 2)
+                    {
+                        selectedMeterPerHourClickCharge(model.MeterPerHourLookup());
+                    } else if (MachineType == 3)
+                    {
+                         selectedGuillotineClickCharge(model.GuillotineCalc());
+                    }
+                   
+                   
+           
                     isClickChargeZonesEditorVisible(false);
                     isGuillotineClickChargeEditorVisible(false);
                     isMeterPerHourClickChargeEditorVisible(false);
                     IsSelected(false);
                     dataservice.GetLookup({
                         MethodId: mMethodId,
+                        
                     }, {
                         success: function (data) {
+
                             
-                         //   selectedlookup(olookup);
                             IsSelected(true);
-                            
-                            if (data.ClickChargeLookup != null) {
-                                isClickChargeEditorVisible(true);
-
-                                selectedClickCharge(model.ClickChargeLookup(data.ClickChargeLookup));
-                                sharedNavigationVM.initialize(selectedClickCharge, function (saveCallback) { saveLookup(saveCallback); });
-                            } else if (data.ClickChargeZone != null) {
-                               // isClickChargeZonesEditorVisible(true);
-                                selectedClickChargeZones(model.ClickChargeZone(data.ClickChargeZone));
-                                sharedNavigationVM.initialize(selectedClickChargeZones, function (saveCallback) { saveLookup(saveCallback); });
-                            } else if (data.GuillotineCalc != null) {
-                              //  isGuillotineClickChargeEditorVisible(true);
-                                selectedGuillotineClickCharge(model.GuillotineCalc(data.GuillotineCalc, data.GuilotinePtv));
-                                sharedNavigationVM.initialize(selectedGuillotineClickCharge, function (saveCallback) { saveLookup(saveCallback); });
-
-                            } else if (data.MeterPerHourLookup != null) {
-                            //    isMeterPerHourClickChargeEditorVisible(true);
-                                selectedMeterPerHourClickCharge(model.MeterPerHourLookup(data.MeterPerHourLookup));
-                                sharedNavigationVM.initialize(selectedMeterPerHourClickCharge, function (saveCallback) { saveLookup(saveCallback); });
-                            } else if (data.PerHourLookup != null) {
-                                isPerHourEditorVisible(true);
-                                selectedPerHour(model.PerHourLookup(data.PerHourLookup));
-                                sharedNavigationVM.initialize(selectedPerHour, function (saveCallback) { saveLookup(saveCallback); });
-                            } else if (data.SpeedWeightLookup != null) {
-                                isSpeedWeightEditorVisible(true);
-                                selectedSpeedWeight(model.SpeedWeightLookup(data.SpeedWeightLookup));
-                                sharedNavigationVM.initialize(selectedSpeedWeight, function (saveCallback) { saveLookup(saveCallback); });
-
+                            if (MachineType == 1)
+                            {
+                                if (data.ClickChargeZone != null) {
+                                    // isClickChargeZonesEditorVisible(true);
+                                    selectedClickChargeZones(model.ClickChargeZone(data.ClickChargeZone));
+                                    sharedNavigationVM.initialize(selectedClickChargeZones, function (saveCallback) { saveLookup(saveCallback); });
+                                }
                             }
+                            else if(MachineType == 2)
+                            {
+                                if (data.MeterPerHourLookup != null) {
+                                    //    isMeterPerHourClickChargeEditorVisible(true);
+                                    selectedMeterPerHourClickCharge(model.MeterPerHourLookup(data.MeterPerHourLookup));
+                                    sharedNavigationVM.initialize(selectedMeterPerHourClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+                                }
+                            }else if(MachineType == 3)
+                            {
+                                if (data.GuillotineCalc != null) {
+                                    //  isGuillotineClickChargeEditorVisible(true);
+                                    selectedGuillotineClickCharge(model.GuillotineCalc(data.GuillotineCalc, data.GuilotinePtv));
+                                    sharedNavigationVM.initialize(selectedGuillotineClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+
+                                } 
+                            }
+
                             view.initializeLabelPopovers();
                         },
                         error: function (response) {
@@ -509,21 +575,81 @@
                     });
                 },
 
-                oncloseEditor = function (olookup) {
-                    if (selectedSpeedWeight() != null && selectedSpeedWeight().hasChanges() || selectedClickCharge() != null && selectedClickCharge().hasChanges() || selectedClickChargeZones() != null && selectedClickChargeZones().hasChanges() || selectedMeterPerHourClickCharge() != null && selectedMeterPerHourClickCharge().hasChanges() || selectedPerHour() != null && selectedPerHour().hasChanges() || selectedGuillotineClickCharge() != null && selectedGuillotineClickCharge().hasChanges()) {
 
-                        confirmation.messageText("Do you want to save changes?");
-                        confirmation.afterProceed(saveLookup);
-                        confirmation.afterCancel(function () {
-                            //selectedSpeedWeight().reset();
-                            onCancal(olookup);
-                            return true;
-                        });
-                        confirmation.show();
-                        return false;
-                    } else {
-                        onCancal(olookup);
+                SetLookupMethod = function(lookup,MachineType,ptv)
+                {
+                    if (MachineType == 1) {
+                        
+                            // isClickChargeZonesEditorVisible(true);
+                            selectedClickChargeZones(model.ClickChargeZone(lookup[0]));
+                            sharedNavigationVM.initialize(selectedClickChargeZones, function (saveCallback) { saveLookup(saveCallback); });
+                        
                     }
+                    else if (MachineType == 2) {
+                      
+                            //    isMeterPerHourClickChargeEditorVisible(true);
+                            selectedMeterPerHourClickCharge(model.MeterPerHourLookup(lookup[0]));
+                            sharedNavigationVM.initialize(selectedMeterPerHourClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+                       
+                    } else if (MachineType == 3) {
+                       
+                            //  isGuillotineClickChargeEditorVisible(true);
+                            selectedGuillotineClickCharge(model.GuillotineCalc(lookup[0], ptv));
+                            sharedNavigationVM.initialize(selectedGuillotineClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+
+                        
+                    }
+                },
+
+                oncloseEditor = function (olookup, MachineType) {
+
+                                if (MachineType == 1)// click charge zone
+                                {
+                                    if ((selectedClickChargeZones() != null && selectedClickChargeZones().hasChanges()))
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        GetLookupMethodById(olookup, MachineType)
+                                    }
+                                }
+                                else if(MachineType == 2)
+                                {
+                                    if ((selectedMeterPerHourClickCharge() != null && selectedMeterPerHourClickCharge().hasChanges())) {
+                                        return false;
+                                    }
+                                    else {
+                                        GetLookupMethodById(olookup, MachineType)
+                                    }
+                                }
+                                else if(MachineType == 3)
+                                {
+                                    if ((selectedGuillotineClickCharge() != null && selectedGuillotineClickCharge().hasChanges())) {
+                                        return false;
+                                    }
+                                    else {
+                                        GetLookupMethodById(olookup, MachineType)
+                                    }
+                                }
+                        
+                       
+                    
+
+                    //if ((selectedClickChargeZones() != null && selectedClickChargeZones().hasChanges()) || (selectedMeterPerHourClickCharge() != null && selectedMeterPerHourClickCharge().hasChanges()) ||  (selectedGuillotineClickCharge() != null && selectedGuillotineClickCharge().hasChanges())) {
+
+                    //    //confirmation.messageText("Do you want to save changes?");
+                    //    //confirmation.afterProceed(saveLookup);
+                    //    //confirmation.afterCancel(function () {
+                    //    //    selectedSpeedWeight().reset();
+                    //    //    onCancal(olookup);
+                    //    //    return true;
+                    //    //});
+                    //    //confirmation.show();
+                    //    return false;
+                    //} else {
+                    //    onCancal(olookup);
+                    //}
 
                 },
 
@@ -548,19 +674,32 @@
                         }
                     }
                 },
+
+
+               
+
+                oClickChargeZoneServerMapper = function()
+                {
+                    return model.ClickChargeZoneServerMapper(selectedClickChargeZones());
+                },
+                oGuillotineZone = function () {
+                    
+                    return model.GuillotineZoneServerMapper(selectedGuillotineClickCharge());
+                    
+                },
+
                 saveEdittedLookup = function (mMethodId,mSelectedClickChargeZone,mSelectedGuillotineClickCharge,mSelectedMeterPerHour) {
 
                     dataservice.saveLookup(model.lookupServerMapper(mMethodId, selectedlookup(), selectedClickCharge(), mSelectedClickChargeZone, selectedSpeedWeight(), selectedPerHour(), mSelectedMeterPerHour, mSelectedGuillotineClickCharge, mSelectedGuillotineClickCharge != null ? mSelectedGuillotineClickCharge.GuillotinePTVList() : null), {
                         success: function (data) {
                             errorList.removeAll();
-                            selectedSpeedWeight(null);
-                            selectedClickCharge(null);
+                          
                             selectedClickChargeZones(model.ClickChargeZone());
                             selectedMeterPerHourClickCharge(model.MeterPerHourLookup());
-                            selectedPerHour(null);
+                          
                             selectedGuillotineClickCharge(model.GuillotineCalc());
                             isClickChargeEditorVisible(false);
-                            isSpeedWeightEditorVisible(false);
+                          
                             isPerHourEditorVisible(false);
                             isClickChargeZonesEditorVisible(false);
                             isGuillotineClickChargeEditorVisible(false);
@@ -596,24 +735,24 @@
                             isGuillotineClickChargeEditorVisible(false);
                             isMeterPerHourClickChargeEditorVisible(false);
                             IsSelected(false);
-                            if (data != null) {
-                                var module = model.lookupClientMapper(data);
-                                if (module.Type() == 1) {
-                                    lookupClickChargeList.push(module);
-                                }
-                                else if (module.Type() == 3) {
-                                    lookupSpeedWeightList.push(module);
-                                } else if (module.Type() == 4) {
-                                    lookupPerHourList.push(module);
-                                } else if (module.Type() == 5) {
-                                    lookupClickChargeZonesList.push(module);
-                                } else if (module.Type() == 6) {
-                                    lookupGuillotineClickChargeList.push(module);
-                                } else if (module.Type() == 8) {
-                                    lookupMeterPerHourClickChargeList.push(module);
-                                }
+                            //if (data != null) {
+                            //    var module = model.lookupClientMapper(data);
+                            //    if (module.Type() == 1) {
+                            //        lookupClickChargeList.push(module);
+                            //    }
+                            //    else if (module.Type() == 3) {
+                            //        lookupSpeedWeightList.push(module);
+                            //    } else if (module.Type() == 4) {
+                            //        lookupPerHourList.push(module);
+                            //    } else if (module.Type() == 5) {
+                            //        lookupClickChargeZonesList.push(module);
+                            //    } else if (module.Type() == 6) {
+                            //        lookupGuillotineClickChargeList.push(module);
+                            //    } else if (module.Type() == 8) {
+                            //        lookupMeterPerHourClickChargeList.push(module);
+                            //    }
 
-                            }
+                            //}
 
                             toastr.success("Successfully Saved.");
 
@@ -670,8 +809,12 @@
                     IsSelected: IsSelected,
                     DeleteLookup: DeleteLookup,
                     oncloseEditor: oncloseEditor,
-                    onCancal: onCancal,
+                   // onCancal: onCancal,
+                    GetLookupMethodById: GetLookupMethodById,
                     CurrencySymbol: CurrencySymbol,
+                    SetLookupMethod: SetLookupMethod,
+                    oClickChargeZoneServerMapper: oClickChargeZoneServerMapper,
+                    oGuillotineZone:oGuillotineZone,
                     WeightUnit : WeightUnit,
                     LengthUnit: LengthUnit,
                    hasChanges: hasChanges

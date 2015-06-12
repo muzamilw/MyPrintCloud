@@ -20,8 +20,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 LockedBy = source.LockedBy,
                 OrganisationId = source.OrganisationId,
                 FlagId = source.FlagId,
-                SystemSiteId = source.SystemSiteId
+                SystemSiteId = source.SystemSiteId,
+                MachineClickChargeZones = source.MachineClickChargeZones == null ? null : source.MachineClickChargeZones.Select(m => m.CreateFrom()).ToList(),
+                MachineMeterPerHourLookups = source.MachineMeterPerHourLookups == null ? null : source.MachineMeterPerHourLookups.Select(m => m.CreateFrom()).ToList(),
 
+                MachineGuillotineCalcs = source.MachineGuillotineCalcs == null ? null : source.MachineGuillotineCalcs.Select(m => m.CreateFrom()).ToList(),
+                
             };
 
         }
@@ -35,9 +39,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 LockedBy = source.LockedBy,
                 OrganisationId = source.OrganisationId,
                 FlagId = source.FlagId,
-                SystemSiteId = source.SystemSiteId
+                SystemSiteId = source.SystemSiteId,
 
+                 MachineClickChargeZones = source.MachineClickChargeZones == null ? null : source.MachineClickChargeZones.Select(m => m.CreateFrom()).ToList(),
+                MachineMeterPerHourLookups = source.MachineMeterPerHourLookups == null ? null : source.MachineMeterPerHourLookups.Select(m => m.CreateFrom()).ToList(),
 
+                MachineGuillotineCalcs = source.MachineGuillotineCalcs == null ? null : source.MachineGuillotineCalcs.Select(m => m.CreateFrom()).ToList(),
 
             };
 

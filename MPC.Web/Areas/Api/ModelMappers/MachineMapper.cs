@@ -43,7 +43,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CurrencySymbol = source.CurrencySymbol == null ? null : source.CurrencySymbol,
                 WeightUnit = source.WeightUnit == null ? null : source.WeightUnit,
                 LengthUnit = source.LengthUnit == null ? null : source.LengthUnit,
-                MachineLookupMethods = source.MachineLookupMethods == null ? null : source.MachineLookupMethods.Select(s => s.CreateFrom())
+                MachineLookupMethods = source.MachineLookupMethods == null ? null : source.MachineLookupMethods.Select(s => s.CreateFrom()),
+                GuilotinePtv = source.GuilotinePtv == null ? null : source.GuilotinePtv.Select(s => s.CreateFrom())
             };
 
         }
@@ -125,8 +126,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isSheetFed = source.isSheetFed,
                 Passes = source.Passes,
                 IsSpotColor = source.IsSpotColor,
-                MachineInkCoverages = source.MachineInkCoverages == null ? null : source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList()
-
+                MachineInkCoverages = source.MachineInkCoverages == null ? null : source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList(),
+                LookupMethod = source.LookupMethod.CreateFrom(),
             };
         }
 

@@ -452,6 +452,7 @@
     <Compile Include="Areas\Api\ModelMappers\DeliveryNoteDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DeliveryNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GetInquiryResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ImportCompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryAttachmentMapper.cs" />
@@ -570,6 +571,8 @@
     <Compile Include="Areas\Api\Models\DeliveryNoteDetail.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNote.cs" />
     <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
+    <Compile Include="Areas\Api\Models\GoodsReceivedNote.cs" />
+    <Compile Include="Areas\Api\Models\GoodsReceivedNoteDetail.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ImportCompanyContact.cs" />

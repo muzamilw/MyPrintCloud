@@ -135,12 +135,12 @@ namespace MPC.Repository.Repositories
 
             IEnumerable<StockItem> stockItems = request.IsAsc
                ? DbSet.Where(query)
-                   .OrderBy(stockItemOrderByClause[request.StockItemOrderBy])
+                   .OrderBy(item=> item.ItemName)
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList()
                : DbSet.Where(query)
-                   .OrderByDescending(stockItemOrderByClause[request.StockItemOrderBy])
+                   .OrderBy(item => item.ItemName)
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();

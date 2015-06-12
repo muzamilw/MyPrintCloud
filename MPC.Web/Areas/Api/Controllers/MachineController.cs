@@ -76,7 +76,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         
         {
 
-            return _machineService.UpdateMachine(request.machine.CreateFrom());
+
+            return _machineService.UpdateMachine(request.machine.CreateFrom(), request.Type == 0 ? request.ClickChargeZone.CreateFrom() : null, request.Type == 1 ? request.MeterPerHourLookup.CreateFrom() : null, request.Type == 2 ? request.GuillotineCalc.CreateFrom() : null, request.Type == 2 ? request.GuilotinePtv.Select(x => x.CreateFrom()) : null, request.Type);
            
 
 

@@ -13,7 +13,7 @@ define("machine/machine.viewModel",
                     machineList = ko.observableArray([]),
                     errorList = ko.observableArray([]),
                     stockItemList = ko.observableArray([]),
-
+                    MachineType = ko.observable(),
                     stockItemgPager = ko.observable(),
                     // #region Busy Indicators
                     isLoadingMachineList = ko.observable(false),
@@ -258,7 +258,25 @@ define("machine/machine.viewModel",
                         if (selectedMachine() != undefined && doBeforeSave()) {
                             if (selectedMachine().MachineId() > 0) {
                                 saveEdittedMachine();
-                                lookupMethodViewModel.saveEdittedLookup(selectedMachine().LookupMethodId(), lookupMethodViewModel.selectedClickChargeZones(), lookupMethodViewModel.selectedGuillotineClickCharge(), lookupMethodViewModel.selectedMeterPerHourClickCharge());
+
+                                //var pagetype = Request.QueryString("type").toString();
+
+                                //if (pagetype != null) {
+                                //    if (pagetype == 'press') {
+                                //        if(selectedMachine().isSheetFed() == true || selectedMachine().isSheetFed() == "true")
+                                //        {
+                                //            lookupMethodViewModel.saveEdittedLookup(selectedMachine().LookupMethodId(), lookupMethodViewModel.selectedClickChargeZones(), null, null);
+                                //        }
+                                //        else{
+                                //            lookupMethodViewModel.saveEdittedLookup(selectedMachine().LookupMethodId(), null, null, lookupMethodViewModel.selectedMeterPerHourClickCharge());
+                                //        }
+
+                                //    }else
+                                //    {
+                                //        lookupMethodViewModel.saveEdittedLookup(selectedMachine().LookupMethodId(), null, lookupMethodViewModel.selectedGuillotineClickCharge(), null);
+                                //    }
+                                //}
+                                
                             }
                             else {
                                 if (isGuillotineList()) {
@@ -320,8 +338,18 @@ define("machine/machine.viewModel",
                     },
                     //Save EDIT Machine
                     saveEdittedMachine = function () {
+                        //var zone = lookupMethodViewModel.oClickChargeZoneServerMapper();
+                        var zone = lookupMethodViewModel.selectedClickChargeZones();
+                        var meter = lookupMethodViewModel.selectedMeterPerHourClickCharge();
+                        var guillotine = lookupMethodViewModel.oGuillotineZone();
 
-                        dataservice.saveMachine(model.machineServerMapper(selectedMachine()), {
+
+                        
+                        dataservice.saveMachine(
+                           
+                            model.machineServerMapper(selectedMachine(),lookupMethodViewModel.selectedClickChargeZones(), meter, guillotine, MachineType()),
+                            
+                         {
                             success: function (data) {
                                 errorList.removeAll();
                                 toastr.success("Successfully Saved.");
@@ -334,14 +362,14 @@ define("machine/machine.viewModel",
                                         machine.maximumsheetheight(selectedMachine().maximumsheetheight());
                                         machine.minimumsheetwidth(selectedMachine().minimumsheetwidth());
                                         machine.minimumsheetheight(selectedMachine().minimumsheetheight());
-                                        if (machine.LookupMethodId() != selectedMachine().LookupMethodId()) {
-                                            _.each(selectedMachine().lookupList(), function (lookupItm) {
-                                                if (lookupItm && lookupItm.MethodId == selectedMachine().LookupMethodId()) {
-                                                    machine.LookupMethodName(lookupItm.Name);
-                                                }
+                                        //if (machine.LookupMethodId() != selectedMachine().LookupMethodId()) {
+                                        //    _.each(selectedMachine().lookupList(), function (lookupItm) {
+                                        //        if (lookupItm && lookupItm.MethodId == selectedMachine().LookupMethodId()) {
+                                        //            machine.LookupMethodName(lookupItm.Name);
+                                        //        }
 
-                                            });
-                                        }
+                                        //    });
+                                        //}
 
                                     }
                                 });
@@ -426,22 +454,46 @@ define("machine/machine.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedMachine(model.machineClientMapper(data));
+
+
                                     $("#isSheetFedRadio").css("display", "none");
-                                    if (data.machine.isSheetFed == true)
-                                    {
+                                    
+                                    var pagetype = Request.QueryString("type").toString();
+
+                                    if (pagetype != null) {
+                                        if (pagetype == 'press') {
+                                            if (data.machine.isSheetFed == true) {
+                                                MachineType(0);
+                                                lookupMethodViewModel.SetLookupMethod(data.machine.LookupMethod.MachineClickChargeZones, 1, null);
+                                            }
+                                            else
+                                            {
+                                                MachineType(1);
+                                                lookupMethodViewModel.SetLookupMethod(data.machine.LookupMethod.MachineMeterPerHourLookups, 2, null);
+                                            }
+                                        }
+                                        else {
+                                            MachineType(2);
+                                            lookupMethodViewModel.SetLookupMethod(data.machine.LookupMethod.MachineGuillotineCalcs, 3, data.GuilotinePtv);
+                                        }
+                                    }
+
+
+                                    if (data.machine.isSheetFed == true) {
                                         $("#meterPerHour").css("display", "none");
                                         $("#clickChargeZoneSection").css("display", "block");
 
+
+                                        
                                         //lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
                                         //lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(false);
-                                       
+
                                     }
-                                    else
-                                    {
-                                       
+                                    else {
+
                                         $("#meterPerHour").css("display", "block");
                                         $("#clickChargeZoneSection").css("display", "none");
-
+                                        
                                         //lookupMethodViewModel.isClickChargeZonesEditorVisible(false);
                                         //lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(true);
                                     }
@@ -454,6 +506,11 @@ define("machine/machine.viewModel",
 
                                         selectedMachine().IsSpotColor("false");
                                     }
+
+
+
+                                  
+
                                     selectedMachine().reset();
                                     showMachineDetail();
 
@@ -486,33 +543,31 @@ define("machine/machine.viewModel",
 
                     onLookupMethodTabClick = function (oMachine) {
 
+                      
+                       
 
                         var pagetype = Request.QueryString("type").toString();
 
                         if (pagetype != null) {
-                            if (oMachine.MachineId() > 0) {
-                                lookupMethodViewModel.GetMachineLookupById(oMachine.LookupMethodId());
-                            }
+
+                           
+                            //if (oMachine.MachineId() > 0) {
+                            //    lookupMethodViewModel.GetMachineLookupById(oMachine.LookupMethodId(), MachineType);
+                            //}
 
                             if (pagetype == 'press') {
 
-                                
-                                if (selectedMachine().isSheetFed() == "true" || selectedMachine().isSheetFed() == true)
-                                {
+
+                                if (selectedMachine().isSheetFed() == "true" || selectedMachine().isSheetFed() == true) {
                                     lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
                                     lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(false);
+
+                                    
                                 }
-                                else
-                                {
+                                else {
                                     lookupMethodViewModel.isMeterPerHourClickChargeEditorVisible(true);
                                     lookupMethodViewModel.isClickChargeZonesEditorVisible(false);
                                 }
-
-                               
-
-                                //
-                                //lookupMethodViewModel.GetMachineLookupById(oMachine.LookupMethodId());
-                               // lookupMethodViewModel.isClickChargeZonesEditorVisible(true);
 
 
                             }
@@ -523,10 +578,10 @@ define("machine/machine.viewModel",
 
 
                             }
-                           
-                           
+
                         }
-                       
+
+
                     },
 
 
@@ -600,7 +655,7 @@ define("machine/machine.viewModel",
                                 isGuillotineList(false);
                                 getMachines();
                                
-                              
+                                 
                                 $("#isSheetFedRadio").css("display", "block");
                             }
                             else if (pagetype == 'guillotine')

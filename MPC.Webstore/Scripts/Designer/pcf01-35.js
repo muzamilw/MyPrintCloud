@@ -3113,6 +3113,7 @@ function pcl42_updateVariables(data) {
         }
     });
 }
+
 function pcl42_UpdateTO() {
    
     $.each(TO, function (i, IT) {
@@ -3154,14 +3155,31 @@ function pcl42_UpdateTO() {
                         variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
                         variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
                     }
-                   
-                    
+                    var prefix = "", post = "", value = "";
+
+                    $.each(lstVariableExtensions, function (i, objExt) {
+                        if (obj.FieldVariable.VariableId == objExt.FieldVariableId) {
+                            if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" ) {
+                                prefix = objExt.VariablePrefix;
+                                if (objExt.CollapsePrefix == true && obj.Value == "") {
+                                    prefix = "";
+                                }
+                            }
+                            if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" ) {
+                                post = objExt.VariablePostfix;
+                                if (objExt.CollapsePostfix == true && obj.Value == "") {
+                                    post = "";
+                                }
+                            }
+                        }
+                    });
+                    value = prefix + obj.Value + post;
                     while (IT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(IT, variableTag, obj.Value);
+                        updateTOWithStyles(IT, variableTag, value);
                     while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
-                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value.toUpperCase());
+                        updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
                     while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
-                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value.toLowerCase());
+                        updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
                         // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
               //  }
@@ -3182,14 +3200,35 @@ function pcl42_UpdateTO() {
                     obj.Value = "";
                 }
                 if (obj.Value != null) {
+                    var prefix = "", post = "", value = "";
+                    
+                    $.each(lstVariableExtensions, function (i, objExt) {
+                        if(obj.FieldVariable.VariableId  ==  objExt.FieldVariableId)
+                        {
+                            if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" )
+                            {
+                                prefix = objExt.VariablePrefix;
+                                if (objExt.CollapsePrefix == true && obj.Value == "") {
+                                    prefix = "";
+                                }
+                            }
+                            if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" ) {
+                                post = objExt.VariablePostfix;
+                                if (objExt.CollapsePostfix == true && obj.Value == "") {
+                                    post = "";
+                                }
+                            }
+                        }
+                    });
+                    value = prefix + obj.Value + post;
                     while (IT.ContentString.indexOf(variableTag) != -1) {
-                        updateTOWithStyles(IT, variableTag,obj.Value);
+                        updateTOWithStyles(IT, variableTag, value);
                     }
                     while (IT.ContentString.indexOf(variableTagUpperCase) != -1) {
-                        updateTOWithStyles(IT, variableTagUpperCase, obj.Value.toUpperCase());
+                        updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
                     }
                     while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
-                        updateTOWithStyles(IT, variableTagLowerCase, obj.Value.toLowerCase());
+                        updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
                     }
 //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
@@ -3204,13 +3243,33 @@ function pcl42_updateTemplate(DT) {
         $.each(userVariableData, function (i, vari) {
             if (vari.Value != null) {
                 var variableTag = vari.FieldVariable.VariableTag;
+                var prefix = "", post = "", value = "";
+
+                $.each(lstVariableExtensions, function (i, objExt) {
+                    if (vari.FieldVariable.VariableId == objExt.FieldVariableId) {
+                        if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" ) {
+                            prefix = objExt.VariablePrefix;
+                            if(objExt.CollapsePrefix == true && vari.Value == "")
+                            {
+                                prefix = "";
+                            }
+                        }
+                        if (objExt.VariablePostfix != null && objExt.VariablePostfix != "") {
+                            post = objExt.VariablePostfix;
+                            if (objExt.CollapsePostfix == true && vari.Value == "") {
+                                post = "";
+                            }
+                        }
+                    }
+                });
+                value = prefix + vari.Value + post;
                 $.each(DT, function (i, objDT) {
                     while (objDT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(objDT, variableTag, vari.Value);
+                        updateTOWithStyles(objDT, variableTag, value);
                     while (objDT.ContentString.indexOf(variableTag.toLowerCase()) != -1)
-                        updateTOWithStyles(objDT, variableTag.toLowerCase(), vari.Value.toLowerCase());
+                        updateTOWithStyles(objDT, variableTag.toLowerCase(), value.toLowerCase());
                     while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
-                        updateTOWithStyles(objDT, variableTag.toUpperCase(), vari.Value.toUpperCase());
+                        updateTOWithStyles(objDT, variableTag.toUpperCase(), value.toUpperCase());
                 });
             } else {
                 var variableTag = vari.FieldVariable.VariableTag;
@@ -3221,13 +3280,26 @@ function pcl42_updateTemplate(DT) {
                     variableTagUpperCase = vari.FieldVariable.VariableTag.toUpperCase();
                     variableTagLowerCase = vari.FieldVariable.VariableTag.toLowerCase();
                 }
+                var prefix = "", post = "", value = "";
+
+                $.each(lstVariableExtensions, function (i, objExt) {
+                    if (vari.FieldVariable.VariableId == objExt.FieldVariableId) {
+                        if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" && objExt.CollapsePrefix != true) {
+                            prefix = objExt.VariablePrefix;
+                        }
+                        if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" && objExt.CollapsePostfix != true) {
+                            post = objExt.VariablePostfix;
+                        }
+                    }
+                });
+                value = prefix + "" + post;
                 $.each(DT, function (i, objDT) {
                     while (objDT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(objDT, variableTag, "");
+                        updateTOWithStyles(objDT, variableTag, value);
                     while (objDT.ContentString.indexOf(variableTagUpperCase) != -1)
-                        updateTOWithStyles(objDT, variableTagUpperCase, "");
+                        updateTOWithStyles(objDT, variableTagUpperCase, value);
                     while (objDT.ContentString.indexOf(variableTagLowerCase) != -1)
-                        updateTOWithStyles(objDT, variableTagLowerCase, "");
+                        updateTOWithStyles(objDT, variableTagLowerCase, value);
                 });
             }
         });

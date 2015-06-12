@@ -10,11 +10,12 @@ namespace MPC.MIS.Areas.Api.Models
     {
         public int Type { get; set; }
         public Machine machine { get; set; }
-        public IEnumerable<MachineSpoilage> MachineSpoilages { get; set; }
+      
         public MachineClickChargeZone ClickChargeZone { get; set; }
+        public MachineMeterPerHourLookup MeterPerHourLookup { get; set; }
         public MachineGuillotineCalc GuillotineCalc { get; set; }
         public IEnumerable<MachineGuilotinePtv> GuilotinePtv { get; set; }
-        public MachineMeterPerHourLookup MeterPerHourLookup { get; set; }
+        
       
     }
 }

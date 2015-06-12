@@ -39,8 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [CompressFilterAttribute]
         public CostCentreResponseModel Get([FromUri]GetCostCentresRequest requestModel)
         {
-            var v = costCentersService.GetAllForOrderProduct(requestModel).CreateFromForProducts();
-            return v;
+            return  costCentersService.GetAllForOrderProduct(requestModel).CreateFromForProducts();
         }
 
         #endregion
