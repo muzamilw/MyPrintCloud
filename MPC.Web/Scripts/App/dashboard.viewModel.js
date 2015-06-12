@@ -101,13 +101,13 @@ define("dashboard.viewModel",
                         //totalEarnings.removeAll();
                         _.each(data, function (item) {
                             var categor = _.filter(yAxisPointsWithStoreName(), function (tEarn) {
-                                return item.store != null && tEarn.store.toLowerCase() === item.store.toLowerCase();
+                                return item.store !== null && tEarn.store !== null && tEarn.store.toLowerCase() === item.store.toLowerCase();
                             });
                             if (yAxisPointsWithStoreName().length === 0 || categor.length === 0) {
 
-                                yAxisPointsWithStoreName().push({ y: counter, store: item.store });
+                                yAxisPointsWithStoreName().push({ y: counter, store: (item.store === null ? "" : item.store) });
                                 yAxisPoints.push(counter);
-                                chartLabels.push(item.store);
+                                chartLabels.push(item.store === null ? "" : item.store);
                                 counter = counter + 1;
                             }
                         });
@@ -117,12 +117,14 @@ define("dashboard.viewModel",
                                 if (item !== undefined && item !== null) {
                                     var duplicateItem = model.TotalEarnings.Create(tEarning);
                                     var category = _.filter(yAxisPointsWithStoreName(), function (tEarn) {
-                                        return duplicateItem.store != null && tEarn.store.toLowerCase() === duplicateItem.store.toLowerCase();
+                                        return duplicateItem.store !== null && tEarn.store !== null && tEarn.store.toLowerCase() === duplicateItem.store.toLowerCase();
                                     });
+                                    if (category.lenght > 0) {
+                                        duplicateItem.month = item.month;
+                                        duplicateItem[category[0].y] = duplicateItem.total;
+                                        dummyTotalEarnings.push(duplicateItem);
+                                    }
 
-                                    duplicateItem.month = item.month;
-                                    duplicateItem[category[0].y] = duplicateItem.total;
-                                    dummyTotalEarnings.push(duplicateItem);
                                     //if (item.flag === 0) {
                                     //    item.orders = tEarning.Orders;
                                     //    item.total = tEarning.Total;

@@ -121,8 +121,8 @@ namespace MPC.Repository.Repositories
 
                 string nextPrefix = prefix.PoPrefix + "-001-" + prefix.PoNext;
 
-                // Update Order Next
-                prefix.OrderNext += 1;
+                // Update PO Next
+                prefix.PoNext += 1;
 
                 return nextPrefix;
             }
@@ -132,7 +132,31 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        /// <summary>
+        /// Returns Next GRN Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextGRNCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
 
+                string nextPrefix = prefix.GrnPrefix + "-001-" + prefix.GrnNext;
+
+                // Update GRN Next
+                prefix.GrnNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         /// <summary>
         /// Returns Next Delivery Note Code Prefix and increments the NextItem Value by 1
         /// </summary>
@@ -148,7 +172,7 @@ namespace MPC.Repository.Repositories
 
                 string nextPrefix = prefix.DeliveryNPrefix + "-001-" + prefix.DeliveryNNext;
 
-                // Update Order Next
+                // Update Delivery Next
                 prefix.DeliveryNNext += 1;
 
                 return nextPrefix;

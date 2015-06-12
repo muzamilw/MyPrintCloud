@@ -37,14 +37,13 @@ namespace MPC.Webstore.Controllers
         }
 
         // GET: Payment
-        public ActionResult PaypalSubmit()
+        public ActionResult PaypalSubmit(long OrderId)
         {
-             int OrderID = 16633;
             PaypalViewModel opaypal = new PaypalViewModel();
             try
             {
 
-                if (OrderID > 0)
+                if (OrderId > 0)
                 {
                     string CacheKeyName = "CompanyBaseResponse";
                     ObjectCache cache = MemoryCache.Default;
@@ -53,9 +52,9 @@ namespace MPC.Webstore.Controllers
                     PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
                     if (oGateWay != null)
                     {
-                        opaypal.return_url = oGateWay.ReturnUrl;
-                        opaypal.notify_url = oGateWay.NotifyUrl;
-                        opaypal.cancel_url = oGateWay.CancelPurchaseUrl;
+                        opaypal.return_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt";//oGateWay.ReturnUrl;
+                        opaypal.notify_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/PaypalIPN"; //oGateWay.NotifyUrl;
+                        opaypal.cancel_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ShopCart/" + OrderId; //oGateWay.CancelPurchaseUrl;
                         opaypal.discount_amount_cart = "0";
                         opaypal.upload = "1";
                         opaypal.business = oGateWay.BusinessEmail;
@@ -65,13 +64,13 @@ namespace MPC.Webstore.Controllers
                         opaypal.handling_cart = "0";
 
 
-                        opaypal.return_url += string.Format("?{0}={1}", "OrderID", OrderID);
-                        opaypal.pageOrderID = OrderID.ToString();
+                        opaypal.return_url += string.Format("?{0}={1}", "OrderID", OrderId);
+                        opaypal.pageOrderID = OrderId.ToString();
                         // determining the URL to work with depending on whether sandbox or a real PayPal account should be used
                         if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
-                            opaypal.URL = oGateWay.TestApiUrl;// "https://www.sandbox.paypal.com/cgi-bin/webscr";
+                            opaypal.URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"; //oGateWay.TestApiUrl;//
                         else
-                            opaypal.URL = oGateWay.LiveApiUrl;// "https://www.paypal.com/cgi-bin/webscr";
+                            opaypal.URL = "https://www.paypal.com/cgi-bin/webscr"; //oGateWay.LiveTestUrl;
 
                         if (oGateWay.SendToReturnURL.HasValue && oGateWay.SendToReturnURL.Value)
                             opaypal.rm = "2";
@@ -79,7 +78,7 @@ namespace MPC.Webstore.Controllers
                             opaypal.rm = "1";
 
 
-                        Estimate order = _OrderService.GetOrderByID(OrderID);
+                        Estimate order = _OrderService.GetOrderByID(OrderId);
                         if (order != null && order.DeliveryCost.HasValue)
                         {
                             opaypal.handling_cart = Math.Round(order.DeliveryCost.Value, 2, MidpointRounding.AwayFromZero).ToString("#.##");
@@ -89,7 +88,7 @@ namespace MPC.Webstore.Controllers
                             opaypal.handling_cart = "0";
                         }
 
-                        ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
+                        ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderId, OrderStatus.ShoppingCart);
 
                         if (shopCart != null && shopCart.CartItemsList != null)
                         {
@@ -121,6 +120,8 @@ namespace MPC.Webstore.Controllers
             }
             return View(opaypal);
         }
+
+
         [HttpPost]
         public ActionResult PaypalIPN()
         {
@@ -132,10 +133,10 @@ namespace MPC.Webstore.Controllers
                 PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
                 // getting the URL to work with
                 string URL;
-                if ((bool)oGateWay.UseSandbox)
-                    URL = oGateWay.TestApiUrl;
+                if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
+                    URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";//oGateWay.TestApiUrl;
                 else
-                    URL = oGateWay.LiveApiUrl;
+                    URL = "https://www.paypal.com/cgi-bin/webscr"; //oGateWay.LiveApiUrl;
 
                 // Create the request back
                 HttpWebRequest req = (HttpWebRequest)(WebRequest.Create(URL));

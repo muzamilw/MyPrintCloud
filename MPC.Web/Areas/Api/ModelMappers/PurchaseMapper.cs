@@ -122,5 +122,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             };
         }
+
+        /// <summary>
+        /// Purchases List
+        /// </summary>
+        public static PurchaseResponseModel CreateFromGRN(this MPC.Models.ResponseModels.GoodsReceivedNotesResponseModel source)
+        {
+            return new PurchaseResponseModel
+            {
+                RowCount = source.TotalCount,
+                PurchasesList = source.GoodsReceivedNotes.Select(order => order.CreateFromForGRN())
+            };
+        }
     }
 }
