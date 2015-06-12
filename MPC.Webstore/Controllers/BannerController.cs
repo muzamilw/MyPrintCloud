@@ -35,7 +35,8 @@ namespace MPC.Webstore.Controllers
         }
 
         #endregion
-     
+
+        #region Public
         public ActionResult Index()
         {
             string CacheKeyName = "CompanyBaseResponse";
@@ -45,5 +46,7 @@ namespace MPC.Webstore.Controllers
             
             return PartialView("PartialViews/Banner", StoreBaseResopnse.Banners);
         }
+
+        #endregion
     }
 }
