@@ -5542,6 +5542,8 @@ define("stores/stores.viewModel",
                             optionItem.sortOrder(index + 1);
                             field.VariableOptions.push(optionItem.convertToServerData(optionItem));
                         });
+
+
                         isStoreVariableTabOpened(false);
                         saveField(field);
                     }

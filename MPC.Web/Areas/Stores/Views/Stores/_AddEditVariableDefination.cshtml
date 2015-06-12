@@ -180,6 +180,77 @@
                         <input type="text" class="form-control" id="mask" data-bind="value:inputMask" placeholder="xxx-xxxxx-xxxxx">
                     </div>
                 </div>
+                <div data-bind="with:variableExtension">
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Prefix" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label for="prefix" class="control-label text-right tooltip-float">Prefix</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="prefix" data-bind="value:prefix">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Postfix" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label for="postFix" class="control-label text-right tooltip-float">Postfix</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="postFix" data-bind="value:postfix">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Collapse Prefix" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label for="cpostFix" class="control-label text-right tooltip-float">Collapse Prefix</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCPrefix" data-bind="checked:collapsePrefix">
+                                <label class="onoffswitch-label" for="switchCPrefix">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Collapse Prefix" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label for="cpostFix" class="control-label text-right tooltip-float">Collapse Postfix</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCPostfix" data-bind="checked:collapsePostfix">
+                                <label class="onoffswitch-label" for="switchCPostfix">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <hr />
