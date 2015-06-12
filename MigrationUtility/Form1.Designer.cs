@@ -48,6 +48,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.txtOrganisationId = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtStatus = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,6 +58,7 @@
             this.output.Location = new System.Drawing.Point(0, 243);
             this.output.Multiline = true;
             this.output.Name = "output";
+            this.output.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.output.Size = new System.Drawing.Size(1251, 429);
             this.output.TabIndex = 0;
             // 
@@ -148,6 +150,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtStatus);
             this.groupBox1.Controls.Add(this.rdRetailStoreTargetExisting);
             this.groupBox1.Controls.Add(this.btnImportRetail);
             this.groupBox1.Controls.Add(this.rdRetailStoreTargetNew);
@@ -232,6 +235,13 @@
             this.label3.TabIndex = 18;
             this.label3.Text = "OrganisationID";
             // 
+            // txtStatus
+            // 
+            this.txtStatus.Location = new System.Drawing.Point(572, 20);
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.Size = new System.Drawing.Size(155, 20);
+            this.txtStatus.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,6 +294,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox txtOrganisationId;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtStatus;
     }
 }
 
