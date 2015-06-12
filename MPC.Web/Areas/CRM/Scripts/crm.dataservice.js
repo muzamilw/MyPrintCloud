@@ -46,6 +46,12 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Delete Company Contact
+                    amplify.request.define('deleteCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
                     // Define request to get Store
                     amplify.request.define('getBaseDataFornewCompany', 'ajax', {
                         url: ist.siteUrl + '/Api/CrmBase',
@@ -76,6 +82,12 @@
                         url: ist.siteUrl + '/Api/GoodsReceivedNote',
                         dataType: 'json',
                         type: 'GET'
+                    });
+                    // Define request to Delete Company Address
+                    amplify.request.define('deleteCompanyAddress', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        type: 'DELETE'
                     });
                     // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
@@ -245,6 +257,26 @@
 	                data: params
 	            });
 	        },
+             // Delete Company Address
+            deleteCompanyAddress = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyAddress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+             // Delete Company Contact
+            deleteCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // get Goods Received Notes
 	        getGoodsReceivedNotes = function (params, callbacks) {
 	            initialize();
@@ -270,7 +302,9 @@
             saveCompanyContact: saveCompanyContact,
             saveAddress: saveAddress,
             getPurchases: getPurchases,
-            getGoodsReceivedNotes: getGoodsReceivedNotes
+            getGoodsReceivedNotes: getGoodsReceivedNotes,
+            deleteCompanyAddress: deleteCompanyAddress,
+            deleteCompanyContact: deleteCompanyContact
         };
     })();
 
