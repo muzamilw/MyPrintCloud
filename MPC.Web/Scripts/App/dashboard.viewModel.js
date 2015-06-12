@@ -124,6 +124,7 @@ define("dashboard.viewModel",
                                         duplicateItem[category[0].y] = duplicateItem.total;
                                         dummyTotalEarnings.push(duplicateItem);
                                     }
+
                                 }
                             }
                         });
