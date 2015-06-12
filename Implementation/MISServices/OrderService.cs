@@ -65,6 +65,8 @@ namespace MPC.Implementation.MISServices
         private readonly IItemSectionRepository itemSectionRepository;
         private readonly IPipeLineProductRepository pipeLineProductRepository;
         private readonly IExportReportHelper exportReportHelper;
+        private readonly IPurchaseRepository purchaseRepository;
+        private readonly ICampaignRepository campaignRepository;
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
@@ -341,6 +343,79 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        #region Generate Purchase Orders
+        private void UpdatePurchaseOrders(Estimate dbOrder, Estimate newOrder)
+        {
+            //if (dbOrder.StatusId != 4 && newOrder.StatusId == 4)
+            //{
+                GeneratePO(newOrder.EstimateId, newOrder.ContactId ?? new long(), newOrder.CompanyId, newOrder.Created_by ?? new Guid());
+            //}
+        }
+
+        private void DeletePurchaseOrders(Estimate order)
+        {
+            purchaseRepository.DeletePO(order.EstimateId);
+        }
+        // ReSharper disable once InconsistentNaming
+        private bool GeneratePO(long orderId, long contactId, long companyId, Guid createdBy)
+        {
+            string serverPath = HttpContext.Current.Request.Url.Host;
+
+            bool isPoGenerate = purchaseRepository.GeneratePO(orderId, createdBy);
+            if (isPoGenerate)
+            {
+                POEmail(serverPath, orderId, contactId, companyId);
+            }
+            return true;
+        }
+        // ReSharper disable once InconsistentNaming
+        private void POEmail(string serverPath, long orderId, long contactId, long companyId)
+        {
+            // string szDirectory = WebConfigurationManager.AppSettings["VirtualDirectory"].ToString();
+            List<string> attachmentsList = new List<string>();
+            var listPurchases = purchaseRepository.GetPurchasesList(orderId);
+            if (listPurchases != null)
+            {
+                foreach (var purchase in listPurchases)
+                {
+                    string fileName = exportReportHelper.ExportPDF(100, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty);
+
+                    int itemIDs = orderRepository.GetFirstItemIDByOrderId(orderId);
+                    Organisation compOrganisation = organisationRepository.GetOrganizatiobByID();
+                    Company objCompany = companyRepository.GetCompanyByCompanyID(companyId);
+                    SystemUser saleManager = systemUserRepository.GetUserrById(objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid());
+
+                    string salesManagerFile = ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Key + "_PurchaseOrder.pdf";
+                    campaignRepository.POEmailToSalesManager(orderId, companyId, contactId, 250, purchase.Value, salesManagerFile, objCompany);
+
+                    if (objCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                    {
+                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Corp, companyId, saleManager, itemIDs, "", "", 0);
+                    }
+                    else
+                    {
+                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Retail, companyId, saleManager, itemIDs, "", "", 0);
+                    }
+
+                    string sourceFile = fileName;
+                    string destinationFileSupplier = ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value + "/" + purchase.Key + "_PurchaseOrder.pdf";
+
+                    string destinationPhysicalFileSupplier = HttpContext.Current.Server.MapPath(destinationFileSupplier);
+                    if (File.Exists(sourceFile))
+                    {
+                        File.Copy(sourceFile, destinationPhysicalFileSupplier);
+                    }
+
+                    campaignRepository.POEmailToSupplier(orderId, companyId, contactId, 250, purchase.Value, destinationFileSupplier, objCompany);
+
+                    // SendEmailToSupplier(ServerPath, OrderID, ContactCompanyID, ContactID, 250, purchase.SupplierID ?? 0, DestinationFileSupplier);
+
+                    // AttachmentsList.Add(FilePath);
+                }
+            }
+        }
+        #endregion
+
         #endregion
         #region Constructor
 
@@ -356,7 +431,8 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository,
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
-            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, IExportReportHelper exportReportHelper)
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, IExportReportHelper exportReportHelper
+            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository)
         {
             if (estimateRepository == null)
             {
@@ -472,6 +548,8 @@ namespace MPC.Implementation.MISServices
             this.itemSectionRepository = itemSectionRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
             this.exportReportHelper = exportReportHelper;
+            this.purchaseRepository = purchaseRepository;
+            this.campaignRepository = campaignRepository;
         }
 
         #endregion
@@ -516,6 +594,8 @@ namespace MPC.Implementation.MISServices
             // Get Order if exists else create new
             Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder(estimate.isEstimate == true);
 
+            var orderStatusId = order.StatusId;
+            
             // Update Order
             estimate.UpdateTo(order, new OrderMapperActions
                                      {
@@ -545,6 +625,35 @@ namespace MPC.Implementation.MISServices
 
             // Save Changes
             estimateRepository.SaveChanges();
+
+            //Update Purchase Orders
+            //Req. Whenever Its Status is inProduction Update Purchase Orders
+            if (orderStatusId != (int)OrderStatus.InProduction && estimate.StatusId == (int)OrderStatus.InProduction)
+            {
+                try
+                {
+                    UpdatePurchaseOrders(order, estimate);
+                }
+                catch (Exception exp)
+                {
+                    throw new MPCException("Saved Sucessfully but failed to create Purchase Order. Error: " + exp.Message, estimateRepository.OrganisationId);
+                }
+            }
+
+            //Delete Purchase Orders
+            //Req. Whenever Its Status is Cancelled Call Delete Stored Procedure or delete sp if reversing from in production to below statuses
+            if ((orderStatusId != (int)OrderStatus.CancelledOrder && estimate.StatusId == (int)OrderStatus.CancelledOrder) ||
+                (orderStatusId == (int)OrderStatus.InProduction && (estimate.StatusId == (int)OrderStatus.PendingOrder || estimate.StatusId == (int)OrderStatus.ConfirmedOrder)))
+            {
+                try
+                {
+                    DeletePurchaseOrders(estimate);
+                }
+                catch (Exception exp)
+                {
+                    throw new MPCException("Saved Sucessfully but failed to delete Purchase Order(s). Error: " + exp.Message, estimateRepository.OrganisationId);
+                }
+            }
 
             // Load Status
             estimateRepository.LoadProperty(order, () => order.Status);
