@@ -1,8 +1,8 @@
 ﻿<div class="row" style="display: none" data-bind="visible: $root.isEditorVisible()">
     <div class="row" style="">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <div class="row">
-                <div class="col-lg-12" id="topArea" style="padding-left:16px;">
+                <div class="col-sm-12" id="topArea" style="padding-left:16px;">
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/DeliveryNotes/Home/DeliveryNote/Index" class="my-navigator">Delivery Notes</a></li>
@@ -12,8 +12,8 @@
                         <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">&nbsp;</h1>
                     </div>
 
-                    <div class="col-lg-12" id="filter" style="height:50px;margin-bottom:7px;">
-                        <div class="col-lg-2 pull-right" style="padding-right: 2%; ">
+                    <div class="col-sm-12" id="filter" style="height:50px;margin-bottom:7px;">
+                        <div class="col-sm-2 pull-right" style="padding-right: 2%; ">
                         </div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div>
-        <div class="row col-lg-6" style="float:left;padding-left: 1.7%;">
+        <div class="row col-sm-6" style="float:left;padding-left: 1.7%;">
             <div class="pull-left validationSummaryContainer">
                 <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Invalid data: Click here to see details.</a>
                 <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
@@ -43,7 +43,7 @@
                     &nbsp;Save
                 </button>
                 <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onDeleteDeliveryNote">&nbsp;Delete</button>
-                @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedDeliveryNote().deliveryNoteId()!==undefined"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>*@
+                @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedDeliveryNote().deliveryNoteId()!==undefined"><i class="fa fa-print fa-sm"></i>&nbsp;Print</button>*@
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onPostDeliveryNote">&nbsp;Post</button>
                 <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:5px">
                     Print
@@ -52,20 +52,20 @@
         </div>
     </div>
     <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote" style="padding-left: 18px; padding-right: 20px; margin-top: 5.5%; ">
-        <div class="col-lg-12 col-md-8 col-sm-8">
+        <div class="col-sm-12">
             <div class="main-box clearfix">
-                <div class="col-lg-12 form-horizontal" style="margin-top: 3%;">
+                <div class="col-sm-12 form-horizontal" style="margin-top: 3%;">
                     <h3 class="group-header">General Information</h3>
-                    <div class="col-lg-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                 </div>
 
                                 <label class="control-label tooltip-float">&nbsp;</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedDeliveryNote().deliveryNoteId() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                             </div>
                             <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
@@ -139,7 +139,7 @@
 
                         <!--here it ends-->
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Order Ref. No" data-original-title="" title="">
                                         @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
@@ -148,7 +148,7 @@
 
                                 <label class="control-label tooltip-float"></label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <div>
                                     <input type="text" value="Double-Sided A4" placeholder="Order Ref. No" class="form-control" data-bind="value:orderReff" />
 
@@ -156,10 +156,10 @@
                             </div>
                         </div>
                         @*<div class="form-group">
-                                <div class="col-lg-4 text-right">
+                                <div class="col-sm-4 text-right">
                                     <label class="control-label text-right tooltip-float"></label>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-sm-6">
                                     <input type="text" class="form-control" placeholder="Carrier Tracking Path">
 
                                 </div>
@@ -167,7 +167,7 @@
                     </div>
 
 
-                    <div class="col-lg-6">
+                    <div class="col-sm-6">
 
                         <div class="form-group">
                             <div class="col-sm-4 text-right" style="padding-top:10px;">
@@ -188,49 +188,49 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
 
                                 <label class="control-label text-right tooltip-float">Carriers</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <select class="form-control" data-bind="options: $root.deliveryCarriers, optionsText: 'CarrierName', optionsValue: 'CarrierId', optionsCaption: 'Select a carrier ',value:supplierId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
 
                                 <label class="control-label text-right tooltip-float">Carrier Phone</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control" data-bind="value:supplierTelNo">
 
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
 
                                 <label class="control-label text-right tooltip-float">Consignment Number</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control" data-bind="value:csNo">
 
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
 
                                 <label class="control-label text-right tooltip-float">Delivery Date</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <input type="text" style="height:60px;" class="form-control" data-bind="datepicker:deliveryDate">
                             </div>
                         </div>
                     </div>
 
 
-                    @* <div class="col-lg-9 form-horizontal">*@
+                    @* <div class="col-sm-9 form-horizontal">*@
 
                     @*</div>*@
                 </div>
@@ -278,9 +278,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 form-horizontal main-box-body clearfix">
+                <div class="col-sm-12 form-horizontal main-box-body clearfix">
                     <div class="form-group">
-                        <div class="col-lg-2 text-right">
+                        <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -288,12 +288,12 @@
                             </div>
                             <label class="control-label text-right tooltip-float">Comments</label>
                         </div>
-                        <div class="col-lg-9" style="padding-right: 5px;padding-left: 5px;">
+                        <div class="col-sm-9" style="padding-right: 5px;padding-left: 5px;">
                             <textarea class="form-control" id="EstimateHeader" rows="3" data-bind="value: comments"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-2 text-right">
+                        <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -301,12 +301,12 @@
                             </div>
                             <label class="control-label text-right tooltip-float">Foot Notes</label>
                         </div>
-                        <div class="col-lg-9" style="padding-right: 5px;padding-left: 5px;">
+                        <div class="col-sm-9" style="padding-right: 5px;padding-left: 5px;">
                             <textarea class="form-control" id="EstimateHeader" rows="3" data-bind="value: userNotes"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-2 text-right">
+                        <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Source for Estimate." data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -314,7 +314,7 @@
                             </div>
                             <label class="control-label text-right tooltip-float">Raised By</label>
                         </div>
-                        <div class="col-lg-3" style="padding-right: 5px;">
+                        <div class="col-sm-3" style="padding-right: 5px;">
                             <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id', optionsCaption: 'Select a system user',value:raisedBy"></select>
                             <span class="help-block text-right"></span>
                         </div>

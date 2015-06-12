@@ -105,7 +105,7 @@ namespace MPC.Implementation.MISServices
         {
             // Get Purchase if exists else create new
             Purchase purchaseTarget = GetById(purchase.PurchaseId) ?? CreatePurchase();
-            // Update Order
+            // Update Purchase
             purchase.UpdateTo(purchaseTarget, new PurchaseMapperActions
             {
                 CreatePurchaseDetail = CreatePurchaseDetail,
@@ -142,6 +142,7 @@ namespace MPC.Implementation.MISServices
         {
             purchaseDetailRepository.Delete(purchaseDetail);
         }
+       
         /// <summary>
         /// Get By Id
         /// </summary>

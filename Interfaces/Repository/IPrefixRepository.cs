@@ -59,5 +59,11 @@ namespace MPC.Interfaces.Repository
         /// Returns Next Purchase Code Prefix and increments the NextItem Value by 1
         /// </summary>
         string GetNextPurchaseCodePrefix();
+
+
+        /// <summary>
+        /// Returns Next GRN Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        string GetNextGRNCodePrefix();
     }
 }
