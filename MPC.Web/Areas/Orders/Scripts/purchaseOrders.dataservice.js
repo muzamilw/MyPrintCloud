@@ -29,6 +29,12 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     }),
+                    // Define request to get GRN Detail By ID
+                    amplify.request.define('getGRNById', 'ajax', {
+                        url: ist.siteUrl + '/Api/GoodsReceivedNote',
+                        dataType: 'json',
+                        type: 'GET'
+                    }),
 
                     // Define request to get Items
                     amplify.request.define('downloadArtwork', 'ajax', {
@@ -48,7 +54,7 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                         url: ist.siteUrl + '/Api/PurchaseOrder',
                         dataType: 'json',
                         type: 'Delete'
-                    }), 
+                    }),
                     // Define request to Save GRN
                     amplify.request.define('saveGRN', 'ajax', {
                         url: ist.siteUrl + '/Api/GoodsReceivedNote',
@@ -86,7 +92,7 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                     data: param
                 });
             },
-            
+
             // Delete Purchase Order
             deletePurchaseOrder = function (param, callbacks) {
                 initialize();
@@ -118,15 +124,25 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                 error: callbacks.error,
             });
         },
-   getPurchaseOrderById = function (param, callbacks) {
-       initialize();
-       return amplify.request({
-           resourceId: 'getPurchaseOrderById',
-           success: callbacks.success,
-           error: callbacks.error,
-           data: param
-       });
-   },
+      getPurchaseOrderById = function (param, callbacks) {
+          initialize();
+          return amplify.request({
+              resourceId: 'getPurchaseOrderById',
+              success: callbacks.success,
+              error: callbacks.error,
+              data: param
+          });
+      },
+     getGRNById = function (param, callbacks) {
+         initialize();
+         return amplify.request({
+             resourceId: 'getGRNById',
+             success: callbacks.success,
+             error: callbacks.error,
+             data: param
+         });
+     },
+
         getPurchaseOrders = function (param, callbacks) {
             initialize();
             return amplify.request({
@@ -145,7 +161,8 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
             getBaseData: getBaseData,
             getBaseDataForCompany: getBaseDataForCompany,
             deletePurchaseOrder: deletePurchaseOrder,
-            saveGRN:saveGRN
+            saveGRN: saveGRN,
+            getGRNById: getGRNById
         };
     })();
 

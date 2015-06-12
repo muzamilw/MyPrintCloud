@@ -7,39 +7,39 @@
 }
 <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
 <script>
-    $(document).ready(function () {
+    //$(document).ready(function () {
 
-        $(".edit-pertial").hide();
+    //    $(".edit-pertial").hide();
 
-        $(".partial-GRN").hide();
+    //    $(".partial-GRN").hide();
 
 
-        $(".patial-edit").click(function () {
-            $("#main-body").hide();
-            $(".edit-pertial").show();
-        });
-        $("#closeBtn").click(function () {
-            $("#main-body").show();
-            $(".edit-pertial").hide();
-        });
-    });
+    //    $(".patial-edit").click(function () {
+    //        $("#main-body").hide();
+    //        $(".edit-pertial").show();
+    //    });
+    //    $("#closeBtn").click(function () {
+    //        $("#main-body").show();
+    //        $(".edit-pertial").hide();
+    //    });
+    //});
 </script>
 
 <script>
-    $(document).ready(function () {
-        setTimeout(function () {
-            var spinner = $("div#spinner");
-            spinner.stop();
-            spinner.fadeOut("fast");
-            $.unblockUI(spinner);
-        }, 1000);
-    });
+    //$(document).ready(function () {
+    //    setTimeout(function () {
+    //        var spinner = $("div#spinner");
+    //        spinner.stop();
+    //        spinner.fadeOut("fast");
+    //        $.unblockUI(spinner);
+    //    }, 1000);
+    //});
 </script>
 
 
 
 <div class="row" id="purchaseOrderBinding">
-    <div class="col-sm-12" data-bind="visible:!$root.isEditorVisible()">
+    <div class="col-sm-12" data-bind="visible:(!$root.isEditorVisible() && !$root.isGRNEditorVisible())">
         <div class="row">
             <div class="col-sm-12">
                 <div class="row">
@@ -126,6 +126,7 @@
     </div>
 
     @Html.Partial("_partialpurchaseOrders")
+    @Html.Partial("_partialPurchaseorderGRN")
     @Html.Partial("~/Areas/Orders/Views/Home/_PurchaseDetailDialog.cshtml")
 </div>
 

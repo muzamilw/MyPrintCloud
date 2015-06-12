@@ -5523,6 +5523,7 @@ drop constraint DF__tbl_goods__Suppl__52E34C9D
 alter table goodsreceivednote
 alter column supplierid bigint null
 
+--Executed on Staging, USA, Europe, Australia servers on 20150611---
 update goodsreceivednote
 set supplierid = null
 
@@ -5573,3 +5574,16 @@ alter column ImagePath nvarchar(400) null
 
 alter table productcategory
 alter column ThumbnailPath nvarchar(400) null
+
+/* Execution Date: 12/06/2015 */
+
+alter table VariableExtension
+alter column FieldVariableId bigint null
+
+alter table VariableExtension
+add constraint FK_VariableExtension_FieldVariable
+foreign key (FieldVariableId)
+references FieldVariable (VariableId)
+
+alter table CompanyContact
+add SecondaryEmail varchar(200) null
