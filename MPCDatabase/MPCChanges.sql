@@ -5573,3 +5573,16 @@ alter column ImagePath nvarchar(400) null
 
 alter table productcategory
 alter column ThumbnailPath nvarchar(400) null
+
+/* Execution Date: 12/06/2015 */
+
+alter table VariableExtension
+alter column FieldVariableId bigint null
+
+alter table VariableExtension
+add constraint FK_VariableExtension_FieldVariable
+foreign key (FieldVariableId)
+references FieldVariable (VariableId)
+
+alter table CompanyContact
+add SecondaryEmail varchar(200) null
