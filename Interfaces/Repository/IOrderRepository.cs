@@ -136,6 +136,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="OrderId"></param>
         /// <returns></returns>
         List<Item> GetAllOrderItems(long OrderId);
+        long GetStoreIdByOrderId(long OrderId);
     }
 }
 
