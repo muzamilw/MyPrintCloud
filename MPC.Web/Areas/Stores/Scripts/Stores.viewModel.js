@@ -5520,24 +5520,24 @@ define("stores/stores.viewModel",
                     fieldVariable.typeName(selectedType.name);
                     fieldVariable.companyId(selectedStore().companyId());
 
-                    // //In New Store, Edit Field Variable
-                    if (fieldVariable.id() === undefined && fieldVariable.fakeId() < 0) {
-                        updateFieldVariableWithNewStore(fieldVariable);
-                        view.hideVeriableDefinationDialog();
-                    }
-                        //New Store And New Field Variable Added Case
-                    else if (fieldVariable.id() === undefined && fieldVariable.fakeId() === undefined && selectedStore().companyId() === undefined) {
-                        fieldVariables.splice(0, 0, fieldVariable);
-                        view.hideVeriableDefinationDialog();
-                        fieldVariable.fakeId(fakeIdCounter() - 1);
-                        fakeIdCounter(fakeIdCounter() - 1);
+                    //// //In New Store, Edit Field Variable
+                    //if (fieldVariable.id() === undefined && fieldVariable.fakeId() < 0) {
+                    //    updateFieldVariableWithNewStore(fieldVariable);
+                    //    view.hideVeriableDefinationDialog();
+                    //}
+                    //    //New Store And New Field Variable Added Case
+                    // if (fieldVariable.id() === undefined && fieldVariable.fakeId() === undefined && selectedStore().companyId() === undefined) {
+                    //    fieldVariables.splice(0, 0, fieldVariable);
+                    //    view.hideVeriableDefinationDialog();
+                    //    fieldVariable.fakeId(fakeIdCounter() - 1);
+                    //    fakeIdCounter(fakeIdCounter() - 1);
 
-                        //Add to Smart Form Variable List
-                        addToSmartFormVariableList(fieldVariable);
-                        addFieldVariableToItsScopeTypeList(fieldVariable);
-                    }
+                    //    //Add to Smart Form Variable List
+                    //    addToSmartFormVariableList(fieldVariable);
+                    //    addFieldVariableToItsScopeTypeList(fieldVariable);
+                    //}
                         //In case Of Edit Store , Field variable direct save to db. 
-                    else if (selectedStore().companyId() !== undefined) {
+                     if (selectedStore().companyId() !== undefined) {
                         //In Case of Edit Company 
                         var field = fieldVariable.convertToServerData(fieldVariable);
                         _.each(fieldVariable.variableOptions(), function (optionItem, index) {
@@ -5893,14 +5893,15 @@ define("stores/stores.viewModel",
             //Update Field variable
             updateFieldVariable = function () {
                 var updatedFieldVariable = _.find(fieldVariables(), function (field) {
-                    return field.id() == selectedFieldVariable().id();
+                    return field.id() === selectedFieldVariable().id();
                 });
                 var selectedScope = _.find(contextTypes(), function (scope) {
-                    return scope.id == selectedFieldVariable().scope();
+                    return scope.id === selectedFieldVariable().scope();
                 });
                 updatedFieldVariable.scopeName(selectedScope.name);
+                updatedFieldVariable.scope(selectedFieldVariable().scope());
                 var selectedType = _.find(varibaleTypes(), function (type) {
-                    return type.id == selectedFieldVariable().variableType();
+                    return type.id === selectedFieldVariable().variableType();
                 });
                 updatedFieldVariable.typeName(selectedType.name);
                 updatedFieldVariable.variableType(selectedFieldVariable().variableType());
