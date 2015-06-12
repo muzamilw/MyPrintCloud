@@ -113,6 +113,7 @@
     <Compile Include="Repository\IDeliveryNoteRepository.cs" />
     <Compile Include="Repository\IEstimateInquiryRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />
+    <Compile Include="Repository\IGoodsReceivedNoteDetailRepository.cs" />
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />
     <Compile Include="Repository\IInquiryItemRepository.cs" />
     <Compile Include="Repository\IInvoiceDetailRepository.cs" />

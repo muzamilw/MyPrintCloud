@@ -66,12 +66,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDate = source.CreationDate,
                 CreationTime = source.CreationTime,
                 RefEstimateId = source.RefEstimateId,
-                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
+                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).OrderBy(item => item.ProductName).ToList() :
                 new List<OrderItem>(),
                 ItemsCount = source.Items != null ? source.Items.Count : 0,
-                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
+                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).OrderBy(payment => payment.ReferenceCode).ToList() :
                 new List<PrePayment>(),
-                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()) :
+                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()).OrderBy(sc => sc.ItemName).ToList() :
                 new List<ShippingInformation>()
             };
 

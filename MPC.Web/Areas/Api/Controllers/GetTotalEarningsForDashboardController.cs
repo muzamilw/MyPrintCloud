@@ -47,8 +47,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            var a = dashboardService.GetTotalEarningsForDashboard().Select(x => x.CreateFrom());
-            return a;
+            return dashboardService.GetTotalEarningsForDashboard().Select(x => x.CreateFrom());
         }
 
         #endregion

@@ -72,7 +72,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<usp_TotalEarnings_Result> GetTotalEarnings(DateTime fromDate, DateTime toDate)
         {
-            return db.usp_TotalEarnings(fromDate, toDate).ToList();
+            return db.usp_TotalEarnings(fromDate, toDate, OrganisationId).ToList();
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 var now = DateTime.Now;
-                return db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31));
+                return db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31), OrganisationId);
             }
             catch (Exception ex)
             {

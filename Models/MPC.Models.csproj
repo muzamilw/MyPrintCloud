@@ -234,6 +234,7 @@
     <Compile Include="DomainModels\usp_OrderReport_Result.cs" />
     <Compile Include="DomainModels\usp_PurchaseOrderReport_Result.cs" />
     <Compile Include="DomainModels\usp_TotalEarnings_Result.cs" />
+    <Compile Include="DomainModels\VariableExtension.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
@@ -369,6 +370,8 @@
     <Compile Include="LoggerModels\Log.cs" />
     <Compile Include="ModelMappers\DeliveryNoteMapper.cs" />
     <Compile Include="ModelMappers\DeliveryNoteMapperAction.cs" />
+    <Compile Include="ModelMappers\GoodsReceivedNoteMapper.cs" />
+    <Compile Include="ModelMappers\GoodsReceivedNoteMapperActions.cs" />
     <Compile Include="ModelMappers\InquiryAttachmentMapper.cs" />
     <Compile Include="ModelMappers\InquiryItemMapper.cs" />
     <Compile Include="ModelMappers\InquiryMapper.cs" />
@@ -474,6 +477,7 @@
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
+    <Compile Include="ResponseModels\GoodsReceivedNotesResponseModel.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="ResponseModels\InquiryBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />
