@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.WebBase.Mvc;
-using GoodsReceivedNoteResponseModel = MPC.MIS.Areas.Api.Models.GoodsReceivedNoteResponseModel;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
