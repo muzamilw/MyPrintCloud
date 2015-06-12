@@ -622,6 +622,31 @@ function d1SvgOl(cCanvas, IO) {
                     }
                 }
             });
+        } else
+        {
+            var colors = [];
+            // get colors 
+            if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
+                clr = (loadedObject.get('fill'));
+                var objClr = {
+                    OriginalColor: clr,
+                    PathIndex: -2,
+                    ModifiedColor: ''
+                }
+                colors.push(objClr);
+            }
+            else if (loadedObject.paths) {
+                for (var i = 0; i < loadedObject.paths.length; i++) {
+                    clr = (loadedObject.paths[i].get('fill'));
+                    var objClr = {
+                        OriginalColor: clr,
+                        PathIndex: i,
+                        ModifiedColor: ''
+                    }
+                    colors.push(objClr);
+                }
+            }
+            loadedObject.customStyles = colors;
         }
         loadedObject.set({
             borderColor: 'red',
