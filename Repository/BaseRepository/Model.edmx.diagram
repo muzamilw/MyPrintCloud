@@ -330,6 +330,7 @@
         <AssociationConnector Association="DomainModels.FK_GoodsReceivedNoteDetail_Items" />
         <EntityTypeShape EntityType="DomainModels.VariableExtension" Width="1.5" PointX="9.375" PointY="40.875" />
         <AssociationConnector Association="DomainModels.FK_GoodsReceivedNoteDetail_GoodsReceivedNote" />
+        <AssociationConnector Association="DomainModels.FK_VariableExtension_FieldVariable" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
