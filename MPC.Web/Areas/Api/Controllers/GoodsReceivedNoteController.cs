@@ -1,12 +1,12 @@
 ﻿using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
 using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.WebBase.Mvc;
-using GoodsReceivedNoteResponseModel = MPC.MIS.Areas.Api.Models.GoodsReceivedNoteResponseModel;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -16,7 +16,8 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         private readonly IGoodsReceivedNoteService goodsReceivedNoteService;
         #endregion
-       #region Constructor
+
+        #region Constructor
 
         /// <summary>
         /// Constructor
@@ -41,6 +42,16 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
             return goodsReceivedNoteService.GetGoodsReceivedNotes(request).CreateFrom();
+        }
+
+        [ApiException]
+        public PurchaseListView Post(GoodsReceivedNote grn)
+        {
+            if (grn == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return goodsReceivedNoteService.SaveGRN(grn.CreateFrom()).CreateFromForGRN();
         }
         #endregion
     }

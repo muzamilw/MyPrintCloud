@@ -43,11 +43,17 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                         type: 'GET'
                     }),
 
-                    // Define request to Save Purchase Order
+                    // Define request to Delete Purchase Order
                     amplify.request.define('deletePurchaseOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/PurchaseOrder',
                         dataType: 'json',
                         type: 'Delete'
+                    }), 
+                    // Define request to Save GRN
+                    amplify.request.define('saveGRN', 'ajax', {
+                        url: ist.siteUrl + '/Api/GoodsReceivedNote',
+                        dataType: 'json',
+                        type: 'Post'
                     }),
                     // Define request to Save Purchase
                     amplify.request.define('savePurchase', 'ajax', {
@@ -70,6 +76,17 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                     data: param
                 });
             },
+            // Save GRN
+            saveGRN = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveGRN',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+            
             // Delete Purchase Order
             deletePurchaseOrder = function (param, callbacks) {
                 initialize();
@@ -127,7 +144,8 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
             savePurchase: savePurchase,
             getBaseData: getBaseData,
             getBaseDataForCompany: getBaseDataForCompany,
-            deletePurchaseOrder: deletePurchaseOrder
+            deletePurchaseOrder: deletePurchaseOrder,
+            saveGRN:saveGRN
         };
     })();
 
