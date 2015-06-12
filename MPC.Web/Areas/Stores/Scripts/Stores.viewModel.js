@@ -900,7 +900,7 @@ define("stores/stores.viewModel",
                                     if (data) {
                                         //companyTerritoryPager().totalCount(companyTerritoryPager().totalCount() - 1);
                                         var storeGotChanges = selectedStore().hasChanges();
-                                        
+
                                         if (!storeGotChanges) {
                                             selectedStore().reset();
                                         }
@@ -2262,7 +2262,7 @@ define("stores/stores.viewModel",
                                         success: function (data) {
                                             if (data) {
                                                 var storeGotChanges = selectedStore().hasChanges();
-                                                
+
                                                 if (!storeGotChanges) {
                                                     selectedStore().reset();
                                                 }
@@ -3429,7 +3429,7 @@ define("stores/stores.viewModel",
                     if (notFound) {
                         selectedStore().paymentGateway.splice(0, 0, selectedPaymentGateway());
                     }
-                    
+
                     view.hidePaymentGatewayDialog();
                 }
             },
@@ -5501,6 +5501,8 @@ define("stores/stores.viewModel",
             //Create New Field Variable
             onAddVariableDefination = function () {
                 selectedFieldVariable(model.FieldVariable());
+                selectedFieldVariable().variableExtension().companyId(selectedStore().companyId());
+
                 selectedFieldOption(undefined);
                 view.showVeriableDefinationDialog();
             },
@@ -5543,7 +5545,7 @@ define("stores/stores.viewModel",
                             field.VariableOptions.push(optionItem.convertToServerData(optionItem));
                         });
 
-
+                        field.VariableExtensions.push(fieldVariable.variableExtension().convertToServerData(fieldVariable.variableExtension()));
                         isStoreVariableTabOpened(false);
                         saveField(field);
                     }
@@ -6040,6 +6042,9 @@ define("stores/stores.viewModel",
                             _.each(data.VariableOptions, function (item) {
                                 fieldvariable.variableOptions.push(model.VariableOption.Create(item));
                             });
+                            _.each(data.VariableExtensions, function (item) {
+                                fieldvariable.variableExtension(model.VariableExtension.Create(item));
+                            });
                             selectedFieldVariable(fieldvariable);
                             selectedFieldVariable().reset();
                             view.showVeriableDefinationDialog();
@@ -6370,7 +6375,7 @@ define("stores/stores.viewModel",
                             smartForms.splice(0, 0, selectedSmartForm());
                         }
                         else {
-                            _.each(smartForms(), function(smartFormitem) {
+                            _.each(smartForms(), function (smartFormitem) {
                                 if (smartFormitem.id() == selectedSmartForm().id()) {
                                     smartFormitem.name(selectedSmartForm().name());
                                     smartFormitem.heading(selectedSmartForm().heading());
@@ -6528,8 +6533,8 @@ define("stores/stores.viewModel",
                 confirmation.show();
             },
             // Get Company By Id
-            getCompanyByIdFromListView = function(id) {
-                return stores.find(function(store) {
+            getCompanyByIdFromListView = function (id) {
+                return stores.find(function (store) {
                     return store.companyId() === id;
                 });
             },

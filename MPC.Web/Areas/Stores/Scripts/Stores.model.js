@@ -4293,7 +4293,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.VariablePostfix = source.postfix() === undefined ? null : source.postfix();
                 result.CollapsePrefix = source.collapsePrefix() === undefined ? null : source.collapsePrefix();
                 result.CollapsePostfix = source.collapsePostfix() === undefined ? null : source.collapsePostfix();
-                result.VariableName = source.companyId() === undefined ? null : source.companyId();
+                result.CompanyId = source.companyId() === undefined ? null : source.companyId();
                 return result;
             };
         self = {
@@ -4301,8 +4301,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             prefix: prefix,
             postfix: postfix,
             collapsePrefix: collapsePrefix,
-            collapsePostfix: collapsePostfix
-
+            collapsePostfix: collapsePostfix,
+            companyId: companyId,
+            convertToServerData: convertToServerData
         };
         return self;
     };
@@ -4365,6 +4366,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 typeName: typeName,
                 variableTitle: variableTitle,
                 variableOptions: variableOptions,
+                variableExtension: variableExtension,
                 fakeId: fakeId,
             }),
             // Has Changes
@@ -4387,6 +4389,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.VariableTitle = source.variableTitle() === undefined ? null : source.variableTitle();
                 result.FakeIdVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
                 result.VariableOptions = [];
+                result.VariableExtensions = [];
                 return result;
             },
         // Reset
