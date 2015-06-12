@@ -678,7 +678,7 @@ define("stores/stores.viewModel",
                 //    }
                 //}
             },
-             // Get Company By Id
+             // Get Rave Review By Id
             getRaveReviewByIdFromListView = function (id) {
                 return selectedStore().raveReviews.find(function (raveReview) {
                     return raveReview.reviewId() === id;
@@ -876,7 +876,7 @@ define("stores/stores.viewModel",
                 selectedCompanyTerritory().isDefault(!territoryIsDefault);
                 selectedCompanyTerritory().isDefault(territoryIsDefault || false);
             },
-             // Get Company By Id
+             // Get Company Territory By Id
             getCompanyTerritoryByIdFromListView = function (id) {
                 return selectedStore().companyTerritories.find(function (territory) {
                     return territory.territoryId() === id;
@@ -1173,7 +1173,7 @@ define("stores/stores.viewModel",
                 view.showCompanyCMYKColorDialog();
                 isSavingNew(true);
             },
-             // Get CompanyCMYKColors By Id
+             // Get Company CMYK Colors By Id
             getCompanyCMYKColorsByIdFromListView = function (id) {
                 return selectedStore().companyCMYKColors.find(function (color) {
                     return color.colorId() === id;
@@ -2237,7 +2237,7 @@ define("stores/stores.viewModel",
                     getCompanyContactVariable(scope);
                 }
             },
-             // Get Company By Id
+             // Get address By Id
             getAddressByIdFromListView = function (id) {
                 return selectedStore().addresses.find(function (address) {
                     return address.addressId() === id;
@@ -3058,7 +3058,7 @@ define("stores/stores.viewModel",
                 scopeVariable.variableOptions.valueHasMutated();
                 return scopeVariable;
             },
-            // Get CompanyContact By Id
+            // Get Company Contact By Id
             getCompanyContactByIdFromListView = function (id) {
                 return selectedStore().users.find(function (user) {
                     return user.contactId() === id;
