@@ -92,6 +92,7 @@ namespace MPC.Models.DomainModels
         public bool? CanUserEditProfile { get; set; }
         public bool? canPlaceDirectOrder { get; set; }
         public long? OrganisationId { get; set; }
+        public string SecondaryEmail { get; set; }
         [NotMapped]
         public string FileName { get; set; }
         public virtual Company Company { get; set; }

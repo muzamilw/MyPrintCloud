@@ -594,6 +594,14 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _OrderRepository.IsRealCustomerOrder(orderId,contactId,companyId);
        }
-      
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+       public long GetStoreIdByOrderId(long OrderId)
+       {
+           return _OrderRepository.GetStoreIdByOrderId(OrderId);
+       }
     }
 }

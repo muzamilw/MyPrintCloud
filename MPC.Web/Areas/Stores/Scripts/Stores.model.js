@@ -1537,7 +1537,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             country: country,
             stateName: stateName,
             stateCode: stateCode,
-            stateNamenCode:stateNamenCode,
+            stateNamenCode: stateNamenCode,
             countryName: countryName,
             postCode: postCode,
             fax: fax,
@@ -2627,7 +2627,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
                 fileName: fileName,
-                companyContactVariables:companyContactVariables
+                companyContactVariables: companyContactVariables
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -4276,6 +4276,43 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // #endregion 
 
+    // #region ______________  Variable Extension   _________________
+    var VariableExtension = function (spcId, spcVariablePrefix, spcVariablePostfix, spcCollapsePrefix, spcCollapsePostfix, spcCompanyId) {
+        var self,
+            id = ko.observable(spcId),
+            prefix = ko.observable(spcVariablePrefix),
+            postfix = ko.observable(spcVariablePostfix),
+            collapsePrefix = ko.observable(spcCollapsePrefix),
+            collapsePostfix = ko.observable(spcCollapsePostfix),
+            companyId = ko.observable(spcCompanyId),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.Id = source.id() === undefined ? 0 : source.id();
+                result.VariablePrefix = source.prefix() === undefined ? null : source.prefix();
+                result.VariablePostfix = source.postfix() === undefined ? null : source.postfix();
+                result.CollapsePrefix = source.collapsePrefix() === undefined ? null : source.collapsePrefix();
+                result.CollapsePostfix = source.collapsePostfix() === undefined ? null : source.collapsePostfix();
+                result.CompanyId = source.companyId() === undefined ? null : source.companyId();
+                return result;
+            };
+        self = {
+            id: id,
+            prefix: prefix,
+            postfix: postfix,
+            collapsePrefix: collapsePrefix,
+            collapsePostfix: collapsePostfix,
+            companyId: companyId,
+            convertToServerData: convertToServerData
+        };
+        return self;
+    };
+    // Variable Extension Factory
+    VariableExtension.Create = function (source) {
+        return VariableExtension(source.Id, source.VariablePrefix, source.VariablePostfix, source.CollapsePrefix, source.CollapsePostfix, source.CompanyId);
+    };
+    // #endregion 
+
     // #region ______________  Field Variable   _________________
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
           specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle, specifiedIsSystem) {
@@ -4296,9 +4333,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             }),
             scopeName = ko.observable(),
             typeName = ko.observable(),
-            variableTitle = ko.observable(specifiedVariableTitle),
             fakeId = ko.observable(),
+            variableTitle = ko.observable(specifiedVariableTitle),
+            variableExtension = ko.observable(VariableExtension()),
             variableOptions = ko.observableArray([]),
+
             // Errors
             errors = ko.validation.group({
                 variableName: variableName,
@@ -4327,6 +4366,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 typeName: typeName,
                 variableTitle: variableTitle,
                 variableOptions: variableOptions,
+                variableExtension: variableExtension,
                 fakeId: fakeId,
             }),
             // Has Changes
@@ -4349,6 +4389,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.VariableTitle = source.variableTitle() === undefined ? null : source.variableTitle();
                 result.FakeIdVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
                 result.VariableOptions = [];
+                result.VariableExtensions = [];
                 return result;
             },
         // Reset
@@ -4372,6 +4413,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             variableTitle: variableTitle,
             variableOptions: variableOptions,
             fakeId: fakeId,
+            variableExtension: variableExtension,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -4614,7 +4656,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 name: name,
             }),
             // Is Valid 
-            isValid = ko.computed(function() {
+            isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
 
@@ -4628,11 +4670,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 smartFormDetails: smartFormDetails
             }),
             // True If Has Changes
-            hasChanges = ko.computed(function() {
+            hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
             // Reset Dirty State
-            reset = function() {
+            reset = function () {
                 dirtyFlag.reset();
             },
             //Convert To Server
@@ -4801,6 +4843,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         FieldVariableForSmartForm: FieldVariableForSmartForm,
         SmartForm: SmartForm,
         SmartFormDetail: SmartFormDetail,
+        VariableExtension: VariableExtension
     };
     // #endregion 
 });

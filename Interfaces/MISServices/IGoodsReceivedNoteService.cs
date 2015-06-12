@@ -15,5 +15,10 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         GoodsReceivedNote SaveGRN(GoodsReceivedNote grn);
 
+        /// <summary>
+        /// Get By Id
+        /// </summary>
+        GoodsReceivedNote GetById(long grnId);
+
     }
 }
