@@ -666,7 +666,6 @@ define("inventory/inventory.viewModel",
                                 inventories.remove(itm);
                                pager().totalCount(inventories().length);
                             }
-                                
                         });
                         
                         saveInventory();
