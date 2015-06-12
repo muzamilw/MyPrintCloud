@@ -853,7 +853,12 @@ define("crm/crm.viewModel",
                                         }, {
                                             success: function (data) {
                                                 if (data) {
-                                                    selectedStore().addresses.remove(address);
+                                                        _.each(selectedStore().addresses(), function (item) {
+                                                            if (item.addressId() == address.addressId() ) {
+                                                                selectedStore().addresses.remove(item);
+                                                            }
+                                                        });
+                                                      
                                                     toastr.success("Deleted Successfully");
                                                     isLoadingStores(false);
                                                     //Updating Drop downs
@@ -891,8 +896,14 @@ define("crm/crm.viewModel",
                                         flag = false;
                                     }
                                 });
+                                var selectedObj = null;
                                 if (flag) {
-                                    selectedStore().addresses.remove(address);
+                                    _.each(selectedStore().addresses(), function (item) {
+                                        if (item.addressId() == address.addressId() ) {
+                                            selectedObj = item;
+                                        }
+                                    });
+                                    selectedStore().addresses.remove(selectedObj);
                                 } else {
                                     toastr.error("Address can not be deleted as it exist in User", "", ist.toastrOptions);
                                 }
@@ -1314,8 +1325,14 @@ define("crm/crm.viewModel",
                             }, {
                                 success: function (data) {
                                     if (data) {
-                                        selectedStore().users.remove(companyContact);
-                                        toastr.success("Deleted Successfully");
+                                        var contact = selectedStore().users.find(function(user) {
+                                            return user.contactId() === companyContact.contactId();
+                                        });
+                                        if (contact) {
+                                            selectedStore().users.remove(contact);
+                                            toastr.success("Deleted Successfully");
+                                        }
+                                        
                                         isLoadingStores(false);
                                     } else {
                                         toastr.error("Contact can not be deleted", "", ist.toastrOptions);
