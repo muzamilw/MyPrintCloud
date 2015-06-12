@@ -603,24 +603,51 @@ function d1SvgOl(cCanvas, IO) {
             loadedObject.lockScalingY = true;
             loadedObject.lockRotation = true;
         }
-        loadedObject.customStyles = JSON.parse(IO.textStyles);
-        $.each(loadedObject.customStyles, function (j, IT) {
-            var clr = IT.OriginalColor;
-            if (IT.ModifiedColor != "")
-                clr = IT.ModifiedColor;
+        if (IO.textStyles != null) {
 
+            loadedObject.customStyles = JSON.parse(IO.textStyles);
+            $.each(loadedObject.customStyles, function (j, IT) {
+                var clr = IT.OriginalColor;
+                if (IT.ModifiedColor != "")
+                    clr = IT.ModifiedColor;
+
+                if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
+                    loadedObject.setFill(clr);
+                }
+                else if (loadedObject.paths) {
+                    for (var i = 0; i < loadedObject.paths.length; i++) {
+                        if (i == j) {
+                            loadedObject.paths[i].setFill(clr);
+                        }
+                    }
+                }
+            });
+        } else
+        {
+            var colors = [];
+            // get colors 
             if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
-                loadedObject.setFill(clr);
+                clr = (loadedObject.get('fill'));
+                var objClr = {
+                    OriginalColor: clr,
+                    PathIndex: -2,
+                    ModifiedColor: ''
+                }
+                colors.push(objClr);
             }
             else if (loadedObject.paths) {
                 for (var i = 0; i < loadedObject.paths.length; i++) {
-                    if (i == j) {
-                        loadedObject.paths[i].setFill(clr);
+                    clr = (loadedObject.paths[i].get('fill'));
+                    var objClr = {
+                        OriginalColor: clr,
+                        PathIndex: i,
+                        ModifiedColor: ''
                     }
+                    colors.push(objClr);
                 }
             }
-        });
-
+            loadedObject.customStyles = colors;
+        }
         loadedObject.set({
             borderColor: 'red',
             cornerColor: 'orange',

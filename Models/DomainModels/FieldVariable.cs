@@ -30,6 +30,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ScopeVariable> ScopeVariables { get; set; }
         public virtual ICollection<SmartFormDetail> SmartFormDetails { get; set; }
         public virtual ICollection<TemplateVariable> TemplateVariables { get; set; }
+        public virtual ICollection<VariableExtension> VariableExtensions { get; set; }
 
         [NotMapped]
         public long? FakeIdVariableId { get; set; }

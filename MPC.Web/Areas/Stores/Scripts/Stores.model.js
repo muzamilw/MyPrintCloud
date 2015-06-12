@@ -1537,7 +1537,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             country: country,
             stateName: stateName,
             stateCode: stateCode,
-            stateNamenCode:stateNamenCode,
+            stateNamenCode: stateNamenCode,
             countryName: countryName,
             postCode: postCode,
             fax: fax,
@@ -2430,7 +2430,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedShippingAddressId, specifiedisUserLoginFirstTime, specifiedquickMobileNumber, specifiedquickTwitterId, specifiedquickFacebookId, specifiedquickLinkedInId,
         specifiedquickOtherId, specifiedPOBoxAddress, specifiedCorporateUnit, specifiedOfficeTradingName, specifiedContractorName, specifiedBPayCRN, specifiedABN, specifiedACN,
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId, specifiedRoleName) {
+        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedSecondaryEmail, specifiedBussinessAddressId, specifiedRoleName) {
         var self,
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
@@ -2518,6 +2518,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             bussinessAddressId = ko.observable(specifiedBussinessAddressId).extend({ required: true }),
             roleName = ko.observable(specifiedRoleName),
             fileName = ko.observable(),
+            secondaryEmail = ko.observable(specifiedSecondaryEmail).extend({ email: true }),
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
@@ -2532,7 +2533,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 email: email,
                 bussinessAddressId: bussinessAddressId,
                 password: password,
-                confirmPassword: confirmPassword
+                confirmPassword: confirmPassword,
+                secondaryEmail: secondaryEmail
                 //creditLimit: creditLimit
             }),
             // Is Valid 
@@ -2627,7 +2629,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
                 fileName: fileName,
-                companyContactVariables:companyContactVariables
+                companyContactVariables: companyContactVariables,
+                secondaryEmail: secondaryEmail
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2721,6 +2724,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    SecondaryEmail: secondaryEmail(),
                     ScopVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
@@ -2819,6 +2823,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                  shippingAddress(source.shippingAddress());
                  stateName(source.stateName());
                  companyContactVariables(source.companyContactVariables());
+                 secondaryEmail(source.secondaryEmail);
              },
             // Reset
             reset = function () {
@@ -2915,6 +2920,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
             stateName: stateName,
+            secondaryEmail: secondaryEmail,
             companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
@@ -3011,8 +3017,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.canUserEditProfile,
             source.canPlaceDirectOrder,
             source.organisationId,
+            source.secondaryEmail,
             source.BussinessAddressId,
             source.FileName
+            
         );
     };
     CompanyContact.Create = function (source) {
@@ -3100,6 +3108,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CanUserEditProfile,
             source.canPlaceDirectOrder,
             source.OrganisationId,
+            source.SecondaryEmail,
             //source.BussinessAddressId,
             source.AddressId,
             source.RoleName,
@@ -4276,6 +4285,43 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // #endregion 
 
+    // #region ______________  Variable Extension   _________________
+    var VariableExtension = function (spcId, spcVariablePrefix, spcVariablePostfix, spcCollapsePrefix, spcCollapsePostfix, spcCompanyId) {
+        var self,
+            id = ko.observable(spcId),
+            prefix = ko.observable(spcVariablePrefix),
+            postfix = ko.observable(spcVariablePostfix),
+            collapsePrefix = ko.observable(spcCollapsePrefix),
+            collapsePostfix = ko.observable(spcCollapsePostfix),
+            companyId = ko.observable(spcCompanyId),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.Id = source.id() === undefined ? 0 : source.id();
+                result.VariablePrefix = source.prefix() === undefined ? null : source.prefix();
+                result.VariablePostfix = source.postfix() === undefined ? null : source.postfix();
+                result.CollapsePrefix = source.collapsePrefix() === undefined ? null : source.collapsePrefix();
+                result.CollapsePostfix = source.collapsePostfix() === undefined ? null : source.collapsePostfix();
+                result.CompanyId = source.companyId() === undefined ? null : source.companyId();
+                return result;
+            };
+        self = {
+            id: id,
+            prefix: prefix,
+            postfix: postfix,
+            collapsePrefix: collapsePrefix,
+            collapsePostfix: collapsePostfix,
+            companyId: companyId,
+            convertToServerData: convertToServerData
+        };
+        return self;
+    };
+    // Variable Extension Factory
+    VariableExtension.Create = function (source) {
+        return VariableExtension(source.Id, source.VariablePrefix, source.VariablePostfix, source.CollapsePrefix, source.CollapsePostfix, source.CompanyId);
+    };
+    // #endregion 
+
     // #region ______________  Field Variable   _________________
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
           specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle, specifiedIsSystem) {
@@ -4296,9 +4342,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             }),
             scopeName = ko.observable(),
             typeName = ko.observable(),
-            variableTitle = ko.observable(specifiedVariableTitle),
             fakeId = ko.observable(),
+            variableTitle = ko.observable(specifiedVariableTitle),
+            variableExtension = ko.observable(VariableExtension()),
             variableOptions = ko.observableArray([]),
+
             // Errors
             errors = ko.validation.group({
                 variableName: variableName,
@@ -4327,6 +4375,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 typeName: typeName,
                 variableTitle: variableTitle,
                 variableOptions: variableOptions,
+                variableExtension: variableExtension,
                 fakeId: fakeId,
             }),
             // Has Changes
@@ -4349,6 +4398,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.VariableTitle = source.variableTitle() === undefined ? null : source.variableTitle();
                 result.FakeIdVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
                 result.VariableOptions = [];
+                result.VariableExtensions = [];
                 return result;
             },
         // Reset
@@ -4372,6 +4422,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             variableTitle: variableTitle,
             variableOptions: variableOptions,
             fakeId: fakeId,
+            variableExtension: variableExtension,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -4614,7 +4665,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 name: name,
             }),
             // Is Valid 
-            isValid = ko.computed(function() {
+            isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
 
@@ -4628,11 +4679,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 smartFormDetails: smartFormDetails
             }),
             // True If Has Changes
-            hasChanges = ko.computed(function() {
+            hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
             // Reset Dirty State
-            reset = function() {
+            reset = function () {
                 dirtyFlag.reset();
             },
             //Convert To Server
@@ -4801,6 +4852,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         FieldVariableForSmartForm: FieldVariableForSmartForm,
         SmartForm: SmartForm,
         SmartFormDetail: SmartFormDetail,
+        VariableExtension: VariableExtension
     };
     // #endregion 
 });
