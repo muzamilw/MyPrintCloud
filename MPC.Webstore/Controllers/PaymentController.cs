@@ -220,17 +220,18 @@ namespace MPC.Webstore.Controllers
 
                                 // order code and order creation date
                                 CampaignEmailParams cep = new CampaignEmailParams();
-                                cep.OrganisationId = 1;
+                               
                                 string HTMLOfShopReceipt = null;
                                 cep.ContactId = modelOrder.ContactId ?? 0;
                                 cep.CompanyId = modelOrder.CompanyId;
                                 cep.EstimateId = orderID; //PageParameters.OrderID;
+                                Company Store = _myCompanyService.GetCompanyByCompanyID(StoreId);
                                 Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
                                 CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
                                 _OrderService.SetOrderCreationDateAndCode(orderID);
-                                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
+                                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
 
-                                if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                                if (Store.IsCustomer == (int)CustomerTypes.Corporate)
                                 {
                                     HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, CustomrContact.ContactId); // corp
                                     ModeOfStore = StoreMode.Corp;
@@ -239,20 +240,22 @@ namespace MPC.Webstore.Controllers
                                 {
                                     HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, 0); // retail
                                 }
-
-                                Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                                cep.OrganisationId = Store.OrganisationId ?? 0;
+                                Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
                                 cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
-                                cep.StoreId = UserCookieManager.WBStoreId;
+                                cep.StoreId = Store.CompanyId;
                                 cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
                                 long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
                                 cep.CorporateManagerID = ManagerID;
-                                if (CustomerCompany.StoreId != null) ///Retail Mode
+                                if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
                                 {
-                                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+                                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
                                 }
                                 else
                                 {
-                                    _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, UserCookieManager.WEBOrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+                                    _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
 
                                 }
 
@@ -260,7 +263,7 @@ namespace MPC.Webstore.Controllers
                                 // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
 
 
-                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(CustomerCompany.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+                                
 
                                 _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), payPalResponseID, this.Request["txn_id"], outGrossTotal, ModeOfStore);
                             }
@@ -278,6 +281,10 @@ namespace MPC.Webstore.Controllers
                     {
                         throw new Exception("INVALID HandShake_against_RequestID =  " + outCustomRequestID.ToString() + " " + DateTime.Now.ToString());
                     }
+                }
+                else
+                {
+                    throw new Exception("No Paymnet Gatway Set.");
                 }
                 
             }

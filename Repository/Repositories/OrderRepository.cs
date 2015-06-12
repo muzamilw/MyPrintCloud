@@ -6868,7 +6868,7 @@ namespace MPC.Repository.Repositories
                     Company oCompany = db.Companies.Where(c => c.CompanyId == order.CompanyId).FirstOrDefault();
                     if(oCompany != null)
                     {
-                        if(oCompany.IsCustomer == 4 && oCompany.StoreId != null)
+                        if(oCompany.IsCustomer == 1 && oCompany.StoreId != null)
                         {
                             StoreId = oCompany.StoreId ?? 0;
                         }
