@@ -2430,7 +2430,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedShippingAddressId, specifiedisUserLoginFirstTime, specifiedquickMobileNumber, specifiedquickTwitterId, specifiedquickFacebookId, specifiedquickLinkedInId,
         specifiedquickOtherId, specifiedPOBoxAddress, specifiedCorporateUnit, specifiedOfficeTradingName, specifiedContractorName, specifiedBPayCRN, specifiedABN, specifiedACN,
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId, specifiedRoleName) {
+        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId, specifiedRoleName, specifiedSecondaryEmail) {
         var self,
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
@@ -2518,6 +2518,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             bussinessAddressId = ko.observable(specifiedBussinessAddressId).extend({ required: true }),
             roleName = ko.observable(specifiedRoleName),
             fileName = ko.observable(),
+            secondaryEmail = ko.observable(specifiedSecondaryEmail).extend({ required: true }),
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
@@ -2532,7 +2533,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 email: email,
                 bussinessAddressId: bussinessAddressId,
                 password: password,
-                confirmPassword: confirmPassword
+                confirmPassword: confirmPassword,
+                secondaryEmail: secondaryEmail
                 //creditLimit: creditLimit
             }),
             // Is Valid 
@@ -2627,7 +2629,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
                 fileName: fileName,
-                companyContactVariables:companyContactVariables
+                companyContactVariables: companyContactVariables,
+                secondaryEmail: secondaryEmail
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2721,6 +2724,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    SecondaryEmail: secondaryEmail(),
                     ScopVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
@@ -2819,6 +2823,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                  shippingAddress(source.shippingAddress());
                  stateName(source.stateName());
                  companyContactVariables(source.companyContactVariables());
+                 secondaryEmail(source.secondaryEmail);
              },
             // Reset
             reset = function () {
@@ -2915,6 +2920,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
             stateName: stateName,
+            secondaryEmail: secondaryEmail,
             companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
@@ -3012,7 +3018,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.canPlaceDirectOrder,
             source.organisationId,
             source.BussinessAddressId,
-            source.FileName
+            source.FileName,
+            source.SecondaryEmail
         );
     };
     CompanyContact.Create = function (source) {
@@ -3103,7 +3110,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             //source.BussinessAddressId,
             source.AddressId,
             source.RoleName,
-            source.FileName
+            source.FileName,
+            source.SecondaryEmail
         );
         return companyContact;
     };
