@@ -1,4 +1,5 @@
 ﻿using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace MPC.Interfaces.Repository
 
         List<usp_PurchaseOrderReport_Result> GetPOReport(long PurchaseId);
 
+        ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request, string Path);
 
     }
 }

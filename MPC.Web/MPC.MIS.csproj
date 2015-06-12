@@ -357,6 +357,7 @@
     <Compile Include="Areas\Api\Controllers\ProgressEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\PurchaseBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportEmailController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -619,6 +620,7 @@
     <Compile Include="Areas\Api\Models\Report.cs" />
     <Compile Include="Areas\Api\Models\ReportCategory.cs" />
     <Compile Include="Areas\Api\Models\ReportCategoryRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\ReportEmailResponse.cs" />
     <Compile Include="Areas\Api\Models\ReportManagerResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ReportNote.cs" />
     <Compile Include="Areas\Api\Models\Reportparam.cs" />
