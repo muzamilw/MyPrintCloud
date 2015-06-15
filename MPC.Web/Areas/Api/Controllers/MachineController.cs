@@ -60,7 +60,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                return _machineService.AddMachine(request.machine.CreateFrom(),request.ClickChargeZone.CreateFrom(),request.MeterPerHourLookup.CreateFrom(),request.GuillotineCalc.CreateFrom(),request.GuilotinePtv.Select(x => x.CreateFrom()),request.Type);
+                return _machineService.AddMachine(request.machine.CreateFrom(),request.Type == 5 ? request.ClickChargeZone.CreateFrom() : null,request.Type == 8 ? request.MeterPerHourLookup.CreateFrom() : null,request.Type == 6 ? request.GuillotineCalc.CreateFrom() : null,request.Type == 6 ?  request.GuilotinePtv.Select(x => x.CreateFrom()) : null,request.Type);
             }
             throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
         }

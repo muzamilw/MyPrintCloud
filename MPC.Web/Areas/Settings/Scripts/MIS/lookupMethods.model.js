@@ -1133,6 +1133,43 @@
         }
     };
 
+
+    var MeterPerHourServerMapper = function (MeterPerHourClickCharge)
+    {
+        var MeterPerHourClickChargelookup = {};
+        if (MeterPerHourClickCharge != undefined) {
+            MeterPerHourClickChargelookup.Id = MeterPerHourClickCharge.Id();
+            MeterPerHourClickChargelookup.MethodId = MeterPerHourClickCharge.MethodId();
+            MeterPerHourClickChargelookup.SheetsQty1 = MeterPerHourClickCharge.SheetsQty1();
+            MeterPerHourClickChargelookup.SheetsQty2 = MeterPerHourClickCharge.SheetsQty2();
+            MeterPerHourClickChargelookup.SheetsQty3 = MeterPerHourClickCharge.SheetsQty3();
+            MeterPerHourClickChargelookup.SheetsQty4 = MeterPerHourClickCharge.SheetsQty4();
+            MeterPerHourClickChargelookup.SheetsQty5 = MeterPerHourClickCharge.SheetsQty5();
+            MeterPerHourClickChargelookup.SheetWeight1 = MeterPerHourClickCharge.SheetWeight1();
+            MeterPerHourClickChargelookup.speedqty11 = MeterPerHourClickCharge.speedqty11();
+            MeterPerHourClickChargelookup.speedqty12 = MeterPerHourClickCharge.speedqty12();
+            MeterPerHourClickChargelookup.speedqty13 = MeterPerHourClickCharge.speedqty13();
+            MeterPerHourClickChargelookup.speedqty14 = MeterPerHourClickCharge.speedqty14();
+            MeterPerHourClickChargelookup.speedqty15 = MeterPerHourClickCharge.speedqty15();
+            MeterPerHourClickChargelookup.SheetWeight2 = MeterPerHourClickCharge.SheetWeight2();
+            MeterPerHourClickChargelookup.speedqty21 = MeterPerHourClickCharge.speedqty21();
+            MeterPerHourClickChargelookup.speedqty22 = MeterPerHourClickCharge.speedqty22();
+            MeterPerHourClickChargelookup.speedqty23 = MeterPerHourClickCharge.speedqty23();
+            MeterPerHourClickChargelookup.speedqty24 = MeterPerHourClickCharge.speedqty24();
+            MeterPerHourClickChargelookup.speedqty25 = MeterPerHourClickCharge.speedqty25();
+            MeterPerHourClickChargelookup.SheetWeight3 = MeterPerHourClickCharge.SheetWeight3();
+            MeterPerHourClickChargelookup.speedqty31 = MeterPerHourClickCharge.speedqty31();
+            MeterPerHourClickChargelookup.speedqty32 = MeterPerHourClickCharge.speedqty32();
+            MeterPerHourClickChargelookup.speedqty33 = MeterPerHourClickCharge.speedqty33();
+            MeterPerHourClickChargelookup.speedqty34 = MeterPerHourClickCharge.speedqty34();
+            MeterPerHourClickChargelookup.speedqty35 = MeterPerHourClickCharge.speedqty35();
+            MeterPerHourClickChargelookup.hourlyCost = MeterPerHourClickCharge.hourlyCost();
+            MeterPerHourClickChargelookup.hourlyPrice = MeterPerHourClickCharge.hourlyPrice();
+
+            return MeterPerHourClickChargelookup;
+        }
+
+    }
     var lookupServerMapper = function (lookupMethodId,olookup, ClickCharge, ClickChargeZone, SpeedWeight, PerHour, MeterPerHourClickCharge, GuillotineClickCharge, GuillotineClickChargePTV) {
         var oMethodId = 0;
         oMethodId = lookupMethodId;
@@ -1365,6 +1402,7 @@
         GuillotineClickPTV: GuillotineClickPTV,
         GuillotinePTVList: GuillotinePTVList,
         ClickChargeZoneServerMapper: ClickChargeZoneServerMapper,
-        GuillotineZoneServerMapper: GuillotineZoneServerMapper
+        GuillotineZoneServerMapper: GuillotineZoneServerMapper,
+        MeterPerHourServerMapper: MeterPerHourServerMapper
     };
 });
