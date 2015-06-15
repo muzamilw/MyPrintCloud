@@ -890,6 +890,17 @@
                         PassesSide1: passesSide1(),
                         PassesSide2: passesSide2(),
                         PrintingType: printingType(),
+                        // #region For Client Side Only
+                        // to be used in Default Section, that will be used to create new sections // For Client Side Only
+                        StockItemId1: stockItemId(), 
+                        StockItem1Name: stockItemName(), 
+                        PressSide1ColourHeads: pressIdSide1ColourHeads(),
+                        PressSide1IsSpotColor: pressIdSide1IsSpotColor(),
+                        PressSide2ColourHeads: pressIdSide2ColourHeads(),
+                        PressSide2IsSpotColor: pressIdSide2IsSpotColor(),
+                        StockItemPackageQty: stockItemPackageQty(),
+                        // to be used in Default Section, that will be used to create new sections // For Client Side Only
+                        // #endregion
                         SectionCostcentres: sectionCostCentres.map(function (scc) {
                             var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {

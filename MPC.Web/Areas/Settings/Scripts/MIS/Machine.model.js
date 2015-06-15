@@ -177,6 +177,7 @@
             Minimumsheetwidth = ko.observable(),
             LookupMethodId = ko.observable(),
             CurrencySymbol = ko.observable(),
+            lookupMethod = ko.observable(),
             WeightUnit = ko.observable(),
             LengthUnit = ko.observable(),
             IsSpotColor = ko.observable(),
@@ -727,9 +728,9 @@
         omachine.LookupMethodId(source.machine.LookupMethodId);
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
         
-        omachine.lookupList.removeAll();
-        ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
-        omachine.lookupList.valueHasMutated();
+        //omachine.lookupList.removeAll();
+        //ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
+        //omachine.lookupList.valueHasMutated();
 
         //omachine.markupList.removeAll();
         //ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
@@ -743,10 +744,10 @@
 
 
         
-        var StockItemforInkList = ko.observableArray([]);
-        StockItemforInkList.removeAll();
-        ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
-        StockItemforInkList.valueHasMutated();
+        //var StockItemforInkList = ko.observableArray([]);
+        //StockItemforInkList.removeAll();
+        //ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
+        //StockItemforInkList.valueHasMutated();
 
         //var InkCoveragItemsList = ko.observableArray([]);
         //InkCoveragItemsList.removeAll();
@@ -770,10 +771,12 @@
 
           return omachine;
     };
-    var machineServerMapper = function (machine, ClickChargeZone, MeterPerHourClickCharge, GuillotineClickCharge, GuillotineClickChargePTV, Type) {
+    var machineServerMapper = function (machine, ClickChargeZone, MeterPerHourClickCharge, GuillotineClickCharge, Type) {
         var oType = 0;
         oType = Type;
-
+        var oMeterPerHour = {};
+        var oGuillotineZone = {};
+        var oGuillotinePtvList = [];
         var omachine = {};
         omachine.MachineId = machine.MachineId();
         omachine.MachineName = machine.MachineName();
@@ -850,25 +853,11 @@
         omachine.isSheetFed = machine.isSheetFed();
         omachine.Passes = machine.Passes();
         omachine.IsSpotColor = machine.IsSpotColor();
-        //omachine.MachineInkCoverages = [];
-        //_.each(machine.MachineInkCoverages(), function (item) {
-        //    var module = MachineInkCoveragesListServerMapper(item);
-        //    omachine.MachineInkCoverages.push(module);
-        //});
-       
-
-        //var MachineSpoilageItemsList = [];
-        //_.each(machine.MachineSpoilageItems(), function (item) {
-        //    var module = MachineSpoilageServerMapper(item);
-        //    MachineSpoilageItemsList.push(module);
-        //});
-
-        var MachineLookupdsList = [];
-        _.each(machine.MachineLookupMethods(), function (item) {
-            var module = MachineLookupMethodsServerMapper(item);
-            omachine.MachineLookupMethods.push(module);
-        });
-
+        //omachine.LookupMethod = machine.lookupMethod();
+        oMeterPerHour = MeterPerHourClickCharge;
+        oGuillotineZone = GuillotineClickCharge;
+        oGuillotinePtvList = GuillotineClickCharge.GuillotinePtvList;
+        
         var ClickChargeZoneLookup = {};
         if (ClickChargeZone != undefined) {
             ClickChargeZoneLookup.Id = ClickChargeZone.Id();
@@ -952,70 +941,13 @@
             ClickChargeZoneLookup.IsRoundUp = ClickChargeZone.IsRoundUp();
             ClickChargeZoneLookup.TimePerHour = ClickChargeZone.TimePerHour();
         }
-        var MeterPerHourClickChargelookup = {};
-        if (MeterPerHourClickCharge != undefined) {
-            MeterPerHourClickChargelookup.Id = MeterPerHourClickCharge.Id();
-            MeterPerHourClickChargelookup.MethodId = MeterPerHourClickCharge.MethodId();
-            MeterPerHourClickChargelookup.SheetsQty1 = MeterPerHourClickCharge.SheetsQty1();
-            MeterPerHourClickChargelookup.SheetsQty2 = MeterPerHourClickCharge.SheetsQty2();
-            MeterPerHourClickChargelookup.SheetsQty3 = MeterPerHourClickCharge.SheetsQty3();
-            MeterPerHourClickChargelookup.SheetsQty4 = MeterPerHourClickCharge.SheetsQty4();
-            MeterPerHourClickChargelookup.SheetsQty5 = MeterPerHourClickCharge.SheetsQty5();
-            MeterPerHourClickChargelookup.SheetWeight1 = MeterPerHourClickCharge.SheetWeight1();
-            MeterPerHourClickChargelookup.speedqty11 = MeterPerHourClickCharge.speedqty11();
-            MeterPerHourClickChargelookup.speedqty12 = MeterPerHourClickCharge.speedqty12();
-            MeterPerHourClickChargelookup.speedqty13 = MeterPerHourClickCharge.speedqty13();
-            MeterPerHourClickChargelookup.speedqty14 = MeterPerHourClickCharge.speedqty14();
-            MeterPerHourClickChargelookup.speedqty15 = MeterPerHourClickCharge.speedqty15();
-            MeterPerHourClickChargelookup.SheetWeight2 = MeterPerHourClickCharge.SheetWeight2();
-            MeterPerHourClickChargelookup.speedqty21 = MeterPerHourClickCharge.speedqty21();
-            MeterPerHourClickChargelookup.speedqty22 = MeterPerHourClickCharge.speedqty22();
-            MeterPerHourClickChargelookup.speedqty23 = MeterPerHourClickCharge.speedqty23();
-            MeterPerHourClickChargelookup.speedqty24 = MeterPerHourClickCharge.speedqty24();
-            MeterPerHourClickChargelookup.speedqty25 = MeterPerHourClickCharge.speedqty25();
-            MeterPerHourClickChargelookup.SheetWeight3 = MeterPerHourClickCharge.SheetWeight3();
-            MeterPerHourClickChargelookup.speedqty31 = MeterPerHourClickCharge.speedqty31();
-            MeterPerHourClickChargelookup.speedqty32 = MeterPerHourClickCharge.speedqty32();
-            MeterPerHourClickChargelookup.speedqty33 = MeterPerHourClickCharge.speedqty33();
-            MeterPerHourClickChargelookup.speedqty34 = MeterPerHourClickCharge.speedqty34();
-            MeterPerHourClickChargelookup.speedqty35 = MeterPerHourClickCharge.speedqty35();
-            MeterPerHourClickChargelookup.hourlyCost = MeterPerHourClickCharge.hourlyCost();
-            MeterPerHourClickChargelookup.hourlyPrice = MeterPerHourClickCharge.hourlyPrice();
-        }
-        var GuillotineClickChargelookup = {};
-        if (GuillotineClickCharge != undefined) {
-            GuillotineClickChargelookup.Id = GuillotineClickCharge.Id();
-            GuillotineClickChargelookup.MethodId = GuillotineClickCharge.MethodId();
-            GuillotineClickChargelookup.PaperWeight1 = GuillotineClickCharge.PaperWeight1();
-            GuillotineClickChargelookup.PaperThroatQty1 = GuillotineClickCharge.PaperThroatQty1();
-            GuillotineClickChargelookup.PaperWeight2 = GuillotineClickCharge.PaperWeight2();
-            GuillotineClickChargelookup.PaperThroatQty2 = GuillotineClickCharge.PaperThroatQty2();
-            GuillotineClickChargelookup.PaperWeight3 = GuillotineClickCharge.PaperWeight3();
-            GuillotineClickChargelookup.PaperThroatQty3 = GuillotineClickCharge.PaperThroatQty3();
-            GuillotineClickChargelookup.PaperWeight4 = GuillotineClickCharge.PaperWeight4();
-            GuillotineClickChargelookup.PaperThroatQty4 = GuillotineClickCharge.PaperThroatQty4();
-            GuillotineClickChargelookup.PaperWeight5 = GuillotineClickCharge.PaperWeight5();
-            GuillotineClickChargelookup.PaperThroatQty5 = GuillotineClickCharge.PaperThroatQty5();
-
-
-        }
-        var GuillotineClickChargePTVlookup = [];
-        if (GuillotineClickChargePTV != undefined) {
-            _.each(GuillotineClickChargePTV, function (item) {
-                var ChargePTV = GuilotinePtvServerMapper(item);
-                GuillotineClickChargePTVlookup.push(ChargePTV);
-            });
-
-
-        }
         return {
-            Type: oType,
+            Type : oType,
             machine: omachine,
             ClickChargeZone: ClickChargeZoneLookup,
-            MeterPerHourLookup: MeterPerHourClickChargelookup,
-            GuillotineCalc: GuillotineClickChargelookup,
-            GuilotinePtv: GuillotineClickChargePTVlookup,
-            // MachineSpoilages: MachineSpoilageItemsList
+            MeterPerHourLookup: oMeterPerHour,
+            GuillotineCalc: oGuillotineZone,
+            GuilotinePtv: oGuillotinePtvList
         };
 
     };

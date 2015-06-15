@@ -924,7 +924,7 @@ warning 6002: The table/view 'mpcpreview.dbo.CompanyVariableIcon' does not have 
           <Property Name="strActualCostMaterialUnParsed" Type="text" />
           <Property Name="strTimeParsed" Type="text" />
           <Property Name="strTimeUnParsed" Type="text" />
-          <Property Name="IsDisabled" Type="smallint" Nullable="false" />
+          <Property Name="IsDisabled" Type="bit" Nullable="true" />
           <Property Name="IsDirectCost" Type="smallint" Nullable="false" />
           <Property Name="SetupSpoilage" Type="int" Nullable="false" />
           <Property Name="RunningSpoilage" Type="float" Nullable="false" />
@@ -8116,7 +8116,7 @@ warning 6002: The table/view 'mpcpreview.dbo.WebProductCategoryItemPrice' does n
           <Property Name="strActualCostMaterialUnParsed" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="strTimeParsed" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="strTimeUnParsed" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsDisabled" Type="Int16" Nullable="false" />
+          <Property Name="IsDisabled" Type="Boolean" Nullable="false" />
           <Property Name="IsDirectCost" Type="Int16" Nullable="false" />
           <Property Name="SetupSpoilage" Type="Int32" Nullable="false" />
           <Property Name="RunningSpoilage" Type="Double" Nullable="false" />

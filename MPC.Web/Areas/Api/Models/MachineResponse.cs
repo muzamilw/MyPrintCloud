@@ -21,6 +21,8 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<MachineSpoilage> MachineSpoilageItems { get; set; }
 
         public IEnumerable<MachineLookupMethod> MachineLookupMethods { get; set; }
+
+        public IEnumerable<MachineGuilotinePtv> GuilotinePtv { get; set; }
         
 
     }

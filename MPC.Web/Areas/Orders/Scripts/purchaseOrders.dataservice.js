@@ -54,7 +54,7 @@ define("purchaseOrders/purchaseOrders.dataservice", function () {
                         url: ist.siteUrl + '/Api/PurchaseOrder',
                         dataType: 'json',
                         type: 'Delete'
-                    }),
+                    }), 
                     // Define request to Save GRN
                     amplify.request.define('saveGRN', 'ajax', {
                         url: ist.siteUrl + '/Api/GoodsReceivedNote',

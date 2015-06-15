@@ -1014,6 +1014,125 @@
         GuilotinePtv.GuilotineId = GuillotineClickChargePTV.GuilotineId();
         return GuilotinePtv;
     }
+
+    var ClickChargeZoneServerMapper = function(ClickChargeZone)
+    {
+        var ClickChargeZoneLookup = {};
+        if (ClickChargeZone != undefined) {
+            ClickChargeZoneLookup.Id = ClickChargeZone.Id();
+            ClickChargeZoneLookup.MethodId = ClickChargeZone.MethodId();
+            ClickChargeZoneLookup.From1 = ClickChargeZone.From1();
+            ClickChargeZoneLookup.To1 = ClickChargeZone.To1();
+            ClickChargeZoneLookup.Sheets1 = ClickChargeZone.Sheets1();
+            ClickChargeZoneLookup.SheetCost1 = ClickChargeZone.SheetCost1();
+            ClickChargeZoneLookup.SheetPrice1 = ClickChargeZone.SheetPrice1();
+            ClickChargeZoneLookup.From2 = ClickChargeZone.From2();
+            ClickChargeZoneLookup.To2 = ClickChargeZone.To2();
+            ClickChargeZoneLookup.Sheets2 = ClickChargeZone.Sheets2();
+            ClickChargeZoneLookup.SheetCost2 = ClickChargeZone.SheetCost2();
+            ClickChargeZoneLookup.SheetPrice2 = ClickChargeZone.SheetPrice2();
+            ClickChargeZoneLookup.From3 = ClickChargeZone.From3();
+            ClickChargeZoneLookup.To3 = ClickChargeZone.To3();
+            ClickChargeZoneLookup.Sheets3 = ClickChargeZone.Sheets3();
+            ClickChargeZoneLookup.SheetCost3 = ClickChargeZone.SheetCost3();
+            ClickChargeZoneLookup.SheetPrice3 = ClickChargeZone.SheetPrice3();
+            ClickChargeZoneLookup.From4 = ClickChargeZone.From4();
+            ClickChargeZoneLookup.To4 = ClickChargeZone.To4();
+            ClickChargeZoneLookup.Sheets4 = ClickChargeZone.Sheets4();
+            ClickChargeZoneLookup.SheetCost4 = ClickChargeZone.SheetCost4();
+            ClickChargeZoneLookup.SheetPrice4 = ClickChargeZone.SheetPrice4();
+            ClickChargeZoneLookup.From5 = ClickChargeZone.From5();
+            ClickChargeZoneLookup.To5 = ClickChargeZone.To5();
+            ClickChargeZoneLookup.Sheets5 = ClickChargeZone.Sheets5();
+            ClickChargeZoneLookup.SheetCost5 = ClickChargeZone.SheetCost5();
+            ClickChargeZoneLookup.SheetPrice5 = ClickChargeZone.SheetPrice5();
+            ClickChargeZoneLookup.From6 = ClickChargeZone.From6();
+            ClickChargeZoneLookup.To6 = ClickChargeZone.To6();
+            ClickChargeZoneLookup.Sheets6 = ClickChargeZone.Sheets6();
+            ClickChargeZoneLookup.SheetCost6 = ClickChargeZone.SheetCost6();
+            ClickChargeZoneLookup.SheetPrice6 = ClickChargeZone.SheetPrice6();
+            ClickChargeZoneLookup.From7 = ClickChargeZone.From7();
+            ClickChargeZoneLookup.To7 = ClickChargeZone.To7();
+            ClickChargeZoneLookup.Sheets7 = ClickChargeZone.Sheets7();
+            ClickChargeZoneLookup.SheetCost7 = ClickChargeZone.SheetCost7();
+            ClickChargeZoneLookup.SheetPrice7 = ClickChargeZone.SheetPrice7();
+            ClickChargeZoneLookup.From8 = ClickChargeZone.From8();
+            ClickChargeZoneLookup.To8 = ClickChargeZone.To8();
+            ClickChargeZoneLookup.Sheets8 = ClickChargeZone.Sheets8();
+            ClickChargeZoneLookup.SheetCost8 = ClickChargeZone.SheetCost8();
+            ClickChargeZoneLookup.SheetPrice8 = ClickChargeZone.SheetPrice8();
+            ClickChargeZoneLookup.From9 = ClickChargeZone.From9();
+            ClickChargeZoneLookup.To9 = ClickChargeZone.To9();
+            ClickChargeZoneLookup.Sheets9 = ClickChargeZone.Sheets9();
+            ClickChargeZoneLookup.SheetCost9 = ClickChargeZone.SheetCost9();
+            ClickChargeZoneLookup.SheetPrice9 = ClickChargeZone.SheetPrice9();
+            ClickChargeZoneLookup.From10 = ClickChargeZone.From10();
+            ClickChargeZoneLookup.To10 = ClickChargeZone.To10();
+            ClickChargeZoneLookup.Sheets10 = ClickChargeZone.Sheets10();
+            ClickChargeZoneLookup.SheetCost10 = ClickChargeZone.SheetCost10();
+            ClickChargeZoneLookup.SheetPrice10 = ClickChargeZone.SheetPrice10();
+            ClickChargeZoneLookup.From11 = ClickChargeZone.From11();
+            ClickChargeZoneLookup.To11 = ClickChargeZone.To11();
+            ClickChargeZoneLookup.Sheets11 = ClickChargeZone.Sheets11();
+            ClickChargeZoneLookup.SheetCost11 = ClickChargeZone.SheetCost11();
+            ClickChargeZoneLookup.SheetPrice11 = ClickChargeZone.SheetPrice11();
+            ClickChargeZoneLookup.From12 = ClickChargeZone.From12();
+            ClickChargeZoneLookup.To12 = ClickChargeZone.To12();
+            ClickChargeZoneLookup.Sheets12 = ClickChargeZone.Sheets12();
+            ClickChargeZoneLookup.SheetCost12 = ClickChargeZone.SheetCost12();
+            ClickChargeZoneLookup.SheetPrice12 = ClickChargeZone.SheetPrice12();
+            ClickChargeZoneLookup.From13 = ClickChargeZone.From13();
+            ClickChargeZoneLookup.To13 = ClickChargeZone.To13();
+            ClickChargeZoneLookup.Sheets13 = ClickChargeZone.Sheets13();
+            ClickChargeZoneLookup.SheetCost13 = ClickChargeZone.SheetCost13();
+            ClickChargeZoneLookup.SheetPrice13 = ClickChargeZone.SheetPrice13();
+            ClickChargeZoneLookup.From14 = ClickChargeZone.From14();
+            ClickChargeZoneLookup.To14 = ClickChargeZone.To14();
+            ClickChargeZoneLookup.Sheets14 = ClickChargeZone.Sheets14();
+            ClickChargeZoneLookup.SheetCost14 = ClickChargeZone.SheetCost14();
+            ClickChargeZoneLookup.SheetPrice14 = ClickChargeZone.SheetPrice14();
+            ClickChargeZoneLookup.From15 = ClickChargeZone.From15();
+            ClickChargeZoneLookup.To15 = ClickChargeZone.To15();
+            ClickChargeZoneLookup.Sheets15 = ClickChargeZone.Sheets15();
+            ClickChargeZoneLookup.SheetCost15 = ClickChargeZone.SheetCost15();
+            ClickChargeZoneLookup.SheetPrice15 = ClickChargeZone.SheetPrice15();
+            ClickChargeZoneLookup.isaccumulativecharge = ClickChargeZone.isaccumulativecharge();
+            ClickChargeZoneLookup.IsRoundUp = ClickChargeZone.IsRoundUp();
+            ClickChargeZoneLookup.TimePerHour = ClickChargeZone.TimePerHour();
+        }
+
+        return {
+          
+            ClickChargeZone: ClickChargeZoneLookup,
+            
+
+        }
+    }
+
+    var GuillotineZoneServerMapper = function (GuillotineClickCharge) {
+        var GuillotineClickChargelookup = {};
+        if (GuillotineClickCharge != undefined) {
+            GuillotineClickChargelookup.Id = GuillotineClickCharge.Id();
+            GuillotineClickChargelookup.MethodId = GuillotineClickCharge.MethodId();
+            GuillotineClickChargelookup.PaperWeight1 = GuillotineClickCharge.PaperWeight1();
+            GuillotineClickChargelookup.PaperThroatQty1 = GuillotineClickCharge.PaperThroatQty1();
+            GuillotineClickChargelookup.PaperWeight2 = GuillotineClickCharge.PaperWeight2();
+            GuillotineClickChargelookup.PaperThroatQty2 = GuillotineClickCharge.PaperThroatQty2();
+            GuillotineClickChargelookup.PaperWeight3 = GuillotineClickCharge.PaperWeight3();
+            GuillotineClickChargelookup.PaperThroatQty3 = GuillotineClickCharge.PaperThroatQty3();
+            GuillotineClickChargelookup.PaperWeight4 = GuillotineClickCharge.PaperWeight4();
+            GuillotineClickChargelookup.PaperThroatQty4 = GuillotineClickCharge.PaperThroatQty4();
+            GuillotineClickChargelookup.PaperWeight5 = GuillotineClickCharge.PaperWeight5();
+            GuillotineClickChargelookup.PaperThroatQty5 = GuillotineClickCharge.PaperThroatQty5();
+            GuillotineClickChargelookup.GuillotinePtvList = [];
+            _.each(GuillotineClickCharge.GuillotinePTVList(), function (itm) {
+                GuillotineClickChargelookup.GuillotinePtvList.push(GuilotinePtvServerMapper(itm));
+            });
+
+            return GuillotineClickChargelookup;
+        }
+    };
+
     var lookupServerMapper = function (lookupMethodId,olookup, ClickCharge, ClickChargeZone, SpeedWeight, PerHour, MeterPerHourClickCharge, GuillotineClickCharge, GuillotineClickChargePTV) {
         var oMethodId = 0;
         oMethodId = lookupMethodId;
@@ -1186,6 +1305,7 @@
             MeterPerHourClickChargelookup.hourlyCost = MeterPerHourClickCharge.hourlyCost();
             MeterPerHourClickChargelookup.hourlyPrice = MeterPerHourClickCharge.hourlyPrice();
         }
+        
         var GuillotineClickChargelookup = {};
         if (GuillotineClickCharge != undefined) {
             GuillotineClickChargelookup.Id = GuillotineClickCharge.Id();
@@ -1243,6 +1363,8 @@
         SpeedWeightLookup: SpeedWeightLookup,
         GuilotinePtvServerMapper: GuilotinePtvServerMapper,
         GuillotineClickPTV: GuillotineClickPTV,
-        GuillotinePTVList: GuillotinePTVList
+        GuillotinePTVList: GuillotinePTVList,
+        ClickChargeZoneServerMapper: ClickChargeZoneServerMapper,
+        GuillotineZoneServerMapper: GuillotineZoneServerMapper
     };
 });

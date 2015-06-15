@@ -5492,6 +5492,7 @@ order by monthname
 
 END
 
+------------------------------------------------------------------------
 
 /****** Object:  Table [dbo].[VariableExtension]    Script Date: 11/06/2015 11:20:58 AM ******/
 SET ANSI_NULLS ON
@@ -5499,6 +5500,28 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+=======
+/****** Object:  Table [dbo].[VariableExtension]    Script Date: 11/06/2015 11:20:58 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[VariableExtension](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FieldVariableId] [int] NULL,
+	[CompanyId] [int] NULL,
+	[OrganisationId] [int] NULL,
+	[VariablePrefix] [nvarchar](max) NULL,
+	[VariablePostfix] [nvarchar](max) NULL,
+	[CollapsePrefix] [bit] NULL,
+	[CollapsePostfix] [bit] NULL,
+ CONSTRAINT [PK_VariableExtension] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 CREATE TABLE [dbo].[VariableExtension](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
@@ -5528,15 +5551,15 @@ update goodsreceivednote
 set supplierid = null
 
 alter table goodsreceivednote
+alter column supplierid bigint null
+
+update goodsreceivednote
+set supplierid = null
+
+alter table goodsreceivednote
 add constraint FK_GoodsReceivedNote_Company
 foreign key (SupplierId)
 references Company (CompanyId)
-
-alter table goodsreceivednoteDetail
-add TaxValue float null
-
-alter table goodsreceivednoteDetail
-drop constraint FK_GoodsreceivedID
 
 alter table goodsreceivednoteDetail
 add constraint FK_GoodsReceivedNoteDetail_GoodsReceivedNote
@@ -5587,3 +5610,14 @@ references FieldVariable (VariableId)
 
 alter table CompanyContact
 add SecondaryEmail varchar(200) null
+
+/* Execution Date: 15/06/2015 */
+
+alter table VariableExtension
+drop constraint FK_VariableExtension_FieldVariable
+
+alter table VariableExtension
+add constraint FK_VariableExtension_FieldVariable
+foreign key (FieldVariableId)
+references FieldVariable (VariableId)
+on delete cascade
