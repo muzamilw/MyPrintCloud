@@ -163,8 +163,14 @@ define("crm/contacts.viewModel",
                                 }, {
                                     success: function (data) {
                                         if (data) {
-                                            selectedStore().users.remove(companyContact);
-                                            toastr.success("Deleted Successfully");
+                                            var contact = companyContactsForListView.find(function (cnt) {
+                                                return cnt.contactId() === companyContact.contactId();
+                                            });
+                                            if (contact) {
+                                                companyContactsForListView.remove(contact);
+                                                toastr.success("Deleted Successfully");
+                                            }
+                                           
                                         } else {
                                             toastr.error("Contact can not be deleted", "", ist.toastrOptions);
                                         }

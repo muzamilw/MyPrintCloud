@@ -357,6 +357,7 @@
     <Compile Include="Areas\Api\Controllers\ProgressEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\PurchaseBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportEmailController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -530,6 +531,7 @@
     <Compile Include="Areas\Api\ModelMappers\StockItemForDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateColorStyleMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\usp_TotalEarnings_ResultMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\VariableExtensionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\VariableOptionMapper.cs" />
     <Compile Include="Areas\Api\Models\Activity.cs" />
     <Compile Include="Areas\Api\Models\ActivityListView.cs" />
@@ -618,6 +620,7 @@
     <Compile Include="Areas\Api\Models\Report.cs" />
     <Compile Include="Areas\Api\Models\ReportCategory.cs" />
     <Compile Include="Areas\Api\Models\ReportCategoryRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\ReportEmailResponse.cs" />
     <Compile Include="Areas\Api\Models\ReportManagerResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ReportNote.cs" />
     <Compile Include="Areas\Api\Models\Reportparam.cs" />
@@ -837,6 +840,7 @@
     <Compile Include="Areas\Api\Models\TemplateColorStyle.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
     <Compile Include="Areas\Api\Models\usp_TotalEarnings_Result.cs" />
+    <Compile Include="Areas\Api\Models\VariableExtension.cs" />
     <Compile Include="Areas\Api\Models\VariableOption.cs" />
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />

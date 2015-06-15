@@ -95,33 +95,11 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection CalculatePressCostWithSides(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, int PressReRunMode = (int)PressReRunModes.NotReRun, int PressReRunQuantityIndex = 1, double OverrideValue = 0, bool isBestPress = false, bool isPressSide2 = false)
         {
-            //List<MachineSpoilage> machineSpoilageList = itemsectionRepository.GetSpoilageByPressId(PressID);
-
-
-            //if (machineSpoilageList != null && machineSpoilageList.Count > 0)
-            //{
-            //    int InkColors = oItemSection.Side1Inks + oItemSection.Side2Inks;
-            //    var maxPressColor = machineSpoilageList.Max(m => m.NoOfColors);
-            //    if (maxPressColor != null && InkColors > maxPressColor)
-            //        InkColors = (int)maxPressColor;
-
-            //    var setupspoilage = machineSpoilageList.Where(m => m.NoOfColors == InkColors).FirstOrDefault();
-            //    if (setupspoilage != null)
-            //    {
-            //        oItemSection.SetupSpoilage = setupspoilage.SetupSpoilage;
-            //        oItemSection.RunningSpoilage = Convert.ToInt16(setupspoilage.RunningSpoilage);
-            //    }
-            //}
-
+            
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
             bool functionReturnValue = false;
             string sMinimumCost = null;
             double dblPressPass = 0;
-
-           // double dblPassFront = 0;
-           // double dblPassBack = 0;
-            string strPrintLookup = null;
-            double dblPlateQty = 0;
 
             dblPressPass = isPressSide2 ? Convert.ToDouble(oItemSection.PassesSide2) : Convert.ToDouble(oItemSection.PassesSide1);
             
@@ -638,7 +616,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[0] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[0]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -679,7 +657,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[0] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[0]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -724,7 +702,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[1] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[1]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -765,7 +743,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[1] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[1]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -810,7 +788,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[2] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[2]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -850,7 +828,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[2] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[2]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -6274,8 +6252,14 @@ namespace MPC.Implementation.MISServices
            var value= currentSection.IsDoubleSided ?? false ;
            if (value)
            {
-               currentSection.PassesSide1 = pressSide1.Passes ?? 1;
-               currentSection.PassesSide2 = pressSide2.Passes ?? 1;
+               if (currentSection.isWorknTurn == true)
+                   updatedSection.PassesSide1 = (pressSide1.Passes ?? 1) * 2;
+               else
+               {
+                   updatedSection.PassesSide1 = pressSide1.Passes ?? 1;
+                   updatedSection.PassesSide2 = pressSide2.Passes ?? 1;
+               }
+                   
                if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
                     SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
                 else
@@ -6290,6 +6274,7 @@ namespace MPC.Implementation.MISServices
             {
                 SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
                 RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+                updatedSection.PassesSide1 = pressSide1.Passes ?? 1;
             }
             
 
@@ -6339,7 +6324,7 @@ namespace MPC.Implementation.MISServices
                 updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
             }
 
-            if(updatedSection.IsDoubleSided == true)
+            if(updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true)
             {
                 if(updatedSection.PressIdSide2 != null && updatedSection.PressIdSide2 > 0)
                     updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, false, true);

@@ -24,5 +24,7 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<InkCoverageGroup> InkCoveragItems { get; set; }
 
         public IEnumerable<MachineLookupMethod> MachineLookupMethods { get; set; }
+
+        public IEnumerable<MachineGuilotinePtv> GuilotinePtv { get; set; }
     }
 }

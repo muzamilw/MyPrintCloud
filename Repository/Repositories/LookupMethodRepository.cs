@@ -571,13 +571,13 @@ namespace MPC.Repository.Repositories
             
             return new LookupMethodResponse
             {
-                ClickChargeLookup = olookupMethod.Type == 1 ? db.MachineClickChargeLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
+               // ClickChargeLookup = olookupMethod.Type == 1 ? db.MachineClickChargeLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                 ClickChargeZone = olookupMethod.Type == 5 ? db.MachineClickChargeZones.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                 GuillotineCalc = oGuillotineCalc,
                 GuilotinePtv = oGuillotineCalc != null ? db.MachineGuilotinePtvs.Where(g => g.GuilotineId == oGuillotineCalc.Id).ToList() : null,
                 MeterPerHourLookup = olookupMethod.Type == 8 ? db.MachineMeterPerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
-                PerHourLookup = olookupMethod.Type == 4 ? db.MachinePerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
-                SpeedWeightLookup = olookupMethod.Type == 3 ? db.MachineSpeedWeightLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
+             //   PerHourLookup = olookupMethod.Type == 4 ? db.MachinePerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
+                //SpeedWeightLookup = olookupMethod.Type == 3 ? db.MachineSpeedWeightLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                
             };
         }

@@ -168,7 +168,7 @@ function fu04_1GetItem(DT)
                           function (dt25) {
                               userData = dt25.scopeVariables;
                               lstVariableExtensions = dt25.variableExtensions;
-                              console.log(userData);
+                            //  console.log(userData);
                               userVariableData = userData;
                               fu04_TempCbkGen(DT);
                               if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
