@@ -132,6 +132,8 @@ define("common/itemDetail.viewModel",
                     isSectionVisible = ko.observable(false),
                     // Is Side 1 Ink button clicked
                     isSide1InkButtonClicked = ko.observable(false),
+                    // Default Section - From the Item Added from Retail Store
+                    defaultSection = ko.observable(),
                     //#region Utility Functions
                     sectionCostCenterQty1Charge = ko.computed({
                         read: function () {
@@ -850,6 +852,22 @@ define("common/itemDetail.viewModel",
                             getSectionSystemCostCenters();
 
                         });
+                        selectedSection().impressionCoverageSide1.subscribe(function (value) {
+                            if (value !== selectedSection().impressionCoverageSide1()) {
+                                selectedSection().impressionCoverageSide1(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        selectedSection().impressionCoverageSide2.subscribe(function (value) {
+                            if (value !== selectedSection().impressionCoverageSide2()) {
+                                selectedSection().impressionCoverageSide2(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        
+                        
                         
                     },
                     // Get Press By Id
@@ -1646,9 +1664,11 @@ define("common/itemDetail.viewModel",
                     counter = 0,
                     // Create new Item Section
                     createNewItemSection = function () {
-                        var itemSection = model.ItemSection.Create({ ItemId: selectedProduct().id() });
+                        var section = defaultSection() ? defaultSection() : {};
+                        var itemSection = model.ItemSection.Create(section);
                         counter = counter - 1;
                         itemSection.id(counter);
+                        itemSection.itemId(selectedProduct().id());
                         itemSection.name("Text Sheet");
                         if (selectedProduct().itemSections().length > 0) {
                             selectedProduct().itemSections.splice(-1, 0, itemSection);
@@ -1897,7 +1917,8 @@ define("common/itemDetail.viewModel",
                     parentFilterFileList: parentFilterFileList,
                     isSide1InkButtonClicked: isSide1InkButtonClicked,
                     deleteItemAttachment: deleteItemAttachment,
-                    deleteItem: deleteItem
+                    deleteItem: deleteItem,
+                    defaultSection: defaultSection
                     //#endregion
                 };
             })()

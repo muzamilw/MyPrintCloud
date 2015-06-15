@@ -1493,12 +1493,14 @@ define("stores/stores.viewModel",
                     filteredCompanyBanners.valueHasMutated();
                 }
             },
-            //Dalete company Banner
+            // Get Company By Id
+            getCompanyBannerByIdFromListView = function (id) {
+                return filteredCompanyBanners.find(function (banner) {
+                    return banner.id() === id;
+                });
+            },
+            //Delete company Banner
             onDeleteCompanyBanner = function (banner) {
-                if (!banner.id()) {
-                    companyBanners.remove(banner);
-                    return;
-                }
                 // Ask for confirmation
                 confirmation.afterProceed(function () {
                     _.each(companyBanners(), function (item) {
@@ -1510,17 +1512,25 @@ define("stores/stores.viewModel",
                     //selectedStore().storeLayoutChange("change");
                     if (banner.id() > 0) {
                         deleteBanner(banner);
+                    } else {
+                        var bannerToDelete = getCompanyBannerByIdFromListView(banner.id());
+                        if (bannerToDelete) {
+                            filteredCompanyBanners.remove(bannerToDelete);
+                        }
                     }
-                    filteredCompanyBanners.remove(banner);
+                   
                     view.hideEditBannerDialog();
                 });
                 confirmation.show();
             },
             //Delete Banner
             deleteBanner = function (banner) {
-
                 dataservice.deleteCompanyBanner(banner.convertToServerData(banner), {
                     success: function () {
+                        var bannerToDelete = getCompanyBannerByIdFromListView(banner.id());
+                        if (bannerToDelete) {
+                            filteredCompanyBanners.remove(bannerToDelete);
+                        }
                         toastr.success("Successfully removed.");
                     },
                     error: function () {
@@ -2638,6 +2648,12 @@ define("stores/stores.viewModel",
 
 
             },
+            // Get Company By Id
+            getSecondaryPageByIdFromListView = function (id) {
+                return selectedStore().secondaryPages.find(function (secondaryPage) {
+                    return secondaryPage.pageId() === id;
+                });
+            },
             //Delete Secondary Page
             onDeleteSecondaryPage = function (secondaryPage) {
                 if (secondaryPage.isUserDefined() != true) {
@@ -2655,7 +2671,10 @@ define("stores/stores.viewModel",
                 view.hideSecondoryPageDialog();
                 dataservice.deleteSecondaryPage(secondaryPage.convertToServerData(secondaryPage), {
                     success: function () {
-                        selectedStore().secondaryPages.remove(secondaryPage);
+                        var secPage = getSecondaryPageByIdFromListView(secondaryPage.id());
+                        if (secPage) {
+                            selectedStore().secondaryPages.remove(secPage);
+                        }
                         view.hideSecondoryPageDialog();
                         toastr.success("Successfully removed.");
                     },
@@ -5536,8 +5555,8 @@ define("stores/stores.viewModel",
                     //    addToSmartFormVariableList(fieldVariable);
                     //    addFieldVariableToItsScopeTypeList(fieldVariable);
                     //}
-                        //In case Of Edit Store , Field variable direct save to db. 
-                     if (selectedStore().companyId() !== undefined) {
+                    //In case Of Edit Store , Field variable direct save to db. 
+                    if (selectedStore().companyId() !== undefined) {
                         //In Case of Edit Company 
                         var field = fieldVariable.convertToServerData(fieldVariable);
                         _.each(fieldVariable.variableOptions(), function (optionItem, index) {
@@ -6238,6 +6257,15 @@ define("stores/stores.viewModel",
                 dataservice.deleteFieldVariable(fieldVariable, {
                     success: function (data) {
                         fieldVariables.remove(selectedFieldVariableForListView());
+                        var variableForDelete = _.filter(fieldVariablesForSmartForm(), function (variable) {
+                            if (variable.id() === selectedFieldVariableForListView().id()) {
+                                return variable;
+                            }
+                        });
+                        if (variableForDelete !== null && variableForDelete !== undefined && variableForDelete.length > 0) {
+                            fieldVariablesForSmartForm.remove(variableForDelete[0]);
+                        }
+                        isStoreVariableTabOpened(false);
                         view.hideVeriableDefinationDialog();
                         toastr.success("Successfully removed.");
                     },

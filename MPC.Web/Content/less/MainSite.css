@@ -985,6 +985,10 @@ div#spinner {
   font-size: 45px;
   bottom: 40px;
 }
+.font20px {
+  font-size: 20px;
+  height: 40px;
+}
 #companySelectorDialog .modal-dialog {
   width: 838px;
 }
@@ -1032,3 +1036,4 @@ div#spinner {
 #itemJobStatusBinding .title {
   font-size: small;
 }
+/*# sourceMappingURL=MainSite.css.map */
