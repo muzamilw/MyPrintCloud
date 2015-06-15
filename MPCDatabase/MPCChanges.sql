@@ -5610,3 +5610,14 @@ references FieldVariable (VariableId)
 
 alter table CompanyContact
 add SecondaryEmail varchar(200) null
+
+/* Execution Date: 15/06/2015 */
+
+alter table VariableExtension
+drop constraint FK_VariableExtension_FieldVariable
+
+alter table VariableExtension
+add constraint FK_VariableExtension_FieldVariable
+foreign key (FieldVariableId)
+references FieldVariable (VariableId)
+on delete cascade
