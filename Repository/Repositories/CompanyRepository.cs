@@ -76,6 +76,21 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        /// <summary>
+        /// Req: Get all retail stores for crm
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Company> GetAllRetailStores()
+        {
+            try
+            {
+                return DbSet.Where(c => c.OrganisationId == OrganisationId && (c.IsCustomer == 4)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public long GetStoreIdFromDomain(string domain)
         {

@@ -856,7 +856,12 @@
         //omachine.LookupMethod = machine.lookupMethod();
         oMeterPerHour = MeterPerHourClickCharge;
         oGuillotineZone = GuillotineClickCharge;
-        oGuillotinePtvList = GuillotineClickCharge.GuillotinePtvList;
+        if (GuillotineClickCharge != null)
+        {
+            oGuillotinePtvList = GuillotineClickCharge.GuillotinePtvList;
+        }
+
+        
         
         var ClickChargeZoneLookup = {};
         if (ClickChargeZone != undefined) {

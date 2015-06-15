@@ -19,6 +19,11 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<SystemUser> SystemUsers { get; set; }
 
         /// <summary>
+        /// Delivery Carriers
+        /// </summary>
+        public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
+
+        /// <summary>
         /// Currency Symbol
         /// </summary>
         public string CurrencySymbol { get; set; }

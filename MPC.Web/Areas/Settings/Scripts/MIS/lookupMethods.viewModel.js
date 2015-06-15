@@ -688,6 +688,12 @@
                     
                 },
 
+                 oMeterPerHour = function () {
+
+                     return model.MeterPerHourServerMapper(selectedMeterPerHourClickCharge());
+
+                 },
+
                 saveEdittedLookup = function (mMethodId,mSelectedClickChargeZone,mSelectedGuillotineClickCharge,mSelectedMeterPerHour) {
 
                     dataservice.saveLookup(model.lookupServerMapper(mMethodId, selectedlookup(), selectedClickCharge(), mSelectedClickChargeZone, selectedSpeedWeight(), selectedPerHour(), mSelectedMeterPerHour, mSelectedGuillotineClickCharge, mSelectedGuillotineClickCharge != null ? mSelectedGuillotineClickCharge.GuillotinePTVList() : null), {
@@ -814,7 +820,8 @@
                     CurrencySymbol: CurrencySymbol,
                     SetLookupMethod: SetLookupMethod,
                     oClickChargeZoneServerMapper: oClickChargeZoneServerMapper,
-                    oGuillotineZone:oGuillotineZone,
+                    oGuillotineZone: oGuillotineZone,
+                    oMeterPerHour: oMeterPerHour,
                     WeightUnit : WeightUnit,
                     LengthUnit: LengthUnit,
                    hasChanges: hasChanges
