@@ -19,6 +19,7 @@ using System.Text;
 using System.Xml;
 using GrapeCity.ActiveReports;
 using System.Data;
+using System.Web.Http;
 
 namespace MPC.Implementation.MISServices
 {
@@ -560,7 +561,10 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public GetOrdersResponse GetAll(GetOrdersRequest request)
         {
+          
             return estimateRepository.GetOrders(request);
+
+
         }
         /// <summary>
         /// Get Orders For Estimates List View
@@ -667,6 +671,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderBaseResponse GetBaseData()
         {
+            
             return new OrderBaseResponse
                    {
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
@@ -1082,6 +1087,9 @@ namespace MPC.Implementation.MISServices
         #endregion
 
         #region Download Artwork
+
+      
+
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);

@@ -42,7 +42,7 @@
                     Print
                 </button>
                 <button data-bind="click:$root.onCloseGRNEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
-                <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedGRN().status()===31,click:$root.onSaveGRN,css: { 'btn-warning': $root.selectedGRN().hasChanges() }">
+                <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedGRN().status()===31,click:$root.onSaveGRN, enable: $root.selectedGRN().hasChanges(),css: { 'btn-warning': $root.selectedGRN().hasChanges() }">
                     &nbsp;Save
                 </button>
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedGRN().status()===31 && $root.selectedGRN().id()!==undefined,click:$root.onPostGRN">&nbsp;Post GRN</button>
@@ -78,62 +78,62 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                <select class="form-control" data-bind="enable:$root.selectedGRN().status()===31,options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
+                                <select class="form-control" disabled data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-4 text-right">
-                                &nbsp;
-                            </div>
-                            <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                @*<select class="form-control" data-bind="enable:$root.selectedGRN().status()===31,options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>*@
-                                <span class="help-block text-right"></span>
-                            </div>
-                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
-                                <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
-                                    <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div id="popoveraddress" style="display:none;">
-                            <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().address1!=='' && $root.selectedAddress().address1!== undefined-->
-                            <div class="form-group">
+                        @*<div class="form-group">
                                 <div class="col-sm-4 text-right">
-                                    <label class="control-label tooltip-float">&nbsp;</label>
+                                    &nbsp;
                                 </div>
-                                <div class="col-sm-6" data-bind="with: $root.selectedAddress">
-                                    <div>
-                                        <label id="address1" data-bind="text: address1" class="form-control" style="border:none"></label>
+                                <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
+                                    <select class="form-control" data-bind="enable:$root.selectedGRN().status()===31,options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
+                                    <span class="help-block text-right"></span>
+                                </div>
+                                <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
+                                    <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
+                                        <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
+                                    </a>
+                                </div>
+                            </div>*@
+                        @*<div id="popoveraddress" style="display:none;">
+                                <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().address1!=='' && $root.selectedAddress().address1!== undefined-->
+                                <div class="form-group">
+                                    <div class="col-sm-4 text-right">
+                                        <label class="control-label tooltip-float">&nbsp;</label>
+                                    </div>
+                                    <div class="col-sm-6" data-bind="with: $root.selectedAddress">
+                                        <div>
+                                            <label id="address1" data-bind="text: address1" class="form-control" style="border:none"></label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--/ko-->
-                            <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().telephone1!=='' && $root.selectedAddress().telephone1!== undefined-->
-                            <div class="form-group" style="margin-top: -20px;">
-                                <div class="col-sm-4 text-right">
-                                    <label class="control-label tooltip-float">&nbsp;</label>
-                                </div>
-                                <div class="col-sm-6" data-bind="with: $root.selectedAddress">
-                                    <div>
-                                        <label id="telephone" data-bind="text: tel1" class="form-control" style="border:none"></label>
+                                <!--/ko-->
+                                <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().telephone1!=='' && $root.selectedAddress().telephone1!== undefined-->
+                                <div class="form-group" style="margin-top: -20px;">
+                                    <div class="col-sm-4 text-right">
+                                        <label class="control-label tooltip-float">&nbsp;</label>
+                                    </div>
+                                    <div class="col-sm-6" data-bind="with: $root.selectedAddress">
+                                        <div>
+                                            <label id="telephone" data-bind="text: tel1" class="form-control" style="border:none"></label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--/ko-->
-                            <!-- ko if: $root.selectedCompanyContact()!==undefined && $root.selectedCompanyContact().email !=='' && $root.selectedCompanyContact().email !== undefined -->
-                            <div class="form-group" style="margin-top: -20px;">
-                                <div class="col-sm-4 text-right">
-                                    <label class="control-label tooltip-float">&nbsp;</label>
-                                </div>
-                                <div class="col-sm-6" data-bind="with: $root.selectedCompanyContact">
-                                    <div>
-                                        <label id="email" data-bind="text: email" class="form-control" style="border:none"></label>
+                                <!--/ko-->
+                                <!-- ko if: $root.selectedCompanyContact()!==undefined && $root.selectedCompanyContact().email !=='' && $root.selectedCompanyContact().email !== undefined -->
+                                <div class="form-group" style="margin-top: -20px;">
+                                    <div class="col-sm-4 text-right">
+                                        <label class="control-label tooltip-float">&nbsp;</label>
+                                    </div>
+                                    <div class="col-sm-6" data-bind="with: $root.selectedCompanyContact">
+                                        <div>
+                                            <label id="email" data-bind="text: email" class="form-control" style="border:none"></label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--/ko-->
-                        </div>
+                                <!--/ko-->
+                            </div>*@
 
                         <!--here it ends-->
                         <div class="form-group">
@@ -148,20 +148,30 @@
                             </div>
                             <div class="col-sm-6">
                                 <div>
-                                    <input type="text" value="Double-Sided A4" placeholder="Order Ref. No" class="form-control" disabled data-bind="value:reffNo" />
+                                    <input type="text" placeholder="Order Ref. No" class="form-control" disabled data-bind="value:reffNo" />
 
                                 </div>
                             </div>
                         </div>
-                        @*<div class="form-group">
-                                <div class="col-sm-4 text-right">
-                                    <label class="control-label text-right tooltip-float"></label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" placeholder="Carrier Tracking Path">
+                        <div class="form-group">
+                            <div class="col-sm-4 text-right" style="margin-top: 2%">
 
-                                </div>
-                            </div>*@
+                                <label class="control-label text-right tooltip-float">Reference 1</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" style="height:60px;" class="form-control" data-bind="enable:$root.selectedGRN().status()===31,value:reference1">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 text-right" style="margin-top: 2%">
+
+                                <label class="control-label text-right tooltip-float">Reference 2</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" style="height:60px;" class="form-control" data-bind="enable:$root.selectedGRN().status()===31,value:reference2">
+                            </div>
+                        </div>
                     </div>
 
 
@@ -210,7 +220,7 @@
                                 <label class="control-label text-right tooltip-float">Carriers</label>
                             </div>
                             <div class="col-sm-6">
-                                @*<select class="form-control" data-bind="options: $root.deliveryCarriers, optionsText: 'CarrierName', optionsValue: 'CarrierId', optionsCaption: 'Select a carrier ',value:supplierId"></select>*@
+                                <select class="form-control" data-bind="options: $root.deliveryCarriers, optionsText: 'CarrierName', optionsValue: 'CarrierId', optionsCaption: 'Select a carrier ',value:carrierId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
@@ -225,25 +235,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-sm-4 text-right" style="margin-top: 2%">
 
-                                <label class="control-label text-right tooltip-float">Reference 1</label>
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" style="height:60px;" class="form-control" data-bind="enable:$root.selectedGRN().status()===31,value:reference1">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-4 text-right" style="margin-top: 2%">
-
-                                <label class="control-label text-right tooltip-float">Reference 2</label>
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" style="height:60px;" class="form-control" data-bind="enable:$root.selectedGRN().status()===31,value:reference2">
-                            </div>
-                        </div>
                     </div>
 
 
@@ -260,7 +252,7 @@
                             <div class="col-sm-9">
                                 <div id="orderHeaderProductsContainer" style=" background-color: gainsboro; border-radius: 3px;">
                                     <header class="main-box-header clearfix">
-                                        <div id="orderProducts" style="float:left;"><span style="font-size:24px">Purchase Detail Items</span></div>
+                                        <div id="orderProducts" style="float:left;"><span style="font-size:24px">GRN Detail Items</span></div>
                                     </header>
                                     <div class="main-box-body clearfix">
                                         <div class="table-responsive">
@@ -309,11 +301,11 @@
                                                     </tr>
                                                     <!-- /ko -->
                                                     <!--ko if: $root.selectedGRN().isproduct()=== 2-->
-                                                    <!-- ko template: { name: 'serviceItemTemplate', foreach:goodsReceivedNoteDetails } -->
+                                                    <!-- ko template: { name: 'serviceGRNItemTemplate', foreach:goodsReceivedNoteDetails } -->
                                                     <!-- /ko -->
                                                     <!-- /ko -->
                                                     <!--ko if: $root.selectedGRN().isproduct()=== 1-->
-                                                    <!-- ko template: { name: 'productItemTemplate', foreach:goodsReceivedNoteDetails } -->
+                                                    <!-- ko template: { name: 'productGRNItemTemplate', foreach:goodsReceivedNoteDetails } -->
                                                     <!-- /ko -->
                                                     <!-- /ko -->
                                                 </tbody>
@@ -443,48 +435,48 @@
     }
 </script>
 
-<script id="productItemTemplate" type="text/html">
+<script id="productGRNItemTemplate" type="text/html">
     <tr style="cursor: pointer">
-        <td data-bind="text: itemCode,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: packqty,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: quantity,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: qtyReceived,click:$root.editPurchaseDetail"></td>
+        <td data-bind="text: itemCode,click:$root.editGRNDetail"></td>
+        <td data-bind="text: serviceDetail,click:$root.editGRNDetail"></td>
+        <td data-bind="text: packqty,click:$root.editGRNDetail"></td>
+        <td data-bind="text: quantity,click:$root.editGRNDetail"></td>
+        <td data-bind="text: qtyReceived,click:$root.editGRNDetail"></td>
         <td>
-            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price,click:$root.editPurchaseDetail"></span>
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price,click:$root.editGRNDetail"></span>
         </td>
         <td>
-            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></span>
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: totalPrice,click:$root.editGRNDetail"></span>
         </td>
-        <td data-bind="numberInput: taxValue,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: taxValue,click:$root.editGRNDetail"></td>
         <td>
-            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: netTax,click:$root.editPurchaseDetail"></span>
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: netTax,click:$root.editGRNDetail"></span>
         </td>
-        <td data-bind="text: freeitems,click:$root.editPurchaseDetail"></td>
-        <td data-bind="numberInput: discount,click:$root.editPurchaseDetail"></td>
+        <td data-bind="text: freeitems,click:$root.editGRNDetail"></td>
+        <td data-bind="numberInput: discount,click:$root.editGRNDetail"></td>
         <td style="width: 5%">
-            <!-- ko template: { name: 'deletePurchaseDetailTemplate' } -->
+            <!-- ko template: { name: 'deleteGRNDetailTemplate' } -->
             <!-- /ko -->
         </td>
     </tr>
 </script>
-<script id="serviceItemTemplate" type="text/html">
+<script id="serviceGRNItemTemplate" type="text/html">
     <tr style="cursor: pointer" data-bind="enable:$root.selectedGRN().status()===31">
-        <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
-        <td data-bind="numberInput: price,click:$root.editPurchaseDetail"></td>
-        <td data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></td>
-        <td data-bind="numberInput: taxValue,click:$root.editPurchaseDetail"></td>
-        <td data-bind="numberInput: netTax,click:$root.editPurchaseDetail"></td>
-        <td data-bind="numberInput: discount,click:$root.editPurchaseDetail"></td>
+        <td data-bind="text: serviceDetail,click:$root.editGRNDetail"></td>
+        <td data-bind="numberInput: price,click:$root.editGRNDetail"></td>
+        <td data-bind="numberInput: totalPrice,click:$root.editGRNDetail"></td>
+        <td data-bind="numberInput: taxValue,click:$root.editGRNDetail"></td>
+        <td data-bind="numberInput: netTax,click:$root.editGRNDetail"></td>
+        <td data-bind="numberInput: discount,click:$root.editGRNDetail"></td>
         <td style="width: 5%">
-            <!-- ko template: { name: 'deletePurchaseDetailTemplate' } -->
+            <!-- ko template: { name: 'deleteGRNDetailTemplate' } -->
             <!-- /ko -->
         </td>
     </tr>
 </script>
 
-<script id="deletePurchaseDetailTemplate" type="text/html">
-    <a href="#" class="table-link danger" data-bind="click: $root.onDeletePurchaseDetail" title="Delete">
+<script id="deleteGRNDetailTemplate" type="text/html">
+    <a href="#" class="table-link danger" data-bind="click: $root.onDeleteGRNDetail" title="Delete">
         <span class="fa-stack">
             <i class="fa fa-square fa-stack-2x"></i>
             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>

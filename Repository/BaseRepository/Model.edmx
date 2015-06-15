@@ -5862,7 +5862,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VariableExtension_FieldVariable">
-          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1" />
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VariableExtension" Type="Self.VariableExtension" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FieldVariable">
@@ -14687,7 +14689,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VariableExtension_FieldVariable">
-          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1" />
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="DomainModels.VariableExtension" Role="VariableExtension" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FieldVariable">
