@@ -15,5 +15,9 @@ namespace MPC.MIS.Areas.Api.Models
         public int? FlagId { get; set; }
         public int SystemSiteId { get; set; }
         public string VariableString { get; set; }
+
+        public virtual ICollection<MachineClickChargeZone> MachineClickChargeZones { get; set; }
+        public virtual ICollection<MachineGuillotineCalc> MachineGuillotineCalcs { get; set; }
+        public virtual ICollection<MachineMeterPerHourLookup> MachineMeterPerHourLookups { get; set; }
     }
 }

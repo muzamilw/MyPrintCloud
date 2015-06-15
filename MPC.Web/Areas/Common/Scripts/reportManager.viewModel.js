@@ -17,6 +17,13 @@
                      selectedItemName = ko.observable(),
                      selectedItemCode = ko.observable(),
                      selectedItemTitle = ko.observable(),
+                     To = ko.observable(),
+                     CC = ko.observable(),
+                     Subject = ko.observable(),
+                     Attachment = ko.observable(),
+                     AttachmentPath = ko.observable(),
+                     Signature = ko.observable(),
+
                        ckEditorOpenFrom = ko.observable("stores"),
                     hTmlMessageA = ko.observable(),
                     OpenReport = function () {
@@ -58,6 +65,34 @@
 
                         }
                     },
+
+                     getReportEmailBaseData = function () {
+                         if (selectedReportId() > 0) {
+                             dataservice.getReportEmailData({
+                                 Reportid: selectedReportId(),
+                                 SignedBy: CategoryId,
+                                 ContactId: IsExternal,
+                                 RecordId: RecordId,
+                                 ReportType: ReportType,
+                                 OrderId: OrderId,
+                                 CriteriaParam: CriteriaParam
+                             }, {
+                                 success: function (data) {
+                                     To(data.To);
+                                     CC(data.CC);
+                                     Subject(data.Subject);
+                                     Attachment(data.Attachment);
+                                     AttachmentPath(data.AttachmentPath);
+                                     Signature(data.Signature);
+                                 },
+                                 error: function (response) {
+
+                                 }
+                             });
+                             isLoading(true);
+                             view.showEmailView();
+                         }
+                     },
                     SelectReportById = function (report) {
                         $(".dd-handle").removeClass("selectedReport")
                         $("#" + report.ReportId()).addClass("selectedReport");
@@ -106,8 +141,12 @@
                         //  resetDialog();
                         view.hide();
                     },
-                    showEmailView= function() {
-                        view.showEmailView();
+                    showEmailView = function () {
+
+
+
+                      
+                        getReportEmailBaseData();
                     },
                     hideEmailView= function() {
                         view.hideEmailView();

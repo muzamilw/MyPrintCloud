@@ -37,15 +37,30 @@
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
                                     <!-- /ko -->
-                                    <span class="help-block text-right"></span>
+                                    
                                 </div>
                                 <div class="col-sm-4" style="padding-left: 0.1%;">
-                                    <div class="checkbox-nice" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
-                                        <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-4">
+                                        <label for="switchworknturn" data-bind="visible:isDoubleSidedUi() && printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Work 'n' Turn</label>
+                                    </div>
+                                    <div class="col-sm-5" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'" style="margin-left:-5.9%">
+                                        <div class="onoffswitch">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchworknturn" data-bind="checked: isWorknTurn">
+                                            <label class="onoffswitch-label" for="switchworknturn">
+                                                <div class="onoffswitch-inner"></div>
+                                                <div class="onoffswitch-switch"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+
+                                    @*<div class="checkbox-nice" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
+                                       <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
                                         <label for="checkbox-work_turn">
                                             Work 'n' Turn
                                         </label>
-                                    </div>
+                                    </div>*@
                                     <!-- ko if: !isDoubleSided() || (printingTypeUi() === '2') -->
                                     &nbsp;
                                     <!-- /ko -->
@@ -88,7 +103,7 @@
                                 <div class="col-sm-12 text-right" style=" ">
                                     <div class="col-sm-6" style="width: 45%">
                                         <div class="col-sm-8" data-bind="visible: !isSectionSizeCustom()  && printingTypeUi() !== '2'">
-                                            <select style=" padding-right: 0px; width: 101%;" class=" form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
+                                            <select style=" padding-right: 0px; width: 101%;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
                                         </div>
                                         <div class="col-sm-8" data-bind="visible: isSectionSizeCustom() || printingTypeUi() === '2'" style="padding-right: 1.2%">
                                             <div class="col-sm-5" style="padding-left: 0px;">
@@ -129,7 +144,7 @@
                                     </div>
                                     <div class="col-sm-6" data-bind="visible: printingTypeUi() !== '2'">
                                         <div class="col-sm-6" style=" padding-right: 0px; " data-bind="visible:!isItemSizeCustom()">
-                                            <select style=" width: 99%; margin-left: -4%; padding-right: 0px;" class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
+                                            <select style=" width: 99%; margin-left: -4%; padding-right: 0px;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
                                         </div>
                                         <div class="col-sm-6" data-bind="visible:isItemSizeCustom" style="padding-left: 0px;  ">
                                             <div class="col-sm-5" style="padding-left: 0px; padding-right: 0px; width: 37%; ">
@@ -177,11 +192,11 @@
                             </div>
                             <div class="form-group" >
                                 <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
-                                    <select class="form-control" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressId, validationOnElement: pressId"></select>
+                                    <select class="form-control font20px" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressId, validationOnElement: pressId"></select>
                                 </div>
 
                                 <div class="col-sm-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
-                                    <select class="form-control" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide1"></select>
+                                    <select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide1"></select>
                                 </div>
                                 <div class="col-sm-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
                                     <!-- ko if: pressIdSide1IsSpotColor -->
@@ -216,11 +231,11 @@
                             </div>
                             <div class="form-group" style="" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2' && !isWorknTurn()">
                                 <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
-                                    <select class="form-control" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
+                                    <select class="form-control font20px" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
                                 </div>
 
                                 <div class="col-sm-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
-                                    <select class="form-control" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide2"></select>
+                                    <select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide2"></select>
                                 </div>
                                 <div class="col-sm-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
                                     <!-- ko if: pressIdSide2IsSpotColor -->
@@ -258,7 +273,7 @@
                             </div>
                             <div class="form-group" style="">
                                 <div class="col-sm-8 text-right" style="padding-left: 2.5%;width: 70.1%;">
-                                    <input type="text" style="width: 99%; margin-right: 5px;" data-bind="value: stockItemName, validationDependsOn: stockItemId, enable: false, validationOnElement: stockItemId" class="form-control OpenStockPopup-Class" id="txtStock">
+                                    <input type="text" style="width: 99%; margin-right: 5px;" data-bind="value: stockItemName, validationDependsOn: stockItemId, enable: false, validationOnElement: stockItemId" class="form-control OpenStockPopup-Class font20px" id="txtStock">
                                 </div>
 
                                 <div class="col-sm-1 text-right" style="padding-left: 0;  width: 12%;">
@@ -307,7 +322,7 @@
                                                             <label class="control-label" style="font-size: 12px; padding-top: 7.5%; float: right; ">Qty 1</label>
                                                         </div>
                                                         <div class="col-sm-5" style=" padding-right: 0; ">
-                                                            <input type="text" class="form-control" style="text-align: right; width: 91%;" data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
+                                                            <input type="text" class="form-control font20px" style="text-align: right; width: 91%;" data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -318,7 +333,7 @@
                                                             <label class="control-label" style="font-size: 12px; padding-top: 15.5%; float: right;">Qty 2</label>
                                                         </div>
                                                         <div class="col-sm-6" style="width: 48%; ">
-                                                            <input type="text" class="form-control" style="text-align:right;" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />
+                                                            <input type="text" class="form-control font20px" style="text-align:right;" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -430,7 +445,7 @@
                         </div>
                     </div>
                     <div class="form-group" style="padding-bottom: 1%;">
-                        <div class="col-sm-12" style="padding-left: 5.5%; padding-bottom: 1%;">
+                        <div class="col-sm-12" style="padding-left: 5.5%; padding-bottom: 1%; padding-top:2%">
 
                             <div class="col-sm-4" style="padding-left: 0px;">
                                 <div class="col-sm-7" style="padding-left: 1.5%; margin-top: 3%; ">
@@ -445,11 +460,11 @@
                                     <label style=" float: right; " class="control-label">Total</label>
                                 </div>
                                 <div class="col-sm-2" style="width: 19%; margin-top: 1%;">
-                                    <label class="control-label" style="float: right"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge1"></span></label>
+                                    <label class="control-label font20px" style="float: right"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge1"></span></label>
                                 </div>
                                 <!--ko if: $root.isEstimateScreen()-->
                                 <div class="col-sm-2" style=" padding-right: 3.8%; margin-top: 1%;">
-                                    <label class="control-label" style="  float: right;"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:baseCharge2"></span></label>
+                                    <label class="control-label font20px" style="  float: right;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge2"></span></label>
                                 </div>
                                
                                 <!--/ko-->
@@ -460,7 +475,7 @@
 
                 </div>
             </div>
-            <div class="col-sm-2" style="overflow-y: auto; width: 14%; padding: 0px; height: 890px; max-height: 890px;">
+            <div class="col-sm-2" style="display: none; overflow-y: auto; width: 14%; padding: 0px; height: 890px; max-height: 890px;" >
                 <!--Holds right section-->
                 <ul style="padding-top: 12%; list-style: none; padding-left: 0px;">
                     <li style=" margin-bottom: 75%;">

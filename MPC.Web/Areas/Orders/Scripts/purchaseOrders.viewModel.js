@@ -396,7 +396,6 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         return;
                     },
 
-
                     // Cancel purchase Order
                     onCancelPurchaseOrder = function (purchase) {
                         if (!dobeforeSave()) {

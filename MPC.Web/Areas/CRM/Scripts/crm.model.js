@@ -488,7 +488,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedShippingAddressId, specifiedisUserLoginFirstTime, specifiedquickMobileNumber, specifiedquickTwitterId, specifiedquickFacebookId, specifiedquickLinkedInId,
         specifiedquickOtherId, specifiedPOBoxAddress, specifiedCorporateUnit, specifiedOfficeTradingName, specifiedContractorName, specifiedBPayCRN, specifiedABN, specifiedACN,
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId, specifiedRoleName,specifiedStoreName) {
+        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedSecondaryEmail, specifiedBussinessAddressId, specifiedRoleName, specifiedStoreName) {
         var self,
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
@@ -574,6 +574,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canUserEditProfile = ko.observable(specifiedCanUserEditProfile),
             canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
             organisationId = ko.observable(specifiedOrganisationId),
+            secondaryEmail = ko.observable(specifiedSecondaryEmail).extend({ email: true }),
             bussinessAddressId = ko.observable(specifiedBussinessAddressId).extend({ required: true }),
             roleName = ko.observable(specifiedRoleName),
             fileName = ko.observable(),
@@ -591,7 +592,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 email: email,
                 bussinessAddressId: bussinessAddressId,
                 password: password,
-                confirmPassword: confirmPassword
+                confirmPassword: confirmPassword,
+                secondaryEmail: secondaryEmail
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -686,6 +688,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 bussinessAddressId: bussinessAddressId,
                 StoreName: StoreName,
                 fileName: fileName,
+                secondaryEmail: secondaryEmail,
                 companyName: companyName
             }),
             // Has Changes
@@ -781,6 +784,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
                     StoreName: StoreName(),
+                    SecondaryEmail: secondaryEmail(),
                     ScopVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
@@ -880,6 +884,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  stateName(source.stateName());
                  companyContactVariables(source.companyContactVariables());
                  StoreName(source.StoreName());
+                 secondaryEmail(source.secondaryEmail());
              },
             // Reset
             reset = function () {
@@ -978,6 +983,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             shippingAddress: shippingAddress,
             stateName: stateName,
             StoreName: StoreName,
+            secondaryEmail: secondaryEmail,
             companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
@@ -1074,6 +1080,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.canUserEditProfile,
             source.canPlaceDirectOrder,
             source.organisationId,
+            source.secondaryEmail,
             source.BussinessAddressId,
             source.FileName,
             source.StoreName
@@ -1164,6 +1171,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.CanUserEditProfile,
             source.canPlaceDirectOrder,
             source.OrganisationId,
+            source.SecondaryEmail,
             //source.BussinessAddressId,
             source.AddressId,
             source.RoleName,

@@ -97,7 +97,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string FileName { get; set; }
 
         public string StoreName { get; set; }
-
+        public string SecondaryEmail { get; set; }
         public Address BussinessAddress { get; set; }
         public Address ShippingAddress { get; set; }
 

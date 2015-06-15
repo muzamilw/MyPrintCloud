@@ -25,7 +25,11 @@
                         type: 'GET'
                     });
                     
-
+                    amplify.request.define('getReportEmailData', 'ajax', {
+                        url: ist.siteUrl + '/Api/ReportManager',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -50,6 +54,18 @@
                     error: callbacks.error,
                 });
             };
+
+        // Get 
+        getReportEmailData = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getReportEmailData',
+                data: params,
+                success: callbacks.success,
+                error: callbacks.error,
+            });
+        };
+
         getreportparamsbyId = function (params, callbacks) {
             initialize();
             return amplify.request({
@@ -63,7 +79,8 @@
         return {
             getreports: getreports,
             getreportcategories: getreportcategories,
-            getreportparamsbyId: getreportparamsbyId
+            getreportparamsbyId: getreportparamsbyId,
+            getReportEmailData: getReportEmailData
            
         };
     })();
