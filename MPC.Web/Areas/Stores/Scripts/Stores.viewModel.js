@@ -1512,11 +1512,13 @@ define("stores/stores.viewModel",
                     //selectedStore().storeLayoutChange("change");
                     if (banner.id() > 0) {
                         deleteBanner(banner);
+                    } else {
+                        var bannerToDelete = getCompanyBannerByIdFromListView(banner.id());
+                        if (bannerToDelete) {
+                            filteredCompanyBanners.remove(bannerToDelete);
+                        }
                     }
-                    var bannerToDelete = getCompanyBannerByIdFromListView(banner.id());
-                    if (bannerToDelete) {
-                        filteredCompanyBanners.remove(bannerToDelete);
-                    }
+                   
                     view.hideEditBannerDialog();
                 });
                 confirmation.show();
@@ -1525,6 +1527,10 @@ define("stores/stores.viewModel",
             deleteBanner = function (banner) {
                 dataservice.deleteCompanyBanner(banner.convertToServerData(banner), {
                     success: function () {
+                        var bannerToDelete = getCompanyBannerByIdFromListView(banner.id());
+                        if (bannerToDelete) {
+                            filteredCompanyBanners.remove(bannerToDelete);
+                        }
                         toastr.success("Successfully removed.");
                     },
                     error: function () {
