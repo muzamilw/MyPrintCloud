@@ -2216,6 +2216,7 @@
     <Content Include="Areas\Orders\Views\Home\_AttachmentDialog.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_PurchaseDetailDialog.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_ReportViaEmail.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_GRNDetailDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
