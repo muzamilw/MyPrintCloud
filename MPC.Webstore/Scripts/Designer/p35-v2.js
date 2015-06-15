@@ -2256,3 +2256,6 @@ $("#btnImagePlaceHolder").click(function () {
 $("#btnImagePlaceHolderUser").click(function () {
     d1PlaceHoldToCanvas();
 });
+$("#Homebtn2").click(function () {
+    window.location.href = "/";
+});
