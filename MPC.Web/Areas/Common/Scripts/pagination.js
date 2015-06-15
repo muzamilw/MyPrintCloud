@@ -113,7 +113,7 @@
                 totalCount(totalCount() + 1);
             },
             decrementTotalCount = function() {
-                totalCount(totalCount() + 1);
+                totalCount(totalCount() - 1);
             },
             //Total page Count
             totalPageListCount = 0,
