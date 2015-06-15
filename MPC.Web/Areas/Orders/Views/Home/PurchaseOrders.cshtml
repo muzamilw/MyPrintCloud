@@ -91,7 +91,7 @@
                             <li class="active"><a href="#tab-ShowAll" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(0);}">Show All</a></li>
                             <li><a href="#tab-Open" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(31);}">Open</a></li>
                             <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(32);}">Posted</a></li>
-                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(33);}">Cancelled</a></li>
+                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="visible:$root.purchaseOrderTypeFilter() === 1,click: function(){$root.getPurchaseOrdersOnTabChange(33);}">Cancelled</a></li>
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -128,6 +128,7 @@
     @Html.Partial("_partialpurchaseOrders")
     @Html.Partial("_partialPurchaseorderGRN")
     @Html.Partial("~/Areas/Orders/Views/Home/_PurchaseDetailDialog.cshtml")
+    @Html.Partial("~/Areas/Orders/Views/Home/_GRNDetailDialog.cshtml")
 </div>
 
 
@@ -155,6 +156,7 @@
                     <th class="col-sm-4"><span>Company / Title</span></th>
                     <th class="col-sm-2"><span>Purchase Date</span></th>
                     <th class="col-sm-2 text-center"><span>Flag</span></th>
+                    <th class="col-sm-2 "><span>Status</span></th>
                     <th class="col-sm-2"><span>Code</span></th>
                     <th>&nbsp;</th>
                 </tr>
@@ -178,6 +180,9 @@
         </td>
         <td class="text-center">
             <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
+        </td>
+        <td>
+            <span data-bind="text:statusName"></span>
         </td>
         <td>
             <span data-bind="text:code"></span>
