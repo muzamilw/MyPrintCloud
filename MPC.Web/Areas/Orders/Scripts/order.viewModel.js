@@ -1495,6 +1495,8 @@ define("order/order.viewModel",
                         selectedProduct(newItem);
                         selectedOrder().items.splice(0, 0, newItem);
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                        // Set Default Section to be used as a default for new sections in this item
+                        itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
                         //Req: Open Edit dialog of product on adding product
                         editItem(newItem);
                     },
