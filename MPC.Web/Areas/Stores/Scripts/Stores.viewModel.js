@@ -2651,7 +2651,7 @@ define("stores/stores.viewModel",
             // Get Company By Id
             getSecondaryPageByIdFromListView = function (id) {
                 return selectedStore().secondaryPages.find(function (secondaryPage) {
-                    return secondaryPage.id() === id;
+                    return secondaryPage.pageId() === id;
                 });
             },
             //Delete Secondary Page
@@ -5555,8 +5555,8 @@ define("stores/stores.viewModel",
                     //    addToSmartFormVariableList(fieldVariable);
                     //    addFieldVariableToItsScopeTypeList(fieldVariable);
                     //}
-                        //In case Of Edit Store , Field variable direct save to db. 
-                     if (selectedStore().companyId() !== undefined) {
+                    //In case Of Edit Store , Field variable direct save to db. 
+                    if (selectedStore().companyId() !== undefined) {
                         //In Case of Edit Company 
                         var field = fieldVariable.convertToServerData(fieldVariable);
                         _.each(fieldVariable.variableOptions(), function (optionItem, index) {
@@ -6257,6 +6257,15 @@ define("stores/stores.viewModel",
                 dataservice.deleteFieldVariable(fieldVariable, {
                     success: function (data) {
                         fieldVariables.remove(selectedFieldVariableForListView());
+                        var variableForDelete = _.filter(fieldVariablesForSmartForm(), function (variable) {
+                            if (variable.id() === selectedFieldVariableForListView().id()) {
+                                return variable;
+                            }
+                        });
+                        if (variableForDelete !== null && variableForDelete !== undefined && variableForDelete.length > 0) {
+                            fieldVariablesForSmartForm.remove(variableForDelete[0]);
+                        }
+                        isStoreVariableTabOpened(false);
                         view.hideVeriableDefinationDialog();
                         toastr.success("Successfully removed.");
                     },

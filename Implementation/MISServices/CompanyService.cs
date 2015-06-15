@@ -29,6 +29,7 @@ using System.Web.UI.WebControls;
 using System.Net.Http.Headers;
 using MPC.Common;
 using Newtonsoft.Json.Linq;
+using Scope = System.IdentityModel.Scope;
 
 
 namespace MPC.Implementation.MISServices
@@ -2441,8 +2442,6 @@ namespace MPC.Implementation.MISServices
         private long AddFieldVariable(FieldVariable fieldVariable)
         {
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
-            long companyId = (long)(fieldVariable.CompanyId ?? 0);
-
 
             if (fieldVariable.VariableExtensions != null)
             {
@@ -2455,7 +2454,19 @@ namespace MPC.Implementation.MISServices
             fieldVariableRepository.Add(fieldVariable);
             List<ScopeVariable> scopeVariables = new List<ScopeVariable>();
             fieldVariable.ScopeVariables = scopeVariables;
+            UpdateScopeVariables(fieldVariable);
 
+            fieldVariableRepository.SaveChanges();
+            return fieldVariable.VariableId;
+        }
+
+        private void UpdateScopeVariables(FieldVariable fieldVariable)
+        {
+            long companyId = (long)(fieldVariable.CompanyId ?? 0);
+            if (fieldVariable.ScopeVariables == null)
+            {
+                fieldVariable.ScopeVariables = new List<ScopeVariable>();
+            }
             //In case of scope type of variable field is contact
             if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Contact)
             {
@@ -2469,6 +2480,7 @@ namespace MPC.Implementation.MISServices
 
                         scopeVariable.ScopeVariableId = 0;
                         scopeVariable.Scope = fieldVariable.Scope;
+                        scopeVariable.VariableId = fieldVariable.VariableId;
                         scopeVariable.Id = contact.ContactId;
                         scopeVariable.Value = fieldVariable.DefaultValue;
                         scopeVariableRepository.Add(scopeVariable);
@@ -2491,6 +2503,7 @@ namespace MPC.Implementation.MISServices
                         scopeVariable.ScopeVariableId = 0;
                         scopeVariable.Scope = fieldVariable.Scope;
                         scopeVariable.Id = address.AddressId;
+                        scopeVariable.VariableId = fieldVariable.VariableId;
                         scopeVariable.Value = fieldVariable.DefaultValue;
                         scopeVariableRepository.Add(scopeVariable);
                         fieldVariable.ScopeVariables.Add(scopeVariable);
@@ -2512,6 +2525,7 @@ namespace MPC.Implementation.MISServices
                         scopeVariable.Scope = fieldVariable.Scope;
                         scopeVariable.Id = territory.TerritoryId;
                         scopeVariable.Value = fieldVariable.DefaultValue;
+                        scopeVariable.VariableId = fieldVariable.VariableId;
                         scopeVariableRepository.Add(scopeVariable);
                         fieldVariable.ScopeVariables.Add(scopeVariable);
                     }
@@ -2524,14 +2538,44 @@ namespace MPC.Implementation.MISServices
                 scopeVariable.ScopeVariableId = 0;
                 scopeVariable.Scope = fieldVariable.Scope;
                 scopeVariable.Id = companyId;
+                scopeVariable.VariableId = fieldVariable.VariableId;
                 scopeVariable.Value = fieldVariable.DefaultValue;
                 scopeVariableRepository.Add(scopeVariable);
                 fieldVariable.ScopeVariables.Add(scopeVariable);
             }
-            fieldVariableRepository.SaveChanges();
-            return fieldVariable.VariableId;
         }
 
+        private void DeleteScopeVariables(FieldVariable fieldVariable)
+        {
+            if (fieldVariable.ScopeVariables != null)
+            {
+                List<ScopeVariable> scopeVariablesDeleteList = new List<ScopeVariable>();
+                foreach (var sVar in fieldVariable.ScopeVariables)
+                {
+                    scopeVariablesDeleteList.Add(sVar);
+                }
+
+                foreach (var sVar in scopeVariablesDeleteList)
+                {
+                    scopeVariableRepository.Delete(sVar);
+                }
+            }
+        }
+
+
+        private void AddScopeVariables(FieldVariable fieldVariable, FieldVariable fieldVariableDbVersion)
+        {
+            if (fieldVariableDbVersion.ScopeVariables == null)
+            {
+                fieldVariableDbVersion.ScopeVariables = new List<ScopeVariable>();
+            }
+
+            foreach (var sVar in fieldVariable.ScopeVariables)
+            {
+                fieldVariableDbVersion.ScopeVariables.Add(sVar);
+            }
+
+        }
         /// <summary>
         /// Update Field Variable
         /// </summary>
@@ -2540,6 +2584,12 @@ namespace MPC.Implementation.MISServices
             FieldVariable fieldVariableDbVersion = fieldVariableRepository.Find(fieldVariable.VariableId);
             if (fieldVariableDbVersion != null)
             {
+                if (fieldVariable.Scope != fieldVariableDbVersion.Scope)
+                {
+                    DeleteScopeVariables(fieldVariableDbVersion);
+                    UpdateScopeVariables(fieldVariable);
+                    AddScopeVariables(fieldVariable, fieldVariableDbVersion);
+                }
                 fieldVariableDbVersion.InputMask = fieldVariable.InputMask;
                 fieldVariableDbVersion.VariableName = fieldVariable.VariableName;
                 fieldVariableDbVersion.DefaultValue = fieldVariable.DefaultValue;

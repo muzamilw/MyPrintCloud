@@ -818,6 +818,7 @@ namespace MPC.Repository.Repositories
             //var query = "UPDATE " + tblname + "  SET " + feildname + "= '" + newValue + "' WHERE " + keyName + " = " + keyValue ;
             string oResult = null;
             int result = db.Database.ExecuteSqlCommand(query);
+
          //   System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>(query, "");
             db.SaveChanges();
             //oResult = result.FirstOrDefault();
@@ -974,6 +975,7 @@ namespace MPC.Repository.Repositories
                                         }
                                         else
                                         {
+                                            scope.FieldVariable = null;
                                             db.ScopeVariables.Add(scope);
                                         }
                                     }
@@ -986,6 +988,7 @@ namespace MPC.Repository.Repositories
                                         scopeObj.Value = scope.Value;
                                     } else
                                     {
+                                        scope.FieldVariable = null;
                                         db.ScopeVariables.Add(scope);
                                     }
                                 }
@@ -1006,7 +1009,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        
+                                        scope.FieldVariable = null;   
                                         db.ScopeVariables.Add(scope);
                                     }
                                 }
@@ -1021,6 +1024,7 @@ namespace MPC.Repository.Repositories
                                         }
                                         else
                                         {
+                                            scope.FieldVariable = null;
                                             db.ScopeVariables.Add(scope);
                                         }
                                     }
