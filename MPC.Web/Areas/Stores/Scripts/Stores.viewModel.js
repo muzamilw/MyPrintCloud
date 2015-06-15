@@ -2651,7 +2651,7 @@ define("stores/stores.viewModel",
             // Get Company By Id
             getSecondaryPageByIdFromListView = function (id) {
                 return selectedStore().secondaryPages.find(function (secondaryPage) {
-                    return secondaryPage.id() === id;
+                    return secondaryPage.pageId() === id;
                 });
             },
             //Delete Secondary Page

@@ -82,7 +82,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right">
-
+                                                <label>&nbsp;</label>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div>
@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right">
-
+                                                <label>&nbsp;</label>
                                             </div>
                                             <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
                                                 <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
@@ -107,7 +107,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right">
-
+                                                <label>&nbsp;</label>
                                             </div>
                                             <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
                                                 <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
@@ -159,6 +159,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right">
+                                                <label>&nbsp;</label>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div>
@@ -170,8 +171,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right" style="padding-top:10px;">
-                                                @*<label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>*@
-                                            </div>
+                                                <label>&nbsp;</label>                                            </div>
                                             <div class="col-sm-6">
                                                 <input type="text" style="height: 60px;" data-bind="value: code" readonly class="form-control font24px" id="code" />
                                             </div>
@@ -179,14 +179,14 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right">
-                                                @*<label class="control-label text-right tooltip-float">Order Flag</label>*@
+                                                <label class="control-label text-right tooltip-float">&nbsp;</label>
                                             </div>
                                             <div class="col-sm-6">
                                                 <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        <div>
+                                       <div>
                                             <div class="row" style="">
                                                 <div class=" col-sm-4 text-right">
                                                     <label class="control-label text-right">Invoice Status</label>
@@ -195,7 +195,7 @@
                                                     <label class="control-label" data-bind="text:invoiceStatusText"></label>
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <div class="row" style="margin-bottom: 12px">
                                                 <div class="col-sm-4 text-right" style="margin-top:0">
                                                     <label class="control-label text-right">&nbsp;</label>
                                                 </div>
@@ -231,6 +231,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="col-sm-2 text-right">
+                                                <label>&nbsp;</label>
                                             </div>
                                             <div class="col-sm-9">
                                                 <div>
@@ -338,11 +339,11 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="col-sm-2 text-right">
-                                                @*<label class="control-label tooltip-float">Order Footer</label>*@
+                                                <label>&nbsp;</label>
                                             </div>
                                             <div class="col-sm-9">
                                                 <div>
-                                                    <textarea class="form-control" placeholder="Enter order closing paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>
+                                                    <textarea class="form-control" placeholder="Enter invoice closing paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>
                                                 </div>
                                             </div>
                                         </div>
