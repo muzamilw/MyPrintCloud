@@ -373,6 +373,9 @@
     <Compile Include="Controllers\NewsletterSubscriberController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\OrderPolicySaveController.cs" />
+    <Compile Include="Controllers\OxfordAboutUsController.cs" />
+    <Compile Include="Controllers\OxfordHeaderController.cs" />
+    <Compile Include="Controllers\OxfordTopLevelCategoriesController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
     <Compile Include="Controllers\PopularProductsController.cs" />
@@ -946,6 +949,9 @@
     <Content Include="Views\Shared\PartialViews\RealStateFooter.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealestateSideBarWithSlider.cshtml" />
     <Content Include="Views\Shared\PartialViews\ErrorPage404.cshtml" />
+    <Content Include="Views\Shared\PartialViews\OxfordAboutUs.cshtml" />
+    <Content Include="Views\Shared\PartialViews\OxfordHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\OxfordTopLevelCategories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -958,6 +964,9 @@
     <Folder Include="Views\ErrorPage\" />
     <Folder Include="Views\MetroProductCategories\" />
     <Folder Include="Views\MetroTestimonial\" />
+    <Folder Include="Views\OxfordAboutUs\" />
+    <Folder Include="Views\OxfordHeader\" />
+    <Folder Include="Views\OxfordTopLevelCategories\" />
     <Folder Include="Views\RealestateSideBarWithSlider\" />
     <Folder Include="Views\RealStateFooter\" />
     <Folder Include="Views\Twitter\" />
