@@ -3800,7 +3800,11 @@ namespace MPC.Repository.Repositories
                 item =>
                     (string.IsNullOrEmpty(request.SearchString) || (item.ProductName.Contains(request.SearchString)) ||
                      (item.ProductCode.Contains(request.SearchString)))
-                     && item.CompanyId.HasValue && item.CompanyId == request.CompanyId && item.OrganisationId == OrganisationId && item.IsPublished == true && item.EstimateId == null;
+                     && item.CompanyId.HasValue && item.CompanyId == request.CompanyId
+                     && item.OrganisationId == OrganisationId 
+                     && item.IsPublished == true 
+                     && item.EstimateId == null
+                     && item.ProductType != (int)ProductType.MarketingBrief;
             List<Item> totalItems=DbSet.Where(query).ToList();
 
             List<Item> items = totalItems.OrderBy(item => item.ProductCode)
