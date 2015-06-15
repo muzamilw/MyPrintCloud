@@ -3249,7 +3249,7 @@ namespace MPC.Implementation.MISServices
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
-                Companies = companyRepository.GetAllRetailAndCorporateStores()
+                Companies = companyRepository.GetAllRetailStores()//Get Retail Stores in crm base data
             };
         }
         public void SaveFile(string filePath, long companyId)
