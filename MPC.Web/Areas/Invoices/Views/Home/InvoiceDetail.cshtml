@@ -13,7 +13,6 @@
                             <li><a href="#">Print</a></li>
                             <li><a href="#">Cancel</a></li>
                             <li><a href="#">Archive</a></li>
-
                         </ul>
                     </div>
                 </div>
@@ -25,24 +24,14 @@
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
                 </div>
             </div>
-
-
             <div class="col-sm-12 PaddingZero PaddingStatuses">
                 <div class="col-xs-7">
-
                     <!-- here -->
-
                 </div>
                 <div class="col-xs-3">
-
-
                 </div>
                 <div class="col-xs-2">
-
-
-
                 </div>
-
             </div>
         </div>
         <div class="col-sm-12">
@@ -94,7 +83,6 @@
                                                     <i class="fa fa-user"></i>
                                                 </button>
                                             </div>
-
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right">
@@ -203,7 +191,6 @@
                                                   &nbsp;
                                                 </div>
                                             </div>
-
                                         </div>
                                         @*<div class="form-group">
                                             <div>
@@ -225,7 +212,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="col-sm-12 form-horizontal">
                                     <div class="col-sm-12">
@@ -373,7 +359,6 @@
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                                             <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
                                         </td>
-
                                     </tr>
                                 </script>
                                 <script id="deliveryItemTemplate" type="text/html">
@@ -392,23 +377,19 @@
                                 @*@Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")*@
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ItemDetail.cshtml")
 <!--/ko-->
 <script type="text/javascript">
-
     function addAddress() {
         var e = document.getElementById("popoveraddress");
         var p = document.getElementById("addresspullicon");
-
         if (e.style.display == "none") {
             p.className = "fa fa-chevron-circle-down drop-icon";
             e.style.display = "block";
@@ -416,11 +397,7 @@
         else if (e.style.display == "block") {
             p.className = "fa fa-chevron-circle-right drop-icon";
             e.style.display = "none";
-
         }
     }
-
-
-
 </script>
 
