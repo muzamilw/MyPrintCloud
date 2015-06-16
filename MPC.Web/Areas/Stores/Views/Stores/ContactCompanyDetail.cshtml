@@ -255,8 +255,8 @@
 
                                             <div class="clearfix">
                                                 <div class="col-lg-12">
-                                                    <img id="idCostcenterimage" style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                                    <img style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                                    <img id="idCostcenterimage" style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                                    <img style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
                                                 </div>
 
                                                 <div class="col-lg-12" style="margin-top: 10px;text-align:center;width:220px;padding-right:0px;">
@@ -752,12 +752,12 @@
                                                                             <th class="col-lg-2">City</th>
                                                                             @*<th><a href="#"><span>Territory</span></a></th>*@
                                                                             <!--ko if: type() == 4-->
-                                                                            <th class="col-lg-3">Company Default Shipping Address</th>
+                                                                            <th class="col-lg-3">Company Primary Shipping Address</th>
                                                                             <!--/ko-->
                                                                             <!--ko if: type() == 3-->
-                                                                            <th class="col-lg-3">Default Territory Billing Address</th>
+                                                                            <th class="col-lg-3">Primary Territory Billing Address</th>
                                                                             <!--/ko-->
-                                                                            <th class="col-lg-3">Default Company Address</th>
+                                                                            <th class="col-lg-3">Primary Company Address</th>
 
                                                                         </tr>
                                                                     </thead>
@@ -1073,8 +1073,8 @@
 
                                                 <div class="clearfix">
 
-                                                    <img style="width:240px;height:130px;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
-                                                    <img style="width:240px;height:130px;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
+                                                    <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
+                                                    <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
                                                     <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:242px;">
                                                         <div class="fileUpload btn btn-primary">
                                                             @*data-bind="click:$root.showMediaLibraryDialogFromStoreBackground"*@
@@ -1423,7 +1423,7 @@
 
 
                                                 <div class="clearfix">
-                                                    <img alt="" style="border: dotted; border-width: 1px;float:left; width:240px; height: 130px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
+                                                    <img alt="" style="float:left; width:240px; height: 130px;-o-object-fit: contain; object-fit: contain;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
 
                                                     @*<img width="250" id="idCostcenterimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
                                                         <img width="250" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />*@

@@ -128,7 +128,7 @@
 <script id="itemSupplierTemplate" type="text/html">
     <tr data-bind=" click: $root.onEditItem, css: { selectedRow: $data === $root.selectedSupplier}" style="cursor: pointer">
         <td>
-            <img style="width: 70%; max-width: 70%;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+            <img style="width: 70%; max-width: 70%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
         </td>
         <td>
             <a href="#" class="store-user-link" data-bind="text: name"></a>
