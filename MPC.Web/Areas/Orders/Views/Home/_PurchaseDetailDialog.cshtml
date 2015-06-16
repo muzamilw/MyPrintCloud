@@ -1,5 +1,5 @@
 ﻿
-<div class="modal fade my-modal" id="purchaseDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data- aria-hidden="true">
+<div class="modal fade my-modal" id="purchaseDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -18,8 +18,7 @@
                         <label class="control-label text-right tooltip-float">Code</label>
                     </div>
                     <div class="col-sm-5">
-                        @*<input type="text" class="form-control" id="address" disabled data-bind="value:fileName" />
-                            <span class="form-control" id="customer" style="border:none" data-bind="text:$root.selectedProduct().productName"></span>*@
+                        <label class="control-label" data-bind="text:itemCode"></label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -50,20 +49,7 @@
                         <input type="text" class="form-control" id="address" disabled data-bind="value:packqty" />
                     </div>
                 </div>
-                <div class="form-group" data-bind="visible:$root.selectedPurchaseOrder().isproduct()===1 ">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="customer" class="control-label text-right tooltip-float">Required</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="address" data-bind="value:quantity" />
-                    </div>
-                </div>
+              
                 <div class="form-group">
                     <div class="col-sm-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -75,10 +61,24 @@
                         <label for="customer" class="control-label text-right tooltip-float">Pack Price</label>
                     </div>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="address" data-bind="value:price" />
+                        <input type="text" class="form-control" id="address" data-bind="value:price,validationTooltip:price" />
                     </div>
                     <div class="col-sm-1" style="padding-left: 0px;">
                         <label class="control-label" data-bind="text:$root.currencySymbol"></label>
+                    </div>
+                </div>
+                <div class="form-group" data-bind="visible:$root.selectedPurchaseOrder().isproduct()===1 ">
+                    <div class="col-sm-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="customer" class="control-label text-right tooltip-float">Required</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="address" data-bind="value:quantity,validationTooltip:quantity" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -98,69 +98,10 @@
                         <label class="control-label" data-bind="text:$root.currencySymbol"></label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="customer" class="control-label text-right tooltip-float">VAT</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" disabled id="address" data-bind="numberValue:taxValue" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="customer" class="control-label text-right tooltip-float">Net Tax</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="address" disabled data-bind="numberValue:netTax" />
-                    </div>
-                    <div class="col-sm-1" style="padding-left: 0px;">
-                        <label class="control-label" data-bind="text:$root.currencySymbol"></label>
-                    </div>
-                </div>
-                <div class="form-group" data-bind="visible:$root.selectedPurchaseOrder().isproduct()===1 ">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="customer" class="control-label text-right tooltip-float">Free Items</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="address" data-bind="value:freeitems" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="customer" class="control-label text-right tooltip-float">Discount</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="address" disabled data-bind="numberValue:discount" />
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <hr />
-                
+
                 <button type="button" class="btn btn-primary" data-bind="click:$root.savePurchaseDetail">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
             </div>

@@ -227,5 +227,6 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
         List<ProductCategory> GetAllRetailPublishedCat();
         List<ProductCategory> GetAllCategories();
+        string GetCurrencyCodeById(long currencyId);
     }
 }

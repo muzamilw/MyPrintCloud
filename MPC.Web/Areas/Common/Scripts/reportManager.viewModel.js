@@ -23,6 +23,22 @@
                      Attachment = ko.observable(),
                      AttachmentPath = ko.observable(),
                      Signature = ko.observable(),
+                     
+                     SignedBy = ko.observable(),
+                     ContactId = ko.observable(),
+                     RecordId = ko.observable(),
+                     OrderId = ko.observable(),
+                      CategoryId = ko.observable(),
+                     CriteriaParam = ko.observable(),
+
+                     ReportTitle = ko.observable(),
+                     //SignedBy: CategoryId,
+                        //ContactId: IsExternal,
+                        //RecordId: RecordId,
+                        //ReportType: ReportType,
+                        //OrderId: OrderId,
+                        //CriteriaParam: CriteriaParam
+
 
                        ckEditorOpenFrom = ko.observable("stores"),
                     hTmlMessageA = ko.observable(),
@@ -70,12 +86,12 @@
                          if (selectedReportId() > 0) {
                              dataservice.getReportEmailData({
                                  Reportid: selectedReportId(),
-                                 SignedBy: CategoryId,
-                                 ContactId: IsExternal,
-                                 RecordId: RecordId,
-                                 ReportType: ReportType,
-                                 OrderId: OrderId,
-                                 CriteriaParam: CriteriaParam
+                                 SignedBy: SignedBy(),
+                                 ContactId: ContactId(),
+                                 RecordId: RecordId(),
+                                 ReportType: CategoryId(),
+                                 OrderId: OrderId(),
+                                 CriteriaParam: CriteriaParam()
                              }, {
                                  success: function (data) {
                                      To(data.To);
@@ -84,13 +100,15 @@
                                      Attachment(data.Attachment);
                                      AttachmentPath(data.AttachmentPath);
                                      Signature(data.Signature);
+
+                                     view.showEmailView();
                                  },
                                  error: function (response) {
 
                                  }
                              });
                              isLoading(true);
-                             view.showEmailView();
+                            
                          }
                      },
                     SelectReportById = function (report) {
@@ -112,6 +130,15 @@
                         selectedItemCode(ItemCode);
                         selectedItemTitle(ItemTitle);
                         IsExternalReport(IsExternal);
+                        if (IsExternal == true)
+                        {
+                            ReportTitle("Print Order Report");
+
+                        }
+                        else
+                        {
+                            ReportTitle("Report(s)");
+                        }
                         $("#ReportViewerIframid").attr("src", "/mis/Home/Viewer?id=0&itemId=0");
                         if (CategoryId != undefined && CategoryId != null && CategoryId != 0) {
                             dataservice.getreportcategories({
@@ -122,6 +149,8 @@
                                 success: function (data) {
 
                                     reportcategoriesList.push(model.ReportCategory(data));
+                                    SelectReportById(model.ReportCategory(data).reports()[0]);
+                                    
                                 },
                                 error: function (response) {
                                     toastr.error("Failed to Load . Error: " + response);
@@ -152,6 +181,25 @@
                         view.hideEmailView();
                     },
                     
+                    // set order values
+                    SetOrderData = function(oSignedBy,oContactId,oRecordId,oCategoryId,oOrderId,oCriteriaParam)
+                    {
+                        //SignedBy: CategoryId,
+                        //ContactId: IsExternal,
+                        //RecordId: RecordId,
+                        //ReportType: ReportType,
+                        //OrderId: OrderId,
+                        //CriteriaParam: CriteriaParam
+                        SignedBy(oSignedBy);
+                        ContactId(oContactId);
+                        RecordId(oRecordId);
+                        CategoryId(oCategoryId);
+                        OrderId(oOrderId);
+                        CriteriaParam(oCriteriaParam);
+
+
+
+                    },
             // Widget being dropped
             // ReSharper disable UnusedParameter
             droppedEmailSection = function (source, target, event) {
@@ -177,8 +225,10 @@
                     selectedItemName:selectedItemName,
                     selectedItemCode :selectedItemCode,
                     selectedItemTitle: selectedItemTitle,
+                    SetOrderData: SetOrderData,
                     errorList:errorList,
                     show: show,
+                    ReportTitle: ReportTitle,
                     hide: hide,
                     showEmailView: showEmailView,
                     hideEmailView: hideEmailView,
