@@ -2240,6 +2240,7 @@ $("#smartFormSelectUserProfile").change(function () {
 $("#BtnSmartFormSave").click(function () {
     pcl42();
     smartFormClicked = true; $(".messageSmartForm").css("display", "none");
+    $("#collapseDesignerMenu").click();
 });
 $("#btnCompanyLogo").click(function () {
     d1CompanyLogoToCanvas();
