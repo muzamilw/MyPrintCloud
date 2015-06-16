@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Linq.Expressions;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
@@ -20,6 +21,10 @@ namespace MPC.Interfaces.Repository
         Dictionary<int, long> GetPurchasesList(long OrderId);
 
         bool DeletePO(long OrderId);
+        /// <summary>
+        /// Load Property
+        /// </summary>
+        void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
 
        
     }

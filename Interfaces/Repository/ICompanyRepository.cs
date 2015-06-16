@@ -93,5 +93,6 @@ namespace MPC.Interfaces.Repository
         Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
 
         List<StoresListResponse> GetStoresNameByOrganisationId();
+        IEnumerable<Company> GetAllRetailStores();
     }
 }
