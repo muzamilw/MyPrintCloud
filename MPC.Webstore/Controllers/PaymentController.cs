@@ -59,7 +59,7 @@ namespace MPC.Webstore.Controllers
                         opaypal.upload = "1";
                         opaypal.business = oGateWay.BusinessEmail;
                         opaypal.cmd = "_cart";
-                        opaypal.currency_code = StoreBaseResopnse.Currency;
+                        opaypal.currency_code = _myCompanyService.GetCurrencyCodeById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId));
                         opaypal.no_shipping = "1";
                         opaypal.handling_cart = "0";
 
