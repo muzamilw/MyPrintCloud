@@ -6,7 +6,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // #region __________________  Purchase List View   ______________________
         PurchaseListView = function (specifiedPurchaseId, specifiedCode, specifiedPurchaseDate, specifiedRefNo,
-            specifiedCompanyName, specifiedFlagColor) {
+            specifiedCompanyName, specifiedFlagColor, specifiedStatus) {
 
             var self,
                 id = ko.observable(specifiedPurchaseId),
@@ -14,7 +14,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 purchaseOrderDate = ko.observable(specifiedPurchaseDate !== null ? moment(specifiedPurchaseDate).toDate() : undefined),
                 companyName = ko.observable(specifiedCompanyName),
                 refNo = ko.observable(specifiedRefNo),
-                flagColor = ko.observable(specifiedFlagColor);
+                flagColor = ko.observable(specifiedFlagColor),
+                status = ko.observable(specifiedStatus),
+                statusName = ko.computed(function () {
+                    if (status() === 31) {
+                        return "Open";
+                    }
+                    else if (status() === 32) {
+                        return "Posted";
+                    }
+                    else if (status() === 33) {
+                        return "Cancelled";
+                    }
+                });
 
             return {
                 id: id,
@@ -23,6 +35,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 flagColor: flagColor,
                 companyName: companyName,
                 refNo: refNo,
+                status: status,
+                statusName: statusName,
             };
 
         },
@@ -78,7 +92,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 grandTotal = ko.observable(spcGrandTotal || 0).extend({ numberInput: ist.numberFormat }),
                 supplierId = ko.observable(spcSupplierId).extend({ required: true }),
                 //supplierTelNo = ko.observable(spcSupplierTelNo),
-                discount = ko.observable(spcDiscount || 0),
+                discount = ko.observable(0, 0),
                 companyName = ko.observable(undefined),
                 taxRate = ko.observable(0),
                 purchaseDetails = ko.observableArray([]),
@@ -86,7 +100,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 setValidationSummary = function (validationSummaryList) {
                     validationSummaryList.removeAll();
                     if (supplierId.error) {
-                        validationSummaryList.push({ name: "Customer", element: supplierId.domElement });
+                        validationSummaryList.push({ name: "Supplier", element: supplierId.domElement });
                     }
                     if (contactId.error) {
                         validationSummaryList.push({ name: "Contact", element: contactId.domElement });
@@ -101,7 +115,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Errors
                 errors = ko.validation.group({
                     supplierId: supplierId,
-                    flagId: flagId
+                    flagId: flagId,
+                    addressId: addressId,
+                    contactId:contactId
                 }),
                 // Is Valid 
                 isValid = ko.computed(function () {
@@ -247,7 +263,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             setValidationSummary = function (validationSummaryList) {
                 validationSummaryList.removeAll();
                 if (supplierId.error) {
-                    validationSummaryList.push({ name: "Customer", element: supplierId.domElement });
+                    validationSummaryList.push({ name: "Supplier", element: supplierId.domElement });
                 }
                 if (contactId.error) {
                     validationSummaryList.push({ name: "Contact", element: contactId.domElement });
@@ -260,7 +276,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Errors
             errors = ko.validation.group({
                 supplierId: supplierId,
-                flagId: flagId
+                flagId: flagId,
+                contactId: contactId,
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -377,12 +394,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var self,
             id = ko.observable(specifiedPurchaseDetailId),
             itemId = ko.observable(specifiedItemId),
-             quantity = ko.observable(specifiedquantity || 1),
-             price = ko.observable(specifiedprice || 0),
-             packqty = ko.observable(specifiedpackqty || 0),
+             quantity = ko.observable(specifiedquantity || 1).extend({ number: true }),
+             price = ko.observable(specifiedprice || 0).extend({ number: true }),
+             packqty = ko.observable(specifiedpackqty || 0).extend({ number: true }),
              itemCode = ko.observable(specifiedItemCode),
              serviceDetail = ko.observable(specifiedServiceDetail),
-             taxValue = ko.observable(specifiedTaxValue || 0),
+             taxValue = ko.observable(0),
              totalPrice = ko.computed(function () {
                  return quantity() * price();
              }).extend({ numberInput: ist.numberFormat }),
@@ -394,14 +411,29 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              refItemId = ko.observable(specifiedRefItemId),
              productType = ko.observable(specifiedProductType),
 
-
+               // Errors
+                errors = ko.validation.group({
+                    quantity: quantity,
+                    price: price,
+                    packqty: packqty,
+                    freeitems: freeitems,
+                }),
+                // Is Valid 
+                isValid = ko.computed(function () {
+                    return errors().length === 0 ? true : false;
+                }),
+                // Show All Error Messages
+                showAllErrors = function () {
+                    // Show Item Errors
+                    errors.showAllMessages();
+                },
             convertToServerData = function (source) {
                 return {
                     PurchaseDetailId: source.id() < 0 ? 0 : source.id(),
                     quantity: source.quantity(),
                     price: source.price(),
                     packqty: source.packqty(),
-                    pacItemCodekqty: source.itemCode(),
+                    ItemCode: source.itemCode(),
                     ServiceDetail: source.serviceDetail(),
                     TotalPrice: source.totalPrice(),
                     Discount: source.discount(),
@@ -425,6 +457,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             totalPrice: totalPrice,
             discount: discount,
             netTax: netTax,
+            errors: errors,
+            isValid: isValid,
+            showAllErrors: showAllErrors,
             freeitems: freeitems,
             refItemId: refItemId,
             productType: productType,
@@ -441,8 +476,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedTaxValue, specifiedQtyReceived) {
         var self,
             id = ko.observable(specifiedGoodsReceivedDetailId),
-             quantity = ko.observable(specifiedquantity || 1),
-             price = ko.observable(specifiedprice || 0),
+             quantity = ko.observable(specifiedquantity || 1).extend({ number: true }),
+             price = ko.observable(specifiedprice || 0).extend({ number: true }),
              packqty = ko.observable(specifiedpackqty || 0),
              itemCode = ko.observable(specifiedItemCode),
              serviceDetail = ko.observable(specifiedServiceDetail),
@@ -457,8 +492,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              freeitems = ko.observable(specifiedfreeitems || 0).extend({ number: true }),
              refItemId = ko.observable(specifiedRefItemId),
              productType = ko.observable(specifiedProductType),
-             qtyReceived = ko.observable(specifiedQtyReceived || 1),
-
+             qtyReceived = ko.observable(specifiedQtyReceived || 1).extend({ number: true }),
+               // Errors
+                errors = ko.validation.group({
+                    quantity: quantity,
+                    price: price,
+                    freeitems: freeitems,
+                    qtyReceived: qtyReceived,
+                }),
+                // Is Valid 
+                isValid = ko.computed(function () {
+                    return errors().length === 0 ? true : false;
+                }),
+                // Show All Error Messages
+                showAllErrors = function () {
+                    // Show Item Errors
+                    errors.showAllMessages();
+                },
 
             convertToServerData = function (source) {
                 return {
@@ -494,6 +544,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             freeitems: freeitems,
             refItemId: refItemId,
             productType: productType,
+            errors: errors,
+            isValid: isValid,
+            showAllErrors: showAllErrors,
             convertToServerData: convertToServerData
         };
         return self;
@@ -551,13 +604,17 @@ CompanyContact = function (specifiedId, specifiedName, specifiedEmail, specified
     // Purchase List View Factory
     PurchaseListView.Create = function (source) {
         return new PurchaseListView(source.PurchaseId, source.Code, source.DatePurchase, source.RefNo,
-             source.SupplierName, source.FlagColor);
+             source.SupplierName, source.FlagColor, source.Status);
     };
     // Goods Received Note Factory
     GoodsReceivedNote.Create = function (source) {
-        return new GoodsReceivedNote(source.GoodsReceivedId, source.PurchaseId, source.code, source.date_Received, source.SupplierId, source.ContactId, source.RefNo, source.Status,
-            source.FlagId, source.Comments, source.UserNotes, source.CreatedBy, source.Discount, source.discountType, source.TotalPrice, source.NetTotal, source.TotalTax,
-            source.grandTotal, source.isProduct, source.Tel1, source.DeliveryDate, source.Reference1, source.Reference2, source.CarrierId);
+        var grn = new GoodsReceivedNote(source.GoodsReceivedId, source.PurchaseId, source.code, source.date_Received, source.SupplierId, source.ContactId, source.RefNo, source.Status,
+             source.FlagId, source.Comments, source.UserNotes, source.CreatedBy, source.Discount, source.discountType, source.TotalPrice, source.NetTotal, source.TotalTax,
+             source.grandTotal, source.isProduct, source.Tel1, source.DeliveryDate, source.Reference1, source.Reference2, source.CarrierId);
+        _.each(source.GoodsReceivedNoteDetails, function (grnDet) {
+            grn.goodsReceivedNoteDetails.push(GoodsReceivedNoteDetail.Create(grnDet));
+        });
+        return grn;
     }
 
     // Goods Received Note Detail factory

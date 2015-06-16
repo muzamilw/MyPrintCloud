@@ -80,6 +80,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 StockItemId = source.StockItemId,
                 ItemName = source.ItemName,
+                ItemCode = source.ItemCode,
                 ItemWeight = source.ItemWeight,
                 ItemDescription = source.ItemDescription,
                 CategoryName = source.StockCategory != null ? source.StockCategory.Name : string.Empty,

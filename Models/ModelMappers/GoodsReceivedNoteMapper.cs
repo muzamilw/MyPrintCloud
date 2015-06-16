@@ -23,6 +23,7 @@ namespace MPC.Models.ModelMappers
         {
             target.Discount = source.Discount;
             target.DeliveryDate = source.DeliveryDate;
+            target.PurchaseId = source.PurchaseId;
             target.CreatedBy = source.CreatedBy;
             target.RefNo = source.RefNo;
             target.Tel1 = source.Tel1;
