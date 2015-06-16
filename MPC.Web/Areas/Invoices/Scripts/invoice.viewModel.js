@@ -65,6 +65,8 @@ define("invoice/invoice.viewModel",
                     // #endregion
 
                     // #region Observables
+                    // Selected Estimate Phrase Container
+                    selectedEstimatePhraseContainer = ko.observable(),
                     // filter
                     filterText = ko.observable(),
                     // Selected Product
@@ -128,6 +130,31 @@ define("invoice/invoice.viewModel",
                     //#endregion
 
                     //#region Utility Functions
+                    // Select Estimate Phrase Container
+                    selectEstimatePhraseContainer = function (data, e) {
+                        selectedEstimatePhraseContainer(e.currentTarget.id);
+                    },
+                    // Open Phrase Library
+                    openPhraseLibrary = function () {
+                        phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.show(function (phrase) {
+                            updateEstimatePhraseContainer(phrase);
+                        });
+                    },
+                    // update Estimate Phrase Container
+                    updateEstimatePhraseContainer = function (phrase) {
+                        if (!phrase) {
+                            return;
+                        }
+
+                        // Set Phrase to selected Estimate Phrase Container
+                        if (selectedEstimatePhraseContainer() === 'EstimateHeader') {
+                            selectedInvoice().headNotes(selectedInvoice().headNotes() ? selectedInvoice().headNotes() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox') {
+                            selectedInvoice().footNotes(selectedInvoice().footNotes() ? selectedInvoice().footNotes() + ' ' + phrase : phrase);
+                        }
+                    },
                     // Selected Address
                     selectedAddress = ko.computed(function () {
                         if (!selectedInvoice() || !selectedInvoice().addressId() || companyAddresses().length === 0) {
@@ -1124,7 +1151,10 @@ define("invoice/invoice.viewModel",
                     gotoElement: gotoElement,
                     isShowStatusCloumn: isShowStatusCloumn,
                     pageHeader: pageHeader,
-                    pageCode: pageCode
+                    pageCode: pageCode,
+                    selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
+                    selectEstimatePhraseContainer: selectEstimatePhraseContainer,
+                    openPhraseLibrary: openPhraseLibrary
                     //#endregion
                 };
             })()
