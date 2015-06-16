@@ -1213,7 +1213,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="NetTotal" Type="float" />
           <Property Name="discountType" Type="int" />
           <Property Name="Status" Type="int" />
-          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" />
           <Property Name="LastChangedBy" Type="int" Nullable="false" />
           <Property Name="FlagId" Type="int" Nullable="false" />
           <Property Name="LockedBy" Type="int" Nullable="false" />
@@ -13466,7 +13466,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="NetTotal" Type="Double" />
           <Property Name="discountType" Type="Int32" />
           <Property Name="Status" Type="Int32" />
-          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedBy" Type="Guid" />
           <Property Name="LastChangedBy" Type="Int32" Nullable="false" />
           <Property Name="FlagId" Type="Int32" Nullable="false" />
           <Property Name="LockedBy" Type="Int32" Nullable="false" />
