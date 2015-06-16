@@ -5500,13 +5500,6 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-=======
-/****** Object:  Table [dbo].[VariableExtension]    Script Date: 11/06/2015 11:20:58 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
 
 CREATE TABLE [dbo].[VariableExtension](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
@@ -5621,3 +5614,11 @@ add constraint FK_VariableExtension_FieldVariable
 foreign key (FieldVariableId)
 references FieldVariable (VariableId)
 on delete cascade
+
+/* Execution Date: 16/06/2015 */
+
+alter table goodsreceivednote
+alter column createdby nvarchar(max) null
+
+alter table goodsreceivednote
+alter column createdby uniqueidentifier null

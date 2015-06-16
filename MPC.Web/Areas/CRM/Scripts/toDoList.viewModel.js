@@ -51,7 +51,7 @@ define("toDoList/toDoList.viewModel",
                     //if (Createdbysystemuser.length > 0) {
                     //    createdByUserName(Createdbysystemuser[0].FullName);
                     //}
-                    
+
                     view.showCalendarActivityDialog();
 
                 },
@@ -75,7 +75,7 @@ define("toDoList/toDoList.viewModel",
                 onChangeSystemUser = function () {
                     var start = new Date(year, month, 1);
                     var end = new Date(year + (month == 12 ? 1 : 0), month + 1, 0);
-                    getCalendarActivities(moment(start).format(ist.utcFormat), moment(end.start).format(ist.utcFormat));
+                    getCalendarActivities(moment(start).format(ist.utcFormat), moment(end).format(ist.utcFormat));
                 },
                 //delete Activity
                 onDeleteActivity = function (activity) {
@@ -117,9 +117,9 @@ define("toDoList/toDoList.viewModel",
                             activityTypes.valueHasMutated();
 
                             loggedInUserId(data.LoggedInUserId);
-                            
-                            selectedSystemUser(loggedInUserId());
-                            //getCalendarActivities(moment(date2).format(ist.utcFormat), moment(date1).format(ist.utcFormat));
+
+                            selectedSystemUser(data.LoggedInUserId);
+                            getActivities();
                         },
                         error: function () {
                             toastr.error("Failed to load base data.");
@@ -165,7 +165,7 @@ define("toDoList/toDoList.viewModel",
                 saveActivity = function () {
                     dataservice.saveActivity(selectedActivity().convertToServerData(), {
                         success: function (data) {
-                            if (data !== null && selectedSystemUser()!= undefined && selectedSystemUser().toLowerCase()!=undefined && selectedSystemUser().toLowerCase() === selectedActivity().systemUserId().toLowerCase()) {
+                            if (data !== null && selectedSystemUser() != undefined && selectedSystemUser().toLowerCase() != undefined && selectedSystemUser().toLowerCase() === selectedActivity().systemUserId().toLowerCase()) {
 
                                 if (selectedActivity().id() === undefined) {
                                     selectedActivity().id(data);
