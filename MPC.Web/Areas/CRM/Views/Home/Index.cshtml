@@ -7,11 +7,14 @@
     <div class="col-lg-12" >
         <div class="row">
             <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
+                <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
+                <input type="hidden" name="CompanyId" id="CompanyId" value="@ViewBag.CompanyId" />
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
-                <div class="clearfix">
-                    <h1 class="pull-left" style="padding-left:0px;">Companies</h1>
+                <h1 style="padding-left:0px;">Companies</h1>
+                <div class="clearfix pull-left" style="padding-bottom: 1%">
+                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
                 </div>
             </div>
             <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none">
@@ -76,6 +79,7 @@
                                                             <tr>
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Company</span></th>
+                                                                <th class="col-lg-3"><span>Store</span></th>
                                                                 <th class="col-lg-1"><span>Created</span></th>
                                                                 <th class="col-lg-2"><span>Email</span></th>
                                                                 <th class="col-lg-1"><span>Type</span></th>
@@ -92,6 +96,10 @@
                                                                 <td>
                                                                     <a href="#" class="store-user-link" data-bind="text:name"></a>
                                                                     <span class="user-subhead" data-bind="text:defaultContact"></span>
+                                                                </td>
+                                                                <td>
+                                                                   
+                                                                    <span class="user-subhead" data-bind="text:storeName"></span>
                                                                 </td>
                                                                 <td>
                                                                     <p data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'"></p>
@@ -113,7 +121,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div id="pagerDiv" style="margin-right :16px" class="pull-right">
+                                            <div id="pagerDiv" style="margin-right:0px" class="pull-right">
                                                 <!-- ko with: prospectPager -->
                                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                 <!-- /ko -->
@@ -124,14 +132,14 @@
                                 @{
                                     Html.RenderPartial("~/Areas/CRM/Views/Home/CompaniesDetail.cshtml");
                                 }
+                            </div>
                         </div>
+
+
                     </div>
-
-
                 </div>
-            </div>
 
-        </div>
+            </div>
             <script id="filterTemplate" type="text/html">
                 <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
 
@@ -145,6 +153,9 @@
                                 <i class="fa fa-search search-icon" data-bind="click: $root.filterHandler"></i>
                             </div>
                             <div class="pull-left">
+                                <a class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
+                                    Reports
+                                </a>
                                 <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
                                     Add Customer
                                 </a>
@@ -152,16 +163,19 @@
                         </div>
 
                     </form>
-
+                   
                     <div class="clearfix">
                     </div>
                 </div>
-        </script>
+            </script>
+        </div>
     </div>
 </div>
+    @Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 @section Scripts{
     <script>
-        require(["crm/crm.view", "common/confirmation.view"]);
+        require(["crm/crm.view", "common/confirmation.view", "common/reportManager.view"]);
         $(function () {
             $('#licrm').addClass('active');
         });

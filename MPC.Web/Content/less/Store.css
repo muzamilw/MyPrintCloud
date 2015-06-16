@@ -311,8 +311,8 @@
   clear: both;
 }
 #storesBinding #tab-products .dd-handle-list {
-  height: 90%;
   overflow: hidden;
+  margin-top: 6px;
 }
 #storesBinding #tab-products .dd-handle {
   height: auto;
@@ -399,6 +399,9 @@
 #storesBinding .form-group-closer {
   margin-bottom: 0px;
 }
+#storesBinding #productMarketBriefQuestionDialog #addMarketBriefAnswerBtn {
+  margin-right: 14px;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
@@ -421,3 +424,4 @@
 .archiveButton {
   float: left;
 }
+/*# sourceMappingURL=Store.css.map */

@@ -58,7 +58,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
 
         List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId);
-        List<ProductCategory> GetAllCategories(long companyId);
+        List<ProductCategory> GetAllCategories(long companyId, long OrganisationId);
         CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId, long OrganisationId);
 
         ProductCategory GetCategoryById(long categoryId);
@@ -225,6 +225,8 @@ namespace MPC.Interfaces.WebStoreServices
         Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
 
         CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
-        
+        List<ProductCategory> GetAllRetailPublishedCat();
+        List<ProductCategory> GetAllCategories();
+        string GetCurrencyCodeById(long currencyId);
     }
 }

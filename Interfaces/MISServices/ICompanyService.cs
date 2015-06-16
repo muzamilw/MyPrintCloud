@@ -1,3 +1,4 @@
+
 ﻿using System.Collections.Generic;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -139,6 +140,13 @@ namespace MPC.Interfaces.MISServices
         /// Delete Field Variable
         /// </summary>
         void DeleteFieldVariable(long variableId);
+
+        /// <summary>
+        /// Save Imported Company Contact
+        /// </summary>
+        /// <param name="stagingImportCompanyContact"></param>
+        /// <returns></returns>
+        bool SaveImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact);
 
         #region exportOrganisation
 

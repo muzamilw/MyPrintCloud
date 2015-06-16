@@ -63,8 +63,11 @@ $('#imageUploader').change(function () {
                     if (IsCalledFrom == 2)
                         contactIDlocal = CustomerID;
                     $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + contactIDlocal + "/" + organisationId + "/" + panelType + "/" + CustomerID,
-                        function (result) {
+                        function (res) {
+                            LiImgs.push(res); 
+                            var result = res.BackgroundImageAbsolutePath;
                             if (result != "uploadedPDFBK") {
+                                imToLoad = res.BackgroundImageAbsolutePath;
                                 $("#progressbar").css("display", "none");
                                 $(".imageEditScreenContainer").css("display", "block");
                                 if (parseInt(result)) {
@@ -74,18 +77,7 @@ $('#imageUploader').change(function () {
                                 }
                                 k27();
                                 isImgUpl = true;
-                                //if (IsCalledFrom == 1 || IsCalledFrom == 2) {
-                                //    $("#ImgCarouselDiv").tabs("option", "active", 0);
-                                //    $("#BkImgContainer").tabs("option", "active", 0);
-                                //    $('#divGlobalImages').scrollTop();
-                                //    $('#divGlobalBackg').scrollTop();
-                                //} else {
-                                //    $("#ImgCarouselDiv").tabs("option", "active", 2);
-                                //    $("#BkImgContainer").tabs("option", "active", 2);
-                                //    $('#divPersonalImages').scrollTop();
-                                //    $('#divPersonalBkg').scrollTop();
-                                //}
-                                StopLoader();
+                                StopLoader(); $("#" + res.BackgroundImageAbsolutePath).parent().parent().click();
                             } else {
                                 Arc_1();
                             }

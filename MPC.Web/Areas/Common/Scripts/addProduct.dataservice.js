@@ -23,6 +23,14 @@ define("common/addProduct.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
+                    // Define request to Execute Cost Center
+                    amplify.request.define('executeCostCenter', 'ajax', {
+                        url: '/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId={CostCentreId}&ClonedItemId={ClonedItemId}&OrderedQuantity={QuantityOrdered}&CallMode={CallMode}',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    
                     isInitialized = true;
                 }
             },
@@ -31,6 +39,16 @@ define("common/addProduct.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getItemsDetailsByItemId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // Execute Cost Center
+            executeCostCenter = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'executeCostCenter',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -49,7 +67,8 @@ define("common/addProduct.dataservice", function () {
 
         return {
             getItemsByCompanyId: getItemsByCompanyId,
-            getItemsDetailsByItemId: getItemsDetailsByItemId
+            getItemsDetailsByItemId: getItemsDetailsByItemId,
+            executeCostCenter: executeCostCenter
         };
     })();
 

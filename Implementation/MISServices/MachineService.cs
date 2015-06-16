@@ -28,13 +28,13 @@ namespace MPC.Implementation.MISServices
         {
             return machine;
         }
-        public bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        public bool UpdateMachine(Machine machine, MachineClickChargeZone ClickCharge, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv, int type)
         {
-            return _machineRepository.UpdateMachine(machine, MachineSpoilages);
+            return _machineRepository.UpdateMachine(machine,ClickCharge,MeterPerHour,GuillotineLookup,GuillotinePtv,type);
         }
-        public long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        public long AddMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int Type)
         {
-            return _machineRepository.AddMachine(machine, MachineSpoilages);
+            return _machineRepository.AddMachine(machine, ClickChargeZone, MeterPerHour, GuillotineLookup,GuillotinePtv,Type);
         }
         public bool archiveMachine(long machineId)
         {

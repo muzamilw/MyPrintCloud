@@ -11,7 +11,9 @@
                     <li><a href="#">&nbsp;</a></li>
                 </ol>
                 <h1 style="padding-left:0px;">Calendar</h1>
-
+                <div class="clearfix pull-left" style="padding-bottom: 1%">
+                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -53,7 +55,7 @@
                                                 <div class="col-md-12 form-horizontal">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <div class="col-lg-2 text-right">
+                                                            <div class="col-lg-4 text-right">
                                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                                     <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Owner" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -61,7 +63,7 @@
                                                                 </div>
                                                                 <label for="owner" class="control-label text-right tooltip-float">Show</label>
                                                             </div>
-                                                            <div class="col-lg-10">
+                                                            <div class="col-lg-8" style="padding-right:20px;">
                                                                 <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsText: 'FullName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>
                                                             </div>
                                                         </div>

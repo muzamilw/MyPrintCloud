@@ -277,6 +277,13 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Import Company Contact Csv
+                    amplify.request.define('importCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/Import',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     // Define request to Delete Company Address
                     amplify.request.define('deleteCompanyAddress', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
@@ -309,8 +316,24 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
+                    // Define request to Get Paymetn Gateways
+                    amplify.request.define('getPaymentGateways', 'ajax', {
+                        url: ist.siteUrl + '/Api/PaymentGateway',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
+            },
+               // get Payment Gateways
+            getPaymentGateways = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getPaymentGateways',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
             },
             // get ProductCategory Childs
             getProductCategoryChilds = function (params, callbacks) {
@@ -658,6 +681,16 @@
                     data: param
                 });
             },
+         // import Company Contacts
+            importCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'importCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // Delete Company Territory
             deleteCompanyTerritory = function (param, callbacks) {
                 initialize();
@@ -798,6 +831,7 @@
             saveCompanyTerritory: saveCompanyTerritory,
             saveAddress: saveAddress,
             saveCompanyContact: saveCompanyContact,
+            importCompanyContact: importCompanyContact,
             deleteCompanyTerritory: deleteCompanyTerritory,
             deleteCompanyAddress: deleteCompanyAddress,
             deleteCompanyContact: deleteCompanyContact,
@@ -818,7 +852,8 @@
             deleteCompanyPermanent: deleteCompanyPermanent,
             deleteMediaLibraryItemById: deleteMediaLibraryItemById,
             saveSecondaryPage: saveSecondaryPage,
-            deleteSecondaryPage: deleteSecondaryPage
+            deleteSecondaryPage: deleteSecondaryPage,
+            getPaymentGateways: getPaymentGateways
         };
     })();
 

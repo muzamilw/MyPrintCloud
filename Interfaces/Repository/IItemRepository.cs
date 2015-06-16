@@ -28,7 +28,7 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Check if Product Code is Duplicate
         /// </summary>
-        bool IsDuplicateProductCode(string productCode, long? itemId);
+        bool IsDuplicateProductCode(string productCode, long? itemId, long? companyId);
 
         /// <summary>
         /// Get Items
@@ -127,7 +127,7 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        IEnumerable<Item> GetItemsByCompanyId(ItemSearchRequestModel requestModel);
+        ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel requestModel);
         /// <summary>
         /// get cart items count 
         /// </summary>

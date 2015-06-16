@@ -493,12 +493,12 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
 
-        }
-        public List<ProductCategory> GetAllCategories(long companyId)
+         }
+        public List<ProductCategory> GetAllCategories(long companyId, long OrganisationId)
         {
             try
             {
-                return _productCategoryRepository.GetAllCategoriesByStoreId(companyId);
+                return _productCategoryRepository.GetAllCategoriesByStoreId(companyId, OrganisationId);
             }
             catch (Exception ex)
             {
@@ -1347,7 +1347,6 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
-
         }
         public int AddSubscriber(NewsLetterSubscriber subsriber)
         {
@@ -1432,5 +1431,25 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetCorporateContactForAutoLogin(emailAddress, organistionId, companyId);
         }
+
+        public List<ProductCategory> GetAllRetailPublishedCat()
+        {
+            return _productCategoryRepository.GetAllRetailPublishedCat();
+        }
+        public List<ProductCategory> GetAllCategories()
+        {
+           return _productCategoryRepository.GetAllCategories();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currencyId"></param>
+        /// <returns></returns>
+        public string GetCurrencyCodeById(long currencyId)
+        {
+            return _currencyRepository.GetCurrencyCodeById(currencyId);
+        }
+
+
     }
 }

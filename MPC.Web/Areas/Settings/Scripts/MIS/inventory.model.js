@@ -43,7 +43,7 @@
             categoryName: categoryName,
             subCategoryName: subCategoryName,
             weightUnitName: weightUnitName,
-            packCostPrice:packCostPrice,
+            packCostPrice: packCostPrice,
             fullCategoryName: fullCategoryName,
             supplierCompanyName: supplierCompanyName,
             convertToServerData: convertToServerData,
@@ -57,10 +57,9 @@
         specifiedItemSizeSelectedUnitId, specifiedPerQtyQty, specifiedItemSizeCustom, specifiedStockLocation, specifiedItemSizeId, specifiedItemSizeHeight,
         specifiedItemSizeWidth, specifiedPerQtyType, specifiedPackageQty, specifiedRollWidth, specifiedRollLength, specifiedReOrderLevel, specifiedReorderQty,
         specifiedItemWeight, specifiedItemColour, specifiedInkAbsorption, specifiedPaperBasicAreaId, specifiedItemCoated, specifiedItemCoatedType,
-        specifiedItemWeightSelectedUnit, specifiedAllocated, specifiedOnOrder, specifiedLastOrderQty, specifiedLastOrderDate, specifiedSupplierName
+        specifiedItemWeightSelectedUnit, specifiedAllocated, specifiedOnOrder, specifiedLastOrderQty, specifiedLastOrderDate, specifiedSupplierName,specifiedIsImperical
            ) {
-        var
-            self,
+        var self,
             //item Id
             itemId = ko.observable(specifiedItemId === undefined ? 0 : specifiedItemId),
             //Item Name
@@ -90,7 +89,7 @@
             //Is Disabled
             isDisabled = ko.observable(specifiedIsDisabled),
             //Paper Type ID
-            paperTypeId = ko.observable((specifiedPaperTypeId == undefined || specifiedPaperTypeId === null) ? 1 : specifiedPaperTypeId),
+            paperTypeId = ko.observable((specifiedPaperTypeId == undefined || specifiedPaperTypeId === null) ? "1" : specifiedPaperTypeId.toString()),
             //Item Size Selected Unit Id
             itemSizeSelectedUnitId = ko.observable(specifiedItemSizeSelectedUnitId),
             //perQtyQty
@@ -107,7 +106,7 @@
             itemSizeWidth = ko.observable(specifiedItemSizeWidth).extend({ number: true }),
             //Per Qty Type
             perQtyType = ko.observable(specifiedPerQtyType),
-           //Package Qty
+            //Package Qty
             packageQty = ko.observable(specifiedPackageQty === undefined ? 100 : specifiedPackageQty).extend({ number: true }),
             //Roll Width
             rollWidth = ko.observable(specifiedRollWidth).extend({ number: true }),
@@ -132,13 +131,16 @@
             //Item Weight Selected Unit
             itemWeightSelectedUnit = ko.observable(specifiedItemWeightSelectedUnit),
             //Allocated
-            allocated = ko.observable(specifiedAllocated),
+            allocated = ko.observable(specifiedAllocated == undefined || specifiedAllocated == null ? 0 : specifiedAllocated),
             //On Order
-            onOrder = ko.observable(specifiedOnOrder),
+            onOrder = ko.observable(specifiedOnOrder == undefined || specifiedOnOrder == null ? 0 : specifiedOnOrder),
             //Last Order Qty
-            lastOrderQty = ko.observable(specifiedLastOrderQty),
+            lastOrderQty = ko.observable(specifiedLastOrderQty == undefined || specifiedLastOrderQty == null ? 0 : specifiedLastOrderQty),
             //Last Order Date
             lastOrderDate = ko.observable(specifiedLastOrderDate),
+
+            // is empirical
+            IsImperical = ko.observable(specifiedIsImperical),
             //header computed Value based on selection unit size itm 
         headerComputedValue = ko.observable(),
         //Stock Cost And Price List
@@ -209,6 +211,7 @@
             lastOrderDate: lastOrderDate,
             headerComputedValue: headerComputedValue,
             supplierName: supplierName,
+            IsImperical: IsImperical,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
         }),
         // Has Changes
@@ -250,6 +253,7 @@
                 ItemCoatedType: itemCoatedType(),
                 Status: statusId(),
                 isDisabled: isDisabled(),
+                IsImperical: IsImperical(),
                 ItemWeightSelectedUnit: itemWeightSelectedUnit(),
                 StockCostAndPrices: stockCostAndPriceListInInventory()
             }
@@ -299,6 +303,7 @@
             lastOrderDate: lastOrderDate,
             headerComputedValue: headerComputedValue,
             supplierName: supplierName,
+            IsImperical: IsImperical,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
             paperType: paperType,
             isValid: isValid,
@@ -400,7 +405,7 @@
             source.PerQtyQty, source.ItemSizeCustom, source.StockLocation, source.ItemSizeId, source.ItemSizeHeight, source.ItemSizeWidth, source.PerQtyType, source.PackageQty,
             source.RollWidth, source.RollLength, source.ReOrderLevel, source.ReorderQty, source.ItemWeight, source.ItemColour, source.InkAbsorption, source.PaperBasicAreaId,
             source.ItemCoated, source.ItemCoatedType, source.ItemWeightSelectedUnit, source.Allocated, source.onOrder, source.LastOrderQty, source.LastOrderDate,
-            source.SupplierName);
+            source.SupplierName,source.IsImperical);
     };
     //Stock Cost And Price Item For Client Factory
     StockCostAndPrice.CreateForClient = function (source) {
@@ -418,7 +423,7 @@
     };
     //Create Factory 
     InventoryListView.Create = function (source) {
-        var obj= new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
+        var obj = new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
                               source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region);
         obj.packCostPrice(source.PackCostPrice);
         return obj;

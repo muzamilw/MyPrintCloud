@@ -1275,8 +1275,8 @@ namespace MPC.Repository.Repositories
                                              }
                                              else
                                              {
-                                                 PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                                                 pci.CategoryId = PID;
+                                                // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                 pci.CategoryId = null;
 
 
                                              }
@@ -3197,6 +3197,20 @@ namespace MPC.Repository.Repositories
             try
             {
                 return db.Organisations.Where(c => c.OrganisationId == OrganisationID).Select(c => c.BleedAreaSize ?? 0).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
+        public bool GetImpericalFlagbyOrganisationId()
+        {
+            try
+            {
+                return db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.IsImperical ?? false).FirstOrDefault();
             }
             catch (Exception ex)
             {

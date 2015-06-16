@@ -83,7 +83,7 @@ namespace MPC.Implementation.MISServices
         public InventoryBaseResponse GetBaseData()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
-            IEnumerable<StockCategory> stocks = stockCategoryRepository.GetAll();
+            IEnumerable<StockCategory> stocks = stockCategoryRepository.GetStockCategoriesForInventory();
             return new InventoryBaseResponse
             {
                 StockCategories = stocks,
@@ -94,7 +94,11 @@ namespace MPC.Implementation.MISServices
                 LengthUnits = lengthUnitRepository.GetAll(),
                 PaperBasisAreas = paperBasisAreaRepository.GetAll(),
                 Organisation = organisation,
-                Region = organisation.GlobalLanguage.culture
+                WeightUnit = organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
+                Region = organisation.GlobalLanguage.culture,
+                IsImperical = organisation.IsImperical ?? false
+
+                
             };
         }
 
@@ -251,6 +255,9 @@ namespace MPC.Implementation.MISServices
             stockItem.StockCreated = DateTime.Now;
             stockItem.ItemCode = prefixRepository.GetNextItemCodePrefix();
             stockItem.LastModifiedDateTime = DateTime.Now;
+
+            bool isImperical = organisationRepository.GetImpericalFlagbyOrganisationId();
+            stockItem.IsImperical = isImperical;
             stockItemRepository.Add(stockItem);
             stockItemRepository.SaveChanges();
             //After save item content for list view

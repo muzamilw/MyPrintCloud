@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Delivery Notes";
+    ViewBag.Title = "Purchase Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -7,83 +7,79 @@
 }
 <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
 <script>
-    $(document).ready(function () {
+    //$(document).ready(function () {
 
-        $(".edit-pertial").hide();
+    //    $(".edit-pertial").hide();
 
-        $(".partial-GRN").hide();
+    //    $(".partial-GRN").hide();
 
 
-        $(".patial-edit").click(function ()
-        {
-            $("#main-body").hide();
-            $(".edit-pertial").show();
-        });
-        $("#closeBtn").click(function ()
-        {
-            $("#main-body").show();
-            $(".edit-pertial").hide();
-        });
-    });
+    //    $(".patial-edit").click(function () {
+    //        $("#main-body").hide();
+    //        $(".edit-pertial").show();
+    //    });
+    //    $("#closeBtn").click(function () {
+    //        $("#main-body").show();
+    //        $(".edit-pertial").hide();
+    //    });
+    //});
 </script>
 
 <script>
-    $(document).ready(function ()
-    {
-        setTimeout(function ()
-        {
-            var spinner = $("div#spinner");
-            spinner.stop();
-            spinner.fadeOut("fast");
-            $.unblockUI(spinner);
-        }, 1000);
-    });
+    //$(document).ready(function () {
+    //    setTimeout(function () {
+    //        var spinner = $("div#spinner");
+    //        spinner.stop();
+    //        spinner.fadeOut("fast");
+    //        $.unblockUI(spinner);
+    //    }, 1000);
+    //});
 </script>
 
 
 
-<div class="row" id="orderBinding">
-    <div class="col-lg-12">
+<div class="row" id="purchaseOrderBinding">
+    <div class="col-sm-12" data-bind="visible:(!$root.isEditorVisible() && !$root.isGRNEditorVisible())">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-lg-12">
-                       <div class="clearfix">
-                            <h1 class="pull-left" data-bind="text: pageHeader" style="padding-left:0px;margin-top:35px;">Purchase Orders</h1>
+                    <div class="col-sm-12">
+                        <div class="clearfix">
+                            <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">Purchase Orders</h1>
                         </div>
 
                     </div>
                 </div>
             </div>
-              <div class="row" id="main-body">
-                 <div class="col-lg-12">
-                     @*Remove End from here for Login*@
-                          <div class="pull-right" style="margin-right:10px;">
-                              <a class="btn btn-primary patial-edit">
-                                  Create New Purchase Order
-                              </a>
-                          </div>
-                      </div>
-                 </div>
+            <div class="row" id="main-body" data-bind="visible:!$root.isEditorVisible()">
+                <div class="col-sm-12">
+                    @*Remove End from here for Login*@
+                    <div class="pull-right" style="margin-right: 3%;">
+                        <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
+                            Reports
+                        </button>
+                        <a class="btn btn-primary patial-edit" data-bind="click:$root.CreatePurchaseOrder">
 
-                <div class="col-lg-12" style="padding-left:10px;padding-right:12px;">
+                            Create New Purchase Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12" style="padding-left:10px;padding-right:12px;">
                 <br />
                 @*Write Your Logic Here , Ko Scripting Template with name "purchaseordersFilterTemplate" is Following*@
                 @*Remove Start from here for Login*@
                 <div class="filter-body">
-                    <form>
+                    <form data-bind="submit:$root.searchData">
                         <div class="filter-block pull-right">
                             <div class="form-group pull-left">
-                                <select class="form-control col-lg-4"></select>
+                                <select class="form-control col-sm-4" data-bind="options:$root.purchaseOrderTypes,optionsText:'name',optionsValue:'id', value: $root.purchaseOrderTypeFilter, event:{ change: $root.changePurchaseTypeFilter}"></select>
                             </div>
                             <div class="form-group pull-left">
-                                <select class="form-control"></select>
+                                <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root. searchFilter">
+                                <i class="fa fa-search search-icon" data-bind="click:$root.searchData"></i>
                             </div>
-                            <div class="form-group pull-left">
-                                <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
-                                <i class="fa fa-search search-icon"></i>
-                            </div>
-
                         </div>
                     </form>
                     <div class="clearfix">
@@ -92,202 +88,33 @@
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab-Open" data-toggle="tab">Open</a></li>
-                            <li><a href="#tab-Posted" data-toggle="tab">Posted</a></li>
-                            <li><a href="#tab-ShowAll" data-toggle="tab">Show All</a></li>
+                            <li class="active"><a href="#tab-ShowAll" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(0);}">Show All</a></li>
+                            <li><a href="#tab-Open" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(31);}">Open</a></li>
+                            <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getPurchaseOrdersOnTabChange(32);}">Posted</a></li>
+                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="visible:$root.purchaseOrderTypeFilter() === 1,click: function(){$root.getPurchaseOrdersOnTabChange(33);}">Cancelled</a></li>
                         </ul>
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-Open">
-                            <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
-                                <table class="table user-list">
-                                    <thead>
-                                        <tr>
-                                            <th><span>Company / Title</span></th>
-                                            <th><span>Order Date</span></th>
-                                            <th class="text-center"><span>Flag</span></th>
-                                            <th><span>Delivery Code</span></th>
-                                            <th>&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Gavin Newton</a>
-                                                <span class="user-subhead">Double-Sided A4 &nbsp; (1) Items</span>
-                                            </td>
-                                            <td>
-                                                24/01/2084
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-warning"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1160
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Colour Fast Group</a>
-                                                <span class="user-subhead">Complement Slips &nbsp; (3) Items</span>
-                                            </td>
-                                            <td>
-                                                2013/08/08
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-default"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1163
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Art Graphics</a>
-                                                <span class="user-subhead">New Estimate &nbsp; (3) Items</span>
-                                            </td>
-                                            <td>
-                                                2013/08/12
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1164
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Creative Art</a>
-                                                <span class="user-subhead">Premium Business Cards &nbsp; (5) Items</span>
-                                            </td>
-                                            <td>
-                                                2013/08/12
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1165
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            <!-- ko template: { name: 'tabTemplate' } -->
+                            <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-Posted">
-                            <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
-                                <table class="table user-list">
-                                    <thead>
-                                        <tr>
-                                            <th><span>Company / Title</span></th>
-                                            <th><span>Order Date</span></th>
-                                            <th class="text-center"><span>Flag</span></th>
-                                            <th><span>Delivery Code</span></th>
-                                            <th>&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Creative Art</a>
-                                                <span class="user-subhead">Premium Business Cards &nbsp; (5) Items</span>
-                                            </td>
-                                            <td>
-                                                24/01/2084
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1165
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Colour Fast Group</a>
-                                                <span class="user-subhead">Complement Slips &nbsp; (3) Items</span>
-                                            </td>
-                                            <td>
-                                                2013/08/08
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-default"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1163
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Art Graphics</a>
-                                                <span class="user-subhead">New Estimate &nbsp; (3) Items</span>
-                                            </td>
-                                            <td>
-                                                2013/08/12
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1164
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            <!-- ko template: { name: 'tabTemplate' } -->
+                            <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-ShowAll">
-                            <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
-                                <table class="table user-list">
-                                    <thead>
-                                        <tr>
-                                            <th><span>Company / Title</span></th>
-                                            <th><span>Order Date</span></th>
-                                            <th class="text-center"><span>Flag</span></th>
-                                            <th><span>Delivery Code</span></th>
-                                            <th>&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                <a href="#" class="user-link patial-edit">Art Graphics</a>
-                                                <span class="user-subhead">New Estimate &nbsp; (3) Items</span>
-                                            </td>
-                                            <td>
-                                                24/01/2084
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                            </td>
-                                            <td>
-                                                DEL-001-1164
-                                            </td>
-                                            <td style="width: 20%;"></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            <!-- ko template: { name: 'tabTemplate' } -->
+                            <!-- /ko -->
+                        </div>
+                        <div class="tab-pane" id="tab-Cancelled">
+                            <!-- ko template: { name: 'tabTemplate' } -->
+                            <!-- /ko -->
+                        </div>
+                        <div id="pagerDiv" class="pull-right" style="padding-right: 2%;">
+                            <!-- ko with: pager -->
+                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                            <!-- /ko -->
                         </div>
                     </div>
 
@@ -295,43 +122,72 @@
             </div>
 
 
-            </div>
         </div>
+    </div>
 
     @Html.Partial("_partialpurchaseOrders")
+    @Html.Partial("_partialPurchaseorderGRN")
+    @Html.Partial("~/Areas/Orders/Views/Home/_PurchaseDetailDialog.cshtml")
+    @Html.Partial("~/Areas/Orders/Views/Home/_GRNDetailDialog.cshtml")
+</div>
 
-    </div>
 
-  
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 
-
-<script id="purchaseordersFilterTemplate" type="text/html">
-    <div class="filter-body">
-        <form>
-            <div class="filter-block pull-right">
-                <div class="form-group pull-left">
-                    <select class="form-control col-lg-4"></select>
-                </div>
-                <div class="form-group pull-left">
-                    <select class="form-control"></select>
-                </div>
-                <div class="form-group pull-left">
-                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
-                    <i class="fa fa-search search-icon"></i>
-                </div>
-
-            </div>
-        </form>
-        <div class="clearfix">
-        </div>
-    </div>
-</script>
 
 @section Scripts{
     <script>
+        require(["purchaseOrders/purchaseOrders.view", "common/companySelector.view", , "common/confirmation.view", "common/reportManager.view", "common/stockItem.view"]);
         $(document).ready(function () {
             $('#lipurchases').addClass('active');
         });
 
     </script>
 }
+
+<script id="tabTemplate" type="text/html">
+    <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
+        <table class="table user-list">
+            <thead>
+                <tr>
+                    <th class="col-sm-4"><span>Company / Title</span></th>
+                    <th class="col-sm-2"><span>Purchase Date</span></th>
+                    <th class="col-sm-2 text-center"><span>Flag</span></th>
+                    <th class="col-sm-2 "><span>Status</span></th>
+                    <th class="col-sm-2"><span>Code</span></th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- ko template: { name: 'purchaseListViewTemplate', foreach: $root.purchaseOrders } -->
+                <!-- /ko -->
+            </tbody>
+        </table>
+    </div>
+
+</script>
+<script id="purchaseListViewTemplate" type="text/html">
+    <tr style="cursor: pointer" data-bind="click:$root.onEditPurchaseOrder">
+        <td>
+            <a href="#" class="user-link patial-edit" data-bind="text:companyName"></a>
+            <span class="user-subhead" data-bind="text:refNo"></span>
+        </td>
+        <td>
+            <span data-bind="dateString: purchaseOrderDate, datePattern: 'DD/MM/YYYY'"></span>
+        </td>
+        <td class="text-center">
+            <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
+        </td>
+        <td>
+            <span data-bind="text:statusName"></span>
+        </td>
+        <td>
+            <span data-bind="text:code"></span>
+        </td>
+        <td style="width: 20%;"></td>
+    </tr>
+
+</script>

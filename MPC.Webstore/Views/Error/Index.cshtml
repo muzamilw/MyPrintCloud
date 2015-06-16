@@ -1,0 +1,114 @@
+﻿
+<head>
+    <style>
+        .row2 {
+            color: #979797;
+            background-color: #FFFFFF;
+        }
+
+        .container {
+            padding: 30px 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        #header, .container, #footer {
+            display: block;
+            width: 720px;
+            margin: 0 auto;
+        }
+
+        #fof {
+            display: block;
+            width: 100%;
+            margin: 80px 0 100px 0;
+            line-height: 1.6em;
+            text-align: center;
+        }
+
+        .clear {
+            display: inline-block;
+            clear: both;
+        }
+
+        .fl_left {
+            float: left;
+        }
+
+        div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, div.wrapper h6 {
+            margin: 0 0 15px 0;
+            padding: 0;
+            font-size: 20px;
+            font-weight: normal;
+            line-height: normal;
+        }
+
+        #fof .fl_right {
+            margin-top: 60px;
+            text-align: left;
+            color: rgb(151, 151, 151);
+            display: block;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            width: 480px;
+        }
+
+        .fl_right {
+            float: right;
+        }
+
+        #fof .fl_right h2 {
+            font-size: 25px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        div.wrapper {
+            display: block;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        .row2 {
+            color: #979797;
+            background-color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="container">
+
+            <div id="fof" class="clear">
+
+                <div class="fl_left">
+
+                    <img src="/Content/Images/bugzy.PNG" />
+                </div>
+                <div class="fl_right">
+                    <div>
+                        
+                        <ul>
+                            <li>@ViewBag.Exception</li>
+                        </ul>
+
+                    </div>
+                    <div>
+                        <h2>Stack trace</h2>
+                        <ul>
+                            <li>@ViewBag.StackTrace</li>
+                            <li>@ViewBag.InnerException</li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div style="clear:both;">
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+</body>

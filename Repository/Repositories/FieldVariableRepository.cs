@@ -68,7 +68,7 @@ namespace MPC.Repository.Repositories
             int toRow = request.PageSize;
             Expression<Func<FieldVariable, bool>> query =
             s =>
-                (s.CompanyId == request.CompanyId);
+                (s.CompanyId == request.CompanyId && s.OrganisationId == OrganisationId);
 
             int rowCount = DbSet.Count(query);
             IEnumerable<FieldVariable> fieldVariables = request.IsAsc
@@ -102,7 +102,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<FieldVariable> GetFieldVariablesForSmartForm(long companyId)
         {
-            return DbSet.Where(vf => vf.CompanyId == companyId).ToList();
+            return DbSet.Where(vf => vf.CompanyId == companyId && vf.OrganisationId == OrganisationId).ToList();
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<FieldVariable> GetSystemVariables()
         {
-            return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null && fv.Scope == null).ToList();
+            return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null && (fv.Scope == (int)FieldVariableScopeType.SystemStore || fv.Scope == (int)FieldVariableScopeType.SystemContact || fv.Scope == (int)FieldVariableScopeType.SystemAddress || fv.Scope == (int)FieldVariableScopeType.SystemTerritory)).ToList();
         }
 
         /// <summary>

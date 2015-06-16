@@ -36,9 +36,12 @@
                     </div>
 
                     <div class="col-lg-12" id="filter" style="height:50px;margin-bottom:7px;">
-                        <div class="col-lg-2 pull-right" style="padding-right: 2%; ">
-                            <div class="pull-right">
-                                <a class="btn btn-primary patial-edit">
+                        <div class="col-lg-6 pull-right" style="padding-right: 2%; ">
+                            <div class="pull-right" data-bind="visible:$root.currentTab()===19">
+                                <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:5px">
+                                    Reports
+                                </button>
+                                <a class="btn btn-primary" data-bind="click:$root.addDeliveryNotes">
                                     Add Delivery Note
                                 </a>
                             </div>
@@ -75,8 +78,8 @@
             <div class="main-box clearfix">
                 <div class="tabs-wrapper profile-tabs">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-DeliveryAwaiting" data-toggle="tab">Awaiting</a></li>
-                        <li><a href="#tab-DeliveryPosted" data-toggle="tab">Delivered</a></li>
+                        <li class="active"><a href="#tab-DeliveryAwaiting" data-toggle="tab" data-bind="click: function(){$root.getDeliveryNotesOnTabChange(19);}">Awaiting</a></li>
+                        <li><a href="#tab-DeliveryPosted" data-toggle="tab" data-bind="click: function(){$root.getDeliveryNotesOnTabChange(20);}">Delivered</a></li>
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -105,68 +108,19 @@
                             <table class="table user-list">
                                 <thead>
                                     <tr>
-                                        <th><span>Company / Title</span></th>
-                                        <th><span>Creation Date</span></th>
-                                        <th class="text-center"><span>Flag</span></th>
-                                        <th><span>Delivery Code</span></th>
+                                        <th class="col-lg-4"><span>Company / Title</span></th>
+                                        <th class="col-lg-2"><span>Creation Date</span></th>
+                                        <th class="col-lg-2 text-center"><span>Flag</span></th>
+                                        <th class="col-lg-2"><span>Delivery Code</span></th>
                                         <th>&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                            <a href="#" class="user-link patial-edit">Creative Art</a>
-                                            <span class="user-subhead">Premium Business Cards &nbsp; (5) Items</span>
-                                        </td>
-                                        <td>
-                                            20/01/2024
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                        </td>
-                                        <td>
-                                            DEL-001-1165
-                                        </td>
-                                        <td style="width: 20%;"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
-                                            <a href="#" class="user-link patial-edit">Colour Fast Group</a>
-                                            <span class="user-subhead">Complement Slips &nbsp; (3) Items</span>
-                                        </td>
-                                        <td>
-                                            2013/08/08
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-default"><i class="fa fa-flag"></i></span>
-                                        </td>
-                                        <td>
-                                            DEL-001-1163
-                                        </td>
-                                        <td style="width: 20%;"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                            <a href="#" class="user-link patial-edit">Art Graphics</a>
-                                            <span class="user-subhead">New Estimate &nbsp; (3) Items</span>
-                                        </td>
-                                        <td>
-                                            2013/08/12
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                        </td>
-                                        <td>
-                                            DEL-001-1164
-                                        </td>
-                                        <td style="width: 20%;"></td>
-                                    </tr>
-
+                                    <!-- ko template: { name: 'deliveryNotesListViewTemplate', foreach: $root.deliverNoteListView } -->
+                                    <!-- /ko -->
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                     <div id="pagerDiv" class="pull-right" style="padding-right: 2%;">
@@ -211,19 +165,19 @@
 <script id="deliveryNotesListViewTemplate" type="text/html">
     <tr data-bind="click:$root.onEditDeliverNote" style="cursor: pointer">
         <td>
-            <a href="#" class="user-link patial-edit" data-bind="text:contactCompany"></a>
+            <a href="#" class="user-link patial-edit" data-bind="text:companyName"></a>
             <span class="user-subhead" data-bind="text:orderReff"></span>
         </td>
         <td>
-            <span data-bind="dateString: deliveryDate, datePattern: 'DD/MM/YYYY'"></span>
+            <span data-bind="dateString: creationDateTime, datePattern: 'DD/MM/YYYY'"></span>
         </td>
         <td class="text-center">
-            <span class="label label-warning"><i class="fa fa-flag"></i></span>
+            <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
         </td>
         <td>
-            <span  data-bind="text:code"></span>
+            <span data-bind="text:code"></span>
             <br />
-            <span class="user-subhead" data-bind="dateString: creationDateTime, datePattern: 'DD/MM/YYYY'"></span>
+            <span class="user-subhead" data-bind="dateString: deliveryDate, datePattern: 'DD/MM/YYYY'"></span>
         </td>
         <td style="width: 20%;"></td>
     </tr>
@@ -232,29 +186,26 @@
 
 
 
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
 
 @section Scripts{
     <script>
-        require(["deliveryNotes/deliveryNotes.view", "common/companySelector.view"]);
-        $(document).ready(function ()
-        {
+        require(["deliveryNotes/deliveryNotes.view", "common/companySelector.view", , "common/confirmation.view", "common/reportManager.view"]);
+        $(document).ready(function () {
             $('#lishipping').addClass('active');
         });
 
     </script>
-<script>
-    $(document).ready(function ()
-    {
-        setTimeout(function ()
-        {
-            var spinner = $("div#spinner");
-            spinner.stop();
-            spinner.fadeOut("fast");
-            $.unblockUI(spinner);
-        }, 1000);
-    });
-</script>
-
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                var spinner = $("div#spinner");
+                spinner.stop();
+                spinner.fadeOut("fast");
+                $.unblockUI(spinner);
+            }, 1000);
+        });
+    </script>
 }
 
 

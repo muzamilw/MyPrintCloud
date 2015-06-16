@@ -1,65 +1,80 @@
 ﻿<div class="row" style="display: none" data-bind="visible: $root.isEditorVisible()">
-    <div class="row" >
-        <div class="col-lg-12">
+    <div class="row" style="">
+        <div class="col-sm-12">
             <div class="row">
-                <div class="col-lg-12" id="topArea" style="padding-left:16px;">
-                    <div class="clearfix">
+                <div class="col-sm-12" id="topArea" style="padding-left:16px;">
+                    <ol class="breadcrumb">
+                        <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
+                        <li><a href="~/DeliveryNotes/Home/DeliveryNote/Index" class="my-navigator">Delivery Notes</a></li>
+                        <li class="active"><span >Modify Delivery Notes</span></li>
+                    </ol>
+                    <div class="clearfix" style="margin-top: -3.1%;">
                         <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">&nbsp;</h1>
                     </div>
 
-                    <div class="col-lg-12" id="filter" style="height:50px;margin-bottom:7px;">
-                        <div class="col-lg-2 pull-right" style="padding-right: 2%; ">
-                            @*<div class="pull-right">
-                                <a class="btn btn-primary patial-edit">
-                                    Add Delivery Note
-                                </a>
-                            </div>*@
+                    <div class="col-sm-12" id="filter" style="height:50px;margin-bottom:7px;">
+                        <div class="col-sm-2 pull-right" style="padding-right: 2%; ">
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div>
+        <div class="row col-sm-6" style="float:left;padding-left: 1.7%;">
+            <div class="pull-left validationSummaryContainer">
+                <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Invalid data: Click here to see details.</a>
+                <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
+                    <div id="validationSummaryPopoverBodyForStore">
+                        <ul data-bind="foreach: $root.errorList">
+                            <li>
+                                <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="prefixesdata" style="float: right; padding-right: 1.1%; margin-top: 1%; ">
 
-    <div class="row" id="prefixesdata" style="float:right;">
-        <div class="input-group">
-
-            <button data-bind="click:$root.onCloseEditor" class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="closeBtn"><i class="fa fa-times fa-lg"></i>&nbsp;Close</button>
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">
-                <i class="fa fa-floppy-o fa-lg"></i>&nbsp;Save
-            </button>
-
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn"><i class="fa fa-minus-circle fa-lg"></i>&nbsp;Delete</button>
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn"><i class="fa fa-envelope fa-lg"></i>&nbsp;Post</button>
-
+            <div class="input-group">
+                <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,click:$root.onSaveDeliveryNotes, enable: ($root.selectedDeliveryNote().hasChanges() && $root.selectedDeliveryNote().isStatus()!==20), css: { 'btn-warning': $root.selectedDeliveryNote().hasChanges() }">
+                    &nbsp;Save
+                </button>
+                <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onDeleteDeliveryNote">&nbsp;Delete</button>
+                @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedDeliveryNote().deliveryNoteId()!==undefined"><i class="fa fa-print fa-sm"></i>&nbsp;Print</button>*@
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onPostDeliveryNote">&nbsp;Post</button>
+                <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:5px">
+                    Print
+                </button>
+            </div>
         </div>
     </div>
-    <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote">
-        <div class="col-lg-12 col-md-8 col-sm-8">
+    <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote" style="padding-left: 18px; padding-right: 20px; margin-top: 5.5%; ">
+        <div class="col-sm-12">
             <div class="main-box clearfix">
-                <div class="col-lg-12 form-horizontal" style="padding:30px;">
+                <div class="col-sm-12 form-horizontal" style="margin-top: 3%;">
                     <h3 class="group-header">General Information</h3>
-                    <div class="col-lg-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
-                                  
+
                                 </div>
 
                                 <label class="control-label tooltip-float">&nbsp;</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedDeliveryNote().deliveryNoteId() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                             </div>
                             <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
-                                <button data-bind="click: $root.openCompanyDialog" class="btn btn-primary pull-right">
+                                <button data-bind="click: $root.openCompanyDialog, enable: (deliveryNoteId() <= 0) || (deliveryNoteId()===undefined)" class="btn btn-primary pull-right">
                                     <i class="fa fa-user"></i>
                                 </button>
                             </div>
                         </div>
-                       
+
                         <div class="form-group">
                             <div class="col-sm-4 text-right">
                                 &nbsp;
@@ -121,37 +136,45 @@
                             </div>
                             <!--/ko-->
                         </div>
-                        
+
                         <!--here it ends-->
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Order Ref. No" data-original-title="" title="">
+                                        @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
                                     </a>
                                 </div>
 
-                                <label class="control-label tooltip-float">Order Ref. No</label>
+                                <label class="control-label tooltip-float"></label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <div>
-                                    <input type="text" value="Double-Sided A4" placeholder="Enter Estimate Title" class="form-control" data-bind="value:orderReff" />
+                                    <input type="text" value="Double-Sided A4" placeholder="Order Ref. No" class="form-control" data-bind="value:orderReff" />
 
                                 </div>
                             </div>
                         </div>
+                        @*<div class="form-group">
+                                <div class="col-sm-4 text-right">
+                                    <label class="control-label text-right tooltip-float"></label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" placeholder="Carrier Tracking Path">
 
+                                </div>
+                            </div>*@
                     </div>
 
 
-                    <div class="col-lg-6">
-                       
+                    <div class="col-sm-6">
+
                         <div class="form-group">
                             <div class="col-sm-4 text-right" style="padding-top:10px;">
                                 <label class="control-label text-right tooltip-float">Delivery Status</label>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" style="height: 60px;" data-bind="value: isStatus()==19 ? 'Awaiting' :'Posted'" readonly class="form-control font24px" id="code" />
+                                <input type="text" style="height: 60px;" data-bind="value: isStatus()===19 ? 'Awaiting' :'Posted'" readonly class="form-control font24px" id="code" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -159,192 +182,141 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag'"></select>
+                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <div class="col-sm-4 text-right">
-                                &nbsp;
-                            </div>
-                            <div class="col-sm-6">
-                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag'"></select>
-                                <span class="help-block text-right"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-4 text-right">
-                               
+
                                 <label class="control-label text-right tooltip-float">Carriers</label>
                             </div>
-                            <div class="col-lg-6">
-                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select a system user'"></select>
-
+                            <div class="col-sm-6">
+                                <select class="form-control" data-bind="options: $root.deliveryCarriers, optionsText: 'CarrierName', optionsValue: 'CarrierId', optionsCaption: 'Select a carrier ',value:supplierId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
-                              
+                            <div class="col-sm-4 text-right">
+
                                 <label class="control-label text-right tooltip-float">Carrier Phone</label>
                             </div>
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" id="datepickerDate">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" data-bind="value:supplierTelNo">
 
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
-                               
+                            <div class="col-sm-4 text-right">
+
                                 <label class="control-label text-right tooltip-float">Consignment Number</label>
                             </div>
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" id="datepickerDate">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" data-bind="value:csNo">
 
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-lg-4 text-right">
-                              
-                                <label class="control-label text-right tooltip-float">Carrier Tracking Path</label>
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" id="datepickerDate">
 
+                        <div class="form-group">
+                            <div class="col-sm-4 text-right">
+
+                                <label class="control-label text-right tooltip-float">Delivery Date</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" style="height:60px;" class="form-control" data-bind="datepicker:deliveryDate">
                             </div>
                         </div>
                     </div>
 
 
-                    @* <div class="col-lg-9 form-horizontal">*@
+                    @* <div class="col-sm-9 form-horizontal">*@
 
                     @*</div>*@
                 </div>
-                <div class="col-lg-12 form-horizontal" style="margin-top: -18px;">
-                    <div>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-primary dropdown-toggle" style="float: right; margin-bottom: 3px;" data-toggle="dropdown">Add Product <span class="caret"></span></button>
-                                @*<ul class="dropdown-menu">
-                                    <li><a href="#">From Retail Store</a></li>
-                                    <li><a href="#">Cost Center</a></li>
-                                    <li><a href="#">Inventory Item</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
-                                    </ul>*@
+                <div class="col-sm-12 form-horizontal">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                &nbsp;
                             </div>
-                        </div>
-                        <h3 class="group-header" style="margin-top: -21px;">Invoiced  Items</h3>
+                            <div class="col-sm-9">
+                                <div id="orderHeaderProductsContainer" style=" background-color: gainsboro; border-radius: 3px;">
+                                    <header class="main-box-header clearfix">
+                                        <div id="orderProducts" style="float:left;"><span style="font-size:24px">Delivery Note Detail Items</span></div>
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-sm-8"><span>Detail</span></th>
+                                                        <th class="col-sm-2"><span></span></th>
 
-                    </div>
-                    <div class="form-group" style="margin-top: -43px;">
-
-                        <div class="col-lg-12">
-                            <div class="col-lg-12 clearfix">
-                                <header class="main-box-header clearfix">
-                                    <div class="filter-block pull-right">
-                                        @* <a href="#" class="btn btn-primary pull-right">
-                                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add New Product
-                                            </a>*@
-                                    </div>
-                                </header>
-                                <div class="main-box-body clearfix">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width:60%;"><a href="#"><span>Detail</span></a></th>
-                                                    <th style="width:10%;"><span>Quantity</span></th>
-                                                    <th style="text-align: center;"><span>Price</span></th>
-                                                    <th style="width:83px;">&nbsp;</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group" style="width:100%;">
-
-                                                            <input type="text" class="form-control" id="datepickerDate">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        4000
-                                                    </td>
-                                                    <td class="text-center"></td>
-
-                                                    <td class="text-right">
-
-                                                        <a href="#" class="table-link danger">
-                                                            <span class="fa-stack">
-                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                            </span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-
-
-                                            </tbody>
-                                        </table>
-
-
-
-
-
-
-
-                                    </div>
-                                    <div class="form-group" style="margin-left:-4px;">
-                                        <div class="col-lg-2 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-                                            </div>
-                                            <label class="control-label text-right tooltip-float">Comments</label>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <input type="text" class="form-control" data-bind="value:comments">
-
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!--ko if: deliveryNoteDetails().length==0-->
+                                                    <tr>
+                                                        <td>
+                                                            <span data-bind="text: 'No Items found!'"></span>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <!-- /ko -->
+                                                    <!-- ko template: { name: $root.templateToUseDeliveryNoteDetail, foreach: deliveryNoteDetails } -->
+                                                    <!-- /ko -->
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div class="form-group" style="margin-left:-4px;">
-                                        <div class="col-lg-2 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-                                            </div>
-                                            <label class="control-label text-right tooltip-float">Foot Notes</label>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <input type="text" class="form-control" data-bind="value:footnote">
-
-                                        </div>
-                                    </div>
-                                    <div class="form-group" style="margin-left:-4px;">
-                                        <div class="col-lg-2 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Source for Estimate." data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-                                            </div>
-                                            <label class="control-label text-right tooltip-float">Raised By</label>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <select class="form-control">
-                                                <option>Lucas Eyre</option>
-                                                <option>Mark Temp</option>
-                                                <option>Smit Jones</option>
-                                                <option>Stephen</option>
-                                                <option>Gary McCutting</option>
-                                            </select>
-                                            <span class="help-block text-right"></span>
-                                        </div>
+                                    <div class="btn-group" style="float: left; margin-top: 10px;">
+                                        <button type="button" class="btn btn-primary" data-bind="click:$root.addDeliveryNoteDetail">Add Product</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 form-horizontal main-box-body clearfix">
+                    <div class="form-group">
+                        <div class="col-sm-2 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float">Comments</label>
+                        </div>
+                        <div class="col-sm-9" style="padding-right: 5px;padding-left: 5px;">
+                            <textarea class="form-control" id="EstimateHeader" rows="3" data-bind="value: comments"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float">Foot Notes</label>
+                        </div>
+                        <div class="col-sm-9" style="padding-right: 5px;padding-left: 5px;">
+                            <textarea class="form-control" id="EstimateHeader" rows="3" data-bind="value: userNotes"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Source for Estimate." data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float">Raised By</label>
+                        </div>
+                        <div class="col-sm-3" style="padding-right: 5px;">
+                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id', optionsCaption: 'Select a system user',value:raisedBy"></select>
+                            <span class="help-block text-right"></span>
                         </div>
                     </div>
                 </div>
@@ -367,4 +339,34 @@
 
         }
     }
+</script>
+<script id="editDeliveryNoteDetailemplate" type="text/html">
+    <tr data-bind="css: { selectedRow: $data === $root.selectedDeliveryNoteDetail() }">
+        <td style="width: 94%">
+            <input type="text" class="form-control" data-bind="value: description, validationTooltip: description" />
+        </td>
+
+        <td style="width: 5%">
+            <!-- ko template: { name: 'deleteActionDeliveryNoteDetailTemplate' } -->
+            <!-- /ko -->
+        </td>
+    </tr>
+</script>
+<script id="itemDeliveryNoteDetailTemplate" type="text/html">
+    <tr data-bind="click: $root.selectDeliveryNoteDetail">
+        <td style="width: 94%" data-bind="text: description"></td>
+        <td style="width: 5%">
+            <!-- ko template: { name: 'deleteActionDeliveryNoteDetailTemplate' } -->
+            <!-- /ko -->
+        </td>
+    </tr>
+</script>
+
+<script id="deleteActionDeliveryNoteDetailTemplate" type="text/html">
+    <a href="#" class="table-link danger" data-bind="click: $root.onDeleteDeliveryNoteDetail" title="Delete">
+        <span class="fa-stack">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
 </script>

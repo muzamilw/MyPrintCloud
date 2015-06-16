@@ -12,6 +12,18 @@ var ist = {
     dateTimeWithSecondsPattern: "DD/MM/YY HH:mm:ss",
     // UTC Date Format
     utcFormat: "YYYY-MM-DDTHH:mm:ss",
+    // For Reporting 
+    reportCategoryEnums : {
+        CRM: 4,
+        Stores: 1,
+        Suppliers: 2,
+        PurchaseOrders: 5,
+        Delivery: 6,
+        Orders: 12,
+        Invoice: 13,
+        GRN: 15,
+        Inventory:7
+    },
     //server exceptions enumeration 
     exceptionType: {
         MPCGeneralException: 'MPCGeneralException',
@@ -42,7 +54,7 @@ var ist = {
         timeOut: 0 // Set timeOut to 0 to make it sticky
     },
     // Makes comma seperated Number
-    addCommasToNumber: function(nStr) {
+    addCommasToNumber: function (nStr) {
         nStr += '';
         var x = nStr.split('.');
         var x1 = x[0];
@@ -54,7 +66,8 @@ var ist = {
         return x1 + x2;
     },
     numberFormat: "0,0.00",
-    ordinalFormat: "0"
+    ordinalFormat: "0",
+    lengthFormat: "0.000"
 };
 
 // Busy Indicator
@@ -324,14 +337,33 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 };
+                // Handles typing changes 
                 instance.on('contentDom', function () {
                     instance.document.on('keyup', function (event) {
                         if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
                             ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
                         }
+                        else if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
+                            ist.stores.viewModel.selectedEmail().hTMLMessageA(instance.getData());
+                        }
                     });
                 });
-               
+                
+                function handleAfterCommandExec(event) {
+                    if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
+                        ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
+                    }
+                    else if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
+                        ist.stores.viewModel.selectedEmail().hTMLMessageA(instance.getData());
+                    }
+                }
+                
+                // Handles styling changes 
+                instance.on('afterCommandExec', handleAfterCommandExec);
+                // Handles styling Drop down changes like font size, font family 
+                instance.on('selectionChange', handleAfterCommandExec);
+                
+
                 value.subscribe(function (newValue) {
                     if (!isEditorChange) {
                         isSubscriberChange = true;
@@ -842,6 +874,14 @@ require(["ko", "knockout-validation"], function (ko) {
         },
         message: 'The fields must have the same value'
     };
+    //Validation Rules
+    ko.validation.rules['variableTagRule'] = {
+        validator: function (val) {
+            var regExp = new RegExp("^{{[a-zA-Z0-9]*}}$");
+            return regExp.test(val);
+        },
+        message: 'Tag must start with {{ and end with }}, cannot contain spaces and special characters'
+    };
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {
         var popovers = $('.popover').not('.in');
@@ -903,6 +943,689 @@ function handleSorting(tableId, sortOn, sortAsc, callback) {
         }
     });
 }
+
+// #region Cost Center Execution
+
+var GlobalQuestionQueueItemsList = null; // question queues of disfferent cost centres will be added to this list 
+var idsToValidate = ""; // This variable contain ids of text boxes and validate that each text box must have a correct value
+var GlobalInputQueueItemsList = null;
+var costCentreQueueItems = null;
+var selectedCostCentreCheckBoxElement = null;
+var selectedStockOptionItemAddOns = null;
+
+function getBrowserHeight() {
+    var intH = 0;
+    var intW = 0;
+    if (typeof window.innerWidth == 'number') {
+        intH = window.innerHeight;
+        intW = window.innerWidth;
+    }
+    else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+        intH = document.documentElement.clientHeight;
+        intW = document.documentElement.clientWidth;
+    }
+    else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
+        intH = document.body.clientHeight;
+        intW = document.body.clientWidth;
+    }
+    return { width: parseInt(intW), height: parseInt(intH) };
+}
+
+function HideMessagePopUp() {
+
+    document.getElementById("innerLayer").innerHTML = "";
+    document.getElementById("layer").style.display = "none";
+    document.getElementById("innerLayer").style.display = "none";
+
+}
+
+// Validate Cost Centre Control
+function ValidateCostCentreControl(costCentreId, clonedItemId, currency, itemPrice, costCentreType, taxRate, orderedQty) {
+
+    var arrayOfIds = idsToValidate.split(",");
+
+    var isDisplyEmptyFieldsMesg = 0;
+
+    var isNotValidInput = 0;
+
+    var isFormulaValidationError = 0;
+    for (var i = 0; i < arrayOfIds.length; i++) {
+        if (arrayOfIds[i].indexOf("formulaMatrixBox") != -1) {
+
+            if ($("#" + arrayOfIds[i]).val() == "") {
+                isFormulaValidationError = 1;
+                $("#" + arrayOfIds[i]).css("border", "1px solid red");
+            } else {
+                $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
+            }
+
+        } else {
+
+            if ($("#" + arrayOfIds[i]).val() == undefined) {
+                $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
+            } else {
+                if ($("#" + arrayOfIds[i]).val() == "") {
+                    $("#" + arrayOfIds[i]).css("border", "1px solid red");
+                    isDisplyEmptyFieldsMesg = 1;
+                } else if (isNaN($("#" + arrayOfIds[i]).val())) {
+                    isNotValidInput = 1;
+                    $("#" + arrayOfIds[i]).css("border", "1px solid red");
+                } else {
+                    $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
+                }
+
+            }
+
+        }
+
+
+    }
+
+    if (isDisplyEmptyFieldsMesg == 1) {
+        $("#CCErrorMesgContainer").css("display", "block");
+        if (isNotValidInput == 1) {
+            $("#CCErrorMesgContainer").html("Please enter numbers only to proceed.");
+            if (isFormulaValidationError == 1) {
+                var html = $("#CCErrorMesgContainer").text() + "<br/> Please select value formula values also.";
+                $("#CCErrorMesgContainer").html(html);
+            }
+        } else {
+
+            $("#CCErrorMesgContainer").html("Please enter in the hightlighted fields.");
+        }
+        return;
+    } else if (isNotValidInput == 1) {
+        $("#CCErrorMesgContainer").css("display", "block");
+        $("#CCErrorMesgContainer").html("Please enter numbers only to proceed.");
+        if (isFormulaValidationError == 1) {
+            var html = $("#CCErrorMesgContainer").text() + "<br/> Please select value formula values also.";
+            $("#CCErrorMesgContainer").html(html);
+        }
+        return;
+    } else if (isFormulaValidationError == 1) {
+        $("#CCErrorMesgContainer").html("Please select value formula values ");
+        return;
+    } else {
+
+        $("#btnCostCentreCalculator").prop('disabled', 'disabled');
+        $("#imgCCLoader").css("display", "block");
+        $("#imgCCLoader").css("float", "right");
+        var desriptionOfCostCentre = "";
+        $("#CCErrorMesgContainer").css("display", "none");
+        // Question Queue object items
+        $(".CostCentreAnswersQueue").each(function (i, val) {
+            if ($(val).attr('data-id') == undefined) {
+                var idofDropDown = $(val).attr('id');
+                idofDropDown = "select#" + idofDropDown;
+                var idOfQuestion = $(idofDropDown + ' option:selected').attr('data-id');
+                $(GlobalQuestionQueueItemsList).each(function (i, QueueItem) {
+                    if (QueueItem.ID == idOfQuestion) {
+
+                        QueueItem.Qty1Answer = $(idofDropDown + ' option:selected').val();
+
+                    }
+                });
+
+                $(GlobalInputQueueItemsList).each(function (i, QueueItem) {
+                    if (QueueItem.ID == idOfQuestion) {
+
+                        QueueItem.Qty1Answer = $(idofDropDown + ' option:selected').val();
+
+                    }
+                });
+            } else {
+                $(GlobalQuestionQueueItemsList).each(function (i, QueueItem) {
+                    if (QueueItem.ID == $(val).attr('data-id')) {
+
+                        QueueItem.Qty1Answer = $(val).val();
+
+                    }
+                });
+
+                $(GlobalInputQueueItemsList).each(function (i, QueueItem) {
+                    if (QueueItem.ID == $(val).attr('data-id')) {
+
+                        QueueItem.Qty1Answer = $(val).val();
+
+                    }
+                });
+            }
+            if (desriptionOfCostCentre == "") {
+                desriptionOfCostCentre = $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
+            } else {
+                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
+            }
+        });
+
+        SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, costCentreId, costCentreType, clonedItemId,
+            selectedCostCentreCheckBoxElement, desriptionOfCostCentre, itemPrice, currency, true, taxRate, orderedQty, selectedStockOptionItemAddOns);
+
+        idsToValidate = "";
+    }
+}
+
+// Show Cost Center Popup
+function ShowCostCentrePopup(questionQueueItems, costCentreId, clonedItemId, selectedCostCentreCheckBoxId, mode, currency, itemPrice,
+    inputQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns) {
+
+    GlobalQuestionQueueItemsList = questionQueueItems;
+    GlobalInputQueueItemsList = inputQueueObject;
+    selectedCostCentreCheckBoxElement = selectedCostCentreCheckBoxId;
+    selectedStockOptionItemAddOns = itemAddOns;
+    var innerHtml = "";
+    var Heading = "Add " + $(selectedCostCentreCheckBoxId).next().html();
+    var optionHtml;
+    var matrixTable;
+    if (mode == "New") { // prompt in case of newly added cost centre
+        for (var i = 0; i < questionQueueItems.length; i++) {
+
+            if (questionQueueItems[i].ItemType == 1) { // text box
+                if (idsToValidate == "") {
+                    idsToValidate = 'txtBox' + questionQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'txtBox' + questionQueueItems[i].ID;
+                }
+
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + questionQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + questionQueueItems[i].ID + ' data-id=' + questionQueueItems[i].ID + ' value=' + parseFloat(questionQueueItems[i].DefaultAnswer) + ' /></div><br/><div class="clearBoth"></div>';
+            }
+
+            if (questionQueueItems[i].ItemType == 3) { // drop down
+                optionHtml = "";
+                matrixTable = questionQueueItems[i].MatrixTable;
+                for (var a = 0; a < questionQueueItems[i].AnswersTable.length; a++) {
+                    optionHtml = optionHtml + '<option data-id=' + questionQueueItems[i].ID + ' value=' + questionQueueItems[i].AnswersTable[a].AnswerString + ' >' + questionQueueItems[i].AnswersTable[a].AnswerString + '</option>'
+                }
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+                    + questionQueueItems[i].VisualQuestion +
+                    '</label></div><div class="cost-centre-right-container"><select id=dropdown' + questionQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
+                    + optionHtml + '</select></div><br/><div class="clearBoth"></div>';
+            }
+            if (questionQueueItems[i].ItemType == 2) { // radio
+
+
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+                    + questionQueueItems[i].VisualQuestion +
+                    '</label></div><div class="cost-centre-right-container"><input type="radio" checked="checked" name="Group2" id=radioNo' + questionQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioNo' + questionQueueItems[i].ID + ' >No</label><input type="radio" name="Group2" id=radioYes' + questionQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioYes' + questionQueueItems[i].ID + ' >Yes</label>' +
+                    '</div><br/><div class="clearBoth"></div>';
+            }
+            if (questionQueueItems[i].ItemType == 4) { // formula matrix
+
+                if (idsToValidate == "") {
+                    idsToValidate = 'formulaMatrixBox' + questionQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'formulaMatrixBox' + questionQueueItems[i].ID;
+                }
+
+                innerHtml = innerHtml +
+                    '<div class="cost-centre-left-container"><label>Super Formula Matrix</label></div>' +
+                    '<div class="cost-centre-right-container"><input id=formulaMatrixBox' + questionQueueItems[i].ID + ' type="text" disabled="disabled" ' +
+                    'style="float:left; margin-right:10px;"  data-id=' + questionQueueItems[i].ID + ' class="CostCentreAnswersQueue" /> ' +
+                    '<input type="button" onclick="ShowFormulaMatrix(' + questionQueueItems[i].RowCount + ',' + questionQueueItems[i].ColumnCount + ',' + i + '); return false;" class="Matrix-select-button rounded_corners5 " value="Select" /></div><div class="clearBoth"></div>';
+            }
+        }
+
+    } else if (mode == "Modify") { // prompt in case of added cost centre
+        //Heading = "Edit " + $("#" + selectedCostCentreCheckBoxId).next().html();
+        for (var i = 0; i < questionQueueItems.length; i++) {
+
+            if (questionQueueItems[i].ItemType == 1) { // text box
+                if (idsToValidate == "") {
+                    idsToValidate = 'txtBox' + questionQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'txtBox' + questionQueueItems[i].ID;
+                }
+
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + questionQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + questionQueueItems[i].ID + ' data-id=' + questionQueueItems[i].ID + ' value=' + questionQueueItems[i].Qty1Answer + ' /></div><br/><div class="clearBoth"></div>';
+            }
+
+            if (questionQueueItems[i].ItemType == 3) { // drop down
+                optionHtml = "";
+                matrixTable = questionQueueItems[i].MatrixTable;
+                for (var a = 0; a < questionQueueItems[i].AnswersTable.length; a++) {
+                    if (questionQueueItems[i].AnswersTable[a].AnswerString == questionQueueItems[i].Qty1Answer) {
+                        optionHtml = optionHtml + '<option data-id=' + questionQueueItems[i].ID + ' value=' + questionQueueItems[i].AnswersTable[a].AnswerString + ' selected>' + questionQueueItems[i].AnswersTable[a].AnswerString + '</option>'
+                    } else {
+                        optionHtml = optionHtml + '<option data-id=' + questionQueueItems[i].ID + ' value=' + questionQueueItems[i].AnswersTable[a].AnswerString + ' >' + questionQueueItems[i].AnswersTable[a].AnswerString + '</option>'
+                    }
+
+                }
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+                    + questionQueueItems[i].VisualQuestion +
+                    '</label></div><div class="cost-centre-right-container"><select id=dropdown' + questionQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
+                    + optionHtml + '</select></div><br/><div class="clearBoth"></div>';
+            }
+            if (questionQueueItems[i].ItemType == 4) { // formula matrix
+
+                if (idsToValidate == "") {
+                    idsToValidate = 'formulaMatrixBox' + questionQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'formulaMatrixBox' + questionQueueItems[i].ID;
+                }
+
+                innerHtml = innerHtml +
+                    '<div class="cost-centre-left-container"><label>Super Formula Matrix</label></div>' +
+                    '<div class="cost-centre-right-container"><input id=formulaMatrixBox' + questionQueueItems[i].ID + ' type="text" disabled="disabled" ' +
+                    'style="float:left; margin-right:10px;"  data-id=' + questionQueueItems[i].ID + ' class="CostCentreAnswersQueue" value=' + questionQueueItems[i].Qty1Answer + ' /> ' +
+                    '<input type="button" onclick="ShowFormulaMatrix(' + questionQueueItems[i].RowCount + ',' + questionQueueItems[i].ColumnCount + ',' + i + '); return false;" class="Matrix-select-button rounded_corners5 " value="Select" /></div><div class="clearBoth"></div>';
+            }
+        }
+    }
+
+    for (var w = 0; w < workInstructions.length; w++) {
+
+        var wOptionHtml = "";
+
+        for (var c = 0; c < workInstructions[w].CostcentreWorkInstructionsChoices.length; c++) {
+            wOptionHtml = wOptionHtml + '<option data-id=' + workInstructions[w].InstructionId + ' value=' + workInstructions[w].CostcentreWorkInstructionsChoices[c].Choice + ' >' + workInstructions[w].CostcentreWorkInstructionsChoices[c].Choice + '</option>'
+        }
+        innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+            + workInstructions[w].Instruction +
+            '</label></div><div class="cost-centre-right-container"><select id=dropdown' + workInstructions[w].InstructionId + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
+            + wOptionHtml + '</select></div><br/><div class="clearBoth"></div>';
+
+    }
+
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header">' +
+        '<button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading +
+        '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml +
+        '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">' +
+        '<button  id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" ' +
+        'onclick="ValidateCostCentreControl(' + costCentreId + ',' + clonedItemId + ',&#34; ' + currency +
+        '&#34; ,' + itemPrice + ',' + costCentreType + ',' + taxRate + ',' + orderedQty + ');">Continue</button>' +
+        '<img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader" style="height: 20px;margin-right: 10px;margin-top:8px; display:none;"/></div></div></div>';
+
+
+    var bws = getBrowserHeight();
+
+    var shadow = document.getElementById("innerLayer");
+
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 730) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.left = left + "px";
+    document.getElementById("innerLayer").style.top = "200px";
+
+    document.getElementById("innerLayer").style.width = "730px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+
+// Show Input Cost Center Popup
+function ShowInputCostCentrePopup(inputQueueItems, costCentreId, clonedItemId, selectedCostCentreCheckBoxId, mode, currency,
+    itemPrice, questionQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns) {
+
+    GlobalInputQueueItemsList = inputQueueItems;
+    GlobalQuestionQueueItemsList = questionQueueObject;
+    selectedCostCentreCheckBoxElement = selectedCostCentreCheckBoxId;
+    selectedStockOptionItemAddOns = itemAddOns;
+    var innerHtml = "";
+    var Heading = "Add " + $(selectedCostCentreCheckBoxId).next().html();
+
+    if (mode == "New") { // This condition will execute when first time cost centre is prompting for values
+        if (inputQueueItems) {
+            for (var i = 0; i < inputQueueItems.length; i++) {
+
+                if (inputQueueItems[i].ID != 1 && inputQueueItems[i].ID != 2) { // Id 1= setuptime , Id 2 = setup cost
+                    if (idsToValidate == "") {
+                        idsToValidate = 'txtBox' + inputQueueItems[i].ID;
+                    } else {
+                        idsToValidate = idsToValidate + ',' + 'txtBox' + inputQueueItems[i].ID;
+                    }
+                    if (inputQueueItems[i].Value != "") {
+                        innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + inputQueueItems[i].VisualQuestion +
+                            '</label></div><div class="cost-centre-right-container">' +
+                            '<input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + inputQueueItems[i].ID +
+                            ' data-id=' + inputQueueItems[i].ID + ' value=' + parseFloat(inputQueueItems[i].Value) + ' /></div><br/><div class="clearBoth"></div>';
+                    } else {
+                        innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + inputQueueItems[i].VisualQuestion +
+                            '</label></div><div class="cost-centre-right-container">' +
+                            '<input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + inputQueueItems[i].ID +
+                            ' data-id=' + inputQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
+                    }
+
+                }
+            }
+        }
+        
+    } else if (mode == "Modify") { // This condition will execute when cost centre is already prompted and user clicks to modify the values entered
+        Heading = "Edit " + $(selectedCostCentreCheckBoxId).next().html();
+        if (inputQueueItems) {
+            for (var i = 0; i < inputQueueItems.length; i++) {
+
+                if (inputQueueItems[i].ID != 1 && inputQueueItems[i].ID != 2) { // Id 1= setuptime , Id 2 = setup cost
+                    if (idsToValidate == "") {
+                        idsToValidate = 'txtBox' + inputQueueItems[i].ID;
+                    } else {
+                        idsToValidate = idsToValidate + ',' + 'txtBox' + inputQueueItems[i].ID;
+                    }
+                    if (inputQueueItems[i].Value != "") {
+                        innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + inputQueueItems[i].VisualQuestion +
+                            '</label></div><div class="cost-centre-right-container">' +
+                            '<input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + inputQueueItems[i].ID +
+                            ' data-id=' + inputQueueItems[i].ID + ' value=' + inputQueueItems[i].Qty1Answer + ' value=' +
+                            parseFloat(inputQueueItems[i].Value) + ' /></div><br/><div class="clearBoth"></div>';
+                    } else {
+                        innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + inputQueueItems[i].VisualQuestion +
+                            '</label></div><div class="cost-centre-right-container">' +
+                            '<input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + inputQueueItems[i].ID +
+                            ' data-id=' + inputQueueItems[i].ID + ' value=' + inputQueueItems[i].Qty1Answer + ' /></div><br/><div class="clearBoth"></div>';
+                    }
+
+                }
+            }
+        }
+        
+    }
+
+    for (var w = 0; w < workInstructions.length; w++) {
+
+        var WOptionHtml = "";
+
+        for (var c = 0; c < workInstructions[w].CostcentreWorkInstructionsChoices.length; c++) {
+            WOptionHtml = WOptionHtml + '<option data-id=' + workInstructions[w].InstructionId + ' value=' + workInstructions[w].CostcentreWorkInstructionsChoices[c].Choice + ' >' + workInstructions[w].CostcentreWorkInstructionsChoices[c].Choice + '</option>'
+        }
+        innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+            + workInstructions[w].Instruction +
+            '</label></div><div class="cost-centre-right-container"><select id=dropdown' + workInstructions[w].InstructionId +
+            ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
+            + WOptionHtml + '</select></div><br/><div class="clearBoth"></div>';
+
+    }
+
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header">' +
+        '<button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading +
+        '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml +
+        '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;">' +
+        '<button id="btnCostCentreCalculator" type="button" class="btn btn-primary float_right" ' +
+        'onclick="ValidateCostCentreControl(' + costCentreId + ',' + clonedItemId + ',&#34; ' + currency +
+        '&#34; ,' + itemPrice + ',' + costCentreType + ',' + taxRate + ',' + orderedQty + ');">Continue</button>' +
+        '<img src="/Content/Images/costcentreLoader.gif" id="imgCCLoader"  style="height: 20px; margin-right: 10px;margin-top:8px; display:none;" /></div></div></div>';
+
+
+    var bws = getBrowserHeight();
+
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 730) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.left = left + "px";
+    document.getElementById("innerLayer").style.top = "200px";
+
+    document.getElementById("innerLayer").style.width = "730px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+
+// Show Formula Matrix
+function ShowFormulaMatrix(rows, columns, matrixIndex) {
+    var matrixItems = GlobalQuestionQueueItemsList[matrixIndex].MatrixTable;
+    var isFirstSetToEmpty = 0;
+    var globalIndex = 0;
+    var rowsHtml = "";
+    var trHtml = "<tr>";
+
+    for (var row = 0; row < rows; row++) {
+        for (var col = 0; col < columns; col++) {
+
+            if (col == 0 && isFirstSetToEmpty == 0) {
+                isFirstSetToEmpty = 1;
+                trHtml = trHtml + '<td></td>';
+            } else {
+                if (row == 0 || col == 0) {
+                    trHtml = trHtml + '<td>' + matrixItems[globalIndex].Value + '</td>';
+
+                } else {
+                    trHtml = trHtml + '<td><button type="button" class="MatrixOption" onclick=SetMatrixAnswer(' + matrixItems[globalIndex].Value + ',' +
+                        matrixItems[globalIndex].MatrixId + ');>' + matrixItems[globalIndex].Value + '</button></td>';
+                }
+
+
+                globalIndex = parseInt(globalIndex) + 1;
+            }
+
+        }
+        rowsHtml = rowsHtml + trHtml + "</tr>";
+        trHtml = "<tr>";
+    }
+
+    var container = '  <div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideFormulaPopUp();>&times;</button><h4 class="modal-title left_align">Please select a value from Matrix</h4></div><div class="modal-body left_align"><table class="cost-centre-Matrix">' + rowsHtml + '</table></div></div></div>';
+
+    var bws = getBrowserHeight();
+
+    var shadow = document.getElementById("FormulaMatrixLayer");
+
+
+    var left = parseInt((bws.width - 730) / 2) + 20;
+
+    document.getElementById("FormulaMatrixLayer").innerHTML = container;
+
+    document.getElementById("FormulaMatrixLayer").style.left = left + "px";
+    document.getElementById("FormulaMatrixLayer").style.top = "75px";
+
+    document.getElementById("FormulaMatrixLayer").style.width = "700px";
+    document.getElementById("FormulaMatrixLayer").style.position = "fixed";
+    document.getElementById("FormulaMatrixLayer").style.zIndex = "9999";
+    document.getElementById("FormulaMatrixLayer").style.boxShadow = "1px 1px 5px #888888";
+    document.getElementById("FormulaMatrixLayer").style.display = "block";
+}
+
+// Hide Formula Popup
+function HideFormulaPopUp() {
+    document.getElementById("FormulaMatrixLayer").style.display = "none";
+}
+
+// Hide Cost Center Question Dialog
+function HideLoader() {
+
+    document.getElementById("layer").style.display = "none";
+    document.getElementById("innerLayer").style.display = "none";
+}
+
+// Sets Matrix Answer
+function SetMatrixAnswer(answer, matrixId) {
+    $("#formulaMatrixBox" + matrixId).val(answer);
+    document.getElementById("FormulaMatrixLayer").style.display = "none";
+}
+
+// Set Global Cost Centre Queue
+function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueueItemsList, costCentreId, costCentreType,
+    clonedItemId, selectedCostCentreCheckBoxId, desriptionOfQuestion, itemPrice, currencyCode, isPromptAQuestion, taxRate, orderedQty, itemAddOns) {
+
+    var jsonObjectsOfGlobalQueue = null;
+    var inputAndQuestionQueues;
+    if (!costCentreQueueItems) {
+        inputAndQuestionQueues = {
+            QuestionQueues: globalQuestionQueueItemsList,
+            InputQueues: globalInputQueueItemsList
+        };
+        jsonObjectsOfGlobalQueue = JSON.stringify(inputAndQuestionQueues, null, 2);
+        costCentreQueueItems = jsonObjectsOfGlobalQueue;
+
+    } else {
+        var isUpdated = false;
+        inputAndQuestionQueues = JSON.parse(costCentreQueueItems);
+        if (inputAndQuestionQueues.InputQueues == null) {
+            inputAndQuestionQueues.InputQueues = [];
+            if (globalInputQueueItemsList) {
+                for (var i = 0; i < globalInputQueueItemsList.length; i++) {
+                    inputAndQuestionQueues.InputQueues.push(globalInputQueueItemsList[i]);
+                }
+            }
+            
+        } else {
+            if (globalInputQueueItemsList && inputAndQuestionQueues) {
+                for (var i = 0; i < globalInputQueueItemsList.length; i++) {
+                    for (var j = 0; j < inputAndQuestionQueues.InputQueues.length; j++) {
+
+                        if (inputAndQuestionQueues.InputQueues[j].CostCentreID == globalInputQueueItemsList[i].CostCentreID &&
+                            inputAndQuestionQueues.InputQueues[j].ID == globalInputQueueItemsList[i].ID) {
+                            inputAndQuestionQueues.InputQueues[j].Qty1Answer = globalInputQueueItemsList[i].Qty1Answer;
+                            isUpdated = true;
+                            break;
+                        }
+                    }
+
+                    if (isUpdated == false) {
+                        inputAndQuestionQueues.InputQueues.push(globalInputQueueItemsList[i]);
+                        isUpdated = false;
+                    }
+                }
+            }
+            
+        }
+
+        if (globalQuestionQueueItemsList && inputAndQuestionQueues) {
+            for (var i = 0; i < globalQuestionQueueItemsList.length; i++) {
+                for (var j = 0; j < inputAndQuestionQueues.QuestionQueues.length; j++) {
+                    if (inputAndQuestionQueues.QuestionQueues[j].CostCentreID == globalQuestionQueueItemsList[i].CostCentreID &&
+                        inputAndQuestionQueues.QuestionQueues[j].ID == globalQuestionQueueItemsList[i].ID) {
+                        inputAndQuestionQueues.QuestionQueues[j].Qty1Answer = globalQuestionQueueItemsList[i].Qty1Answer;
+                        isUpdated = true;
+                        break;
+
+                    }
+                }
+
+                if (isUpdated == false) {
+                    if (inputAndQuestionQueues.QuestionQueues == null) {
+                        inputAndQuestionQueues.QuestionQueues = [];
+                    }
+                    inputAndQuestionQueues.QuestionQueues.push(globalQuestionQueueItemsList[i]);
+                    isUpdated = false;
+                }
+            }
+        }
+
+        if (inputAndQuestionQueues) {
+            costCentreQueueItems = JSON.stringify(inputAndQuestionQueues, null, 2);
+        }
+    }
+
+    var updatedGlobalQueueArray = JSON.parse(costCentreQueueItems);
+    var costCentreQueueObjectToSaveInDb = [];
+
+    var to;
+    to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + costCentreId + "&ClonedItemId=" + clonedItemId + "&OrderedQuantity=" + orderedQty + "&CallMode=New";
+    var options = {
+        type: "POST",
+        url: to,
+        data: costCentreQueueItems,
+        contentType: "application/json",
+        async: true,
+        success: function (response) {
+            
+            var updatedAddOns = itemAddOns;
+
+            if (updatedAddOns() != null) {
+
+                for (var i = 0; i < updatedAddOns().length; i++) {
+
+                    if (updatedAddOns()[i].costCentreId() == costCentreId) {
+                        updatedAddOns()[i].totalPrice(response);
+                        if (costCentreType == 4) { // question queue
+                            if (updatedGlobalQueueArray && updatedGlobalQueueArray.QuestionQueues) {
+                                for (var j = 0; j < updatedGlobalQueueArray.QuestionQueues.length; j++) {
+                                    if (updatedGlobalQueueArray.QuestionQueues[j].CostCentreID == costCentreId) {
+                                        costCentreQueueObjectToSaveInDb.push(updatedGlobalQueueArray.QuestionQueues[j]);
+                                    }
+                                }
+                            }
+                            
+                        } else { // input queue
+                            if (updatedGlobalQueueArray && updatedGlobalQueueArray.InputQueues) {
+                                for (var k = 0; k < updatedGlobalQueueArray.InputQueues.length; k++) {
+
+                                    if (updatedGlobalQueueArray.InputQueues[k].CostCentreID == costCentreId) {
+                                        costCentreQueueObjectToSaveInDb.push(updatedGlobalQueueArray.InputQueues[k]);
+                                    }
+                                }
+                            }
+                            
+                        }
+
+                        if (costCentreQueueObjectToSaveInDb && costCentreQueueObjectToSaveInDb.length > 0) {
+                            updatedAddOns()[i].CostCentreJasonData = JSON.stringify(costCentreQueueObjectToSaveInDb, null, 2);
+                        }
+
+
+                        break;
+                    }
+                }
+
+                if (updatedGlobalQueueArray && updatedGlobalQueueArray.QuestionQueues != null) {
+                    var QuestionQueueDBObject = [];
+                    for (var m = 0; m < updatedGlobalQueueArray.QuestionQueues.length; m++) {
+
+                        QuestionQueueDBObject.push(updatedGlobalQueueArray.QuestionQueues[m]);
+
+                    }
+
+                    //if (QuestionQueueDBObject.length > 0) {
+                    //    $("#VMJsonAddOnsQuestionQueue").val(JSON.stringify(QuestionQueueDBObject, null, 2));
+                    //}
+                }
+                if (updatedGlobalQueueArray && updatedGlobalQueueArray.InputQueues != null) {
+                    var InputQueueDBObject = [];
+                    for (var n = 0; n < updatedGlobalQueueArray.InputQueues.length; n++) {
+
+                        InputQueueDBObject.push(updatedGlobalQueueArray.InputQueues[n]);
+
+                    }
+
+                    //if (InputQueueDBObject.length > 0) {
+                    //    $("#VMJsonAddOnsInputQueue").val(JSON.stringify(InputQueueDBObject, null, 2));
+                    //}
+                }
+
+
+                var JsonToReSubmit = [];
+
+                var totalVal = 0;
+                var TaxAppliedValue = 0;
+                // add checked cost centre values to gross total
+                for (var i = 0; i < updatedAddOns().length; i++) {
+
+                    JsonToReSubmit.push(updatedAddOns()[i]);
+                    //TaxAppliedValue = parseFloat(updatedAddOns()[i].totalPrice());
+                    //TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * taxRate) / 100);
+
+                    //totalVal = parseFloat(totalVal) + parseFloat(TaxAppliedValue);
+
+                }
+
+                //displayTotalPrice(itemPrice, totalVal);
+                TaxAppliedValue = response;
+                TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * taxRate) / 100);
+                if (isPromptAQuestion == true) {
+                    $(selectedCostCentreCheckBoxId).next().next().html('<label>' + currencyCode + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + costCentreId + ',' + selectedCostCentreCheckBoxId + ',' + costCentreType + ', 1);" >Modify</a> ');
+                } else {
+                    $(selectedCostCentreCheckBoxId).next().next().html('<label>' + currencyCode + (TaxAppliedValue).toFixed(2).toString() + '</label>');
+                }
+                //$("#VMAddOnrice").val(totalVal);
+               // $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
+            }
+            HideLoader();
+        },
+        error: function (msg) { toastr.error("Error occured "); console.log(msg); }
+    };
+    var returnText = $.ajax(options).responseText;
+}
+
+
+// #endregion
 
 
 $(function () {

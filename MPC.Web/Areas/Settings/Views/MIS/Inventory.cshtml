@@ -9,17 +9,22 @@
         <div class="row">
             <div class="col-lg-12" id="topArea">
                 @*<ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li class="active"><span>Inventories</span></li>
-                </ol>*@
+                        <li><a href="~/Dashboard/Index">Home</a></li>
+                        <li class="active"><span>Inventories</span></li>
+                    </ol>*@
                 <div class="clearfix">
                     <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">Paper & Inks</h1>
 
                 </div>
                 <div class="pull-right top-page-ui">
+                    <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:5px">
+                        Reports
+                    </button>
                     <button class="btn btn-primary" data-bind="click:createInventory">
                         Add New Inventory
                     </button>
+                    <a href="/mis/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-left:10px;">Close</a>
+
                 </div>
                 <div id="addInventory">
                     &nbsp;
@@ -36,11 +41,11 @@
                             <table id="inventoryTablle" class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="col-lg-1">&nbsp;</th>
+                                        @*<th class="col-lg-1">&nbsp;</th>*@
                                         <th class="col-lg-4"> <span>Name<span></span></span></th>
                                         <th class="col-lg-3"> <span>Category<span></span></span></th>
-                                        <th class="col-lg-3">Selling Pack Price</th>
-                                        <th class="col-lg-1">&nbsp;</th>
+                                        <th class="col-lg-1"> <span>Flag<span></span></span></th>
+                                        <th class="col-lg-3 text-right" style="padding-right: 1%;">Selling Pack Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,14 +83,14 @@
                         </div>
 
                         @*<div class="pull-right">
-                    <button type="submit" class="btn btn-primary" data-bind="click:$root.filterInventories">Search</button>
-                    <button type="reset" class="btn btn-default closeSaveButtonMarginRemove" data-bind="click:$root.resetFilter">Reset</button>
-                </div>*@
+                                <button type="submit" class="btn btn-primary" data-bind="click:$root.filterInventories">Search</button>
+                                <button type="reset" class="btn btn-default closeSaveButtonMarginRemove" data-bind="click:$root.resetFilter">Reset</button>
+                            </div>*@
                     </div>
                 </form>
-                    <div class="clearfix">
-                    </div>
-</div>
+                <div class="clearfix">
+                </div>
+            </div>
         </script>
     </div>
     @Html.Partial("_InventoryEditor")
@@ -93,10 +98,12 @@
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_SupplierDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+
 <!-- /ko -->
 @section Scripts{
     <script>
-        require(["inventory/inventory.view", "common/confirmation.view", "common/supplier.view"]);
+        require(["inventory/inventory.view", "common/confirmation.view", "common/supplier.view", "common/reportManager.view"]);
         $(function () {
             $('#liinventory').addClass('active');
         });
@@ -120,23 +127,18 @@
 </script>
 <script id="itemInventoryTemplate" type="text/html">
     <tr data-bind=" click: $root.onEditInventory" style="cursor: pointer">
-        <td class="col-lg-1" data-bind="style: {backgroundColor: colour}"></td>
+        @*<td class="col-lg-1" data-bind="style: {backgroundColor: colour}"></td>*@
         <td class="col-lg-4">
             <a href="#" class="store-user-link" data-bind="text: name, click : $root.onEditInventory"></a>
             <label style="font-size: 0.875em; color: black;" data-bind="text: supplierCompanyName"><i class="fa fa-external-link-square"></i></label>
         </td>
-        @*<td>
-
-                <span data-bind="text: name"></span><span style="margin-left: 20px;" class="user-subhead" data-bind="text:supplierCompanyName"></span>
-            </td>*@
         <td class="col-lg-3" data-bind="text: fullCategoryName"></td>
-        <td class="col-lg-3">
+        <td>
+            <span class="label label-success" data-bind="style: { background: colour }"><i class="fa fa-flag"></i></span>
+        </td>
+        <td class="col-lg-3 text-right" style="padding-right: 1%;">
             <span data-bind="text: packCostPrice()!=='' && packCostPrice()!==null  ? $root.currencySymbol:''"></span>
             <span data-bind="numberInput: packCostPrice()!=='' && packCostPrice()!==0 ? packCostPrice() :' '"></span>
-        </td>
-        <td class="col-lg-2" id="actionColumn">
-            @*<!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->*@
         </td>
     </tr>
 </script>

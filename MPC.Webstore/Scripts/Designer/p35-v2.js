@@ -73,16 +73,21 @@ $("#btnAdd").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    if (canvas) {
+    try {
 
-        var a0 = canvas.getActiveObject();
-        if (a0) {
-            if (a0.type != "image") {
-                canvas.discardActiveObject();
+        if (canvas && canvas != undefined) {
+            var a0 = canvas.getActiveObject();
+            if (a0) {
+                if (a0.type != "image") {
+                    canvas.discardActiveObject();
+                }
+
             }
-
-        }
-    } $(".collapseDesignerMenu").css("display", "list-item");
+        } $(".collapseDesignerMenu").css("display", "list-item");
+    }
+    catch (err) {
+      
+    }
     //var D1AO = canvas.getActiveObject();
     //var D1AG = canvas.getActiveGroup();
     //if (D1AG) canvas.discardActiveGroup();
@@ -477,7 +482,12 @@ function g1(D1AO) {
     else {
         $("#chkboxAutoShrink").prop('checked', false);
     }
-
+    if (D1AO.autoCollapseText) {
+        $("#chkboxAutoCollapse").prop('checked', true);
+    }
+    else {
+        $("#chkboxAutoCollapse").prop('checked', false);
+    }
     if (!D1AO.IsEditable) {
         $("#BtnLockEditing").prop('checked', true);
     } else {
@@ -1254,20 +1264,34 @@ $('input, textarea, select').focus(function () {
     IsInputSelected = false;
 });
 $('body').keydown(function (e) {
-    var DIA0 = canvas.getActiveObject();
-    if (DIA0 && DIA0.isEditing) {
-        return
-    } else {
-        l3(e);
+    try {
+        if (canvas && canvas != undefined) {
+
+            var DIA0 = canvas.getActiveObject();
+            if (DIA0 && DIA0.isEditing) {
+                return
+            } else {
+                l3(e);
+            }
+        }
+    } catch (err) {
+        //document.getElementById("demo").innerHTML = err.message;
     }
 });
 
 $('body').keyup(function (event) {
-    var DIA0 = canvas.getActiveObject();
-    if (DIA0 && DIA0.isEditing) {
-        return
-    } else {
-        l2(event);
+    try {
+        if (canvas && canvas != undefined) {
+            var DIA0 = canvas.getActiveObject();
+            if (DIA0 && DIA0.isEditing) {
+                return
+            } else {
+                l2(event);
+            }
+        }
+    }
+    catch (err) {
+        //document.getElementById("demo").innerHTML = err.message;
     }
 
 });
@@ -2028,6 +2052,16 @@ $("#BtnPrintObj").click(function () {
         });
     }
 });
+$("#BtnPrintImage").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (thisCheck.is(':checked')) {
+        D1AO.IsHidden = true;
+    }
+    else {
+        D1AO.IsHidden = false;
+    }
+});
 $("#TxtQSequence").keydown(function (event) {
     // Allow: backspace, delete, tab, escape, and enter
     if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
@@ -2079,6 +2113,24 @@ $("#chkboxAutoShrink").click(function () {
         else {
             D1AO.AutoShrinkText = true;
             $("#chkboxAutoShrink").prop('checked', true);
+        }
+    }
+
+    g1(D1AO);
+});
+$("#chkboxAutoCollapse").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (D1AO.type === 'text' || D1AO.type === 'i-text') {
+
+        if (D1AO.get('autoCollapseText')) {
+            D1AO.autoCollapseText = false;
+            $("#chkboxAutoCollapse").prop('checked', false);
+            pcL13();
+        }
+        else {
+            D1AO.autoCollapseText = true;
+            $("#chkboxAutoCollapse").prop('checked', true);
         }
     }
 
@@ -2188,6 +2240,7 @@ $("#smartFormSelectUserProfile").change(function () {
 $("#BtnSmartFormSave").click(function () {
     pcl42();
     smartFormClicked = true; $(".messageSmartForm").css("display", "none");
+    $("#collapseDesignerMenu").click();
 });
 $("#btnCompanyLogo").click(function () {
     d1CompanyLogoToCanvas();
@@ -2197,4 +2250,13 @@ $("#btnContactImage").click(function () {
 });
 $("#btnGoToLandingPage").click(function () {
     window.location.href = "/ProductOptions/0/" + item.RefItemId + "/UploadDesign";
+});
+$("#btnImagePlaceHolder").click(function () {
+    d1PlaceHoldToCanvas();
+});
+$("#btnImagePlaceHolderUser").click(function () {
+    d1PlaceHoldToCanvas();
+});
+$("#Homebtn2").click(function () {
+    window.location.href = "/";
 });

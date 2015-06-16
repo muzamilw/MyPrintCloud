@@ -24,64 +24,63 @@ define("liveJobs/liveJobs.viewModel",
                     searchFilter = ko.observable(),
                     //Pager
                     pager = ko.observable(),
-                     //Sort On
+                    //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
                     sortIsAsc = ko.observable(true),
 
                     // #endregion
 
-                // Get Items
-                getItems = function () {
-                    dataservice.getItems({
-                        SearchString: searchFilter(),
-                        PageSize: pager().pageSize(),
-                        PageNo: pager().currentPage(),
-                        SortBy: sortOn(),
-                        IsAsc: sortIsAsc()
-                    }, {
-                        success: function (data) {
-                            resetHiddenFields();
-                            items.removeAll();
-                            if (data !== null && data !== undefined) {
-                                var itemList = [];
-                                _.each(data.Items, function (item) {
-                                    var itemModel = model.Item.Create(item);
-                                    var user = _.find(systemUsers(), function (sysUser) {
-                                        return sysUser.SystemUserId === itemModel.jobManagerId();
+                    // Get Items
+                    getItems = function () {
+                        dataservice.getItems({
+                            SearchString: searchFilter(),
+                            PageSize: pager().pageSize(),
+                            PageNo: pager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                resetHiddenFields();
+                                items.removeAll();
+                                if (data !== null && data !== undefined) {
+                                    var itemList = [];
+                                    _.each(data.Items, function (item) {
+                                        var itemModel = model.Item.Create(item);
+                                        var user = _.find(systemUsers(), function (sysUser) {
+                                            return sysUser.SystemUserId === itemModel.jobManagerId();
+                                        });
+                                        if (user !== null && user !== undefined) {
+                                            itemModel.jobManagerName(user.FullName);
+                                        }
+                                        itemList.push(itemModel);
+
                                     });
-                                    if (user !== null && user !== undefined) {
-                                        itemModel.jobManagerName(user.FullName);
-                                    }
-                                    itemList.push(itemModel);
+                                    ko.utils.arrayPushAll(items(), itemList);
+                                    items.valueHasMutated();
+                                    pager().totalCount(data.TotalCount);
+                                }
 
-                                });
-                                ko.utils.arrayPushAll(items(), itemList);
-                                items.valueHasMutated();
-                                pager().totalCount(data.TotalCount);
+                            },
+                            error: function () {
+                                toastr.error("Failed to Items.");
                             }
-
-                        },
-                        error: function () {
-                            toastr.error("Failed to Items.");
-                        }
-                    });
-                },
-
-                 // Get Items
-                getBaseData = function () {
-                    dataservice.getBaseData({
-                        success: function (data) {
-                            ko.utils.arrayPushAll(systemUsers(), data);
-                            systemUsers.valueHasMutated();
-                            getItems();
-                        },
-                        error: function () {
-                            toastr.error("Failed to Base data.");
-                        }
-                    });
-                },
-                        // Get Items
+                        });
+                    },
+                    // Get Items
+                    getBaseData = function () {
+                        dataservice.getBaseData({
+                            success: function (data) {
+                                ko.utils.arrayPushAll(systemUsers(), data);
+                                systemUsers.valueHasMutated();
+                                getItems();
+                            },
+                            error: function () {
+                                toastr.error("Failed to Base data.");
+                            }
+                        });
+                    },
+                    // Download Artwork
                     downloadArtwork = function () {
                         dataservice.downloadArtwork({
                             success: function (data) {
@@ -111,6 +110,16 @@ define("liveJobs/liveJobs.viewModel",
                             $("#item" + i).val(null);
                         }
                     },
+                    // Enable/Disable Download button
+                    enableDownloadArtwork = ko.computed(function () {
+                        var item = _.find(items(), function (sItem) {
+                            return (sItem.isSelected() === true || sItem.isSelected() === 1);
+                        });
+                        if (item !== undefined) {
+                            return true;
+                        }
+                        return false;
+                    }),
                     //Initialize
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -131,7 +140,8 @@ define("liveJobs/liveJobs.viewModel",
                     systemUsers: systemUsers,
                     getItems: getItems,
                     downloadArtwork: downloadArtwork,
-                    selectItem: selectItem
+                    selectItem: selectItem,
+                    enableDownloadArtwork:enableDownloadArtwork
 
                 };
             })()

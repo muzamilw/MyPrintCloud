@@ -17,7 +17,7 @@
 <div id="FormulaMatrixLayer">
 </div>
 <div class="container content_area">
-    <div class="row left_right_padding">
+    <div class="left_right_padding">
         <div class="BreadCrumbMenu left_align col-xs-12">
             <h1>
 
@@ -150,12 +150,12 @@
                     </div>
                 </div>
             </div>
-            
+         @if (ViewBag.ShowUploadArkworkPanel == true)
+         {
             <div class="signin_heading_div float_left_simple UploadContainerCs LGBC rounded_corners upload-panel-margin">
              
-@if (ViewBag.ShowUploadArkworkPanel == true)
-{
-                if (ViewData["Templates"] == null)
+
+                @if (ViewData["Templates"] == null)
                 {
                     <div id="lbl_Options" class="SelectQtyContainer textAlignLeft">Upload Artwork </div>
 
@@ -244,10 +244,10 @@
                             }
                         </div>
                     </div>
-                }
+               
                 
             </div>
-
+}
         </div>
         <div class="float_left_simple PriceTableCs col-md-3 col-lg-3 col-xs-12">
             <div class="LGBC rounded_corners Pad5px">
@@ -255,11 +255,14 @@
                     @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlLSelectYourQ", UserCookieManager.WBStoreId))
                 </div>
                 <div class="white_background rounded_corners padding10">
-                    <div class="textAlignLeft Mleft10 gallery">
-                        <asp:hyperlink id="lnkPdfFile">
-                            <asp:image id="FinishedGoodImg" cssclass="full_img_ThumbnailPath" />
-                        </asp:hyperlink>
-                    </div>
+                    @if (ViewBag.FinishedGoodProduct != null)
+                    {
+                        <div class="textAlignLeft Mleft10 spacer10pxbottom">
+                            <img id="FinishedGoodImg" class="full_img_ThumbnailPath" src="/@ViewBag.FinishedGoodProduct" />
+
+                        </div>
+                    }
+                  
                     <div>
                         @if (ViewBag.ItemModel.IsQtyRanged == true)
                         {

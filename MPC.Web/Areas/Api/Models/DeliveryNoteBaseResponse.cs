@@ -16,5 +16,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// System Users
         /// </summary>
         public IEnumerable<SystemUserDropDown> SystemUsers { get; set; }
+
+
+        /// <summary>
+        /// Delivery Carriers
+        /// </summary>
+        public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
     }
 }

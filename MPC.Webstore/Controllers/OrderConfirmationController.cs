@@ -63,6 +63,7 @@ namespace MPC.Webstore.Controllers
             if (buttonType == "1")
             {
                 shopCart = PlaceOrder(1, Convert.ToInt64(OrderId));
+           
             }
             else
             {
@@ -182,38 +183,38 @@ namespace MPC.Webstore.Controllers
                             {
                                 case 1: //PayPal
                                     {
-                                        Response.Redirect("SignupPaypal/" + OrderId);
+                                        Response.Redirect("/SignupPaypal/" + OrderId);
                                         break;
                                     }
 
                                 case 2:
                                     {
-                                        Response.Redirect("payments/paymentAuthorizeNet/" + OrderId);
+                                        Response.Redirect("/payments/paymentAuthorizeNet/" + OrderId);
                                         break;
                                     }
                                 case 3:
                                     {
-                                        Response.Redirect("payments/ANZSubmit/" + OrderId);
+                                        Response.Redirect("/payments/ANZSubmit/" + OrderId);
                                         break;
                                     }
                                 case 4:
                                     {
-                                        Response.Redirect("paymentAuthorizeNet/" + OrderId);
+                                        Response.Redirect("/paymentAuthorizeNet/" + OrderId);
                                         break;
                                     }
                                 case 5:
                                     {
-                                        Response.Redirect("payments/stGeorgeSubmit/" + OrderId);
+                                        Response.Redirect("/payments/stGeorgeSubmit/" + OrderId);
                                         break;
                                     }
                                 case 6:
                                     {
-                                        Response.Redirect("payments/NabSubmit/" + OrderId);
+                                        Response.Redirect("/payments/NabSubmit/" + OrderId);
                                         break;
                                     }
                                 case 7:
                                     {
-                                        Response.Redirect("payments/PayJunctionSubmit/" + OrderId);
+                                        Response.Redirect("/payments/PayJunctionSubmit/" + OrderId);
                                         break;
 
                                     }
@@ -231,7 +232,8 @@ namespace MPC.Webstore.Controllers
                     cep.AddressId = UserCookieManager.WBStoreId;
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
                     cep.SystemUserId = EmailOFSM.SystemUserId;
-                    if (((user.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || user.ContactRoleId == Convert.ToInt32(Roles.Manager)) && ((user.IsPayByPersonalCreditCard ?? false) == false)) || (modOverride == 3) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && modOverride == 2) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && user.IsPayByPersonalCreditCard == false)) // Corporate user that can approve the orders
+                   
+                    if (((user.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || user.ContactRoleId == Convert.ToInt32(Roles.Manager)) && ((user.IsPayByPersonalCreditCard ?? false) == false)) || (modOverride == 3) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && modOverride == 2) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && (user.IsPayByPersonalCreditCard == false || user.IsPayByPersonalCreditCard == null))) // Corporate user that can approve the orders
                     {
                         try
                         {

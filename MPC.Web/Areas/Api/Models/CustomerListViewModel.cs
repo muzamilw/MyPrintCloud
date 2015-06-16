@@ -49,6 +49,8 @@ namespace MPC.MIS.Areas.Api.Models
         public byte[] Image { get; set; }
         public string ImageBytes { get; set; }
         public string StoreImagePath { get; set; }
+
+        public string StoreName { get; set; }
         /// <summary>
         /// Image Source
         /// </summary>

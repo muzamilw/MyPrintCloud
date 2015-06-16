@@ -103,6 +103,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
                        FileName = source.FileName,
+                       SecondaryEmail = source.SecondaryEmail,
                        ScopeVariables = source.ScopVariables != null ? source.ScopVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
 
                        //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
@@ -217,6 +218,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        OrganisationId = source.OrganisationId,
                        RoleName = source.CompanyContactRole != null ? source.CompanyContactRole.ContactRoleName : string.Empty,
                        FileName = fileName,
+                       SecondaryEmail = source.SecondaryEmail,
+                       StoreName = source.Company != null ? source.Company.StoreName: string.Empty
 
                    };
         }

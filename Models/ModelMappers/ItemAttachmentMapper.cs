@@ -27,9 +27,13 @@ namespace MPC.Models.ModelMappers
             target.ItemAttachmentId = source.ItemAttachmentId;
             target.ItemId = source.ItemId;
             target.FileName = source.FileName;
+            target.FileTitle = source.FileTitle;
             target.FileSource = source.FileSource;
             target.CompanyId = source.CompanyId;
             target.ContactId = source.ContactId;
+            target.Parent = source.Parent;
+            target.Comments = source.Comments;
+            target.Type = source.Type;
         }
 
         #endregion

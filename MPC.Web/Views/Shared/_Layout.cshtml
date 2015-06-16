@@ -4,11 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    <script type="text/javascript">
-        //<![CDATA[
-        try { if (!window.CloudFlare) { var CloudFlare = [{ verbose: 0, p: 0, byc: 0, owlid: "cf", bag2: 1, mirage2: 0, oracle: 0, paths: { cloudflare: "/cdn-cgi/nexp/dokv=88e434a982/" }, atok: "dd9c6b9d970c21043597a4fadd80e4dd", petok: "522fd99e7c7ba64b5097694a33e1b12f448f8fe0-1408352612-1800", zone: "adbee.technology", rocket: "0", apps: { "ga_key": { "ua": "UA-49262924-2", "ga_bs": "2" } } }]; !function (a, b) { a = document.createElement("script"), b = document.getElementsByTagName("script")[0], a.async = !0, a.src = "//ajax.cloudflare.com/cdn-cgi/nexp/dokv=97fb4d042e/cloudflare.min.js", b.parentNode.insertBefore(a, b) }() } } catch (e) { };
-        //]]>
-    </script>
     <script src="~/Scripts/jquery-2.1.0.min.js"></script>
     <script src="~/Scripts/jquery.blockUI.js"></script>
     <script>
@@ -41,22 +36,6 @@
         <script src="js/html5shiv.js"></script>
         <script src="js/respond.min.js"></script>
     <![endif]-->
-    <script type="text/javascript">
-        /* <![CDATA[ */
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-49262924-2']);
-        _gaq.push(['_trackPageview']);
-
-        (function () {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-        (function (b) { (function (a) { "__CF" in b && "DJS" in b.__CF ? b.__CF.DJS.push(a) : "addEventListener" in b ? b.addEventListener("load", a, !1) : b.attachEvent("onload", a) })(function () { "FB" in b && "Event" in FB && "subscribe" in FB.Event && (FB.Event.subscribe("edge.create", function (a) { _gaq.push(["_trackSocial", "facebook", "like", a]) }), FB.Event.subscribe("edge.remove", function (a) { _gaq.push(["_trackSocial", "facebook", "unlike", a]) }), FB.Event.subscribe("message.send", function (a) { _gaq.push(["_trackSocial", "facebook", "send", a]) })); "twttr" in b && "events" in twttr && "bind" in twttr.events && twttr.events.bind("tweet", function (a) { if (a) { var b; if (a.target && a.target.nodeName == "IFRAME") a: { if (a = a.target.src) { a = a.split("#")[0].match(/[^?=&]+=([^&]*)?/g); b = 0; for (var c; c = a[b]; ++b) if (c.indexOf("url") === 0) { b = unescape(c.split("=")[1]); break a } } b = void 0 } _gaq.push(["_trackSocial", "twitter", "tweet", b]) } }) }) })(window);
-        /* ]]> */
-    </script>
-
 </head>
 <body class="theme-blue-gradient">
 
@@ -438,12 +417,12 @@
                                 </li>
 
 
-                                <li id="liinventory">
+                                @*<li id="liinventory">
                                     <a href="~/Settings/MIS/Inventory" class="my-navigator">
                                         <i class="fa fa-tasks"></i>
                                         <span>Paper & Inks</span>
                                     </a>
-                                </li>
+                                </li>*@
                                 <li id="lisettings">
                                     <a href="~/Settings" class="my-navigator">
                                         <i class="fa fa-wrench"></i>

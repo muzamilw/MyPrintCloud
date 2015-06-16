@@ -819,7 +819,8 @@ namespace MPC.Repository.Repositories
                     (contact.FirstName.Contains(request.SearchFilter)) ||
                     (contact.MiddleName.Contains(request.SearchFilter)) ||
                     (contact.LastName.Contains(request.SearchFilter)) ||
-                    (contact.Email.Contains(request.SearchFilter))) &&
+                    (contact.Email.Contains(request.SearchFilter))||
+                    contact.Company.Name.Contains(request.SearchFilter)) &&
                     (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
                     (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId==OrganisationId;
 
@@ -835,6 +836,10 @@ namespace MPC.Repository.Repositories
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
+            foreach (var comp in companyContacts)
+            {
+                comp.Company.StoreName = GetStoreNameByStoreId(comp.Company.StoreId ?? 0);
+            }
             return new CompanyContactResponse
             {
                 RowCount = rowCount,
@@ -842,6 +847,17 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        public string GetStoreNameByStoreId(long StoreId)
+        {
+            try
+            {
+                return db.Companies.Where(c => c.CompanyId == StoreId).Select(c => c.Name).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID)
         {
             var query = (from c in db.CompanyContacts

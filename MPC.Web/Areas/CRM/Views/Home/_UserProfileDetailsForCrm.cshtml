@@ -7,18 +7,18 @@
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4>Profile - <span data-bind="text: firstName"></span></h4>
+                <h4>Add/Edit Profile</h4>
             </div>
             <br />
             <div class="col-lg-12 clearfix">
                 <div class="row" id="user-profile">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="main-box clearfix" id="tabsHeader">
+                        <div class="main-box clearfix" style="border:1px solid silver;" id="tabsHeader">
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-UserProfileinforCRM" data-toggle="tab">Profile</a></li>
                                     <li><a href="#tab-UserAddressInfoCRM" data-toggle="tab">Address Info</a></li>
-                                    <li><a href="#tab-UserPurseCRM" data-toggle="tab">Purse & Credits</a></li>
+                                    @*<li><a href="#tab-UserPurseCRM" data-toggle="tab">Purse & Credits</a></li>*@
                                     </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab-UserProfileinforCRM">
@@ -29,10 +29,10 @@
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
 
-                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Email/UserName</label>
+                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Secondary Email</label>
                                                             </div>
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -123,6 +123,26 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <div class="col-lg-5 text-right">
+                                                                <div class="control-label text-right tooltip-float">
+                                                                    @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="If creating an Estimate, Order or Invoice in MIS then this user will be selected by default." data-original-title="" title="">
+                                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                        </a>*@
+                                                                </div>
+                                                                <label for="switchIsDefaultContact" class="control-label text-right tooltip-float">Default Contact</label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <div class="onoffswitch">
+                                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsDefaultContact" data-bind="checked: isDefaultContact, disable  : isDefaultContact">
+                                                                    <label class=" onoffswitch-label" for="switchIsDefaultContact">
+                                                                        <div class="onoffswitch-inner"></div>
+                                                                        <div class="onoffswitch-switch"></div>
+                                                                    </label>
+                                                                </div>
+                                                                <span class="help-block text-right"></span>
+                                                            </div>
+                                                        </div>
                                                         @*<div class="form-group ">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -144,17 +164,31 @@
                                                                 
                                                             </div>
                                                             <div class="col-lg-6" style="text-align: center;">
-                                                                <img style="min-height: 170px; width: 170px; border:1px solid rgb(238, 238, 238)" data-bind="attr: { src: image }" />
-                                                                <div >
+                                                                <!--ko ifnot:image()-->
+                                                                <img style="height:180px; width:200px;" src="/mis/Content/Images/imageplaceholder.png" />
+                                                                <!--/ko-->
+                                                                <!--ko if:image()-->
+                                                                <img style="height:130px; width:215px; border:1px solid rgb(238, 238, 238)" data-bind="attr: { src: image }" />
+                                                                <!--/ko-->
+                                                                <div style="width:215px;text-align:center;">
                                                                     <div class="fileUpload btn btn-primary marginT5">
                                                                         <span>Upload</span>
                                                                         <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.UserProfileImageFileLoadedCallback, fileFilter: 'image.*'}" />
                                                                     </div>
                                                                 </div>
-                                                                <span class="help-block text-right"></span>
+                                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;width:220px;">Upload an image (PNG,JPG,GIF) for contact profile. This image is also used in Designer tool where contact image placeholder is used</div>
                                                             </div>
                                                         </div>
                                                         <br />
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+
+                                                                <label for="txtEmail" class="control-label text-right tooltip-float">UserName/Email</label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
                                                                 <label for="txtPassword" class="control-label text-right tooltip-float">Password</label>
@@ -193,8 +227,8 @@
                                                     <div class="form-group ">
                                                     </div>
                                                  </div>
-                                                    <h3 class="group-header">Smart form CRM variables that can be auto populated on templates</h3>
-                                                    <div class="col-lg-12 clearfix">
+                                                    @*<h3 class="group-header">Smart form CRM variables that can be auto populated on templates</h3>*@
+                                                    @*<div class="col-lg-12 clearfix">
                                                         <div class="col-lg-6">
                                                             <div class="form-group ">
                                                                 <div class="col-lg-5 text-right">
@@ -331,7 +365,7 @@
                                                         </div>
                                                         <div class="form-group ">
                                                         </div>
-                                                    </div>
+                                                    </div>*@
                                                     <h3 class="group-header">Additional Information</h3>
                                                     <div class="col-lg-12 clearfix">
                                                         <div class="col-lg-6">
@@ -505,21 +539,13 @@
                                     <div class="tab-pane fade" id="tab-UserAddressInfoCRM">
                                         <div class="col-lg-12">
                                             <div class=" form-horizontal clearfix">
-                                                <div class="col-lg-6 addressbox">
-                                                    <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
+                                                <div class="col-lg-6">
+                                                   <div class="form-group ">
+                                                        <div class="col-lg-4 text-right">
+                                                            <label for="ddbussinessAddress" class="control-label">Business Address</label>
 
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <label for="ddbussinessAddress" class="control-label">Bussiness Address</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group ">
-                                                        <div class="col-lg-4 text-right">
-
-
-                                                        </div>
-                                                        <div class="col-lg-8">
 
                                                             <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',value: bussinessAddressId, validationToolTip: bussinessAddressId"></select> @*,optionsCaption: 'Choose...'*@
                                                         </div>
@@ -529,7 +555,7 @@
 
                                                             <label for="txtBAredd" class="control-label text-right tooltip-float">Address</label>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-7">
                                                             <input type="text" class="form-control" id="txtBAredd" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined && $root.selectedBussinessAddress().addressName() != undefined ? $root.selectedBussinessAddress().addressName():''">
                                                         </div>
                                                     </div>
@@ -537,7 +563,7 @@
                                                         <div class="col-lg-4 text-right">
                                                             <label for="txtBAddCity" class="control-label text-right tooltip-float">City</label>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-7">
                                                             <input type="text" class="form-control" id="txtBAddCity" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().city() != undefined ? $root.selectedBussinessAddress().city():''">
                                                         </div>
                                                     </div>
@@ -545,25 +571,18 @@
                                                         <div class="col-lg-4 text-right">
                                                             <label for="txtBAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-7">
                                                             <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().stateName() != undefined ? $root.selectedBussinessAddress().stateName():''">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 addressbox">
+                                                <div class="col-lg-6">
+                                                    
                                                     <div class="form-group ">
                                                         <div class="col-lg-4 text-right">
-                                                           
-                                                        </div>
-                                                        <div class="col-lg-8">
                                                             <label for="ddshippingAddress" class="control-label">Shipping Address</label>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group ">
-                                                        <div class="col-lg-4 text-right">
-                                                           
-                                                        </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-7">
                                                             <select class="form-control " id="ddTerritory" data-bind="options:$root.shippingAddresses,optionsText:'addressName',optionsValue:'addressId',value: shippingAddressId"></select>  @*,optionsCaption: 'Choose...'*@
                                                         </div>
                                                     </div>
@@ -572,7 +591,7 @@
 
                                                             <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address</label>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-7">
                                                             <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().addressName() != undefined ? $root.selectedShippingAddress().addressName():''">
                                                         </div>
                                                     </div>
@@ -581,7 +600,7 @@
 
                                                             <label for="txtShippAddCity" class="control-label text-right tooltip-float">City</label>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-7">
                                                             <input type="text" class="form-control" id="txtShippAddCity" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().city() != undefined ? $root.selectedShippingAddress().city():''">
                                                         </div>
                                                     </div>
@@ -590,7 +609,7 @@
 
                                                             <label for="txtShippAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-7">
                                                             <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().stateName() != undefined ? $root.selectedShippingAddress().stateName():''">
                                                         </div>
                                                     </div>
@@ -598,18 +617,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="tab-UserPurseCRM">
+                                    @*<div class="tab-pane fade" id="tab-UserPurseCRM">
                                         <div class="col-lg-12">
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer col-xs-12">
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact">Save</button>
+            <div class="modal-footer col-xs-12" style="padding-left:4px;">
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyContact, enable: !$root.isSavingNewCompanyContact()">Archive</button>
             </div>

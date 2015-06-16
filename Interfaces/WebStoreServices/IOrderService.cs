@@ -10,7 +10,8 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IOrderService
     {
-        List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber);
+        List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId);
+
         int GetFirstItemIDByOrderId(int orderId);
 
         long ProcessPublicUserOrder(string orderTitle, long OrganisationId, StoreMode storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId);
@@ -99,5 +100,12 @@ namespace MPC.Interfaces.WebStoreServices
        /// </summary>
         bool IsRealCustomerOrder(long orderId, long contactId, long companyId);
 
+        
+          /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+        long GetStoreIdByOrderId(long OrderId);
     }
 }

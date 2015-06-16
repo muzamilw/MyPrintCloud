@@ -12,7 +12,9 @@
                    
                 </ol>
                 <h1 style="padding-left:0px;">Contacts</h1>
-              
+                <div class="clearfix pull-left" style="padding-bottom: 1%">
+                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -61,6 +63,7 @@
                                                                 <th class="col-lg-3"><span>Name</span></th>
                                                                 <th class="col-lg-3"><span>Email</span></th>
                                                                 <th class="col-lg-3"><span>Company</span></th>
+                                                                <th class="col-lg-3"><span>Store</span></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -78,6 +81,9 @@
                                                                 </td>
                                                                 <td>
                                                                     <span data-bind="text:companyName"></span>
+                                                                </td>
+                                                                <td>
+                                                                    <span data-bind="text:StoreName"></span>
                                                                 </td>
                                                             </tr>
                                                             <!-- /ko -->

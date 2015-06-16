@@ -226,12 +226,15 @@
     <Compile Include="DomainModels\ShippingInformation.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
+    <Compile Include="DomainModels\StagingImportCompanyContactAddress.cs" />
     <Compile Include="DomainModels\usp_DeliveryReport_Result.cs" />
     <Compile Include="DomainModels\usp_EstimateReport_Result.cs" />
     <Compile Include="DomainModels\usp_InvoiceReport_Result.cs" />
     <Compile Include="DomainModels\usp_JobCardReport_Result.cs" />
     <Compile Include="DomainModels\usp_OrderReport_Result.cs" />
     <Compile Include="DomainModels\usp_PurchaseOrderReport_Result.cs" />
+    <Compile Include="DomainModels\usp_TotalEarnings_Result.cs" />
+    <Compile Include="DomainModels\VariableExtension.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
@@ -365,6 +368,10 @@
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="ModelMappers\DeliveryNoteMapper.cs" />
+    <Compile Include="ModelMappers\DeliveryNoteMapperAction.cs" />
+    <Compile Include="ModelMappers\GoodsReceivedNoteMapper.cs" />
+    <Compile Include="ModelMappers\GoodsReceivedNoteMapperActions.cs" />
     <Compile Include="ModelMappers\InquiryAttachmentMapper.cs" />
     <Compile Include="ModelMappers\InquiryItemMapper.cs" />
     <Compile Include="ModelMappers\InquiryMapper.cs" />
@@ -372,6 +379,10 @@
     <Compile Include="ModelMappers\InvoiceMapperActions.cs" />
     <Compile Include="ModelMappers\InquiryMapperActions.cs" />
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
+    <Compile Include="ModelMappers\ProductMarketBriefAnswerMapper.cs" />
+    <Compile Include="ModelMappers\ProductMarketBriefQuestionMapper.cs" />
+    <Compile Include="ModelMappers\PurchaseMapper.cs" />
+    <Compile Include="ModelMappers\PurchaseMapperActions.cs" />
     <Compile Include="ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="ModelMappers\SectionInkCoverageMapper.cs" />
@@ -433,9 +444,12 @@
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
+    <Compile Include="RequestModels\ProgressEstimateRequestModel.cs" />
     <Compile Include="RequestModels\ProgressInquiryToEstimateParams.cs" />
     <Compile Include="RequestModels\PTVRequestModel.cs" />
+    <Compile Include="RequestModels\PurchaseOrderSearchRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
+    <Compile Include="RequestModels\ReportEmailRequestModel.cs" />
     <Compile Include="RequestModels\ReportNoteRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\SmartFormRequestModel.cs" />
@@ -464,7 +478,9 @@
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
+    <Compile Include="ResponseModels\GoodsReceivedNotesResponseModel.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="ResponseModels\InquiryBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
     <Compile Include="ResponseModels\ItemDetailBaseResponse.cs" />
@@ -495,7 +511,9 @@
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
+    <Compile Include="ResponseModels\PurchaseBaseResponse.cs" />
     <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
+    <Compile Include="ResponseModels\ReportEmailResponseModel.cs" />
     <Compile Include="ResponseModels\ReportparamResponse.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
     <Compile Include="ResponseModels\SmartFormResponse.cs" />
@@ -521,6 +539,7 @@
     <EmbeddedResource Include="LanguageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

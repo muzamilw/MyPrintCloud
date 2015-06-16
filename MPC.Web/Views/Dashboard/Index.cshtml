@@ -11,7 +11,7 @@
 
 <style>
     body {
-       /*overflow: hidden;*/ 
+        /*overflow: hidden;*/
         height: 100%;
     }
 
@@ -132,59 +132,59 @@
                     <div class="col-md-8 col-lg-8">
 
                         @*<div class="row">
-                            @if (ViewBag.Istrial == true)
-                            {
+                                @if (ViewBag.Istrial == true)
+                                {
 
-                                displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
-                                ishiddenclass = "";
-                            }
-                            else
-                            {
-                                displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
-                                ishiddenclass = "hidden";
+                                    displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
+                                    ishiddenclass = "";
+                                }
+                                else
+                                {
+                                    displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
+                                    ishiddenclass = "hidden";
 
-                            }
-
-
-                            <a href="/mis/Estimate/EstimatesList/" style="text-decoration:none" class="@displaybuttonsclass ">
-                                <div class="main-box infographic-box inner-box">
-                                    <i class="fa  fa-anchor emerald-bg" style="margin-right:4px;"></i>
-                                    <span class="span-dashboard-widgets">Create Quote</span>
-                                    <span class="value inner-box-margin">&nbsp;</span>
-                                </div>
-                            </a>
+                                }
 
 
-                            <a href="~/Stores/Stores/Index" style="text-decoration:none" class="@displaybuttonsclass ">
-                                <div class="main-box infographic-box inner-box">
-                                    <i class="fa fa-archive emerald-bg" style="margin-right:4px;"></i>
-                                    <span class="span-dashboard-widgets">Create a Website/Store</span>
-                                    <span class="value inner-box-margin">&nbsp;</span>
-                                </div>
-                                <div class="web2print-positioner" style="position:fixed;">
-                                </div>
-                            </a>
+                                <a href="/mis/Estimate/EstimatesList/" style="text-decoration:none" class="@displaybuttonsclass ">
+                                    <div class="main-box infographic-box inner-box">
+                                        <i class="fa  fa-anchor emerald-bg" style="margin-right:4px;"></i>
+                                        <span class="span-dashboard-widgets">Create Quote</span>
+                                        <span class="value inner-box-margin">&nbsp;</span>
+                                    </div>
+                                </a>
 
 
-                            <a style="text-decoration:none" class="@displaybuttonsclass  bs-example-tooltips" data-placement="bottom" data-toggle="popover" data-content="To create a product go to Stores, select a store and then visit the Products and Categories Tab. It is always a good practice to create a category first and then create a product based on your requirements.">
-                                <div class="main-box infographic-box inner-box">
-                                    <i class="fa fa-cube emerald-bg" style="margin-right:4px;"></i>
-                                    <span class="span-dashboard-widgets ">Create Product</span>
-                                    <span class="value inner-box-margin">&nbsp;</span>
-                                </div>
-                                <div class="product-positioner" style="position:fixed;">
-                                </div>
-                            </a>
+                                <a href="~/Stores/Stores/Index" style="text-decoration:none" class="@displaybuttonsclass ">
+                                    <div class="main-box infographic-box inner-box">
+                                        <i class="fa fa-archive emerald-bg" style="margin-right:4px;"></i>
+                                        <span class="span-dashboard-widgets">Create a Website/Store</span>
+                                        <span class="value inner-box-margin">&nbsp;</span>
+                                    </div>
+                                    <div class="web2print-positioner" style="position:fixed;">
+                                    </div>
+                                </a>
 
-                            <a href="#" style="text-decoration:none" class="@displaybuttonsclass " data-toggle="popover" data-placement="bottom" data-content="Design templates can be created against the products. To create a design template in a product first navigate to the store, select the product and navigate to Template Properties tab. Select either a blank template option or PDF based template to start creating template. ">
-                                <div class="main-box infographic-box inner-box">
-                                    <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                    <span class="span-dashboard-widgets">Create Template</span>
-                                    <span class="value inner-box-margin">&nbsp;</span>
-                                </div>
-                            </a>
 
-                        </div>*@
+                                <a style="text-decoration:none" class="@displaybuttonsclass  bs-example-tooltips" data-placement="bottom" data-toggle="popover" data-content="To create a product go to Stores, select a store and then visit the Products and Categories Tab. It is always a good practice to create a category first and then create a product based on your requirements.">
+                                    <div class="main-box infographic-box inner-box">
+                                        <i class="fa fa-cube emerald-bg" style="margin-right:4px;"></i>
+                                        <span class="span-dashboard-widgets ">Create Product</span>
+                                        <span class="value inner-box-margin">&nbsp;</span>
+                                    </div>
+                                    <div class="product-positioner" style="position:fixed;">
+                                    </div>
+                                </a>
+
+                                <a href="#" style="text-decoration:none" class="@displaybuttonsclass " data-toggle="popover" data-placement="bottom" data-content="Design templates can be created against the products. To create a design template in a product first navigate to the store, select the product and navigate to Template Properties tab. Select either a blank template option or PDF based template to start creating template. ">
+                                    <div class="main-box infographic-box inner-box">
+                                        <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                        <span class="span-dashboard-widgets">Create Template</span>
+                                        <span class="value inner-box-margin">&nbsp;</span>
+                                    </div>
+                                </a>
+
+                            </div>*@
 
                         <div class="row">
                             <div class="col-md-12">
@@ -238,7 +238,11 @@
                                 <div class="col-md-9">
                                     <div class="graph-box emerald-bg">
                                         <h2>Earnings</h2>
-                                        <div class="graph" id="graph-line" style="max-height: 335px;"></div>
+                                        @*<div class="graph" id="graph-line" style="max-height: 335px;"></div>*@
+                                        @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'year', ykeys: ['Value'], gridTextColor: '#ffffff',lineColors: ['#ffffff']}"
+                                             style="max-height: 335px;"></div>*@
+                                        <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.totalEarnings, xkey: 'month', ykeys:$root.yAxisPoints, labels: $root.chartLabels,gridTextColor: '#ffffff',resize: true}"
+                                             style="max-height: 335px;"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -250,7 +254,7 @@
                                                 </span>
                                                 <table>
                                                     <tr>
-                                                       
+
                                                         <td>
                                                             <span class="dashboardcounters23">$</span>
                                                             <span class="dashboardcounters23" data-bind="numberInput: $root.totalEarning">
@@ -294,7 +298,7 @@
                                                     <input type="text" class="form-control" data-bind="value: $root.orderSearchString" placeholder="Search...">
                                                     <i data-bind="click: $root.getDashboardData" class="fa fa-search search-icon"></i>
                                                 </div>
-                                                <a href="/mis/orders/home/" class="btn btn-primary pull-right">
+                                                <a href="/mis/orders/home/" class="btn btn-primary pull-right" >
                                                     <i class="fa fa-eye fa-lg"></i>View all orders
                                                 </a>
                                             </form>
@@ -314,6 +318,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <!-- ko if: $root.orders().length === 0 -->
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <span style="font-size: 14px;">No Items found!</span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /ko -->
                                                     <!-- ko template: { name: 'itemOrderTemplate' , foreach: $root.orders } -->
                                                     <!-- /ko -->
                                                 </tbody>
@@ -336,26 +347,27 @@
                                 <div class="main-box-body clearfix">
                                     <div class="table-responsive clearfix">
                                         <p style="line-height:2">
-                                           
-                                           
+
+
                                             <a href="http://www.onlinemeetingnow.com/register/?id=rflm0y9eq7" target="_blank">
                                                 Attend Daily Webinars
                                             </a>
-                                            
+
                                             <br />
                                             <a href="http://blog.myprintcloud.com/tutorials-quickstart/" target="_blank">
-                                                Find Tutorials and Implementation Guides</a>
+                                                Find Tutorials and Implementation Guides
+                                            </a>
                                             <br />
-                                        
+
                                             <a href="http://www.w3schools.com/" target="_blank">Learn More About CSS and Modifying Stores</a>
-                                           <br />
+                                            <br />
                                             <a href="http://blog.myprintcloud.com/updates-releases/" target="_blank"> View the Latest Updates & Release Notes</a>
                                             <br />
                                             <a href="http://www.speedtest.net" target="_blank">Test Your Internet Connection Speed</a>.
                                             <br />
                                             <a href="https://myprintcloud.com/Dashboard/contacts" target="_blank">Add Users to Your MyPrintCloud Account.</a>.
                                             <br />
-                                            
+
                                         </p>
                                     </div>
                                 </div>
@@ -364,32 +376,44 @@
 
 
                         <div class="row">
-                            <div class="main-box clearfix">
-                                <header class="main-box-header clearfix">
-                                    <h2 class="pull-left">Recently Registered Customers</h2>
-
-                                </header>
-                                <div class="main-box-body clearfix">
-                                    <ul class="widget-users row">
-                                        <li class="col-md-12">
-                                          
-                                           
+                            <div class="col-lg-12">
+                                <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 style="margin-top: 3%;" class="pull-left">Last 5 customers</h2>
+                                        <div class="filter-block pull-right">
+                                            <form data-bind="submit:$root.getDashboardData">
                                               
-                                                    No New Registrations
-                                               
-                                              
+                                                <a href="/mis/CRM/Home/" class="btn btn-primary pull-right" >
+                                                    <i class=" fa fa-eye fa-lg">
+                                                    </i>View all customers
+                                                </a>
+                                            </form>
 
-                                          
-                                        </li>
+                                        </div>
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-lg-11"><span>Companies</span></th>
 
-
-                                       
-
-
-
-                                    </ul>
-                                    <br />
-                                    <a href="/mis/CRM/Home" class="btn btn-success pull-right">View all Customers</a>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- ko if: $root.customers().length === 0 -->
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <span style="font-size: 14px;">No Items found!</span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /ko -->
+                                                    <!-- ko template: { name: 'customerTemplate' , foreach: $root.customers } -->
+                                                    <!-- /ko -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -479,682 +503,702 @@
                 <td style="text-align: right">
                     <span data-bind="text: '$'"></span>
                     <span data-bind="numberInput: estimateTotal() == undefined ? '' :  estimateTotal()"></span>
-                </td> 
+                </td>
+            </tr>
+        </script>
+        <script id="customerTemplate" type="text/html">
+            <tr data-bind="click: $root.goToCustomer.bind($data.id(), $data.id())" style="cursor: pointer">
+                <td>
+
+                    @*<span data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></span>*@
+                    <div>
+                        <div class="col-lg-7">
+                            <a class="store-user-link" data-bind="text: name" href="#"></a>
+                            <span data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'" style="font-size:12px"></span>
+
+                        </div>
+                        <div class="col-lg-4" style="margin-top: 2%;">
+                            <span data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></span>
+                            <span data-bind="text: defaultContactEmail" style=" font-size: 12px;"></span>
+
+                        </div>
+                    </div>
+                </td>
             </tr>
         </script>
     </div>
 </div>
-    @section Scripts {
-        @*<script src="~/Scripts/Script/jquery.foggy.js"></script>
-            <script src="~/Scripts/Script/jquery.foggy.min.js"></script>*@
-        <script>
-            $(document).ready(function () {
+@section Scripts {
+    @*<script src="~/Scripts/Script/jquery.foggy.js"></script>
+        <script src="~/Scripts/Script/jquery.foggy.min.js"></script>*@
+    <script>
+        $(document).ready(function () {
 
-                /* initialize the external events
-                -----------------------------------------------------------------*/
-                $('#lidashboard').addClass('active');
-                $('#external-events div.external-event').each(function () {
+            /* initialize the external events
+            -----------------------------------------------------------------*/
+            $('#lidashboard').addClass('active');
+            $('#external-events div.external-event').each(function () {
 
-                    // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-                    // it doesn't need to have a start or end
-                    var eventObject = {
-                        title: $.trim($(this).text()) // use the element's text as the event title
-                    };
+                // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+                // it doesn't need to have a start or end
+                var eventObject = {
+                    title: $.trim($(this).text()) // use the element's text as the event title
+                };
 
-                    // store the Event Object in the DOM element so we can get to it later
-                    $(this).data('eventObject', eventObject);
+                // store the Event Object in the DOM element so we can get to it later
+                $(this).data('eventObject', eventObject);
 
-                    // make the event draggable using jQuery UI
-                    $(this).draggable({
-                        zIndex: 999,
-                        revert: true,      // will cause the event to go back to its
-                        revertDuration: 0  //  original position after the drag
-                    });
-
+                // make the event draggable using jQuery UI
+                $(this).draggable({
+                    zIndex: 999,
+                    revert: true,      // will cause the event to go back to its
+                    revertDuration: 0  //  original position after the drag
                 });
 
-
-                /* initialize the calendar
-                -----------------------------------------------------------------*/
-
-                var date = new Date();
-                var d = date.getDate();
-                var m = date.getMonth();
-                var y = date.getFullYear();
-
-                var calendar = $('#calendar').fullCalendar({
-                    header: {
-                        left: '',
-                        center: 'title',
-                        right: 'prev,next'
-                    },
-                    selectable: true,
-                    selectHelper: true,
-                    select: function (start, end, allDay) {
-                        var title = prompt('Event Title:');
-                        if (title) {
-                            calendar.fullCalendar('renderEvent',
-                                {
-                                    title: title,
-                                    start: start,
-                                    end: end,
-                                    allDay: allDay
-                                },
-                                true // make the event "stick"
-                            );
-                        }
-                        calendar.fullCalendar('unselect');
-                    },
-                    editable: true,
-                    droppable: true, // this allows things to be dropped onto the calendar !!!
-                    drop: function (date, allDay) { // this function is called when something is dropped
-
-                        // retrieve the dropped element's stored Event Object
-                        var originalEventObject = $(this).data('eventObject');
-
-                        // we need to copy it, so that multiple events don't have a reference to the same object
-                        var copiedEventObject = $.extend({}, originalEventObject);
-
-                        // assign it the date that was reported
-                        copiedEventObject.start = date;
-                        copiedEventObject.allDay = allDay;
-
-                        // copy label class from the event object
-                        var labelClass = $(this).data('eventclass');
-
-                        if (labelClass) {
-                            copiedEventObject.className = labelClass;
-                        }
-
-                        // render the event on the calendar
-                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-                        // is the "remove after drop" checkbox checked?
-                        if ($('#drop-remove').is(':checked')) {
-                            // if so, remove the element from the "Draggable Events" list
-                            $(this).remove();
-                        }
-
-                    },
-                    buttonText: {
-                        prev: '<i class="fa fa-chevron-left"></i>',
-                        next: '<i class="fa fa-chevron-right"></i>'
-                    },
-                    events: [
-                        {
-                            title: 'All Day Event',
-                            start: new Date(y, m, 1),
-                            className: 'label-success'
-                        },
-                        {
-                            title: 'Long Event',
-                            start: new Date(y, m, d - 5),
-                            end: new Date(y, m, d - 2)
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: new Date(y, m, d - 3, 16, 0),
-                            allDay: false,
-                            className: 'label-danger'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: new Date(y, m, d + 4, 16, 0),
-                            allDay: false
-                        },
-                        {
-                            title: 'Meeting',
-                            start: new Date(y, m, d, 10, 30),
-                            allDay: false,
-                            className: 'label-info'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: new Date(y, m, d, 12, 0),
-                            end: new Date(y, m, d, 14, 0),
-                            allDay: false,
-                            className: 'label-success'
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: new Date(y, m, d + 1, 19, 0),
-                            end: new Date(y, m, d + 1, 22, 30),
-                            allDay: false,
-                            className: 'label-info'
-                        },
-                        {
-                            title: 'Click for Google',
-                            start: new Date(y, m, 28),
-                            end: new Date(y, m, 29),
-                            url: 'http://google.com/',
-                            className: 'label-danger'
-                        }
-                    ]
-                });
-
-                $('.conversation-inner').slimScroll({
-                    height: '332px',
-                    alwaysVisible: false,
-                    railVisible: true,
-                    wheelStep: 5,
-                    allowPageScroll: false
-                });
-
-                //CHARTS
-                graphLine = Morris.Line({
-                    element: 'graph-line',
-                    data: [
-                        { period: '2015-01-01', 'Retail Store': 0, ipad: null, itouch: 2647 },
-                        { period: '2015-02-02', 'Retail Store': 0, ipad: 2294, itouch: 2441 },
-                        { period: '2015-03-03', 'Retail Store': 0, ipad: 1969, itouch: 2501 },
-                        { period: '2015-04-04', 'Retail Store': 0, ipad: 3597, itouch: 5689 },
-                        { period: '2015-05-05', 'Retail Store': 0, ipad: 1914, itouch: 2293 },
-                        { period: '2015-06-06', 'Retail Store': 0, ipad: 4293, itouch: 1881 },
-                        { period: '2015-07-07', 'Retail Store': 0, ipad: 3795, itouch: 1588 },
-                        { period: '2015-08-08', 'Retail Store': 0, ipad: 5967, itouch: 5175 },
-                        { period: '2015-09-09', 'Retail Store': 0, ipad: 4460, itouch: 2028 },
-                        { period: '2015-10-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 },
-                        { period: '2015-11-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 },
-                        { period: '2015-12-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 }
-                    ],
-                    lineColors: ['#ffffff'],
-                    xkey: 'period',
-                    ykeys: ['Retail Store'],
-                    labels: ['Retail Store'],
-                    pointSize: 3,
-                    hideHover: 'auto',
-                    gridTextColor: '#ffffff',
-                    gridLineColor: 'rgba(255, 255, 255, 0.3)',
-                    resize: true
-                });
-
-                //WORLD MAP
-                $('#world-map').vectorMap({
-                    map: 'world_merc_en',
-                    backgroundColor: '#ffffff',
-                    zoomOnScroll: false,
-                    regionStyle: {
-                        initial: {
-                            fill: '#e1e1e1',
-                            stroke: 'none',
-                            "stroke-width": 0,
-                            "stroke-opacity": 1
-                        },
-                        hover: {
-                            "fill-opacity": 0.8
-                        },
-                        selected: {
-                            fill: '#8dc859'
-                        },
-                        selectedHover: {
-                        }
-                    },
-                    series: {
-                        regions: [{
-                            values: gdpData,
-                            scale: ['#6fc4fe', '#2980b9'],
-                            normalizeFunction: 'polynomial'
-                        }]
-                    },
-                    onRegionLabelShow: function (e, el, code) {
-                        el.html(el.html() + ' (' + gdpData[code] + ')');
-                    }
-                });
             });
-        </script>
-        <script>
 
 
+            /* initialize the calendar
+            -----------------------------------------------------------------*/
 
-            function openTourInit() {
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
 
-                var tourcookie = readCookie("tourviewed");
-                //
-                if (tourcookie != "1") {
-                    createCookie("tourviewed", "1", 10);
+            var calendar = $('#calendar').fullCalendar({
+                header: {
+                    left: '',
+                    center: 'title',
+                    right: 'prev,next'
+                },
+                selectable: true,
+                selectHelper: true,
+                select: function (start, end, allDay) {
+                    var title = prompt('Event Title:');
+                    if (title) {
+                        calendar.fullCalendar('renderEvent',
+                            {
+                                title: title,
+                                start: start,
+                                end: end,
+                                allDay: allDay
+                            },
+                            true // make the event "stick"
+                        );
+                    }
+                    calendar.fullCalendar('unselect');
+                },
+                editable: true,
+                droppable: true, // this allows things to be dropped onto the calendar !!!
+                drop: function (date, allDay) { // this function is called when something is dropped
 
-                    $("#myprintcloud-help").css("top", ($(window).height() - $("#myprintcloud-help").height()) / 2 + "px");
-                    $("#myprintcloud-help").css("display", "block");
-                    $(".disabled-div").css("display", "block");
-                    $("#myprintcloud-help").animate({ "top": ($(window).height() - $("#myprintcloud-help").height()) / 2 }, 500, 'linear');
+                    // retrieve the dropped element's stored Event Object
+                    var originalEventObject = $(this).data('eventObject');
 
+                    // we need to copy it, so that multiple events don't have a reference to the same object
+                    var copiedEventObject = $.extend({}, originalEventObject);
 
-                    $(window).resize(function () {
+                    // assign it the date that was reported
+                    copiedEventObject.start = date;
+                    copiedEventObject.allDay = allDay;
 
+                    // copy label class from the event object
+                    var labelClass = $(this).data('eventclass');
 
-                        document.getElementById("myprintcloud-help").style.left = "41%";
+                    if (labelClass) {
+                        copiedEventObject.className = labelClass;
+                    }
 
-                    });
-                } else {
-                    $('body').css('overflow', 'visible');
+                    // render the event on the calendar
+                    // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                    $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+
+                    // is the "remove after drop" checkbox checked?
+                    if ($('#drop-remove').is(':checked')) {
+                        // if so, remove the element from the "Draggable Events" list
+                        $(this).remove();
+                    }
+
+                },
+                buttonText: {
+                    prev: '<i class="fa fa-chevron-left"></i>',
+                    next: '<i class="fa fa-chevron-right"></i>'
+                },
+                events: [
+                    {
+                        title: 'All Day Event',
+                        start: new Date(y, m, 1),
+                        className: 'label-success'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: new Date(y, m, d - 5),
+                        end: new Date(y, m, d - 2)
+                    },
+                    {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: new Date(y, m, d - 3, 16, 0),
+                        allDay: false,
+                        className: 'label-danger'
+                    },
+                    {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: new Date(y, m, d + 4, 16, 0),
+                        allDay: false
+                    },
+                    {
+                        title: 'Meeting',
+                        start: new Date(y, m, d, 10, 30),
+                        allDay: false,
+                        className: 'label-info'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: new Date(y, m, d, 12, 0),
+                        end: new Date(y, m, d, 14, 0),
+                        allDay: false,
+                        className: 'label-success'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: new Date(y, m, d + 1, 19, 0),
+                        end: new Date(y, m, d + 1, 22, 30),
+                        allDay: false,
+                        className: 'label-info'
+                    },
+                    {
+                        title: 'Click for Google',
+                        start: new Date(y, m, 28),
+                        end: new Date(y, m, 29),
+                        url: 'http://google.com/',
+                        className: 'label-danger'
+                    }
+                ]
+            });
+
+            $('.conversation-inner').slimScroll({
+                height: '332px',
+                alwaysVisible: false,
+                railVisible: true,
+                wheelStep: 5,
+                allowPageScroll: false
+            });
+
+            //CHARTS
+            //graphLine = Morris.Line({
+            //    element: 'graph-line',
+            //    data: [
+            //        { period: '2015-01-01', 'Retail Store': 0, ipad: null, itouch: 2647 },
+            //        { period: '2015-02-02', 'Retail Store': 0, ipad: 2294, itouch: 2441 },
+            //        { period: '2015-03-03', 'Retail Store': 0, ipad: 1969, itouch: 2501 },
+            //        { period: '2015-04-04', 'Retail Store': 0, ipad: 3597, itouch: 5689 },
+            //        { period: '2015-05-05', 'Retail Store': 2, ipad: 1914, itouch: 2293 },
+            //        { period: '2015-06-06', 'Retail Store': 0, ipad: 4293, itouch: 1881 },
+            //        { period: '2015-07-07', 'Retail Store': 0, ipad: 3795, itouch: 1588 },
+            //        { period: '2015-08-08', 'Retail Store': 5, ipad: 5967, itouch: 5175 },
+            //        { period: '2015-09-09', 'Retail Store': 0, ipad: 4460, itouch: 2028 },
+            //        { period: '2015-10-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 },
+            //        { period: '2015-11-10', 'Retail Store': 9, ipad: 5713, itouch: 1791 },
+            //        { period: '2015-12-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 }
+            //    ],
+            //    lineColors: ['#ffffff'],
+            //    xkey: 'period',
+            //    ykeys: ['Retail Store'],
+            //    labels: ['itouch'],
+            //    pointSize: 3,
+            //    hideHover: 'auto',
+            //    gridTextColor: '#ffffff',
+            //    gridLineColor: 'rgba(255, 255, 255, 0.3)',
+            //    resize: true
+            //});
+
+            //WORLD MAP
+            $('#world-map').vectorMap({
+                map: 'world_merc_en',
+                backgroundColor: '#ffffff',
+                zoomOnScroll: false,
+                regionStyle: {
+                    initial: {
+                        fill: '#e1e1e1',
+                        stroke: 'none',
+                        "stroke-width": 0,
+                        "stroke-opacity": 1
+                    },
+                    hover: {
+                        "fill-opacity": 0.8
+                    },
+                    selected: {
+                        fill: '#8dc859'
+                    },
+                    selectedHover: {
+                    }
+                },
+                series: {
+                    regions: [{
+                        values: gdpData,
+                        scale: ['#6fc4fe', '#2980b9'],
+                        normalizeFunction: 'polynomial'
+                    }]
+                },
+                onRegionLabelShow: function (e, el, code) {
+                    el.html(el.html() + ' (' + gdpData[code] + ')');
                 }
-            }
+            });
+        });
+    </script>
+    <script>
 
 
-            $("#btnCloseHelp").click(function () {
+
+        function openTourInit() {
+
+            var tourcookie = readCookie("tourviewed");
+            //
+            if (tourcookie != "1") {
+                createCookie("tourviewed", "1", 10);
+
+                $("#myprintcloud-help").css("top", ($(window).height() - $("#myprintcloud-help").height()) / 2 + "px");
+                $("#myprintcloud-help").css("display", "block");
+                $(".disabled-div").css("display", "block");
+                $("#myprintcloud-help").animate({ "top": ($(window).height() - $("#myprintcloud-help").height()) / 2 }, 500, 'linear');
 
 
-                $("#myprintcloud-help").hide();
-                $(".disabled-div").css("display", "none");
+                $(window).resize(function () {
 
+
+                    document.getElementById("myprintcloud-help").style.left = "41%";
+
+                });
+            } else {
                 $('body').css('overflow', 'visible');
+            }
+        }
 
 
-            });
+        $("#btnCloseHelp").click(function () {
+
+
+            $("#myprintcloud-help").hide();
+            $(".disabled-div").css("display", "none");
+
+            $('body').css('overflow', 'visible');
+
+
+        });
 
 
 
 
 
-            function createCookie(name, value, days) {
-                if (days) {
-                    var date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                    var expires = "; expires=" + date.toGMTString();
+        function createCookie(name, value, days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function eraseCookie(name) {
+            createCookie(name, "", -1);
+        }
+
+
+        $(document).ready(function () {
+
+
+            var i = 0;
+            var proceeding =
+            [
+                "Manage your PRINTCloud",
+                "Add More Products",
+                "Add more Stores",
+                "Estimates & Job Cards",
+                "System Settings",
+                "Your Account Area",
+                "You've got the Basics..."
+            ];
+            var proceddingheadertext =
+            [
+                "This is your dashboard, lets go on a quick tour to familiarize yourself with MyPRINTCloud.  ",
+                "Easily add print and inventory products to the product library, products can be used across retail & private web stores and estimates.",
+                "With MyPRINTCloud you can create many retail and private stores to attract new business.  To upgrade to unlimited stores, simply upgrade your subscription.",
+                "Create accurate estimates for digital, offset, labels and large format.  To configure your estimating module, go to MIS -> Settings.",
+                "Configure your MyPRINTCloud by localizing your regional settings, company information, configure press calculations and cost centres.",
+                "From Here you can access",
+                "What would you like to do next?"
+            ]
+            var proceddingdetails =
+            [
+                "Once you have had a look around join a webinar or start with the self help guides to get started.",
+                "",
+                "",
+                "",
+                "",
+                    '<br /><a href=http://blog.myprintcloud.com/tutorials-quickstart/ target="_blank" style="font-weight:bold;">Self Paced Tutorials</a><a href="http://www.onlinemeetingnow.com/register/?id=rflm0y9eq7" target="_blank" style="font-weight:bold;">Join in on our Webinars</a><a href="http://www.youtube.com/user/myprintcloud" target="_blank" style="font-weight:bold;">Watch How to Video’s</a><a href="http://support.myprintcloud.com" target="_blank" style="font-weight:bold;">Contact Support Desk</a><a href="https://myprintcloud.com/dashboard" target="_blank" style="font-weight:bold;">Upgrade to Paid Subscription</a>',
+                ""
+            ]
+
+            var lastTop = []; var lastLeft = [];
+
+            $("#btnPreviousHelp").hide();
+            $("#btnCloseHelp").show();
+
+            $("#btnNextHelp").click(function () {
+
+                i = i + 1;
+
+                var positiontop = 0;
+                var positionleft = 0;
+                var dashp;
+
+                var top = 0;
+                var left = 0;
+                var addtiontop = 0;
+                var additionleft = 0;
+
+                var dashh = $("#myprintcloud-help");
+                var positiontophelp = dashh.position().top;
+                var positionlefthelp = dashh.position().left;
+                lastLeft.push(positionlefthelp);
+                lastTop.push(positiontophelp);
+
+
+                if (i == 1) {
+                    dashp = $(".product-positioner");
+                    positiontop = dashp.position().top;
+                    positionleft = dashp.position().left;
+
+                    top = parseInt(positiontop) - parseInt(positiontophelp);
+                    left = parseInt(positionleft) - parseInt(positionlefthelp);
+
+                    top = top + 30;
+                    left = left - 70;
+
+                    $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 500);
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "160px");
+                    $(".highlight-div").css("height", "80px");
+                    $(".highlight-div").css("left", "68px");
+                    $(".highlight-div").css("top", "-122px");
+
+
+                    $(".help-header-title").html(proceeding[1]);
+                    $(".help-header-description").html(proceddingheadertext[1]);
+                    $(".help-details").html(proceddingdetails[1]);
+
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".right-arrow").hide();
+
+                    $("#btnPreviousHelp").show();
+
+
                 }
-                else var expires = "";
-                document.cookie = name + "=" + value + expires + "; path=/";
-            }
+                if (i == 2) {
 
-            function readCookie(name) {
-                var nameEQ = name + "=";
-                var ca = document.cookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                    dashp = $(".web2print-positioner");
+                    positiontop = dashp.position().top;
+                    positionleft = dashp.position().left;
+
+                    left = left - 205;
+
+                    $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 500);
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "160px");
+                    $(".highlight-div").css("height", "80px");
+                    $(".highlight-div").css("left", "94px");
+
+
+                    $(".help-header-title").html(proceeding[2]);
+                    $(".help-header-description").html(proceddingheadertext[2]);
+                    $(".help-details").html(proceddingdetails[2]);
+
+                    $("#btnPreviousHelp").show();
+
+
+
                 }
-                return null;
-            }
-
-            function eraseCookie(name) {
-                createCookie(name, "", -1);
-            }
-
-
-            $(document).ready(function () {
-
-
-                var i = 0;
-                var proceeding =
-                [
-                    "Manage your PRINTCloud",
-                    "Add More Products",
-                    "Add more Stores",
-                    "Estimates & Job Cards",
-                    "System Settings",
-                    "Your Account Area",
-                    "You've got the Basics..."
-                ];
-                var proceddingheadertext =
-                [
-                    "This is your dashboard, lets go on a quick tour to familiarize yourself with MyPRINTCloud.  ",
-                    "Easily add print and inventory products to the product library, products can be used across retail & private web stores and estimates.",
-                    "With MyPRINTCloud you can create many retail and private stores to attract new business.  To upgrade to unlimited stores, simply upgrade your subscription.",
-                    "Create accurate estimates for digital, offset, labels and large format.  To configure your estimating module, go to MIS -> Settings.",
-                    "Configure your MyPRINTCloud by localizing your regional settings, company information, configure press calculations and cost centres.",
-                    "From Here you can access",
-                    "What would you like to do next?"
-                ]
-                var proceddingdetails =
-                [
-                    "Once you have had a look around join a webinar or start with the self help guides to get started.",
-                    "",
-                    "",
-                    "",
-                    "",
-                    '<br /><a href=http://blog.myprintcloud.com/tutorials-quickstart/ target="_blank" style="font-weight:bold;">Self Paced Tutorials</a><a href="https://attendee.gotowebinar.com/rt/3456325062173650689" target="_blank" style="font-weight:bold;">Join in on our Webinars</a><a href="http://www.youtube.com/user/myprintcloud" target="_blank" style="font-weight:bold;">Watch How to Video’s</a><a href="http://support.myprintcloud.com" target="_blank" style="font-weight:bold;">Contact Support Desk</a><a href="https://myprintcloud.com/dashboard" target="_blank" style="font-weight:bold;">Upgrade to Paid Subscription</a>',
-                    ""
-                ]
+                if (i == 3) {
 
-                var lastTop = []; var lastLeft = [];
+                    //dashp = $(".dashboard-positioner");
+                    //positiontop = dashp.position().top;
+                    //positionleft = dashp.position().left;
 
-                $("#btnPreviousHelp").hide();
-                $("#btnCloseHelp").show();
 
-                $("#btnNextHelp").click(function () {
 
-                    i = i + 1;
+                    //top = parseInt(positiontophelp) - parseInt(positiontop);
+                    //left = parseInt(positionlefthelp) - parseInt(positionleft);
 
-                    var positiontop = 0;
-                    var positionleft = 0;
-                    var dashp;
 
-                    var top = 0;
-                    var left = 0;
-                    var addtiontop = 0;
-                    var additionleft = 0;
+                    //left = left - 230;
+                    //top = top + 100;
 
-                    var dashh = $("#myprintcloud-help");
-                    var positiontophelp = dashh.position().top;
-                    var positionlefthelp = dashh.position().left;
-                    lastLeft.push(positionlefthelp);
-                    lastTop.push(positiontophelp);
 
+                    $("#myprintcloud-help").animate({ "top": "165", "left": "260" }, 500);
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "240px");
+                    $(".highlight-div").css("height", "30px");
+                    $(".highlight-div").css("top", "38%");
 
-                    if (i == 1) {
-                        dashp = $(".product-positioner");
-                        positiontop = dashp.position().top;
-                        positionleft = dashp.position().left;
+                    $(".highlight-div").css("left", "-80%");
 
-                        top = parseInt(positiontop) - parseInt(positiontophelp);
-                        left = parseInt(positionleft) - parseInt(positionlefthelp);
 
-                        top = top + 30;
-                        left = left - 70;
 
-                        $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 500);
-                        $(".highlight-div").css("visibility", "visible");
-                        $(".highlight-div").css("width", "160px");
-                        $(".highlight-div").css("height", "80px");
-                        $(".highlight-div").css("left", "68px");
-                        $(".highlight-div").css("top", "-122px");
+                    $(".help-header-title").html(proceeding[3]);
+                    $(".help-header-description").html(proceddingheadertext[3]);
+                    $(".help-details").html(proceddingdetails[3]);
 
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").show();
 
-                        $(".help-header-title").html(proceeding[1]);
-                        $(".help-header-description").html(proceddingheadertext[1]);
-                        $(".help-details").html(proceddingdetails[1]);
+                    $("#btnPreviousHelp").show();
 
 
-                        $(".bottom-arrow").hide();
-                        $(".left-arrow").hide();
-                        $(".right-arrow").hide();
 
-                        $("#btnPreviousHelp").show();
+                }
+                if (i == 4) {
 
+                    top = top - 265;
 
-                    }
-                    if (i == 2) {
-
-                        dashp = $(".web2print-positioner");
-                        positiontop = dashp.position().top;
-                        positionleft = dashp.position().left;
-
-                        left = left - 205;
-
-                        $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 500);
-                        $(".highlight-div").css("visibility", "visible");
-                        $(".highlight-div").css("width", "160px");
-                        $(".highlight-div").css("height", "80px");
-                        $(".highlight-div").css("left", "94px");
-
-
-                        $(".help-header-title").html(proceeding[2]);
-                        $(".help-header-description").html(proceddingheadertext[2]);
-                        $(".help-details").html(proceddingdetails[2]);
-
-                        $("#btnPreviousHelp").show();
-
-
-
-                    }
-                    if (i == 3) {
-
-                        //dashp = $(".dashboard-positioner");
-                        //positiontop = dashp.position().top;
-                        //positionleft = dashp.position().left;
-
-
-
-                        //top = parseInt(positiontophelp) - parseInt(positiontop);
-                        //left = parseInt(positionlefthelp) - parseInt(positionleft);
-
-
-                        //left = left - 230;
-                        //top = top + 100;
-
-
-                        $("#myprintcloud-help").animate({ "top": "165", "left": "260" }, 500);
-                        $(".highlight-div").css("visibility", "visible");
-                        $(".highlight-div").css("width", "240px");
-                        $(".highlight-div").css("height", "30px");
-                        $(".highlight-div").css("top", "38%");
-
-                        $(".highlight-div").css("left", "-80%");
-
-
-
-                        $(".help-header-title").html(proceeding[3]);
-                        $(".help-header-description").html(proceddingheadertext[3]);
-                        $(".help-details").html(proceddingdetails[3]);
-
-                        $(".bottom-arrow").hide();
-                        $(".left-arrow").hide();
-                        $(".top-arrow").hide();
-                        $(".right-arrow").show();
-
-                        $("#btnPreviousHelp").show();
-
-
-
-                    }
-                    if (i == 4) {
-
-                        top = top - 265;
-
-                        $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 500);
-
-                        $(".highlight-div").css("height", "30px");
-
-
-                        $(".help-header-title").html(proceeding[4]);
-                        $(".help-header-description").html(proceddingheadertext[4]);
-                        $(".help-details").html(proceddingdetails[4]);
-                    }
-                    if (i == 5) {
-
-                        dashp = $(".user-positioner");
-                        positiontop = dashp.position().top;
-                        positionleft = dashp.position().left;
-
-                        top = parseInt(positiontophelp) - parseInt(positiontop);
-                        left = parseInt(positionlefthelp) - parseInt(positionleft);
-
-                        top = top - 40;
-                        left = left + 180;
-
-
-                        $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 500);
-                        $(".highlight-div").css("visibility", "visible");
-                        $(".highlight-div").css("width", "350px");
-                        $(".highlight-div").css("height", "45px");
-                        $(".highlight-div").css("top", "-32%");
-                        $(".highlight-div").css("left", "0%");
-
-
-                        $(".help-header-title").html(proceeding[5]);
-                        $(".help-header-description").html(proceddingheadertext[5]);
-                        $(".help-details").html(proceddingdetails[5]);
-
-                        $(".bottom-arrow").hide();
-                        $(".left-arrow").hide();
-                        $(".top-arrow").show();
-                        $(".right-arrow").hide();
-
-                        $("#btnPreviousHelp").show();
-
-
-
-                    }
-                    if (i == 6) {
-
-
-                        $("#myprintcloud-help").animate({ "top": "+=45%", "left": "-=35%" }, 500);
-                        $(".highlight-div").css("visibility", "hidden");
-
-                        $(".help-header-title").html(proceeding[6]);
-                        $(".help-header-description").html(proceddingheadertext[6]);
-                        $(".help-details").hide();
-                        $(".account-anchors").css("display", "block");
-
-                        $(".bottom-arrow").hide();
-                        $(".left-arrow").hide();
-                        $(".top-arrow").hide();
-                        $(".right-arrow").hide();
-
-                        $("#btnNextHelp").hide();
-
-                    }
-
-
-                });
-
-                $("#btnPreviousHelp").click(function () {
-
-
-                    var positiontop = 0;
-                    var positionleft = 0;
-                    var dashp;
-
-                    var top = 0;
-                    var left = 0;
-                    var addtiontop = 0;
-                    var additionleft = 0;
-
-                    var dashh = $("#myprintcloud-help");
-                    var positiontophelp = dashh.position().top;
-                    var positionlefthelp = dashh.position().left;
-
-                    top = parseInt(positiontophelp) - parseInt(lastTop.pop());
-                    left = parseInt(positionlefthelp) - parseInt(lastLeft.pop());
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 500);
 
-                    if (i == 1) {
-                        $(".highlight-div").css("visibility", "hidden");
-
-                        $(".bottom-arrow").show();
-                        $(".left-arrow").show();
-                        $(".right-arrow").show();
-                        $("#btnPreviousHelp").hide();
-                    }
-
-                    if (i == 2) {
-                        $(".highlight-div").css("top", "-67%");
-                        $(".highlight-div").css("visibility", "visible");
-
-                        $(".highlight-div").css("width", "160px");
-                        $(".highlight-div").css("height", "80px");
-                        $(".highlight-div").css("left", "70px");
+                    $(".highlight-div").css("height", "30px");
 
 
+                    $(".help-header-title").html(proceeding[4]);
+                    $(".help-header-description").html(proceddingheadertext[4]);
+                    $(".help-details").html(proceddingdetails[4]);
+                }
+                if (i == 5) {
 
-                    }
+                    dashp = $(".user-positioner");
+                    positiontop = dashp.position().top;
+                    positionleft = dashp.position().left;
 
-                    if (i == 3) {
-                        $(".highlight-div").css("top", "-67%");
-                        $(".highlight-div").css("visibility", "visible");
-                        $(".highlight-div").css("width", "160px");
-                        $(".highlight-div").css("height", "80px");
-                        $(".highlight-div").css("left", "96px");
-                        $("#btnPreviousHelp").show();
+                    top = parseInt(positiontophelp) - parseInt(positiontop);
+                    left = parseInt(positionlefthelp) - parseInt(positionleft);
 
-                        $(".bottom-arrow").hide();
-                        $(".left-arrow").hide();
-                        $(".top-arrow").show();
-                        $(".right-arrow").hide();
-                    }
+                    top = top - 40;
+                    left = left + 180;
 
-                    if (i == 4) {
 
-                        $(".highlight-div").css("visibility", "visible");
-                        $(".highlight-div").css("width", "240px");
-                        $(".highlight-div").css("height", "30px");
-                        $(".highlight-div").css("top", "70px");
+                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 500);
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "350px");
+                    $(".highlight-div").css("height", "45px");
+                    $(".highlight-div").css("top", "-32%");
+                    $(".highlight-div").css("left", "0%");
 
-                        $(".highlight-div").css("left", "-80%");
-                        $(".bottom-arrow").hide();
-                        $(".left-arrow").hide();
-                        $(".top-arrow").hide();
-                        $(".right-arrow").show();
 
-                        $("#btnPreviousHelp").show();
+                    $(".help-header-title").html(proceeding[5]);
+                    $(".help-header-description").html(proceddingheadertext[5]);
+                    $(".help-details").html(proceddingdetails[5]);
 
-                    }
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").show();
+                    $(".right-arrow").hide();
 
-                    if (i == 5) {
+                    $("#btnPreviousHelp").show();
 
-                        $(".highlight-div").css("width", "240px");
-                        $(".highlight-div").css("top", "70px");
-                        $(".highlight-div").css("left", "-80%");
-                        $(".highlight-div").css("height", "30px");
-                        $(".help-details").show();
 
-                        $(".bottom-arrow").hide();
-                        $(".left-arrow").hide();
-                        $(".top-arrow").hide();
-                        $(".right-arrow").show();
-                        $("#btnPreviousHelp").show();
 
-                    }
+                }
+                if (i == 6) {
 
-                    if (i == 6) {
 
-                        $(".highlight-div").css("visibility", "visible");
-                        $(".highlight-div").css("width", "350px");
-                        $(".highlight-div").css("height", "40px");
-                        $(".highlight-div").css("top", "-32%");
-                        $(".highlight-div").css("left", "0%");
-                        $(".help-details").show();
-                        $(".account-anchors").css("display", "none");
+                    $("#myprintcloud-help").animate({ "top": "+=45%", "left": "-=35%" }, 500);
+                    $(".highlight-div").css("visibility", "hidden");
 
-                        $(".bottom-arrow").hide();
-                        $(".left-arrow").hide();
-                        $(".top-arrow").show();
-                        $(".right-arrow").hide();
+                    $(".help-header-title").html(proceeding[6]);
+                    $(".help-header-description").html(proceddingheadertext[6]);
+                    $(".help-details").hide();
+                    $(".account-anchors").css("display", "block");
 
-                        $("#btnNextHelp").show();
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").hide();
 
-                    }
+                    $("#btnNextHelp").hide();
 
-                    $(".help-header-title").html(proceeding[i - 1]);
-                    $(".help-header-description").html(proceddingheadertext[i - 1]);
-                    $(".help-details").html(proceddingdetails[i - 1]);
-                    i = i - 1;
+                }
 
-                });
 
-                $("#btnTakeATour").click(function () {
-                    //   $("#myprintcloud-help").css("top", "-250");
-                    //    $("#myprintcloud-help").css("display", "block");
-                    $(".disabled-div").css("display", "block");
-                    //    $("#myprintcloud-help").animate({ "top": "370" }, 500, 'linear');
+            });
+
+            $("#btnPreviousHelp").click(function () {
+
+
+                var positiontop = 0;
+                var positionleft = 0;
+                var dashp;
+
+                var top = 0;
+                var left = 0;
+                var addtiontop = 0;
+                var additionleft = 0;
+
+                var dashh = $("#myprintcloud-help");
+                var positiontophelp = dashh.position().top;
+                var positionlefthelp = dashh.position().left;
+
+                top = parseInt(positiontophelp) - parseInt(lastTop.pop());
+                left = parseInt(positionlefthelp) - parseInt(lastLeft.pop());
+                $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 500);
+
+                if (i == 1) {
+                    $(".highlight-div").css("visibility", "hidden");
+
                     $(".bottom-arrow").show();
                     $(".left-arrow").show();
                     $(".right-arrow").show();
                     $("#btnPreviousHelp").hide();
-                    i = 0;
-                    $(".help-header-title").html(proceeding[i]);
-                    $(".help-header-description").html(proceddingheadertext[i]);
-                    $(".help-details").html(proceddingdetails[i]);
-                    $(".highlight-div").css("visibility", "hidden");
+                }
+
+                if (i == 2) {
+                    $(".highlight-div").css("top", "-67%");
+                    $(".highlight-div").css("visibility", "visible");
+
+                    $(".highlight-div").css("width", "160px");
+                    $(".highlight-div").css("height", "80px");
+                    $(".highlight-div").css("left", "70px");
 
 
 
-                    $("#myprintcloud-help").css("top", "-250");
-                    $("#myprintcloud-help").css("display", "block");
-                    $("#myprintcloud-help").animate({ "top": ($(window).height() - $("#myprintcloud-help").height()) / 2 }, 500, 'linear');
-                    $("#myprintcloud-help").css("left", "41%");
+                }
 
-                    lastTop = []; lastLeft = [];
-                    $('body').css('overflow', 'hidden');
+                if (i == 3) {
+                    $(".highlight-div").css("top", "-67%");
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "160px");
+                    $(".highlight-div").css("height", "80px");
+                    $(".highlight-div").css("left", "96px");
+                    $("#btnPreviousHelp").show();
 
-                });
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").show();
+                    $(".right-arrow").hide();
+                }
+
+                if (i == 4) {
+
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "240px");
+                    $(".highlight-div").css("height", "30px");
+                    $(".highlight-div").css("top", "70px");
+
+                    $(".highlight-div").css("left", "-80%");
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").show();
+
+                    $("#btnPreviousHelp").show();
+
+                }
+
+                if (i == 5) {
+
+                    $(".highlight-div").css("width", "240px");
+                    $(".highlight-div").css("top", "70px");
+                    $(".highlight-div").css("left", "-80%");
+                    $(".highlight-div").css("height", "30px");
+                    $(".help-details").show();
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").show();
+                    $("#btnPreviousHelp").show();
+
+                }
+
+                if (i == 6) {
+
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "350px");
+                    $(".highlight-div").css("height", "40px");
+                    $(".highlight-div").css("top", "-32%");
+                    $(".highlight-div").css("left", "0%");
+                    $(".help-details").show();
+                    $(".account-anchors").css("display", "none");
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").show();
+                    $(".right-arrow").hide();
+
+                    $("#btnNextHelp").show();
+
+                }
+
+                $(".help-header-title").html(proceeding[i - 1]);
+                $(".help-header-description").html(proceddingheadertext[i - 1]);
+                $(".help-details").html(proceddingdetails[i - 1]);
+                i = i - 1;
+
             });
-        </script>
 
-        <script>
-            require(["dashboard.view", "common/confirmation.view"]);
+            $("#btnTakeATour").click(function () {
+                //   $("#myprintcloud-help").css("top", "-250");
+                //    $("#myprintcloud-help").css("display", "block");
+                $(".disabled-div").css("display", "block");
+                //    $("#myprintcloud-help").animate({ "top": "370" }, 500, 'linear');
+                $(".bottom-arrow").show();
+                $(".left-arrow").show();
+                $(".right-arrow").show();
+                $("#btnPreviousHelp").hide();
+                i = 0;
+                $(".help-header-title").html(proceeding[i]);
+                $(".help-header-description").html(proceddingheadertext[i]);
+                $(".help-details").html(proceddingdetails[i]);
+                $(".highlight-div").css("visibility", "hidden");
 
-            $(document).ready(function () {
 
-                //min/max slider
-                $('[data-toggle="popover"]').popover();
+
+                $("#myprintcloud-help").css("top", "-250");
+                $("#myprintcloud-help").css("display", "block");
+                $("#myprintcloud-help").animate({ "top": ($(window).height() - $("#myprintcloud-help").height()) / 2 }, 500, 'linear');
+                $("#myprintcloud-help").css("left", "41%");
+
+                lastTop = []; lastLeft = [];
+                $('body').css('overflow', 'hidden');
+
             });
+        });
+    </script>
 
-        </script>
-    }
+    <script>
+        require(["dashboard.view", "common/confirmation.view"]);
+
+        $(document).ready(function () {
+
+            //min/max slider
+            $('[data-toggle="popover"]').popover();
+        });
+
+    </script>
+}
 
 

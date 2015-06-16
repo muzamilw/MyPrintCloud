@@ -72,7 +72,7 @@ namespace MPC.Webstore.Controllers
         #endregion
 
         // GET: Domain
-        public void Index()
+        public ActionResult Index()
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -84,8 +84,8 @@ namespace MPC.Webstore.Controllers
             long storeId = _myCompanyService.GetStoreIdFromDomain(url);
             if (storeId == 0)
             {
-                Response.Redirect("/Error");
-
+                TempData["ErrorMessage"] = "The Domain in requested url does not point to any of the available stores.";
+                return RedirectToAction("Error", "Home");
             }
             else
             {
@@ -139,18 +139,17 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    RedirectToAction("Error", "Home");
+                    TempData["ErrorMessage"] = "The Domain in requested url does not point to any of the available stores.";
+                    return RedirectToAction("Error", "Home");
                 }
             }
-
-            // return RedirectToAction("Index", "Home");
-            //  return View();
+            return null;
         }
 
-        public void updateCache(string name)
+        public ActionResult ClearCache(long StoreId)
         {
-            _myCompanyService.GetStoreFromCache(Convert.ToInt64(name), true);
-            RedirectToAction("Error", "Home");
+            _myCompanyService.GetStoreFromCache(StoreId, true);
+            return View();
         }
 
        

@@ -81,7 +81,7 @@
     <div class="filter-body">
         <div class="filter-block pull-right">
             <div class="form-group pull-left">
-                <div class="form-group pull-left">
+                <div class="form-group pull-left" data-bind="enable:$root.enableDownloadArtwork()">
                     @using (Ajax.BeginForm("LiveJobsDownload", "Home", new AjaxOptions { HttpMethod = "POST" }))
                     {
                         <input type="hidden" id="item0" name="item0" value=null />
@@ -95,7 +95,7 @@
                         <input type="hidden" id="item8" name="item8" value=null />
                         <input type="hidden" id="item9" name="item9" value=null />
 
-                        <button id="open-wizard" class="btn btn-primary pull-right">
+                        <button id="open-wizard" class="btn btn-primary pull-right" data-bind="enable:$root.enableDownloadArtwork()">
                             Download Artwork for selected Items
                         </button>
                     }

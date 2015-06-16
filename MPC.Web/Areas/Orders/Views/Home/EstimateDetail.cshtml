@@ -1,11 +1,11 @@
 ﻿<div class="row" data-bind="visible: isOrderDetailsVisible() && !isItemDetailVisible()" style="display: none">
     <div class="row">
-        <div class="col-lg-12 PaddingZero">
-            <div class="col-lg-12 PaddingZero">
-                <div class="col-lg-3">
+        <div class="col-sm-12 PaddingZero">
+            <div class="col-sm-12 PaddingZero">
+                <div class="col-sm-3">
                     <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px">
-                        <button type="button" class="btn btn-primary">Actions</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0">Actions</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-bind="enable: $root.selectedOrder().id() > 0">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
@@ -16,29 +16,29 @@
                     </div>
                 </div>
                 <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 24px">
-                    
-                    <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
+                    <button class="btn btn-success" id="progressToOrderButton" data-bind="click: $root.progressToOrderHandler, enable: statusId() != 39 && id() > 0">Progress To Order</button>
+                    <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler, enable: id() > 0">Delete</button>
                     <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
                 </div>
             </div>
 
-            <div class="col-lg-12 PaddingZero PaddingStatuses">
-                <div class="col-xs-7">
+            <div class="col-sm-12 PaddingZero PaddingStatuses">
+                <div class="col-sm-7">
                     <!-- here -->
                 </div>
-                <div class="col-xs-3">
+                <div class="col-sm-3">
 
                 </div>
-                <div class="col-xs-2">
+                <div class="col-sm-2">
 
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <div class="row" data-bind="with: selectedOrder">
-                <div class="col-lg-12">
+                <div class="col-sm-12">
                     <div class="clearfix">
                         <div class="pull-left validationSummaryContainer">
                             <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Invalid data: Click here to see details.</a>
@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="row" id="user-profile">
-        <div class="col-lg-12 col-md-8 col-sm-8" style="padding-left: 22px; padding-right: 24px; ">
+        <div class="col-sm-12 " style="padding-left: 22px; padding-right: 24px; ">
             <div class="main-box clearfix my-tabsHeader ">
                 <div class="tabs-wrapper profile-tabs">
 
@@ -68,47 +68,45 @@
                         <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Estimate Header</a></li>
                     </ul>
                     <div class="tab-content" style="padding-top:10px;" data-bind="with: selectedOrder">
-                       
+
                         <div class="tab-pane fade in active" id="tab-EstimateHeader">
-                            <div class="col-lg-12" id="estimateSection">
-                                <div class="col-lg-12 form-horizontal">
-                                    <div class="col-lg-6">
+                            <div class="col-sm-12" id="estimateSection">
+                                <div class="col-sm-12 form-horizontal">
+                                    <div class="col-sm-6">
 
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-
+                                            <div class="col-sm-4 text-right">
+                                                &nbsp;
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-sm-6">
                                                 <div>
-                                                    @*<label class="control-label" id="txtCompany" style="font-size: 18px;" data-bind="text: companyName, validationOnElement: companyId"></label>*@
                                                     <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedOrder().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                                                 </div>
                                             </div>
-                                            <div class="col-lg-1" style="padding-top:10px;">
-                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined) " href="#" class="btn btn-primary pull-right">
+                                            <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
+                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined)" class="btn btn-primary pull-right">
                                                     <i class="fa fa-user"></i>
                                                 </button>
                                             </div>
-
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-
+                                            <div class="col-sm-4 text-right">
+                                                &nbsp;
                                             </div>
-                                            <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
+                                            <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
                                                 <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-
+                                            <div class="col-sm-4 text-right">
+                                                &nbsp;
                                             </div>
-                                            <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
+                                            <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
                                                 <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                            <div class="col-lg-1" data-bind="if: $root.isCompanyBaseDataLoaded">
+                                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
                                                 <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
                                                     <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                                                 </a>
@@ -117,10 +115,10 @@
                                         <div id="popoveraddress" style="display:none;">
                                             <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().address1!=='' && $root.selectedAddress().address1!== undefined-->
                                             <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-sm-4 text-right">
                                                     <label class="control-label tooltip-float">&nbsp;</label>
                                                 </div>
-                                                <div class="col-lg-6" data-bind="with: $root.selectedAddress">
+                                                <div class="col-sm-6" data-bind="with: $root.selectedAddress">
                                                     <div>
                                                         <label id="address1" data-bind="text: address1" class="form-control" style="border:none"></label>
                                                     </div>
@@ -129,10 +127,10 @@
                                             <!--/ko-->
                                             <!-- ko if: $root.selectedAddress()!==undefined && $root.selectedAddress().telephone1!=='' && $root.selectedAddress().telephone1!== undefined-->
                                             <div class="form-group" style="margin-top: -20px;">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-sm-4 text-right">
                                                     <label class="control-label tooltip-float">&nbsp;</label>
                                                 </div>
-                                                <div class="col-lg-6" data-bind="with: $root.selectedAddress">
+                                                <div class="col-sm-6" data-bind="with: $root.selectedAddress">
                                                     <div>
                                                         <label id="telephone" data-bind="text: telephone1" class="form-control" style="border:none"></label>
                                                     </div>
@@ -141,10 +139,10 @@
                                             <!--/ko-->
                                             <!-- ko if: $root.selectedCompanyContact()!==undefined && $root.selectedCompanyContact().email !=='' && $root.selectedCompanyContact().email !== undefined -->
                                             <div class="form-group" style="margin-top: -20px;">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-sm-4 text-right">
                                                     <label class="control-label tooltip-float">&nbsp;</label>
                                                 </div>
-                                                <div class="col-lg-6" data-bind="with: $root.selectedCompanyContact">
+                                                <div class="col-sm-6" data-bind="with: $root.selectedCompanyContact">
                                                     <div>
                                                         <label id="email" data-bind="text: email" class="form-control" style="border:none"></label>
                                                     </div>
@@ -153,25 +151,26 @@
                                             <!--/ko-->
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-sm-4 text-right">
+                                                &nbsp;
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-sm-6">
                                                 <div>
-                                                    <input type="text" style="height: 60px; width: 375px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />
+                                                    <input type="text" style="height: 60px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right" style="padding-top:10px;">
+                                            <div class="col-sm-4 text-right" style="padding-top:10px;">
                                                 &nbsp;
                                             </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" style="height: 60px;" readonly class="form-control font24px" id="code" data-bind="value: code" />
-                                                <button class=" btn btn-primary" id="notes-Button" onclick="showLeftPanel();" data-bind="click: $root.getInquiryItems, visible: enquiryId() != undefined">Notes</button>
-                                                <div id="left-panel" class="this that the other thing" onclick="showLeftPanel();" style="overflow-x: hidden">
-                                                    <button type="button" class="close"><span>×</span></button>
+                                            <div class="col-sm-6">
+                                                <input type="text" style="height: 60px;" readonly class="form-control font24px" id="code" data-bind="value: code, visible: $root.selectedOrder().id() > 0" />
+                                                <button class=" btn btn-warning" id="notes-Button" onclick="showLeftPanel();" data-bind="click: $root.getInquiryItems, visible: enquiryId() != undefined" style="margin-top: -47px;">Notes</button>
+                                                <div id="left-panel" class="this that the other thing"  style="overflow-x: hidden">
+                                                    <button type="button" class="close" onclick="showLeftPanel();"><span>×</span></button>
                                                     <h1>Inquiry Notes</h1>
                                                     <!-- ko if: $root.selectedOrder().inquiryItems().length > 0-->
                                                     <div data-bind="foreach: $root.selectedOrder().inquiryItems">
@@ -180,10 +179,10 @@
                                                                 <h3 class="panel-title" id="panel-title"><b data-bind="text: title"></b></h3>
                                                             </div>
                                                             <div class="panel-body">
-                                                                <b>Delivery Date </b><b data-bind="dateString: deliveryDate"></b><br/>
+                                                                <b>Delivery Date </b><b data-bind="dateString: deliveryDate"></b><br />
                                                                 <b data-bind="text: notes"></b>
                                                             </div>
-                                                           
+
                                                         </div>
                                                     </div>
                                                     <!--/ko-->
@@ -191,20 +190,31 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-
+                                            <div class="col-sm-4 text-right">
+                                                &nbsp;
                                             </div>
-                                            <div class="col-lg-6">
-                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: sectionFlagId"></select>
-
+                                            <div class="col-sm-6">
+                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
+                                                <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                
+                                                @*<span data-bind="text: status()"></span>*@
+                                                <!--ko if: statusId() == 39-->
+                                                <br> <a class="store-user-link" data-bind=" attr: {href:'/mis/orders/home?id='+refEstimateId() },click: function() { return true;}, clickBubble: false" target="_blank">View Order</a>
+                                                <!--/ko-->
+                                            </div>
+                                        </div>
+                                        @*<div>
                                             <div class="row" style="margin-top: -15px;">
-                                                <div class=" col-lg-4 text-right">
+                                                <div class=" col-sm-4 text-right">
                                                     <label class="control-label text-right tooltip-float">&nbsp;</label>
                                                 </div>
-                                                <div class="col-lg-6 text-left" style="margin-bottom: -8px;">
+                                                <div class="col-sm-6 text-left" style="margin-bottom: -8px;">
                                                     <ul style="list-style: none; border:none" class="form-control">
                                                         <li class="product-has-nofeature" style="display: none">
                                                         </li>
@@ -212,10 +222,10 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-lg-4 text-right" style="margin-top:0px">
+                                                <div class="col-sm-4 text-right" style="margin-top:0px">
                                                     <label class="control-label text-right tooltip-float">&nbsp;</label>
                                                 </div>
-                                                <div class="col-lg-6 text-left">
+                                                <div class="col-sm-6 text-left">
                                                     <ul style="list-style: none; border:none" class="form-control">
                                                         <li class="product-has-nofeature" style="display: none">
                                                         </li>
@@ -223,13 +233,12 @@
                                                 </div>
                                             </div>
 
-                                        </div>
-                                        <div class="form-group" style="margin-top: 9px;">
-                                            <div class="col-lg-4 text-right" style="padding-top: 10px;">
-                                                <label class="control-label text-right tooltip-float">Estimate Date</label>
+                                        </div>*@
+                                        <div class="form-group" style="margin-top:0">
+                                            <div class="col-sm-4 text-right" style="padding-top: 10px;">
+                                                <label class="control-label text-right">Estimate Date</label>
                                             </div>
-                                            <div class="col-lg-6">
-                                                @*<input type="text" style="height: 60px;" data-bind="datepicker: orderDate" class="form-control font24px" id="EstimateTitle" />*@
+                                            <div class="col-sm-6">
                                                 <input type="text" style="height: 60px;" class="form-control font24px" id="orderDate" data-bind="datepicker: orderDate">
                                             </div>
                                         </div>
@@ -237,32 +246,27 @@
                                     </div>
 
                                 </div>
-                                <div class="col-lg-12 form-horizontal">
-                                    <div class="col-lg-12">
+                                <div class="col-sm-12 form-horizontal">
+                                    <div class="col-sm-12">
                                         <div class="form-group">
-                                            <div class="col-lg-2 text-right">
-                                                @*<label class="control-label tooltip-float">Estimate Header</label>*@
+                                            <div class="col-sm-2 text-right">
+                                                &nbsp;
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-sm-9">
                                                 <div>
-                                                    <textarea class="form-control" id="" placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                                                    <textarea class="form-control" placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
                                                 </div>
                                             </div>
-                                            @*<div class="col-lg-1">
-                                                    <a id="P1" style="padding: 4px 8px;" class="btn btn-primary">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>*@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 form-horizontal">
-                                    <div class="col-lg-12">
+                                <div class="col-sm-12 form-horizontal">
+                                    <div class="col-sm-12">
                                         <div class="form-group">
-                                            <div class="col-lg-2">
+                                            <div class="col-sm-2">
                                                 &nbsp;
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-sm-9">
                                                 <div style="background-color:gainsboro; border-radius:3px">
                                                     <header class="main-box-header clearfix">
                                                         <div id="orderProducts" style="float: left; margin-top: 8px;" data-bind="validationOnElement: items"><span style="font-size:16px">Products in this Estimate</span></div>
@@ -272,9 +276,9 @@
                                                             <table class="table table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="col-lg-8"><span></span></th>
-                                                                        <th class="col-lg-2"><span>Qty</span></th>
-                                                                        <th class="col-lg-2 text-right"><span>Price inc. Tax</span></th>
+                                                                        <th class="col-sm-8"><span></span></th>
+                                                                        <th class="col-sm-2"><span>Qty</span></th>
+                                                                        <th class="col-sm-2 text-right"><span>Price inc. Tax</span></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -310,13 +314,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 form-horizontal" style="margin-top: 20px;">
-                                    <div class="col-lg-12">
+                                <div class="col-sm-12 form-horizontal" style="margin-top: 20px;">
+                                    <div class="col-sm-12">
                                         <div class="form-group">
-                                            <div class="col-lg-2">
+                                            <div class="col-sm-2">
                                                 &nbsp;
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-sm-9">
                                                 <div style="background-color:gainsboro; border-radius:3px">
                                                     <header class="main-box-header clearfix">
                                                         <div style="float:left;"><span style="font-size: 16px;margin-top: 8px;">Shipping Charge</span></div>
@@ -326,9 +330,9 @@
                                                             <table class="table table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="col-lg-5"><span></span></th>
-                                                                        <th class="col-lg-3"><span></span></th>
-                                                                        <th class="col-lg-3 text-right"><span>Price inc. Tax</span></th>
+                                                                        <th class="col-sm-5"><span></span></th>
+                                                                        <th class="col-sm-3"><span></span></th>
+                                                                        <th class="col-sm-3 text-right"><span>Price inc. Tax</span></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -348,14 +352,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                <div class="col-sm-6 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
                                                     <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
                                                 </div>
-                                                <div class="col-lg-6" style="margin-top:10px">
-                                                    <div class="col-lg-8 text-right">
+                                                <div class="col-sm-6" style="margin-top:10px">
+                                                    <div class="col-sm-8 text-right">
                                                         <label class="control-label text-right tooltip-float">Gross Total:</label>
                                                     </div>
-                                                    <div class="col-lg-4 text-right" style="margin-top:5px">
+                                                    <div class="col-sm-4 text-right" style="margin-top:5px">
                                                         <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
                                                         <span data-bind="numberInput: $root.grossTotal" style="font-weight: bold; font-size:20px;"></span>
                                                     </div>
@@ -364,26 +368,26 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 form-horizontal">
-                                    <div class="col-lg-12">
+                                <div class="col-sm-12 form-horizontal">
+                                    <div class="col-sm-12">
                                         <div class="form-group">
-                                            <div class="col-lg-2 text-right">
-                                                @*<label class="control-label tooltip-float">Order Footer</label>*@
+                                            <div class="col-sm-2 text-right">
+                                                &nbsp;
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-sm-9">
                                                 <div>
                                                     <textarea class="form-control" placeholder="Enter estimate closing paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-2 text-right">
-                                                <label class="control-label tooltip-float">
+                                            <div class="col-sm-2 text-right">
+                                                <label class="control-label">
                                                     Signed By
                                                 </label>
                                             </div>
-                                            <div class="col-lg-3">
-                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select a system user', value: orderReportSignedByUser"></select>
+                                            <div class="col-sm-3">
+                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select a system user', optionsValue: 'id', value: orderReportSignedBy"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -397,15 +401,16 @@
                                         <td>
                                             <span style="font-size:20px;" data-bind="text: qty1"></span>
                                         </td>
-                                        <td>
-                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+                                        <td class="text-right">
+                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
+                                            <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
                                         </td>
                                     </tr>
                                 </script>
                                 @* Item Template *@
                                 <script id="inquiryItemsTemplate" type="text/html">
                                     <tr style="cursor: pointer">
-                                       
+
                                 </script>
                                 <script id="deliveryItemTemplate" type="text/html">
                                     <tr>
@@ -413,7 +418,7 @@
                                             <span style="font-size:24px;" data-bind="text: productName"></span>
                                         </td>
                                         <td></td>
-                                        <td>
+                                        <td class="text-right">
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
                                         </td>
                                     </tr>
@@ -429,6 +434,7 @@
 @Html.Partial("~/Areas/Orders/Views/Home/_AddEditPrePayment.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderCostCenterQuantity.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
+@Html.Partial("~/Areas/Orders/Views/Home/_ProgressToOrderDialog.cshtml")
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ItemDetail.cshtml")
 <!--/ko-->
@@ -446,11 +452,10 @@
         }
 
     }
-    
+
     function showLeftPanel() {
-      var elem = document.getElementById("left-panel");
-      elem.classList.toggle("show");
-  }
+        var elem = document.getElementById("left-panel");
+        elem.classList.toggle("show");
+    }
 
 </script>
-

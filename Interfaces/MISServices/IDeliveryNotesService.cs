@@ -23,5 +23,15 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         /// <returns></returns>
         DeliveryNoteBaseResponse GetBaseData();
+
+        /// <summary>
+        /// Save Delivery Note
+        /// </summary>
+        DeliveryNote SaveDeliveryNote(DeliveryNote deliveryNote);
+
+        /// <summary>
+        /// Delete Delivery Note
+        /// </summary>
+        void DeleteDeliveryNote(int deliveryNoteId);
     }
 }

@@ -92,67 +92,74 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult Index()
         {
-
-
-            SetUserClaim(UserCookieManager.WEBOrganisationID);
-
-            // dirty trick to set cookies after auto login
-            if (UserCookieManager.PerformAutoLogin == true)
+            try
             {
-                UserCookieManager.WEBContactFirstName = UserCookieManager.WEBContactFirstName;
-                UserCookieManager.WEBContactLastName = UserCookieManager.WEBContactLastName;
-                UserCookieManager.ContactCanEditProfile = UserCookieManager.ContactCanEditProfile;
-                UserCookieManager.ShowPriceOnWebstore = UserCookieManager.ShowPriceOnWebstore;
-                UserCookieManager.WEBEmail = UserCookieManager.WEBEmail;
-                UserCookieManager.PerformAutoLogin = false;
-            }
-            List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
+                SetUserClaim(UserCookieManager.WEBOrganisationID);
 
-
-
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-
-            //iqra to fix the route of error page, consult khurram if required to get it propper.
-            if (UserCookieManager.WBStoreId != 0)
-            {
-                Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
-
-                // if company not found in cache then rebuild the cache
-                if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
+                // dirty trick to set cookies after auto login
+                if (UserCookieManager.PerformAutoLogin == true)
                 {
-                    _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
+                    UserCookieManager.WEBContactFirstName = UserCookieManager.WEBContactFirstName;
+                    UserCookieManager.WEBContactLastName = UserCookieManager.WEBContactLastName;
+                    UserCookieManager.ContactCanEditProfile = UserCookieManager.ContactCanEditProfile;
+                    UserCookieManager.ShowPriceOnWebstore = UserCookieManager.ShowPriceOnWebstore;
+                    UserCookieManager.WEBEmail = UserCookieManager.WEBEmail;
+                    UserCookieManager.PerformAutoLogin = false;
                 }
+                List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
-                string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-                if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+
+
+                string CacheKeyName = "CompanyBaseResponse";
+                ObjectCache cache = MemoryCache.Default;
+
+                //iqra to fix the route of error page, consult khurram if required to get it propper.
+                if (UserCookieManager.WBStoreId != 0)
                 {
-                    if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                    Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
+
+                    // if company not found in cache then rebuild the cache
+                    if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
                     {
-                        Response.Redirect("/Login");
+                        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
                     }
+
+                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
+                    string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+                    if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+                    {
+                        if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                        {
+                            Response.Redirect("/Login");
+                        }
+                    }
+                    else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                    {
+                        Response.Redirect("/");
+
+                    }
+
+                    model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
+                    StoreBaseResopnse = null;
+
+
                 }
-                else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                else
                 {
-                    Response.Redirect("/");
-
+                    TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
+                    return RedirectToAction("Error");
                 }
 
-                model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
-                StoreBaseResopnse = null;
 
-
+                ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Site.css";
+                return View(model);
             }
-            else
+            catch (Exception ex) 
             {
-                //domain not found;
-                return RedirectToAction("Index", "Error", new { code = "DomainNotFound" });
+                TempData["ErrorMessage"] = "" + ex + "";
+                return RedirectToAction("Error", "Home");
+                
             }
-
-
-            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Site.css";
-            return View(model);
         }
 
         public List<MPC.Models.DomainModels.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Models.Common.CmsPageModel> pageList, string pageName, List<MPC.Models.DomainModels.CmsSkinPageWidget> allPageWidgets, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
@@ -326,10 +333,18 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult Error(string Message)
         {
-            ViewBag.ErrorMessage = Message;
-            return View();
-        }
 
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+                return View();
+           
+        }
+        public ActionResult NotFound(string Message)
+        {
+
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            return View();
+
+        }
         public ActionResult oAuth(int id, int isRegWithSM, string MarketBriefReturnURL)
         {
             //int isFacebook = id;
@@ -442,7 +457,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.WEBEmail, OrganisationID,UserCookieManager.WBStoreId);
+                    loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.WEBEmail, OrganisationID, UserCookieManager.WBStoreId);
                 }
 
 

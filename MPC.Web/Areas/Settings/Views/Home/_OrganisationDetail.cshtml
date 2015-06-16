@@ -2,10 +2,7 @@
 <div class="main-box-body clearfix" data-bind="visible: $root.isOrganisationVisible" style="display:none;">
     <div class="col-md-12 form-horizontal" style="margin-top:20px;">
         <div style="margin-bottom:15px;">
-            <h2>
-                Set your company’s name, address and logo for internal reports
-
-            </h2>
+            <p class="group-header-description">Set your company’s name, address and logo for internal reports</p>
             @*  <span style="margin-bottom:5px;font-size:12px;">Set your company’s name, address and logo for internal reports</span>*@
         </div>
         <div class="col-md-6">
@@ -257,34 +254,28 @@
             </div>
         <div class="col-md-6">
             <div class="form-group">
-                <div class="col-lg-4 text-right">
-                    @*<div class="bs-example-tooltips tooltip-float-width">
-                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload your company Logo, It will appear on Documents as well as web site, etc., Use a PNG file to maintain transparency across the websore." data-original-title="" title="">
-                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                        </a>
-                    </div>*@
-                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Company Logo</label>
+                <div class="col-lg-7">
                 </div>
-
-                <div class="col-lg-4">
-                    <div class="col-lg-12" style="padding-left:0px;">
-                        <div style="text-align:center;">
+                <div class="col-lg-5" style="width:220px;">
+                    <div style="padding-left:0px;text-align:right;">
+                        <div>
                             <!-- ko if: orgnizationImage() -->
-                            <img id="orgImage" alt="" src="" style="width:200px;height:120px;" data-bind="attr:{ src: orgnizationImage() }" />
+                            <img id="orgImage" alt="" src="" style="width:220px;height:130px;" data-bind="attr:{ src: orgnizationImage() }" />
                             <!-- /ko -->
                             <!-- ko ifnot: orgnizationImage() -->
+                           
                             <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:200px;height:180px;" />
                             <!-- /ko -->
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-8" style="margin-top:10px;">
-                    <div class="col-lg-4">
+                <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                    <div class="col-lg-7">
                         &nbsp;
 
                     </div>
-                    <div class="col-lg-6 text-right" style="margin-left:14px;">
+                    <div class="col-lg-4" style="margin-top:10px;width:220px;text-align:center;padding-right:0px;padding-left:20px;">
                         <div class="fileUpload btn btn-primary">
                             <span>Upload</span>
                             <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
@@ -294,13 +285,12 @@
                     <input type="hidden" id="organizationId" name="organizationId" data-bind="value:id" />
                 </div>
 
-                <div class="col-lg-10" style="margin-top:10px;">
-                    <div class="col-lg-4">
+                <div class="col-lg-12" style="margin-top:10px;text-align:center;padding:0px;">
+                    <div class="col-lg-7">
                         &nbsp;
                     </div>
-                    <div class="col-lg-7 text-center">
-                        &nbsp;
-                        <span>Company Logo for MIS Dashboard</span>
+                    <div class="col-lg-4" style="width:220px;text-align:center;padding-right:0px;">
+                        <span class="help-block">Company Logo for MIS Dashboard</span>
                     </div>
                 </div>
             </div>

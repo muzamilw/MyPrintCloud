@@ -149,7 +149,7 @@ body:not(.compactHeader) .searchBtn {
     list-style: none;
     text-align: center;
       height: 70px;
-  width: 230%;
+   width: 170%;
 }
 
     #objectPanel > menu li {
@@ -366,10 +366,8 @@ line-height: 38px;
     display: none;
 }
 
-/*#zoomOut {
-    bottom: 0;
-    line-height: 24px !important;
-}*/
+#zoomOut {
+}
 
 #zoomer a:hover {
     background-color: #048489; /*rgba(63, 70, 82, 1);*/
@@ -423,8 +421,8 @@ line-height: 38px;
 }
 
 .stage3 {
-    max-width: 630px !important;
-    width: 630px !important;
+    max-width: 562px !important;
+    width: 562px !important;
 }
 
 .stage4 #selectedTab {
@@ -4688,37 +4686,43 @@ h2 + .gallery {
 }
 
     #documentMenuUndo > button {
-        background: #00969c no-repeat center / 14px;
-        background-image: url('assets-v2/icon_undo.png');
+        background: #000000 no-repeat center / 14px;
+        /*background-image: url('assets-v2/icon_undo.png');*/
         min-width: 0;
         padding: 0;
         text-align: center;
         width: 37px;
         border-radius: 10px;
+        color:white;
+          line-height: 11px;
+        font-size: 11px;
     }
 
         #documentMenuUndo > button:hover {
-            background: #048489 no-repeat center / 14px;
-            background-image: url('assets-v2/icon_undo.png');
+            background: #3F4652 no-repeat center / 14px;
+            /*background-image: url('assets-v2/icon_undo.png');*/
         }
 
     #documentMenuRedo > button {
-        background: #00969c no-repeat center / 14px;
-        background-image: url('assets-v2/icon_redo.png');
+        background: #000000 no-repeat center / 14px;
+        /*background-image: url('assets-v2/icon_redo.png');*/
         min-width: 0;
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 10px;
+        border-radius: 10px; 
+         color:white;
+           line-height: 11px;
+        font-size: 11px;
     }
 
         #documentMenuRedo > button:hover {
-            background: #048489 no-repeat center / 14px;
-            background-image: url('assets-v2/icon_redo.png');
+            background: #3F4652  no-repeat center / 14px;
+            /*background-image: url('assets-v2/icon_redo.png');*/
         }
 
 #documentMenuGuides > button {
-    background: #00969c no-repeat center / 14px;
+    background: #000000 no-repeat center / 14px;
     background-image: url('assets-v2/bleed_area.png');
     min-width: 0;
     padding: 0;
@@ -4728,7 +4732,7 @@ h2 + .gallery {
 }
 
     #documentMenuGuides > button:hover {
-        background: #048489 no-repeat center / 14px;
+        background: #1F2020  no-repeat center / 14px;
         background-image: url('assets-v2/bleed_area.png');
     }
 
@@ -4947,6 +4951,25 @@ h2 + .gallery {
     border: 0px solid transparent;
     position: relative;
     background-color: rgb(255, 6, 16) ;
+    padding-left:3px;
+    width: 48px;
+    height: 48px;
+    margin: 5px;
+    font-size: 11px;
+    margin-top: -11px;
+    margin-bottom:-7px;
+    margin-left: 24px;
+      border-color: grey;
+  border-width: 2px;
+}
+.BtnChngeClrSvg {
+    border-radius: 50%;
+    color: #fff;
+    vertical-align: bottom;
+    margin-right: 58px;
+    border: 0px solid transparent;
+    position: relative;
+    background-color: transparent ;
     padding-left:3px;
     width: 48px;
     height: 48px;
@@ -5549,37 +5572,38 @@ margin-left:1px;
 }
 
     #documentMenuPaste > button {
-        background: #00969c no-repeat center / 14px;
+        background: #000000 no-repeat center / 14px;
         background-image: url('assets-v2/paste.png');
         min-width: 0;
         padding: 0;
         text-align: center;
         width: 37px;
         border-radius: 10px;
+        visibility:hidden;
     }
 
         #documentMenuPaste > button:hover {
-            background: #048489 no-repeat center / 14px;
+            background: #3F4652 no-repeat center / 14px;
             background-image: url('assets-v2/paste.png');
         }
 
     #documentMenuCopy > button {
-        background: #00969c no-repeat center / 14px;
+        background: #000000 no-repeat center / 14px;
         background-image: url('assets-v2/copy.png');
         min-width: 0;
         padding: 0;
         text-align: center;
         width: 37px;
-        border-radius: 10px;
+        border-radius: 10px;visibility:hidden;  margin-right: 3px;
     }
 
         #documentMenuCopy > button:hover {
-            background: #048489 no-repeat center / 14px;
+            background: #3F4652 no-repeat center / 14px;
             background-image: url('assets-v2/copy.png');
         }
 
 #zoomIn, #zoomOut {
-    background: #00969c no-repeat center / 14px;
+    background: #000000  no-repeat center / 14px;
     min-width: 0;
     padding: 0;
     text-align: center;
@@ -5590,7 +5614,7 @@ margin-left:1px;
 }
 
     #zoomIn:hover, #zoomOut:hover {
-        background: #048489 no-repeat center / 14px;
+        background: #3F4652 no-repeat center / 14px;
     }
 
 .QtextData {
@@ -6173,7 +6197,7 @@ right: -65px;
     color:white;
     padding-left: 5px;
     padding-right: 6px;
-      font-size: 9.80000019073486px;
+      font-size: 9.80000019073486px;  left: 6px;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .textLabel{
@@ -6849,21 +6873,22 @@ font-size: 13px;
     background-color:white;
 }
 #Homebtn {
-    margin-top: 0px;
-  left: 425px;
+  margin-top: 0px;
   height: 35px;
-  background: url('assets-v2/homeIcon.png');
-  background-repeat: no-repeat;
-  background-position-x: 14px;
   top: 14px;
   left: 469px;
   position: absolute;
   width: 54px !important;
+
+  background: url('assets-v2/homeIcon.png');
+  background-repeat: no-repeat;
+  background-position-x: 14px;
+ 
 }
 #Homebtn a:hover {
-        left: 0px;
+        /*left: 0px;
         height: 53px;
-        background: url('assets-v2/homeIcon_hover.png') ;background-repeat: no-repeat;background-position-x: 14px;
+        background: url('assets-v2/homeIcon_hover.png') ;background-repeat: no-repeat;background-position-x: 14px;*/
 }  
 
 #BtnTxtCanvasAlignLeft{
@@ -6874,4 +6899,30 @@ font-size: 13px;
 }
 #documentMenu {
     position:absolute;
+}
+.svgColorContainer{
+      margin-left: 89px;
+  margin-top: -25px;
+}
+.btnChangeShapeColor{
+    margin-right:0px;
+    margin-left:8px;
+}
+.dimentionsBC
+{
+    display:none;
+}
+#HomebtnContainer{
+  position: absolute;
+  top: 0px;
+  left: -149px;
+}
+#HomebtnContainer button{
+   width: 100px;
+  line-height: 10px;
+  color: white;
+  background-color: black;  border-radius: 8px;
+}
+#HomebtnContainer button:hover{
+    background-color:#3F4652 !important;
 }

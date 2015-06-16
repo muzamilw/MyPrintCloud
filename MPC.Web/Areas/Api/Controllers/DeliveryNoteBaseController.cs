@@ -1,9 +1,6 @@
 ﻿using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
-using MPC.MIS.Areas.Api.Models;
-using MPC.Models.RequestModels;
 using System.Web.Http;
-using MPC.Models.ResponseModels;
 using DeliveryNoteBaseResponse = MPC.MIS.Areas.Api.Models.DeliveryNoteBaseResponse;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -18,6 +15,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         private readonly IDeliveryNotesService _deliveryNotesService;
 
         #endregion
+
         #region Constructor
 
         /// <summary>
@@ -29,6 +27,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         #endregion
+
         #region Public
 
 

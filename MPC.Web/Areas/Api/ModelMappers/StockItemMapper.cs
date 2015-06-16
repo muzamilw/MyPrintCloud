@@ -22,7 +22,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new InventoryBaseResponse
             {
-                Region= source.Region,
+                Region = source.Region,
                 StockCategories = source.StockCategories != null ? source.StockCategories.Select(s => s.CreateFromDropDown()).ToList() : null,
                 StockSubCategories = source.StockSubCategories != null ? source.StockSubCategories.Select(su => su.CreateFromDropDown()).ToList() : null,
                 PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(su => su.CreateFromDropDown()).ToList() : null,
@@ -31,7 +31,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 LengthUnits = source.LengthUnits != null ? source.LengthUnits.Select(ul => ul.CreateFromDropDown()).ToList() : null,
                 PaperBasisAreas = source.PaperBasisAreas != null ? source.PaperBasisAreas.Select(p => p.CreateFromDropDown()).ToList() : null,
                 RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(q => q.CreateFromDropDown()) : new List<ApiModels.RegistrationQuestionDropDown>(),
-                CurrencySymbol = (source.Organisation != null && source.LengthUnits != null) ? source.Organisation.Currency.CurrencySymbol : string.Empty
+                CurrencySymbol = (source.Organisation != null && source.LengthUnits != null) ? source.Organisation.Currency.CurrencySymbol : string.Empty,
+                WeightUnit = source.WeightUnit,
+                IsImperical = source.IsImperical
             };
         }
 
@@ -46,7 +48,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new ApiModels.InventorySearchResponse
             {
-                StockItems = source.StockItems != null ? source.StockItems.Select(stockItem => stockItem.CreateFrom()).ToList() : null,
+                StockItems = source.StockItems != null ? source.StockItems.Select(stockItem => stockItem.CreateFrom()) : null,
                 TotalCount = source.TotalCount
             };
         }
@@ -69,15 +71,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.StockItemForListView CreateFrom(this DomainModels.StockItem source)
         {
             StockCostAndPrice obj = null;
-            if(source.StockCostAndPrices != null )
+            if (source.StockCostAndPrices != null)
             {
-                obj= source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier==-1);
+                obj = source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier == -1);
             }
-               
+
             return new ApiModels.StockItemForListView
             {
                 StockItemId = source.StockItemId,
                 ItemName = source.ItemName,
+                ItemCode = source.ItemCode,
                 ItemWeight = source.ItemWeight,
                 ItemDescription = source.ItemDescription,
                 CategoryName = source.StockCategory != null ? source.StockCategory.Name : string.Empty,
@@ -87,10 +90,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PerQtyQty = source.PerQtyQty,
                 PerQtyType = source.PerQtyType,
                 FlagColor = source.FlagColor,
-                SupplierCompanyName = source.Company!=null ? source.Company.Name : string.Empty,
+                InStock = source.inStock,
+                Allocated = source.Allocated,
+                SupplierCompanyName = source.Company != null ? source.Company.Name : string.Empty,
                 Region = source.Region,
                 PackageQty = source.PackageQty,
-                PackCostPrice = obj != null ? (obj.CostPrice/source.PerQtyQty)* source.PackageQty :
+                PackCostPrice = obj != null ? (obj.CostPrice / source.PerQtyQty) * source.PackageQty :
                 null
             };
 
@@ -112,6 +117,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SubCategoryId = source.SubCategoryId,
                 BarCode = source.BarCode,
                 inStock = source.inStock,
+                Allocated = source.Allocated,
                 ItemDescription = source.ItemDescription,
                 StockCreated = source.StockCreated,
                 FlagID = source.FlagID,
@@ -138,6 +144,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaperBasicAreaId = source.PaperBasicAreaId,
                 ItemCoatedType = source.ItemCoatedType,
                 ItemWeightSelectedUnit = source.ItemWeightSelectedUnit,
+                IsImperical = source.IsImperical,
                 StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null
             };
         }
@@ -157,6 +164,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SubCategoryId = source.SubCategoryId,
                 BarCode = source.BarCode,
                 inStock = source.inStock,
+                Allocated = source.Allocated,
                 ItemDescription = source.ItemDescription,
                 StockCreated = source.StockCreated,
                 FlagID = source.FlagID,
@@ -184,6 +192,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaperBasicAreaId = source.PaperBasicAreaId,
                 ItemCoatedType = source.ItemCoatedType,
                 ItemWeightSelectedUnit = source.ItemWeightSelectedUnit,
+                IsImperical = source.IsImperical,
                 StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null
             };
         }
@@ -192,10 +201,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new ApiModels.StockItem
             {
                 StockItemId = source.StockItemId,
-                ItemName = source.ItemName                
+                ItemName = source.ItemName
             };
         }
-        
+
         #endregion
 
     }

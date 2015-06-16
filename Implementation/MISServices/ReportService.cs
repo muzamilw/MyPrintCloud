@@ -3,6 +3,7 @@ using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,8 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationRepository organisationRepository;
         private readonly IReportRepository ReportRepository;
         private readonly ICompanyRepository CompanyRepository;
-        public ReportService(IReportRepository IReportRepository, IOrganisationRepository organisationRepository, IReportRepository ReportRepository, ICompanyRepository CompanyRepository)
+        private readonly IExportReportHelper ExportReportHelper;
+        public ReportService(IReportRepository IReportRepository, IOrganisationRepository organisationRepository, IReportRepository ReportRepository, ICompanyRepository CompanyRepository, IExportReportHelper ExportReportHelper)
         {
             if (IReportRepository == null)
             {
@@ -42,6 +44,7 @@ namespace MPC.Implementation.MISServices
             this.organisationRepository = organisationRepository;
             this.ReportRepository = ReportRepository;
             this.CompanyRepository = CompanyRepository;
+            this.ExportReportHelper = ExportReportHelper;
         }
 
         public ReportCategory GetReportCategory(long CategoryId, int IsExternal)
@@ -269,6 +272,18 @@ namespace MPC.Implementation.MISServices
         public List<ReportparamResponse> getParamsById(long Id)
         {
             return new List<ReportparamResponse>();
+        }
+
+        public ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request)
+        {
+            //int type = 0;
+            //if(type == ReportType.Internal)
+            //    type
+
+          string Path =  ExportReportHelper.ExportPDF((int)request.Reportid, request.RecordId, request.ReportType, request.OrderId, request.CriteriaParam);
+
+          return ReportRepository.GetReportEmailBaseData(request, Path);
+
         }
     }
 }

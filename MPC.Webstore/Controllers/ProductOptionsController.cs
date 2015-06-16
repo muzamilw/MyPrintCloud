@@ -142,12 +142,14 @@ namespace MPC.Webstore.Controllers
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
+                    ViewBag.ShowUploadArkworkPanel = true;
                     BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0, clonedItem.ProductName);
                 }
                 else
                 {
                     ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                     ViewData["Templates"] = null;
+
                 }
 
 
@@ -167,7 +169,7 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.CostCentreQueueItems = null;
                 }
-                else 
+                else
                 {
                     QuestionAndInputQueues QIQueuesObj = new QuestionAndInputQueues();
                     if (QuestionQueueItem != null)
@@ -196,11 +198,12 @@ namespace MPC.Webstore.Controllers
             }
             else if (!string.IsNullOrEmpty(TemplateId))// template case
             {
+                ViewBag.ShowUploadArkworkPanel = true;
                 OrderID = UserCookieManager.WEBOrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName);
                 referenceItemId = clonedItem.RefItemId ?? 0;
-                if (clonedItem.ItemSections != null) 
+                if (clonedItem.ItemSections != null)
                 {
                     if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
                     {
@@ -208,7 +211,7 @@ namespace MPC.Webstore.Controllers
                         ViewBag.SelectedQuantity = clonedItem.Qty1;
 
                     }
-                   
+
                 }
             }
 
@@ -251,74 +254,38 @@ namespace MPC.Webstore.Controllers
                     foreach (var addOn in selectedAddOnsList)
                     {
                         ccObject = new AddOnCostsCenter();
+
                         ccObject.CostCenterID = addOn.CostCenterId;
-                        //if (addOn.Type == 2) //per quantity
-                        //{
-                        //    ccObject.Qty1NetTotal = (Convert.ToDouble(cartObject.QuantityOrdered) * addOn.ActualPrice) + addOn.SetupCost;
-                        //    if (ccObject.Qty1NetTotal < addOn.MinimumCost && addOn.MinimumCost != 0)
-                        //    {
-                        //        ccObject.Qty1NetTotal = addOn.MinimumCost;
-                        //    }
-                        //}
-                        //else
-                        //{
-                            //if (!string.IsNullOrEmpty(addOn.Description))
-                            //{
-                            //    ccObject.CostCentreDescription = addOn.Description;
-                            //}
+                       
+                        ccObject.Qty1NetTotal = addOn.ActualPrice;
 
-                            //if (!string.IsNullOrEmpty(addOn.CostCentreJasonData))
-                            //{
-                            //    ccObject.CostCentreJsonData = addOn.CostCentreJasonData;
-
-                            //}
-                            ccObject.Qty1NetTotal = addOn.ActualPrice;
-
-                            AddOnPrices += addOn.ActualPrice;
-                       // }
-
+                        AddOnPrices += addOn.ActualPrice;
+                      
                         ccObjectList.Add(ccObject);
                     }
                     cartObject.AddOnPrice = AddOnPrices.ToString();
                 }
 
-                //double itemPrice = Convert.ToDouble(cartObject.ItemPrice);
 
-                //if (StoreBaseResopnse.Company.isIncludeVAT == true && Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
-                //{
-                //}
 
-                if (true) // upload design
+                if (StoreBaseResopnse.Company.isCalculateTaxByService == true) // calculate tax by service
                 {
-                    if (false) // calculate tax by service
-                    {
 
-                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
-                    }
-                    else
-                    {
-                        if (StoreBaseResopnse.Company.isIncludeVAT == true && Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
-                        {
-                            _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
-                        }
-                        else
-                        {
-                            _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
-                        }
-                    }
+                    _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
                 }
                 else
                 {
                     if (StoreBaseResopnse.Company.isIncludeVAT == true && Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
                     {
-                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue);
-
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
                     }
                     else
                     {
-                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue);
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
                     }
                 }
+
+
                 Response.Redirect("/ShopCart/" + UserCookieManager.WEBOrderId);
 
                 return null;
@@ -352,21 +319,12 @@ namespace MPC.Webstore.Controllers
             if (mode == "Modify")
             {
                 ViewBag.Mode = "Modify";
-                
-            }
-            else
-            {
-                ViewBag.Mode = "";
-            }
 
-
-            if (mode == "UploadDesign" || mode == "Modify")
-            {
                 if (referenceItem.IsUploadImage == true)
                 {
                     ViewBag.ShowUploadArkworkPanel = true;
                 }
-                else 
+                else
                 {
                     ViewBag.ShowUploadArkworkPanel = false;
                 }
@@ -374,8 +332,39 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                ViewBag.ShowUploadArkworkPanel = true;
+                ViewBag.Mode = "";
+                if (mode == "UploadDesign")
+                {
+                    if (referenceItem.IsUploadImage == true)
+                    {
+                        ViewBag.ShowUploadArkworkPanel = true;
+                    }
+                    else
+                    {
+                        ViewBag.ShowUploadArkworkPanel = false;
+                    }
+
+                }
             }
+
+            if (referenceItem.ProductType == (int)ProductType.NonPrintProduct)
+            {
+                if (referenceItem.ThumbnailPath == null)
+                {
+                    ViewBag.FinishedGoodProduct = null;
+                }
+                else
+                {
+                    ViewBag.FinishedGoodProduct = referenceItem.ThumbnailPath;
+                }
+
+            }
+            else
+            {
+                ViewBag.FinishedGoodProduct = null;
+            }
+
+
 
             clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId, UserCookieManager.WEBOrganisationID);
 
@@ -406,23 +395,23 @@ namespace MPC.Webstore.Controllers
 
                             //if (addOn.Type == 4)
                             //{
-                                AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
-                                {
-                                    Id = addOn.ProductAddOnID,
-                                    CostCenterId = addOn.CostCenterID,
-                                    Type = addOn.Type,
-                                    SetupCost = addOn.SetupCost,
-                                    MinimumCost = addOn.MinimumCost,
-                                    ActualPrice = cItem.Qty1NetTotal ?? 0,
-                                    StockOptionId = addOn.ItemStockId,
-                                    Description = "",
-                                    isChecked = true,
-                                    QuantitySourceType = addOn.QuantitySourceType,
-                                    TimeSourceType = addOn.TimeSourceType
-                                    // CostCentreJasonData = JsonConvert.SerializeObject(objCS, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })
-                                    //   CostCenterModifiedJson =  objCS
-                                };
-                                AddonObjectList.Add(addOnsObject);
+                            AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                            {
+                                Id = addOn.ProductAddOnID,
+                                CostCenterId = addOn.CostCenterID,
+                                Type = addOn.Type,
+                                SetupCost = addOn.SetupCost,
+                                MinimumCost = addOn.MinimumCost,
+                                ActualPrice = cItem.Qty1NetTotal ?? 0,
+                                StockOptionId = addOn.ItemStockId,
+                                Description = "",
+                                isChecked = true,
+                                QuantitySourceType = addOn.QuantitySourceType,
+                                TimeSourceType = addOn.TimeSourceType
+                                // CostCentreJasonData = JsonConvert.SerializeObject(objCS, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })
+                                //   CostCenterModifiedJson =  objCS
+                            };
+                            AddonObjectList.Add(addOnsObject);
                             //}
                             //else
                             //{
@@ -549,11 +538,11 @@ namespace MPC.Webstore.Controllers
             {
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
-                   
+
                 }
                 else
                 {
-                   
+
                     matrixItem.PricePaperType1 = matrixItem.PricePaperType1;
                     matrixItem.PricePaperType2 = matrixItem.PricePaperType2;
                     matrixItem.PricePaperType3 = matrixItem.PricePaperType3;
@@ -612,7 +601,7 @@ namespace MPC.Webstore.Controllers
             PriceMatrixObjectList = null;
             AddonObjectList = null;
 
-            
+
             ItemViewModel ItemModel = new ItemViewModel();
             ItemModel.File1 = referenceItem.File1;
             ItemModel.File2 = referenceItem.File2;
@@ -699,7 +688,7 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        
+
 
     }
 

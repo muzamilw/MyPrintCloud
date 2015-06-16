@@ -88,7 +88,11 @@ namespace MPC.Webstore.Controllers
             //}
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID()== (int)Roles.Adminstrator)
             {
-                ordersList = _orderService.GetAllCorpOrders(_myClaimHelper.loginContactCompanyID(), status, model.FromData, model.ToDate, model.poSearch);
+                ordersList = _orderService.GetAllCorpOrders(_myClaimHelper.loginContactCompanyID(), status, model.FromData, model.ToDate, model.poSearch, false, _myClaimHelper.loginContactTerritoryID());
+            }
+            else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
+            {
+                ordersList = _orderService.GetAllCorpOrders(_myClaimHelper.loginContactCompanyID(), status, model.FromData, model.ToDate, model.poSearch, true, _myClaimHelper.loginContactTerritoryID());
             }
             else
             {

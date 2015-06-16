@@ -38,7 +38,9 @@ define("crm/contacts.viewModel",
                     //Addresses to be used in store users shipping and billing address
                     allCompanyAddressesList = ko.observableArray([]),
                     // Selected Company
-                    selectedCompanyContact = ko.observable(),
+                    //selectedCompanyContact = ko.observable(),
+                    companyContactEditorViewModel = new ist.ViewModel(model.CompanyContact),
+                    selectedCompanyContact = companyContactEditorViewModel.itemForEditing,
                     // Selected Role Id
                     contactRoleId = ko.observable(true),
                     // list of state
@@ -161,8 +163,14 @@ define("crm/contacts.viewModel",
                                 }, {
                                     success: function (data) {
                                         if (data) {
-                                            selectedStore().users.remove(companyContact);
-                                            toastr.success("Deleted Successfully");
+                                            var contact = companyContactsForListView.find(function (cnt) {
+                                                return cnt.contactId() === companyContact.contactId();
+                                            });
+                                            if (contact) {
+                                                companyContactsForListView.remove(contact);
+                                                toastr.success("Deleted Successfully");
+                                            }
+                                           
                                         } else {
                                             toastr.error("Contact can not be deleted", "", ist.toastrOptions);
                                         }
@@ -230,7 +238,9 @@ define("crm/contacts.viewModel",
                                         var territory = new model.CompanyTerritory.Create(terror);
                                         contactCompanyTerritoriesFilter.push(territory);
                                     });
-                                    selectedCompanyContact(contact);
+                                    //selectedCompanyContact(contact);
+                                    companyContactEditorViewModel.selectItem(contact);
+                                    selectedCompanyContact().reset();
                                 }
                             },
                             error: function () {
@@ -330,6 +340,15 @@ define("crm/contacts.viewModel",
                                      if (data) {
                                          toastr.success("Saved Successfully");
                                          selectedCompanyContact().contactId(data.ContactId);
+                                         var savedCompanyContact = model.CompanyContact.Create(data);
+                                         var count = 0;
+                                         _.each(companyContactsForListView(), function (user) {
+                                             if (user.contactId() == savedCompanyContact.contactId()) {
+                                                 user.firstName(savedCompanyContact.firstName());
+                                                 user.email(savedCompanyContact.email());
+                                             }
+                                             count = count + 1;
+                                         });
                                          if (afterSaveForCalendarActivity && typeof afterSaveForCalendarActivity === "function") {
                                              afterSaveForCalendarActivity(selectedCompanyContact());
                                              view.hideCompanyContactDialog();

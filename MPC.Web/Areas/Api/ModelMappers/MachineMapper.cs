@@ -43,7 +43,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CurrencySymbol = source.CurrencySymbol == null ? null : source.CurrencySymbol,
                 WeightUnit = source.WeightUnit == null ? null : source.WeightUnit,
                 LengthUnit = source.LengthUnit == null ? null : source.LengthUnit,
-                MachineLookupMethods = source.MachineLookupMethods == null ? null : source.MachineLookupMethods.Select(s => s.CreateFrom())
+                MachineLookupMethods = source.MachineLookupMethods == null ? null : source.MachineLookupMethods.Select(s => s.CreateFrom()),
+                GuilotinePtv = source.GuilotinePtv == null ? null : source.GuilotinePtv.Select(s => s.CreateFrom())
             };
 
         }
@@ -117,8 +118,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
                 LookupMethodId = source.LookupMethodId,
-                MachineInkCoverages = source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList()
-
+                RunningSpoilage = source.RunningSpoilage,
+                SetupSpoilage = source.SetupSpoilage,
+                CoverageHigh = source.CoverageHigh,
+                CoverageLow = source.CoverageLow,
+                CoverageMedium = source.CoverageMedium,
+                isSheetFed = source.isSheetFed,
+                Passes = source.Passes,
+                IsSpotColor = source.IsSpotColor,
+                MachineInkCoverages = source.MachineInkCoverages == null ? null : source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList(),
+                LookupMethod = source.MachineInkCoverages == null ? null : source.LookupMethod.CreateFrom(),
             };
         }
 
@@ -188,9 +197,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
                 LookupMethodId = source.LookupMethodId,
+                RunningSpoilage = source.RunningSpoilage,
+                SetupSpoilage = source.SetupSpoilage,
+                CoverageHigh = source.CoverageHigh,
+                CoverageLow = source.CoverageLow,
+                CoverageMedium = source.CoverageMedium,
+                isSheetFed = source.isSheetFed,
+                Passes = source.Passes,
+                IsSpotColor = source.IsSpotColor,
                 MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null
-
-
             };
         }
 
@@ -205,7 +220,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MachineName = source.MachineName,
                 MachineCatId = source.MachineCatId,
                 maximumsheetheight = source.maximumsheetheight,
-                maximumsheetwidth = source.maximumsheetwidth
+                maximumsheetwidth = source.maximumsheetwidth,
+                ColourHeads = source.ColourHeads,
+                IsSpotColor = source.IsSpotColor,
+                Passes = source.Passes
             };
         }
         #endregion

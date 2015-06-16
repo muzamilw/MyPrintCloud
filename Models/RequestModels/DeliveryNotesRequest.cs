@@ -8,6 +8,7 @@ namespace MPC.Models.RequestModels
 
         public string SearchingString { get; set; }
 
+        public short? Status { get; set; }
         /// <summary>
         /// Item By Column for sorting
         /// </summary>

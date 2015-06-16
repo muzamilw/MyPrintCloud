@@ -95,51 +95,20 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection CalculatePressCostWithSides(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, int PressReRunMode = (int)PressReRunModes.NotReRun, int PressReRunQuantityIndex = 1, double OverrideValue = 0, bool isBestPress = false, bool isPressSide2 = false)
         {
-            List<MachineSpoilage> machineSpoilageList = itemsectionRepository.GetSpoilageByPressId(PressID);
-
-
-            if (machineSpoilageList != null && machineSpoilageList.Count > 0)
-            {
-                int InkColors = oItemSection.Side1Inks + oItemSection.Side2Inks;
-                var maxPressColor = machineSpoilageList.Max(m => m.NoOfColors);
-                if (maxPressColor != null && InkColors > maxPressColor)
-                    InkColors = (int)maxPressColor;
-
-                var setupspoilage = machineSpoilageList.Where(m => m.NoOfColors == InkColors).FirstOrDefault();
-                if (setupspoilage != null)
-                {
-                    oItemSection.SetupSpoilage = setupspoilage.SetupSpoilage;
-                    oItemSection.RunningSpoilage = Convert.ToInt16(setupspoilage.RunningSpoilage);
-                }
-            }
-
+            
             JobPreference oJobCardOptionsDTO = itemsectionRepository.GetJobPreferences(1);
             bool functionReturnValue = false;
             string sMinimumCost = null;
             double dblPressPass = 0;
 
-           // double dblPassFront = 0;
-           // double dblPassBack = 0;
-            string strPrintLookup = null;
-            double dblPlateQty = 0;
-
             dblPressPass = isPressSide2 ? Convert.ToDouble(oItemSection.PassesSide2) : Convert.ToDouble(oItemSection.PassesSide1);
-
-            SectionCostCentreResource oResourceDto = new SectionCostCentreResource();
+            
             //Get Machine Query
             Machine oPressDTO = itemsectionRepository.GetPressById(PressID);
 
-            if (oPressDTO.isplateused == true)
-            {
-                oItemSection.IsPlateUsed = true;
-                oItemSection.PlateId = oPressDTO.DefaultPlateId;
-            }
-            else
-                oItemSection.IsPlateUsed = false;
-            oItemSection.IsWashup = oPressDTO.iswashupused == true ? true : false;
-            oItemSection.IsMakeReadyUsed = oPressDTO.ismakereadyused == true ? true : false;
-
-
+            oItemSection.IsPlateUsed = false;
+            oItemSection.IsWashup = false;
+            oItemSection.IsMakeReadyUsed = false;
 
             int SheetPTV = 0;
             int SetupSpoilage = 0;
@@ -194,14 +163,7 @@ namespace MPC.Implementation.MISServices
 
                 //Model.LookupMethods.MethodDTO oModelLookUpMethod = BLL.LookupMethods.Method.GetMachineLookUpMethod(GlobalData, oItemSection.SelectedPressCalculationMethodID);
                 LookupMethod oModelLookUpMethod = new LookupMethod();
-                //if (isPressSide2)
-                //    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side2LookUp));
-                //else
-                //    oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oItemSection.Side1LookUp));
-                //oItemSection.SelectedPressCalculationMethodId = Convert.ToInt32(oPressDTO.LookupMethodId); // Commented when applied press for side 2 logic on 2015 05 20
-
-                //Get LookupMethod Query
-                //oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt32(oItemSection.SelectedPressCalculationMethodId));
+                oModelLookUpMethod = itemsectionRepository.GetLookupMethodById(Convert.ToInt64(oPressDTO.LookupMethodId));                
 
                 double[] dblPrintCost = new double[3];
                 double[] dblPrintPrice = new double[3];
@@ -484,9 +446,34 @@ namespace MPC.Implementation.MISServices
                             //    dblPrintRun[i] = Convert.ToInt32(dblPassFront * intWorkSheetQty[i] / intPrintChgeCZ[i]);
                             //}
 
-                            dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
-                            dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) + oPressDTO.SetupCharge));
-                            dblPrintRun[i] = Convert.ToInt32(dblPressPass * intWorkSheetQty[i] / intPrintChgeCZ[i]);
+                            //Check the coverage high, medium and low and set multiplier.
+                            double dblCoverageMultiple = 1;
+                            if(isPressSide2)
+                            {
+                                if (oItemSection.ImpressionCoverageSide2 == 1)
+                                    dblCoverageMultiple = oPressDTO.CoverageHigh??1;
+                                else if(oItemSection.ImpressionCoverageSide2 == 2)
+                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                                else if (oItemSection.ImpressionCoverageSide2 == 3)
+                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            }
+                            else
+                            {
+                                if (oItemSection.ImpressionCoverageSide1 == 1)
+                                    dblCoverageMultiple = oPressDTO.CoverageHigh ?? 1;
+                                else if (oItemSection.ImpressionCoverageSide1 == 2)
+                                    dblCoverageMultiple = oPressDTO.CoverageMedium ?? 1;
+                                else if (oItemSection.ImpressionCoverageSide1 == 3)
+                                    dblCoverageMultiple = oPressDTO.CoverageLow ?? 1;
+                            }
+
+
+                            //dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
+                            //dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) + oPressDTO.SetupCharge));
+                            //dblPrintRun[i] = Convert.ToInt32(dblPressPass * intWorkSheetQty[i] / intPrintChgeCZ[i]);
+                            dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) * dblCoverageMultiple)) + oPressDTO.SetupCharge));
+                            dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) * dblCoverageMultiple)) + oPressDTO.SetupCharge));
+                            dblPrintRun[i] = Convert.ToInt32(dblPressPass * ((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCoverageMultiple));
                         }
 
                         if (PressReRunMode == (int)PressReRunModes.NotReRun)
@@ -629,7 +616,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[0] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[0]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -670,7 +657,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[0] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[0]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -715,7 +702,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[1] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[1]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -756,7 +743,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[1] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[1]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -801,7 +788,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[2] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[2]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -841,7 +828,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsPrintSheetQty == true)
                             {
-                                oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty:= " + intWorkSheetQty[2] + Environment.NewLine;
+                                oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty:= " + Math.Ceiling(intWorkSheetQty[2]) + Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
@@ -3482,7 +3469,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty1MarkUpValue = 0;
                     oItemSectionCostCenter.Qty1NetTotal = 0;
                     oItemSectionCostCenter.Qty1EstimatedStockCost = 0;
-
+                    sMinimumCost = "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
@@ -3520,7 +3507,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty2MarkUpValue = 0;
                     oItemSectionCostCenter.Qty2NetTotal = 0;
                     oItemSectionCostCenter.Qty2EstimatedStockCost = 0;
-
+                    sMinimumCost += "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
@@ -3558,7 +3545,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty3MarkUpValue = 0;
                     oItemSectionCostCenter.Qty3NetTotal = 0;
                     oItemSectionCostCenter.Qty3EstimatedStockCost = 0;
-
+                    sMinimumCost += "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
@@ -4063,7 +4050,7 @@ namespace MPC.Implementation.MISServices
             }
             //OrderSheet PTV Calculation
             //Calculating the PTV for Paper Sheet and Print Sheet
-            if (oItemSection.IsSectionSizeCustom == false)
+            if (oItemSection.IsSectionSizeCustom != true)
             {
                 PaperSize size = itemsectionRepository.GetPaperSizeById(Convert.ToInt32(oItemSection.SectionSizeId));
                 if (size != null)
@@ -4091,7 +4078,7 @@ namespace MPC.Implementation.MISServices
 
             //Calculating Total Items On Sheet
             oItemSection.OverAllPTV = PrintSheetPTV * OrderPTV;
-
+            oItemSection.WebSpoilageType = oItemSection.PrintingType == 1 ? Convert.ToInt16(1) : Convert.ToInt16(2);
 
             for (int i = 0; i <= 2; i++)
             {
@@ -4111,7 +4098,9 @@ namespace MPC.Implementation.MISServices
                 PrintSheetQuantity[i] = TempQuantity / PrintSheetPTV;
                 //Rounding to the Next Whole Number
                 PrintSheetQuantity[i] = PrintSheetQuantity[i];
-                //in case spoilage is in sheets
+
+
+                //calculate spoilage on print sheet quantity
                 if (oItemSection.WebSpoilageType == Convert.ToInt32(WebSpoilageTypes.inSheets))
                 {
                     PrintSheetSpoilage[i] = Convert.ToDouble(oItemSection.SetupSpoilage + (PrintSheetQuantity[i] * oItemSection.RunningSpoilage / 100));
@@ -4123,8 +4112,12 @@ namespace MPC.Implementation.MISServices
                     PrintSheetSpoilage[i] = Convert.ToDouble(oItemSection.SetupSpoilage * oItemSection.SectionSizeHeight / 1000 + (PrintSheetQuantity[i] * oItemSection.RunningSpoilage / 100 * oItemSection.SectionSizeHeight / 1000));
                     PrintSheetQuantity[i] += PrintSheetSpoilage[i];
                 }
+            
 
                 OrderSheetQuantity[i] = PrintSheetQuantity[i] / OrderPTV;
+
+                OrderSheetSpoilage[i] = PrintSheetSpoilage[i] / OrderPTV;
+
 
                 OrderSheetPackQuantity[i] = Convert.ToDouble(OrderSheetQuantity[i] / oPaperDTO.PackageQty);
 
@@ -4133,7 +4126,10 @@ namespace MPC.Implementation.MISServices
                     OrderSheetPackQuantity[i] = OrderSheetPackQuantity[i];
                 }
 
-                OrderSheetWeight[i] = (ConvertWeight(Convert.ToDouble(oPaperDTO.ItemWeight), WeightUnits.GSM, (WeightUnits)CompanyGeneralSettings().SystemWeightUnit) * OrderSheetQuantity[i] * (Convert.ToDouble(OrderSheetHeight) / 1000) * (Convert.ToDouble(OrderSheetWidth) / 1000));
+                double areainMeters =   OrderSheetQuantity[i] * (Convert.ToDouble(OrderSheetHeight) / 1000) * (Convert.ToDouble(OrderSheetWidth) / 1000);
+
+
+                OrderSheetWeight[i] = (oPaperDTO.ItemWeight.Value * areainMeters) / 1000;
             }
 
             ///*******
@@ -4155,7 +4151,7 @@ namespace MPC.Implementation.MISServices
             //new logic for paper cost and price calculation Implemented by Muzzammil
             //dblUPrice = Round(oPaperDTO.CostPrice / oPaperDTO.PackageQty, 4)
 
-            GlobalData gData = GetItemPriceCost((int)oItemSection.StockItemID1, false);
+            GlobalData gData = GetItemPriceCost((int)oItemSection.StockItemID1, true);
             if (gData != null)
             {
                 UnitCost = gData.dblUnitCost;
@@ -4202,7 +4198,7 @@ namespace MPC.Implementation.MISServices
 
             if (oItemSection.IsPaperSupplied != true)
             {
-                oItemSectionCostCenter.Qty1Charge = OrderSheetPackQuantity[0] * PackPrice;
+                oItemSectionCostCenter.Qty1Charge = OrderSheetPackQuantity[0] * UnitPrice;
 
                 if (oItemSectionCostCenter.Qty1Charge < oPaperCostCentreDTO.MinimumCost)
                 {
@@ -4219,23 +4215,23 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
-                oItemSectionCostCenter.Qty1EstimatedStockCost = OrderSheetPackQuantity[0] * PackCost;
+                oItemSectionCostCenter.Qty1EstimatedStockCost = OrderSheetPackQuantity[0] * UnitCost;
 
                 if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                 {
                     if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                     {
-                        oItemSectionCostCenter.Qty1WorkInstructions = "Print Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[0]) + " Sheets" + Environment.NewLine;
+                        oItemSectionCostCenter.Qty1WorkInstructions = "Order Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[0]) + " Sheets" + Environment.NewLine;
                     }
 
                     if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
                     {
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage=:" + Math.Ceiling(PrintSheetSpoilage[0]) + " Sheets" + Environment.NewLine;
+                        oItemSectionCostCenter.Qty1WorkInstructions += "Order Sheet Spoilage:=" + Math.Ceiling(OrderSheetSpoilage[0]) + " Sheets" + Environment.NewLine;
                     }
 
                     if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                     {
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Stock Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
+                        oItemSectionCostCenter.Qty1WorkInstructions += "Order Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
                     }
 
                     oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat):= " + Convert.ToString(oItemSection.ItemSizeHeight) + " x " + Convert.ToString(oItemSection.ItemSizeWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
@@ -4249,7 +4245,7 @@ namespace MPC.Implementation.MISServices
 
                 if (oItemSection.Qty2 > 0)
                 {
-                    oItemSectionCostCenter.Qty2Charge = OrderSheetPackQuantity[1] * PackPrice;
+                    oItemSectionCostCenter.Qty2Charge = OrderSheetPackQuantity[1] * UnitPrice;
 
                     if (oItemSectionCostCenter.Qty2Charge < oPaperCostCentreDTO.MinimumCost)
                     {
@@ -4265,23 +4261,23 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
 
-                    oItemSectionCostCenter.Qty2EstimatedStockCost = OrderSheetPackQuantity[1] * PackCost;
+                    oItemSectionCostCenter.Qty2EstimatedStockCost = OrderSheetPackQuantity[1] * UnitCost;
 
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty2WorkInstructions = "Print Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[1]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions = "Order Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[1]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
                         {
-                            oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Spoilage=:" + Math.Ceiling(PrintSheetSpoilage[1]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions += "Order Sheet Spoilage=:" + Math.Ceiling(OrderSheetSpoilage[1]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty2WorkInstructions += "Stock Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions += "Order Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
                         }
 
                         oItemSectionCostCenter.Qty2WorkInstructions += "Item Size (Flat):= " + Convert.ToString(oItemSection.ItemSizeHeight) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
@@ -4296,7 +4292,7 @@ namespace MPC.Implementation.MISServices
 
                 if (oItemSection.Qty3 > 0)
                 {
-                    oItemSectionCostCenter.Qty3Charge = OrderSheetPackQuantity[2] * PackPrice;
+                    oItemSectionCostCenter.Qty3Charge = OrderSheetPackQuantity[2] * UnitPrice;
 
                     if (oItemSectionCostCenter.Qty3Charge < oPaperCostCentreDTO.MinimumCost)
                     {
@@ -4312,23 +4308,23 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
 
-                    oItemSectionCostCenter.Qty3EstimatedStockCost = OrderSheetPackQuantity[2] * PackCost;
+                    oItemSectionCostCenter.Qty3EstimatedStockCost = OrderSheetPackQuantity[2] * UnitCost;
 
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty3WorkInstructions = "Print Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[2]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions = "Order Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[2]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
                         {
-                            oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Spoilage=:" + Math.Ceiling(PrintSheetSpoilage[2]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions += "Order Sheet Spoilage=:" + Math.Ceiling(OrderSheetSpoilage[2]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty3WorkInstructions += "Stock Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions += "Order Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
                         }
 
                         oItemSectionCostCenter.Qty3WorkInstructions += "Item Size (Flat):= " + Convert.ToString(oItemSection.ItemSizeHeight) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
@@ -4352,22 +4348,23 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty1MarkUpValue = 0;
                     oItemSectionCostCenter.Qty1NetTotal = 0;
                     oItemSectionCostCenter.Qty1EstimatedStockCost = 0;
+                    sMinimumCost = "0";
 
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions = "Print Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[0]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty1WorkInstructions = "Order Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[0]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage=:" + Math.Ceiling(PrintSheetSpoilage[0]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty1WorkInstructions += "Order Sheet Spoilage=:" + Math.Ceiling(PrintSheetSpoilage[0]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Stock Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty1WorkInstructions += "Order Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
                         }
 
                         oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat):= " + Convert.ToString(oItemSection.ItemSizeHeight) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
@@ -4386,22 +4383,22 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty2MarkUpValue = 0;
                     oItemSectionCostCenter.Qty2NetTotal = 0;
                     oItemSectionCostCenter.Qty2EstimatedStockCost = 0;
-
+                    sMinimumCost += "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty2WorkInstructions = "Print Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[1]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions = "Order Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[1]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
                         {
-                            oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Spoilage=:" + Math.Ceiling(PrintSheetSpoilage[1]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions += "Order Sheet Spoilage=:" + Math.Ceiling(PrintSheetSpoilage[1]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty2WorkInstructions += "Stock Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions += "Order Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
                         }
 
                         oItemSectionCostCenter.Qty2WorkInstructions += "Item Size (Flat):= " + Convert.ToString(oItemSection.ItemSizeHeight) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
@@ -4421,22 +4418,22 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty3MarkUpValue = 0;
                     oItemSectionCostCenter.Qty3NetTotal = 0;
                     oItemSectionCostCenter.Qty3EstimatedStockCost = 0;
-
+                    sMinimumCost += "0";
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty3WorkInstructions = "Print Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[2]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions = "Order Sheet Qty (inc. spoilage):=" + Math.Ceiling(OrderSheetQuantity[2]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
                         {
-                            oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Spoilage=:" + Math.Ceiling(PrintSheetSpoilage[2]) + " Sheets" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions += "Order Sheet Spoilage=:" + Math.Ceiling(PrintSheetSpoilage[2]) + " Sheets" + Environment.NewLine;
                         }
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty3WorkInstructions += "Stock Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions += "Order Sheet Size (Flat):= " + Convert.ToString(OrderSheetHeight) + " x " + Convert.ToString(OrderSheetWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
                         }
 
                         oItemSectionCostCenter.Qty3WorkInstructions += "Item Size (Flat):= " + Convert.ToString(oItemSection.ItemSizeHeight) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " " + Environment.NewLine;
@@ -4485,7 +4482,7 @@ namespace MPC.Implementation.MISServices
 
             if (oItemSection.IsPaperSupplied == false)
             {
-                oItemSectionCostCenterDetail.CostPrice = PackPrice / oPaperDTO.PackageQty;
+                oItemSectionCostCenterDetail.CostPrice = UnitPrice / oPaperDTO.PackageQty;
             }
             else
             {
@@ -4702,7 +4699,7 @@ namespace MPC.Implementation.MISServices
                 }
 
                 //Calculating the PTV of Working Sheet and Print Sheet / Order PTV
-                if (oItemSection.IsSectionSizeCustom == false)
+                if (oItemSection.IsSectionSizeCustom != true)
                 {
                     PaperSize size = itemsectionRepository.GetPaperSizeById(Convert.ToInt32(oItemSection.SectionSizeId));
                     if (size != null)
@@ -4712,7 +4709,7 @@ namespace MPC.Implementation.MISServices
                     }
                 }
                 PtvDTO oPTV = CalculatePTV(0, 0, false, false, false, Convert.ToInt32(oItemSection.SectionSizeHeight), Convert.ToInt32(oItemSection.SectionSizeWidth), Convert.ToInt32(intOrderSheetHeight), Convert.ToInt32(intOrderSheetWidth), 0,
-                (int)GripSide.LongSide, 0, 0, 0, 0, 0, (bool)oItemSection.isWorknTurn, (bool)oItemSection.isWorkntumble);
+                (int)GripSide.LongSide, 0, 0, 0, 0, 0, oItemSection.isWorknTurn?? false, oItemSection.isWorkntumble?? false);
 
                 if (oPTV.LandscapePTV > oPTV.PortraitPTV)
                 {
@@ -4768,7 +4765,7 @@ namespace MPC.Implementation.MISServices
                     else if (intOrderArea != intPrintArea)
                     {
                         //intFirstTrimCut = intOrderPTV + 3
-                        MachineGuilotinePtv PTVTable = itemsectionRepository.GetGuillotinePtv(oModelGuillotinecalc.Id, intOrderPTV);
+                        MachineGuilotinePtv PTVTable = itemsectionRepository.GetGuillotinePtv(oModelGuillotine.MachineId, intOrderPTV);
 
                         if ((PTVTable != null))
                         {
@@ -4810,7 +4807,7 @@ namespace MPC.Implementation.MISServices
                     }
                     else
                     {
-                        MachineGuilotinePtv PTVTable = itemsectionRepository.GetGuillotinePtv(oModelGuillotinecalc.Id, intItemPTV);
+                        MachineGuilotinePtv PTVTable = itemsectionRepository.GetGuillotinePtv(oModelGuillotine.MachineId, intItemPTV);
                         //DataRow[] oRows = oModelGuillotinecalc.PTVTable.Select("NoOfUps=" + intItemPTV.ToString());
                         if (PTVTable != null)
                         {
@@ -5372,7 +5369,7 @@ namespace MPC.Implementation.MISServices
             //INK is just a prefix, dont confuse it for only inks table, its general
             //Getting StockCostnPriceQuery
             List<StockCostAndPrice> InkCostTable = itemsectionRepository.GetStockPricingByStockId(StockItemID, false);
-            List<StockCostAndPrice> InkPriceTable = itemsectionRepository.GetStockPricingByStockId(StockItemID, false);
+            List<StockCostAndPrice> InkPriceTable = itemsectionRepository.GetStockPricingByStockId(StockItemID, true);
 
             //COST calculation
             //there is only one only 1 cost available use it.. anyway
@@ -6243,7 +6240,9 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection GetUpdatedSectionWithSystemCostCenters(ItemSection currentSection)
         {
-            List<SectionInkCoverage> AllInks = currentSection.SectionInkCoverages.ToList();
+            //List<SectionInkCoverage> AllInks = currentSection.SectionInkCoverages.ToList();
+            if (currentSection.Qty1 <= 0)
+                return currentSection;
             int PressId = Convert.ToInt32(currentSection.PressId);
             int PressIdSide2 = Convert.ToInt32(currentSection.PressIdSide2);
             List<int> SystemCostCenterTypes = new List<int>(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
@@ -6252,26 +6251,45 @@ namespace MPC.Implementation.MISServices
             ItemSection updatedSection = currentSection;
             int SetupSpoilage = 0;
             double RunningSpoilage = 0;
-            int NoofInks = AllInks != null? AllInks.Count() : 0;
-            var pressSpoilage = itemsectionRepository.GetMachineSpoilageByMachineIdAndColors(PressId, NoofInks);
-            var pressSpoilageSide2 = itemsectionRepository.GetMachineSpoilageByMachineIdAndColors(PressIdSide2, NoofInks);
-            if (pressSpoilage != null)
-            {
-                if (pressSpoilageSide2 != null)
-                {
-                    RunningSpoilage = pressSpoilage.RunningSpoilage > pressSpoilageSide2.RunningSpoilage ? pressSpoilage.RunningSpoilage ?? 0 : pressSpoilageSide2.RunningSpoilage ?? 0;
-                    SetupSpoilage = pressSpoilage.SetupSpoilage > pressSpoilageSide2.SetupSpoilage ? pressSpoilage.SetupSpoilage ?? 0 : pressSpoilageSide2.SetupSpoilage ?? 0;
-                }
+            //int NoofInks = AllInks != null? AllInks.Count() : 0;
+            var pressSide1 = itemsectionRepository.GetPressById(PressId);
+            var pressSide2 = itemsectionRepository.GetPressById(PressIdSide2);
+            
+            //Highest setup spoilage between the two presses will be set.
+           var value= currentSection.IsDoubleSided ?? false ;
+           if (value)
+           {
+               if (currentSection.isWorknTurn == true)
+                   updatedSection.PassesSide1 = (pressSide1.Passes ?? 1) * 2;
+               else
+               {
+                   updatedSection.PassesSide1 = pressSide1.Passes ?? 1;
+                   updatedSection.PassesSide2 = pressSide2.Passes ?? 1;
+               }
+                   
+               if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
+                    SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
                 else
-                {
-                    RunningSpoilage = pressSpoilage.RunningSpoilage ?? 0;
-                    SetupSpoilage = pressSpoilage.SetupSpoilage ?? 0;
-                }
+                    SetupSpoilage = pressSide2.SetupSpoilage ?? 0;
+                //Highest running spoilage between the two presses will be set.
+                if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+                    RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+                else
+                    RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
             }
+            else
+            {
+                SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
+                RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+                updatedSection.PassesSide1 = pressSide1.Passes ?? 1;
+            }
+            
+
+
             updatedSection.SetupSpoilage = SetupSpoilage;
             updatedSection.RunningSpoilage = Convert.ToInt32(RunningSpoilage);
 
-            updatedSection = CalculateInkCost(updatedSection, 1, PressId, false, false, AllInks); //Ink Cost Center
+           // updatedSection = CalculateInkCost(updatedSection, 1, PressId, false, false, AllInks); //Ink Cost Center
             if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)//paper costcentre
             {
                 updatedSection = CalculatePaperCostWebPress(updatedSection, (int)updatedSection.PressId, false, false);
@@ -6310,20 +6328,25 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
+                updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
             }
 
-            if(updatedSection.IsDoubleSided == true)
+            if(updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true)
             {
                 if(updatedSection.PressIdSide2 != null && updatedSection.PressIdSide2 > 0)
-                    updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, true);
+                    updatedSection = CalculatePressCostWithSides(updatedSection, (int)updatedSection.PressIdSide2, false, false, 1, 1, 0, false, true);
             }
 
-            if (updatedSection.IsFirstTrim == true || updatedSection.IsSecondTrim == true)
+            if (updatedSection.IsSecondTrim == true)
             {
+                updatedSection.IsFirstTrim = true;
                 var guillotine = machineRepository.GetDefaultGuillotine();
-                if(guillotine != null)
+                if (guillotine != null)
+                {
+                    updatedSection.GuillotineId = guillotine.MachineId;
                     updatedSection = CalculateGuillotineCost(updatedSection, guillotine.MachineId, false, false);
+                }
+                    
             }
 
             updatedSection.BaseCharge1 = updatedSection.SectionCostcentres.Sum(a => a.Qty1NetTotal);

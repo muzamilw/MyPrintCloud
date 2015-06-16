@@ -7,64 +7,108 @@
                 <h4 class="modal-title">Add/Edit Sheet Size</h4>
             </div>
             
-            <br />
+            
             <div class="col-lg-12 form-horizontal outerDiv-Padding" data-bind="with: $root.selectedPaperSheet">
                 <div class="form-horizontal clearfix">
-                    <div class="col-lg-6">
+                    <div class="col-lg-9">
                         <div class="form-group ">
                             <div class="col-lg-5 text-right">
-                                <div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Name of Paper Sheet" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>
+                                
                                 <label class="control-label text-right tooltip-float">Name</label>
                             </div>
 
-                            <div class="col-lg-7">
+                            <div class="col-lg-5">
                                 <input type="text" class="form-control" data-bind="value: name, validationTooltip: name" />
                             </div>
                         </div>
+
+
+
                         <div class="form-group">
                             <div class="col-lg-5 text-right">
-                                <div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Width of Paper Sheet" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
+
+                                @*<div class="bs-example-tooltips tooltip-float-width">
+
+                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+
+                </div>*@
+                                @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Unit of Length</label>*@
+
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12" style="margin-left:-10px;">
+                                    <div class="radio" style="margin-bottom: 10px;">
+                                        <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosImperical" value="true" data-bind="checked: IsImperical">
+                                        <label for="optionsRadiosImperical">
+                                            Empirical Size (inch)
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosMetric" value="false" data-bind="checked: IsImperical">
+                                        <label for="optionsRadiosMetric">
+                                            Metric Size (mm)
+                                        </label>
+                                        <span class="help-block text-right"></span>
+                                    </div>
                                 </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-lg-5 text-right">
+                                
                                 <label class="control-label text-right tooltip-float">Width</label>
                             </div>
-                            <div class="col-lg-7">
+                            <div class="col-lg-5">
                                 <input type="text" class="form-control" data-bind="value: width, validationTooltip: width" />
                             </div>
-                           
+                            <div class="col-lg-2">
+                                <!-- ko if: IsImperical() === "true" -->
+                                (<label class="control-label">inch</label>)
+                                <!-- /ko -->
+                                <!-- ko if: IsImperical() === "false" -->
+                                (<label class="control-label">mm</label>)
+                                <!-- /ko -->
+                            </div>
                         </div>
-                        
-                    </div>
-                    <div class="col-lg-6">
+                        @*<div class="form-group">
+                            <div class="col-lg-3 text-left">
+                                <!-- ko if: IsImperical() === "true" -->
+                                (<label class="control-label">inch</label> )
+                                <!-- /ko -->
+                                <!-- ko if: IsImperical() === "false" -->
+                                (<label class="control-label">mm</label> )
+                                <!-- /ko -->
+                            </div>
+
+                        </div>*@
+
                         <div class="form-group">
-                            <div class="col-lg-3 text-right">
-                                <div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Height of Paper Sheet" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>
+                            <div class="col-lg-5 text-right">
+                                
                                 <label class="control-label text-right tooltip-float">Height</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <input type="text" class="form-control" data-bind="value: height, validationTooltip: height" />
                             </div>
                             <div class="col-lg-2">
-                                ( <label class="control-label" data-bind="text:$root.lengthUnit"></label> )
+                                <!-- ko if: IsImperical() === "true" -->
+                                (<label class="control-label">inch</label>)
+                                <!-- /ko -->
+                                <!-- ko if: IsImperical() === "false" -->
+                                (<label class="control-label">mm</label>)
+                                <!-- /ko -->
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-lg-3 text-left">
-                                ( <label class="control-label" data-bind="text:$root.lengthUnit"></label> )
-                            </div>
-                           
-                        </div>
+                       
+                        
                     </div>
+                   
                 </div>
             </div>
 

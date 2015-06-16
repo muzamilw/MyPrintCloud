@@ -5,10 +5,11 @@
 }
 <div class="row" id="estimateBinding">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
+                    <input type="hidden" name="OrderId" id="OrderId" value="@ViewBag.OrderId" />
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader()!=='' ? 'HOME' :''"></a></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor, visible :$root.orderCodeHeader()!==''" style="cursor:pointer"><span data-bind="text:'Estimates'"></span></li>
@@ -17,13 +18,17 @@
                     </ol>
                     <div class="clearfix">
                         <h1 style="padding-left:7px !important;" data-bind=" visible:  $root.currentScreen() != 8">Estimating</h1>
+                        
                         <div style="display: none" data-bind=" visible:  $root.currentScreen() == 8">
                             <h1 style="padding-left:7px !important;">Inquiry</h1>
                         </div>
                         @*<h1 class="pull-left" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Estimates</h1>*@
                     </div>
                     <div class="row" data-bind="visible: (!isOrderDetailsVisible() && !isDisplayInquiryDetailScreen())">
-                        <div class="col-lg-12">
+                        <div class="col-sm-12">
+                            <div class="pull-left">
+                                <h5 style="padding-left: 7px;">Create Estimates for direct Inquiries and progress Estimates to Orders.</h5>
+                            </div>
                             <div class="pull-right" style="margin-right:10px;">
                                 <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
                                     Add New Estimate
@@ -37,7 +42,7 @@
                             &nbsp;
                         </div>
                         <div>
-                            <div class="col-lg-12" style="padding-right: 17px;padding-left:15px;">
+                            <div class="col-sm-12" style="padding-right: 17px;padding-left:15px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
                                 <div class=" clearfix">
@@ -45,19 +50,21 @@
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs" id="estimateListTabs">
-                                            <li id="all-orders" class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Estimates</a></li>
-                                            <li id="pending-orders"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(1);}">Open Estimates</a></li>
-                                            <li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(39);}">Progressed to Orders</a></li>
-                                            <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(40);}">In Production</a></li>
-                                            <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(41);}">Invoiced</a></li>
+                                            <li id="pending-orders" class="active"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(1);}">Live Estimates(Pipeline)</a></li>
                                             <li><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.inqiriesTabClick();}">Inquiries</a></li>
+                                            <li id="all-orders"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Estimates</a></li>
+
+                                            @*<li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(39);}">Progressed to Orders</a></li>
+                                            <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(40);}">In Production</a></li>
+                                            <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(41);}">Invoiced</a></li>*@
+
                                         </ul>
                                         <div class="tab-content">
-                                            <div class="tab-pane fade in active" id="tab-All">
+                                            <div class="tab-pane fade in" id="tab-All">
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
-                                            <div class="tab-pane fade in" id="tab-PendingOrders">
+                                            <div class="tab-pane fade in active" id="tab-PendingOrders">
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
@@ -90,7 +97,12 @@
                                 <form data-bind="submit: $root.getOrdersOfCurrentScreen">
                                     <div class="filter-block pull-right">
                                         <div class="form-group pull-left">
+                                            <!--ko if: currentScreen() != 8 -->
                                             <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
+                                            <!--/ko-->
+                                            <!--ko if: currentScreen() == 8 -->
+                                            <select class="form-control" data-bind="options: $root.inquiriesSectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
+                                            <!--/ko-->
                                         </div>
                                         <div class="form-group pull-left">
                                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
@@ -127,7 +139,7 @@
                         <script id="orderListViewTemplate" type="text/html">
                             <tr data-bind=" click: $root.editOrder" style="cursor:pointer;">
                                 <td>
-                                    <a data-bind="text: companyName, click: $root.editOrder" style="cursor:pointer;" class="user-link"></a>
+                                    <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
                                     <span class="user-subhead">
                                         <span data-bind="text: name"></span>
                                         <span data-bind="text: ' '"></span>
@@ -147,7 +159,7 @@
                                 <!--/ko-->
                                 <td>
                                     <!--ko if: $root.currentScreen() != 8-->
-                                    <span data-bind="text: orderCode"></span>
+                                    <span data-bind="text: code"></span>
                                     <!--/ko-->
                                 </td>
                             </tr>
@@ -156,11 +168,9 @@
                         <script id="inquiriesListViewTemplate" type="text/html">
                             <tr data-bind="click: $root.editInquiry" style="cursor:pointer;">
                                 <td>
-                                    <a data-bind="text: companyName, click: $root.editInquiry" style="cursor:pointer;" class="user-link"></a>
+                                    <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
                                     <span class="user-subhead">
-                                        <span data-bind="text: status() == 26? 'Progressed To Estimate': 'UnProcessed Inquiry'"></span>
-                                        <span data-bind="text: ' '"></span>
-                                        <span data-bind="text: noOfInquiryItems"></span>
+                                        <span data-bind="text: title"></span>
                                     </span>
                                 </td>
                                 <td>
@@ -169,7 +179,11 @@
                                 <td>
                                     <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
                                 </td>
-                                @*<td></td>*@
+                                <td>
+                                    <span data-bind="text: status() == 26? 'Progressed To Estimate': 'UnProcessed Inquiry'"></span>
+                                    @*<span data-bind="text: ' '"></span>
+                                    <span data-bind="text: noOfInquiryItems"></span>*@
+                                </td>
 
                             </tr>
                         </script>
@@ -180,13 +194,13 @@
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-lg-4"><span>Customer</span></th>
-                                                <th class="col-lg-2"><span>Creation Date</span></th>
-                                                <th class="col-lg-2"><span>Flag</span></th>
+                                                <th class="col-sm-4"><span>Customer</span></th>
+                                                <th class="col-sm-2"><span>Creation Date</span></th>
+                                                <th class="col-sm-2"><span>Flag</span></th>
                                                 <!--ko if: $root.currentScreen() == 0|| $root.currentScreen() == undefined-->
-                                                <th class="col-lg-2"><span>Status</span></th>
+                                                <th class="col-sm-2"><span>Status</span></th>
                                                 <!--/ko-->
-                                                <th class="col-lg-2">
+                                                <th class="col-sm-2">
                                                     <!--ko if: $root.currentScreen() != 8-->
                                                     <span>Estimate Code</span>
                                                     <!--/ko-->
@@ -213,10 +227,10 @@
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-lg-4"><span>Customer</span></th>
-                                                <th class="col-lg-4"><span>Require By Date</span></th>
-                                                <th class="col-lg-4"><span>Flag</span></th>
-                                                @*<th class="col-lg-3"></th>*@
+                                                <th class="col-sm-3"><span>Customer</span></th>
+                                                <th class="col-sm-3"><span>Require By Date</span></th>
+                                                <th class="col-sm-2"><span>Flag</span></th>
+                                                <th class="col-sm-3">Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>

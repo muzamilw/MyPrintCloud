@@ -149,7 +149,24 @@ div#spinner {
 .selectedRow {
   background: lightgray !important;
 }
-/* */
+/* Selected Row Highlight */
+/* For Cost Centre Input Dialog */
+.opaqueLayer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  background-color: gray;
+  z-Index: 9999;
+  width: 100% !important;
+  height: 100% !important;
+}
+#innerLayer {
+  background: white;
+}
+/* For Cost Centre Input Dialog */
 /* Common Styles */
 #productBinding .activeView {
   background-color: #ff7e47;
@@ -610,8 +627,8 @@ div#spinner {
   clear: both;
 }
 #storesBinding #tab-products .dd-handle-list {
-  height: 90%;
   overflow: hidden;
+  margin-top: 6px;
 }
 #storesBinding #tab-products .dd-handle {
   height: auto;
@@ -698,6 +715,9 @@ div#spinner {
 #storesBinding .form-group-closer {
   margin-bottom: 0px;
 }
+#storesBinding #productMarketBriefQuestionDialog #addMarketBriefAnswerBtn {
+  margin-right: 14px;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
@@ -768,6 +788,17 @@ div#spinner {
 }
 #stockDialog #stockDialogMainContainer {
   width: 838px;
+}
+#orderBinding #tab-EstimateHeader .attachmentDownload {
+  padding-left: 0px;
+  border-left-width: 0px;
+  padding-right: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  border-bottom: none;
+  height: 31px;
 }
 #orderBinding #tab-EstimateHeader #orderType {
   font-weight: bold;
@@ -917,6 +948,46 @@ div#spinner {
 }
 #panel-title {
   border-bottom: none;
+}
+.label-circle-add {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: green;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
+.label-circle-addsection {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: green;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  top: 80px;
+}
+.label-circle-minus {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: red;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
+.font20px {
+  font-size: 20px;
+  height: 40px;
 }
 #companySelectorDialog .modal-dialog {
   width: 838px;

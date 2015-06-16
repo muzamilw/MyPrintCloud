@@ -79,6 +79,24 @@ namespace MPC.Models {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Market Brief Answer is null..
+        /// </summary>
+        internal static string ItemClone_InvalidProductMarketBriefAnswer {
+            get {
+                return ResourceManager.GetString("ItemClone_InvalidProductMarketBriefAnswer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Market Brief Question is null..
+        /// </summary>
+        internal static string ItemClone_InvalidProductMarketBriefQuestion {
+            get {
+                return ResourceManager.GetString("ItemClone_InvalidProductMarketBriefQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create ItemVdpPrice must be specified..
         /// </summary>
         internal static string ItemMapper_CreateItemVdpPriceMustBeSpecified {
@@ -120,6 +138,15 @@ namespace MPC.Models {
         internal static string ItemSectionClone_InvalidItemSection {
             get {
                 return ResourceManager.GetString("ItemSectionClone_InvalidItemSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Section Ink Coverage is null..
+        /// </summary>
+        internal static string ItemSectionInkCoverageClone_InvalidInkCoverage {
+            get {
+                return ResourceManager.GetString("ItemSectionInkCoverageClone_InvalidInkCoverage", resourceCulture);
             }
         }
         

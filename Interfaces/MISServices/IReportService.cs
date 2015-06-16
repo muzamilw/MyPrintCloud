@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GrapeCity.ActiveReports;
 using MPC.Models.ResponseModels;
+using MPC.Models.RequestModels;
 
 
 namespace MPC.Interfaces.MISServices
@@ -22,5 +23,7 @@ namespace MPC.Interfaces.MISServices
 
         IEnumerable<ReportNote> Update(IEnumerable<ReportNote> reportNotes);
         List<ReportparamResponse> getParamsById(long Id);
+
+        ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request);
     }
 }

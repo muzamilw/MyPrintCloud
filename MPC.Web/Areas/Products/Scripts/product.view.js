@@ -83,6 +83,31 @@ define("product/product.view",
                 hidePressDialog = function () {
                     $("#pressDialog").modal("hide");
                 },
+                // Show Market Brief Question Dialog
+                showMarketBriefQuestionDialog = function() {
+                    $("#productMarketBriefQuestionDialog").modal("show");
+                },
+                // Hide MarketBriefQuestionDialog
+                hideMarketBriefQuestionDialog = function () {
+                    $("#productMarketBriefQuestionDialog").modal("hide");
+                },
+                // Show Sheet Plan Image the dialog
+                showSheetPlanImageDialog = function () {
+                    $("#sheetPlanModal").modal("show");
+                },
+                // Show Sheet Plan Image the dialog
+                hideSheetPlanImageDialog = function () {
+                    $("#sheetPlanModal").modal("show");
+                },
+                // Show Inks Dialog
+                showInksDialog = function () {
+                    $("#inkDialogModel").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Inks Dialog
+                hideInksDialog = function () {
+                    $("#inkDialogModel").modal("hide");
+                },
                 // Go To Element with Validation Errors
                 gotoElement = function (element) {
                     var tab = $(element).closest(".tab-pane");
@@ -465,7 +490,13 @@ define("product/product.view",
                 hidePressDialog: hidePressDialog,
                 initializeLabelPopovers: initializeLabelPopovers,
                 initializeProductMinMaxSlider: initializeProductMinMaxSlider,
-                editTemplate: editTemplate
+                editTemplate: editTemplate,
+                showMarketBriefQuestionDialog: showMarketBriefQuestionDialog,
+                hideMarketBriefQuestionDialog: hideMarketBriefQuestionDialog,
+                showSheetPlanImageDialog: showSheetPlanImageDialog,
+                hideSheetPlanImageDialog: hideSheetPlanImageDialog,
+                showInksDialog: showInksDialog,
+                hideInksDialog: hideInksDialog
             };
         })(productViewModel);
 

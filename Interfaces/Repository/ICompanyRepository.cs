@@ -8,6 +8,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyRepository : IBaseRepository<Company, long>
     {
+      
         CompanyResponse GetCompanyById(long companyId);
         /// <summary>
         /// USer count in last few days
@@ -63,6 +64,7 @@ namespace MPC.Interfaces.Repository
         CompanyResponse SearchCompaniesForSupplier(CompanyRequestModel request);
 
         CompanyResponse SearchCompaniesForCustomer(CompanyRequestModel request);
+        CompanyResponse SearchCompaniesForCustomerOnDashboard(CompanyRequestModel request);
 
         Company GetCompanyByCompanyID(long CompanyID);
 
@@ -91,5 +93,6 @@ namespace MPC.Interfaces.Repository
         Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
 
         List<StoresListResponse> GetStoresNameByOrganisationId();
+        IEnumerable<Company> GetAllRetailStores();
     }
 }

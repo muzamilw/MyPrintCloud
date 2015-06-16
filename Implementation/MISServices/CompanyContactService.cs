@@ -52,7 +52,7 @@ namespace MPC.Implementation.MISServices
             CompanyContact companyContactDbVersion = companyContactRepository.Find(companyContact.ContactId);
             if (companyContactDbVersion != null && companyContactDbVersion.Password != companyContact.Password)
             {
-                 companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
+                companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
             }
             UpdateDefaultBehaviourOfContactCompany(companyContact);
             companyContact.image = SaveCompanyContactProfileImage(companyContact);
@@ -135,6 +135,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request)
         {
+           
+
+            
             return companyContactRepository.GetCompanyContactsForCrm(request);
         }
         /// <summary>
@@ -145,7 +148,7 @@ namespace MPC.Implementation.MISServices
             return new CrmContactResponse
             {
                 Addresses = addressRepository.GetAddressByCompanyID(request.CompanyId),
-                CompanyTerritories = companyTerritoryRepository.GetCompanyTerritory(new CompanyTerritoryRequestModel{CompanyId = request.CompanyId}).CompanyTerritories
+                CompanyTerritories = companyTerritoryRepository.GetCompanyTerritory(new CompanyTerritoryRequestModel { CompanyId = request.CompanyId }).CompanyTerritories
             };
         }
         public bool Delete(long companyContactId)
@@ -241,6 +244,26 @@ namespace MPC.Implementation.MISServices
                 return savePath;
             }
             return null;
+        }
+
+        public bool SaveImportedContact(IEnumerable<CompanyContact> companyContacts)
+        {
+            foreach (var companyContact in companyContacts)
+            {
+                if (!CheckDuplicatesOfContactEmailInStore(companyContact))
+                {
+                    companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);//todo check is it req. or not later
+                    UpdateDefaultBehaviourOfContactCompany(companyContact);
+                    companyContact.OrganisationId = companyContactRepository.OrganisationId;
+                    companyContactRepository.Add(companyContact);
+                }
+                else
+                {
+                    throw new MPCException("Duplicate Email/Username are not allowed", companyContactRepository.OrganisationId);
+                }
+            }
+            companyContactRepository.SaveChanges();
+            return true;
         }
     }
 }

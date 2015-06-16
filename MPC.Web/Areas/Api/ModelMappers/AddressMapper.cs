@@ -50,6 +50,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        City = source.City,
                        StateId = source.StateId,
                        StateName = source.State != null ? source.State.StateName : string.Empty,
+                       StateCode = source.State != null ? source.State.StateCode : string.Empty,
                        CountryId = source.CountryId,
                        CountryName = source.Country != null ? source.Country.CountryName : string.Empty,
                        PostCode = source.PostCode,

@@ -469,7 +469,7 @@ namespace MPC.Repository.Repositories
                             item.ProductId = newProductID;
 
                             //updating the path if it is an image.
-                            if (item.ObjectType == 3)
+                            if (item.ObjectType == 3 || item.ObjectType == 9)
                             {
                                 string filepath = item.ContentString.Substring(item.ContentString.IndexOf("Designer/Products/") + "Designer/Products/".Length, item.ContentString.Length - (item.ContentString.IndexOf("Designer/Products/") + "Designer/Products/".Length));
                                 //skip concatinating the path if its a placeholder, cuz place holder is kept in a different path and doesnt need to be copied.

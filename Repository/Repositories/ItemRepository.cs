@@ -78,6 +78,8 @@ namespace MPC.Repository.Repositories
                               .Include("ItemSections")
                               .Include("ItemSections.StockItem")
                               .Include("ItemSections.Machine")
+                              .Include("ItemSections.MachineSide2")
+                              .Include("ItemSections.SectionInkCoverages")
                               .Include("ItemStockOptions")
                               .Include("ItemStockOptions.StockItem")
                               .Include("ItemStockOptions.ItemAddonCostCentres")
@@ -97,6 +99,8 @@ namespace MPC.Repository.Repositories
                               .Include("ItemVideos")
                               .Include("ItemProductDetails")
                               .Include("ItemPriceMatrices")
+                              .Include("ProductMarketBriefQuestions")
+                              .Include("ProductMarketBriefQuestions.ProductMarketBriefAnswers")
                               .FirstOrDefault(item => item.ItemId == itemId);
             }
             catch (Exception ex)
@@ -109,11 +113,12 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Check if product code provided already exists
         /// </summary>
-        public bool IsDuplicateProductCode(string productCode, long? itemId)
+        public bool IsDuplicateProductCode(string productCode, long? itemId, long? companyId)
         {
             try
             {
-                return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId && item.EstimateId == null);
+                return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId && 
+                    item.EstimateId == null && (!companyId.HasValue || item.CompanyId == companyId));
             }
             catch (Exception ex)
             {
@@ -3787,19 +3792,30 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public IEnumerable<Item> GetItemsByCompanyId(ItemSearchRequestModel requestModel)
+        public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
-            try
-            {
-                return
-                    DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == requestModel.CompanyId && i.OrganisationId == OrganisationId && i.IsPublished == true && i.EstimateId == null && (requestModel.SearchString != null ? i.ProductName.Contains(requestModel.SearchString) : true))
-                   .ToList();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<Item, bool>> query =
+                item =>
+                    (string.IsNullOrEmpty(request.SearchString) || (item.ProductName.Contains(request.SearchString)) ||
+                     (item.ProductCode.Contains(request.SearchString)))
+                     && item.CompanyId.HasValue && item.CompanyId == request.CompanyId
+                     && item.OrganisationId == OrganisationId 
+                     && item.IsPublished == true 
+                     && item.EstimateId == null
+                     && item.ProductType != (int)ProductType.MarketingBrief;
+            List<Item> totalItems=DbSet.Where(query).ToList();
 
+            List<Item> items = totalItems.OrderBy(item => item.ProductCode)
+           .Skip(fromRow)
+            .Take(toRow)
+            .ToList();
+            return new ItemSearchResponse
+            {
+                Items= items,
+                TotalCount = totalItems.Count
+            };
         }
 
         /// <summary>

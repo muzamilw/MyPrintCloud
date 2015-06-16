@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">Report(s)</h4>
+                <h4 class="modal-title" id="myModalLabel" data-bind="text: $root.ReportTitle"></h4>
             </div>
             <div class="col-lg-12 main-box clearfix col-padding">
                 <div class="validationSummaryContainer" style="text-align: center;">
@@ -13,10 +13,9 @@
                 <div class="main-box-body">
                     
                     <div class=" form-horizontal col-padding" style="padding-top:30px;padding-bottom:40px; ">
+                        <!-- ko ifnot: IsExternalReport() -->
                         <h5>Please select a report below to execute</h5>
-                        <div class="col-md-3" style="width:auto;border-right: 1px solid #e5e5e5;margin-right: 50px;">
-
-
+                        <div class="col-md-3" style="overflow-y: auto; width: auto; border-right: 1px solid #e5e5e5; margin-right: 14px; height: 355px; max-height: 355px; " >
                             <div style="display:inline;position:relative;">
                                 <ol class="dd-list">
                                     <!-- ko template: { name: 'reportCategoriesTemplate' , foreach: reportcategoriesList } -->
@@ -24,29 +23,32 @@
                                 </ol>
                             </div>
                         </div>
+                        <!-- /ko -->
+                       
+                     
                         <div style="display:inline;width:50% !important;" class="col-md-8">
                             <div class="treeviewClickCharge-partial">
                                 <div class="form-group" data-bind="visible:IsExternalReport">
-                                    <div class="col-lg-6 text-right" >
-                                        <label class="control-label text-right tooltip-float">Title: </label>
+                                    <div class="col-lg-5 text-right" style="padding-right: 5px;">
+                                        <label style="padding-top: 5px;" class="control-label text-right tooltip-float">Title: </label>
                                     </div>
-                                    <div class="col-lg-5" style="margin-top: 4px;">
-                                        <span data-bind="text:selectedItemTitle"></span>
+                                    <div class="col-lg-7" style="margin-top: 4px;">
+                                        <span data-bind="text:selectedItemTitle" style="margin-left: 5px;"></span>
 
                                     </div>
                                 </div>
                                 <div class="form-group" data-bind="visible:IsExternalReport">
-                                    <div class="col-lg-6 text-right">
-                                        <label class="control-label text-right tooltip-float">Code: </label>
+                                    <div class="col-lg-5 text-right" style="padding-right: 0px;">
+                                        <label style="padding-top: 5px;" class="control-label text-right tooltip-float">Code: </label>
                                     </div>
                                     <div class="col-lg-5" style="margin-top: 4px;">
-                                        <span data-bind="text:selectedItemCode"> </span>
+                                        <span data-bind="text:selectedItemCode" style="margin-left: 5px;"> </span>
 
                                     </div>
                                 </div>
                                 <div class="form-group" data-bind="visible:IsExternalReport">
-                                    <div class="col-lg-6 text-right">
-                                        <label class="control-label text-right tooltip-float">Name: </label>
+                                    <div class="col-lg-5 text-right" style="width: 43.3%; padding-right: 0px; ">
+                                        <label style="padding-top: 5px;" class="control-label text-right tooltip-float">Name: </label>
                                     </div>
                                     <div class="col-lg-5" style="margin-top: 4px;">
                                         <span data-bind="text:selectedItemName"> </span>
@@ -75,7 +77,7 @@
                                         <label for="chkemail">Email</label>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <div class="col-lg-3"></div>
                                     <div class="col-lg-7 radio">
                                         <input id="chkpdf" type="radio" value="pdf" data-bind="checked: outputTo" />
@@ -88,7 +90,7 @@
                                         <input type="radio" id="chkexcel" value="excel" data-bind="checked: outputTo" />
                                         <label for="chkexcel">Microsoft Excel</label>
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
 
                         </div>
@@ -107,6 +109,7 @@
     </div>
 
 
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportViaEmail.cshtml")
 
 </div>
 <div id="idReportViewerHtml" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

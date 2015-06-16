@@ -90,7 +90,7 @@ namespace MPC.Repository.Repositories
             {
                 var objList = from p in db.VariableSections
                               join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == null))
+                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory))
                               orderby p.VariableSectionId,es.VariableTag, es.VariableType, es.SortOrder
                               select new
                               {
@@ -406,6 +406,22 @@ namespace MPC.Repository.Repositories
                                                 
                                         }
                                     }
+                                    else if (obj.FieldVariable.CriteriaFieldName == "StateAbbr")
+                                    {
+                                        var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                        if (address != null)
+                                        {
+                                            if (address.StateId.HasValue)
+                                            {
+                                                var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                if (state != null)
+                                                {
+                                                    fieldValue = state.StateCode;
+                                                }
+                                            }
+
+                                        }
+                                    }
                                     else if (obj.FieldVariable.CriteriaFieldName == "Country")
                                     {
                                         var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
@@ -611,6 +627,22 @@ namespace MPC.Repository.Repositories
                                                 
                                         }
                                     }
+                                 else if (obj.CriteriaFieldName == "StateAbbr")
+                                 {
+                                     var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                     if (address != null)
+                                     {
+                                         if (address.StateId.HasValue)
+                                         {
+                                             var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                             if (state != null)
+                                             {
+                                                 fieldValue = state.StateCode;
+                                             }
+                                         }
+
+                                     }
+                                 }
                                  else if (obj.CriteriaFieldName == "Country")
                                  {
                                      var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
@@ -786,6 +818,7 @@ namespace MPC.Repository.Repositories
             //var query = "UPDATE " + tblname + "  SET " + feildname + "= '" + newValue + "' WHERE " + keyName + " = " + keyValue ;
             string oResult = null;
             int result = db.Database.ExecuteSqlCommand(query);
+
          //   System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>(query, "");
             db.SaveChanges();
             //oResult = result.FirstOrDefault();
@@ -882,6 +915,23 @@ namespace MPC.Repository.Repositories
 
                                             }
                                         }
+                                        else if (variable.CriteriaFieldName == "StateAbbr")
+                                        {
+                                            var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                            if (address != null)
+                                            {
+                                                if (address.StateId.HasValue)
+                                                {
+                                                    var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                    if (state != null)
+                                                    {
+                                                        state.StateCode = scope.Value;
+                                                    }
+                                                }
+                                                db.SaveChanges();
+
+                                            }
+                                        }
                                         else if (variable.CriteriaFieldName == "Country")
                                         {
                                             var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
@@ -925,6 +975,7 @@ namespace MPC.Repository.Repositories
                                         }
                                         else
                                         {
+                                            scope.FieldVariable = null;
                                             db.ScopeVariables.Add(scope);
                                         }
                                     }
@@ -937,6 +988,7 @@ namespace MPC.Repository.Repositories
                                         scopeObj.Value = scope.Value;
                                     } else
                                     {
+                                        scope.FieldVariable = null;
                                         db.ScopeVariables.Add(scope);
                                     }
                                 }
@@ -957,7 +1009,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        
+                                        scope.FieldVariable = null;   
                                         db.ScopeVariables.Add(scope);
                                     }
                                 }
@@ -972,6 +1024,7 @@ namespace MPC.Repository.Repositories
                                         }
                                         else
                                         {
+                                            scope.FieldVariable = null;
                                             db.ScopeVariables.Add(scope);
                                         }
                                     }
@@ -1091,6 +1144,22 @@ namespace MPC.Repository.Repositories
                                                         if (country != null)
                                                         {
                                                             fieldValue = country.CountryName;
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                            else if (FieldVariable.CriteriaFieldName == "StateAbbr")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.StateId.HasValue)
+                                                    {
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            fieldValue = state.StateCode;
                                                         }
                                                     }
 
@@ -1253,6 +1322,28 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
             result = true;
             return result;
+        }
+        public List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
+        {
+            List<VariableExtension> listExtensions = new List<VariableExtension>();
+            var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).SingleOrDefault();
+            if(contact != null)
+            {
+                var company = db.Companies.Where(g=>g.CompanyId == contact.CompanyId).SingleOrDefault();
+                if(company != null)
+                {
+                    foreach(var variable in listScope)
+                    {
+                        var ext = db.VariableExtensions.Where(g => g.CompanyId == company.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
+                        if(ext != null)
+                        {
+                            listExtensions.Add(ext);
+                        }
+                    }
+                
+                }
+            }
+            return listExtensions;
         }
         #endregion
     }

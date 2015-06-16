@@ -14,24 +14,28 @@
                 <div class="clearfix">
                     <h1 class="pull-left" style="padding-left:0px;">Your Web Stores</h1>
                 </div>
-                @*<div class="pull-right top-page-ui">
-                        <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
-                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Store
-                        </a>
-                    </div>*@
-                <div class="btn-group pull-right top-page-ui">
-                    <button class="btn btn-primary">
-                        Add Store
-                    </button>
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-bind="click : $root.onCreatePrivateStore">Private Store</a></li>
-                        <li><a href="#" data-bind="click: $root.onCreatePublicStore">Public Store</a></li>
-                    </ul>
+                <div class="row">
+                    <div class="clearfix pull-left">
+                        <h5 style="margin-left: 7px;">Create unlimited web stores for your customers to self design, order and pay online.</h5>
+                    </div>
+                    <div class="btn-group pull-right top-page-ui">
+                        <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right: 6px;">
+                            Reports
+                        </button>
+                        <button class="btn btn-primary">
+                            Add Store
+                        </button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-bind="click : $root.onCreatePrivateStore">Private Store</a></li>
+                            <li><a href="#" data-bind="click: $root.onCreatePublicStore">Public Store</a></li>
+                        </ul>
+                    </div>
                 </div>
+                
                 <div id="addStore">
                     &nbsp;
                 </div>
@@ -51,7 +55,7 @@
                                         <th class="col-lg-4"><span>All Stores</span></th>
                                         <th class="col-lg-4"><span>Type</span></th>
 
-                                        @*<th class="col-lg-1">&nbsp;</th>*@
+                                        <th class="col-lg-2">&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -106,9 +110,9 @@
                     <a class="btn btn-success" data-bind="text: 'Open Live Store', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>
                 </td>
                 @*<td id="actionColumn">
-                <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->
-            </td>*@
+                        <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>*@
             </tr>
         </script>
         @* Filter Template *@
@@ -148,13 +152,15 @@
 <!-- /ko -->
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+
 
 @section Scripts{
 
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
 
-        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view", "common/stockItem.view"]);
+        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view", "common/stockItem.view", "common/reportManager.view"]);
 
         $(function () {
 

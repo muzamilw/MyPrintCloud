@@ -31,6 +31,7 @@ var D1CZL = 0; var LIFT = true; var TIC = 0; var TotalImgLoaded = 0; var canvas;
 var highlightEditableText = false; var IsInputSelected = false;
 var isBkPnlUploads = false;
 var TempOB = [];
+var imToLoad = "";
 //old vars
 var hasObjects = false;
 var IsEmbedded = true;   //l1
@@ -151,8 +152,10 @@ var item =  null;
 var smartFormData = null;
 var userVariableData = null;
 var smartFormClicked = true;
+var lstVariableExtensions = null;
 var productDimensionUpdated = false;
 var objectsSelectable = true;
+var selectedPathIndex = 0;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];

@@ -106,7 +106,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
                 new List<ItemSection>(),
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>(),
-                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
+                ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ?
+                source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList() : null
             };
 
             // Load Thumbnail Image
@@ -216,7 +217,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PrintCropMarks = source.printCropMarks,
                 DrawWaterMarkTxt = source.drawWaterMarkTxt,
                 TemplateId = source.TemplateId,
-                TemplateType = source.TemplateType
+                TemplateType = source.TemplateType,
+                ProductType = source.ProductType
             };
 
             // Load Thumbnail Image
@@ -349,7 +351,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ItemSection>(),
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()).ToList() :
-                new List<DomainModels.ItemImage>()
+                new List<DomainModels.ItemImage>(),
+                ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ? source.ProductMarketBriefQuestions.Select(pci => pci.CreateFrom()).ToList() :
+                new List<DomainModels.ProductMarketBriefQuestion>()
             };
         }
 
@@ -521,6 +525,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,
                 EstimateId = source.EstimateId,
+                JobSelectedQty = source.JobSelectedQty,
                 ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
             };
             return item;
@@ -585,9 +590,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1GrossTotal = source.Qty1GrossTotal,
                 Qty2GrossTotal = source.Qty2GrossTotal,
                 Qty3GrossTotal = source.Qty3GrossTotal,
+                JobSelectedQty = source.JobSelectedQty,
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,
                 EstimateId = source.EstimateId,
+                RefItemId = source.RefItemId,
                 ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
             };
             return item;

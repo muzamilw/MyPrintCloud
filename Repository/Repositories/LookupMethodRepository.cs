@@ -124,15 +124,34 @@ namespace MPC.Repository.Repositories
         public LookupMethod AddLookup(LookupMethodResponse response)
         {
 
+            int Type = 0; 
             LookupMethod oLookupMethod = new LookupMethod();
             oLookupMethod.Name = response.LookupMethod.Name;
-            oLookupMethod.Type = response.LookupMethod.Type;
+            if(response.ClickChargeZone != null)
+            {
+                oLookupMethod.Name = "Click Charge Zone";
+                oLookupMethod.Type = 5;
+                Type = 5;
+            }
+            else if(response.MeterPerHourLookup != null)
+            {
+                oLookupMethod.Name = "Meter Per Hour Lookup";
+                oLookupMethod.Type = 8;
+                Type = 8;
+            }
+            else if (response.GuillotineCalc != null)
+            {
+                oLookupMethod.Name = "Guillotine Calculation Lookup";
+                oLookupMethod.Type = 6;
+                Type = 6;
+            }
+            
             oLookupMethod.OrganisationId = Convert.ToInt32(OrganisationId);
             db.LookupMethods.Add(oLookupMethod);
             if (db.SaveChanges() > 0)
             {
 
-                switch (response.LookupMethod.Type)
+                switch (Type)
                 {
                     case 1:
                         MachineClickChargeLookup ClickChargeLookup = new MachineClickChargeLookup();
@@ -343,9 +362,9 @@ namespace MPC.Repository.Repositories
         public bool UpdateLookup(LookupMethodResponse response)
         {
 
-            LookupMethod oLookupMethod = DbSet.Where(g => g.MethodId == response.LookupMethod.MethodId).SingleOrDefault();
-            oLookupMethod.Name = response.LookupMethod.Name;
-            switch (response.LookupMethod.Type)
+            LookupMethod oLookupMethod = DbSet.Where(g => g.MethodId == response.LookupMethodId).SingleOrDefault();
+            oLookupMethod.Name = oLookupMethod.Name;
+            switch (oLookupMethod.Type)
             {
                 case 1:
                     MachineClickChargeLookup ClickChargeLookup = db.MachineClickChargeLookups.Where(g => g.MethodId == response.LookupMethod.MethodId).SingleOrDefault();
@@ -354,7 +373,7 @@ namespace MPC.Repository.Repositories
                     ClickChargeLookup.SheetPrice = response.ClickChargeLookup.SheetPrice;
                     break;
                 case 3:
-                    MachineSpeedWeightLookup SpeedWeightLookup = db.MachineSpeedWeightLookups.Where(g => g.MethodId == response.LookupMethod.MethodId).SingleOrDefault();
+                    MachineSpeedWeightLookup SpeedWeightLookup = db.MachineSpeedWeightLookups.Where(g => g.MethodId == response.LookupMethodId).SingleOrDefault();
                     SpeedWeightLookup.Id = response.SpeedWeightLookup.Id;
                     SpeedWeightLookup.MethodId = response.SpeedWeightLookup.MethodId;
                     SpeedWeightLookup.SheetsQty1 = response.SpeedWeightLookup.SheetsQty1;
@@ -391,7 +410,7 @@ namespace MPC.Repository.Repositories
                     PerHourLookup.SpeedPrice = response.PerHourLookup.SpeedPrice;
                     break;
                 case 5:
-                    MachineClickChargeZone ClickChargeZoneLookup = db.MachineClickChargeZones.Where(g => g.MethodId == response.LookupMethod.MethodId).SingleOrDefault();
+                    MachineClickChargeZone ClickChargeZoneLookup = db.MachineClickChargeZones.Where(g => g.MethodId == response.LookupMethodId).SingleOrDefault();
                     ClickChargeZoneLookup.From1 = response.ClickChargeZone.From1;
                     ClickChargeZoneLookup.To1 = response.ClickChargeZone.To1;
                     ClickChargeZoneLookup.Sheets1 = response.ClickChargeZone.Sheets1;
@@ -473,7 +492,7 @@ namespace MPC.Repository.Repositories
 
                     break;
                 case 6:
-                    MachineGuillotineCalc GuillotineCalc = db.MachineGuillotineCalcs.Where(g => g.MethodId == response.LookupMethod.MethodId).SingleOrDefault();
+                    MachineGuillotineCalc GuillotineCalc = db.MachineGuillotineCalcs.Where(g => g.MethodId == response.LookupMethodId).SingleOrDefault();
                     GuillotineCalc.PaperWeight1 = response.GuillotineCalc.PaperWeight1;
                     GuillotineCalc.PaperThroatQty1 = response.GuillotineCalc.PaperThroatQty1;
                     GuillotineCalc.PaperWeight2 = response.GuillotineCalc.PaperWeight2;
@@ -508,7 +527,7 @@ namespace MPC.Repository.Repositories
 
                     break;
                 case 8:
-                    MachineMeterPerHourLookup oMeterPerHourLookup = db.MachineMeterPerHourLookups.Where(g => g.MethodId == response.LookupMethod.MethodId).SingleOrDefault();
+                    MachineMeterPerHourLookup oMeterPerHourLookup = db.MachineMeterPerHourLookups.Where(g => g.MethodId == response.LookupMethodId).SingleOrDefault();
                     oMeterPerHourLookup.SheetsQty1 = response.MeterPerHourLookup.SheetsQty1;
                     oMeterPerHourLookup.SheetsQty2 = response.MeterPerHourLookup.SheetsQty2;
                     oMeterPerHourLookup.SheetsQty3 = response.MeterPerHourLookup.SheetsQty3;
@@ -541,15 +560,8 @@ namespace MPC.Repository.Repositories
 
             }
 
-
-            if (db.SaveChanges() > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            db.SaveChanges();
+            return true;
         }
 
         public LookupMethodResponse GetlookupById(long MethodId)
@@ -559,13 +571,13 @@ namespace MPC.Repository.Repositories
             
             return new LookupMethodResponse
             {
-                ClickChargeLookup = olookupMethod.Type == 1 ? db.MachineClickChargeLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
+               // ClickChargeLookup = olookupMethod.Type == 1 ? db.MachineClickChargeLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                 ClickChargeZone = olookupMethod.Type == 5 ? db.MachineClickChargeZones.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                 GuillotineCalc = oGuillotineCalc,
                 GuilotinePtv = oGuillotineCalc != null ? db.MachineGuilotinePtvs.Where(g => g.GuilotineId == oGuillotineCalc.Id).ToList() : null,
                 MeterPerHourLookup = olookupMethod.Type == 8 ? db.MachineMeterPerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
-                PerHourLookup = olookupMethod.Type == 4 ? db.MachinePerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
-                SpeedWeightLookup = olookupMethod.Type == 3 ? db.MachineSpeedWeightLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
+             //   PerHourLookup = olookupMethod.Type == 4 ? db.MachinePerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
+                //SpeedWeightLookup = olookupMethod.Type == 3 ? db.MachineSpeedWeightLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                
             };
         }

@@ -47,6 +47,9 @@
                     <div class="col-xs-2">
                     </div>
                     <div class="col-xs-4" style="text-align: right; padding-right: 0;">
+                        <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="">
+                            Print
+                        </button>
                         <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedStore().companyId() > 0">Delete</button>
                         <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: $root.hasChangesOnStore, css: { 'btn-warning': $root.hasChangesOnStore }">Save</button>
                         <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
@@ -73,7 +76,7 @@
                             <li><a href="#tab-CMYKColors" data-toggle="tab">Spot Colors</a></li>
                             <li><a href="#tab-VariableDef" data-toggle="tab">Custom CRM Fields</a></li>
                             <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
-                            <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Store Custom CRM defaults</a></li>
+                            <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Custom Store Defaults</a></li>
                             <li><a href="#tab-featuredProducts" data-toggle="tab">Featured Products</a></li>
                         </ul>
                         <div class="tab-content">
@@ -168,7 +171,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus"><i class="fa fa-phone"></i></span>
+                                                    <span class="input-group-addon" tabindex="-1" data-bind="click: function(){}" data-trigger="focus"><i class="fa fa-phone"></i></span>
                                                     <input type="text" class="form-control" id="maskedPhone" data-bind="value: phoneNo">
                                                 </div>
 
@@ -249,20 +252,31 @@
                                             @*<header class="main-box-header clearfix">
                                                     <h2><label data-bind="text: name"></label></h2>
                                                 </header>*@
+
                                             <div class="clearfix">
                                                 <div class="col-lg-12">
-                                                    <img id="idCostcenterimage" style="width:250px;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                                    <img style="width:250px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                                    <img id="idCostcenterimage" style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                                    <img style="width:240px;height:130px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
                                                 </div>
 
-                                                <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:250px;">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>Upload </span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                <div class="col-lg-12" style="margin-top: 10px;text-align:center;width:220px;padding-right:0px;">
+                                                    <div class="col-lg-8">
+                                                        <div class="fileUpload btn btn-primary" style="float: right;">
+                                                            <span>Upload </span>
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
                                                     </div>
-
+                                                    <div class="col-lg-4">
+                                                        <div class="bs-example-tooltips tooltip-float-width" style="margin-right: 45px;">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="left" data-html="true" data-content="Theme Yellow :(192px w x 40px h) <br /> Theme Purple :(240px w x 50px h) <br /> Theme Brown :(240px w x 50px h) <br /> Theme Pink :(240px w x 50px h) <br /> Theme Private Store(Saloon) :<br />(240px w x 50px h) <br /> Theme Private Store(RealEstate):<br />(290px w x 70px h) " data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;width:250px;">Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.</div>
+                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px;width:220px;padding-left:20px;">
+                                                    Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.
+                                                </div>
                                                 <div class="profile-stars">
                                                     <span data-bind="value: type"></span>
                                                 </div>
@@ -326,7 +340,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;">
                                                     <button class="btn btn-primary" data-bind="click: $root.createCompanyDomainItem, enable:($root.selectedStore().companyDomains().length != 0)">Add New Domain</button>
                                                 </div>
 
@@ -549,7 +563,7 @@
                                             <h2 style="padding-right:5px;">
                                                 Product Categories
                                                 <a data-bind="click: $root.onCreateNewProductCategory" class="btn btn-primary pull-right">
-                                                    Add New Product Category
+                                                    Add New Category
                                                 </a>
                                             </h2>
                                             @*<div class="text-left">
@@ -573,12 +587,12 @@
                                 <div class="col-lg-8">
                                     <div class="clearfix">
                                         <header>
-                                            <div class="text-left" style="margin-left:17px;">
-                                                <h2>Products</h2>
+                                            <div class="text-left">
+                                                <h2 data-bind="text: $root.selectedCategoryName">Products</h2>
                                             </div>
                                         </header>
                                         <!-- ko stopBinding: true -->
-                                        <div id="productBindingSection" class="main-box-body clearfix">
+                                        <div id="productBindingSection" style="padding-right:0px;padding-left:0px;" class="main-box-body clearfix">
                                             @{
                                                 <div id="productBinding">
                                                     @{
@@ -595,12 +609,12 @@
                             </div>
                             <div class="tab-pane fade" id="tab-territory" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    @*<h3 class="group-header">Store Users and Visitors</h3>*@
-                                    <p class="group-header-description" style="width:50%;">Store user could be corporate/private store administrator, managers(approvers) and end users. Users can also be new visitors that register on this store.</p>
+                                    <h3 class="group-header">Store Users and Visitors</h3>
+                                    <p class="group-header-description">Store user could be corporate/private store administrator, managers(approvers) and end users. Users can also be new visitors that register on this store.</p>
 
 
 
-                                    <div class="col-lg-12 clearfix">
+                                    <div class="col-lg-12 clearfix" style="padding-right:3px;">
 
                                         <div class="col-lg-9">
                                             <div class="form-group">
@@ -611,12 +625,12 @@
                                                 <div class="col-lg-6">
                                                     <header class="main-box-header clearfix" style="padding-left:0px;width:226%;  margin-left: 0px;">
                                                         <!--ko if: $root.selectedStore().type() != 4-->
-                                                        <div class="filter-block form-group pull-left col-xs-4" style="padding-left:0px;">
+                                                        <div class="filter-block form-group pull-left col-xs-4" style="padding-left:0px;margin-bottom:7px;">
                                                             <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.contactCompanyTerritoryFilter"></select>
                                                         </div>
                                                         <!--/ko-->
-                                                        <div class="filter-block" style="margin-right: -6px;">
-                                                            <div class="filter-block pull-right" style="  margin-right: -10px; margin-top: -2px">
+                                                        <div class="filter-block" style="margin-right: -10px;">
+                                                            <div class="filter-block pull-right" style="margin-right: -10px; margin-top: -2px;margin-bottom:4px;">
                                                                 <form data-bind="submit:$root.searchCompanyContactByFilter ">
                                                                     <div class="form-group pull-left" style="padding-right: 0px; margin-right: 0px;float:right !important">
                                                                         <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
@@ -637,9 +651,7 @@
                                                                     <thead>
                                                                         <tr>
                                                                             @*<th class="col-lg-1"></th>*@
-                                                                            <th>
-                                                                                <div class="img col-xs-2">
-                                                                                </div>
+                                                                            <th style="padding-left:0px;">
                                                                                 <div class="details col-lg-1">
                                                                                     Name
                                                                                 </div>
@@ -664,12 +676,20 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
-                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary">
-                                                            Add New Contact
-                                                        </a>
-                                                    </div>
+                                                    <div class="col-lg-12 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;padding-left:0px;">
+                                                        <div class="col-lg-5">
+                                                            <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary">
+                                                                Add New Contact
+                                                            </a>
+                                                        </div>
 
+                                                        <div class="col-lg-4">
+                                                            <div class="fileUpload btn btn-primary">
+                                                                <span>Import Contacts</span>
+                                                                <input type="file" class="upload" id="csv_files" accept=".csv " data-bind="visible: companyId() > 0, files: {onLoaded: $root.selectedCsvFileForCompanyContact }" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
                                                     <footer class="main-box-header" style="  margin-right: 0px; text-align: right; padding-right:6px;width:226%;">
                                                         <div id="pagerDivUsers">
@@ -700,14 +720,14 @@
                                                 </div>
                                                 <div class="col-lg-6">
 
-                                                    <header class="main-box-header clearfix" style="padding-left:0px;width:226%;  margin-left: 0px;">
+                                                    <header class="main-box-header clearfix" style="padding-left:0px;width:228%;  margin-left: 0px;">
                                                         <!--ko if: $root.selectedStore().type() != 4-->
-                                                        <div class="filter-block form-group pull-left col-xs-4" style="padding-left:0px;">
+                                                        <div class="filter-block form-group pull-left col-xs-4" style="padding-left:0px;margin-bottom:7px;">
                                                             <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.addressTerritoryFilter"></select>
                                                         </div>
                                                         <!--/ko-->
                                                         <div class="filter-block">
-                                                            <div class="filter-block pull-right" style="margin-right: -10px;margin-top: -2px">
+                                                            <div class="filter-block pull-right" style="margin-right: -14px;margin-top: -2px;margin-bottom:5px;">
                                                                 <form data-bind="submit:$root.searchAddressByFilter ">
                                                                     <div class="form-group pull-left" style="padding-right: 0px; margin-right: 0px;float:right !important">
                                                                         <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
@@ -719,7 +739,7 @@
                                                         </div>
                                                     </header>
 
-                                                    <div style="background-color:gainsboro; border-radius:3px;width:226%;">
+                                                    <div style="background-color:gainsboro; border-radius:3px;width:227%;">
                                                         <header class="main-box-header clearfix">
                                                             <div style="float:left;"><span style="font-size:24px">Addresses</span></div>
                                                         </header>
@@ -749,14 +769,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;">
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary">
                                                             Add New Address
                                                         </a>
                                                     </div>
 
 
-                                                    <footer class="main-box-header" style="margin-right: -10px;padding-right:6px;width:226%;text-align:right">
+                                                    <footer class="main-box-header" style="margin-right: -10px;padding-right:0px;width:226%;text-align:right">
                                                         <div id="pagerDivAddress">
                                                             <!-- ko with: $root.addressPager -->
                                                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -789,7 +809,7 @@
                                                         <div class="filter-block">
                                                             <div class="filter-block pull-right" style="margin-right: -10px;">
                                                                 <form data-bind="submit:$root.searchCompanyTerritoryByFilter ">
-                                                                    <div class="form-group pull-left" style="padding-right: 0px; margin-right: 14px;">
+                                                                    <div class="form-group pull-left" style="padding-right: 0px; margin-right: 14px;margin-bottom:6px;">
                                                                         <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
                                                                         <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritoryByFilter"></i>
                                                                     </div>
@@ -822,13 +842,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;">
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyTerritory" class="btn btn-primary">
                                                             Add New Territory
                                                         </a>
                                                     </div>
                                                     <footer class="main-box-header" style="margin-right: -10px;padding-right:0px;width:226%;text-align:right;">
-                                                        <div id="pagerDiv">
+                                                        <div id="pagerDiv" style="margin-right:3px;">
                                                             <!-- ko with: $root.companyTerritoryPager -->
                                                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                             <!-- /ko -->
@@ -895,7 +915,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 1</label>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId1"></select>   @*,value: $root.selectedClaimFilterListitem*@
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -909,8 +929,8 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 2</label>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId2"></select>
+                                            <div class="col-lg-6" style="margin-left:12px;">
+                                                <select class=" form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId2"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -923,8 +943,8 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 1</label>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId1"></select>
+                                            <div class="col-lg-6" style="margin-left:12px;">
+                                                <select class=" form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId1"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -937,7 +957,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 2</label>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId2"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -951,7 +971,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 1</label>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId1"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -965,7 +985,7 @@
                                                     </div>*@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 2</label>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="margin-left:12px;">
                                                 <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId2"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -978,7 +998,7 @@
                                 <div class="col-md-12 form-horizontal">
 
                                     <p class="group-header-description">Manage the theme (UI/Look and feel) of your store. select from a range of already available themes or modify an existing theme.</p>
-                                    <div class="col-md-9">
+                                    <div class="col-md-9" style="padding-right:0px;">
                                         @*<div class="form-group">
                                                 <div classs="col-lg-2 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -1004,11 +1024,11 @@
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Current Theme</label>
                                             </div>
-                                            <div class="col-lg-9" style="padding: 0px;padding-left: 6px;">
+                                            <div class="col-lg-9" style="padding: 0px;padding-left: 5px;">
                                                 <!-- ko if: $root.themes().length > 0 -->
                                                 @*<select class="form-control" data-bind="options: $root.themes,optionsCaption:'Select Theme', optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>*@
 
-                                                <div class="form-control" id="ops_theme_dropdown" style="margin-right:7px;">
+                                                <div class="form-control" id="ops_theme_dropdown" style="margin-right:7px;width:241px;">
                                                     <div id="ops_theme_list">
                                                         <a style="color:black;" data-bind="text: $root.selectedThemeName" href="#">
 
@@ -1053,12 +1073,13 @@
 
                                                 <div class="clearfix">
 
-                                                    <img width="242" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
-                                                    <img width="242" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
+                                                    <img style="width:240px;height:130px;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
+                                                    <img style="width:240px;height:130px;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
                                                     <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:242px;">
-                                                        <div class="fileUpload btn btn-primary" data-bind="click:$root.showMediaLibraryDialogFromStoreBackground">
+                                                        <div class="fileUpload btn btn-primary">
+                                                            @*data-bind="click:$root.showMediaLibraryDialogFromStoreBackground"*@
                                                             <span>Change Background</span>
-                                                            @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeBackgroudImageUploadCallback, fileFilter: 'image.*'}" />
                                                         </div>
 
                                                     </div>
@@ -1102,7 +1123,7 @@
                                                 </div>
                                                 @*<label class="control-label text-right tooltip-float">Map Options</label>*@
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-9" style="padding-left:5px !important;">
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadiosMap" id="rdiolatlong" value="1" data-bind="checked: isShowGoogleMap">
                                                     <label for="rdiolatlong">
@@ -1125,18 +1146,19 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-6">
 
-                                                        <div class="clearfix">
+                                                        <div class="clearfix" style="margin-left:10px;margin-top:10px;">
 
-                                                            <img width="200" data-bind="visible:mapImageUrlBinary()===undefined,attr: { src: '@Url.Content("~/")' +mapImageUrl() }" />
-                                                            <img width="200" data-bind="visible:mapImageUrlBinary()!==undefined,attr: { src: mapImageUrlBinary }" />
-                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;">
+
+                                                            <img style="width:240px;height:130px;" data-bind="visible:mapImageUrlBinary()===undefined,attr: { src: '@Url.Content("~/")' +mapImageUrl() }" />
+                                                            <img style="width:240px;height:130px;" data-bind="visible:mapImageUrlBinary()!==undefined,attr: { src: mapImageUrlBinary }" />
+                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:240px;">
                                                                 <div class="fileUpload btn btn-primary">
-                                                                    <span>Upload </span>
+                                                                    <span>Upload</span>
                                                                     <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeMapImageLoadedCallback, fileFilter: 'image.*'}" />
                                                                 </div>
 
                                                             </div>
-                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center; margin-top:10px !important;">Upoad Your Map.</div>
+                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center; margin-top:10px !important;width:240px;">Upoad Your Map.</div>
                                                             <div class="profile-stars">
                                                                 <span data-bind="value: type"></span>
                                                             </div>
@@ -1197,12 +1219,16 @@
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload media files</label>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-1" style="padding-left:0px;">
+                                            <div class="col-lg-8">
+                                                <div style="padding-left:0px;">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>Upload Multiple Files</span>
                                                         <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
+                                                </div>
+
+                                                <div class="col-lg-5 ThoumbnailCostCenter" style="margin-top:10px;padding-left:0px;width:170px;margin-top:10px;text-align:center;">
+                                                    Upload Media files (JPG,GIF,PNG) here which can be used throughout store in Home Page banners,  user defined pages banners etc.
                                                 </div>
                                             </div>
                                         </div>
@@ -1213,7 +1239,7 @@
                                             <div class="col-lg-2 text-right">
 
                                             </div>
-                                            <div class="col-lg-10" style="padding-right:0px;">
+                                            <div class="col-lg-10" style="padding-right:0px;padding-left:4px;">
                                                 <div class="main-box-body" style="padding-right:0px;">
                                                     <div id="gallery-photos-lightbox">
                                                         <ul class="clearfix gallery-photos">
@@ -1260,9 +1286,7 @@
                                         <div class="form-group" data-bind="visible: isDisplayBanners">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Current Active Banner Set" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                   
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Current Active Banner Set</label>
                                             </div>
@@ -1313,7 +1337,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;">
                                                     <div class="btn btn-primary" data-bind="click:$root.onCreateBanner">
                                                         Add New Banner
                                                     </div>
@@ -1399,13 +1423,13 @@
 
 
                                                 <div class="clearfix">
-                                                    <img alt="" style="border: dotted; border-width: 1px;float:left; width: 200px; height: 150px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
+                                                    <img alt="" style="border: dotted; border-width: 1px;float:left; width:240px; height: 130px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
 
                                                     @*<img width="250" id="idCostcenterimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
                                                         <img width="250" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />*@
 
                                                     <div class="col-lg-12" style="padding-left:0px;">
-                                                        <div class="col-lg-6" style="margin-top: 5px;text-align:center;padding-left: 0px;width: 200px;">
+                                                        <div class="col-lg-6" style="margin-top: 5px;text-align:center;padding-left: 0px;width: 250px;">
                                                             <div class="fileUpload btn btn-primary">
                                                                 <span>Upload </span>
                                                                 <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.spriteImageLoadedCallback, fileFilter: 'image.*'}" />
@@ -1418,8 +1442,8 @@
                                                     @*<div class="col-lg-3" style="margin-top: 5px;text-align:center;">
 
                                                         </div>*@
-                                                    <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;">
-                                                        <div class="col-lg-6" style="width:200px;">
+                                                    <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;padding-left:0px;">
+                                                        <div class="col-lg-6" style="width:250px;">
                                                             Download and make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings.
                                                         </div>
 
@@ -1538,8 +1562,8 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
-                                                                        <div data-bind="click:$root.onAddSecondaryPage" style="margin-right: 14px" class="btn btn-primary">
+                                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top:10px;margin-bottom:15px; margin-left: -8px;">
+                                                                        <div data-bind="click:$root.onAddSecondaryPage" style="margin-right:14px" class="btn btn-primary">
                                                                             Add New User Defined Page
                                                                         </div>
                                                                     </div>
@@ -1621,7 +1645,7 @@
                                                                             </div>
                                                                         </div>*@
                                                                     <div id="pagerDiv">
-                                                                        <ul class="pagination pull-right">
+                                                                        <ul class="pagination pull-right" style="margin-top:10px;">
                                                                             <!-- ko with: $root.systemPagePager -->
                                                                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                                             <!-- /ko -->
@@ -1755,15 +1779,15 @@
                                     <h3 class="group-header">
                                         Create Quotes from your happiest customers
                                     </h3>
-                                    @*<p class="group-header-description">Create Quotes from your happiest customers.</p>*@
-                                    <div class="col-lg-12 clearfix">
+
+                                    <div class="col-lg-12 clearfix" style="padding-right:0px;">
 
                                         <div class="form-group">
                                             <div class="col-lg-2 text-right">
 
                                             </div>
-                                            <div class="col-lg-10" style="padding-left:21px;">
-                                                <div style="background-color:gainsboro; border-radius:3px;width:102%;">
+                                            <div class="col-lg-10" style="padding-left:19px;padding-right:0px;">
+                                                <div style="background-color:gainsboro; border-radius:3px;">
                                                     <header class="main-box-header clearfix">
                                                         <div style="float:left;"><span style="font-size:24px">Rave Reviews</span></div>
                                                     </header>
@@ -1788,10 +1812,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
-                                                    <div class="filter-block">
+                                                <div class="col-lg-7 btn-group" style="float: left;margin-left: -8px;">
+                                                    <div class="filter-block" style="margin-top:15px;">
                                                         <a class="btn btn-primary" style="margin-bottom:11px;margin-left:0px;" data-bind="click: $root.onCreateNewRaveReview">
-                                                            Add Rave Review
+                                                            Add New Rave Review
                                                         </a>
                                                     </div>
                                                 </div>
@@ -1947,7 +1971,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 @*<label class="control-label text-right tooltip-float">Proof PDF watermark display option</label>*@
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-3" style="padding-right:12px;">
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkText" value="true" data-bind="checked: $root.selectedStore().isTextWatermark">
                                                     <label for="rdioWatermarkText">
@@ -1963,24 +1987,24 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <br />
                                                 <!--ko if: $root.selectedStore().isTextWatermark() == 'true' -->
 
-                                                <input type="text" class="form-control" id="txtWaterMArk" placeholder="Enter Watermark Text" data-bind="value: $root.selectedStore().watermarkText">
+                                                <input type="text" class="form-control" id="txtWaterMArk" placeholder="Enter Watermark Text" data-bind="value: $root.selectedStore().watermarkText" style="margin-left:3px;">
                                                 <br />
                                                 <!-- /ko -->
                                                 <!--ko if: $root.selectedStore().isTextWatermark() == 'false' -->
                                                 <div class="form-group">
                                                     <div class="col-lg-6">
-                                                        <div class="clearfix">
+                                                        <div class="clearfix" style="margin-left:10px;">
 
-                                                            <img width="200" data-bind="visible:storeWorkflowImage()==undefined,attr: { src: '@Url.Content("~/")' + $root.selectedStore().storeWorkflowImageBinary() }" />
-                                                            <img width="200" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />
-                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;">
+                                                            <img style="width:240px;height:130px;" data-bind="visible:storeWorkflowImage()==undefined,attr: { src: '@Url.Content("~/")' + $root.selectedStore().storeWorkflowImageBinary() }" />
+                                                            <img style="width:240px;height:130px;" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />
+                                                            <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:240px;">
                                                                 <div class="fileUpload btn btn-primary">
                                                                     <span>Upload </span>
                                                                     <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeWorkflowImageLoadedCallback, fileFilter: 'image.*'}" />
                                                                 </div>
 
                                                             </div>
-                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;">Upload a image (PNG,JPG,GIF) which will be used as watermark in PDF and image proofs of Designer artwork output for proofing purpose.</div>
+                                                            <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:10px !important;width:240px;text-align:center;">Upload a image (PNG,JPG,GIF) which will be used as watermark in PDF and image proofs of Designer artwork output for proofing purpose.</div>
                                                             @*<div class="profile-stars">
                                                                     <span data-bind="value: type"></span>
                                                                 </div>*@
@@ -2028,14 +2052,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width" style="padding-left: 12px;" ">
-                                                                                        <a class=" input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Decide if users will pay online or checkout without payment.  NOTE: this is a global option for a retail store but controlled on a contact-by-contact basis under the user settings within this store.  Must enable online payments to force visitors to pay online" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Decide if users will pay online or checkout without payment.  NOTE: this is a global option for a retail store but controlled on a contact-by-contact basis under the user settings within this store.  Must enable online payments to force visitors to pay online" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
                                                 @*<label class="control-label text-right tooltip-float">Payment processing option</label>*@
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="padding-left:4px;">
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="true" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
                                                     <label for="optionsRadiosForceOnlinePayment">
@@ -2051,27 +2075,20 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        @*<div class="form-group">
-                                                <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="onoffswitchAcceptOnline">Activate online payments ?</label>
-                                                <div class="col-md-3">
-                                                    <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchAcceptOnline" data-bind="checked: $root.selectedStore().isBrokerCanAcceptPaymentOnline">
-                                                        <label class="onoffswitch-label" for="onoffswitchAcceptOnline">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>*@
 
 
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 form-horizontal">
+                                    <h3>Store Miscellaneous Settings</h3>
+                                    <div class="col-lg-9" style="padding-left:12px">
                                         <!--ko if: $root.selectedStore().type() != 4-->
-
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="padding-top:5px;">
                                                 <label style="padding: 0px;" for="switchDisplayDVoucher">Display Discount Vouchers in Shopping Cart and allow discount</label>
 
                                             </div>
@@ -2085,13 +2102,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                             </div>
                                         </div>
-
                                         <!--/ko-->
                                         <div class="form-group">
+
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
-                                                <label style="padding: 0px;" for="switchProductPrices">Show product pricing on category pages</label>
+                                            <div class="col-md-6" style="padding-top:5px;">
+                                                <label style="padding:0px;margin-top:5px;" for="switchProductPrices">Show product pricing on category pages</label>
 
                                             </div>
                                             <div class="col-md-3">
@@ -2109,8 +2126,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
-                                                <label style="padding: 0px;" for="switchCorpBranding">Show your organizational details on Order Receipts and brand them</label>
+                                            <div class="col-md-6" style="padding-top:5px;">
+                                                <label style="padding:0px;margin-top:5px;" for="switchCorpBranding">Show your organizational details on Order Receipts and brand them</label>
 
                                             </div>
                                             <div class="col-md-3">
@@ -2129,8 +2146,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
-                                                <label style="padding: 0px;" for="switchRegistrationFromWebsite">Allow new user registrations on store</label>
+                                            <div class="col-md-6" style="padding-top:5px;">
+                                                <label style="padding:0px;margin-top:5px;" for="switchRegistrationFromWebsite">Allow new user registrations on store</label>
 
                                             </div>
                                             <div class="col-md-3">
@@ -2149,8 +2166,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
-                                                <label style="padding: 0px;" for="switchOrderWithoutApproval">Users can place order without manager's approval</label>
+                                            <div class="col-md-6" style="padding-top:5px;">
+                                                <label style="padding:0px;margin-top:5px;" for="switchOrderWithoutApproval">Users can place order without manager's approval</label>
 
                                             </div>
 
@@ -2166,23 +2183,23 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
 
                                         <!--/ko-->
-                                        <div class="form-group">
-                                            <div class="col-md-3"></div>
+                                        @*<div class="form-group">
+                                                <div class="col-md-3"></div>
 
-                                            <div class="col-md-6">
-                                                <label style="padding: 0px;" for="switchEditProfile">Allow users to modify their profile</label>
+                                                <div class="col-md-6">
+                                                    <label style="padding: 0px;" for="switchEditProfile">Allow users to modify their profile</label>
 
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="onoffswitch" style="margin-right:0px;">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEditProfile" data-bind="checked: $root.selectedStore().canUserEditProfile">
-                                                    <label class="onoffswitch-label" for="switchEditProfile">
-                                                        <div class="onoffswitch-inner"></div>
-                                                        <div class="onoffswitch-switch"></div>
-                                                    </label>
                                                 </div>
-                                            </div>
-                                        </div>
+                                                <div class="col-md-3">
+                                                    <div class="onoffswitch" style="margin-right:0px;">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEditProfile" data-bind="checked: $root.selectedStore().canUserEditProfile">
+                                                        <label class="onoffswitch-label" for="switchEditProfile">
+                                                            <div class="onoffswitch-inner"></div>
+                                                            <div class="onoffswitch-switch"></div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>*@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
@@ -2191,17 +2208,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="col-lg-9">
                                             <div class="form-group" id="taxLabel">
                                                 <div class="col-lg-3 text-right">
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="< No Text >" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>*@
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+
+                                                    </div>
                                                     <label class="control-label text-right tooltip-float">Tax Title/Label</label>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <div class="input-group" style="width:50%;">
-                                                        <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
-                                                    </div>
+                                                <div class="col-lg-3" style="padding-right:6px;">
+                                                    <input type="text" class="form-control" style="margin-left: -3px;" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
                                                 </div>
                                             </div>
 
@@ -2214,7 +2228,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         </div>*@
                                                     @*<label for="txtCompanyName" class="control-label text-right tooltip-float">Calculate Tax By external Service ?</label>*@
                                                 </div>
-                                                <div class="col-lg-6" style="padding-left:3px;">
+                                                <div class="col-lg-6" style="padding-left:3px;height:68px;">
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadios1" id="optionYes1" value="true" data-bind="    checked: $root.selectedStore().isCalculateTaxByService, event: { click: $root.calculateTaxByServiceHandler }">
                                                         <label for="optionYes1">
@@ -2236,16 +2250,12 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default tax uplift (Defined also by individual products).  Does not apply to USA customers" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>*@
-                                                    @*<label class="control-label text-right tooltip-float">Store Tax</label>*@
+
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <div class="input-group" style="width:50%;">
-                                                        <input type="text" style="margin-left:-3px;" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
+                                                <div class="col-lg-3" style="padding-left:4px;">
+                                                    <div class="input-group">
+
+                                                        <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
                                                         <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
                                                     </div>
                                                 </div>
@@ -2305,13 +2315,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="col-lg-6">
                                                 <header class="main-box-header clearfix" style="width:220%;margin-right:0px;padding-right:0px;">
-                                                    <div class="filter-block pull-right">
-                                                        <div class="form-group pull-left" style="margin-right: 2px;">
-                                                            <input type="text" class="form-control" placeholder="Search...">
-                                                            <i class="fa fa-search search-icon"></i>
-                                                        </div>
-
-                                                    </div>
+                                                    @*<div class="filter-block pull-right">
+                                                            <form data-bind="submit:$root.onSearchpaymentMethod">
+                                                                <div class="form-group pull-left" style="margin-right: 2px;">
+                                                                    <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.paymentGatewayFilter">
+                                                                    <i class="fa fa-search search-icon" data-bind="click:$root.onSearchpaymentMethod"></i>
+                                                                </div>
+                                                            </form>
+                                                        </div>*@
                                                 </header>
                                                 <div style="background-color:gainsboro; border-radius:3px;width:220%;  margin-left: 3px;padding-right: 0px">
                                                     <header class="main-box-header clearfix">
@@ -2337,7 +2348,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;margin-left:-6px;">
+                                                <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;margin-left:-6px;padding-left:9px;">
                                                     <a data-toggle="modal" class="btn btn-primary" data-bind="click:$root.onCreateNewPaymentGateway">
                                                         Add New Payment Gateway
                                                     </a>
@@ -2375,8 +2386,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
-                                                    <label style="padding: 0px;" for="switchProductPrices">Include Order detailed Report</label>
+                                                <div class="col-md-6" style="padding-left:4px;padding-top:5px;">
+                                                    <label style="padding:0px;margin-top:5px;" for="switchProductPrices">Include Order detailed Report</label>
 
                                                 </div>
                                                 <div class="col-md-3">
@@ -2423,8 +2434,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
-                                                    <label style="padding: 0px;" for="switchProductPrices">Include Order information in XML format</label>
+                                                <div class="col-md-6" style="padding-left:4px;padding-top:5px;">
+                                                    <label style="padding: 0px;margin-top:5px;" for="switchProductPrices">Include Order information in XML format</label>
 
                                                 </div>
                                                 <div class="col-md-3">
@@ -2463,8 +2474,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
-                                                    <label style="padding: 0px;" for="switchProductPrices">Include Job Card report for each item/product</label>
+                                                <div class="col-md-6" style="padding-left:4px;padding-top:5px;">
+                                                    <label style="padding: 0px;margin-top:5px;" for="switchProductPrices">Include Job Card report for each item/product</label>
 
                                                 </div>
                                                 <div class="col-md-3">
@@ -2502,8 +2513,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
-                                                    <label style="padding: 0px;" for="switchProductPrices">Make template artwork production ready by removing watermarks</label>
+                                                <div class="col-md-6" style="padding-left:4px;padding-top:2px;">
+                                                    <label style="padding: 0px;margin-top:8px;" for="switchProductPrices">Make template artwork production ready by removing watermarks</label>
 
                                                 </div>
                                                 <div class="col-md-3">
@@ -2512,7 +2523,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderemovwWater" data-bind="checked: $root.selectedStore().makeEmailBrokerArtworkOrderProductionReady">
                                                             <label class="onoffswitch-label" for="onoffswitchOrderemovwWater">
                                                                 <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
+                                                                <div class="onoffswitch-switch" style="height:18px;"></div>
                                                             </label>
                                                         </div>
                                                     </div>
@@ -2623,18 +2634,18 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-DelvAddOns" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    @*<h3 class="group-header">Store Delivery Methods/Cost Centers</h3>*@
+                                    <h3 class="group-header">Store Delivery Methods/Cost Centers</h3>
 
-                                    @*<p class="group-header-description">This helps control the branding and corporate identity of templates for private stores.</p>*@
+                                    <p class="group-header-description">This helps control the branding and corporate identity of templates for private stores.</p>
                                     <div class="col-lg-12 form-horizontal clearfix">
-                                        <div class="main-box-body clearfix">
-                                            <div class="col-lg-9 form-horizontal clearfix">
+                                        <div class="main-box-body clearfix" style="padding-right:0px;">
+                                            <div class="col-lg-12 form-horizontal clearfix">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Is shipping cost taxed?" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
+                                                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Is shipping cost taxed?" data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>*@
                                                         </div>
                                                         <label class="control-label text-right tooltip-float">Shipping charge taxable</label>
                                                     </div>
@@ -2662,10 +2673,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             </a>
                                                         </div>
 
-                                                        <label for="txtPickUpLocation" style="padding-top:10px;" class="control-label text-right tooltip-float">Carriers pickup location. </label>
+                                                        <label for="txtPickUpLocation" style="padding-top:10px;" class="control-label text-right tooltip-float">Carriers pickup location </label>
                                                     </div>
-                                                    <div class="col-lg-6" data-bind="with: $root.pickupAddress">
-                                                        <input type="text" disabled="disabled" class="form-control" style="float:left;width:86%" placeholder="Pick Up Location/Zip code" id="txtPickUpLocation" data-bind="value: $root.pickUpLocationValue ">
+                                                    <div class="col-lg-5" data-bind="with: $root.pickupAddress">
+                                                        <input type="text" disabled="disabled" class="form-control" style="float:left;width:88%" placeholder="Pick Up Location/Zip code" id="txtPickUpLocation" data-bind="value: $root.pickUpLocationValue ">
                                                         <a data-toggle="modal" href="#SelectAddressSetModal" class="btn btn-primary pull-right">
                                                             <i class="fa  fa-lg"></i>&nbsp;....
                                                         </a>
@@ -2673,14 +2684,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
 
                                                 <div class="form-group">
-
-
                                                     <div class="col-lg-3">
-
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <div style="background-color:gainsboro; border-radius:3px; width:229%;">
-                                                            <header class="main-box-header clearfix">
+                                                    <div class="col-lg-9" style="padding-right:0px;">
+                                                        <div style="background-color:gainsboro; border-radius:3px;">
+                                                            <header class="main-box-header clearfix" style="padding-right:0px;">
                                                                 <div style="float:left;"><span style="font-size:24px">Shipping Methods</span></div>
                                                             </header>
                                                             <div class="main-box-body clearfix">
@@ -2768,7 +2776,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;">
                                         <a class="btn btn-primary" data-bind="click: $root.onCreateNewCompanyCMYKColor">
                                             Add New Spot Color
                                         </a>
@@ -2847,16 +2855,17 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div id="pagerDiv">
-                                                <ul class="pagination pull-right">
-                                                    <!-- ko with: $root.fieldVariablePager -->
-                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                                    <!-- /ko -->
-                                                </ul>
-                                            </div>
+
+                                        </div>
+                                        <div id="pagerDiv">
+                                            <ul class="pagination pull-right" style="margin-top:9px;">
+                                                <!-- ko with: $root.fieldVariablePager -->
+                                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                <!-- /ko -->
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 6px; margin-left: -14px;">
                                         <div class="filter-block" data-bind="click:$root.onAddVariableDefination">
                                             <a class="btn btn-primary">
                                                 Add New Variable
@@ -2932,14 +2941,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                         </div>
                                         <div id="pagerDiv">
-                                            <ul class="pagination pull-right">
+                                            <ul class="pagination pull-right" style="margin-top:10px;">
                                                 <!-- ko with: $root.smartFormPager -->
                                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                 <!-- /ko -->
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 15px; margin-left: -8px;">
                                         <a class="btn btn-primary" data-bind="click:$root.addSmartForm">
                                             Add New Smart Form
                                         </a>
@@ -2994,10 +3003,6 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <thead>
                                                         <tr>
                                                             <th></th>
-
-                                                            <th>
-
-                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -3186,7 +3191,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 @*<img src="" alt="" data-bind="attr: { src: imageSource }" />*@
                 <a href="#" class="store-user-link" data-bind="text: pageTitle"></a>
                 @*<a href="#" class="store-user-link storeSubText" data-bind="text: metaTitle"></a>*@
-                <span class="label" style="font-weight:100;color:black;" data-bind="text: metaTitle"></span>
+                <span class="label" style="font-weight:100;color:black;padding-left:0px;" data-bind="text: metaTitle"></span>
             </td>
             <td data-bind="text:categoryName, visible: isUserDefined"></td>
             <td class="text-center" data-bind="visible: isUserDefined">
@@ -3295,11 +3300,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </script>
     <script id="itemCompanyContactTemplate" type="text/html">
         <tr style="cursor: pointer" data-bind="click: $root.onEditCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact }">
-            <td style="width: 20%; max-width: 20%; padding-top: 35px;">
-                <div class="img col-xs-2">
-                    @*<img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />*@
-                </div>
-                <div class="col-xs-10">
+            <td style="width: 20%; max-width: 20%;">
+                <div class="col-xs-10" style="padding-left:0px;">
                     <a href="#" class="store-user-link" data-bind="text: firstName()+' '+lastName()"></a>
 
                     @*<div class="name">
@@ -3400,7 +3402,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </script>
     <script id="itemProductCategoriesTemplate" type="text/html">
         <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}, attr: {id: productCategoryId}">
-            <div class="dd-handle-list cursorShape"><i class="fa fa-chevron-circle-right" data-bind="click: $root.getCategoryChildListItems"></i></div>
+            <div class="dd-handle-list cursorShape" style="height:32px !important;margin-top:5px;">
+                <i class="fa fa-chevron-circle-right" data-bind="click: $root.getCategoryChildListItems"></i>
+            </div>
             <div class="dd-handle col-sm-12">
                 <span data-bind="text: categoryName" class="col-sm-10 cursorShape"></span>
                 <div class="nested-links">
@@ -3496,7 +3500,6 @@ Public  - allows users to see other users addresses and orders." data-original-t
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductsFilter.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ChooseUsIcon.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
-
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
     <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">
@@ -3661,7 +3664,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 <script id="storeVariableTemplate" type="text/html">
     <tr>
         <td class="modifyVariabletd">
-            <div class="form-group ">
+            <div class="form-group" style="padding-bottom: 32px;padding-top: 5px;">
                 <div class="col-lg-3 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">

@@ -10,6 +10,12 @@ using System.Globalization;
 
 namespace MPC.Common
 {
+    public class svgColorData
+    {
+        public string OriginalColor { get; set; }
+        public int PathIndex { get; set; }
+        public string ModifiedColor { get; set; }
+    }
     public class DesignerSvgParser
     {
         /// <summary>
@@ -156,7 +162,7 @@ namespace MPC.Common
         /// <param name="element">The current element been resolved.</param>
         /// <param name="sourceColor">The source color to search for.</param>
         /// <param name="replaceColor">The color to be replaced the source color with.</param>
-        public static string UpdateSvg(string srcUrl, float height, float width)
+        public static string UpdateSvg(string srcUrl, float height, float width, List<svgColorData> colorStyles)
         {
             SvgDocument document = SvgDocument.Open(srcUrl);
            // double width = oObject.MaxWidth.Value, height = oObject.MaxHeight.Value;
@@ -168,12 +174,41 @@ namespace MPC.Common
             SvgUnit objUnit = new SvgUnit(SvgUnitType.Percentage, 100);
             document.Width = objUnit;
             document.Height = objUnit;
+            //apply colors
 
+            if(colorStyles != null && colorStyles.Count > 0 )
+            {
+                foreach (var obj in colorStyles)
+                {
+                    if(obj.PathIndex == -2)
+                    {
+                        if(obj.ModifiedColor != "")
+                            AdjustColour(document, obj.ModifiedColor);
+                    }
+                    else
+                    {
+                        if (obj.ModifiedColor != "")
+                        {
+
+                            for (int i = 0; i < document.Children.Count; i++)
+                            {
+                                if (i == obj.PathIndex)
+                                {
+                                    Color color = HexToColor(obj.ModifiedColor);
+                                    ChangeFill(document.Children[i], color);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             SvgViewBox vb = new SvgViewBox(0, 0, width, height);
             document.ViewBox = vb;
             document.AspectRatio.Align = Svg.SvgPreserveAspectRatio.none;
             string ext = Path.GetExtension(srcUrl);
             string sourcePath = srcUrl;
+           
+            
             string[] results = sourcePath.Split(new string[] { ext }, StringSplitOptions.None);
             string destPath = results[0] + "_modified" + ext;
             document.Write(destPath);

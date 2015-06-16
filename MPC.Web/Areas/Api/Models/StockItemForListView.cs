@@ -18,6 +18,12 @@ namespace MPC.MIS.Areas.Api.Models
         public string ItemName { get; set; }
 
         /// <summary>
+        /// Item Code
+        /// </summary>
+        public string ItemCode { get; set; }
+
+
+        /// <summary>
         /// Item Weight
         /// </summary>
         public int? ItemWeight { get; set; }
@@ -76,6 +82,16 @@ namespace MPC.MIS.Areas.Api.Models
         /// Organisation region
         /// </summary>
         public string Region { get; set; }
+
+        /// <summary>
+        /// In Stock
+        /// </summary>
+        public double? InStock { get; set; }
+
+        /// <summary>
+        /// Allocated
+        /// </summary>
+        public double? Allocated { get; set; }
 
         /// <summary>
         /// Pack Cost Price

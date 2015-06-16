@@ -1007,7 +1007,12 @@ namespace MPC.Implementation.WebStoreServices
                     float width =(float)oObject.MaxWidth.Value, height = (float)oObject.MaxHeight.Value;
                    // string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/MPC_Content" + oObject.ContentString;
                     ////int id = oPdf.AddImageUrl(URl);
-                    string file = DesignerSvgParser.UpdateSvg(FilePath,height,width) ;//
+                    List<svgColorData> styles = new List<svgColorData>();
+                    if (oObject.textStyles != null)
+                    {
+                        styles = JsonConvert.DeserializeObject<List<svgColorData>>(oObject.textStyles);
+                    }
+                    string file = DesignerSvgParser.UpdateSvg(FilePath, height, width, styles);//
                     string html = File.ReadAllText(file);
                     html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>" ;
                     oPdf.AddImageHtml(html);
@@ -1863,6 +1868,7 @@ namespace MPC.Implementation.WebStoreServices
         // generate low res proof image from pdf file 
         private string generatePagePreview(byte[] PDFDoc, string savePath, string PreviewFileName, double CuttingMargin, int DPI, bool RoundCorners)
         {
+            CuttingMargin = DesignerUtils.PixelToPoint(CuttingMargin);
             using (Doc theDoc = new Doc())
             {
                 Stream str = null;
@@ -1910,7 +1916,7 @@ namespace MPC.Implementation.WebStoreServices
         public bool generatePagePreviewMultiplage(byte[] PDFDoc, string savePath, double CuttingMargin, int DPI, bool RoundCorners)
         {
 
-
+            CuttingMargin = DesignerUtils.PixelToPoint(CuttingMargin); // as when we get template back from Designer it contains cutting margin in pixels
             //XSettings.License = "810-031-225-276-0715-601";
             using (Doc theDoc = new Doc())
             {

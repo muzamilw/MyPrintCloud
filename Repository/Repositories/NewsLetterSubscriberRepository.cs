@@ -54,12 +54,10 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                
                     db.NewsLetterSubscribers.Add(subsriber);
                     db.SaveChanges();
 
                     return subsriber.SubscriberId;
-               
             }
             catch (Exception ex)
             {

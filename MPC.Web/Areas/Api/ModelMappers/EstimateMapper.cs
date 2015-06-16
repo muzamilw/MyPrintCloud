@@ -65,12 +65,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateTotal = source.Estimate_Total,
                 CreationDate = source.CreationDate,
                 CreationTime = source.CreationTime,
-                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
+                RefEstimateId = source.RefEstimateId,
+                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).OrderBy(item => item.ProductName).ToList() :
                 new List<OrderItem>(),
                 ItemsCount = source.Items != null ? source.Items.Count : 0,
-                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
+                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).OrderBy(payment => payment.ReferenceCode).ToList() :
                 new List<PrePayment>(),
-                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()) :
+                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()).OrderBy(sc => sc.ItemName).ToList() :
                 new List<ShippingInformation>()
             };
 
@@ -103,8 +104,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Status = source.Status.StatusName,
                 EstimateTotal = source.Estimate_Total,
                 IsDirectSale = source.isDirectSale,
-                SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null
-
+                SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null,
+                OrderDate = source.Order_Date
             };
 
             return estimate;

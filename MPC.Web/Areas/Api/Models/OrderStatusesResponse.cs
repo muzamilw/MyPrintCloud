@@ -43,5 +43,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// Estimates / Orders list
         /// </summary>
         public IEnumerable<EstimateListView> Estimates { get; set; }
+
+        /// <summary>
+        /// List of Companies
+        /// </summary>
+        public IEnumerable<CustomerListViewModel> Companies { get; set; }
+
     }
 }

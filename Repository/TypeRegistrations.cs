@@ -132,7 +132,13 @@ namespace MPC.Repository
             unityContainer.RegisterType<IEstimateInquiryRepository, EstimateInquiryRepository>();
             unityContainer.RegisterType<IInquiryItemRepository, InquiryItemRepository>();
             unityContainer.RegisterType<IInvoiceDetailRepository, InvoiceDetailRepository>();
+            unityContainer.RegisterType<IProductMarketBriefQuestionRepository, ProductMarketBriefQuestionRepository>();
             unityContainer.RegisterType<IDeliveryNoteRepository, DeliveryNoteRepository>();
+            unityContainer.RegisterType<IProductMarketBriefAnswerRepository, ProductMarketBriefAnswerRepository>();
+            unityContainer.RegisterType<IDeliveryNoteDetailRepository, DeliveryNoteDetailRepository>();
+            unityContainer.RegisterType<IPurchaseDetailRepository, PurchaseDetailRepository>();
+            unityContainer.RegisterType<IStagingImportCompanyContactAddressRepository, StagingImportCompanyContactAddressRepository>();
+            unityContainer.RegisterType<IGoodsReceivedNoteDetailRepository, GoodsReceivedNoteDetailRepository>();
         }
     }
 }

@@ -33,5 +33,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             };
         }
+        public static DeliveryCarrier CreateFromDropDown(this DomainModels.DeliveryCarrier source)
+        {
+            return new DeliveryCarrier
+            {
+                CarrierId = source.CarrierId,
+                CarrierName = source.CarrierName,
+            };
+        }
     }
 }
