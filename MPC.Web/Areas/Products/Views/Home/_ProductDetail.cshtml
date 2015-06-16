@@ -35,16 +35,14 @@
                             <!-- ko if: isTemplateTabsVisible -->
                             <li><a href="#tab-ProductDetailSection" data-toggle="tab">Artwork and Sections</a></li>
                             <!-- /ko -->
-                            <!-- ko if: isTemplateTabsVisible -->
+                            <!-- ko if: isFinishedGoodsUi() != '2' -->
                             <li><a href="#tab-StockLabels" data-toggle="tab">Price Table Columns</a></li>
                             <li><a href="#tab-pricetable" data-toggle="tab">Selling Price Tables</a></li>
-
-                            <!-- ko if: itemProductDetail().isInternalActivity() -->
+                            <!-- /ko -->
+                            <!-- ko if: isFinishedGoodsUi() != '2' && itemProductDetail().isInternalActivity() -->
                             <li><a href="#tab-supplierPrice" data-toggle="tab">Supplier Prices</a></li>
                             <!-- /ko -->
-
-
-                            <!-- /ko -->
+                            
                            
                             <li><a href="#tab-internalDescription" data-toggle="tab">Internal Descriptions</a></li>
                             <!-- ko if: isTemplateTabsVisible -->

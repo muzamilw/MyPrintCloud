@@ -296,19 +296,23 @@ define("machine/machine.viewModel",
                                             //lookupMethodViewModel.selectedMeterPerHourClickCharge(null);
                                             //lookupMethodViewModel.selectedGuillotineClickCharge(null);
                                             //saveNewMachine(lookupMethodViewModel.selectedClickChargeZones(), lookupMethodViewModel.selectedGuillotineClickCharge(), lookupMethodViewModel.selectedMeterPerHourClickCharge(), lookupMethodViewModel.selectedGuillotineClickCharge() != null ? lookupMethodViewModel.selectedGuillotineClickCharge().GuillotinePTVList() : null);
-                                            saveNewMachine(lookupMethodViewModel.selectedClickChargeZones(),null, null, null,5);
+
+                                            //MachineType(5);
+                                            saveNewMachine(lookupMethodViewModel.selectedClickChargeZones(), null, null, 5);
 
                                         }
                                         else
                                         {
                                             //lookupMethodViewModel.selectedMeterPerHourClickCharge(null);
                                             //lookupMethodViewModel.selectedGuillotineClickCharge(null);
-                                            saveNewMachine(null, null, lookupMethodViewModel.selectedMeterPerHourClickCharge(),null,8);
+                                            //MachineType(8);
+                                            var meter = lookupMethodViewModel.oMeterPerHour();
+                                            saveNewMachine(null, null, meter, 8);
                                         }
                                     }
                                     else { // case of guiltotine
-
-                                        saveNewMachine(null, lookupMethodViewModel.selectedGuillotineClickCharge(), null, lookupMethodViewModel.selectedGuillotineClickCharge() != null ? lookupMethodViewModel.selectedGuillotineClickCharge().GuillotinePTVList() : null,6);
+                                       // MachineType(6);
+                                        saveNewMachine(null, lookupMethodViewModel.selectedGuillotineClickCharge(), null, 6);
                                     }
                                 }
 
@@ -340,7 +344,7 @@ define("machine/machine.viewModel",
                     saveEdittedMachine = function () {
                         //var zone = lookupMethodViewModel.oClickChargeZoneServerMapper();
                         var zone = lookupMethodViewModel.selectedClickChargeZones();
-                        var meter = lookupMethodViewModel.selectedMeterPerHourClickCharge();
+                        var meter = lookupMethodViewModel.oMeterPerHour();
                         var guillotine = lookupMethodViewModel.oGuillotineZone();
 
 
@@ -384,9 +388,9 @@ define("machine/machine.viewModel",
                             }
                         });
                     },
-                    saveNewMachine = function (mClickChargeZone,mSelectedGuillotineClickCharge,mMeterPerHour,mGuilotinePtv,mType) {
+                    saveNewMachine = function (mClickChargeZone,mSelectedGuillotineClickCharge,mMeterPerHour,mType) {
 
-                        dataservice.saveNewMachine(model.machineServerMapper(selectedMachine(), mClickChargeZone, mMeterPerHour, mSelectedGuillotineClickCharge, mGuilotinePtv, mType), {
+                        dataservice.saveNewMachine(model.machineServerMapper(selectedMachine(), mClickChargeZone, mMeterPerHour, mSelectedGuillotineClickCharge, mType), {
                             success: function (data) {
                                 selectedMachine().reset();
                                 errorList.removeAll();

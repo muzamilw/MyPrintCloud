@@ -70,12 +70,12 @@
                          if (selectedReportId() > 0) {
                              dataservice.getReportEmailData({
                                  Reportid: selectedReportId(),
-                                 SignedBy: CategoryId,
-                                 ContactId: IsExternal,
-                                 RecordId: RecordId,
-                                 ReportType: ReportType,
-                                 OrderId: OrderId,
-                                 CriteriaParam: CriteriaParam
+                                 //SignedBy: CategoryId,
+                                 //ContactId: IsExternal,
+                                 //RecordId: RecordId,
+                                 //ReportType: ReportType,
+                                 //OrderId: OrderId,
+                                 //CriteriaParam: CriteriaParam
                              }, {
                                  success: function (data) {
                                      To(data.To);

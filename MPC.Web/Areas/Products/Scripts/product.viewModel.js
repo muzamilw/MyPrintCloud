@@ -228,6 +228,26 @@ define("product/product.viewModel",
                         if (sectionFlags() && sectionFlags().length > 0) {
                             selectedProduct().flagId(sectionFlags()[0].id);
                         }
+                        // Set First Press from Presses List
+                        if (presses() && presses().length > 0) {
+                            if (selectedProduct().itemSections().length > 0) {
+                                selectedProduct().itemSections()[0].pressId(presses()[0].id);
+                                selectedProduct().itemSections()[0].sectionSizeWidth(presses()[0].maxSheetWidth || 0);
+                                selectedProduct().itemSections()[0].pressIdSide1ColourHeads(presses()[0].colourHeads || 0);
+                                selectedProduct().itemSections()[0].pressIdSide1IsSpotColor(presses()[0].isSpotColor || false);
+                                // Update Section Ink Coverage
+                                selectedProduct().itemSections()[0].sectionInkCoverageList.removeAll(selectedProduct().itemSections()[0].sectionInkCoveragesSide1());
+                                for (var i = 0; i < presses()[0].colourHeads; i++) {
+                                    selectedProduct().itemSections()[0].sectionInkCoverageList.push(model.SectionInkCoverage.Create({
+                                        SectionId: selectedProduct().itemSections()[0].id(),
+                                        Side: 1,
+                                        InkOrder: i + 1
+                                    }));
+                                }
+                            }
+                        }
+                        // Create A Template Page 
+                        selectedProduct().template().addDefaultTemplatePage();
                         openProductEditor();
                     },
                     // Edit Product
