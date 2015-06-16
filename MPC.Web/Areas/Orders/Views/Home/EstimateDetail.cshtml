@@ -83,7 +83,7 @@
                                                     <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedOrder().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                                                 </div>
                                             </div>
-                                            <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
+                                            <div class="col-sm-1" style="padding-top:10px;">
                                                 <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined)" class="btn btn-primary pull-right">
                                                     <i class="fa fa-user"></i>
                                                 </button>
@@ -106,7 +106,7 @@
                                                 <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
+                                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded">
                                                 <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
                                                     <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                                                 </a>
@@ -154,7 +154,7 @@
                                             <div class="col-sm-4 text-right">
                                                 &nbsp;
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-7">
                                                 <div>
                                                     <input type="text" style="height: 60px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Estimate Title" class="form-control font24px" id="EstimateTitle" />
                                                 </div>
@@ -167,7 +167,10 @@
                                                 &nbsp;
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="text" style="height: 60px;" readonly class="form-control font24px" id="code" data-bind="value: code, visible: $root.selectedOrder().id() > 0" />
+                                                <div style="height: 60px;">
+                                                    <input type="text" style="height: 100%" readonly class="form-control font24px" id="code" data-bind="value: code, visible: $root.selectedOrder().id() > 0" />
+                                                </div>
+                                                
                                                 <button class=" btn btn-warning" id="notes-Button" onclick="showLeftPanel();" data-bind="click: $root.getInquiryItems, visible: enquiryId() != undefined" style="margin-top: -47px;">Notes</button>
                                                 <div id="left-panel" class="this that the other thing"  style="overflow-x: hidden">
                                                     <button type="button" class="close" onclick="showLeftPanel();"><span>×</span></button>
@@ -234,6 +237,9 @@
                                             </div>
 
                                         </div>*@
+                                        <div class="form-group" style="margin-top:6.5%">
+
+                                        </div>
                                         <div class="form-group" style="margin-top:0">
                                             <div class="col-sm-4 text-right" style="padding-top: 10px;">
                                                 <label class="control-label text-right">Estimate Date</label>
