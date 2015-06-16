@@ -2256,7 +2256,8 @@ namespace MPC.Implementation.MISServices
                 CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty,
                 WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
                 Inks = stockItemRepository.GetStockItemOfCategoryInk(),
-                Machines = machineRepository.GetAll()
+                Machines = machineRepository.GetAll(),
+                A4PaperStockItem = stockItemRepository.GetA4PaperStock()
             };
         }
 
