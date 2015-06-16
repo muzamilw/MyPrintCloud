@@ -92,7 +92,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 grandTotal = ko.observable(spcGrandTotal || 0).extend({ numberInput: ist.numberFormat }),
                 supplierId = ko.observable(spcSupplierId).extend({ required: true }),
                 //supplierTelNo = ko.observable(spcSupplierTelNo),
-                discount = ko.observable(spcDiscount || 0),
+                discount = ko.observable(0, 0),
                 companyName = ko.observable(undefined),
                 taxRate = ko.observable(0),
                 purchaseDetails = ko.observableArray([]),
@@ -100,7 +100,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 setValidationSummary = function (validationSummaryList) {
                     validationSummaryList.removeAll();
                     if (supplierId.error) {
-                        validationSummaryList.push({ name: "Customer", element: supplierId.domElement });
+                        validationSummaryList.push({ name: "Supplier", element: supplierId.domElement });
                     }
                     if (contactId.error) {
                         validationSummaryList.push({ name: "Contact", element: contactId.domElement });
@@ -115,7 +115,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Errors
                 errors = ko.validation.group({
                     supplierId: supplierId,
-                    flagId: flagId
+                    flagId: flagId,
+                    addressId: addressId,
+                    contactId:contactId
                 }),
                 // Is Valid 
                 isValid = ko.computed(function () {
@@ -261,7 +263,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             setValidationSummary = function (validationSummaryList) {
                 validationSummaryList.removeAll();
                 if (supplierId.error) {
-                    validationSummaryList.push({ name: "Customer", element: supplierId.domElement });
+                    validationSummaryList.push({ name: "Supplier", element: supplierId.domElement });
                 }
                 if (contactId.error) {
                     validationSummaryList.push({ name: "Contact", element: contactId.domElement });
@@ -274,7 +276,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Errors
             errors = ko.validation.group({
                 supplierId: supplierId,
-                flagId: flagId
+                flagId: flagId,
+                contactId: contactId,
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -396,7 +399,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              packqty = ko.observable(specifiedpackqty || 0).extend({ number: true }),
              itemCode = ko.observable(specifiedItemCode),
              serviceDetail = ko.observable(specifiedServiceDetail),
-             taxValue = ko.observable(specifiedTaxValue || 0),
+             taxValue = ko.observable(0),
              totalPrice = ko.computed(function () {
                  return quantity() * price();
              }).extend({ numberInput: ist.numberFormat }),
@@ -430,7 +433,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     quantity: source.quantity(),
                     price: source.price(),
                     packqty: source.packqty(),
-                    pacItemCodekqty: source.itemCode(),
+                    ItemCode: source.itemCode(),
                     ServiceDetail: source.serviceDetail(),
                     TotalPrice: source.totalPrice(),
                     Discount: source.discount(),

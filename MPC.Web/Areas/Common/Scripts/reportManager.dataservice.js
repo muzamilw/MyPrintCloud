@@ -26,7 +26,7 @@
                     });
                     
                     amplify.request.define('getReportEmailData', 'ajax', {
-                        url: ist.siteUrl + '/Api/ReportManager',
+                        url: ist.siteUrl + '/Api/ReportEmail',
                         dataType: 'json',
                         type: 'GET'
                     });

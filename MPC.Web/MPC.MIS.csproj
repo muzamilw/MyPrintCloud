@@ -1260,6 +1260,9 @@
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
     </Content>
+    <Content Include="Content\less\PurchaseOrder.css">
+      <DependentUpon>PurchaseOrder.less</DependentUpon>
+    </Content>
     <Content Include="Content\less\StockItemDialog.css">
       <DependentUpon>StockItemDialog.less</DependentUpon>
     </Content>
@@ -2235,6 +2238,7 @@
     <Content Include="Content\less\Orders.css.map">
       <DependentUpon>Orders.css</DependentUpon>
     </Content>
+    <Content Include="Content\less\PurchaseOrder.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

@@ -1629,7 +1629,7 @@ function g2_22(mode) {
                     lstClrs.push(clr);
                     if (IT.ModifiedColor != "")
                         clr = IT.ModifiedColor;
-                    $(".svgColorContainer").append('<button id="" class="BtnChngeClr btnChangeShapeColor BtnChngeSvgClr' + i + '" title="Color picker" style="display: inline-block; background-color:' + clr + ' " onclick="f2_ChangeSVGColor(' + IT.PathIndex + ');"> </button>');
+                    $(".svgColorContainer").append('<button id="" class="BtnChngeClrSvg btnChangeShapeColor BtnChngeSvgClr' + i + '" title="Color picker" style="display: inline-block; background-color:' + clr + ' " onclick="f2_ChangeSVGColor(' + IT.PathIndex + ');"> </button>');
                 }
             });
         } 
