@@ -32,7 +32,7 @@ namespace MPC.Models.DomainModels
         public double? NetTotal { get; set; }
         public int? discountType { get; set; }
         public int? Status { get; set; }
-        public int? CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         public int LastChangedBy { get; set; }
         public int FlagId { get; set; }
         public int LockedBy { get; set; }
