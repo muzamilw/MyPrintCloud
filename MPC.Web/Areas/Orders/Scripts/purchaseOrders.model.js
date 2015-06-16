@@ -100,7 +100,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 setValidationSummary = function (validationSummaryList) {
                     validationSummaryList.removeAll();
                     if (supplierId.error) {
-                        validationSummaryList.push({ name: "Customer", element: supplierId.domElement });
+                        validationSummaryList.push({ name: "Supplier", element: supplierId.domElement });
                     }
                     if (contactId.error) {
                         validationSummaryList.push({ name: "Contact", element: contactId.domElement });
@@ -115,7 +115,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Errors
                 errors = ko.validation.group({
                     supplierId: supplierId,
-                    flagId: flagId
+                    flagId: flagId,
+                    addressId: addressId,
+                    contactId:contactId
                 }),
                 // Is Valid 
                 isValid = ko.computed(function () {
@@ -261,7 +263,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             setValidationSummary = function (validationSummaryList) {
                 validationSummaryList.removeAll();
                 if (supplierId.error) {
-                    validationSummaryList.push({ name: "Customer", element: supplierId.domElement });
+                    validationSummaryList.push({ name: "Supplier", element: supplierId.domElement });
                 }
                 if (contactId.error) {
                     validationSummaryList.push({ name: "Contact", element: contactId.domElement });
