@@ -255,7 +255,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         selectedPurchaseOrder().companyName(company.name);
                         selectedPurchaseOrder().supplierContactCompany(company.name);
 
-                        selectedPurchaseOrder().taxRate(company.taxRate !== null ? company.taxRate : 0);
+                        //selectedPurchaseOrder().taxRate(company.taxRate !== null ? company.taxRate : 0);
 
                         selectedCompany(company);
 
@@ -527,9 +527,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     addPurchaseDetail = function () {
                         if (selectedPurchaseOrder().supplierId() !== undefined) {
                             selectedPurchaseOrderDetail(model.PurchaseDetail());
-                            selectedPurchaseOrderDetail().taxValue(selectedPurchaseOrder().taxRate());
+                          //  selectedPurchaseOrderDetail().taxValue(selectedPurchaseOrder().taxRate());
                             selectedPurchaseOrderDetail().quantity(1);
-                            selectedPurchaseOrderDetail().discount(discountCalculate());
+                           // selectedPurchaseOrderDetail().discount(discountCalculate());
                             selectedPurchaseOrderDetail().productType(selectedPurchaseOrder().isproduct());
                             if (selectedPurchaseOrder().isproduct() === 1) {
                                 openStockItemDialogForAddingStock();
@@ -588,33 +588,13 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     // 
                     setTaxValue = ko.computed(function () {
                         if (selectedPurchaseOrder() !== undefined) {
-                            _.each(selectedPurchaseOrder().purchaseDetails(), function (item) {
-                                if (item.taxValue() === null || item.taxValue() === undefined && item.id() < 0) {
-                                    item.taxValue(selectedPurchaseOrder().taxRate());
-                                }
-                            });
 
                             var tPrice = 0;
                             _.each(selectedPurchaseOrder().purchaseDetails(), function (item) {
                                 tPrice = tPrice + item.totalPrice();
                             });
                             selectedPurchaseOrder().totalPrice(tPrice);
-
-
-                            var tTax = 0;
-                            _.each(selectedPurchaseOrder().purchaseDetails(), function (item) {
-                                tTax = tTax + item.netTax();
-                            });
-                            selectedPurchaseOrder().netTotal(tPrice + tTax);
-                            selectedPurchaseOrder().totalTax(tTax);
-                            // In case of %
-                            if (selectedPurchaseOrder().discountType() === 1) {
-                                var discountAmount = ((selectedPurchaseOrder().discount() / 100) * selectedPurchaseOrder().totalPrice());
-                                selectedPurchaseOrder().grandTotal(selectedPurchaseOrder().netTotal() - discountAmount);
-                            } else {
-                                // In case of currency 
-                                selectedPurchaseOrder().grandTotal(selectedPurchaseOrder().netTotal() - selectedPurchaseOrder().discount());
-                            }
+                            selectedPurchaseOrder().netTotal(tPrice);
                         }
                     }),
                      // Discount Calculate

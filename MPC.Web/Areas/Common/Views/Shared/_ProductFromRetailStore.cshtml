@@ -30,8 +30,7 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="col-sm-6"></th>
-                                        <th class="col-sm-6"></th>
+                                        <th class="col-sm-11"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,14 +83,14 @@
 
                                         <div class="col-sm-6" style=" padding-right: 0px;">
                                             <div class="form-group pull-right">
-                                                <input type="text" placeholder="" style=" margin-left: 1px;" class="form-control" data-bind="value: $root.selectedProductQuanity" />
+                                                <input type="text" placeholder="" style=" margin-left: 1px; text-align: right;" class="form-control" data-bind="value: $root.selectedProductQuanity" />
                                             </div>
                                         </div>
                                         <!-- /ko -->
                                         <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
                                         <div class="col-sm-6" style=" padding-right: 0px;">
                                             <div class="form-group pull-right">
-                                                <select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity, optionsCaption: 'Select Quantity'"></select>
+                                                <select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity"></select>
                                             </div>
                                         </div>
                                         <!-- /ko -->
@@ -219,13 +218,11 @@
     </div>
 </div>
 <script id="itemsTemplate" type="text/html">
-    <tr data-bind="click : $root.updateItemsDataOnItemSelection, css: { selectedRow: $root.selectedProductFromStore() === $data }" style="cursor: pointer; word-break: break-all">
+    <tr data-bind="click : $root.selectedProductFromStore() !== $data ? $root.updateItemsDataOnItemSelection:'', css: { selectedRow: $root.selectedProductFromStore() === $data }" style="cursor: pointer; word-break: break-all">
         <td data-bind=" css: { selectedRow: $root.selectedProductFromStore() === $data }">
-            <span data-bind="text: productCode"></span>
+            <span data-bind="text: productCode()+' '+productName()"></span>
         </td>
-        <td style="cursor: pointer; word-break: break-all" data-bind=" css: { selectedRow: $root.selectedProductFromStore() === $data }">
-            <span data-bind="text: productName"></span>
-        </td>
+
     </tr>
 </script>
 <script id="addOnTemplate" type="text/html">
@@ -252,13 +249,17 @@
     <tr>
         @*data-bind="click : $root.updateItemsDataOnItemSelection"*@
         <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
-        <td style="cursor: pointer; word-break: break-all"  data-bind="text: quantity"></td>
+        <td style="cursor: pointer; word-break: break-all; font-size: 0.875em;"  data-bind="text: quantity"></td>
         <!--/ko-->
         <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
-        <td style="cursor: pointer; word-break: break-all" data-bind="text:qtyRangedFrom"></td>
-        <td style="cursor: pointer; word-break: break-all"  data-bind="text: qtyRangedTo"></td>
+        <td style="cursor: pointer; padding-top: 10px;" >
+            <span style="word-break: break-all; font-size: 0.875em;" data-bind="text:qtyRangedFrom"></span>
+        </td>
+        <td style="cursor: pointer;">
+            <span style="word-break: break-all" data-bind="text:qtyRangedTo"></span>
+        </td>
         <!--/ko-->
-        <!-- ko if: $root.selectedStockOptionSequenceNumber() == 1 -->
+        <!-- ko if: $root.selectedStockOptionSequenceNumber() == 1  -->
         <td style="cursor: pointer; word-break: break-all; text-align: right"  data-bind="style: {   paddingRight: $root.quantitiesCount()>=4? '8.5%':'13%' }">
             <span style="text-align: right" data-bind="text: $root.currencySymbol"></span>
             <span style="text-align: right" data-bind="numberInput: pricePaperType1WithTax"></span>
