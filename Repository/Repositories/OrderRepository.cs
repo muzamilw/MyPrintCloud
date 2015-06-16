@@ -4975,6 +4975,7 @@ namespace MPC.Repository.Repositories
 
         }
 
+
         #region MISSpeicificFunctions
 
         public void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize)
@@ -4987,6 +4988,7 @@ namespace MPC.Repository.Repositories
 
         }
 
+        // generate template pdf file called from MIS and webstore 
         private bool GenerateTemplatePdf(long productID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners, bool isDrawHiddenObjs, double bleedareaSize, bool isMultipageProduct)
         {
             bool result = false;
@@ -4994,7 +4996,7 @@ namespace MPC.Repository.Repositories
             {
 
                 string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
-                string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/");
+                string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/");//"~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/"
                 if (!Directory.Exists(drURL + productID))
                 {
                     Directory.CreateDirectory(drURL + productID);
@@ -5049,6 +5051,7 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
+
 
         public Template GetTemplate(long productID, bool loadPages)
         {
@@ -5240,7 +5243,7 @@ namespace MPC.Repository.Repositories
                             if (objProduct.isSpotTemplate.HasValue == true && objProduct.isSpotTemplate.Value == true)
                                 isTemplateSpot = true;
 
-                            AddTextObject(objObjects, objProductPage.PageNo.Value, FontsList, ref doc, fontPath, currentX, currentY, objObjects.MaxWidth.Value, objObjects.MaxHeight.Value, isTemplateSpot);
+                            AddTextObject(objObjects, objProductPage.PageNo.Value, FontsList, ref doc, fontPath, currentX, currentY, objObjects.MaxWidth.Value, objObjects.MaxHeight.Value, isTemplateSpot, OrganisationID);
 
 
 
@@ -5255,7 +5258,14 @@ namespace MPC.Repository.Repositories
                             {
                                 if (objObjects.ClippedInfo == null)
                                 {
-                                    LoadImage(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                    if (objObjects.ContentString.Contains(".svg") && !objObjects.ContentString.Contains("{{"))
+                                    {
+                                        GetSVGAndDraw(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                    }
+                                    else
+                                    {
+                                        LoadImage(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                    }
                                 }
                                 else
                                 {
@@ -5302,11 +5312,12 @@ namespace MPC.Repository.Repositories
                             doc.SetInfo(doc.Page, "/ArtBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(ArtBoxSize)).ToString());
 
                         }
-                        //if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
-                        //{
-                        //    BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
-                        //    doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
-                        //}
+
+                        if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
+                        {
+                            BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
+                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
+                        }
                         if (bleedareaSize != 0)
                         {
 
@@ -5329,11 +5340,11 @@ namespace MPC.Repository.Repositories
                             string path = "";
                             if (pFont.FontPath == null)
                             {
-                                path = "";
+                                // mpc designers fonts or system fonts 
+                                path = "Organisation" + OrganisationID + "/WebFonts/";//"PrivateFonts/FontFace/";//+ objFont.FontFile; at the root of MPC_content/Webfont
                             }
                             else
                             {  // customer fonts 
-
                                 path = pFont.FontPath;
                             }
                             if (System.IO.File.Exists(fontPath + path + pFont.FontFile + ".ttf"))
@@ -5433,7 +5444,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        private void AddTextObject(TemplateObject ooBject, int PageNo, List<TemplateFont> oFonts, ref Doc oPdf, string Font, double OPosX, double OPosY, double OWidth, double OHeight, bool isTemplateSpot)
+        private void AddTextObject(TemplateObject ooBject, int PageNo, List<TemplateFont> oFonts, ref Doc oPdf, string Font, double OPosX, double OPosY, double OWidth, double OHeight, bool isTemplateSpot, long organisationID)
         {
 
             try
@@ -5462,6 +5473,10 @@ namespace MPC.Repository.Repositories
                             oPdf.ColorSpace = oPdf.AddColorSpaceSpot(ooBject.SpotColorName, ooBject.ColorC.ToString() + " " + ooBject.ColorM.ToString() + " " + ooBject.ColorY.ToString() + " " + ooBject.ColorK.ToString());
                             oPdf.Color.Gray = 255;
                         }
+                        else
+                        {
+                            oPdf.Color.String = ooBject.ColorC.ToString() + " " + ooBject.ColorM.ToString() + " " + ooBject.ColorY.ToString() + " " + ooBject.ColorK.ToString();
+                        }
                     }
                     else
                     {
@@ -5489,7 +5504,7 @@ namespace MPC.Repository.Repositories
                     if (pFont.FontPath == null)
                     {
                         // mpc designers fonts or system fonts 
-                        path = "";//"PrivateFonts/FontFace/";//+ objFont.FontFile; at the root of MPC_content/Webfont
+                        path = "Organisation" + organisationID + "/WebFonts/";//"PrivateFonts/FontFace/";//+ objFont.FontFile; at the root of MPC_content/Webfont
                     }
                     else
                     {  // customer fonts 
@@ -5560,9 +5575,17 @@ namespace MPC.Repository.Repositories
                                     // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
                                     pid = "pid ='" + FontID.ToString() + "' ";
                                 }
+                                string lineSpacingString = "";
+                                if (ooBject.LineSpacing != null)
+                                {
+                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * ooBject.FontSize.Value) + " ";
+                                }
+
                                 if (objStyle.fontSize != null)
                                 {
-                                    fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + ">";
+                                    lineSpacingString = " linespacing= " + (ooBject.LineSpacing * Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize)))) + " ";
+                                    fontSize += "<StyleRun fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + pid + lineSpacingString + ">";
+                                    fontTag += " fontsize='" + Convert.ToInt32(DesignerUtils.PixelToPoint(Convert.ToDouble(objStyle.fontSize))) + "' " + lineSpacingString + " ";
                                 }
                                 if (objStyle.fontStyle != null)
                                 {
@@ -5633,7 +5656,7 @@ namespace MPC.Repository.Repositories
                                 {
                                     if (objStyle.fontName != null)
                                     {
-                                        fontSize += "<StyleRun " + pid + ">";
+                                        fontSize += "<StyleRun " + pid + lineSpacingString + ">";
                                         toApplyStyle = fontTag + " >" + fontSize + toApplyStyle + "</StyleRun></font>";
                                     }
                                     else
@@ -5959,7 +5982,7 @@ namespace MPC.Repository.Repositories
                     }
                     oPdf.Color.String = oObject.ColorC.ToString() + " " + oObject.ColorM.ToString() + " " + oObject.ColorY.ToString() + " " + oObject.ColorK.ToString();
                     //if (!ooBject.IsColumnNull("Tint"))
-                    oPdf.Color.Alpha = Convert.ToInt32((oObject.Tint) * 2.5);
+                    oPdf.Color.Alpha = Convert.ToInt32((oObject.Tint) * 2.55);
                 }
                 else if (oObject.ColorType == 4) // For RGB Colors
                 {
@@ -5996,6 +6019,7 @@ namespace MPC.Repository.Repositories
 
         }
 
+        //vector rectangle drawing in PDF
         private void DrawVectorRectangle(ref Doc oPdf, TemplateObject oObject, int PageNo)
         {
 
@@ -6011,7 +6035,7 @@ namespace MPC.Repository.Repositories
                     }
                     oPdf.Color.String = oObject.ColorC.ToString() + " " + oObject.ColorM.ToString() + " " + oObject.ColorY.ToString() + " " + oObject.ColorK.ToString();
                     if (oObject.Opacity != null)
-                        oPdf.Color.Alpha = Convert.ToInt32((100 * oObject.Opacity) * 2.5);
+                        oPdf.Color.Alpha = Convert.ToInt32((100 * oObject.Opacity) * 2.55);
                     //if (!ooBject.IsColumnNull("Tint"))
                     //oPdf.Color.Alpha = 0;//Convert.ToInt32((100 - oObject.Tint) * 2.5);
                 }
@@ -6120,9 +6144,9 @@ namespace MPC.Repository.Repositories
 
         private void GetSVGAndDraw(ref Doc oPdf, TemplateObject oObject, string logoPath, int PageNo)
         {
-
-            XImage oImg = new XImage();
-            Bitmap img = null;
+            logoPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content");
+            //XImage oImg = new XImage();
+            //Bitmap img = null;
             try
             {
                 oPdf.PageNumber = PageNo;
@@ -6134,17 +6158,17 @@ namespace MPC.Repository.Repositories
                 bFileExists = System.IO.File.Exists(FilePath);
                 if (bFileExists)
                 {
-                    DesignerSvgParser.MaximumSize = new Size(Convert.ToInt32(oObject.MaxWidth), Convert.ToInt32(oObject.MaxHeight));
-                    img = DesignerSvgParser.GetBitmapFromSVG(FilePath, oObject.ColorHex);
-                    if (oObject.Opacity != null)
-                    {
-                        // float opacity =float.Parse( oObject.Tint.ToString()) /100;
-                        if (oObject.Opacity != 1)
-                        {
-                            img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
-                        }
-                    }
-                    oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
+                    //DesignerSvgParser.MaximumSize = new Size(Convert.ToInt32(oObject.MaxWidth), Convert.ToInt32(oObject.MaxHeight));
+                    // img = DesignerSvgParser.GetBitmapFromSVG(FilePath, oObject.ColorHex);
+                    //if (oObject.Opacity != null)
+                    //{
+                    //    // float opacity =float.Parse( oObject.Tint.ToString()) /100;
+                    //    if (oObject.Opacity != 1)
+                    //    {
+                    //        img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
+                    //    }
+                    //}
+                    //oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
 
                     var posY = oObject.PositionY + oObject.MaxHeight;
 
@@ -6159,13 +6183,33 @@ namespace MPC.Repository.Repositories
                             oPdf.Transform.Rotate(360 - oObject.RotationAngle.Value, oObject.PositionX.Value + oObject.MaxWidth.Value / 2, oPdf.MediaBox.Height - posY.Value + oObject.MaxHeight.Value / 2);
                         }
                     }
-                    int id = oPdf.AddImageObject(oImg, true);
-                    //if (oObject.Tint != null)
-                    //{
-                    //    ImageLayer im = (ImageLayer)oPdf.ObjectSoup[id];
 
-                    //    im.PixMap.SetAlpha(Convert.ToInt32(( oObject.Tint) * 2.5));
-                    //}
+                    // }
+
+
+                    //  oBook = new tblBook();
+                    // oBook.bookid = Guid.Empty;
+
+                    //  oBook.book_title = BookNode.Attributes["book_title"].Value;
+
+
+                    //int id = oPdf.AddImageObject(oImg, true);
+                    //oPdf.Transform.Reset();
+                    oPdf.HtmlOptions.HideBackground = true;
+                    oPdf.HtmlOptions.Engine = EngineType.Gecko;
+
+                    float width = (float)oObject.MaxWidth.Value, height = (float)oObject.MaxHeight.Value;
+                    // string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/MPC_Content" + oObject.ContentString;
+                    ////int id = oPdf.AddImageUrl(URl);
+                    List<svgColorData> styles = new List<svgColorData>();
+                    if (oObject.textStyles != null)
+                    {
+                        styles = JsonConvert.DeserializeObject<List<svgColorData>>(oObject.textStyles);
+                    }
+                    string file = DesignerSvgParser.UpdateSvg(FilePath, height, width, styles);//
+                    string html = File.ReadAllText(file);
+                    html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>";
+                    oPdf.AddImageHtml(html);
                     oPdf.Transform.Reset();
                 }
             }
@@ -6175,9 +6219,9 @@ namespace MPC.Repository.Repositories
             }
             finally
             {
-                oImg.Dispose();
-                if (img != null)
-                    img.Dispose();
+                //  oImg.Dispose();
+                // if (img != null)
+                //  img.Dispose();
             }
         }
 
@@ -6265,7 +6309,7 @@ namespace MPC.Repository.Repositories
                                 System.Drawing.Image objImage = null;
                                 try
                                 {
-                                    oPdf.PageNumber = PageNo;
+                                    oPdf.PageNumber = i;
 
 
                                     bool bFileExists = false;
@@ -6294,7 +6338,7 @@ namespace MPC.Repository.Repositories
                                         oPdf.Layer = 1;
                                         oPdf.Rect.Position(posX, posY);
                                         oPdf.Rect.Resize(width, height);
-
+                                        oPdf.Transform.Rotate(45, oPdf.MediaBox.Width / 2, oPdf.MediaBox.Height / 2);
 
                                         oPdf.AddImageObject(oImg, true);
                                         oPdf.Transform.Reset();
@@ -6362,7 +6406,7 @@ namespace MPC.Repository.Repositories
         public bool generatePagePreviewMultiplage(byte[] PDFDoc, string savePath, double CuttingMargin, int DPI, bool RoundCorners)
         {
 
-
+            CuttingMargin = DesignerUtils.PixelToPoint(CuttingMargin); // as when we get template back from Designer it contains cutting margin in pixels
             //XSettings.License = "810-031-225-276-0715-601";
             using (Doc theDoc = new Doc())
             {
@@ -6419,6 +6463,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        //generate pdf function
         private byte[] generatePDF(Template objProduct, TemplatePage objProductPage, List<TemplateObject> listTemplateObjects, string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode, long OrganisationID, double bleedareaSize, bool drawBleedArea)
         {
             Doc doc = new Doc();
@@ -6613,7 +6658,7 @@ namespace MPC.Repository.Repositories
                         if (objProduct.isSpotTemplate.HasValue == true && objProduct.isSpotTemplate.Value == true)
                             isTemplateSpot = true;
 
-                        AddTextObject(objObjects, objProductPage.PageNo.Value, FontsList, ref doc, fontPath, currentX, currentY, objObjects.MaxWidth.Value, objObjects.MaxHeight.Value, isTemplateSpot);
+                        AddTextObject(objObjects, objProductPage.PageNo.Value, FontsList, ref doc, fontPath, currentX, currentY, objObjects.MaxWidth.Value, objObjects.MaxHeight.Value, isTemplateSpot, OrganisationID);
 
 
 
@@ -6628,7 +6673,14 @@ namespace MPC.Repository.Repositories
                         {
                             if (objObjects.ClippedInfo == null)
                             {
-                                LoadImage(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                if (objObjects.ContentString.Contains(".svg") && !objObjects.ContentString.Contains("{{"))
+                                {
+                                    GetSVGAndDraw(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                }
+                                else
+                                {
+                                    LoadImage(ref doc, objObjects, ProductFolderPath, objProductPage.PageNo.Value);
+                                }
                             }
                             else
                             {
@@ -6693,22 +6745,38 @@ namespace MPC.Repository.Repositories
                     }
                     int FontID = 0;
                     var pFont = FontsList.Where(g => g.FontName == "Arial Black").FirstOrDefault();
+                    //if (pFont != null)
+                    //{
+                    //    string path = "";
+                    //    if (pFont.FontPath == null)
+                    //    {
+                    //        path = "";
+                    //    }
+                    //    else
+                    //    {  // customer fonts 
+
+                    //        path = pFont.FontPath;
+                    //    }
+                    //    if (System.IO.File.Exists(fontPath + path + pFont.FontFile + ".ttf"))
+                    //        FontID = doc.EmbedFont(fontPath + path + pFont.FontFile + ".ttf");
+
+
+                    //}
                     if (pFont != null)
                     {
                         string path = "";
                         if (pFont.FontPath == null)
                         {
-                            path = "";
+                            // mpc designers fonts or system fonts 
+                            path = "Organisation" + OrganisationID + "/WebFonts/";//"PrivateFonts/FontFace/";//+ objFont.FontFile; at the root of MPC_content/Webfont
                         }
                         else
                         {  // customer fonts 
-
                             path = pFont.FontPath;
                         }
                         if (System.IO.File.Exists(fontPath + path + pFont.FontFile + ".ttf"))
                             FontID = doc.EmbedFont(fontPath + path + pFont.FontFile + ".ttf");
                     }
-
                     doc.Font = FontID;
                     double trimboxSizeCuttingLines = 0;
                     if (TrimBoxSize != 5)
@@ -6741,11 +6809,12 @@ namespace MPC.Repository.Repositories
             {
                 doc.Dispose();
             }
-
         }
 
+        // generate low res proof image from pdf file 
         private string generatePagePreview(byte[] PDFDoc, string savePath, string PreviewFileName, double CuttingMargin, int DPI, bool RoundCorners)
         {
+            CuttingMargin = DesignerUtils.PixelToPoint(CuttingMargin);
             using (Doc theDoc = new Doc())
             {
                 Stream str = null;

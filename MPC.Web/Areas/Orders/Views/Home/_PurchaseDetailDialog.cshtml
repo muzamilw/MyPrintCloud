@@ -1,5 +1,5 @@
 ﻿
-<div class="modal fade my-modal" id="purchaseDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data- aria-hidden="true">
+<div class="modal fade my-modal" id="purchaseDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -49,6 +49,24 @@
                         <input type="text" class="form-control" id="address" disabled data-bind="value:packqty" />
                     </div>
                 </div>
+              
+                <div class="form-group">
+                    <div class="col-sm-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="customer" class="control-label text-right tooltip-float">Pack Price</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="address" data-bind="value:price,validationTooltip:price" />
+                    </div>
+                    <div class="col-sm-1" style="padding-left: 0px;">
+                        <label class="control-label" data-bind="text:$root.currencySymbol"></label>
+                    </div>
+                </div>
                 <div class="form-group" data-bind="visible:$root.selectedPurchaseOrder().isproduct()===1 ">
                     <div class="col-sm-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -71,23 +89,6 @@
                             </a>
 
                         </div>
-                        <label for="customer" class="control-label text-right tooltip-float">Pack Price</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="address" data-bind="value:price,validationTooltip:price" />
-                    </div>
-                    <div class="col-sm-1" style="padding-left: 0px;">
-                        <label class="control-label" data-bind="text:$root.currencySymbol"></label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
                         <label for="customer" class="control-label text-right tooltip-float">Total Price</label>
                     </div>
                     <div class="col-sm-5">
@@ -95,65 +96,6 @@
                     </div>
                     <div class="col-sm-1" style="padding-left: 0px;">
                         <label class="control-label" data-bind="text:$root.currencySymbol"></label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="customer" class="control-label text-right tooltip-float">VAT</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" disabled id="address" data-bind="numberValue:taxValue" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="customer" class="control-label text-right tooltip-float">Net Tax</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="address" disabled data-bind="numberValue:netTax" />
-                    </div>
-                    <div class="col-sm-1" style="padding-left: 0px;">
-                        <label class="control-label" data-bind="text:$root.currencySymbol"></label>
-                    </div>
-                </div>
-                <div class="form-group" data-bind="visible:$root.selectedPurchaseOrder().isproduct()===1 ">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="customer" class="control-label text-right tooltip-float">Free Items</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="address" data-bind="value:freeitems,validationTooltip:freeitems" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="customer" class="control-label text-right tooltip-float">Discount</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="address" disabled data-bind="numberValue:discount" />
                     </div>
                 </div>
             </div>

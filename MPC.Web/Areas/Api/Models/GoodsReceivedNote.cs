@@ -20,7 +20,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int FlagId { get; set; }
         public string Comments { get; set; }
         public string UserNotes { get; set; }
-        public int? CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         public double? Discount { get; set; }
         public int? discountType { get; set; }
         public double? TotalPrice { get; set; }

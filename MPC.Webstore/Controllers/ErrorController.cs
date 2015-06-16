@@ -16,7 +16,7 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.Exception = exception.Message;
             ViewBag.StackTrace = exception.StackTrace;
-
+            ViewBag.InnerException = exception.InnerException;
             return View();
         }
 
