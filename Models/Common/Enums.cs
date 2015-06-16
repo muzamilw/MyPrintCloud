@@ -384,7 +384,8 @@ namespace MPC.Models.Common
     {
         Mm = 1,
         Cm = 2,
-        Inch = 3
+        Inch = 3,
+        Meters = 4
     }
     public enum SystemCostCenterTypes
     {
