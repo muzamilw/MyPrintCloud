@@ -1440,5 +1440,16 @@ namespace MPC.Implementation.WebStoreServices
         {
            return _productCategoryRepository.GetAllCategories();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currencyId"></param>
+        /// <returns></returns>
+        public string GetCurrencyCodeById(long currencyId)
+        {
+            return _currencyRepository.GetCurrencyCodeById(currencyId);
+        }
+
+
     }
 }

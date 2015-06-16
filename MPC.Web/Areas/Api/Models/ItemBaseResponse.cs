@@ -62,5 +62,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Machines
         /// </summary>
         public IEnumerable<Machine> Machines { get; set; }
+
+        /// <summary>
+        /// A4 Paper Stock Item
+        /// </summary>
+        public StockItemDropDownForProduct A4PaperStockItem { get; set; }
     }
 }

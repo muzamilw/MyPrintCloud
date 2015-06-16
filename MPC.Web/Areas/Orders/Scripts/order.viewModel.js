@@ -2101,10 +2101,22 @@ define("order/order.viewModel",
                         });
                     },
                     openReportsOrder = function (isFromEditor) {
-                        reportManager.show(ist.reportCategoryEnums.Orders, isFromEditor == true ? true : false, 0);
+                        //reportManager.show(ist.reportCategoryEnums.Orders, isFromEditor == true ? true : false, 0);
+                        reportManager.show(ist.reportCategoryEnums.Orders, 0, 0);
                     },
                     openExternalReportsOrder = function () {
+
+                        //ContactId(oContactId);
+                        //RecordId(oRecordId);
+                        //CategoryId(oCategoryId);
+                        //OrderId(oOrderId);
+                        //CriteriaParam(oCriteriaParam);
+
+                        
+                        reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
                         reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
                     },
                     //#endregion
                     //#region Inquiries tab

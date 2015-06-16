@@ -13,7 +13,7 @@ var ist = {
     // UTC Date Format
     utcFormat: "YYYY-MM-DDTHH:mm:ss",
     // For Reporting 
-    reportCategoryEnums : {
+    reportCategoryEnums: {
         CRM: 4,
         Stores: 1,
         Suppliers: 2,
@@ -22,7 +22,7 @@ var ist = {
         Orders: 12,
         Invoice: 13,
         GRN: 15,
-        Inventory:7
+        Inventory: 7
     },
     //server exceptions enumeration 
     exceptionType: {
@@ -348,7 +348,7 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 });
-                
+
                 function handleAfterCommandExec(event) {
                     if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
                         ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
@@ -357,12 +357,12 @@ require(["ko", "knockout-validation"], function (ko) {
                         ist.stores.viewModel.selectedEmail().hTMLMessageA(instance.getData());
                     }
                 }
-                
+
                 // Handles styling changes 
                 instance.on('afterCommandExec', handleAfterCommandExec);
                 // Handles styling Drop down changes like font size, font family 
                 instance.on('selectionChange', handleAfterCommandExec);
-                
+
 
                 value.subscribe(function (newValue) {
                     if (!isEditorChange) {
@@ -1293,7 +1293,7 @@ function ShowInputCostCentrePopup(inputQueueItems, costCentreId, clonedItemId, s
                 }
             }
         }
-        
+
     } else if (mode == "Modify") { // This condition will execute when cost centre is already prompted and user clicks to modify the values entered
         Heading = "Edit " + $(selectedCostCentreCheckBoxId).next().html();
         if (inputQueueItems) {
@@ -1321,7 +1321,7 @@ function ShowInputCostCentrePopup(inputQueueItems, costCentreId, clonedItemId, s
                 }
             }
         }
-        
+
     }
 
     for (var w = 0; w < workInstructions.length; w++) {
@@ -1464,7 +1464,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                     inputAndQuestionQueues.InputQueues.push(globalInputQueueItemsList[i]);
                 }
             }
-            
+
         } else {
             if (globalInputQueueItemsList && inputAndQuestionQueues) {
                 for (var i = 0; i < globalInputQueueItemsList.length; i++) {
@@ -1484,7 +1484,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                     }
                 }
             }
-            
+
         }
 
         if (globalQuestionQueueItemsList && inputAndQuestionQueues) {
@@ -1526,7 +1526,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
         contentType: "application/json",
         async: true,
         success: function (response) {
-            
+
             var updatedAddOns = itemAddOns;
 
             if (updatedAddOns() != null) {
@@ -1543,7 +1543,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                                     }
                                 }
                             }
-                            
+
                         } else { // input queue
                             if (updatedGlobalQueueArray && updatedGlobalQueueArray.InputQueues) {
                                 for (var k = 0; k < updatedGlobalQueueArray.InputQueues.length; k++) {
@@ -1553,7 +1553,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                                     }
                                 }
                             }
-                            
+
                         }
 
                         if (costCentreQueueObjectToSaveInDb && costCentreQueueObjectToSaveInDb.length > 0) {
@@ -1615,7 +1615,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                     $(selectedCostCentreCheckBoxId).next().next().html('<label>' + currencyCode + (TaxAppliedValue).toFixed(2).toString() + '</label>');
                 }
                 //$("#VMAddOnrice").val(totalVal);
-               // $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
+                // $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
             }
             HideLoader();
         },

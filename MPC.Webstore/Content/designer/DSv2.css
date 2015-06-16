@@ -421,8 +421,8 @@ line-height: 38px;
 }
 
 .stage3 {
-    max-width: 630px !important;
-    width: 630px !important;
+    max-width: 562px !important;
+    width: 562px !important;
 }
 
 .stage4 #selectedTab {
@@ -4951,6 +4951,25 @@ h2 + .gallery {
     border: 0px solid transparent;
     position: relative;
     background-color: rgb(255, 6, 16) ;
+    padding-left:3px;
+    width: 48px;
+    height: 48px;
+    margin: 5px;
+    font-size: 11px;
+    margin-top: -11px;
+    margin-bottom:-7px;
+    margin-left: 24px;
+      border-color: grey;
+  border-width: 2px;
+}
+.BtnChngeClrSvg {
+    border-radius: 50%;
+    color: #fff;
+    vertical-align: bottom;
+    margin-right: 58px;
+    border: 0px solid transparent;
+    position: relative;
+    background-color: transparent ;
     padding-left:3px;
     width: 48px;
     height: 48px;

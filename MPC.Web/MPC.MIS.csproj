@@ -823,6 +823,7 @@
     <Compile Include="Areas\Api\Models\SmartFormResponse.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
+    <Compile Include="Areas\Api\Models\StockItemDropDownForProduct.cs" />
     <Compile Include="Areas\Api\Models\StockItemForDropDown.cs" />
     <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
     <Compile Include="Areas\Api\Models\StoresListDropDown.cs" />
@@ -1259,6 +1260,9 @@
     </Content>
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\PurchaseOrder.css">
+      <DependentUpon>PurchaseOrder.less</DependentUpon>
     </Content>
     <Content Include="Content\less\StockItemDialog.css">
       <DependentUpon>StockItemDialog.less</DependentUpon>
@@ -2235,6 +2239,7 @@
     <Content Include="Content\less\Orders.css.map">
       <DependentUpon>Orders.css</DependentUpon>
     </Content>
+    <Content Include="Content\less\PurchaseOrder.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

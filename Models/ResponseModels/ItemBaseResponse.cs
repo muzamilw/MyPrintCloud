@@ -68,5 +68,10 @@ namespace MPC.Models.ResponseModels
         /// Inks
         /// </summary>
         public IEnumerable<StockItem> Inks { get; set; }
+
+        /// <summary>
+        /// A4 Paper Stock Item
+        /// </summary>
+        public StockItem A4PaperStockItem { get; set; }
     }
 }
