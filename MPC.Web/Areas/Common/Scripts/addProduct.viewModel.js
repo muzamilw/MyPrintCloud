@@ -145,6 +145,8 @@ define("common/addProduct.viewModel",
                                         item.itemPriceMatrices.removeAll();
                                         item.itemSections.removeAll();
                                         productQuantitiesList.removeAll();
+                                        selecteditem(undefined);
+                                        selectedProductQuanity(undefined);
                                        // selectedStockOption().itemAddonCostCentres.removeAll();
                                         _.each(data.ItemStockOptions, function(itemStockoption) {
                                             itemStockoption.ProductItemTax = item.defaultItemTax();
@@ -156,9 +158,12 @@ define("common/addProduct.viewModel",
                                             itemPriceMatrix.ProductItemTax = item.defaultItemTax();
                                             itemPriceMatrix.CompanyTaxRate = companyTaxRate;
                                             var itemToBePushed = new model.ItemPriceMatrix.Create(itemPriceMatrix);
-                                            item.itemPriceMatrices.push(itemToBePushed);
+                                            if (item.isQtyRanged() != 2 && itemToBePushed.qtyRangedTo() !== 0) {
+                                                item.itemPriceMatrices.push(itemToBePushed);
+                                            }
                                             if (item.isQtyRanged() == 2 && itemToBePushed.quantity() !== 0) {
                                                 productQuantitiesList.push(itemToBePushed.quantity());
+                                                item.itemPriceMatrices.push(itemToBePushed);
                                             }
                                             if (itemToBePushed.quantity() !== 0) {
                                                 quantitiesCount(quantitiesCount() + 1);
@@ -168,8 +173,14 @@ define("common/addProduct.viewModel",
                                             var itemSectionToBePushed = new model.ItemSection.Create(data.ItemSection);
                                             item.itemSections.push(itemSectionToBePushed);
                                         }
-                                      
+
                                         selecteditem(item);
+                                        if ((item.isQtyRanged() != 2)) {
+                                            var qty = selecteditem().itemPriceMatrices.find(function(obj) {
+                                                return (obj.quantity() > 0);
+                                            });
+                                            selectedProductQuanity(qty.qtyRangedFrom());
+                                        }
                                     }
                                 },
                                 error: function(response) {
