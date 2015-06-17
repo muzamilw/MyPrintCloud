@@ -4682,7 +4682,7 @@ namespace MPC.Implementation.MISServices
                 if (dblCut == 0)
                 {
                     //return functionReturnValue;
-                    //Please select a larger Order paper or a smaller Print size.
+                    //Please select a larger Order paper or a smaller Print size.word
                 }
 
 
