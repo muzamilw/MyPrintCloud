@@ -92,6 +92,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ILiveJobsService, LiveJobsService>();
             unityContainer.RegisterType<IDeliveryNotesService, DeliveryNotesService>();
             unityContainer.RegisterType<IExportReportHelper, ExportReportHelper>();
+            unityContainer.RegisterType<ISectionService, SectionService>();
 
         }
     }
