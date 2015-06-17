@@ -2598,7 +2598,10 @@ namespace MPC.Implementation.MISServices
                 fieldVariableDbVersion.VariableTitle = fieldVariable.VariableTitle;
                 fieldVariableDbVersion.VariableType = fieldVariable.VariableType;
                 fieldVariableDbVersion.WaterMark = fieldVariable.WaterMark;
-                fieldVariableDbVersion.OrganisationId = fieldVariableRepository.OrganisationId;
+                if (fieldVariableDbVersion.IsSystem != true)
+                {
+                    fieldVariableDbVersion.OrganisationId = fieldVariableRepository.OrganisationId;
+                }
                 if (fieldVariable.VariableOptions != null)
                 {
                     foreach (var item in fieldVariable.VariableOptions)
@@ -2636,6 +2639,10 @@ namespace MPC.Implementation.MISServices
                             variableExtensionDb.CollapsePrefix = item.CollapsePrefix;
                             variableExtensionDb.CollapsePostfix = item.CollapsePostfix;
                             variableExtensionDb.OrganisationId = (int)fieldVariableRepository.OrganisationId;
+                        }
+                        else
+                        {
+                            fieldVariableDbVersion.VariableExtensions.Add(item);
                         }
                     }
                 }
@@ -3277,7 +3284,7 @@ namespace MPC.Implementation.MISServices
                 Countries = countryRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
                 CostCentres = costCentreRepository.GetAllDeliveryCostCentersForStore(),
-                SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
+                //SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
                 PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CustomerPriceMatrix),
                 OrganisationId = fieldVariableRepository.OrganisationId,
                 Currency = (organisation != null && organisation.Currency != null) ? organisation.Currency.CurrencySymbol :
@@ -3285,6 +3292,17 @@ namespace MPC.Implementation.MISServices
             };
 
         }
+
+
+        /// <summary>
+        /// Get System Variables
+        /// </summary>
+        public FieldVariableResponse GetSystemVariables(FieldVariableRequestModel request)
+        {
+            return fieldVariableRepository.GetSystemFieldVariable(request);
+        }
+
+
         /// <summary>
         /// Base Data for Crm Screen (prospect/customer and suppliers)
         /// </summary>

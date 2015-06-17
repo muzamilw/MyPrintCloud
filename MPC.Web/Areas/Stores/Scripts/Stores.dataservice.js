@@ -103,6 +103,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get System variables
+                    amplify.request.define('getSystemFieldVariables', 'ajax', {
+                        url: ist.siteUrl + '/Api/SystemVariable',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to get Smart Forms By Company Id
                     amplify.request.define('getSmartFormsByCompanyId', 'ajax', {
                         url: ist.siteUrl + '/Api/SmartForm',
@@ -488,6 +495,18 @@
                     data: params
                 });
             },
+            // Get System Variables
+            getSystemFieldVariables = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getSystemFieldVariables',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
+
             // Get Smart Forms By Company Id
             getSmartFormsByCompanyId = function (params, callbacks) {
                 initialize();
@@ -816,6 +835,7 @@
             saveStore: saveStore,
             searchCompanyTerritory: searchCompanyTerritory,
             getFieldVariablesByCompanyId: getFieldVariablesByCompanyId,
+            getSystemFieldVariables: getSystemFieldVariables,
             searchAddress: searchAddress,
             searchCompanyContact: searchCompanyContact,
             getSecondaryPages: getSecondaryPages,
