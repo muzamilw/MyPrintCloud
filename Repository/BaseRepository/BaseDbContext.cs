@@ -845,6 +845,14 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactCompanyByID", companyIdParameter);
         }
+        public int usp_DeleteCRMCompanyByID(int? companyId)
+        {
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyID", companyId) :
+                new ObjectParameter("CompanyID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteCRMCompanyByID", companyIdParameter);
+        }
 
         /// <summary>
         /// Stored procedure to delete an organisation

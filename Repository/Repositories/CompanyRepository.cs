@@ -5169,6 +5169,18 @@ namespace MPC.Repository.Repositories
             }
 
         }
+        public void DeleteCrmCompanyBySP(long StoreId)
+        {
+            try
+            {
+                db.usp_DeleteCRMCompanyByID(Convert.ToInt32(StoreId));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
         public double? GetTaxRateByStoreId(long storeId)
         {

@@ -1595,7 +1595,38 @@ define("crm/crm.viewModel",
                         newCompanyTerritories.push(companyTerritory);
                     }
                 },
-
+                // On Delete Store Permanently
+                onDeletePermanent = function () {
+                    confirmation.afterProceed(function () {
+                        deleteCompanyPermanently(selectedStore().companyId());
+                    });
+                    confirmation.show();
+                },
+                // Get Company By Id
+                getCompanyByIdFromListView = function (id) {
+                    return stores.find(function (store) {
+                        return store.companyId() === id;
+                    });
+                },
+                // Delete Company Permanently
+                deleteCompanyPermanently = function (id) {
+                dataservice.deleteCompanyPermanent({ CompanyId: id }, {
+                    success: function () {
+                        toastr.success("Deleted successfully!");
+                        isEditorVisible(false);
+                        if (selectedStore()) {
+                            var store = getCompanyByIdFromListView(selectedStore().companyId());
+                            if (store) {
+                                stores.remove(store);
+                            }
+                        }
+                        //resetStoreEditor();
+                    },
+                    error: function (response) {
+                        toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                    }
+                });
+            },
                 //Close Edit Dialog
                 closeEditDialog = function () {
                     var companyIdFromDashboard = $('#CompanyId').val();
@@ -2393,6 +2424,7 @@ define("crm/crm.viewModel",
                     closeEditDialog: closeEditDialog,
                     selectedStore: selectedStore,
                     systemUsers: systemUsers,
+                    onDeletePermanent: onDeletePermanent,
                     searchAddressFilter: searchAddressFilter,
 
                     onEditItem: onEditItem,

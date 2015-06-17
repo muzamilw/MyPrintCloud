@@ -341,6 +341,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteCrmCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNoteBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNotesController.cs" />
     <Compile Include="Areas\Api\Controllers\EstimateBaseController.cs" />
@@ -3426,6 +3427,7 @@
     <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
+    <Folder Include="Areas\Api\Views\DeleteCrmCompany\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
     <Folder Include="Areas\Api\Views\DeliveryNoteBase\" />
     <Folder Include="Areas\Api\Views\EstimateApi\" />
