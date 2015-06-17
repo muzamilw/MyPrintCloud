@@ -1049,6 +1049,20 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_importTerritoryContactAddressByStore", organisationIdParameter, storeIdParameter);
         }
 
+// ReSharper disable InconsistentNaming
+        /// <summary>
+        /// Delete CRM Company By Id
+        /// </summary>
+        public int usp_DeleteCRMCompanyByID(int? companyId)
+// ReSharper restore InconsistentNaming
+        {
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyID", companyId) :
+                new ObjectParameter("CompanyID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteCRMCompanyByID", companyIdParameter);
+        }
+
         #endregion
     }
 }

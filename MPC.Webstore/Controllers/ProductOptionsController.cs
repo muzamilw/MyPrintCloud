@@ -275,7 +275,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    if (StoreBaseResopnse.Company.isIncludeVAT == true && Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
+                    if (Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
                     {
                         _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
                     }

@@ -150,6 +150,12 @@ namespace MPC.Interfaces.MISServices
 
         void DeleteCrmCompanyPermanently(long companyId);
 
+        /// <summary>
+        /// Get System Variables
+        /// </summary>
+        FieldVariableResponse GetSystemVariables(FieldVariableRequestModel request);
+
+
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
