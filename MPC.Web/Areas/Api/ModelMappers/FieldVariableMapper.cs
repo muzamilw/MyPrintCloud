@@ -29,6 +29,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableTitle = source.VariableTitle,
                 VariableType = source.VariableType,
                 WaterMark = source.WaterMark,
+                IsSystem = source.IsSystem,
                 VariableOptions = source.VariableOptions != null ? source.VariableOptions.Select(vo => vo.CreateFrom()).ToList() : null,
                 VariableExtensions = source.VariableExtensions != null ? source.VariableExtensions.Select(vo => vo.CreateFrom()).ToList() : new List<VariableExtension>()
             };
@@ -104,6 +105,32 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         }
 
         /// <summary>
+        /// Create From Web Model
+        /// </summary>
+        public static SystemVariablesResponse CreateFromForSytemVariables(this DomainReponse.FieldVariableResponse source)
+        {
+            return new SystemVariablesResponse
+            {
+                SystemVariables = source.FieldVariables != null ? source.FieldVariables.Select(vf => vf.CreateFromSytemVariableListView()) : new List<SystemVariableForListView>(),
+                RowCount = source.RowCount
+            };
+        }
+
+        /// <summary>
+        /// Create From Web Model
+        /// </summary>
+        public static SystemVariableForListView CreateFromSytemVariableListView(this DomainModels.FieldVariable source)
+        {
+            return new SystemVariableForListView
+            {
+                VariableId = source.VariableId,
+                VariableName = source.VariableName,
+                ScopeName = ScopeName(source.Scope),
+                VariableTag = source.VariableTag,
+                TypeName = source.VariableType == 1 ? "Dropdown" : "Input",
+            };
+        }
+        /// <summary>
         /// Create From Domain Model
         /// </summary>
         public static ScopeVariable CreateFromFieldVariable(this DomainModels.FieldVariable source)
@@ -140,6 +167,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     return "Address";
                 case 4:
                     return "Territory";
+                case 7:
+                    return "System Store";
+                case 8:
+                    return "System Contact";
+                case 9:
+                    return "System Address";
+                case 10:
+                    return "System Territory";
             }
             return string.Empty;
         }

@@ -148,6 +148,12 @@ namespace MPC.Interfaces.MISServices
         /// <returns></returns>
         bool SaveImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact);
 
+        /// <summary>
+        /// Get System Variables
+        /// </summary>
+        FieldVariableResponse GetSystemVariables(FieldVariableRequestModel request);
+
+
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
