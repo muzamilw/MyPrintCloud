@@ -58,27 +58,28 @@
                                 </div>
                             </div>
                             @*<div class="pull-right" style="margin-right: 20px">
-                                    <button type="reset" class="btn btn-primary" data-bind="click:$root.hideCostCentreDialog">Save</button>
-                                </div>*@
+                                <button type="reset" class="btn btn-primary" data-bind="click:$root.hideCostCentreDialog">Save</button>
+                            </div>*@
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button class="btn btn-primary pull-right" style="margin-right: 20px" data-bind="enable: selectedCostCentre, visible: !$root.isCostCenterDialogForShipping(), click: $root.addCostCenter">OK</button>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
-    
+
     <script id="relatedProductDialogItemTemplate" type="text/html">
-        <tr data-bind="click:$root.onSelectCostCenter" style="cursor: pointer">
-            <td>
+        <tr data-bind="click: $root.onSelectCostCenter, css: { selectedRow: $root.selectedCostCentre() === $data }, attr: { id:  'costCenterCheckBox' + $index() }, validationOnElement: isSelected" style="cursor: pointer">
+            <td data-bind="css: { selectedRow: $root.selectedCostCentre() === $data }">
                 <span style="font-size: 1.105em; color: black;" data-bind="text: name"></span>
                 <br />
                 <span style="font-size: 0.875em; color: lightgray;" data-bind="text: description"></span>
             </td>
-            <td data-bind="visible: !$root.isCostCenterDialogForShipping()">
+            <td data-bind="visible: !$root.isCostCenterDialogForShipping(), css: { selectedRow: $root.selectedCostCentre() === $data }">
                 <span style="font-size: 0.875em; color: lightgray;" data-bind="text: $root.currencySmb"></span>
                 <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput: pricePerUnitQuantity()"></span>
                 <span style="font-size: 0.875em; color: lightgray;">/unit</span>
