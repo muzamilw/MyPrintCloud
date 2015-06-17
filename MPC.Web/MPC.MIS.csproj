@@ -342,6 +342,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\SectionFlagsController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteCrmCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNoteBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNotesController.cs" />
     <Compile Include="Areas\Api\Controllers\EstimateBaseController.cs" />
@@ -431,6 +432,7 @@
     <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\Api\Controllers\StockCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserController.cs" />
+    <Compile Include="Areas\Api\Controllers\SystemVariableController.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\BestPressMapper.cs" />
@@ -839,6 +841,8 @@
     <Compile Include="Areas\Api\Models\LengthUnitDropDown.cs" />
     <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
     <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
+    <Compile Include="Areas\Api\Models\SystemVariableForListView.cs" />
+    <Compile Include="Areas\Api\Models\SystemVariablesResponse.cs" />
     <Compile Include="Areas\Api\Models\Template.cs" />
     <Compile Include="Areas\Api\Models\TemplateColorStyle.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
@@ -1137,6 +1141,7 @@
     <Content Include="Content\Images\colorpicker_submit - Copy.png" />
     <Content Include="Content\Images\colorpicker_submit.png" />
     <Content Include="Content\Images\coming.jpg" />
+    <Content Include="Content\Images\company_contact.jpg" />
     <Content Include="Content\Images\imageplaceholder.png" />
     <Content Include="Content\Images\loaders\3d\015.gif" />
     <Content Include="Content\Images\loaders\3d\019.gif" />
@@ -3427,6 +3432,7 @@
     <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
+    <Folder Include="Areas\Api\Views\DeleteCrmCompany\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
     <Folder Include="Areas\Api\Views\DeliveryNoteBase\" />
     <Folder Include="Areas\Api\Views\EstimateApi\" />

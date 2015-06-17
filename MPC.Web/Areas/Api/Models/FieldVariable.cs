@@ -20,7 +20,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string VariableTitle { get; set; }
         public string TypeName { get; set; }
         public string ScopeName { get; set; }
-
+        public bool? IsSystem { get; set; }
         public List<VariableOption> VariableOptions { get; set; }
         public List<VariableExtension> VariableExtensions { get; set; }
 

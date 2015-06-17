@@ -106,7 +106,7 @@ define("stores/stores.viewModel",
                     stores = ko.observableArray([]),
                     //system Users
                     systemUsers = ko.observableArray([]),
-                    systemVariablesForSmartForms = ko.observableArray([]),
+                    systemVariables = ko.observableArray([]),
                     //Themes
                     themes = ko.observableArray([]),
                     newCompanyTerritories = ko.observableArray([]),
@@ -434,7 +434,7 @@ define("stores/stores.viewModel",
                 if (itemsForWidgets().length === 0) {
                     getItemsForWidgets();
                 }
-                _.each(systemVariablesForSmartForms(), function (item) {
+                _.each(systemVariables(), function (item) {
                     fieldVariablesForSmartForm.push(item);
                 });
                 sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
@@ -1518,7 +1518,7 @@ define("stores/stores.viewModel",
                             filteredCompanyBanners.remove(bannerToDelete);
                         }
                     }
-                   
+
                     view.hideEditBannerDialog();
                 });
                 confirmation.show();
@@ -2036,6 +2036,8 @@ define("stores/stores.viewModel",
             systemPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
             //Variable Page
             fieldVariablePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+            // System variable Pager
+            systemVariablePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
             //Smart Form Pager
             smartFormPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
             //Address Search Filter
@@ -4692,7 +4694,7 @@ define("stores/stores.viewModel",
                                     fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
                                 });
                             }
-                            _.each(systemVariablesForSmartForms(), function (item) {
+                            _.each(systemVariables(), function (item) {
                                 fieldVariablesForSmartForm.push(item);
                             });
                             //Themes 
@@ -4755,7 +4757,6 @@ define("stores/stores.viewModel",
                             if (data != null) {
                                 currencySymbol(data.CurrencySymbol);
                                 systemUsers.removeAll();
-                                systemVariablesForSmartForms.removeAll();
                                 addressCompanyTerritoriesFilter.removeAll();
                                 contactCompanyTerritoriesFilter.removeAll();
                                 addressTerritoryList.removeAll();
@@ -4782,12 +4783,7 @@ define("stores/stores.viewModel",
                                     registrationQuestions.push(registrationQuestion);
                                 });
 
-                                if (data.SystemVariablesForSmartForms != null) {
-                                    //System Variable For Smart Forms
-                                    _.each(data.SystemVariablesForSmartForms, function (item) {
-                                        systemVariablesForSmartForms.push(model.FieldVariableForSmartForm.Create(item));
-                                    });
-                                }
+
                                 _.each(data.PageCategories, function (item) {
                                     pageCategories.push(model.PageCategory.Create(item));
                                 });
@@ -5529,32 +5525,19 @@ define("stores/stores.viewModel",
             onSaveFieldVariable = function (fieldVariable) {
                 if (doBeforeSaveFieldVariable()) {
                     selectedFieldOption(undefined);
-                    var selectedScope = _.find(contextTypes(), function (scope) {
-                        return scope.id == fieldVariable.scope();
-                    });
-                    fieldVariable.scopeName(selectedScope.name);
-                    var selectedType = _.find(varibaleTypes(), function (type) {
-                        return type.id == fieldVariable.variableType();
-                    });
-                    fieldVariable.typeName(selectedType.name);
-                    fieldVariable.companyId(selectedStore().companyId());
 
-                    //// //In New Store, Edit Field Variable
-                    //if (fieldVariable.id() === undefined && fieldVariable.fakeId() < 0) {
-                    //    updateFieldVariableWithNewStore(fieldVariable);
-                    //    view.hideVeriableDefinationDialog();
-                    //}
-                    //    //New Store And New Field Variable Added Case
-                    // if (fieldVariable.id() === undefined && fieldVariable.fakeId() === undefined && selectedStore().companyId() === undefined) {
-                    //    fieldVariables.splice(0, 0, fieldVariable);
-                    //    view.hideVeriableDefinationDialog();
-                    //    fieldVariable.fakeId(fakeIdCounter() - 1);
-                    //    fakeIdCounter(fakeIdCounter() - 1);
+                    if (!fieldVariable.isSystem() === true) {
+                        var selectedScope = _.find(contextTypes(), function (scope) {
+                            return scope.id == fieldVariable.scope();
+                        });
+                        fieldVariable.scopeName(selectedScope.name);
+                        var selectedType = _.find(varibaleTypes(), function (type) {
+                            return type.id == fieldVariable.variableType();
+                        });
+                        fieldVariable.typeName(selectedType.name);
+                        fieldVariable.companyId(selectedStore().companyId());
+                    }
 
-                    //    //Add to Smart Form Variable List
-                    //    addToSmartFormVariableList(fieldVariable);
-                    //    addFieldVariableToItsScopeTypeList(fieldVariable);
-                    //}
                     //In case Of Edit Store , Field variable direct save to db. 
                     if (selectedStore().companyId() !== undefined) {
                         //In Case of Edit Company 
@@ -5880,15 +5863,18 @@ define("stores/stores.viewModel",
             saveField = function (fieldVariable) {
                 dataservice.saveFieldVariable(fieldVariable, {
                     success: function (data) {
-                        if (selectedFieldVariable().id() === undefined) {
-                            selectedFieldVariable().id(data);
-                            fieldVariables.splice(0, 0, selectedFieldVariable());
-                            addToSmartFormVariableList(selectedFieldVariable());
+                        if (!selectedFieldVariable().isSystem()) {
+                            if (selectedFieldVariable().id() === undefined) {
+                                selectedFieldVariable().id(data);
+                                fieldVariables.splice(0, 0, selectedFieldVariable());
+                                addToSmartFormVariableList(selectedFieldVariable());
 
 
-                        } else {
-                            updateFieldVariable();
+                            } else {
+                                updateFieldVariable();
+                            }
                         }
+
 
                         view.hideVeriableDefinationDialog();
                         toastr.success("Successfully saved.");
@@ -6018,12 +6004,20 @@ define("stores/stores.viewModel",
             contextTypes = ko.observableArray([{ id: 1, name: "Store" },
                                   { id: 2, name: "Contact" },
                                   { id: 3, name: "Address" },
-                                  { id: 4, name: "Territory" }]),
+                                  { id: 4, name: "Territory" }
+            ]),
+             //variable Scope
+            systemVariableContextTypes = ko.observableArray([
+                                  { id: 7, name: "System Store" },
+                                  { id: 8, name: "System Contact" },
+                                  { id: 9, name: "System Address" },
+                                  { id: 10, name: "System Territory" }
+            ]),
             //Varibale Types
             varibaleTypes = ko.observableArray([{ id: 1, name: "Dropdown" },
                     { id: 2, name: "Input" }]),
 
-            //Get FieldV ariables        
+            //Get Field Variables        blePager().totalCo
             getFieldVariables = function () {
                 dataservice.getFieldVariablesByCompanyId({
                     CompanyId: selectedStore().companyId(),
@@ -6047,11 +6041,43 @@ define("stores/stores.viewModel",
                         fieldVariablePager().totalCount(data.RowCount);
                     },
                     error: function (response) {
-                        toastr.error("Failed To Load Users" + response, "", ist.toastrOptions);
+                        toastr.error("Failed to load variables." + response, "", ist.toastrOptions);
                     }
                 });
             },
-            //Get Field Variable Detail
+
+            onClickSystemVaribaleTab = function () {
+                systemVariablePager(new pagination.Pagination({ PageSize: 5 }, systemVariables, getSystemVariables));
+                // systemVariablePager().reset();
+                getSystemVariables();
+            },
+                //Get System Field Variables        
+                getSystemVariables = function () {
+                    dataservice.getSystemFieldVariables({
+                        PageSize: systemVariablePager().pageSize(),
+                        PageNo: systemVariablePager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function (data) {
+                            systemVariables.removeAll();
+
+                            if (data != null) {
+                                // System Variables
+                                _.each(data.SystemVariables, function (item) {
+                                    systemVariables.push(model.FieldVariableForSmartForm.Create(item));
+                                });
+                                systemVariablePager().totalCount(data.RowCount);
+                            }
+
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to load System Variables." + response, "", ist.toastrOptions);
+                        }
+                    });
+                },
+
+                //Get Field Variable Detail
             getFieldVariableDetail = function (field) {
                 dataservice.getFieldVariableDetailById({
                     fieldVariableId: field.id(),
@@ -6075,7 +6101,7 @@ define("stores/stores.viewModel",
                     }
                 });
             },
-            //Get Company Contact Variables 
+                //Get Company Contact Variables 
             getCompanyContactVariables = function () {
                 //Company is in edit mode and contact also in open for edit
                 if (selectedCompanyContact().contactId() !== undefined && selectedStore().companyId() !== undefined) {
@@ -6091,7 +6117,7 @@ define("stores/stores.viewModel",
                     getCompanyContactVariableForEditContact(selectedStore().companyId(), scope);
                 }
             },
-            //In Case Scope Variables Edit
+                //In Case Scope Variables Edit
             getCompanyContactVariableForEditContact = function (id, scope) {
                 dataservice.getScopeVaribableByContactId({
                     id: id,
@@ -6175,7 +6201,7 @@ define("stores/stores.viewModel",
                     }
                 });
             },
-            //New Added Company Contact In Edit Store
+                //New Added Company Contact In Edit Store
             getCompanyContactVariable = function (scope) {
                 dataservice.getCmpanyContactVaribableByCompanyId({
                     companyId: selectedStore().companyId(),
@@ -6241,7 +6267,7 @@ define("stores/stores.viewModel",
                 });
             },
 
-            //on Change Variable option selected value in Company contact
+                //on Change Variable option selected value in Company contact
             onVariableOptionDropDownChange = function (contactVariable) {
                 contactVariable.value(contactVariable.optionId());
             },
@@ -6284,27 +6310,27 @@ define("stores/stores.viewModel",
                 });
 
             },
-            //#endregion ________ Field Variable___________
+                //#endregion ________ Field Variable___________
 
-            //#region ________ Smart Form___________
-            //Active Smart Form
-            //selectedSmartForm = ko.observable(),
+                //#region ________ Smart Form___________
+                //Active Smart Form
+                //selectedSmartForm = ko.observable(),
             smartFormEditorViewModel = new ist.ViewModel(model.SmartForm),
             selectedSmartForm = smartFormEditorViewModel.itemForEditing,
-            //Group Caption Text
+                //Group Caption Text
             groupCaption = ko.observable("Drag a Group Caption"),
-            //line Seperator
+                //line Seperator
             lineSeperator = ko.observable("Drag a Line Separator"),
-            //Smart Form List
+                //Smart Form List
             smartForms = ko.observableArray([]),
-            //Create Smart Form
+                //Create Smart Form
             addSmartForm = function () {
                 selectedSmartForm(model.SmartForm());
                 selectedSmartForm().heading("");
                 view.showSmartFormDialog();
 
             },
-            // Returns the item being dragged
+                // Returns the item being dragged
             draggedVariableField = function (source) {
                 selectedSmartForm().dropFrom("VariableField");
                 return {
@@ -6312,7 +6338,7 @@ define("stores/stores.viewModel",
                     data: source.$data
                 };
             },
-            //Dragged Group Caption
+                //Dragged Group Caption
             draggedGroupCaption = function (source) {
                 selectedSmartForm().dropFrom("GroupCaption");
                 return {
@@ -6320,7 +6346,7 @@ define("stores/stores.viewModel",
                     data: source.$data
                 };
             },
-            //Dragged Line Seperator
+                //Dragged Line Seperator
             draggedLineSeperator = function (source) {
                 selectedSmartForm().dropFrom("LineSeperator");
                 return {
@@ -6328,7 +6354,7 @@ define("stores/stores.viewModel",
                     data: source.$data
                 };
             },
-            //Smart Form Droped Area
+                //Smart Form Droped Area
             droppedSmartFormArea = function (source, target, event) {
                 if (source !== undefined && source !== null) {
                     var smartFormDetail = model.SmartFormDetail();
@@ -6362,7 +6388,7 @@ define("stores/stores.viewModel",
                 }
             },
 
-            //Remove Smart Form Item
+                //Remove Smart Form Item
             deleteSmartFormItem = function (formItem) {
 
                 // Ask for confirmation
@@ -6372,7 +6398,7 @@ define("stores/stores.viewModel",
                 confirmation.show();
 
             },
-            //Save Smart Form
+                //Save Smart Form
             onSaveSmartForm = function (smartForm) {
                 if (doBeforeSaveSmartForm()) {
                     _.each(smartForm.smartFormDetails(), function (item, index) {
@@ -6428,7 +6454,7 @@ define("stores/stores.viewModel",
                     }
                 });
             },
-            //Do Before Save Smart Form
+                //Do Before Save Smart Form
             doBeforeSaveSmartForm = function () {
                 var flag = true;
                 if (!selectedSmartForm().isValid()) {
@@ -6438,7 +6464,7 @@ define("stores/stores.viewModel",
                 return flag;
             },
 
-            //Edit Smart Form
+                //Edit Smart Form
             onEditSmartForm = function (smartForm) {
                 if (smartForm.id() === undefined || smartForm.id() === 0) {
                     //selectedSmartForm(smartForm);
@@ -6449,7 +6475,7 @@ define("stores/stores.viewModel",
                     getSmartFormDetail(smartForm);
                 }
             },
-            //Get Smart Forms        
+                //Get Smart Forms        
             getSmartForms = function () {
                 dataservice.getSmartFormsByCompanyId({
                     CompanyId: selectedStore().companyId(),
@@ -6476,7 +6502,7 @@ define("stores/stores.viewModel",
                     }
                 });
             },
-            //Get Smart Form Detail
+                //Get Smart Form Detail
             getSmartFormDetail = function (smartForm) {
                 dataservice.getSmartFormDetailBySmartFormId({
                     smartFormId: smartForm.id(),
@@ -6510,10 +6536,10 @@ define("stores/stores.viewModel",
                     }
                 });
             },
-            //#endregion ________ Smart Form___________
+                //#endregion ________ Smart Form___________
 
-            // Store Has Changes
-            // ReSharper disable InconsistentNaming
+                // Store Has Changes
+                // ReSharper disable InconsistentNaming
             storeHasChanges = new ko.dirtyFlag({
                 // ReSharper restore InconsistentNaming
                 emails: emails,
@@ -6530,21 +6556,21 @@ define("stores/stores.viewModel",
                 deletedCampaigns: deletedCampaigns,
 
             }),
-            // Has Changes
+                // Has Changes
             hasChangesOnStore = ko.computed(function () {
                 return ((selectedStore() && selectedStore().hasChanges()) || storeHasChanges.isDirty());
             }),
-            //Store workflow Image Files Loaded Callback
+                //Store workflow Image Files Loaded Callback
             storeWorkflowImageLoadedCallback = function (file, data) {
                 //  selectedStore().storeWorkflowImageBinary(data);
                 selectedStore().storeWorkflowImage(data);
             },
-            //Store Map Image File Loaded Callback
+                //Store Map Image File Loaded Callback
             storeMapImageLoadedCallback = function (file, data) {
                 selectedStore().mapImageUrlBinary(data);
             },
-            //Initialize
-            // ReSharper disable once AssignToImplicitGlobalInFunctionScope
+                //Initialize
+                // ReSharper disable once AssignToImplicitGlobalInFunctionScope
             initialize = function (specifiedView) {
                 view = specifiedView;
                 ko.applyBindings(view.viewModel, view.bindingRoot);
@@ -6554,20 +6580,20 @@ define("stores/stores.viewModel",
                 getBaseDataFornewCompany();
                 view.initializeForm();
             },
-            // On Delete Store Permanently
+                // On Delete Store Permanently
             onDeletePermanent = function () {
                 confirmation.afterProceed(function () {
                     deleteCompanyPermanently(selectedStore().companyId());
                 });
                 confirmation.show();
             },
-            // Get Company By Id
+                // Get Company By Id
             getCompanyByIdFromListView = function (id) {
                 return stores.find(function (store) {
                     return store.companyId() === id;
                 });
             },
-            // Delete Company Permanently
+                // Delete Company Permanently
             deleteCompanyPermanently = function (id) {
                 dataservice.deleteCompanyPermanent({ CompanyId: id }, {
                     success: function () {
@@ -6887,6 +6913,7 @@ define("stores/stores.viewModel",
                     productError: productError,
                     onAddVariableDefination: onAddVariableDefination,
                     contextTypes: contextTypes,
+                    systemVariableContextTypes: systemVariableContextTypes,
                     varibaleTypes: varibaleTypes,
                     selectedFieldVariable: selectedFieldVariable,
                     onSaveFieldVariable: onSaveFieldVariable,
@@ -6963,7 +6990,12 @@ define("stores/stores.viewModel",
                     onRemoveFieldVariable: onRemoveFieldVariable,
                     paymentGatewayFilter: paymentGatewayFilter,
                     onSearchpaymentMethod: onSearchpaymentMethod,
-                    selectedCategoryName: selectedCategoryName
+                    selectedCategoryName: selectedCategoryName,
+                    systemVariables: systemVariables,
+                    onClickSystemVaribaleTab: onClickSystemVaribaleTab,
+                    systemVariablePager: systemVariablePager,
+                    getSystemVariables: getSystemVariables
+
 
                 };
                 //#endregion

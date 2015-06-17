@@ -773,6 +773,14 @@
                     itemSizeHeight(itemSizeWidth());
                     itemSizeWidth(itemHeight);
                 },
+                //Show number of signatures
+                sectionsMultiplier = ko.computed(function () {
+                    if (similarSections() <= 1) {
+                        return similarSections();
+                    } else {
+                        return "X " + similarSections();
+                    }
+                }),
                 // Add Section icon to show also in list of sections, For Add Section Item set to True
                 flagForAdd = ko.observable(false),
                 // Errors
@@ -990,6 +998,7 @@
                 pressIdSide2IsSpotColor: pressIdSide2IsSpotColor,
                 sectionInkCoveragesSide1: sectionInkCoveragesSide1,
                 sectionInkCoveragesSide2: sectionInkCoveragesSide2,
+                sectionsMultiplier:sectionsMultiplier,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
