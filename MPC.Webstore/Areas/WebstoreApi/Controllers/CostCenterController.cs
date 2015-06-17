@@ -221,18 +221,20 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                  
                     //InputQueue
 
-                    if (OrderedQuantity == "null" || OrderedQuantity == null)
+                    if (!string.IsNullOrEmpty(ClonedItemId))
                     {
-                        // get first item section
-                        _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId));
-                    }
-                    else
-                    {
-                        // update quantity in item section and return
-                        _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId), Convert.ToInt32(OrderedQuantity));
-                     
-                    }
+                        if (OrderedQuantity == "null" || OrderedQuantity == null)
+                        {
+                            // get first item section
+                            _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId));
+                        }
+                        else
+                        {
+                            // update quantity in item section and return
+                            _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId), Convert.ToInt32(OrderedQuantity));
 
+                        }    
+                    }
 
                     _CostCentreParamsArray[9] = 1;
 
