@@ -346,6 +346,7 @@ define("crm/contacts.viewModel",
                                              if (user.contactId() == savedCompanyContact.contactId()) {
                                                  user.firstName(savedCompanyContact.firstName());
                                                  user.email(savedCompanyContact.email());
+                                                 user.image(savedCompanyContact.image());
                                              }
                                              count = count + 1;
                                          });

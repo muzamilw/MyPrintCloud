@@ -66,7 +66,30 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     string CacheKeyName = "CompanyBaseResponse";
                     ObjectCache cache = MemoryCache.Default;
 
-                    string OrganizationName = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId].Organisation.OrganisationName;
+// ReSharper disable SuggestUseVarKeywordEvident
+                    Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> companyBaseResponse =
+// ReSharper restore SuggestUseVarKeywordEvident
+                        (cache.Get(CacheKeyName) as
+                            Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>);
+                    string orgName = string.Empty;
+                    if (companyBaseResponse != null)
+                    {
+                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse myCompanyBaseResponseFromCache =
+                        companyBaseResponse[UserCookieManager.WBStoreId];    
+                        if (myCompanyBaseResponseFromCache != null && myCompanyBaseResponseFromCache.Organisation != null)
+                        {
+                            orgName = myCompanyBaseResponseFromCache.Organisation.OrganisationName;
+                        }
+                    }
+                    else
+                    {
+                        Organisation organisation = _CostCentreService.GetOrganisation(Convert.ToInt64(CostCentreId));
+                        if (organisation != null)
+                        {
+                            orgName = organisation.OrganisationName;
+                        }
+                    }
+                    string OrganizationName = orgName;
                     OrganizationName = Utils.specialCharactersEncoderCostCentre(OrganizationName);
 
                     AppDomainSetup _AppDomainSetup = new AppDomainSetup();

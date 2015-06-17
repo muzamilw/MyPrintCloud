@@ -15,6 +15,8 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ICostCentreService
     {
+        Organisation GetOrganisation(long costCentreId);
+
         object CompileBinaries(string sOutputPath, string Source, string CompanyName);
 
         List<CostCentre> GetDeliveryCostCentersList();
