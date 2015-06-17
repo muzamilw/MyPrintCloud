@@ -159,10 +159,10 @@ define("inventory/inventory.viewModel",
 
                                     if (selectedInventory().IsImperical() == true)
                                     {
-                                        weightLabel("lbs");
+                                        weightLabel("Basis Weight");
                                     }
                                     else {
-                                        weightLabel("kg");
+                                        weightLabel("gsm");
                                     }
                                     selectedInventory().reset();
 

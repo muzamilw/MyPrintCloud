@@ -116,6 +116,20 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isPublishedUi = ko.computed(function () {
                 return isPublished() ? "Yes" : "No";
             }),
+            isStoreTax = ko.observable(specifiedDefaultItemTax == undefined || specifiedDefaultItemTax == null ? 2 : 1),
+            isStoreTaxUi = ko.computed({
+                read: function () {
+                    
+                    return '' + isStoreTax();
+                },
+                write: function (value) {
+                    var storeTax = parseInt(value);
+                    if (storeTax === isStoreTax()) {
+                        return;
+                    }
+                    defaultItemTax(0);
+                }
+            }),
             // product Category Name
             productCategoryName = ko.observable(specifiedProductCategoryName || undefined),
             // is featured
@@ -1859,6 +1873,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onSelectImage: onSelectImage,
             itemImages: itemImages,
             onSelectItemImage: onSelectItemImage,
+            isStoreTaxUi:isStoreTaxUi,
             resetFiles: resetFiles,
             errors: errors,
             isValid: isValid,

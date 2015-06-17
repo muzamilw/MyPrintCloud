@@ -1258,13 +1258,13 @@
                                             <div class="col-lg-6">
 
                                                 <div class="radio" style="padding-left:0px;">
-                                                    <input type="radio" name="optionsRadiosTax" id="optionStoreTaxDef" data-bind="checked: $root.isStoreTax" value="2">
+                                                    <input type="radio" name="optionsRadiosTax" id="optionStoreTaxDef" data-bind="checked: isStoreTaxUi" value="2">
                                                     <label for="optionStoreTaxDef">
                                                         Use store default tax applied on this product
                                                     </label>
                                                 </div>
                                                 <div class="radio" style="padding-left:0px;">
-                                                    <input type="radio" name="optionsRadiosTax" id="optionStoreTaxOver" data-bind="checked: $root.isStoreTax" value="1">
+                                                    <input type="radio" name="optionsRadiosTax" id="optionStoreTaxOver" data-bind="checked: isStoreTaxUi" value="1">
                                                     <label for="optionStoreTaxOver">
                                                         Override stores default tax
                                                     </label>
@@ -1273,18 +1273,11 @@
                                         </div>
 
 
-                                        <div class="form-group" data-bind="visible:$root.isStoreTax()==2">
+                                        <div class="form-group" data-bind="visible:isStoreTaxUi()==2">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
-
-
                                                 </div>
-
                                                 <label class="control-label text-right tooltip-float">  Store Tax percentage</label>
-
-
-
                                             </div>
                                             <div class="col-lg-6">
                                                 @*data-bind="text:$root.selectedStore().taxRate"*@
@@ -1293,14 +1286,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group" data-bind="visible:$root.isStoreTax()==1">
+                                        <div class="form-group" data-bind="visible:isStoreTaxUi()==1">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Tax" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Override store tax value</label>
 
