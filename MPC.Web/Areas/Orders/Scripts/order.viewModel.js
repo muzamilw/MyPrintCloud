@@ -3,9 +3,11 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model"],
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel",
+        "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model", "common/phraseLibrary.viewModel"],
 // ReSharper disable InconsistentNaming
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel) {
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM,
+        addProductVm, itemDetailVm, itemModel, phraseLibrary) {
         // ReSharper restore InconsistentNaming
         var ist = window.ist || {};
         ist.order = {
@@ -133,11 +135,12 @@ define("order/order.viewModel",
                     isCompanyBaseDataLoaded = ko.observable(false),
                     // #endregion
                     // #region Observables
+                    // Selected Estimate Phrase Container
+                    selectedEstimatePhraseContainer = ko.observable(),
                     // filter
                     filterText = ko.observable(),
                     // Selected Product
                     selectedProduct = ko.observable(itemModel.Item.Create({})),
-
                     // Selected Markup 1
                     selectedMarkup1 = ko.observable(0),
                     // Selected Markup 2
@@ -196,7 +199,31 @@ define("order/order.viewModel",
                     isNewinquiryDetailItem = ko.observable(false),
                     // #endregion
                     // #region Utility Functions
+                    // Select Estimate Phrase Container
+                    selectEstimatePhraseContainer = function(data, e) {
+                        selectedEstimatePhraseContainer(e.currentTarget.id);
+                    },
+                    // Open Phrase Library
+                    openPhraseLibrary = function () {
+                        phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.show(function (phrase) {
+                            updateEstimatePhraseContainer(phrase);
+                        });
+                    },
+                    // update Estimate Phrase Container
+                    updateEstimatePhraseContainer = function (phrase) {
+                        if (!phrase) {
+                            return;
+                        }
 
+                        // Set Phrase to selected Estimate Phrase Container
+                        if (selectedEstimatePhraseContainer() === 'EstimateHeader') {
+                            selectedOrder().headNotes(selectedOrder().headNotes() ? selectedOrder().headNotes() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox') {
+                            selectedOrder().footNotes(selectedOrder().footNotes() ? selectedOrder().footNotes() + ' ' + phrase : phrase);
+                        } 
+                    },
                     // Selected Address
                     selectedAddress = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
@@ -2717,7 +2744,10 @@ define("order/order.viewModel",
                     saveSectionCostCenter: saveSectionCostCenter,
                     createitemForRetailStoreProduct: createitemForRetailStoreProduct,
                     editSection: editSection,
-                    createNewCostCenterProduct: createNewCostCenterProduct
+                    createNewCostCenterProduct: createNewCostCenterProduct,
+                    selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
+                    selectEstimatePhraseContainer: selectEstimatePhraseContainer,
+                    openPhraseLibrary: openPhraseLibrary
                     //#endregion
                 };
             })()
