@@ -5773,3 +5773,13 @@ on delete cascade
 
 ALTER TABLE ItemStockUpdateHistory CHECK CONSTRAINT [FK_ItemStockUpdateHistory_StockItem]
 GO
+
+alter table ItemAddonCostCentre
+drop constraint FK_ItemStockOption_ItemAddonCostCentre
+
+
+alter table ItemAddonCostCentre
+add constraint FK_ItemAddonCostCentre_ItemStockOption
+foreign key (ItemStockOptionId)
+references ItemStockOption (ItemStockOptionId)
+on delete cascade
