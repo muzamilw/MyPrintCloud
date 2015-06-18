@@ -2783,6 +2783,10 @@ define("order/order.viewModel",
                     selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
                     selectEstimatePhraseContainer: selectEstimatePhraseContainer,
                     openPhraseLibrary: openPhraseLibrary,
+                
+      
+                    
+                  
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct
 
                     //#endregion
