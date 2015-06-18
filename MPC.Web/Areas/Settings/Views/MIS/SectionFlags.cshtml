@@ -3,46 +3,6 @@
 }
 @section leftmenue {
 }
-
-<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
-<link href="~/Content/colorpicker.css" rel="stylesheet" />
-<script src="~/Scripts/Ace/colorpicker.js"></script>
-<script>
-    $(document).ready(function () {
-        var ColorPickerId;
-        $(".Color").click(function () {
-            ColorPickerId = this.id;
-            $("#" + ColorPickerId).ColorPicker
-            ({
-                color: '',
-                onShow: function (colpkr) {
-                    $(colpkr).fadeIn(500);
-                    return false;
-                },
-                onHide: function (colpkr) {
-                    $(colpkr).fadeOut(500);
-                    return false;
-                },
-                onChange: function (hsb, hex, rgb) {
-                    $("#" + ColorPickerId).css("background-color", "#" + hex);
-                }
-            });
-        });
-
-
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        setTimeout(function () {
-            var spinner = $("div#spinner");
-            spinner.stop();
-            spinner.fadeOut("fast");
-            $.unblockUI(spinner);
-        }, 1000);
-    });
-</script>
-
 <style>
     li {
         cursor: pointer;
@@ -57,743 +17,43 @@
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                     </ol>
-                    <div class="clearfix">
-                        <h1 class="pull-left">Section Flags</h1>
-                        <div style="display:none;">
-                            <p> Please corresct these errors.</p>
-                            <table id="table">
-                                <tbody></tbody>
-                            </table>
+                    <h1 style="padding-left:0px;">Section Flags</h1>
+
+                    <div class="pull-left validationSummaryContainer">
+                        <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Invalid data: Click here to see details.</a>
+                        <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
+                            <div id="validationSummaryPopoverBody">
+                                <ul data-bind="foreach: $root.errorList">
+                                    <li>
+                                        <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row" id="sectionflagsBinding">
                 <a href="~/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;">Close</a>
-                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn">Save</button>
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 6px;" id="saveBtn" data-bind="click: $root.saveFlag, css: { 'btn-warning': $root.sectionHasChanged }, enable: $root.sectionHasChanged">Save</button>
                 <div class="col-lg-12 main-box clearfix" style="padding-bottom:30px;">
                     <br />
                     <h2 style="margin-left: 15px;">Create and set colors for Flags used to categorize customers, orders, stock types etc…</h2>
                     <div class="main-box-body" style="padding:20px;padding-top: 50px;">
-                        <div class="col-md-3" style="width:auto;padding-bottom:20px;max-height:600px;overflow-y:scroll;">
-                            
+                        <div class="col-md-3" style="padding-bottom:20px;max-height:600px;overflow-y:scroll;">
+
                             <div class="category" id="nestable2">
-                                
+
                                 <ol class="dd-list">
 
-                                    <!-- ko template: { name: 'sectionflagsTemplate' , foreach: selectedsectionflags } -->
+                                    <!-- ko template: { name: 'sectionsTemplate' , foreach: selectedsectionflags } -->
+                                    <!-- /ko -->
+                                    <!--ko if:selectedsectionflags === undefined || selectedsectionflags().length  <=0 -->
+
+                                    <li class="dd-item dd-item-list">No Items Found!</li>
+
                                     <!-- /ko -->
 
-
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Add Invoices</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Add Job Activity</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Add Purchase</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Add Role</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Add Supplier</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Add User</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Address Tags</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Broker Store Tags</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Calenders</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Contact Management</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Contacts Tags</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Corporate  Store Tags</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list" data-id="15">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Cost Centers</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>CRM</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Customer Price Matrix</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Customer Web Users</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Customers</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Delete Customers</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Delete Delivery</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Delete Invoice</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Delete Purchase</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Delete Role</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Delete Supplier</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Delete User</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Delivery</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>E-Procurement</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Enquiries</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Estimate Details</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Estimates</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Export Invoice</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Finish Goods</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Goods Receive Notes</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Help</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Inventory</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Invoices</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Item Catalogue</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Item Flags</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Job Activity List</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Job Production</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Machines</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Marketing Brief Tags</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Orders</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Pagination</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Pink Registeration</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>PipeLine Detail</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Product</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Product Library</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Product Section</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Purchases</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Registeration</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Report Designer</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Sales Commissions</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Sales PipeLines</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Sales Targets</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Scheduling</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Settings</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Store</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Store Tags</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Supplier Addresses</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Supplier Contacts</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;">
-                                            <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
-                                        </ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Supplier Information</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Suppliers</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Tasks</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-                                    <li class="dd-item dd-item-list">
-                                        <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-                                        <div class="dd-handle">
-                                            <span>Template Library</span>
-                                            <div class="nested-links">
-                                                <a href="#" class="nested-link" title="Edit Category"></a>
-                                            </div>
-                                        </div>
-                                        <ol class="dd-list" style="display: none;"></ol>
-                                    </li>
-
-
-                                    <!-- /ko -->
                                 </ol>
                             </div>
 
@@ -801,9 +61,9 @@
                         <div class="col-md-9" style="margin-top:-68px">
 
                             <div class="col-md-12 form-horizontal" style="margin-left:18px;">
-                                <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewMarkup">
-                                    Add
-                                </a>
+                                <button class="btn btn-primary pull-right" data-bind="click:$root.addSectionFlag, enable:$root.selectedsection()!==undefined">
+                                    Add Section Flag
+                                </button>
 
                                 <table id="chartOfAccountTablle" class="table table-striped table-hover">
                                     <thead>
@@ -820,163 +80,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
+
+                                        <!--ko if:$root.selectedsection() !== undefined &&  $root.selectedsection().sectionflags().length <=0 -->
                                         <tr>
-                                            <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" value="99"></td>
-                                            <td style="width:35%;">
-                                                <input type="text" class="form-control" id="txtCompanyName" value="99">
-                                            </td>
-                                            <td style="width:10%;">
-                                                <div data-bind="with:colorPalette">
-
-                                                    <div class="Color" id="colorPick" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
-                                                </div>
-                                            </td>
-
-                                            <td>
-
-                                                <a href="#" class="table-link danger">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                            </td>
+                                            <td><span>No Items Found!</span></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        <tr>
-                                            <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                            <td style="width:40%;">
-                                                <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
-                                            </td>
-                                            <td style="width:10%;">
-                                                <div data-bind="with:colorPalette">
-
-                                                    <input class="Color" id="colorPick1" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
-                                                </div>
-                                            </td>
-
-                                            <td>
-
-                                                <a href="#" class="table-link danger">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                            <td style="width:40%;">
-                                                <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
-                                            </td>
-                                            <td style="width:10%;">
-                                                <div data-bind="with:colorPalette">
-
-                                                    <input class="Color" id="colorPick2" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
-                                                </div>
-                                            </td>
-
-                                            <td>
-
-                                                <a href="#" class="table-link danger">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                            <td style="width:40%;">
-                                                <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
-                                            </td>
-                                            <td style="width:10%;">
-                                                <div data-bind="with:colorPalette">
-
-                                                    <input class="Color" id="colorPick3" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
-                                                </div>
-                                            </td>
-
-                                            <td>
-
-                                                <a href="#" class="table-link danger">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                            <td style="width:40%;">
-                                                <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
-                                            </td>
-                                            <td style="width:10%;">
-                                                <div data-bind="with:colorPalette">
-
-                                                    <input class="Color" id="colorPick4" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
-                                                </div>
-                                            </td>
-
-                                            <td>
-
-                                                <a href="#" class="table-link danger">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                            <td style="width:40%;">
-                                                <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
-                                            </td>
-                                            <td style="width:10%;">
-                                                <div data-bind="with:colorPalette">
-
-                                                    <input class="Color" id="colorPick5" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
-                                                </div>
-                                            </td>
-
-                                            <td>
-
-                                                <a href="#" class="table-link danger">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                            <td style="width:40%;">
-                                                <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
-                                            </td>
-                                            <td style="width:10%;">
-                                                <div data-bind="with:colorPalette">
-
-                                                    <input class="Color" id="colorPick6" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
-                                                </div>
-                                            </td>
-
-                                            <td>
-
-                                                <a href="#" class="table-link danger">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                            </td>
-                                        </tr>
-
-
-
+                                        <!-- /ko -->
+                                        <!--ko if:$root.selectedsection() !== undefined -->
+                                        <!-- ko template: { name: 'sectionflagsTemplate' , foreach: $root.selectedsection().sectionflags } -->
+                                        <!-- /ko -->
+                                        <!-- /ko -->
                                     </tbody>
                                 </table>
 
@@ -991,11 +108,11 @@
     </div>
 
 
-    <script type="text/html" id="sectionflagsTemplate">
-        <li class="dd-item dd-item-list" data-id="15">
-            <div class="dd-handle-list" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
-            <div class="dd-handle">
-                <span data-bind="text:SectionName"></span>
+    <script type="text/html" id="sectionsTemplate">
+        <li class="dd-item dd-item-list" data-id="15" style="cursor: pointer" data-bind="click:$root.selectedsection() !== $data ? $root.getSectionFlags:''">
+            <div class="dd-handle-list" data-bind="css: { selectedRow: $root.selectedsection() === $data }" style="cursor: pointer"><i class="fa fa-minus-square"></i></div>
+            <div class="dd-handle" data-bind="css: { selectedRow: $root.selectedsection() === $data }">
+                <span data-bind="text:name"></span>
                 <div class="nested-links">
                     <a href="#" class="nested-link" title="Edit Category"></a>
                 </div>
@@ -1003,15 +120,39 @@
             <ol class="dd-list" style="display: none;"></ol>
         </li>
     </script>
-    @section Scripts{
-        <script src="~/Scripts/jquery.form.js"></script>
-        <script>
-            require(["sectionflags/sectionflags.view"]);
-        </script>
-    }
+
+    <script type="text/html" id="sectionflagsTemplate">
+        <tr>
+            <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name,attr: { id: 'sectionFlag' + $index() }, validationOnElement:name" placeholder="Enter Flag Name"></td>
+            <td style="width:35%;">
+                <input type="text" class="form-control" id="txtCompanyName" data-bind="value:description" placeholder="Enter Description">
+            </td>
+            <td style="width:10%;">
+                <div>
+                    <input type="text" data-bind="colorpicker:color" id="colorPick" style="border:none;width:30px;height:30px;cursor:pointer;" />
+                </div>
+            </td>
+
+            <td>
+
+                <a href="#" class="table-link danger" data-bind="click:$root.deleteSectionFlag" style="float: right">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>
+        </tr>
+    </script>
+</div>
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+@section Scripts{
+    <script>
+        require(["sectionflags/sectionflags.view", "common/confirmation.view"]);
+    </script>
+}
 
 
 
 
 
- 

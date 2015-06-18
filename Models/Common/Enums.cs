@@ -384,7 +384,8 @@ namespace MPC.Models.Common
     {
         Mm = 1,
         Cm = 2,
-        Inch = 3
+        Inch = 3,
+        Meters = 4
     }
     public enum SystemCostCenterTypes
     {
@@ -462,6 +463,22 @@ namespace MPC.Models.Common
         CriteriaFields = 8
 
     }
+
+    public enum ReportCategoryEnum : int
+    {
+        CRM = 4,
+        Stores = 1,
+        Suppliers = 2,
+        PurchaseOrders = 5,
+        Delivery = 6,
+        Order = 12,
+        Estimate = 3,
+        Invoice = 13,
+        GRN = 15,
+        Inventory = 7
+
+    }
+
 
     /// <summary>
     /// Impression Coverage (Used in Order - Item Section)

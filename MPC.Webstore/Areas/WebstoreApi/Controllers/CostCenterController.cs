@@ -66,7 +66,30 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     string CacheKeyName = "CompanyBaseResponse";
                     ObjectCache cache = MemoryCache.Default;
 
-                    string OrganizationName = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId].Organisation.OrganisationName;
+// ReSharper disable SuggestUseVarKeywordEvident
+                    Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> companyBaseResponse =
+// ReSharper restore SuggestUseVarKeywordEvident
+                        (cache.Get(CacheKeyName) as
+                            Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>);
+                    string orgName = string.Empty;
+                    if (companyBaseResponse != null)
+                    {
+                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse myCompanyBaseResponseFromCache =
+                        companyBaseResponse[UserCookieManager.WBStoreId];    
+                        if (myCompanyBaseResponseFromCache != null && myCompanyBaseResponseFromCache.Organisation != null)
+                        {
+                            orgName = myCompanyBaseResponseFromCache.Organisation.OrganisationName;
+                        }
+                    }
+                    else
+                    {
+                        Organisation organisation = _CostCentreService.GetOrganisation(Convert.ToInt64(CostCentreId));
+                        if (organisation != null)
+                        {
+                            orgName = organisation.OrganisationName;
+                        }
+                    }
+                    string OrganizationName = orgName;
                     OrganizationName = Utils.specialCharactersEncoderCostCentre(OrganizationName);
 
                     AppDomainSetup _AppDomainSetup = new AppDomainSetup();
@@ -198,18 +221,20 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                  
                     //InputQueue
 
-                    if (OrderedQuantity == "null" || OrderedQuantity == null)
+                    if (!string.IsNullOrEmpty(ClonedItemId))
                     {
-                        // get first item section
-                        _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId));
-                    }
-                    else
-                    {
-                        // update quantity in item section and return
-                        _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId), Convert.ToInt32(OrderedQuantity));
-                     
-                    }
+                        if (OrderedQuantity == "null" || OrderedQuantity == null)
+                        {
+                            // get first item section
+                            _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId));
+                        }
+                        else
+                        {
+                            // update quantity in item section and return
+                            _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId), Convert.ToInt32(OrderedQuantity));
 
+                        }    
+                    }
 
                     _CostCentreParamsArray[9] = 1;
 

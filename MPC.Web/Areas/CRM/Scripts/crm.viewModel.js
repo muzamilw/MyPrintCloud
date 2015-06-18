@@ -1595,7 +1595,53 @@ define("crm/crm.viewModel",
                         newCompanyTerritories.push(companyTerritory);
                     }
                 },
-
+                // On Delete Store Permanently
+                onDeletePermanent = function () {
+                    confirmation.afterProceed(function () {
+                        deleteCompanyPermanently(selectedStore().companyId());
+                    });
+                    confirmation.show();
+                },
+                // Get Company By Id
+                getCompanyByIdFromListView = function (id) {
+                    return customersForListView.find(function (customer) {
+                        return customer.id() === id;
+                    });
+                },
+                // Get Supplier By Id
+                getSupplierByIdFromListView = function (id) {
+                    return suppliers.find(function (supplier) {
+                        return supplier.companyId() === id;
+                    });
+                },
+                // Delete Company Permanently
+                deleteCompanyPermanently = function (id) {
+                dataservice.deleteCompanyPermanent({ CompanyId: id }, {
+                    success: function () {
+                        toastr.success("Deleted successfully!");
+                        isEditorVisible(false);
+                        if (selectedStore()) {
+                            if (isProspectOrCustomerScreen()) {
+                                var customer = getCompanyByIdFromListView(selectedStore().companyId());
+                                if (customer) {
+                                    customersForListView.remove(customer);
+                                }
+                            }
+                            else {
+                                var supplier = getSupplierByIdFromListView(selectedStore().companyId());
+                                if (supplier) {
+                                    suppliers.remove(supplier);
+                                }
+                            }
+                            
+                        }
+                        //resetStoreEditor();
+                    },
+                    error: function (response) {
+                        toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                    }
+                });
+            },
                 //Close Edit Dialog
                 closeEditDialog = function () {
                     var companyIdFromDashboard = $('#CompanyId').val();
@@ -2393,6 +2439,7 @@ define("crm/crm.viewModel",
                     closeEditDialog: closeEditDialog,
                     selectedStore: selectedStore,
                     systemUsers: systemUsers,
+                    onDeletePermanent: onDeletePermanent,
                     searchAddressFilter: searchAddressFilter,
 
                     onEditItem: onEditItem,

@@ -78,13 +78,9 @@
                 </td>
                 <td data-bind="text: description"></td>
                 <td>
-                    <!-- ko if: isDisabled() -->
-                    <span class="label label-danger">No</span>
-
-                    <!-- /ko -->
-                    <!-- ko if: isDisabled() == false -->
-                    <span class="label label-success">Yes</span>
-                    <!-- /ko -->
+                    <span class="label" data-bind="text: isDisabled() ? 'No' : 'Yes', css: { 'label-success':  !isDisabled(), 'label-danger' : isDisabled() }">No</span>                    
+                 @*   <span class="label label-success" data-bind="visible:isDisabled() == false">Yes</span>*@
+                    
 
                 </td>
                 @*<td data-bind="text: type"></td>*@

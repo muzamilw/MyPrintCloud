@@ -172,8 +172,13 @@
                 </div>
                 <div class="col-sm-9">
                     <div>
-                        <textarea class="form-control" placeholder="Enter order opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                        <textarea class="form-control" placeholder="Enter order opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes, click: $root.selectEstimatePhraseContainer"></textarea>
                     </div>
+                </div>
+                <div class="col-sm-1">
+                    <a id="estimateHeaderPhraseLibraryBtn" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateHeader', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
+                        <i class="fa fa-lg"></i>&nbsp;....
+                    </a>
                 </div>
             </div>
         </div>
@@ -294,9 +299,12 @@
                     &nbsp;
                 </div>
                 <div class="col-sm-9">
-                    <div>
-                        <textarea class="form-control" placeholder="Enter order closing paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>
-                    </div>
+                    <textarea class="form-control" id="EstimateFootNotesTextBox" placeholder="Enter order closing paragraph as it would appear on reports" rows="3" data-bind="value: footNotes, click: $root.selectEstimatePhraseContainer"></textarea>
+                </div>
+                <div class="col-sm-1">
+                    <a id="estimateFooterPhraseLibraryBtn" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
+                        <i class="fa fa-lg"></i>&nbsp;....
+                    </a>
                 </div>
             </div>
             <div class="form-group">

@@ -74,8 +74,8 @@
                                                         <div class="clearfix">
 
 
-                                                            <img style="width:240px;height:130px;" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
-                                                            <img style="width:240px;height:130px;" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
+                                                            <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
+                                                            <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
                                                             <div class="col-lg-12">
                                                                 <div class="col-lg-6" style="margin-top: 5px;text-align:center;">
                                                                     <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
