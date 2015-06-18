@@ -56,6 +56,68 @@
 
     }
 
+    EmailFields = function () {
+        // ReSharper restore InconsistentNaming
+        var // Reference to this object
+            self,
+            // Unique key
+            emailTo = ko.observable(),
+            //ko.observable().extend({ required: true }),
+            emailCC = ko.observable(),
+
+            emailSubject = ko.observable(),
+
+            emailAttachment = ko.observable(),
+
+            emailAttachmentPath = ko.observable(),
+
+            emailSignature = ko.observable(),
+            
+            
+            // Errors
+            errors = ko.validation.group({
+                emailTo: emailTo,
+                
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+
+            // True if the booking has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+              
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        self = {
+
+            emailTo: emailTo,
+            emailCC: emailCC,
+            emailSubject: emailSubject,
+            emailAttachment: emailAttachment,
+            emailAttachmentPath: emailAttachmentPath,
+            emailSignature: emailSignature,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+        return self;
+    };
+
+
+
     var reportParamsMapper = function (source) {
         var self
         if (source != undefined) {
@@ -151,7 +213,8 @@
     }
     return {
         ReportCategory: ReportCategory,
-        reportParamsMapper: reportParamsMapper
+        reportParamsMapper: reportParamsMapper,
+        EmailFields: EmailFields
     }
     
 });

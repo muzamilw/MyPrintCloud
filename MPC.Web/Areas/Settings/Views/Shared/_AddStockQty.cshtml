@@ -5,7 +5,7 @@
 
 <div class="modal fade" id="addStockQtyModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width:400px;" class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" data-bind="with:$root.selectedItemStockUpdateHistory">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add Stock Quantity</h4>
@@ -19,7 +19,7 @@
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control" id="txtSection" style="width:100px;" value="0">
+                            <input type="text" class="form-control" id="txtSection" style="width:100px;" value="0" data-bind="value:lastModifiedQty">
                             <span class="help-block text-right"></span>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.saveAddStockQuantity">OK</button>
             </div>
         </div>
     </div>

@@ -17,6 +17,8 @@ define("inventory/inventory.viewModel",
                     selectedInventoryCopy = ko.observable(),
                     //Active Cost Item
                     selectedCostItem = ko.observable(),
+                    // Active In stock item
+                    selectedItemStockUpdateHistory = ko.observable(),
                     //Active price Item
                     selectedPriceItem = ko.observable(),
                     //Is Loading Paper Sheet
@@ -62,6 +64,12 @@ define("inventory/inventory.viewModel",
                     lengthUnits = ko.observableArray([]),
                     //Paper Basis Areas
                     paperBasisAreas = ko.observableArray([]),
+                    itemStockUpdateHistoryActions = ko.observableArray([
+                        { id: 1, name: "Added" },
+                        { id: 2, name: "Ordered" },
+                        { id: 3, name: "Threshold Order" },
+                        { id: 4, name: "Back Order" }
+                    ]),
                     //units
                     units = ko.observableArray([
                         { Id: 4, Text: 'Sq Meter' },
@@ -669,10 +677,25 @@ define("inventory/inventory.viewModel",
                     });
                     confirmation.show();
                 },
+
                 // Add Stock Quantity
                 addStockQuantity = function () {
+                    var itemStockUpdateHistory = model.ItemStockUpdateHistory();
+                    selectedItemStockUpdateHistory(itemStockUpdateHistory);
                     view.showAddStockQtyDialog();
                 },
+                // on Save Add Stock Quantity
+                saveAddStockQuantity = function (itemStockUpdateHistory) {
+                    if (selectedItemStockUpdateHistory().lastModifiedQty() !== undefined && selectedItemStockUpdateHistory().lastModifiedQty() > 0) {
+                        selectedItemStockUpdateHistory().lastModifiedQty(parseInt(selectedItemStockUpdateHistory().lastModifiedQty()) + parseInt(selectedInventory().inStock()));
+                        selectedItemStockUpdateHistory().lastModifiedDate(Date());
+                        selectedItemStockUpdateHistory().actionName(itemStockUpdateHistoryActions()[0].name);
+                        selectedInventory().inStock(selectedItemStockUpdateHistory().lastModifiedQty());
+                        selectedInventory().itemStockUpdateHistories.push(selectedItemStockUpdateHistory());
+                        view.hideAddStockQtyDialog();
+                    }
+                },
+
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -749,7 +772,9 @@ define("inventory/inventory.viewModel",
                     filteredSubCategoriesForDetail: filteredSubCategoriesForDetail,
                     openReport: openReport,
                     onArchiveStock: onArchiveStock,
-                    addStockQuantity: addStockQuantity
+                    addStockQuantity: addStockQuantity,
+                    selectedItemStockUpdateHistory: selectedItemStockUpdateHistory,
+                    saveAddStockQuantity: saveAddStockQuantity
                 };
             })()
         };

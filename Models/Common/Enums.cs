@@ -464,6 +464,22 @@ namespace MPC.Models.Common
 
     }
 
+    public enum ReportCategoryEnum : int
+    {
+        CRM = 4,
+        Stores = 1,
+        Suppliers = 2,
+        PurchaseOrders = 5,
+        Delivery = 6,
+        Order = 12,
+        Estimate = 3,
+        Invoice = 13,
+        GRN = 15,
+        Inventory = 7
+
+    }
+
+
     /// <summary>
     /// Impression Coverage (Used in Order - Item Section)
     /// </summary>

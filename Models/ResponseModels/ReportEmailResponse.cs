@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MPC.MIS.Areas.Api.Models
+namespace MPC.Models.ResponseModels
 {
     public class ReportEmailResponse
     {
@@ -21,8 +21,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string Signature { get; set; }
 
         public long ContactId { get; set; }
-        public Guid SignedBy { get; set; }
-       
 
     }
 }

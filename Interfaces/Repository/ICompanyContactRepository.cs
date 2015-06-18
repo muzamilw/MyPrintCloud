@@ -128,6 +128,8 @@ namespace MPC.Interfaces.Repository
         /// <param name="companyId"></param>
         /// <returns></returns>
         CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
+
+        CompanyContact GetContactByContactId(long ContactId);
         
     }
 }

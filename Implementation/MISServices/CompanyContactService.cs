@@ -265,5 +265,10 @@ namespace MPC.Implementation.MISServices
             companyContactRepository.SaveChanges();
             return true;
         }
+
+        public CompanyContact GetContactByContactId(long ContactId)
+        {
+           return companyContactRepository.GetContactByContactId(ContactId);
+        }
     }
 }

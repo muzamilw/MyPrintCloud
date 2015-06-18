@@ -10,7 +10,10 @@
         $(window).load(function () {
             // Animate loader off screen
             $.blockUI({ message: "" });
-            $("div#spinner").fadeIn("fast");
+            $("div#spinner").fadeOut("fast");
+            setTimeout(function() {
+                $.unblockUI();
+            }, 1000);
         });
     </script>
     

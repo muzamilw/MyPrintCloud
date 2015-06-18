@@ -77,7 +77,7 @@
             //Bar Code
             barCode = ko.observable(specifiedBarCode),
             //in Stock
-            inStock = ko.observable(specifiedInStock).extend({ number: true }),
+            inStock = ko.observable(specifiedInStock || 0).extend({ number: true }),
             //Item Description
             description = ko.observable(specifiedDescription),
             //Created Date
@@ -145,6 +145,8 @@
         headerComputedValue = ko.observable(),
         //Stock Cost And Price List
         stockCostAndPriceListInInventory = ko.observableArray([]),
+        // Item Stock Update Histories
+        itemStockUpdateHistories = ko.observableArray([]),
         //Paper Type
         paperType = ko.observable(),
         // is Allow Back Order
@@ -219,6 +221,7 @@
             isAllowBackOrder: isAllowBackOrder,
             thresholdLevel: thresholdLevel,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
+            itemStockUpdateHistories: itemStockUpdateHistories,
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -262,7 +265,8 @@
                 IsImperical: IsImperical(),
                 ItemWeightSelectedUnit: itemWeightSelectedUnit(),
                 StockCostAndPrices: stockCostAndPriceListInInventory(),
-                isAllowBackOrder: isAllowBackOrder()
+                isAllowBackOrder: isAllowBackOrder(),
+                ItemStockUpdateHistories: []
             }
         },
         // Reset
@@ -315,6 +319,7 @@
             paperType: paperType,
             isAllowBackOrder: isAllowBackOrder,
             thresholdLevel: thresholdLevel,
+            itemStockUpdateHistories: itemStockUpdateHistories,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -407,6 +412,66 @@
         };
         return self;
     };
+
+    // Item Stock Update History
+    var ItemStockUpdateHistory = function (specifiedStockHistoryId, specifiedLastModifiedQty, specifiedModifyEvent, specifiedLastModifiedBy, specifiedLastModifiedDate) {
+        var
+            self,
+            //cost Price Id
+            id = ko.observable(specifiedStockHistoryId),
+            lastModifiedQty = ko.observable(specifiedLastModifiedQty),
+            modifyEvent = ko.observable(specifiedModifyEvent),
+            lastModifiedBy = ko.observable(specifiedLastModifiedBy),
+            lastModifiedDate = ko.observable(specifiedLastModifiedDate),
+            actionName = ko.observable(),
+            lastModifiedByName = ko.observable(),
+             // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // True if the booking has been changed
+              dirtyFlag = new ko.dirtyFlag({
+              }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            convertToServerData = function () {
+                return {
+                    StockHistoryId: id(),
+                    LastModifiedQty: lastModifiedQty(),
+                    ModifyEvent: modifyEvent(),
+                    LastModifiedBy: lastModifiedBy(),
+                    LastModifiedDate: lastModifiedDate() === undefined || lastModifiedDate() === null ? null : moment(lastModifiedDate()).format(ist.utcFormat),
+                }
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            lastModifiedQty: lastModifiedQty,
+            modifyEvent: modifyEvent,
+            lastModifiedBy: lastModifiedBy,
+            lastModifiedDate: lastModifiedDate,
+            actionName: actionName,
+            lastModifiedByName: lastModifiedByName,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+
     //Stock Item For Client Factory
     StockItem.CreateForClient = function (source) {
         return new StockItem(source.StockItemId, source.ItemName, source.ItemCode, source.SupplierId, source.CategoryId, source.SubCategoryId, source.BarCode,
@@ -437,10 +502,14 @@
         obj.packCostPrice(source.PackCostPrice);
         return obj;
     };
-
+    // Item Stock Update History Factory
+    ItemStockUpdateHistory.CreateForClient = function (source) {
+        return new ItemStockUpdateHistory(source.StockHistoryId, source.LastModifiedQty, source.ModifyEvent, source.LastModifiedBy, source.LastModifiedDate);
+    };
     return {
         InventoryListView: InventoryListView,
         StockItem: StockItem,
         StockCostAndPrice: StockCostAndPrice,
+        ItemStockUpdateHistory: ItemStockUpdateHistory,
     };
 });
