@@ -94,5 +94,7 @@ namespace MPC.Interfaces.Repository
 
         List<StoresListResponse> GetStoresNameByOrganisationId();
         IEnumerable<Company> GetAllRetailStores();
+        // ReSharper disable once InconsistentNaming
+        void DeleteCrmCompanyBySP(long storeId);
     }
 }

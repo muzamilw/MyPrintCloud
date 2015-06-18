@@ -372,7 +372,7 @@
         convertToServerData = function () {
             return {
                 CostCentreId: costCenterId(),
-            }
+            };
         };
         self = {
             costCenterId: costCenterId,

@@ -219,8 +219,8 @@
 </div>
 <script id="itemsTemplate" type="text/html">
     <tr data-bind="click : $root.selectedProductFromStore() !== $data ? $root.updateItemsDataOnItemSelection:'', css: { selectedRow: $root.selectedProductFromStore() === $data }" style="cursor: pointer; word-break: break-all">
-        <td data-bind=" css: { selectedRow: $root.selectedProductFromStore() === $data }">
-            <span data-bind="text: productCode()+' '+productName()"></span>
+        <td data-bind=" css: { selectedRow: $root.selectedProductFromStore() === $data }, attr: {  title: productCode }">
+            <span data-bind="text:productName()"></span>
         </td>
 
     </tr>

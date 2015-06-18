@@ -20,6 +20,7 @@ define("calendar/calendar.viewModel",
                     searchContactFilter = ko.observable(),
                     loggedInUserId = ko.observable(),
                     isBaseDataLoaded = ko.observable(false),
+                    isBaseLoaded = ko.observable(false),
                     pager = ko.observable(),
                     sectionFlags = ko.observableArray([]),
                     companyContacts = ko.observableArray([]),
@@ -134,7 +135,10 @@ define("calendar/calendar.viewModel",
                 },
                 // Filter Calendar Activities change on user
                 onChangeSystemUser = function () {
-                    getCalendarActivities(moment(start).format(ist.utcFormat), moment(end).format(ist.utcFormat));
+                    if (isBaseLoaded()) {
+                        getCalendarActivities(moment(start).format(ist.utcFormat), moment(end).format(ist.utcFormat));
+                    }
+                   
                 },
                 //delete Activity
                 onDeleteActivity = function (activity) {
@@ -176,8 +180,9 @@ define("calendar/calendar.viewModel",
                             activityTypes.valueHasMutated();
 
                             loggedInUserId(data.LoggedInUserId);
-                            selectedSystemUser(loggedInUserId());
-                            // getCalendarActivities(startDate, endDate);
+                            selectedSystemUser(data.LoggedInUserId);
+                            isBaseLoaded(true);
+                            getCalendarActivities(startDate, endDate);
                         },
                         error: function () {
                             toastr.error("Failed to load base data.");
@@ -231,7 +236,7 @@ define("calendar/calendar.viewModel",
                             }
                         },
                         error: function (response) {
-                            toastr.error("Failed to load Detail . Error: ");
+                            toastr.error("Failed to load Contacts. Error: ");
                         }
                     });
                 },
@@ -255,7 +260,8 @@ define("calendar/calendar.viewModel",
                                         start: item.ActivityStartTime,
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor + " !important" : null,
                                         end: item.ActivityEndTime,
-                                        allDay: true
+                                        allDay: true,
+                                        textColor:'black'
                                     });
                                 });
                             }
@@ -293,7 +299,8 @@ define("calendar/calendar.viewModel",
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor + " !important" : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
-                                        allDay: true
+                                        allDay: true,
+                                        textColor: 'black'
                                     });
                                 } else {
                                     items.remove(selectedActivityForRemove());
@@ -303,7 +310,8 @@ define("calendar/calendar.viewModel",
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
-                                        allDay: true
+                                        allDay: true,
+                                        textColor: 'black'
                                     });
                                 }
                             }

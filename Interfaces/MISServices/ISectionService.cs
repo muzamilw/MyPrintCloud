@@ -10,5 +10,8 @@ namespace MPC.Interfaces.MISServices
     public interface ISectionService
     {
         IEnumerable<Section> GetSectionsForPhraseLibrary();
+        IEnumerable<SectionFlag> GetSectionFlagBySectionId(long sectionId);
+
+        bool SaveSectionFlags(IEnumerable<SectionFlag> flags);
     }
 }

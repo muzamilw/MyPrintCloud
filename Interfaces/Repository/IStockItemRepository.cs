@@ -13,6 +13,11 @@ namespace MPC.Interfaces.Repository
     public interface IStockItemRepository : IBaseRepository<StockItem, long>
     {
         /// <summary>
+        /// Will return Stock with name A4 of type paper
+        /// </summary>
+        StockItem GetA4PaperStock();
+
+        /// <summary>
         /// Load Property
         /// </summary>
         void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);

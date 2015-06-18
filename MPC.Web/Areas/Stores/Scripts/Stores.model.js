@@ -3020,7 +3020,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.secondaryEmail,
             source.BussinessAddressId,
             source.FileName
-            
+
         );
     };
     CompanyContact.Create = function (source) {
@@ -4327,11 +4327,23 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
           specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle, specifiedIsSystem) {
         var self,
             id = ko.observable(specifiedVariableId),
-            variableName = ko.observable(specifiedVariableName).extend({ required: true }),
+            isSystem = ko.observable(specifiedIsSystem || false),
+            variableName = ko.observable(specifiedVariableName).extend({
+                required: {
+                    onlyIf: function () {
+                        return !isSystem();
+                    }
+                }
+            }),
             variableType = ko.observable(specifiedVariableType),
             scope = ko.observable(specifiedScope),
-            isSystem = ko.observable(specifiedIsSystem),
-            waterMark = ko.observable(specifiedWaterMark || "").extend({ required: true }),
+            waterMark = ko.observable(specifiedWaterMark || "").extend({
+                required: {
+                    onlyIf: function () {
+                        return !isSystem();
+                    }
+                }
+            }),
             defaultValue = ko.observable(specifiedDefaultValue || ""),
             defaultValueForInput = ko.observable(specifiedDefaultValue || ""),
             inputMask = ko.observable(specifiedInputMask),

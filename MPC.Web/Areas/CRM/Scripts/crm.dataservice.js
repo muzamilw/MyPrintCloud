@@ -115,6 +115,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Delete Company Permanently
+                    amplify.request.define('deleteCompanyPermanent', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeleteCrmCompany',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
+                    });
                 };
             },
              // get order tab data
@@ -226,7 +233,17 @@
                 error: callbacks.error,
                 data: params
             });
-        },
+            },
+            //Delete Company Permanent
+            deleteCompanyPermanent = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyPermanent',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
         // Save Company Contact
             saveCompanyContact = function (param, callbacks) {
                 initialize();
@@ -304,6 +321,7 @@
             getPurchases: getPurchases,
             getGoodsReceivedNotes: getGoodsReceivedNotes,
             deleteCompanyAddress: deleteCompanyAddress,
+            deleteCompanyPermanent: deleteCompanyPermanent,
             deleteCompanyContact: deleteCompanyContact
         };
     })();

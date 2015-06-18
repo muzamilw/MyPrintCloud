@@ -116,6 +116,20 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isPublishedUi = ko.computed(function () {
                 return isPublished() ? "Yes" : "No";
             }),
+            isStoreTax = ko.observable(specifiedDefaultItemTax == undefined || specifiedDefaultItemTax == null ? 2 : 1),
+            isStoreTaxUi = ko.computed({
+                read: function () {
+                    
+                    return '' + isStoreTax();
+                },
+                write: function (value) {
+                    var storeTax = parseInt(value);
+                    if (storeTax === isStoreTax()) {
+                        return;
+                    }
+                    defaultItemTax(0);
+                }
+            }),
             // product Category Name
             productCategoryName = ko.observable(specifiedProductCategoryName || undefined),
             // is featured
@@ -770,6 +784,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     callbacks.onSelectStockItem();
                 }
             },
+            // Set Stock Item For Stock Option in Case of New Product
+            selectStockItemForStockOptionForNewProduct = function (stockItem) {
+                if (itemStockOptions().length === 0) {
+                    return;
+                }
+                activeStockOption(itemStockOptions()[0]);
+                selectStockItemForStockOption(stockItem);
+            },
             // Select Stock Item For Stock Option
             selectStockItemForStockOption = function (stockItem) {
                 activeStockOption().selectStock(stockItem);
@@ -791,6 +813,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 // Set Stock Item Selection Callback
                 selectStockItemCallback = selectStockItemForSection;
+            },
+            // Select Stock Item for Section for New Product
+            selectStockItemForSectionForNewProduct = function(stockItem) {
+                if (itemSections().length === 0) {
+                    return;
+                }
+                activeItemSection(itemSections()[0]);
+                selectStockItemForSection(stockItem);
             },
             // On Select Stock Item
             selectStockItemForSection = function (stockItem) {
@@ -1843,6 +1873,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onSelectImage: onSelectImage,
             itemImages: itemImages,
             onSelectItemImage: onSelectItemImage,
+            isStoreTaxUi:isStoreTaxUi,
             resetFiles: resetFiles,
             errors: errors,
             isValid: isValid,
@@ -1861,6 +1892,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onAddProductMarketBriefQuestion: onAddProductMarketBriefQuestion,
             onEditProductMarketBriefQuestion: onEditProductMarketBriefQuestion,
             onRemoveItemRelatedItem: onRemoveItemRelatedItem,
+            selectStockItemForStockOption: selectStockItemForStockOption,
+            selectStockItemForSection: selectStockItemForSection,
+            selectStockItemForStockOptionForNewProduct: selectStockItemForStockOptionForNewProduct,
+            selectStockItemForSectionForNewProduct: selectStockItemForSectionForNewProduct,
             reset: reset,
             convertToServerData: convertToServerData
         };
@@ -2666,6 +2701,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 stockItemId(stockItem.id);
                 stockItemName(stockItem.name);
+                stockItemPackageQty(stockItem.packageQty);
             },
             // Select Press
             selectPress = function (press) {
@@ -2813,14 +2849,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Stock Item Entity        
-    StockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
+    StockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription, specifiedPackageQty,
+        specifiedAllocated, specifiedInStock) {
         return {
             id: specifiedId,
             name: specifiedName,
             category: specifiedCategoryName,
             location: specifiedLocation,
             weight: specifiedWeight,
-            description: specifiedDescription
+            description: specifiedDescription,
+            packageQty: specifiedPackageQty,
+            allocated: specifiedAllocated,
+            inStock: specifiedInStock
         };
     },
 
@@ -4137,7 +4177,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Stock Item Factory
     StockItem.Create = function (source) {
-        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
+        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription,
+        source.PackageQty, source.Allocated, source.InStock);
     };
 
     // Cost Centre Factory
