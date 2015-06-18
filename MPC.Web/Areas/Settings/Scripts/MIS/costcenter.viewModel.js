@@ -929,16 +929,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             } else {
 
 
-                                selectedCostCenter().type(data.TypeName)
+                                selectedCostCenter().type(data.TypeName);
                                 selectedCostCenter().reset();
-                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].description(data.WebStoreDesc);
-                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].type(data.TypeName);
-                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].name(selectedCostCenter().name());
-                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].calculationMethodType(selectedCostCenter().calculationMethodType());
-                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].isDisabled(selectedCostCenter().isDisabled());
                             }
                             closeCostCenterDetail();
-                            //  getCostCenters();
+                            getCostCenters();
                             toastr.success("Successfully saved.");
                         } else {
                             toastr.error("Formula String is not valid.");

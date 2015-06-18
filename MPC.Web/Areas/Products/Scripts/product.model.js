@@ -111,7 +111,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return isArchived() ? "Yes" : "No";
             }),
             // is published
-            isPublished = ko.observable(specifiedIsPublished || true),
+            isPublished = ko.observable(specifiedIsPublished || undefined),
             // Is Published Ui
             isPublishedUi = ko.computed(function () {
                 return isPublished() ? "Yes" : "No";
@@ -172,7 +172,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // is stock control
             isStockControl = ko.observable(specifiedIsStockControl || undefined),
             // is enabled
-            isEnabled = ko.observable(specifiedIsEnabled || true),
+            isEnabled = ko.observable(specifiedIsEnabled || undefined),
             // sort order
             sortOrder = ko.observable(specifiedSortOrder || 1),
             // xero access code

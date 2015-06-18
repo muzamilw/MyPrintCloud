@@ -78,8 +78,8 @@
                 </td>
                 <td data-bind="text: description"></td>
                 <td>
-                    <span class="label label-danger" data-bind="visible:isDisabled() == true">No</span>                    
-                    <span class="label label-success" data-bind="visible:isDisabled() == false">Yes</span>
+                    <span class="label" data-bind="text: isDisabled() ? 'No' : 'Yes', css: { 'label-success':  !isDisabled(), 'label-danger' : isDisabled() }">No</span>                    
+                 @*   <span class="label label-success" data-bind="visible:isDisabled() == false">Yes</span>*@
                     
 
                 </td>
