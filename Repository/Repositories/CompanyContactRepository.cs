@@ -1419,6 +1419,17 @@ namespace MPC.Repository.Repositories
         {
             return db.CompanyContacts.Where(c => c.CompanyId == companyId && c.OrganisationId == organistionId && c.Email == emailAddress && c.isWebAccess == true && (c.isArchived == false || c.isArchived == null)).SingleOrDefault();
         }
+
+
+
+        public CompanyContact GetContactByContactId(long ContactId)
+        {
+
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
+
+            
+        }
         }
 
     }
