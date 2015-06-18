@@ -4706,7 +4706,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ItemStockUpdateHistories AS T
     ) AS T1");
         }
-
+        
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MediaLibrary
         /// </Summary>
@@ -8922,7 +8922,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ItemStockUpdateHistory AS T
     ) AS T1");
         }
-
+        
         /// <Summary>
         /// return view for BaseDbContext.MediaLibraries
         /// </Summary>

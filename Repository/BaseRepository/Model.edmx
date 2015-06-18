@@ -8064,7 +8064,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="VariableExtension" EntitySet="VariableExtensions" />
           </AssociationSet>
           <FunctionImport Name="usp_DeleteCRMCompanyByID">
-            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          <Parameter Name="CompanyID" Mode="In" Type="Int32" />
           </FunctionImport>
           <AssociationSet Name="FK_ItemStockUpdateHistory_StockItem" Association="DomainModels.FK_ItemStockUpdateHistory_StockItem">
             <End Role="StockItem" EntitySet="StockItems" />
