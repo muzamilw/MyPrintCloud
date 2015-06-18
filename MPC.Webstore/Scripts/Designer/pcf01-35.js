@@ -906,7 +906,8 @@ function fu12(mode, title) {
         if(IsCalledFrom == 2)
         {
             item.originalTextStyles = item.textStyles;
-            item.originalContentString = item.ContentString;
+            if(item.ObjectType != 9)
+                item.originalContentString = item.ContentString;
         }
     });
     $.each(TPOs, function (i, IT) {

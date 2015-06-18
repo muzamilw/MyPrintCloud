@@ -689,6 +689,7 @@
     <Content Include="LightBox\Js\jquery.fancybox.js" />
     <Content Include="LightBox\Js\jquery.fancybox.pack.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\Designer\p64test-1.4.js" />
     <Content Include="Scripts\FeedEk.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Content\Images\star.gif" />

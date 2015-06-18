@@ -964,17 +964,6 @@ namespace MPC.Implementation.WebStoreServices
                 bFileExists = System.IO.File.Exists(FilePath);
                 if (bFileExists)
                 {
-                    //DesignerSvgParser.MaximumSize = new Size(Convert.ToInt32(oObject.MaxWidth), Convert.ToInt32(oObject.MaxHeight));
-                   // img = DesignerSvgParser.GetBitmapFromSVG(FilePath, oObject.ColorHex);
-                    //if (oObject.Opacity != null)
-                    //{
-                    //    // float opacity =float.Parse( oObject.Tint.ToString()) /100;
-                    //    if (oObject.Opacity != 1)
-                    //    {
-                    //        img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
-                    //    }
-                    //}
-                    //oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
 
                     var posY = oObject.PositionY + oObject.MaxHeight;
 
@@ -989,33 +978,36 @@ namespace MPC.Implementation.WebStoreServices
                             oPdf.Transform.Rotate(360 - oObject.RotationAngle.Value, oObject.PositionX.Value + oObject.MaxWidth.Value / 2, oPdf.MediaBox.Height - posY.Value + oObject.MaxHeight.Value / 2);
                         }
                     }
-                  
-                   // }
-
-
-                  //  oBook = new tblBook();
-                   // oBook.bookid = Guid.Empty;
-
-                  //  oBook.book_title = BookNode.Attributes["book_title"].Value;
-
-
-                    //int id = oPdf.AddImageObject(oImg, true);
                     //oPdf.Transform.Reset();
                     oPdf.HtmlOptions.HideBackground = true;
                     oPdf.HtmlOptions.Engine = EngineType.Gecko;
              
                     float width =(float)oObject.MaxWidth.Value, height = (float)oObject.MaxHeight.Value;
-                   // string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/MPC_Content" + oObject.ContentString;
-                    ////int id = oPdf.AddImageUrl(URl);
-                    List<svgColorData> styles = new List<svgColorData>();
-                    if (oObject.textStyles != null)
-                    {
-                        styles = JsonConvert.DeserializeObject<List<svgColorData>>(oObject.textStyles);
-                    }
-                    string file = DesignerSvgParser.UpdateSvg(FilePath, height, width, styles);//
-                    string html = File.ReadAllText(file);
-                    html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>" ;
-                    oPdf.AddImageHtml(html);
+                    string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/MPC_Content" + oObject.ContentString;
+                    //if (oObject.originalContentString != null)
+                    //{
+
+
+
+                    //    string svgProp = DesignerSvgParser.UpdateSvgData(FilePath, height, width);//
+                    //    string html = "<svg " + svgProp + "> " + oObject.originalContentString + " </svg>";
+                    //    html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>";
+                    //    oPdf.AddImageHtml(html);
+                    //}
+                    //else
+                    //{
+
+                        List<svgColorData> styles = new List<svgColorData>();
+                        if (oObject.textStyles != null)
+                        {
+                            styles = JsonConvert.DeserializeObject<List<svgColorData>>(oObject.textStyles);
+                        }
+
+                        string file = DesignerSvgParser.UpdateSvg(FilePath, height, width, styles);//
+                        string html = File.ReadAllText(file);
+                        html = "<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body  style='  padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;'>" + html + "</body></html>";
+                        oPdf.AddImageHtml(html);
+                    //}
                     oPdf.Transform.Reset();
                 }
             }
