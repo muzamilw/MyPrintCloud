@@ -1741,8 +1741,7 @@
                             </div>
                             <div class="tab-pane fade" id="tab-SEO" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12 form-horizontal">
-
-                                    <p class="group-header-description">Store global Scripts.</p>
+                                    
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -2754,7 +2753,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                     <div style="background-color:gainsboro; border-radius:3px">
                                         <header class="main-box-header clearfix">
-                                            <div style="float:left;"><span style="font-size:24px">Spot Colors</span></div>
+                                            <div style="float:left;"><span style="font-size:24px">Spot Colors to CMYK conversion table</span></div>
                                         </header>
                                         <div class="main-box-body clearfix">
                                             <div class="table-responsive">
@@ -3157,10 +3156,26 @@ Public  - allows users to see other users addresses and orders." data-original-t
     <script id="itemCompanyCMYKColorTemplate" type="text/html">
         <tr data-bind="click: $root.onEditCompanyCMYKColor, css: { selectedRow: $data === $root.selectedRaveReview}" style="cursor: pointer">
             <td><a href="#" class="store-user-link" data-bind="text: colorName"></a></td>
-            <td data-bind="text: colorC"></td>
-            <td data-bind="text: colorM"></td>
-            <td data-bind="text: colorY"></td>
-            <td data-bind="text: colorK"></td>
+            <td>
+                <div>
+                    <span data-bind="text: colorC"></span><span> %</span>
+                </div>                
+            </td>
+            <td>
+                <div>
+                    <span data-bind="text: colorM"></span><span> %</span>
+                </div> 
+            </td>
+            <td>
+                <div>
+                    <span data-bind="text: colorY"></span><span> %</span>
+                </div> 
+            </td>
+            <td>
+                <div>
+                    <span data-bind="text: colorK"></span><span> %</span>
+                </div> 
+            </td>
             <td>
                 <div class="type">
                     <span class="label" data-bind="text: isActive() ? 'YES' : 'NO', css: { 'label-success': isActive, 'label-danger': !isActive() }"></span></
