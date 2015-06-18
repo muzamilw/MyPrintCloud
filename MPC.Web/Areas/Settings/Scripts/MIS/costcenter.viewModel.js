@@ -935,6 +935,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                                 costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].type(data.TypeName);
                                 costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].name(selectedCostCenter().name());
                                 costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].calculationMethodType(selectedCostCenter().calculationMethodType());
+                                costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].isDisabled(selectedCostCenter().isDisabled());
                             }
                             closeCostCenterDetail();
                             //  getCostCenters();

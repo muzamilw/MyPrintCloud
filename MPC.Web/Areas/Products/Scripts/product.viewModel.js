@@ -83,7 +83,6 @@ define("product/product.viewModel",
                     // Length Unit fOr Organisation 
                     lengthUnit = ko.observable(),
                     weightUnit = ko.observable(),
-                    isStoreTax = ko.observable(),
                     // Selected Region Id
                     selectedRegionId = ko.observable(),
                     // Selected Category Type Id
@@ -1969,7 +1968,6 @@ define("product/product.viewModel",
                     categorySelectedEventHandler: categorySelectedEventHandler,
                     smartForms: smartForms,
                     weightUnit: weightUnit,
-                    isStoreTax: isStoreTax,
                     defaultTaxRate: defaultTaxRate,
                     onDeleteTemplatePage: onDeleteTemplatePage,
                     onDeleteItemAddonCostCentre: onDeleteItemAddonCostCentre,
