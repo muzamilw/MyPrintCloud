@@ -30,6 +30,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    amplify.request.define('sendEmail', 'ajax', {
+                        url: ist.siteUrl + '/Api/ReportEmail',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -76,11 +83,22 @@
             });
         };
 
+        sendEmail = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'sendEmail',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: JSON.stringify(param)
+            });
+        };
+
         return {
             getreports: getreports,
             getreportcategories: getreportcategories,
             getreportparamsbyId: getreportparamsbyId,
-            getReportEmailData: getReportEmailData
+            getReportEmailData: getReportEmailData,
+            sendEmail: sendEmail
            
         };
     })();

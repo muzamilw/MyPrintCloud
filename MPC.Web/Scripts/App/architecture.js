@@ -20,6 +20,7 @@ var ist = {
         PurchaseOrders: 5,
         Delivery: 6,
         Orders: 12,
+        Estimate: 3,
         Invoice: 13,
         GRN: 15,
         Inventory:7

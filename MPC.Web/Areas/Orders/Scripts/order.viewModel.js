@@ -2112,12 +2112,36 @@ define("order/order.viewModel",
                         //OrderId(oOrderId);
                         //CriteriaParam(oCriteriaParam);
 
+                        reportManager.outputTo("preview");
+
+                        if (selectedOrder().isEstimate() == true)
+                        {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                        }
+                        else
+                        {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                        }
+                       
                         
-                        reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
-                        reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
 
 
                     },
+
+                    openExternalEmailOrderReport = function()
+                    {
+                        reportManager.outputTo("email");
+                        if (selectedOrder().isEstimate() == true) {
+                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                        } else {
+                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 2, selectedOrder().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                        }
+
+                    }
                     //#endregion
                     //#region Inquiries tab
                     inqiriesTabClick = function () {
@@ -2717,7 +2741,8 @@ define("order/order.viewModel",
                     saveSectionCostCenter: saveSectionCostCenter,
                     createitemForRetailStoreProduct: createitemForRetailStoreProduct,
                     editSection: editSection,
-                    createNewCostCenterProduct: createNewCostCenterProduct
+                    createNewCostCenterProduct: createNewCostCenterProduct,
+                    openExternalEmailOrderReport: openExternalEmailOrderReport
                     //#endregion
                 };
             })()
