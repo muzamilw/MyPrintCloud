@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using MPC.Interfaces.Data;
-using MPC.Interfaces.MISServices;
+﻿using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
-using MPC.WebBase.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
 using SectionFlag = MPC.Models.DomainModels.SectionFlag;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -18,7 +16,6 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
         private readonly ISectionService sectionService;
         #endregion
-
         #region Constructor
 
         /// <summary>
@@ -30,13 +27,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         #endregion
-
         #region Public
-
+        /// <summary>
+        /// Get Section Flags by Section Id
+        /// </summary>
         public IEnumerable<Models.SectionFlag> Get(long sectionId)
         {
-           IEnumerable<SectionFlag> flags =sectionService.GetSectionFlagBySectionId(sectionId);
-            return flags.Select(flag => flag.CreateFrom());
+           return sectionService.GetSectionFlagBySectionId(sectionId).CreateFrom();
         }
 
         /// <summary>
