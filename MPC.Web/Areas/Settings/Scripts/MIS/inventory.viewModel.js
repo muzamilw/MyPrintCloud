@@ -157,8 +157,7 @@ define("inventory/inventory.viewModel",
                                         selectedInventory().paperType("Roll Paper");
                                     }
 
-                                    if (selectedInventory().IsImperical() == true)
-                                    {
+                                    if (selectedInventory().IsImperical() == true) {
                                         weightLabel("Basis Weight");
                                     }
                                     else {
@@ -246,12 +245,10 @@ define("inventory/inventory.viewModel",
                                 currencySymbol(data.CurrencySymbol);
                                 weightUnit(data.WeightUnit);
 
-                                if(data.IsImperical == true)
-                                {
+                                if (data.IsImperical == true) {
                                     weightLabel("lbs");
                                 }
-                                else
-                                {
+                                else {
                                     weightLabel("kg");
                                 }
                             },
@@ -304,7 +301,7 @@ define("inventory/inventory.viewModel",
                         return subCategories.filter(function (subCategory) {
                             return subCategory.CategoryId === selectedInventory().categoryId();
                         });
-                    });
+                    }),
                 //On select Supplier
                 selectedSupplier = ko.computed(function () {
                     if (supplierVm.selectedSupplier() !== undefined) {
@@ -656,21 +653,25 @@ define("inventory/inventory.viewModel",
                     supplierVm.getSuppliers();
                     supplierVm.show();
                 },
-                onArchiveStock = function() {
+                onArchiveStock = function () {
                     // Ask for confirmation
                     confirmation.afterProceed(function () {
                         var inventory = selectedInventory();
                         inventory.isDisabled(true);
-                        _.each(inventories(), function(itm) {
+                        _.each(inventories(), function (itm) {
                             if (itm.itemId() == inventory.itemId()) {
                                 inventories.remove(itm);
-                               pager().totalCount(inventories().length);
+                                pager().totalCount(inventories().length);
                             }
                         });
-                        
+
                         saveInventory();
                     });
                     confirmation.show();
+                },
+                // Add Stock Quantity
+                addStockQuantity = function () {
+                    view.showAddStockQtyDialog();
                 },
                 //Initialize
                 initialize = function (specifiedView) {
@@ -747,7 +748,8 @@ define("inventory/inventory.viewModel",
                     weightLabel: weightLabel,
                     filteredSubCategoriesForDetail: filteredSubCategoriesForDetail,
                     openReport: openReport,
-                    onArchiveStock: onArchiveStock
+                    onArchiveStock: onArchiveStock,
+                    addStockQuantity: addStockQuantity
                 };
             })()
         };
