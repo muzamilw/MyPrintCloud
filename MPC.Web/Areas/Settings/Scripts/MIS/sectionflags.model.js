@@ -9,12 +9,42 @@
            name = ko.observable(spcName || 0),
            sectionflags = ko.observableArray([]),
            errors = ko.validation.group({
-
+               sectionflags: sectionflags
 
            }),
            isValid = ko.computed(function () {
-               return errors().length === 0 ? true : false;;
+              return  sectionflags.filter(function(flag) {
+                   return !flag.isValid();
+               }).length === 0
+               && errors().length === 0 ? true : false;
+               
            }),
+           showAllErrors = function () {
+                            // Show Item Errors
+            errors.showAllMessages();
+               // Show Item Stock Option Errors
+            var sectionFlagsError = sectionflags.filter(function (flag) {
+                return !flag.isValid();
+            });
+            if (sectionFlagsError.length > 0) {
+                _.each(sectionFlagsError, function (flag) {
+                    flag.errors.showAllMessages();
+                });
+            }
+           },
+              // Set Validation Summary
+            setValidationSummary = function (validationSummaryList) {
+                // Show Item Stock Option Errors
+                var sectionFlagsInvalid = sectionflags.find(function (flag) {
+                    return !flag.isValid();
+                });
+                if (sectionFlagsInvalid) {
+                    if (sectionFlagsInvalid.errors) {
+                        var labelElement = sectionFlagsInvalid.name.domElement;
+                        validationSummaryList.push({ name: 'Section Flag Name', element: labelElement });
+                    }
+                }
+            },
            dirtyFlag = new ko.dirtyFlag({
                sectionflags: sectionflags
            }),
@@ -34,8 +64,10 @@
             id: id,
             name: name,
             sectionflags: sectionflags,
+            setValidationSummary:setValidationSummary,
             dirtyFlag: dirtyFlag,
             errors: errors,
+            showAllErrors:showAllErrors,
             isValid: isValid,
             hasChanges: hasChanges,
             reset: reset
@@ -54,8 +86,9 @@
                description = ko.observable(spcDescription || undefined),
                color = ko.observable(desColor || '#E0E0E0'),
                sectionId = ko.observable(spcSectionId || undefined),
+                
                errors = ko.validation.group({
-
+                   name: name
 
                }),
                isValid = ko.computed(function () {
@@ -67,6 +100,7 @@
                    description: description,
                    color: color
                }),
+                
                hasChanges = ko.computed(function () {
                    return dirtyFlag.isDirty();
                }),

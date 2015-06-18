@@ -37,8 +37,10 @@ namespace MPC.Implementation.MISServices
 
         public bool SaveSectionFlags(IEnumerable<SectionFlag> flags)
         {
+            // getting existing flags for a section
             IEnumerable<SectionFlag> dBSectionFlags=sectionFlagRepository.GetSectionFlagBySectionId((long) 
                 flags.FirstOrDefault().SectionId);
+
             foreach (SectionFlag flag in dBSectionFlags)
             {
                 Boolean isFound = false;
@@ -49,7 +51,6 @@ namespace MPC.Implementation.MISServices
                         flag.FlagName = oldFlag.FlagName;
                         flag.flagDescription = oldFlag.flagDescription;
                         flag.FlagColor = oldFlag.FlagColor;
-                        sectionFlagRepository.Update(flag);
                         isFound = true;
                         break;
                     }
@@ -60,9 +61,10 @@ namespace MPC.Implementation.MISServices
                 }
                 
             }
+            // adding new flags 
             foreach (SectionFlag flag in flags)
             {
-                if (flag.SectionFlagId == 0)
+                if (flag.SectionFlagId < 0)
                 {
                     SectionFlag obj= sectionFlagRepository.Find(0);
                     obj = new SectionFlag

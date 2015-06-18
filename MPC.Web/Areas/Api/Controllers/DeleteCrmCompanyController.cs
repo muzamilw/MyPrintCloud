@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.Data;
@@ -8,7 +8,7 @@ using MPC.WebBase.Mvc;
 namespace MPC.MIS.Areas.Api.Controllers
 {
     public class DeleteCrmCompanyController : ApiController
-    { 
+    {
         #region Private
 
         private readonly ICompanyService companyService;
@@ -26,7 +26,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         #endregion
-        
+
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [ApiException]
         [CompressFilterAttribute]
