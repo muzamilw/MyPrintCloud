@@ -379,7 +379,10 @@ function c2_01(OPT) {
 
             }
             if (OPT.type == "path-group") {
+                //console.log(OPT.toSVG());
+               // IT.originalContentString = OPT.toSVG();
                 //IT.textStyles = OPT.toDataURL(); 
+
                 
             } 
             if (OPT.textAlign == "left")

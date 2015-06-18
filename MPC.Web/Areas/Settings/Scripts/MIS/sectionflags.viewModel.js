@@ -12,9 +12,13 @@ define("sectionflags/sectionflags.viewModel",
                     // Active
                     selectedsectionflags = ko.observableArray(),
                     selectedsection = ko.observable(undefined),
+                     //Filtered Markups
+                    filteredMarkups = ko.observableArray([]),
                     errorList = ko.observableArray([]),
                     // #region Busy Indicators
                     isLoadingsectionflags = ko.observable(false),
+                    
+                    idCounter = ko.observable(-1),
                     // #endregion Busy Indicators
                     // #region Observables
                     // Initialize the view model
@@ -49,6 +53,7 @@ define("sectionflags/sectionflags.viewModel",
                                         selectedsection().sectionflags.push(new model.SectionFlag.Create(item));
                                     });
                                     selectedsection().reset();
+                                    filteredMarkups.removeAll();
                                 }
 
                             },
@@ -59,6 +64,9 @@ define("sectionflags/sectionflags.viewModel",
                     },
                     // save flags
                     saveFlag = function () {
+                        if (!doBeforeSave()) {
+                            return;
+                        }
                         var list = [];
                         var obj = { SectionFlags: [] };
 
@@ -68,14 +76,16 @@ define("sectionflags/sectionflags.viewModel",
                         });
                         if (obj.SectionFlags.length == 0) {
                             var flag = new model.SectionFlag();
-                            flag.id(-1);
+                            flag.id(0);
                             flag.sectionId(selectedsection().id());
                             obj.SectionFlags.push(flag.convertToServerData()); // dummy to avoid null on server
                         }
                         dataservice.saveSectionFlags(obj, {
                             success: function (data) {
+                                filteredMarkups.removeAll();
                                 selectedsection().reset();
                                 toastr.success("Seccessfully updated!");
+                                getFlags();
                             },
                             error: function () {
                                 toastr.error(ist.resourceText.loadBaseDataFailedMsg);
@@ -89,11 +99,30 @@ define("sectionflags/sectionflags.viewModel",
                         });
                         selectedsection().sectionflags.remove(selectedFlag);
                     },
+                     // Do Before Logic
+                    doBeforeSave = function () {
+                        var flag = true;
+                        if (!selectedsection().isValid()) {
+                            selectedsection().showAllErrors();
+                            selectedsection().setValidationSummary(errorList);
+                            flag = false;
+                        }
+                        return flag;
+                    },
                     //Add section flag
                     addSectionFlag = function () {
-                        var obj = new model.SectionFlag();
-                        obj.sectionId(selectedsection().id());
-                        selectedsection().sectionflags.push(obj);
+                        var markup = filteredMarkups()[0];
+                        if ((filteredMarkups().length === 0) || (markup !== undefined && markup !== null && markup.name() !== undefined  && markup.isValid())) {
+                            var newMarkup = model.SectionFlag();
+                            newMarkup.id(idCounter());
+                            idCounter(idCounter()-1);
+                            newMarkup.sectionId(selectedsection().id());
+                            selectedsection().sectionflags.push(newMarkup);
+                            filteredMarkups.splice(0, 0, newMarkup);
+                        }
+                        if (markup !== undefined && markup !== null && !markup.isValid()) {
+                            markup.errors.showAllMessages();
+                        }
                     },
                     sectionHasChanged=  ko.computed(function() {
                         var hasChanges = false;
@@ -102,6 +131,10 @@ define("sectionflags/sectionflags.viewModel",
                         }
                         return hasChanges;
                     }),
+                     // Go To Element
+                    gotoElement = function (validation) {
+                        view.gotoElement(validation.element);
+                    },
                     //Get Prefix
                     getBase = function () {
                         isLoadingsectionflags(true);
@@ -134,7 +167,9 @@ define("sectionflags/sectionflags.viewModel",
                     addSectionFlag: addSectionFlag,
                     saveFlag:saveFlag,
                     selectedsection: selectedsection,
-                    sectionHasChanged: sectionHasChanged
+                    sectionHasChanged: sectionHasChanged,
+                    gotoElement:gotoElement,
+                    errorList: errorList
 
                 };
             })()
