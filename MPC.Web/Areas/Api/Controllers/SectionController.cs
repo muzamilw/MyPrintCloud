@@ -24,7 +24,6 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
 
-        [CompressFilter]
         public IEnumerable<Section> getSectionLibray()
         {
 

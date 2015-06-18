@@ -148,6 +148,8 @@ namespace MPC.Interfaces.MISServices
         /// <returns></returns>
         bool SaveImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact);
 
+        void DeleteCrmCompanyPermanently(long companyId);
+
         /// <summary>
         /// Get System Variables
         /// </summary>

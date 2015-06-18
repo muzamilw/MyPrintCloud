@@ -3161,6 +3161,20 @@ namespace MPC.Implementation.MISServices
 
             companyRepository.DeleteStoryBySP(companyId);
         }
+        /// <summary>
+        /// Delete CRM Company Permanently
+        /// </summary>
+        public void DeleteCrmCompanyPermanently(long companyId)
+        {
+            Company company = companyRepository.Find(companyId);
+
+            if (company == null)
+            {
+                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Company with id {0} not found", companyId), companyRepository.OrganisationId);
+            }
+
+            companyRepository.DeleteCrmCompanyBySP(companyId);
+        }
 
         /// <summary>
         /// Get Items For Widgets
