@@ -289,7 +289,19 @@ namespace MPC.Webstore.Controllers
                     isContactCreate = false;
                 }
                 StoreBaseResopnse = null;
-                Response.Redirect("/");
+          
+                if (!string.IsNullOrEmpty(Request.Form["hfReturnURL"]))
+                {
+                    if (Url.IsLocalUrl(Request.Form["hfReturnURL"]))
+                    {
+                        ControllerContext.HttpContext.Response.Redirect(Request.Form["hfReturnURL"]);
+                    }
+                }
+                else 
+                {
+                    Response.Redirect("/");
+                }
+              
                 return;
             }
             else
