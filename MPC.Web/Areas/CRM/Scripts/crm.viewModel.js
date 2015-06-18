@@ -1604,8 +1604,14 @@ define("crm/crm.viewModel",
                 },
                 // Get Company By Id
                 getCompanyByIdFromListView = function (id) {
-                    return stores.find(function (store) {
-                        return store.companyId() === id;
+                    return customersForListView.find(function (customer) {
+                        return customer.id() === id;
+                    });
+                },
+                // Get Supplier By Id
+                getSupplierByIdFromListView = function (id) {
+                    return suppliers.find(function (supplier) {
+                        return supplier.companyId() === id;
                     });
                 },
                 // Delete Company Permanently
@@ -1615,10 +1621,19 @@ define("crm/crm.viewModel",
                         toastr.success("Deleted successfully!");
                         isEditorVisible(false);
                         if (selectedStore()) {
-                            var store = getCompanyByIdFromListView(selectedStore().companyId());
-                            if (store) {
-                                stores.remove(store);
+                            if (isProspectOrCustomerScreen()) {
+                                var customer = getCompanyByIdFromListView(selectedStore().companyId());
+                                if (customer) {
+                                    customersForListView.remove(customer);
+                                }
                             }
+                            else {
+                                var supplier = getSupplierByIdFromListView(selectedStore().companyId());
+                                if (supplier) {
+                                    suppliers.remove(supplier);
+                                }
+                            }
+                            
                         }
                         //resetStoreEditor();
                     },
