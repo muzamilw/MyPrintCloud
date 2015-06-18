@@ -6,17 +6,6 @@
     <title>@ViewBag.Title</title>
     <script src="~/Scripts/jquery-2.1.0.min.js"></script>
     <script src="~/Scripts/jquery.blockUI.js"></script>
-    <script>
-        $(window).load(function () {
-            // Animate loader off screen
-            $.blockUI({ message: "" });
-            $("div#spinner").fadeOut("fast");
-            setTimeout(function() {
-                $.unblockUI();
-            }, 1000);
-        });
-    </script>
-    
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.print.css" type="text/css" media="print" />
     @Styles.Render("~/Content/themes/Centaurus/css/bundleCentaurus/css")
