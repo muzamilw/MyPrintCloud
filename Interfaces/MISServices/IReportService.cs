@@ -25,5 +25,9 @@ namespace MPC.Interfaces.MISServices
         List<ReportparamResponse> getParamsById(long Id);
 
         ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request);
+
+        void SendEmail(string EmailTo, string EmailCC, string EmailSubject, string Signature, long ContactId,Guid SystemUserId, string Path);
+
+        string GetInternalReportEmailBaseData(ReportEmailRequestModel request);
     }
 }

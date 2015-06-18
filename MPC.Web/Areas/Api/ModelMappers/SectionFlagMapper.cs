@@ -1,4 +1,6 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -37,6 +39,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        /// <summary>
+        /// From list of domain models to list of api model
+        /// </summary>
+        public static IEnumerable<SectionFlag> CreateFrom(this IEnumerable<DomainModels.SectionFlag> source)
+        {
+           return source.Select(flag => flag.CreateFrom());
+        }
 
         /// <summary>
         /// Crete From Domain Model
