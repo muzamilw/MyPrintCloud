@@ -396,6 +396,11 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public virtual ICollection<ItemSection> ItemSections { get; set; }
 
+        /// <summary>
+        /// Item Stock Update History
+        /// </summary>
+        public virtual ICollection<ItemStockUpdateHistory> ItemStockUpdateHistories { get; set; }
+
         #endregion
 
         #region Additional Properties

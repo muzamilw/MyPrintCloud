@@ -35,5 +35,7 @@ namespace MPC.Interfaces.MISServices
 
         bool SaveImportedContact(IEnumerable<CompanyContact> companyContacts);
 
+        CompanyContact GetContactByContactId(long ContactId);
+
     }
 }

@@ -935,10 +935,20 @@ define("order/order.viewModel",
                             view.showCostCentersQuantityDialog();
                         }
                     },
+                    // On Create New Cost Center Product
+                    onCreateNewCostCenterProduct = function () {
+                        view.hideCostCentersQuantityDialog();
+                        if (isCostCenterDialogForShipping()) {
+                            createNewCostCenterProduct();
+                            return;
+                        }
+                        addCostCenterVM.executeCostCenter(function(costCenter) {
+                            selectedCostCentre(costCenter);
+                            createNewCostCenterProduct();
+                        });
+                    },
                     //Product From Cost Center
                     createNewCostCenterProduct = function () {
-                        view.hideCostCentersQuantityDialog();
-                        //selectedCostCentre(costCenter);
                         var item = itemModel.Item.Create({ EstimateId: selectedOrder().id(), RefItemId: selectedCostCentre().id() });
                         applyProductTax(item);
                         selectedProduct(item);
@@ -972,8 +982,8 @@ define("order/order.viewModel",
                         sectionCostCenter.costCentreName(selectedCostCentre().name());
                         sectionCostCenter.name(selectedCostCentre().name());
 
-                        //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
                         sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
+                        sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
 
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
@@ -2139,12 +2149,36 @@ define("order/order.viewModel",
                         //OrderId(oOrderId);
                         //CriteriaParam(oCriteriaParam);
 
+                        reportManager.outputTo("preview");
+
+                        if (selectedOrder().isEstimate() == true)
+                        {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                        }
+                        else
+                        {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                        }
+                       
                         
-                        reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
-                        reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
 
 
                     },
+
+                    openExternalEmailOrderReport = function()
+                    {
+                        reportManager.outputTo("email");
+                        if (selectedOrder().isEstimate() == true) {
+                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                        } else {
+                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 2, selectedOrder().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                        }
+
+                    }
                     //#endregion
                     //#region Inquiries tab
                     inqiriesTabClick = function () {
@@ -2745,9 +2779,16 @@ define("order/order.viewModel",
                     createitemForRetailStoreProduct: createitemForRetailStoreProduct,
                     editSection: editSection,
                     createNewCostCenterProduct: createNewCostCenterProduct,
+                    openExternalEmailOrderReport: openExternalEmailOrderReport,
                     selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
                     selectEstimatePhraseContainer: selectEstimatePhraseContainer,
-                    openPhraseLibrary: openPhraseLibrary
+                    openPhraseLibrary: openPhraseLibrary,
+                
+      
+                    
+                  
+                    onCreateNewCostCenterProduct: onCreateNewCostCenterProduct
+
                     //#endregion
                 };
             })()

@@ -42,6 +42,13 @@ define("purchaseOrders/purchaseOrders.view",
                         return false;
                     }
                 },
+                 // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    // ReSharper restore UnknownCssClass
+                    window.scrollTo(0, 0);
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -61,6 +68,7 @@ define("purchaseOrders/purchaseOrders.view",
                 hidePurchaseDetailDialog: hidePurchaseDetailDialog,
                 hideGRNDetailDialog: hideGRNDetailDialog,
                 showGRNDetailDialog: showGRNDetailDialog,
+                initializeLabelPopovers: initializeLabelPopovers,
 
             };
         })(deliveryNotesViewModel);
