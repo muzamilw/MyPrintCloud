@@ -5758,3 +5758,18 @@ end
 
 	delete from company where companyid = @CompanyID
 
+/* Execution Date: 18/06/2015 */
+
+alter table ItemStockUpdateHistory
+drop column LastOrderedQty
+
+alter table ItemStockUpdateHistory
+add StockItemId bigint null
+
+ALTER TABLE ItemStockUpdateHistory  
+WITH CHECK ADD  CONSTRAINT [FK_ItemStockUpdateHistory_StockItem] FOREIGN KEY([StockItemID])
+REFERENCES [StockItem] ([StockItemId])
+on delete cascade
+
+ALTER TABLE ItemStockUpdateHistory CHECK CONSTRAINT [FK_ItemStockUpdateHistory_StockItem]
+GO
