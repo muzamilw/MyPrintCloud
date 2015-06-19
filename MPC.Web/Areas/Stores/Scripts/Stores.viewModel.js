@@ -139,6 +139,7 @@ define("stores/stores.viewModel",
                     emails = ko.observableArray([]),
                     //Widgets List
                     widgets = ko.observableArray([]),
+                    systemVariablesForSmartForms = ko.observableArray([]),
                     //Page Skin Widgets
                     pageSkinWidgets = ko.observableArray([]),
                     //All widgets list for pages (on page change added to it all widget list )
@@ -4694,9 +4695,13 @@ define("stores/stores.viewModel",
                                     fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
                                 });
                             }
-                            _.each(systemVariables(), function (item) {
+
+                            _.each(systemVariablesForSmartForms(), function (item) {
                                 fieldVariablesForSmartForm.push(item);
                             });
+                            //_.each(systemVariables(), function (item) {
+                            //    fieldVariablesForSmartForm.push(item);
+                            //});
                             //Themes 
                             themes.removeAll();
                             if (data.Themes) {
@@ -4759,6 +4764,7 @@ define("stores/stores.viewModel",
                                 systemUsers.removeAll();
                                 addressCompanyTerritoriesFilter.removeAll();
                                 contactCompanyTerritoriesFilter.removeAll();
+                                systemVariablesForSmartForms.removeAll();
                                 addressTerritoryList.removeAll();
                                 addressTerritoryList.removeAll();
                                 roles.removeAll();
@@ -4790,6 +4796,13 @@ define("stores/stores.viewModel",
                                 _.each(data.PaymentMethods, function (item) {
                                     paymentMethods.push(model.PaymentMethod.Create(item));
                                 });
+
+                                if (data.SystemVariablesForSmartForms != null) {
+                                    //System Variable For Smart Forms
+                                    _.each(data.SystemVariablesForSmartForms, function (item) {
+                                        systemVariablesForSmartForms.push(model.FieldVariableForSmartForm.Create(item));
+                                    });
+                                }
                                 //Email Event List
                                 emailEvents.removeAll();
                                 if (data.EmailEvents !== null) {

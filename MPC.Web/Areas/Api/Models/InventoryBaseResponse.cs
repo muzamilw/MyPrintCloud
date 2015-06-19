@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -68,5 +69,15 @@ namespace MPC.MIS.Areas.Api.Models
         /// IsImperical
         /// </summary>
         public bool IsImperical { get; set; }
+
+        /// <summary>
+        /// Logged In User Id
+        /// </summary>
+        public Guid LoggedInUserId { get; set; }
+
+        /// <summary>
+        /// Logged In User Identity
+        /// </summary>
+        public string LoggedInUserIdentity { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// List of company Contacts
         /// </summary>
-        public IEnumerable<CompanyContact> CompanyContacts { get; set; }
+        public IEnumerable<CompanyContactForOrder> CompanyContacts { get; set; }
 
         /// <summary>
         /// Row Count
