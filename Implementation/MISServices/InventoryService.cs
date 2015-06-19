@@ -96,9 +96,11 @@ namespace MPC.Implementation.MISServices
                 Organisation = organisation,
                 WeightUnit = organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
                 Region = organisation.GlobalLanguage.culture,
-                IsImperical = organisation.IsImperical ?? false
+                IsImperical = organisation.IsImperical ?? false,
+                LoggedInUserId = paperSizeRepository.LoggedInUserId,
+                LoggedInUserIdentity = paperSizeRepository.LoggedInUserIdentity,
 
-                
+
             };
         }
 
@@ -275,7 +277,6 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.SupplierId = stockItem.SupplierId;
             stockItemDbVersion.SubCategoryId = stockItem.SubCategoryId;
             stockItemDbVersion.BarCode = stockItem.BarCode;
-            stockItemDbVersion.inStock = stockItem.inStock;
             stockItemDbVersion.ItemDescription = stockItem.ItemDescription;
             stockItemDbVersion.FlagID = stockItem.FlagID;
             stockItemDbVersion.Status = stockItem.Status;
@@ -301,9 +302,34 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.ItemCoatedType = stockItem.ItemCoatedType;
             stockItemDbVersion.ItemWeightSelectedUnit = stockItem.ItemWeightSelectedUnit;
             stockItemDbVersion.LastModifiedDateTime = DateTime.Now;
+            stockItemDbVersion.inStock = stockItem.inStock;
+            stockItemDbVersion.isAllowBackOrder = stockItem.isAllowBackOrder;
+            stockItemDbVersion.ThresholdLevel = stockItem.ThresholdLevel;
+            stockItemDbVersion.inStock = stockItem.inStock;
+
+            UpdateItemStockUpdateHistories(stockItem, stockItemDbVersion);
             UpdateStockCostAndPrice(stockItem, stockItemDbVersion);
 
             return StockItemDeatilForListView(stockItem.StockItemId);
+        }
+
+        /// <summary>
+        /// Update Item Stock Update Histories  
+        /// </summary>
+        private void UpdateItemStockUpdateHistories(StockItem stockItem, StockItem stockItemDbVersion)
+        {
+            if (stockItemDbVersion.ItemStockUpdateHistories == null)
+            {
+                stockItemDbVersion.ItemStockUpdateHistories = new List<ItemStockUpdateHistory>();
+            }
+
+            if (stockItem.ItemStockUpdateHistories != null)
+            {
+                foreach (var itemStockUpdateHistoryItem in stockItem.ItemStockUpdateHistories)
+                {
+                    stockItemDbVersion.ItemStockUpdateHistories.Add(itemStockUpdateHistoryItem);
+                }
+            }
         }
 
         /// <summary>
