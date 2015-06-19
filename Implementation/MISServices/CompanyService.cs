@@ -3298,7 +3298,7 @@ namespace MPC.Implementation.MISServices
                 Countries = countryRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
                 CostCentres = costCentreRepository.GetAllDeliveryCostCentersForStore(),
-                //SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
+                SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
                 PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CustomerPriceMatrix),
                 OrganisationId = fieldVariableRepository.OrganisationId,
                 Currency = (organisation != null && organisation.Currency != null) ? organisation.Currency.CurrencySymbol :

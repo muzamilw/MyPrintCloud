@@ -71,14 +71,15 @@
 
 function ShowPopUpMarketingBrief(Type, Message,ProductName,ItemID, CategoryId) {
  
-    ProductName = ProductName.replace("/", "-");
-    ProductName = ProductName.replace(" ", "-");
-    ProductName = ProductName.replace(";", "-");
-    ProductName = ProductName.replace("&#34;", "");
-    ProductName = ProductName.replace("&", "");
-    ProductName = ProductName.replace("+", "");
+    //ProductName = ProductName.replace("/", "-");
+    //ProductName = ProductName.replace(" ", "-");
+    //ProductName = ProductName.replace("  ", "-");
+    //ProductName = ProductName.replace(";", "-");
+    //ProductName = ProductName.replace("&#34;", "");
+    //ProductName = ProductName.replace("&", "");
+    //ProductName = ProductName.replace("+", "");
     var ReturnURL = "/MarketingBrief/" + ProductName + "/" + ItemID + "/" + CategoryId;
-    
+    console.log(ReturnURL);
     var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick=RedirectToSignUp("' + ReturnURL + '");  >Register</button><button type="button" onclick=RedirectToLogin("' + ReturnURL + '"); class="btn btn-primary">Login</button></div></div>';
 
     var bws = getBrowserHeight();

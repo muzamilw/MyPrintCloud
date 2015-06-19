@@ -1,21 +1,18 @@
 ﻿using System;
 
-namespace MPC.Models.DomainModels
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
-    /// Item Stock Update History Domain Model
+    /// Item Stock Update History API Model
     /// </summary>
     public class ItemStockUpdateHistory
     {
         public int StockHistoryId { get; set; }
-        public int? ItemId { get; set; }
         public int? LastModifiedQty { get; set; }
         public int? ModifyEvent { get; set; }
         public Guid? LastModifiedBy { get; set; }
+        public string LastModifiedByName { get; set; }
+        public string Action { get; set; }
         public DateTime? LastModifiedDate { get; set; }
-        public int? OrderID { get; set; }
-        public long? StockItemId { get; set; }
-        public virtual StockItem StockItem { get; set; }
-        public virtual SystemUser SystemUser { get; set; }
     }
 }
