@@ -343,6 +343,7 @@
     </EntityDeploy>
     <None Include="BaseRepository\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="BaseRepository\Model.Views.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
