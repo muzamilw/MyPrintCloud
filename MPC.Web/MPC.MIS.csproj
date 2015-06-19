@@ -553,6 +553,7 @@
     <Compile Include="Areas\Api\Models\CmsOffer.cs" />
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
     <Compile Include="Areas\Api\Models\CompanyAddressDeleteModel.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
