@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewBag.Title = "Company Contacts";
 }
 @section leftmenue {
@@ -9,23 +9,23 @@
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="#">&nbsp;</a></li>
-                   
+
                 </ol>
-                <h1 style="padding-left:0px;">Contacts</h1>
+                <h1 style="padding-left:0px;">Public Store Registered Users</h1>
                 <div class="clearfix pull-left" style="padding-bottom: 1%">
-                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
+                    <h5>Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars. Increase your pipeline by creating e-marketing emails and scheduling them for future release.</h5>
                 </div>
             </div>
         </div>
         <div class="row">
-          
+
             <div class="col-lg-12">
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
                                 @*@Html.ActionLink("All Contacts", "Contacts", "Home")*@
-                                <a href="#tab-Contacts" data-toggle="tab">All Contacts</a>
+                                <a href="#tab-Contacts" data-toggle="tab">Public Store Registered Users</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 @Html.ActionLink("Companies", "Index", "Home")
@@ -76,7 +76,7 @@
                                                                     <!-- ko if: image()!=='' -->
                                                                     <img style="width: 70%; max-width: 70%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
                                                                     <!--/ko-->
-                                                                    
+
                                                                 </td>
                                                                 <td>
                                                                     <a class="user-link" href="#" data-bind="text: firstName "></a>

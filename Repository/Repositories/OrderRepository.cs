@@ -1663,8 +1663,8 @@ namespace MPC.Repository.Repositories
                     }
                     ItemStockUpdateHistory stockLog = new ItemStockUpdateHistory();
                     stockLog.ItemId = (int)itemID;
-                    stockLog.LastAvailableQty = currentStock;
-                    stockLog.LastOrderedQty = orderedQty;
+                    //stockLog.LastAvailableQty = currentStock;
+                    //stockLog.LastOrderedQty = orderedQty;
                     stockLog.LastModifiedQty = lastModified;
                     stockLog.LastModifiedDate = DateTime.Now;
                     stockLog.OrderID = (int)OrderId;

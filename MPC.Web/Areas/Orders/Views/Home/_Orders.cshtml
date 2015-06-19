@@ -35,6 +35,11 @@
                     <div class="tab-content" style="  margin-top: -15px;">
                         <div class="tab-pane fade in active" id="tab-All">
                             <div class="main-box-body main-box clearfix">
+
+                                <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
+                                    <p class="group-header-description">Process orders through to completion, orders that are progressed from pending to in progress will appear on the production board</p>
+                                </div>
+
                                 <div class="table-responsive" style="padding-left: 22px; padding-right: 22px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
@@ -68,27 +73,45 @@
                                 <!-- /ko -->
                             </div>
                         </div>
-                        <div class="tab-pane fade in" id="tab-PendingOrders">
+                        <div class="tab-pane fade in" id="tab-PendingOrders" style="background-color:white;">
+                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
+                                <p class="group-header-description">Pending orders are orders manually progressed or from a web store and waiting for confirmation by the production manager before progressing into production</p>
+                            </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
-                        <div class="tab-pane fade in" id="tab-ConfirmedStarts">
+                        <div class="tab-pane fade in" id="tab-ConfirmedStarts" style="background-color: white;">
+                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
+                                <p class="group-header-description">confirmed starts are jobs that have been approved and are queued for actual physical production</p>
+                            </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
-                        <div class="tab-pane fade in" id="tab-InProduction">
+                        <div class="tab-pane fade in" id="tab-InProduction" style="background-color: white;">
+                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
+                                <p class="group-header-description">the status in production is when the physical job is being produced and is assigned to a person and/or equipment</p>
+                            </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
-                        <div class="tab-pane fade in" id="tab-ReadyForShipping">
+                        <div class="tab-pane fade in" id="tab-ReadyForShipping" style="background-color: white;">
+                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
+                                <p class="group-header-description">once the job is complete and awaiting dispatch to a customer the order can be set to ready for shipping</p>
+                            </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
-                        <div class="tab-pane fade in" id="tab-Invoiced">
+                        <div class="tab-pane fade in" id="tab-Invoiced" style="background-color: white;">
+                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
+                                <p class="group-header-description">Once dispatched mark the job as invoiced, and the information can be automatically passed to popular accounting packages like Xero, MYOB, Sage and QuickBooks</p>
+                            </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
-                        <div class="tab-pane fade in" id="tab-CancelledOrders">
+                        <div class="tab-pane fade in" id="tab-CancelledOrders" style="background-color: white;">
+                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
+                                <p class="group-header-description">If a job is cancelled by a customer move the job to cancelled to stop the order from progressing further</p>
+                            </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
@@ -237,51 +260,3 @@
 </div>
 
 
-<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
-<script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
-<script>
-    $(document).ready(function () {
-        var page = Request.QueryString("to");
-        if (page != null) {
-            if (page == 'ord') {
-                $("#all-orders").removeClass("active");
-                $("#tab-All").removeClass("active");
-
-                $("#in-production").removeClass("active");
-                $("#tab-InProduction").removeClass("active");
-
-                $("#invoiced").removeClass("active");
-                $("#tab-Invoiced").removeClass("active");
-
-                $("#pending-orders").addClass("active");
-                $("#tab-PendingOrders").addClass("active");
-            }
-            else if (page == 'prd') {
-                $("#all-orders").removeClass("active");
-                $("#tab-All").removeClass("active");
-
-                $("#pending-orders").removeClass("active");
-                $("#tab-PendingOrders").removeClass("active");
-
-                $("#invoiced").removeClass("active");
-                $("#tab-Invoiced").removeClass("active");
-
-                $("#in-production").addClass("active");
-                $("#tab-InProduction").addClass("active");
-            }
-            else if (page == 'com') {
-                $("#all-orders").removeClass("active");
-                $("#tab-All").removeClass("active");
-
-                $("#in-production").removeClass("active");
-                $("#tab-InProduction").removeClass("active");
-
-                $("#pending-orders").removeClass("active");
-                $("#tab-PendingOrders").removeClass("active");
-
-                $("#invoiced").addClass("active");
-                $("#tab-Invoiced").addClass("active");
-            }
-        }
-    });
-</script>

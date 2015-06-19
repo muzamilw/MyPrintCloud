@@ -213,7 +213,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
 
                      // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, [0, 1, 3], true);
+                        companySelector.show(onSelectCompany, [0, 1, 3]);
                     },
                       // On Select Company
                     onSelectCompany = function (company) {

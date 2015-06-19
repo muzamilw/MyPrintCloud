@@ -1,10 +1,10 @@
-﻿define("crm/crm.dataservice", function () {
+define("crm/crm.dataservice", function () {
     // Data service for forecast 
     var dataService = (function () {
         var // True if initialized
             isInitialized = false,
             // Initialize
-            initialize = function() {
+            initialize = function () {
                 if (!isInitialized) {
                     amplify.request.define('getDataForOrderTab', 'ajax', {
                         url: ist.siteUrl + '/Api/OrdersForCrm',
@@ -145,7 +145,7 @@
                 });
             },
               // get Invoice tab data
-            getInvoices= function (params, callbacks) {
+            getInvoices = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getDataForInvoiceTab',
@@ -155,7 +155,7 @@
                 });
             },
             // get Customer list of list view
-            getCustomersForListView = function(params, callbacks) {
+            getCustomersForListView = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getCompanies',
@@ -165,7 +165,7 @@
                 });
             },
             // get Store by id
-            getStoreById = function(params, callbacks) {
+            getStoreById = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getStoreById',
@@ -175,7 +175,7 @@
                 });
             },
             // search Address
-            searchAddress = function(params, callbacks) {
+            searchAddress = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'searchAddress',
@@ -185,7 +185,7 @@
                 });
             },
             // search Company Contact
-            searchCompanyContact = function(params, callbacks) {
+            searchCompanyContact = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'searchCompanyContact',
@@ -205,7 +205,7 @@
                 });
             },
             // save Store
-            saveStore = function(param, callbacks) {
+            saveStore = function (param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'saveStore',
@@ -225,14 +225,14 @@
                 });
             },
             // get Base Data By Store Id
-            getBaseData = function(params, callbacks) {
-            initialize();
-            return amplify.request({
-                resourceId: 'getBaseData',
-                success: callbacks.success,
-                error: callbacks.error,
-                data: params
-            });
+            getBaseData = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
             },
             //Delete Company Permanent
             deleteCompanyPermanent = function (param, callbacks) {

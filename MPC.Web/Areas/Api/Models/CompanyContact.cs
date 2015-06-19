@@ -100,6 +100,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string SecondaryEmail { get; set; }
         public Address BussinessAddress { get; set; }
         public Address ShippingAddress { get; set; }
+        public long? StoreId { get; set; }
 
         /// <summary>
         /// File Bytes
