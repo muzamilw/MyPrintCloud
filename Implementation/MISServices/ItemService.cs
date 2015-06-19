@@ -2385,6 +2385,13 @@ namespace MPC.Implementation.MISServices
         {
             return productCategoryRepository.GetParentCategories(companyId);
         }
+        /// <summary>
+        /// Get Product Categories for Company Including Archived once also
+        /// </summary>
+        public IEnumerable<ProductCategory> GetProductCategoriesIncludingArchived(long? companyId)
+        {
+            return productCategoryRepository.GetParentCategoriesIncludingArchived(companyId);
+        }
 
         /// <summary>
         /// Deletes Product Permanently

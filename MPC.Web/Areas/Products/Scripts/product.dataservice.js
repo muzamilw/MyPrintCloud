@@ -61,7 +61,7 @@ define("product/product.dataservice", function () {
 
                     // Define request to get product category childs
                     amplify.request.define('getProductCategoryChildsForProduct', 'ajax', {
-                        url: ist.siteUrl + '/Api/ProductCategory',
+                        url: ist.siteUrl + '/Api/ProductChildCategory',//ProductCategory
                         dataType: 'json',
                         type: 'GET'
                     });

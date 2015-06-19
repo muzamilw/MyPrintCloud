@@ -3551,7 +3551,7 @@ define("stores/stores.viewModel",
                     success: function (data) {
                         if (data.ProductCategories != null) {
                             _.each(data.ProductCategories, function (productCategory) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list cursorShape" ><i class="fa fa-chevron-circle-right " data-bind="click: $root.getCategoryChildListItems"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list" style="position: initial;"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list cursorShape" ><i class="fa fa-chevron-circle-right " data-bind="click: $root.getCategoryChildListItems"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
                                 var category = {
                                     productCategoryId: productCategory.ProductCategoryId,
@@ -3568,7 +3568,7 @@ define("stores/stores.viewModel",
                         isLoadingStores(false);
                         toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
                     }
-                }); 1
+                });
             },
             //Open Product Category Detail
             // ReSharper disable UnusedParameter
@@ -3743,7 +3743,7 @@ define("stores/stores.viewModel",
                 isSavingNewProductCategory(false);
             },
             onArchiveCategory = function () {
-                confirmation.messageText("Do you want to delete category?");
+                confirmation.messageText("Any sub categories associated with this category will also be archived. Are you sure want to archive?");
                 confirmation.afterProceed(deleteCategory);
                 confirmation.afterCancel(function () {
                 });
@@ -3871,7 +3871,7 @@ define("stores/stores.viewModel",
                                         $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
                                     }
                                     //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                                    $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10">' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links col-sm-2"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                                    $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"  style="position: initial;"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-chevron-circle-right "></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
                                     //if (!flagAlreadyExist) {
                                     ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
                                     //}
