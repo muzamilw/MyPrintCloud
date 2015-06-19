@@ -313,7 +313,7 @@ define("inventory/inventory.viewModel",
                             return [];
                         }
                         return subCategories.filter(function (subCategory) {
-                            return subCategory.CategoryId === selectedInventory().categoryId();
+                            return subCategory.CategoryId === (selectedInventory() !== undefined ? selectedInventory().categoryId() : 0);
                         });
                     }),
                 //On select Supplier

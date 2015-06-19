@@ -327,7 +327,11 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var itemStockUpdateHistoryItem in stockItem.ItemStockUpdateHistories)
                 {
-                    stockItemDbVersion.ItemStockUpdateHistories.Add(itemStockUpdateHistoryItem);
+                    if (itemStockUpdateHistoryItem.StockHistoryId == 0)
+                    {
+                        stockItemDbVersion.ItemStockUpdateHistories.Add(itemStockUpdateHistoryItem);
+                    }
+                    
                 }
             }
         }

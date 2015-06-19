@@ -15,14 +15,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static ItemStockUpdateHistory CreateFrom(this DomainModels.ItemStockUpdateHistory source)
         {
-            return new ItemStockUpdateHistory()
+            return new ItemStockUpdateHistory
             {
                 StockHistoryId = source.StockHistoryId,
                 LastModifiedBy = source.LastModifiedBy,
                 LastModifiedDate = source.LastModifiedDate,
                 LastModifiedQty = source.LastModifiedQty,
                 ModifyEvent = source.ModifyEvent,
-                //LastModifiedByName = source.ModifyEvent,
+                LastModifiedByName = source.SystemUser != null ? source.SystemUser.FullName : string.Empty,
                 Action = ActionName(source.ModifyEvent),
             };
         }
@@ -32,7 +32,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static DomainModels.ItemStockUpdateHistory CreateFrom(this ItemStockUpdateHistory source)
         {
-            return new DomainModels.ItemStockUpdateHistory()
+            return new DomainModels.ItemStockUpdateHistory
             {
                 StockHistoryId = source.StockHistoryId,
                 LastModifiedBy = source.LastModifiedBy,

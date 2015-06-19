@@ -485,6 +485,8 @@
         _.each(source.ItemStockUpdateHistories, function (item) {
             stockItem.itemStockUpdateHistories.push(ItemStockUpdateHistory.Create(item));
         });
+
+        return stockItem;
     };
     //Stock Cost And Price Item For Client Factory
     StockCostAndPrice.CreateForClient = function (source) {
@@ -508,7 +510,7 @@
         return obj;
     };
     // Item Stock Update History Factory
-    ItemStockUpdateHistory.CreateForClient = function (source) {
+    ItemStockUpdateHistory.Create = function (source) {
         return new ItemStockUpdateHistory(source.StockHistoryId, source.LastModifiedQty, source.ModifyEvent, source.LastModifiedBy, source.LastModifiedDate,
             source.LastModifiedByName, source.Action);
     };
