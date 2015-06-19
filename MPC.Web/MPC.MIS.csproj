@@ -341,6 +341,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionFlagsController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCrmCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNoteBaseController.cs" />
@@ -557,6 +558,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactForCalendar.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactResponseForCalendar.cs" />
+    <Compile Include="Areas\Api\Models\ContactResponseForOrder.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />

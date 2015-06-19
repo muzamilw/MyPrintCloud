@@ -135,6 +135,23 @@ define("sectionflags/sectionflags.viewModel",
                     gotoElement = function (validation) {
                         view.gotoElement(validation.element);
                     },
+                    closeSectionScreen = function () {
+                        if (selectedsection() !== undefined && selectedsection().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(saveFlag);
+                            confirmation.afterCancel(function () {
+                                window.open("..", '_parent');
+                            });
+                            confirmation.show();
+                            return;
+                        } else {
+                            window.open("..", '_parent');
+                        }
+                       
+                    },
+                    clearErrorSummary= function() {
+                        errorList.removeAll();
+                    },
                     //Get Prefix
                     getBase = function () {
                         isLoadingsectionflags(true);
@@ -169,7 +186,9 @@ define("sectionflags/sectionflags.viewModel",
                     selectedsection: selectedsection,
                     sectionHasChanged: sectionHasChanged,
                     gotoElement:gotoElement,
-                    errorList: errorList
+                    errorList: errorList,
+                    closeSectionScreen: closeSectionScreen,
+                    clearErrorSummary: clearErrorSummary
 
                 };
             })()

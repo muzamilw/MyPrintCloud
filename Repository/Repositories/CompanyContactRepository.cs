@@ -1,19 +1,17 @@
 ﻿
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.Practices.Unity;
-using MPC.Models.DomainModels;
+using MPC.Common;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
-using System.Data.Entity;
-using MPC.Models.Common;
+using System;
 using System.Collections.Generic;
-using MPC.Common;
+using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
 {
@@ -56,6 +54,47 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(cc => cc.CompanyId == companyId).ToList();
         }
 
+        /// <summary>
+        /// Get Contacts for order screen
+        /// </summary>
+        public ContactsResponseForOrder GetContactsForOrder(CompanyRequestModelForCalendar request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+
+            Expression<Func<CompanyContact, bool>> query =
+                contact =>
+                    (string.IsNullOrEmpty(request.SearchString) ||
+                    (contact.FirstName.Contains(request.SearchString)) ||
+                    (contact.MiddleName.Contains(request.SearchString)) ||
+                    (contact.LastName.Contains(request.SearchString)) ||
+                    (contact.Email.Contains(request.SearchString)) ||
+                    contact.Company.Name.Contains(request.SearchString)) &&
+                    (request.CustomerTypes.Any(obj => contact.Company.IsCustomer==obj)) &&
+                    (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId;
+
+            int rowCount = DbSet.Count(query);
+            IEnumerable<CompanyContact> companyContacts = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderByDescending(x => x.CompanyId)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(x => x.CompanyId)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            foreach (var comp in companyContacts)
+            {
+                comp.Company.StoreName = GetStoreNameByStoreId(comp.Company.StoreId ?? 0);
+            }
+            return new ContactsResponseForOrder
+            {
+                RowCount = rowCount,
+                CompanyContacts = companyContacts
+            };
+        }
         /// <summary>
         /// Get Company Contact By search string and Customer Type
         /// </summary>
