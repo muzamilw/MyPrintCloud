@@ -15,6 +15,24 @@
             isCustomer: specifiedIsCustomer,
             taxRate: specifiedTaxRate
         };
+    },
+    
+    // Company Contact Entity
+// ReSharper disable InconsistentNaming
+    CompanyContact = function (specifiedId, specifiedName, specifiedCompanyId, specifiedCompanyName, specifiedStoreId, specifiedStoreName, specifiedIsCustomer,
+    specifiedAddressId) {
+        // ReSharper restore InconsistentNaming
+
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            companyId: specifiedCompanyId,
+            companyName: specifiedCompanyName,
+            storeId: specifiedStoreId,
+            storeName: specifiedStoreName,
+            isCustomer: specifiedIsCustomer,
+            addressId: specifiedAddressId
+        };
     };
 
     // Company Factory
@@ -22,9 +40,16 @@
         return new Company(source.CompanyId, source.Name, source.URL, source.CreationDate, source.StoreId, source.IsCustomer, source.TaxRate);
     };
 
+    // Company Contact Factory
+    CompanyContact.Create = function (source) {
+        return new CompanyContact(source.ContactId, source.Name, source.CompanyId, source.CompanyName, source.StoreId, source.StoreName, source.IsCustomer,
+        source.AddressId);
+    };
 
     return {
         // Company Constructor
-        Company: Company
+        Company: Company,
+        // Company Contact Constructor
+        CompanyContact: CompanyContact
     };
 });

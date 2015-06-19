@@ -484,8 +484,8 @@ define("invoice/invoice.viewModel",
                          sectionCostCenter.costCentreName(selectedCostCentre().name());
                          sectionCostCenter.name(selectedCostCentre().name());
 
-                         //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
                          sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
+                         sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
 
                          selectedSectionCostCenter(sectionCostCenter);
                          selectedQty(1);
@@ -818,24 +818,14 @@ define("invoice/invoice.viewModel",
                         if (selectedInvoice().id() > 0) {
                             return;
                         }
-                        var defaultCompanyAddress = companyAddresses.find(function (address) {
-                            return address.isDefaultAddress;
-                        });
-                        if (defaultCompanyAddress) {
-                            selectedInvoice().addressId(defaultCompanyAddress.id);
-                        }
+                        selectedInvoice().addressId(selectedCompany().addressId);
                     },
                      // Select Default Contact For Company in case of new Invoice
                     setDefaultContactForCompany = function () {
                         if (selectedInvoice().id() > 0) {
                             return;
                         }
-                        var defaultContact = companyContacts.find(function (contact) {
-                            return contact.isDefault;
-                        });
-                        if (defaultContact) {
-                            selectedInvoice().contactId(defaultContact.id);
-                        }
+                        selectedInvoice().contactId(selectedCompany().contactId);
                     },
                     createInvoice = function () {
                         selectedInvoice(model.Invoice.Create({}));

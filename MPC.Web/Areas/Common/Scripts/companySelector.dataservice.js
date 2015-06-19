@@ -17,9 +17,26 @@ define("common/companySelector.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
+                    // Define request to Get Company Contacts By Customer Type
+                    amplify.request.define('getCompanyContactsForOrderByType', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContactForOrder',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     isInitialized = true;
                 }
+            },
+            // get CompanyContacts ForOrder By Type
+            getCompanyContactsForOrderByType = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCompanyContactsForOrderByType',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
             },
             // Get Companies By Type
             getCompaniesByType = function (params, callbacks) {
@@ -33,7 +50,8 @@ define("common/companySelector.dataservice", function () {
             };
         
         return {
-            getCompaniesByType: getCompaniesByType
+            getCompaniesByType: getCompaniesByType,
+            getCompanyContactsForOrderByType: getCompanyContactsForOrderByType
         };
     })();
 
