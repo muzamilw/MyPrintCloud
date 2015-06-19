@@ -245,7 +245,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, [2], true);
+                        companySelector.show(onSelectCompany, [2]);
                     },
                     // On Select Company
                     onSelectCompany = function (company) {

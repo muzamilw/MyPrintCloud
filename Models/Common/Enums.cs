@@ -5,6 +5,16 @@ using System.Web;
 
 namespace MPC.Models.Common
 {
+
+
+    public enum StockLevelHistory : int
+    {
+        Added = 1,
+        Ordered = 2,
+        ThresholdOrder = 3,
+        BackOrder = 4
+    }
+
     public enum FieldVariableScopeType : int
     {
         Store = 1,
@@ -146,7 +156,7 @@ namespace MPC.Models.Common
     {
         ThumbAndBanner = 1,
         ThumbWithMultipleBanners = 2
-        
+
 
     }
 
@@ -300,7 +310,7 @@ namespace MPC.Models.Common
         Landscape = 1,
         Portrait = 0
     }
-    public enum GripSide :int
+    public enum GripSide : int
     {
         LongSide = 1,
         ShortSide = 2
