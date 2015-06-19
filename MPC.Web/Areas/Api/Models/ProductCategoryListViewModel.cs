@@ -13,5 +13,6 @@ namespace MPC.MIS.Areas.Api.Models
         public int LockedBy { get; set; }
         public int? ParentCategoryId { get; set; }
         public int DisplayOrder { get; set; }
+        public bool IsArchived { get; set; }
     }
 }

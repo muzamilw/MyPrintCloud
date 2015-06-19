@@ -3511,7 +3511,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Product Category Entity
-    ProductCategory = function (specifiedId, specifiedName, specifiedIsSelected, specifiedParentCategoryId) {
+    ProductCategory = function (specifiedId, specifiedName, specifiedIsSelected, specifiedParentCategoryId, specifiedIsArchived) {
         // True If Selected
         var isSelected = ko.observable(specifiedIsSelected || undefined);
 
@@ -3519,7 +3519,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: specifiedId,
             name: specifiedName,
             isSelected: isSelected,
-            parentCategoryId: specifiedParentCategoryId
+            parentCategoryId: specifiedParentCategoryId,
+            isArchived: specifiedIsArchived
         };
     },
 
@@ -4209,7 +4210,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Product Category Factory
     ProductCategory.Create = function (source) {
-        var productCategory = new ProductCategory(source.ProductCategoryId, source.CategoryName, source.IsSelected, source.ParentCategoryId);
+        var productCategory = new ProductCategory(source.ProductCategoryId, source.CategoryName, source.IsSelected, source.ParentCategoryId, source.IsArchived);
 
         return productCategory;
     };

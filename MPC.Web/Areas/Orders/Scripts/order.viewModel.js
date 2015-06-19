@@ -510,24 +510,14 @@ define("order/order.viewModel",
                         if (selectedOrder().id() > 0) {
                             return;
                         }
-                        var defaultCompanyAddress = companyAddresses.find(function (address) {
-                            return address.isDefault;
-                        });
-                        if (defaultCompanyAddress) {
-                            selectedOrder().addressId(defaultCompanyAddress.id);
-                        }
+                        selectedOrder().addressId(selectedCompany().addressId || undefined);
                     },
                     // Select Default Contact For Company in case of new order
                     setDefaultContactForCompany = function () {
                         if (selectedOrder().id() > 0) {
                             return;
                         }
-                        var defaultContact = companyContacts.find(function (contact) {
-                            return contact.isDefault;
-                        });
-                        if (defaultContact) {
-                            selectedOrder().contactId(defaultContact.id);
-                        }
+                        selectedOrder().contactId(selectedCompany().contactId || undefined);
                     },
                     // Map Orders 
                     mapOrders = function (data) {
@@ -2178,7 +2168,7 @@ define("order/order.viewModel",
                             reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
                         }
 
-                    }
+                    },
                     //#endregion
                     //#region Inquiries tab
                     inqiriesTabClick = function () {

@@ -337,17 +337,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Create From for Order
         /// </summary>
-        public static CompanyContact CreateFromForOrder(this DomainModels.CompanyContact source)
+        public static CompanyContactForOrder CreateFromForOrder(this DomainModels.CompanyContact source)
         {
-            return new CompanyContact
+            return new CompanyContactForOrder
             {
                 ContactId = source.ContactId,
                 AddressId = source.AddressId,
                 CompanyId = source.CompanyId,
                 CompanyName = source.Company.Name,
                 StoreName = source.Company.StoreName,
-                StoreId = source.Company.StoreId
-
+                StoreId = source.Company.StoreId,
+                Name = string.Format(CultureInfo.InvariantCulture, "{0} {1}", source.FirstName, source.LastName),
+                IsCustomer = source.Company.IsCustomer
             };
         }
 

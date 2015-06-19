@@ -8,5 +8,6 @@
         public long ProductCategoryId { get; set; }
         public string CategoryName { get; set; }
         public int? CategoryTypeId { get; set; }
+        public bool IsArchived { get; set; }
     }
 }
