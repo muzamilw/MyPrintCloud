@@ -11,10 +11,11 @@ namespace MPC.Models.DomainModels
         public int? ItemId { get; set; }
         public int? LastModifiedQty { get; set; }
         public int? ModifyEvent { get; set; }
-        public int? LastModifiedBy { get; set; }
+        public Guid? LastModifiedBy { get; set; }
         public DateTime? LastModifiedDate { get; set; }
         public int? OrderID { get; set; }
         public long? StockItemId { get; set; }
         public virtual StockItem StockItem { get; set; }
+        public virtual SystemUser SystemUser { get; set; }
     }
 }
