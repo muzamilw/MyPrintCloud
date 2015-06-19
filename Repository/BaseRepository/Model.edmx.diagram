@@ -332,6 +332,7 @@
         <AssociationConnector Association="DomainModels.FK_VariableExtension_FieldVariable" />
         <AssociationConnector Association="DomainModels.FK_ItemStockUpdateHistory_StockItem" />
         <AssociationConnector Association="DomainModels.FK_ItemAddonCostCentre_ItemStockOption" />
+        <AssociationConnector Association="DomainModels.FK_ItemStockUpdateHistory_SystemUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

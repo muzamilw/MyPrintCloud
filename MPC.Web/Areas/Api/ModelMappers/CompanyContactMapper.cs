@@ -321,5 +321,35 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty
             };
         }
+
+        /// <summary>
+        /// Mapper for Order screen
+        /// </summary>
+        public static ContactResponseForOrder CreateFrom(this MPC.Models.ResponseModels.ContactsResponseForOrder response)
+        {
+            return new ContactResponseForOrder
+            {
+                CompanyContacts = response.CompanyContacts.Select(contact => contact.CreateFromForOrder()),
+                RowCount = response.RowCount
+            };
+        }
+
+        /// <summary>
+        /// Create From for Order
+        /// </summary>
+        public static CompanyContact CreateFromForOrder(this DomainModels.CompanyContact source)
+        {
+            return new CompanyContact
+            {
+                ContactId = source.ContactId,
+                AddressId = source.AddressId,
+                CompanyId = source.CompanyId,
+                CompanyName = source.Company.Name,
+                StoreName = source.Company.StoreName,
+                StoreId = source.Company.StoreId
+
+            };
+        }
+
     }
 }
