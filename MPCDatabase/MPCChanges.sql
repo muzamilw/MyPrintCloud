@@ -5758,3 +5758,47 @@ end
 
 	delete from company where companyid = @CompanyID
 
+/* Execution Date: 18/06/2015 */
+
+alter table ItemStockUpdateHistory
+drop column LastOrderedQty
+
+alter table ItemStockUpdateHistory
+drop column LastAvailableQty
+
+alter table ItemStockUpdateHistory
+add StockItemId bigint null
+
+ALTER TABLE ItemStockUpdateHistory  
+WITH CHECK ADD  CONSTRAINT [FK_ItemStockUpdateHistory_StockItem] FOREIGN KEY([StockItemID])
+REFERENCES [StockItem] ([StockItemId])
+on delete cascade
+
+ALTER TABLE ItemStockUpdateHistory CHECK CONSTRAINT [FK_ItemStockUpdateHistory_StockItem]
+GO
+
+alter table ItemAddonCostCentre
+drop constraint FK_ItemStockOption_ItemAddonCostCentre
+
+
+alter table ItemAddonCostCentre
+add constraint FK_ItemAddonCostCentre_ItemStockOption
+foreign key (ItemStockOptionId)
+references ItemStockOption (ItemStockOptionId)
+on delete cascade
+
+/* Execution Date: 19/06/2015 */
+
+alter table ItemStockUpdateHistory
+alter column LastModifiedBy nvarchar(max) null
+
+update ItemStockUpdateHistory
+set LastModifiedBy = null
+
+alter table ItemStockUpdateHistory
+alter column LastModifiedBy uniqueidentifier null
+
+alter table ItemStockUpdateHistory
+add constraint FK_ItemStockUpdateHistory_SystemUser
+foreign key (LastModifiedBy)
+references SystemUser (SystemUserId)

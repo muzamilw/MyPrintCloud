@@ -1,0 +1,37 @@
+﻿
+<a data-toggle="modal" href="#addStockQtyModel" class="btn btn-primary pull-right">
+    Add Stock Quantity
+</a>
+
+<div class="modal fade" id="addStockQtyModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width:400px;" class="modal-dialog">
+        <div class="modal-content" data-bind="with:$root.selectedItemStockUpdateHistory">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Stock Quantity</h4>
+            </div>
+            <div style="margin-top: 40px;" class="col-lg-12">
+
+                <div class="col-lg-12 form-horizontal">
+                    <div class="form-group">
+                        <div class="col-lg-6 text-right">
+                            <label class="control-label text-right">Add Stock Quantity</label>
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="txtSection" style="width:100px;" value="0" data-bind="value:lastModifiedQty">
+                            <span class="help-block text-right"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click:$root.saveAddStockQuantity">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Wizard Popup ends here*@

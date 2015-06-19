@@ -467,6 +467,7 @@
     <Compile Include="ResponseModels\CompanySearchResponseForCalendar.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
+    <Compile Include="ResponseModels\ContactsResponseForOrder.cs" />
     <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
     <Compile Include="ResponseModels\CostCenterExecutionResponse.cs" />
     <Compile Include="ResponseModels\CostCenterVariablesResponseModel.cs" />
