@@ -164,7 +164,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 ProductCategoryId = source.ProductCategoryId,
                 CategoryName = source.CategoryName,
-                CategoryTypeId = source.CategoryTypeId
+                CategoryTypeId = source.CategoryTypeId,
+                IsArchived = source.isArchived == true
             };
         }
 
