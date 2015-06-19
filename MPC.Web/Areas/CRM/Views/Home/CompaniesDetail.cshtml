@@ -529,7 +529,7 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th class="col-lg-3"><span>Name</span></th>
-                                                                        <th class="col-lg-3"></th>
+                                                                        <th class="col-lg-3">Is Primary</th>
                                                                         <th class="col-lg-3">Email</th>
                                                                         <th class="col-lg-3">Cell Number</th>
 
@@ -1190,7 +1190,10 @@
             </td>
             <td > @*style="width: 10%; max-width: 10%;"*@
                 <!--ko if: isDefaultContact()-->
-                <span class="label label-danger">Primary</span>
+                <span class="label label-success">Yes</span>
+                <!--/ko-->
+                <!--ko if: !isDefaultContact()-->
+                <span class="label label-danger">No</span>
                 <!--/ko-->
             </td>
             <td>  @*style="width: 10%; max-width: 10%;"*@

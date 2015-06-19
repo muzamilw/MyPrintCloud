@@ -1126,7 +1126,7 @@ namespace MPC.Repository.Repositories
         {
             var qury = from contacts in db.CompanyContacts
                        join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
-                       where contactCompany.IsCustomer == (int)CustomerTypes.Customers && string.Compare(contacts.Email, email, true) == 0
+                       where (contactCompany.IsCustomer == (int)CustomerTypes.Customers || contactCompany.IsCustomer == (int)CustomerTypes.Prospects) && string.Compare(contacts.Email, email, true) == 0
                        && contacts.OrganisationId == OrganisationId && contactCompany.StoreId == StoreId
                        select contacts;
             if (qury != null)

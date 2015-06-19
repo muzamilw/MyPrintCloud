@@ -245,6 +245,7 @@ namespace MPC.Webstore.Controllers
 
                     cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
                     cep.StoreId = UserCookieManager.WBStoreId;
+                    cep.CompanyId = UserCookieManager.WBStoreId;
                     Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
                     if (CompanyDefaultAddress != null)
                     {
@@ -288,7 +289,19 @@ namespace MPC.Webstore.Controllers
                     isContactCreate = false;
                 }
                 StoreBaseResopnse = null;
-                Response.Redirect("/");
+          
+                if (!string.IsNullOrEmpty(Request.Form["hfReturnURL"]))
+                {
+                    if (Url.IsLocalUrl(Request.Form["hfReturnURL"]))
+                    {
+                        ControllerContext.HttpContext.Response.Redirect(Request.Form["hfReturnURL"]);
+                    }
+                }
+                else 
+                {
+                    Response.Redirect("/");
+                }
+              
                 return;
             }
             else

@@ -599,6 +599,7 @@
     <Compile Include="Areas\Api\Models\ItemDetailBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
+    <Compile Include="Areas\Api\Models\ItemStockUpdateHistory.cs" />
     <Compile Include="Areas\Api\Models\LiveJobItem.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
@@ -2233,6 +2234,7 @@
     <Content Include="Areas\Orders\Views\Home\_PurchaseDetailDialog.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_ReportViaEmail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_GRNDetailDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_AddStockQty.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

@@ -8,30 +8,30 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets5C5361CC58AB5F0FDBBEA6160B0269897DC532D06385691A9143F5AB4290302F))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsB35D422233237227404E526FC41E2271EE6F08591DEF657F88E668EEABF771EE))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
-    
-    
+
+
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets5C5361CC58AB5F0FDBBEA6160B0269897DC532D06385691A9143F5AB4290302F : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsB35D422233237227404E526FC41E2271EE6F08591DEF657F88E668EEABF771EE : System.Data.Mapping.EntityViewContainer
     {
-        
+
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets5C5361CC58AB5F0FDBBEA6160B0269897DC532D06385691A9143F5AB4290302F()
+        public ViewsForBaseEntitySetsB35D422233237227404E526FC41E2271EE6F08591DEF657F88E668EEABF771EE()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "58e95338fcd0e5a3472971052a34ddeaf95414a3a1bba45e92942e0d5542a697";
+            this.HashOverMappingClosure = "a2badeff06953f6b0a39906b0684626cf400c0cbd9be369df01fb3ec505341ed";
             this.HashOverAllExtentViews = "e09c6e76a960df9f731b8f92357808f7096f7edb248419d85bc3ad74484761ed";
             this.ViewCount = 340;
         }
-        
+
         /// <Summary>
         /// The method returns the view for the index given.
         /// </Summary>
@@ -1399,7 +1399,7 @@ namespace Edm_EntityMappingGeneratedViews
             }
             throw new System.IndexOutOfRangeException();
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Company
         /// </Summary>
@@ -1528,7 +1528,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("s AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Company", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CmsSkinPageWidget
         /// </Summary>
@@ -1550,7 +1550,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CmsSkinPageWidgets AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CmsSkinPageWidgetParam
         /// </Summary>
@@ -1569,7 +1569,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CmsSkinPageWidgetParams AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyBanner
         /// </Summary>
@@ -1597,7 +1597,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CompanyBanners AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyBannerSet
         /// </Summary>
@@ -1616,7 +1616,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CompanyBannerSets AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyDomain
         /// </Summary>
@@ -1634,7 +1634,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CompanyDomains AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Organisation
         /// </Summary>
@@ -1683,7 +1683,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("rom0\r\n        FROM BaseDbContext.Organisations AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Organisation", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ProductCategory
         /// </Summary>
@@ -1765,7 +1765,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("bContext.ProductCategories AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ProductCategory", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Widgets
         /// </Summary>
@@ -1784,7 +1784,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Widgets AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CategoryTerritory
         /// </Summary>
@@ -1804,7 +1804,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CategoryTerritories AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.StockCategory
         /// </Summary>
@@ -1834,7 +1834,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "         T.OrganisationId AS StockCategory_OrganisationId, \r\n            True AS" +
                     " _from0\r\n        FROM BaseDbContext.StockCategories AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.StockSubCategory
         /// </Summary>
@@ -1855,7 +1855,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.StockSubCategories AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CmsPage
         /// </Summary>
@@ -1899,7 +1899,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("     FROM BaseDbContext.CmsPages AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CmsPage", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.StockCostAndPrice
         /// </Summary>
@@ -1922,7 +1922,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.StockCostAndPrices AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.StockItem
         /// </Summary>
@@ -2005,7 +2005,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StockItem", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PageCategory
         /// </Summary>
@@ -2022,7 +2022,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.PageCategories AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Section
         /// </Summary>
@@ -2044,7 +2044,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Sections AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SectionFlag
         /// </Summary>
@@ -2067,7 +2067,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.SectionFlags AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.WeightUnit
         /// </Summary>
@@ -2087,7 +2087,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.WeightUnits AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyContact
         /// </Summary>
@@ -2197,7 +2197,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("   FROM BaseDbContext.CompanyContacts AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CompanyContact", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyContactRole
         /// </Summary>
@@ -2214,7 +2214,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CompanyContactRoles AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyTerritory
         /// </Summary>
@@ -2234,7 +2234,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CompanyTerritories AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyType
         /// </Summary>
@@ -2252,7 +2252,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CompanyTypes AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCentre
         /// </Summary>
@@ -2418,7 +2418,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" AS _from0\r\n        FROM BaseDbContext.CostCentres AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CostCentre", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemAttachment
         /// </Summary>
@@ -2448,7 +2448,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "\r\n            T.ApproveDate AS ItemAttachment_ApproveDate, \r\n            True AS" +
                     " _from0\r\n        FROM BaseDbContext.ItemAttachments AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemImage
         /// </Summary>
@@ -2470,7 +2470,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ItemImages AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemPriceMatrix
         /// </Summary>
@@ -2506,7 +2506,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ue AS _from0\r\n        FROM BaseDbContext.ItemPriceMatrices AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ItemPriceMatrix", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemProductDetail
         /// </Summary>
@@ -2532,7 +2532,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ItemProductDetails AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemRelatedItem
         /// </Summary>
@@ -2550,7 +2550,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ItemRelatedItems AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Items
         /// </Summary>
@@ -2791,7 +2791,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(") AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Items", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemSection
         /// </Summary>
@@ -3002,7 +3002,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" BaseDbContext.ItemSections AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ItemSection", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemStockOption
         /// </Summary>
@@ -3024,7 +3024,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ItemStockOptions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemVDPPrice
         /// </Summary>
@@ -3045,7 +3045,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ItemVdpPrices1 AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Country
         /// </Summary>
@@ -3063,7 +3063,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Countries AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SectionCostcentre
         /// </Summary>
@@ -3209,7 +3209,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("rue AS _from0\r\n        FROM BaseDbContext.SectionCostcentres AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SectionCostcentre", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SectionCostCentreDetail
         /// </Summary>
@@ -3235,7 +3235,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.SectionCostCentreDetails AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SectionCostCentreResource
         /// </Summary>
@@ -3256,7 +3256,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.SectionCostCentreResources AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.State
         /// </Summary>
@@ -3275,7 +3275,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.States AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Status
         /// </Summary>
@@ -3294,7 +3294,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Status AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Estimate
         /// </Summary>
@@ -3399,7 +3399,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ue AS _from0\r\n        FROM BaseDbContext.Estimates AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Estimate", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PaymentGateway
         /// </Summary>
@@ -3425,7 +3425,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "         T.TestApiUrl AS PaymentGateway_TestApiUrl, \r\n            True AS _from0" +
                     "\r\n        FROM BaseDbContext.PaymentGateways AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PaymentMethod
         /// </Summary>
@@ -3443,7 +3443,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.PaymentMethods AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PrePayment
         /// </Summary>
@@ -3467,7 +3467,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.PrePayments AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.RaveReview
         /// </Summary>
@@ -3490,7 +3490,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.RaveReviews AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.EmailEvent
         /// </Summary>
@@ -3509,7 +3509,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.EmailEvents AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Inquiry
         /// </Summary>
@@ -3538,7 +3538,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Inquiries AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.InquiryAttachment
         /// </Summary>
@@ -3558,7 +3558,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.InquiryAttachments AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.InquiryItem
         /// </Summary>
@@ -3579,7 +3579,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.InquiryItems AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Invoice
         /// </Summary>
@@ -3628,7 +3628,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Invoice", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.InvoiceDetail
         /// </Summary>
@@ -3655,7 +3655,7 @@ namespace Edm_EntityMappingGeneratedViews
                     " InvoiceDetail_ItemGrossTotal, \r\n            True AS _from0\r\n        FROM BaseDb" +
                     "Context.InvoiceDetails AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.LengthUnit
         /// </Summary>
@@ -3675,7 +3675,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.LengthUnits AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.RegistrationQuestion
         /// </Summary>
@@ -3692,7 +3692,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.RegistrationQuestions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Campaign
         /// </Summary>
@@ -3816,7 +3816,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ntext.Campaigns AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Campaign", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CampaignEmailVariable
         /// </Summary>
@@ -3841,7 +3841,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CampaignEmailVariables AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CampaignImage
         /// </Summary>
@@ -3860,7 +3860,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CampaignImages AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.DeliveryNote
         /// </Summary>
@@ -3904,7 +3904,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("_from0\r\n        FROM BaseDbContext.DeliveryNotes AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.DeliveryNote", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.DeliveryNoteDetail
         /// </Summary>
@@ -3925,7 +3925,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.DeliveryNoteDetails AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyCMYKColor
         /// </Summary>
@@ -3947,7 +3947,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CompanyCMYKColors AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Currency
         /// </Summary>
@@ -3966,7 +3966,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Currencies AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemAddonCostCentre
         /// </Summary>
@@ -3988,7 +3988,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ItemAddonCostCentres AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemVideo
         /// </Summary>
@@ -4007,7 +4007,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ItemVideos AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Address
         /// </Summary>
@@ -4047,7 +4047,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("       True AS _from0\r\n        FROM BaseDbContext.Addresses AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Address", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ColorPallete
         /// </Summary>
@@ -4074,7 +4074,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ColorPalletes AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Template
         /// </Summary>
@@ -4128,7 +4128,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" FROM BaseDbContext.Templates AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Template", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.TemplatePage
         /// </Summary>
@@ -4154,7 +4154,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "e_Width, \r\n            T.Height AS TemplatePage_Height, \r\n            True AS _f" +
                     "rom0\r\n        FROM BaseDbContext.TemplatePages AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.GlobalLanguage
         /// </Summary>
@@ -4173,7 +4173,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.GlobalLanguages AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CmsPageTag
         /// </Summary>
@@ -4192,7 +4192,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CmsPageTags AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CmsTags
         /// </Summary>
@@ -4212,7 +4212,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CmsTags AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCentreType
         /// </Summary>
@@ -4232,7 +4232,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostCentreTypes AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.FieldVariable
         /// </Summary>
@@ -4261,7 +4261,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "_VariableTitle, \r\n            True AS _from0\r\n        FROM BaseDbContext.FieldVa" +
                     "riables AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.TemplateVariable
         /// </Summary>
@@ -4279,7 +4279,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.TemplateVariables AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.TemplateBackgroundImage
         /// </Summary>
@@ -4315,7 +4315,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("text.TemplateBackgroundImages AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.TemplateBackgroundImage", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.TemplateObject
         /// </Summary>
@@ -4397,7 +4397,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" _from0\r\n        FROM BaseDbContext.TemplateObjects AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.TemplateObject", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemStateTax
         /// </Summary>
@@ -4417,7 +4417,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ItemStateTaxes AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ProductMarketBriefAnswer
         /// </Summary>
@@ -4435,7 +4435,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ProductMarketBriefAnswers AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ProductMarketBriefQuestion
         /// </Summary>
@@ -4455,7 +4455,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ProductMarketBriefQuestions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ProductCategoryItem
         /// </Summary>
@@ -4473,7 +4473,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ProductCategoryItems AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.TemplateColorStyle
         /// </Summary>
@@ -4501,7 +4501,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.TemplateColorStyles AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.TemplateFont
         /// </Summary>
@@ -4527,7 +4527,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.TemplateFonts AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ImagePermissions
         /// </Summary>
@@ -4545,7 +4545,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ImagePermissions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.FavoriteDesign
         /// </Summary>
@@ -4566,7 +4566,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.FavoriteDesigns AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Phrase
         /// </Summary>
@@ -4586,7 +4586,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Phrases AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PhraseField
         /// </Summary>
@@ -4606,7 +4606,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.PhraseFields AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostcentreInstruction
         /// </Summary>
@@ -4625,7 +4625,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostcentreInstructions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostcentreResource
         /// </Summary>
@@ -4643,7 +4643,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostcentreResources AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostcentreWorkInstructionsChoice
         /// </Summary>
@@ -4661,7 +4661,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostcentreWorkInstructionsChoices AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CmsOffer
         /// </Summary>
@@ -4683,7 +4683,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CmsOffers AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemStockUpdateHistory
         /// </Summary>
@@ -4726,7 +4726,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.MediaLibraries AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.LookupMethod
         /// </Summary>
@@ -4748,7 +4748,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.LookupMethods AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Machine
         /// </Summary>
@@ -4830,7 +4830,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("om0\r\n        FROM BaseDbContext.Machines AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Machine", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineInkCoverage
         /// </Summary>
@@ -4849,7 +4849,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.MachineInkCoverages AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineResource
         /// </Summary>
@@ -4867,7 +4867,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.MachineResources AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyCostCentre
         /// </Summary>
@@ -4889,7 +4889,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CompanyCostCentres AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PipeLineProduct
         /// </Summary>
@@ -4906,7 +4906,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.PipeLineProducts AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Activity
         /// </Summary>
@@ -4959,7 +4959,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("DbContext.Activities AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Activity", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.VariableOption
         /// </Summary>
@@ -4978,7 +4978,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.VariableOptions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SmartForm
         /// </Summary>
@@ -4998,7 +4998,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.SmartForms AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SmartFormDetail
         /// </Summary>
@@ -5020,7 +5020,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.SmartFormDetails AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PayPalResponse
         /// </Summary>
@@ -5053,7 +5053,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "iverEmail, \r\n            True AS _from0\r\n        FROM BaseDbContext.PayPalRespon" +
                     "ses AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ScopeVariable
         /// </Summary>
@@ -5073,7 +5073,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ScopeVariables AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.NewsLetterSubscriber
         /// </Summary>
@@ -5099,7 +5099,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.NewsLetterSubscribers AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineClickChargeLookup
         /// </Summary>
@@ -5120,7 +5120,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.MachineClickChargeLookups AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineClickChargeZone
         /// </Summary>
@@ -5229,7 +5229,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineClickChargeZone", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineGuillotineCalc
         /// </Summary>
@@ -5256,7 +5256,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "e AS _from0\r\n        FROM BaseDbContext.MachineGuillotineCalcs AS T\r\n    ) AS T1" +
                     "");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineMeterPerHourLookup
         /// </Summary>
@@ -5305,7 +5305,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("M BaseDbContext.MachineMeterPerHourLookups AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineMeterPerHourLookup", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachinePerHourLookup
         /// </Summary>
@@ -5325,7 +5325,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.MachinePerHourLookups AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineSpeedWeightLookup
         /// </Summary>
@@ -5374,7 +5374,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineSpeedWeightLookup", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.GoodsReceivedNote
         /// </Summary>
@@ -5424,7 +5424,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("Context.GoodsReceivedNotes AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GoodsReceivedNote", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.GoodsReceivedNoteDetail
         /// </Summary>
@@ -5461,7 +5461,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("eceivedNoteDetails AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GoodsReceivedNoteDetail", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Purchase
         /// </Summary>
@@ -5502,7 +5502,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("    True AS _from0\r\n        FROM BaseDbContext.Purchases AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Purchase", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PurchaseDetail
         /// </Summary>
@@ -5532,7 +5532,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "xValue AS PurchaseDetail_TaxValue, \r\n            True AS _from0\r\n        FROM Ba" +
                     "seDbContext.PurchaseDetails AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SectionInkCoverage
         /// </Summary>
@@ -5553,7 +5553,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.SectionInkCoverages AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ShippingInformation
         /// </Summary>
@@ -5576,7 +5576,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ShippingInformations AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineLookupMethod
         /// </Summary>
@@ -5595,7 +5595,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.MachineLookupMethods AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.VariableExtension
         /// </Summary>
@@ -5618,7 +5618,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.VariableExtensions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Companies
         /// </Summary>
@@ -5747,7 +5747,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(".Company AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Companies", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CmsSkinPageWidgets
         /// </Summary>
@@ -5769,7 +5769,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CmsSkinPageWidget AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CmsSkinPageWidgetParams
         /// </Summary>
@@ -5788,7 +5788,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CmsSkinPageWidgetParam AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyBanners
         /// </Summary>
@@ -5816,7 +5816,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CompanyBanner AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyBannerSets
         /// </Summary>
@@ -5835,7 +5835,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CompanyBannerSet AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyDomains
         /// </Summary>
@@ -5853,7 +5853,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CompanyDomain AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Organisations
         /// </Summary>
@@ -5902,7 +5902,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("\n        FROM DomainModelsStoreContainer.Organisation AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Organisations", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ProductCategories
         /// </Summary>
@@ -5984,7 +5984,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("elsStoreContainer.ProductCategory AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ProductCategories", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Widgets
         /// </Summary>
@@ -6003,7 +6003,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Widgets AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CategoryTerritories
         /// </Summary>
@@ -6023,7 +6023,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CategoryTerritory AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.StockCategories
         /// </Summary>
@@ -6053,7 +6053,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "     T.OrganisationId AS StockCategory_OrganisationId, \r\n            True AS _fr" +
                     "om0\r\n        FROM DomainModelsStoreContainer.StockCategory AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.StockSubCategories
         /// </Summary>
@@ -6074,7 +6074,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.StockSubCategory AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CmsPages
         /// </Summary>
@@ -6118,7 +6118,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("FROM DomainModelsStoreContainer.CmsPage AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CmsPages", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.StockCostAndPrices
         /// </Summary>
@@ -6141,7 +6141,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.StockCostAndPrice AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.StockItems
         /// </Summary>
@@ -6224,7 +6224,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockItems", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PageCategories
         /// </Summary>
@@ -6241,7 +6241,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.PageCategory AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Sections
         /// </Summary>
@@ -6263,7 +6263,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Section AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SectionFlags
         /// </Summary>
@@ -6286,7 +6286,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.SectionFlag AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.WeightUnits
         /// </Summary>
@@ -6306,7 +6306,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.WeightUnit AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyContacts
         /// </Summary>
@@ -6416,7 +6416,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("OM DomainModelsStoreContainer.CompanyContact AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyContacts", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyContactRoles
         /// </Summary>
@@ -6433,7 +6433,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CompanyContactRole AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyTerritories
         /// </Summary>
@@ -6453,7 +6453,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CompanyTerritory AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyTypes
         /// </Summary>
@@ -6471,7 +6471,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CompanyType AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCentres
         /// </Summary>
@@ -6637,7 +6637,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("from0\r\n        FROM DomainModelsStoreContainer.CostCentre AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CostCentres", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemAttachments
         /// </Summary>
@@ -6667,7 +6667,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "         T.ApproveDate AS ItemAttachment_ApproveDate, \r\n            True AS _fro" +
                     "m0\r\n        FROM DomainModelsStoreContainer.ItemAttachment AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemImages
         /// </Summary>
@@ -6689,7 +6689,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ItemImage AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemPriceMatrices
         /// </Summary>
@@ -6726,7 +6726,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemPriceMatrices", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemProductDetails
         /// </Summary>
@@ -6752,7 +6752,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ItemProductDetail AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemRelatedItems
         /// </Summary>
@@ -6770,7 +6770,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ItemRelatedItem AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Items
         /// </Summary>
@@ -7005,7 +7005,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("  FROM DomainModelsStoreContainer.Items AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Items", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemSections
         /// </Summary>
@@ -7216,7 +7216,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("inModelsStoreContainer.ItemSection AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemSections", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemStockOptions
         /// </Summary>
@@ -7238,7 +7238,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ItemStockOption AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemVdpPrices1
         /// </Summary>
@@ -7259,7 +7259,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ItemVDPPrice AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Countries
         /// </Summary>
@@ -7277,7 +7277,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Country AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SectionCostcentres
         /// </Summary>
@@ -7424,7 +7424,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SectionCostcentres", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SectionCostCentreDetails
         /// </Summary>
@@ -7450,7 +7450,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.SectionCostCentreDetail AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SectionCostCentreResources
         /// </Summary>
@@ -7471,7 +7471,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.SectionCostCentreResource AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.States
         /// </Summary>
@@ -7490,7 +7490,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.State AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Status
         /// </Summary>
@@ -7509,7 +7509,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Status AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Estimates
         /// </Summary>
@@ -7614,7 +7614,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" _from0\r\n        FROM DomainModelsStoreContainer.Estimate AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Estimates", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PaymentGateways
         /// </Summary>
@@ -7640,7 +7640,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "    T.TestApiUrl AS PaymentGateway_TestApiUrl, \r\n            True AS _from0\r\n   " +
                     "     FROM DomainModelsStoreContainer.PaymentGateway AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PaymentMethods
         /// </Summary>
@@ -7658,7 +7658,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.PaymentMethod AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PrePayments
         /// </Summary>
@@ -7682,7 +7682,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.PrePayment AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.RaveReviews
         /// </Summary>
@@ -7705,7 +7705,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.RaveReview AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.EmailEvents
         /// </Summary>
@@ -7724,7 +7724,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.EmailEvent AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Inquiries
         /// </Summary>
@@ -7753,7 +7753,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Inquiry AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.InquiryAttachments
         /// </Summary>
@@ -7773,7 +7773,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.InquiryAttachment AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.InquiryItems
         /// </Summary>
@@ -7794,7 +7794,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.InquiryItem AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Invoices
         /// </Summary>
@@ -7843,7 +7843,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Invoices", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.InvoiceDetails
         /// </Summary>
@@ -7870,7 +7870,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "iceDetail_ItemGrossTotal, \r\n            True AS _from0\r\n        FROM DomainModel" +
                     "sStoreContainer.InvoiceDetail AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.LengthUnits
         /// </Summary>
@@ -7890,7 +7890,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.LengthUnit AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.RegistrationQuestions
         /// </Summary>
@@ -7907,7 +7907,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.RegistrationQuestion AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Campaigns
         /// </Summary>
@@ -8031,7 +8031,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("toreContainer.Campaign AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Campaigns", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CampaignEmailVariables
         /// </Summary>
@@ -8056,7 +8056,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CampaignEmailVariable AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CampaignImages
         /// </Summary>
@@ -8075,7 +8075,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CampaignImage AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.DeliveryNotes
         /// </Summary>
@@ -8119,7 +8119,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("0\r\n        FROM DomainModelsStoreContainer.DeliveryNote AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.DeliveryNotes", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.DeliveryNoteDetails
         /// </Summary>
@@ -8140,7 +8140,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.DeliveryNoteDetail AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyCMYKColors
         /// </Summary>
@@ -8162,7 +8162,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CompanyCMYKColor AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Currencies
         /// </Summary>
@@ -8181,7 +8181,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Currency AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemAddonCostCentres
         /// </Summary>
@@ -8203,7 +8203,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ItemAddonCostCentre AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemVideos
         /// </Summary>
@@ -8222,7 +8222,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ItemVideo AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Addresses
         /// </Summary>
@@ -8263,7 +8263,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("S T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Addresses", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ColorPalletes
         /// </Summary>
@@ -8290,7 +8290,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ColorPallete AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Templates
         /// </Summary>
@@ -8344,7 +8344,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" DomainModelsStoreContainer.Template AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Templates", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.TemplatePages
         /// </Summary>
@@ -8370,7 +8370,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "th, \r\n            T.Height AS TemplatePage_Height, \r\n            True AS _from0\r" +
                     "\n        FROM DomainModelsStoreContainer.TemplatePage AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.GlobalLanguages
         /// </Summary>
@@ -8389,7 +8389,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.GlobalLanguage AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CmsPageTags
         /// </Summary>
@@ -8408,7 +8408,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CmsPageTag AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CmsTags
         /// </Summary>
@@ -8428,7 +8428,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CmsTags AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCentreTypes
         /// </Summary>
@@ -8448,7 +8448,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostCentreType AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.FieldVariables
         /// </Summary>
@@ -8477,7 +8477,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "ableTitle, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer" +
                     ".FieldVariable AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.TemplateVariables
         /// </Summary>
@@ -8495,7 +8495,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.TemplateVariable AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.TemplateBackgroundImages
         /// </Summary>
@@ -8531,7 +8531,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("oreContainer.TemplateBackgroundImage AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TemplateBackgroundImages", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.TemplateObjects
         /// </Summary>
@@ -8613,7 +8613,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("m0\r\n        FROM DomainModelsStoreContainer.TemplateObject AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TemplateObjects", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemStateTaxes
         /// </Summary>
@@ -8633,7 +8633,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ItemStateTax AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ProductMarketBriefAnswers
         /// </Summary>
@@ -8651,7 +8651,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ProductMarketBriefAnswer AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ProductMarketBriefQuestions
         /// </Summary>
@@ -8671,7 +8671,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ProductMarketBriefQuestion AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ProductCategoryItems
         /// </Summary>
@@ -8689,7 +8689,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ProductCategoryItem AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.TemplateColorStyles
         /// </Summary>
@@ -8717,7 +8717,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.TemplateColorStyle AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.TemplateFonts
         /// </Summary>
@@ -8743,7 +8743,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.TemplateFont AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ImagePermissions
         /// </Summary>
@@ -8761,7 +8761,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ImagePermissions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.FavoriteDesigns
         /// </Summary>
@@ -8782,7 +8782,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.FavoriteDesign AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Phrases
         /// </Summary>
@@ -8802,7 +8802,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Phrase AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PhraseFields
         /// </Summary>
@@ -8822,7 +8822,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.PhraseField AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostcentreInstructions
         /// </Summary>
@@ -8841,7 +8841,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostcentreInstruction AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostcentreResources
         /// </Summary>
@@ -8859,7 +8859,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostcentreResource AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostcentreWorkInstructionsChoices
         /// </Summary>
@@ -8877,7 +8877,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostcentreWorkInstructionsChoice AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CmsOffers
         /// </Summary>
@@ -8899,7 +8899,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CmsOffer AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemStockUpdateHistories
         /// </Summary>
@@ -8942,7 +8942,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.MediaLibrary AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.LookupMethods
         /// </Summary>
@@ -8964,7 +8964,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.LookupMethod AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Machines
         /// </Summary>
@@ -9046,7 +9046,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("        FROM DomainModelsStoreContainer.Machine AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Machines", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineInkCoverages
         /// </Summary>
@@ -9065,7 +9065,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.MachineInkCoverage AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineResources
         /// </Summary>
@@ -9083,7 +9083,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.MachineResource AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyCostCentres
         /// </Summary>
@@ -9105,7 +9105,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CompanyCostCentre AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PipeLineProducts
         /// </Summary>
@@ -9122,7 +9122,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.PipeLineProduct AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Activities
         /// </Summary>
@@ -9175,7 +9175,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("delsStoreContainer.Activity AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Activities", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.VariableOptions
         /// </Summary>
@@ -9194,7 +9194,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.VariableOption AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SmartForms
         /// </Summary>
@@ -9214,7 +9214,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.SmartForm AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SmartFormDetails
         /// </Summary>
@@ -9236,7 +9236,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.SmartFormDetail AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PayPalResponses
         /// </Summary>
@@ -9269,7 +9269,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "mail, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.PayP" +
                     "alResponse AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ScopeVariables
         /// </Summary>
@@ -9289,7 +9289,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ScopeVariable AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.NewsLetterSubscribers
         /// </Summary>
@@ -9315,7 +9315,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.NewsLetterSubscriber AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineClickChargeLookups
         /// </Summary>
@@ -9336,7 +9336,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.MachineClickChargeLookup AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineClickChargeZones
         /// </Summary>
@@ -9445,7 +9445,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("geZone AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineClickChargeZones", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineGuillotineCalcs
         /// </Summary>
@@ -9472,7 +9472,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "_from0\r\n        FROM DomainModelsStoreContainer.MachineGuillotineCalc AS T\r\n    " +
                     ") AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineMeterPerHourLookups
         /// </Summary>
@@ -9521,7 +9521,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ainModelsStoreContainer.MachineMeterPerHourLookup AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineMeterPerHourLookups", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachinePerHourLookups
         /// </Summary>
@@ -9541,7 +9541,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.MachinePerHourLookup AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineSpeedWeightLookups
         /// </Summary>
@@ -9590,7 +9590,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("   ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineSpeedWeightLookups", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.GoodsReceivedNotes
         /// </Summary>
@@ -9640,7 +9640,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("sStoreContainer.GoodsReceivedNote AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GoodsReceivedNotes", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.GoodsReceivedNoteDetails
         /// </Summary>
@@ -9677,7 +9677,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("r.GoodsReceivedNoteDetail AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GoodsReceivedNoteDetails", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Purchases
         /// </Summary>
@@ -9719,7 +9719,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Purchases", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PurchaseDetails
         /// </Summary>
@@ -9749,7 +9749,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "e AS PurchaseDetail_TaxValue, \r\n            True AS _from0\r\n        FROM DomainM" +
                     "odelsStoreContainer.PurchaseDetail AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SectionInkCoverages
         /// </Summary>
@@ -9770,7 +9770,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.SectionInkCoverage AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ShippingInformations
         /// </Summary>
@@ -9793,7 +9793,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ShippingInformation AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineLookupMethods
         /// </Summary>
@@ -9812,7 +9812,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.MachineLookupMethod AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.VariableExtensions
         /// </Summary>
@@ -9835,7 +9835,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.VariableExtension AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ChartOfAccount
         /// </Summary>
@@ -9864,7 +9864,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "      True AS _from0\r\n        FROM BaseDbContext.ChartOfAccounts AS T\r\n    ) AS " +
                     "T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ChartOfAccounts
         /// </Summary>
@@ -9893,7 +9893,7 @@ namespace Edm_EntityMappingGeneratedViews
                     " True AS _from0\r\n        FROM DomainModelsStoreContainer.ChartOfAccount AS T\r\n  " +
                     "  ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Markup
         /// </Summary>
@@ -9914,7 +9914,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Markups AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.prefix
         /// </Summary>
@@ -9972,7 +9972,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.prefix", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Markups
         /// </Summary>
@@ -9993,7 +9993,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Markup AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Prefixes1
         /// </Summary>
@@ -10051,7 +10051,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ix AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Prefixes1", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PaperSize
         /// </Summary>
@@ -10077,7 +10077,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.PaperSizes AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PaperSizes
         /// </Summary>
@@ -10103,7 +10103,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.PaperSize AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemStockControl
         /// </Summary>
@@ -10176,7 +10176,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("temStockControls AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ItemStockControl", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ItemStockControls
         /// </Summary>
@@ -10249,7 +10249,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("tainer.ItemStockControl AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemStockControls", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SystemEmail
         /// </Summary>
@@ -10273,7 +10273,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.SystemEmails AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SystemEmails
         /// </Summary>
@@ -10297,7 +10297,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.SystemEmail AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PaperBasisArea
         /// </Summary>
@@ -10316,7 +10316,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.PaperBasisAreas AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PaperBasisAreas
         /// </Summary>
@@ -10335,7 +10335,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.PaperBasisArea AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.DiscountVoucher
         /// </Summary>
@@ -10360,7 +10360,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.DiscountVouchers AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.DiscountVouchers
         /// </Summary>
@@ -10385,7 +10385,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.DiscountVoucher AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.GetItemsListView
         /// </Summary>
@@ -10438,7 +10438,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GetItemsListView", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.GetItemsListViews
         /// </Summary>
@@ -10491,7 +10491,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ew AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GetItemsListViews", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CampaignEmailQueue
         /// </Summary>
@@ -10527,7 +10527,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CampaignEmailQueue", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CampaignEmailQueues
         /// </Summary>
@@ -10563,7 +10563,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(") AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CampaignEmailQueues", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.VariableSection
         /// </Summary>
@@ -10581,7 +10581,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.VariableSections AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.VariableSections
         /// </Summary>
@@ -10599,7 +10599,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.VariableSection AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.GetCategoryProducts
         /// </Summary>
@@ -10655,7 +10655,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GetCategoryProducts", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.GetCategoryProducts
         /// </Summary>
@@ -10710,7 +10710,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("tegoryProducts AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GetCategoryProducts", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Role
         /// </Summary>
@@ -10732,7 +10732,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Roles AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Roles
         /// </Summary>
@@ -10754,7 +10754,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Role AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ProductCategoriesView
         /// </Summary>
@@ -10776,7 +10776,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ProductCategoriesViews AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ProductCategoriesViews
         /// </Summary>
@@ -10798,7 +10798,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ProductCategoriesView AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CustomCopy
         /// </Summary>
@@ -10826,7 +10826,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CustomCopies AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CustomCopies
         /// </Summary>
@@ -10854,7 +10854,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CustomCopy AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Listing
         /// </Summary>
@@ -10935,7 +10935,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Listing", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Listings
         /// </Summary>
@@ -11016,7 +11016,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("Listing AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Listings", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ListingAgent
         /// </Summary>
@@ -11043,7 +11043,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ListingAgents AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ListingAgents
         /// </Summary>
@@ -11070,7 +11070,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ListingAgent AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ListingConjunctionAgent
         /// </Summary>
@@ -11093,7 +11093,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ListingConjunctionAgents AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ListingConjunctionAgents
         /// </Summary>
@@ -11116,7 +11116,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ListingConjunctionAgent AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ListingFloorPlan
         /// </Summary>
@@ -11137,7 +11137,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ListingFloorPlans AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ListingFloorPlans
         /// </Summary>
@@ -11158,7 +11158,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ListingFloorPlan AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ListingImage
         /// </Summary>
@@ -11182,7 +11182,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ListingImages AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ListingImages
         /// </Summary>
@@ -11206,7 +11206,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ListingImage AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ListingLink
         /// </Summary>
@@ -11226,7 +11226,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ListingLinks AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ListingLinks
         /// </Summary>
@@ -11246,7 +11246,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ListingLink AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ListingOFIs
         /// </Summary>
@@ -11268,7 +11268,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ListingOFIs AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ListingOFIs
         /// </Summary>
@@ -11290,7 +11290,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ListingOFIs AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ListingVendor
         /// </Summary>
@@ -11315,7 +11315,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ListingVendors AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ListingVendors
         /// </Summary>
@@ -11340,7 +11340,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ListingVendor AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyVariableIcon
         /// </Summary>
@@ -11359,7 +11359,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CompanyVariableIcons AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CompanyVariableIcons
         /// </Summary>
@@ -11378,7 +11378,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CompanyVariableIcon AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCentreAnswer
         /// </Summary>
@@ -11396,7 +11396,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostCentreAnswers AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCentreAnswers
         /// </Summary>
@@ -11414,7 +11414,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostCentreAnswer AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCentreMatrix
         /// </Summary>
@@ -11436,7 +11436,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostCentreMatrices AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCentreMatrices
         /// </Summary>
@@ -11458,7 +11458,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostCentreMatrix AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCentreMatrixDetail
         /// </Summary>
@@ -11476,7 +11476,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostCentreMatrixDetails AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCentreMatrixDetails
         /// </Summary>
@@ -11494,7 +11494,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostCentreMatrixDetail AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCentreQuestion
         /// </Summary>
@@ -11515,7 +11515,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostCentreQuestions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCentreQuestions
         /// </Summary>
@@ -11536,7 +11536,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostCentreQuestion AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostcentreSystemType
         /// </Summary>
@@ -11553,7 +11553,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostcentreSystemTypes AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostcentreSystemTypes
         /// </Summary>
@@ -11570,7 +11570,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostcentreSystemType AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCentreTemplate
         /// </Summary>
@@ -11591,7 +11591,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostCentreTemplates AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCentreTemplates
         /// </Summary>
@@ -11612,7 +11612,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostCentreTemplate AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCentreVariable
         /// </Summary>
@@ -11640,7 +11640,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostCentreVariables AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCentreVariables
         /// </Summary>
@@ -11666,7 +11666,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "AS CostCentreVariable_SystemSiteId, \r\n            True AS _from0\r\n        FROM D" +
                     "omainModelsStoreContainer.CostCentreVariable AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCentreVariableType
         /// </Summary>
@@ -11683,7 +11683,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostCentreVariableTypes AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCentreVariableTypes
         /// </Summary>
@@ -11700,7 +11700,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostCentreVariableType AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineCategory
         /// </Summary>
@@ -11718,7 +11718,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.MachineCategories AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineCategories
         /// </Summary>
@@ -11736,7 +11736,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.MachineCategory AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Groups
         /// </Summary>
@@ -11761,7 +11761,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.Groups AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Groups
         /// </Summary>
@@ -11786,7 +11786,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.Groups AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCenterChoice
         /// </Summary>
@@ -11806,7 +11806,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.CostCenterChoices AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.CostCenterChoices
         /// </Summary>
@@ -11826,7 +11826,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.CostCenterChoice AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.InkCoverageGroup
         /// </Summary>
@@ -11846,7 +11846,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.InkCoverageGroups AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.InkCoverageGroups
         /// </Summary>
@@ -11866,7 +11866,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.InkCoverageGroup AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineSpoilage
         /// </Summary>
@@ -11886,7 +11886,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.MachineSpoilages AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineSpoilages
         /// </Summary>
@@ -11906,7 +11906,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.MachineSpoilage AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Report
         /// </Summary>
@@ -11937,7 +11937,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "rt_OrganisationId, \r\n            True AS _from0\r\n        FROM BaseDbContext.Repo" +
                     "rts AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ReportNote
         /// </Summary>
@@ -11965,7 +11965,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ReportNotes AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ReportCategory
         /// </Summary>
@@ -11983,7 +11983,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ReportCategories AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Reports
         /// </Summary>
@@ -12014,7 +12014,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "ganisationId, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContai" +
                     "ner.Report AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ReportNotes
         /// </Summary>
@@ -12042,7 +12042,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ReportNote AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ReportCategories
         /// </Summary>
@@ -12060,7 +12060,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ReportCategory AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PipeLineSource
         /// </Summary>
@@ -12077,7 +12077,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.PipeLineSources AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PipeLineSources
         /// </Summary>
@@ -12094,7 +12094,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.PipeLineSource AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ActivityType
         /// </Summary>
@@ -12113,7 +12113,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.ActivityTypes AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.ActivityTypes
         /// </Summary>
@@ -12132,7 +12132,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.ActivityType AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.DeliveryCarrier
         /// </Summary>
@@ -12153,7 +12153,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.DeliveryCarriers AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.DeliveryCarriers
         /// </Summary>
@@ -12174,7 +12174,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.DeliveryCarrier AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PaypalPaymentRequest
         /// </Summary>
@@ -12195,7 +12195,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.PaypalPaymentRequests AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.PaypalPaymentRequests
         /// </Summary>
@@ -12216,7 +12216,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.PaypalPaymentRequest AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.NABTransaction
         /// </Summary>
@@ -12236,7 +12236,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.NABTransactions AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.NABTransactions
         /// </Summary>
@@ -12256,7 +12256,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.NABTransaction AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.vw_SaveDesign
         /// </Summary>
@@ -12291,7 +12291,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" _from0\r\n        FROM BaseDbContext.SaveDesignViews AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.vw_SaveDesign", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SaveDesignViews
         /// </Summary>
@@ -12324,7 +12324,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "ew_TemplateID, \r\n            True AS _from0\r\n        FROM DomainModelsStoreConta" +
                     "iner.vw_SaveDesign AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineGuilotinePtv
         /// </Summary>
@@ -12345,7 +12345,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.MachineGuilotinePtvs AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.MachineGuilotinePtvs
         /// </Summary>
@@ -12366,7 +12366,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.MachineGuilotinePtv AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SystemUser
         /// </Summary>
@@ -12395,7 +12395,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.SystemUsers AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.SystemUsers
         /// </Summary>
@@ -12424,7 +12424,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.SystemUser AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.JobPreference
         /// </Summary>
@@ -12478,7 +12478,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" AS _from0\r\n        FROM BaseDbContext.JobPreferences AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.JobPreference", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.JobPreferences
         /// </Summary>
@@ -12532,7 +12532,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("from0\r\n        FROM DomainModelsStoreContainer.JobPreference AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.JobPreferences", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.InkPlateSide
         /// </Summary>
@@ -12553,7 +12553,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM BaseDbContext.InkPlateSides AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.InkPlateSides
         /// </Summary>
@@ -12574,7 +12574,7 @@ namespace Edm_EntityMappingGeneratedViews
         FROM DomainModelsStoreContainer.InkPlateSide AS T
     ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.vw_JobCardReport
         /// </Summary>
@@ -12683,7 +12683,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("DbContext.JobCardReportViews AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.vw_JobCardReport", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.JobCardReportViews
         /// </Summary>
@@ -12790,7 +12790,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" DomainModelsStoreContainer.vw_JobCardReport AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.JobCardReportViews", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.vw_OrderReport
         /// </Summary>
@@ -12887,7 +12887,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("erReportViews AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.vw_OrderReport", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.OrderReportViews
         /// </Summary>
@@ -12982,7 +12982,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("0\r\n        FROM DomainModelsStoreContainer.vw_OrderReport AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.OrderReportViews", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Reportparam
         /// </Summary>
@@ -13013,7 +13013,7 @@ namespace Edm_EntityMappingGeneratedViews
                     ", \r\n            T.SortOrder AS Reportparam_SortOrder, \r\n            True AS _fro" +
                     "m0\r\n        FROM BaseDbContext.Reportparams AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.Reportparams
         /// </Summary>
@@ -13044,7 +13044,7 @@ namespace Edm_EntityMappingGeneratedViews
                     "           T.SortOrder AS Reportparam_SortOrder, \r\n            True AS _from0\r\n " +
                     "       FROM DomainModelsStoreContainer.Reportparam AS T\r\n    ) AS T1");
         }
-        
+
         /// <Summary>
         /// return view for DomainModelsStoreContainer.StagingImportCompanyContactAddress
         /// </Summary>
@@ -13129,7 +13129,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("agingImportCompanyContactAddresses AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StagingImportCompanyContactAddress", viewString.ToString());
         }
-        
+
         /// <Summary>
         /// return view for BaseDbContext.StagingImportCompanyContactAddresses
         /// </Summary>

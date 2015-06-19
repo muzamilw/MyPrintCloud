@@ -52,7 +52,7 @@ namespace MPC.Webstore.Controllers
                     PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
                     if (oGateWay != null)
                     {
-                        opaypal.return_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt";//oGateWay.ReturnUrl;
+                        opaypal.return_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt/" + OrderId;//oGateWay.ReturnUrl;
                         opaypal.notify_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/PaypalIPN"; //oGateWay.NotifyUrl;
                         opaypal.cancel_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ShopCart/" + OrderId; //oGateWay.CancelPurchaseUrl;
                         opaypal.discount_amount_cart = "0";
