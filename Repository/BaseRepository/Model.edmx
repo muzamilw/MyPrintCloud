@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Activity">
           <Key>
             <PropertyRef Name="ActivityId" />
@@ -4582,6 +4582,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ItemAddonCostCentre_ItemStockOption">
+          <End Role="ItemStockOption" Type="Self.ItemStockOption" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ItemAddonCostCentre" Type="Self.ItemAddonCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemStockOption">
+              <PropertyRef Name="ItemStockOptionId" />
+            </Principal>
+            <Dependent Role="ItemAddonCostCentre">
+              <PropertyRef Name="ItemStockOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ItemProductDetail_Items">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="ItemProductDetail" Type="Self.ItemProductDetail" Multiplicity="*" />
@@ -4675,18 +4689,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="ItemStateTax">
               <PropertyRef Name="StateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ItemStockOption_ItemAddonCostCentre">
-          <End Role="ItemStockOption" Type="Self.ItemStockOption" Multiplicity="0..1" />
-          <End Role="ItemAddonCostCentre" Type="Self.ItemAddonCostCentre" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ItemStockOption">
-              <PropertyRef Name="ItemStockOptionId" />
-            </Principal>
-            <Dependent Role="ItemAddonCostCentre">
-              <PropertyRef Name="ItemStockOptionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6247,279 +6249,293 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyVariableIcon" EntityType="Self.CompanyVariableIcon" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CompanyVariableIcon].[VariableIconId] AS [VariableIconId], 
-    [CompanyVariableIcon].[VariableId] AS [VariableId], 
-    [CompanyVariableIcon].[Icon] AS [Icon], 
-    [CompanyVariableIcon].[ContactCompanyId] AS [ContactCompanyId]
-    FROM [dbo].[CompanyVariableIcon] AS [CompanyVariableIcon]</DefiningQuery>
+            <DefiningQuery>
+              SELECT
+              [CompanyVariableIcon].[VariableIconId] AS [VariableIconId],
+              [CompanyVariableIcon].[VariableId] AS [VariableId],
+              [CompanyVariableIcon].[Icon] AS [Icon],
+              [CompanyVariableIcon].[ContactCompanyId] AS [ContactCompanyId]
+              FROM [dbo].[CompanyVariableIcon] AS [CompanyVariableIcon]
+            </DefiningQuery>
           </EntitySet>
           <EntitySet Name="GetCategoryProducts" EntityType="Self.GetCategoryProducts" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [GetCategoryProducts].[CompanyId] AS [CompanyId], 
-    [GetCategoryProducts].[ItemId] AS [ItemId], 
-    [GetCategoryProducts].[ItemCode] AS [ItemCode], 
-    [GetCategoryProducts].[isQtyRanged] AS [isQtyRanged], 
-    [GetCategoryProducts].[EstimateId] AS [EstimateId], 
-    [GetCategoryProducts].[ProductName] AS [ProductName], 
-    [GetCategoryProducts].[ProductCode] AS [ProductCode], 
-    [GetCategoryProducts].[ProductCategoryName] AS [ProductCategoryName], 
-    [GetCategoryProducts].[MinPrice] AS [MinPrice], 
-    [GetCategoryProducts].[ImagePath] AS [ImagePath], 
-    [GetCategoryProducts].[ThumbnailPath] AS [ThumbnailPath], 
-    [GetCategoryProducts].[IconPath] AS [IconPath], 
-    [GetCategoryProducts].[IsEnabled] AS [IsEnabled], 
-    [GetCategoryProducts].[IsSpecialItem] AS [IsSpecialItem], 
-    [GetCategoryProducts].[IsPopular] AS [IsPopular], 
-    [GetCategoryProducts].[IsFeatured] AS [IsFeatured], 
-    [GetCategoryProducts].[IsPromotional] AS [IsPromotional], 
-    [GetCategoryProducts].[IsPublished] AS [IsPublished], 
-    [GetCategoryProducts].[ProductType] AS [ProductType], 
-    [GetCategoryProducts].[ProductSpecification] AS [ProductSpecification], 
-    [GetCategoryProducts].[CompleteSpecification] AS [CompleteSpecification], 
-    [GetCategoryProducts].[IsArchived] AS [IsArchived], 
-    [GetCategoryProducts].[SortOrder] AS [SortOrder], 
-    [GetCategoryProducts].[OrganisationId] AS [OrganisationId], 
-    [GetCategoryProducts].[WebDescription] AS [WebDescription], 
-    [GetCategoryProducts].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
-    [GetCategoryProducts].[isTemplateDesignMode] AS [isTemplateDesignMode], 
-    [GetCategoryProducts].[DefaultItemTax] AS [DefaultItemTax], 
-    [GetCategoryProducts].[isUploadImage] AS [isUploadImage], 
-    [GetCategoryProducts].[isMarketingBrief] AS [isMarketingBrief], 
-    [GetCategoryProducts].[ProductCategoryId] AS [ProductCategoryId], 
-    [GetCategoryProducts].[TemplateId] AS [TemplateId], 
-    [GetCategoryProducts].[DesignerCategoryId] AS [DesignerCategoryId]
-    FROM [dbo].[GetCategoryProducts] AS [GetCategoryProducts]</DefiningQuery>
+            <DefiningQuery>
+              SELECT
+              [GetCategoryProducts].[CompanyId] AS [CompanyId],
+              [GetCategoryProducts].[ItemId] AS [ItemId],
+              [GetCategoryProducts].[ItemCode] AS [ItemCode],
+              [GetCategoryProducts].[isQtyRanged] AS [isQtyRanged],
+              [GetCategoryProducts].[EstimateId] AS [EstimateId],
+              [GetCategoryProducts].[ProductName] AS [ProductName],
+              [GetCategoryProducts].[ProductCode] AS [ProductCode],
+              [GetCategoryProducts].[ProductCategoryName] AS [ProductCategoryName],
+              [GetCategoryProducts].[MinPrice] AS [MinPrice],
+              [GetCategoryProducts].[ImagePath] AS [ImagePath],
+              [GetCategoryProducts].[ThumbnailPath] AS [ThumbnailPath],
+              [GetCategoryProducts].[IconPath] AS [IconPath],
+              [GetCategoryProducts].[IsEnabled] AS [IsEnabled],
+              [GetCategoryProducts].[IsSpecialItem] AS [IsSpecialItem],
+              [GetCategoryProducts].[IsPopular] AS [IsPopular],
+              [GetCategoryProducts].[IsFeatured] AS [IsFeatured],
+              [GetCategoryProducts].[IsPromotional] AS [IsPromotional],
+              [GetCategoryProducts].[IsPublished] AS [IsPublished],
+              [GetCategoryProducts].[ProductType] AS [ProductType],
+              [GetCategoryProducts].[ProductSpecification] AS [ProductSpecification],
+              [GetCategoryProducts].[CompleteSpecification] AS [CompleteSpecification],
+              [GetCategoryProducts].[IsArchived] AS [IsArchived],
+              [GetCategoryProducts].[SortOrder] AS [SortOrder],
+              [GetCategoryProducts].[OrganisationId] AS [OrganisationId],
+              [GetCategoryProducts].[WebDescription] AS [WebDescription],
+              [GetCategoryProducts].[PriceDiscountPercentage] AS [PriceDiscountPercentage],
+              [GetCategoryProducts].[isTemplateDesignMode] AS [isTemplateDesignMode],
+              [GetCategoryProducts].[DefaultItemTax] AS [DefaultItemTax],
+              [GetCategoryProducts].[isUploadImage] AS [isUploadImage],
+              [GetCategoryProducts].[isMarketingBrief] AS [isMarketingBrief],
+              [GetCategoryProducts].[ProductCategoryId] AS [ProductCategoryId],
+              [GetCategoryProducts].[TemplateId] AS [TemplateId],
+              [GetCategoryProducts].[DesignerCategoryId] AS [DesignerCategoryId]
+              FROM [dbo].[GetCategoryProducts] AS [GetCategoryProducts]
+            </DefiningQuery>
           </EntitySet>
           <EntitySet Name="GetItemsListView" EntityType="Self.GetItemsListView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [GetItemsListView].[ItemId] AS [ItemId], 
-    [GetItemsListView].[ItemCode] AS [ItemCode], 
-    [GetItemsListView].[isQtyRanged] AS [isQtyRanged], 
-    [GetItemsListView].[EstimateId] AS [EstimateId], 
-    [GetItemsListView].[ProductName] AS [ProductName], 
-    [GetItemsListView].[ProductCode] AS [ProductCode], 
-    [GetItemsListView].[ProductCategoryName] AS [ProductCategoryName], 
-    [GetItemsListView].[ProductCategoryIds] AS [ProductCategoryIds], 
-    [GetItemsListView].[MinPrice] AS [MinPrice], 
-    [GetItemsListView].[ImagePath] AS [ImagePath], 
-    [GetItemsListView].[ThumbnailPath] AS [ThumbnailPath], 
-    [GetItemsListView].[IconPath] AS [IconPath], 
-    [GetItemsListView].[IsEnabled] AS [IsEnabled], 
-    [GetItemsListView].[IsSpecialItem] AS [IsSpecialItem], 
-    [GetItemsListView].[IsPopular] AS [IsPopular], 
-    [GetItemsListView].[IsFeatured] AS [IsFeatured], 
-    [GetItemsListView].[IsPromotional] AS [IsPromotional], 
-    [GetItemsListView].[IsPublished] AS [IsPublished], 
-    [GetItemsListView].[ProductType] AS [ProductType], 
-    [GetItemsListView].[ProductSpecification] AS [ProductSpecification], 
-    [GetItemsListView].[CompleteSpecification] AS [CompleteSpecification], 
-    [GetItemsListView].[IsArchived] AS [IsArchived], 
-    [GetItemsListView].[SortOrder] AS [SortOrder], 
-    [GetItemsListView].[OrganisationId] AS [OrganisationId], 
-    [GetItemsListView].[WebDescription] AS [WebDescription], 
-    [GetItemsListView].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
-    [GetItemsListView].[DefaultItemTax] AS [DefaultItemTax], 
-    [GetItemsListView].[isUploadImage] AS [isUploadImage], 
-    [GetItemsListView].[CompanyId] AS [CompanyId], 
-    [GetItemsListView].[TemplateId] AS [TemplateId], 
-    [GetItemsListView].[printCropMarks] AS [printCropMarks], 
-    [GetItemsListView].[drawWaterMarkTxt] AS [drawWaterMarkTxt], 
-    [GetItemsListView].[TemplateType] AS [TemplateType]
-    FROM [dbo].[GetItemsListView] AS [GetItemsListView]</DefiningQuery>
+            <DefiningQuery>
+              SELECT
+              [GetItemsListView].[ItemId] AS [ItemId],
+              [GetItemsListView].[ItemCode] AS [ItemCode],
+              [GetItemsListView].[isQtyRanged] AS [isQtyRanged],
+              [GetItemsListView].[EstimateId] AS [EstimateId],
+              [GetItemsListView].[ProductName] AS [ProductName],
+              [GetItemsListView].[ProductCode] AS [ProductCode],
+              [GetItemsListView].[ProductCategoryName] AS [ProductCategoryName],
+              [GetItemsListView].[ProductCategoryIds] AS [ProductCategoryIds],
+              [GetItemsListView].[MinPrice] AS [MinPrice],
+              [GetItemsListView].[ImagePath] AS [ImagePath],
+              [GetItemsListView].[ThumbnailPath] AS [ThumbnailPath],
+              [GetItemsListView].[IconPath] AS [IconPath],
+              [GetItemsListView].[IsEnabled] AS [IsEnabled],
+              [GetItemsListView].[IsSpecialItem] AS [IsSpecialItem],
+              [GetItemsListView].[IsPopular] AS [IsPopular],
+              [GetItemsListView].[IsFeatured] AS [IsFeatured],
+              [GetItemsListView].[IsPromotional] AS [IsPromotional],
+              [GetItemsListView].[IsPublished] AS [IsPublished],
+              [GetItemsListView].[ProductType] AS [ProductType],
+              [GetItemsListView].[ProductSpecification] AS [ProductSpecification],
+              [GetItemsListView].[CompleteSpecification] AS [CompleteSpecification],
+              [GetItemsListView].[IsArchived] AS [IsArchived],
+              [GetItemsListView].[SortOrder] AS [SortOrder],
+              [GetItemsListView].[OrganisationId] AS [OrganisationId],
+              [GetItemsListView].[WebDescription] AS [WebDescription],
+              [GetItemsListView].[PriceDiscountPercentage] AS [PriceDiscountPercentage],
+              [GetItemsListView].[DefaultItemTax] AS [DefaultItemTax],
+              [GetItemsListView].[isUploadImage] AS [isUploadImage],
+              [GetItemsListView].[CompanyId] AS [CompanyId],
+              [GetItemsListView].[TemplateId] AS [TemplateId],
+              [GetItemsListView].[printCropMarks] AS [printCropMarks],
+              [GetItemsListView].[drawWaterMarkTxt] AS [drawWaterMarkTxt],
+              [GetItemsListView].[TemplateType] AS [TemplateType]
+              FROM [dbo].[GetItemsListView] AS [GetItemsListView]
+            </DefiningQuery>
           </EntitySet>
           <EntitySet Name="ProductCategoriesView" EntityType="Self.ProductCategoriesView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ProductCategoriesView].[ProductCategoryId] AS [ProductCategoryId], 
-    [ProductCategoriesView].[TemplateDesignerMappedCategoryName] AS [TemplateDesignerMappedCategoryName], 
-    [ProductCategoriesView].[ItemId] AS [ItemId], 
-    [ProductCategoriesView].[MinPrice] AS [MinPrice], 
-    [ProductCategoriesView].[CategoryName] AS [CategoryName], 
-    [ProductCategoriesView].[CompanyId] AS [CompanyId], 
-    [ProductCategoriesView].[DefaultItemTax] AS [DefaultItemTax]
-    FROM [dbo].[ProductCategoriesView] AS [ProductCategoriesView]</DefiningQuery>
+            <DefiningQuery>
+              SELECT
+              [ProductCategoriesView].[ProductCategoryId] AS [ProductCategoryId],
+              [ProductCategoriesView].[TemplateDesignerMappedCategoryName] AS [TemplateDesignerMappedCategoryName],
+              [ProductCategoriesView].[ItemId] AS [ItemId],
+              [ProductCategoriesView].[MinPrice] AS [MinPrice],
+              [ProductCategoriesView].[CategoryName] AS [CategoryName],
+              [ProductCategoriesView].[CompanyId] AS [CompanyId],
+              [ProductCategoriesView].[DefaultItemTax] AS [DefaultItemTax]
+              FROM [dbo].[ProductCategoriesView] AS [ProductCategoriesView]
+            </DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_JobCardReport" EntityType="Self.vw_JobCardReport" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_JobCardReport].[EstimateId] AS [EstimateId], 
-    [vw_JobCardReport].[ItemId] AS [ItemId], 
-    [vw_JobCardReport].[UserNotes] AS [UserNotes], 
-    [vw_JobCardReport].[ItemCode] AS [ItemCode], 
-    [vw_JobCardReport].[FirstName] AS [FirstName], 
-    [vw_JobCardReport].[ProductCode] AS [ProductCode], 
-    [vw_JobCardReport].[JobDescription1] AS [JobDescription1], 
-    [vw_JobCardReport].[JobDescription2] AS [JobDescription2], 
-    [vw_JobCardReport].[JobDescription3] AS [JobDescription3], 
-    [vw_JobCardReport].[JobDescription4] AS [JobDescription4], 
-    [vw_JobCardReport].[JobDescription5] AS [JobDescription5], 
-    [vw_JobCardReport].[JobDescription6] AS [JobDescription6], 
-    [vw_JobCardReport].[JobDescription7] AS [JobDescription7], 
-    [vw_JobCardReport].[JobDescriptionTitle1] AS [JobDescriptionTitle1], 
-    [vw_JobCardReport].[JobDescriptionTitle2] AS [JobDescriptionTitle2], 
-    [vw_JobCardReport].[JobDescriptionTitle3] AS [JobDescriptionTitle3], 
-    [vw_JobCardReport].[JobDescriptionTitle4] AS [JobDescriptionTitle4], 
-    [vw_JobCardReport].[JobDescriptionTitle5] AS [JobDescriptionTitle5], 
-    [vw_JobCardReport].[JobDescriptionTitle6] AS [JobDescriptionTitle6], 
-    [vw_JobCardReport].[JobDescriptionTitle7] AS [JobDescriptionTitle7], 
-    [vw_JobCardReport].[ContactFullName] AS [ContactFullName], 
-    [vw_JobCardReport].[MiddleName] AS [MiddleName], 
-    [vw_JobCardReport].[LastName] AS [LastName], 
-    [vw_JobCardReport].[Mobile] AS [Mobile], 
-    [vw_JobCardReport].[CompanyName] AS [CompanyName], 
-    [vw_JobCardReport].[Address1] AS [Address1], 
-    [vw_JobCardReport].[AddressName] AS [AddressName], 
-    [vw_JobCardReport].[Address2] AS [Address2], 
-    [vw_JobCardReport].[Address3] AS [Address3], 
-    [vw_JobCardReport].[City] AS [City], 
-    [vw_JobCardReport].[StateId] AS [StateId], 
-    [vw_JobCardReport].[CountryId] AS [CountryId], 
-    [vw_JobCardReport].[PostCode] AS [PostCode], 
-    [vw_JobCardReport].[Fax] AS [Fax], 
-    [vw_JobCardReport].[Email] AS [Email], 
-    [vw_JobCardReport].[URL] AS [URL], 
-    [vw_JobCardReport].[Tel1] AS [Tel1], 
-    [vw_JobCardReport].[Qty1] AS [Qty1], 
-    [vw_JobCardReport].[ProductName] AS [ProductName], 
-    [vw_JobCardReport].[WebDescription] AS [WebDescription], 
-    [vw_JobCardReport].[JobDescription] AS [JobDescription], 
-    [vw_JobCardReport].[SectionName] AS [SectionName], 
-    [vw_JobCardReport].[SectionNo] AS [SectionNo], 
-    [vw_JobCardReport].[BAddress1] AS [BAddress1], 
-    [vw_JobCardReport].[BAddress2] AS [BAddress2], 
-    [vw_JobCardReport].[BCity] AS [BCity], 
-    [vw_JobCardReport].[BState] AS [BState], 
-    [vw_JobCardReport].[BEmail] AS [BEmail], 
-    [vw_JobCardReport].[FinishDeliveryDate] AS [FinishDeliveryDate], 
-    [vw_JobCardReport].[CreationDate] AS [CreationDate], 
-    [vw_JobCardReport].[StartDeliveryDate] AS [StartDeliveryDate], 
-    [vw_JobCardReport].[CustomerPO] AS [CustomerPO], 
-    [vw_JobCardReport].[BAddressName] AS [BAddressName], 
-    [vw_JobCardReport].[FullName] AS [FullName], 
-    [vw_JobCardReport].[Order_Date] AS [Order_Date], 
-    [vw_JobCardReport].[Qty1WorkInstructions] AS [Qty1WorkInstructions], 
-    [vw_JobCardReport].[CostCenterName] AS [CostCenterName], 
-    [vw_JobCardReport].[ItemNotes] AS [ItemNotes], 
-    [vw_JobCardReport].[Qty1NetTotal] AS [Qty1NetTotal], 
-    [vw_JobCardReport].[Qty1Tax1Value] AS [Qty1Tax1Value], 
-    [vw_JobCardReport].[GrossTotal] AS [GrossTotal], 
-    [vw_JobCardReport].[FullProductName] AS [FullProductName], 
-    [vw_JobCardReport].[BannerPath] AS [BannerPath], 
-    [vw_JobCardReport].[EstimateDescription] AS [EstimateDescription], 
-    [vw_JobCardReport].[ReportBanner] AS [ReportBanner], 
-    [vw_JobCardReport].[OtherItems] AS [OtherItems], 
-    [vw_JobCardReport].[BPostCode] AS [BPostCode], 
-    [vw_JobCardReport].[BCountry] AS [BCountry], 
-    [vw_JobCardReport].[AttachmentsList] AS [AttachmentsList], 
-    [vw_JobCardReport].[PressName] AS [PressName], 
-    [vw_JobCardReport].[StockName] AS [StockName], 
-    [vw_JobCardReport].[DirectOrderLabel] AS [DirectOrderLabel], 
-    [vw_JobCardReport].[JobCode] AS [JobCode], 
-    [vw_JobCardReport].[PaymentType] AS [PaymentType], 
-    [vw_JobCardReport].[PaymentRefNo] AS [PaymentRefNo], 
-    [vw_JobCardReport].[DeliveryMethod] AS [DeliveryMethod], 
-    [vw_JobCardReport].[CurrencySymbol] AS [CurrencySymbol], 
-    [vw_JobCardReport].[StateTaxLabel] AS [StateTaxLabel]
-    FROM [dbo].[vw_JobCardReport] AS [vw_JobCardReport]</DefiningQuery>
+            <DefiningQuery>
+              SELECT
+              [vw_JobCardReport].[EstimateId] AS [EstimateId],
+              [vw_JobCardReport].[ItemId] AS [ItemId],
+              [vw_JobCardReport].[UserNotes] AS [UserNotes],
+              [vw_JobCardReport].[ItemCode] AS [ItemCode],
+              [vw_JobCardReport].[FirstName] AS [FirstName],
+              [vw_JobCardReport].[ProductCode] AS [ProductCode],
+              [vw_JobCardReport].[JobDescription1] AS [JobDescription1],
+              [vw_JobCardReport].[JobDescription2] AS [JobDescription2],
+              [vw_JobCardReport].[JobDescription3] AS [JobDescription3],
+              [vw_JobCardReport].[JobDescription4] AS [JobDescription4],
+              [vw_JobCardReport].[JobDescription5] AS [JobDescription5],
+              [vw_JobCardReport].[JobDescription6] AS [JobDescription6],
+              [vw_JobCardReport].[JobDescription7] AS [JobDescription7],
+              [vw_JobCardReport].[JobDescriptionTitle1] AS [JobDescriptionTitle1],
+              [vw_JobCardReport].[JobDescriptionTitle2] AS [JobDescriptionTitle2],
+              [vw_JobCardReport].[JobDescriptionTitle3] AS [JobDescriptionTitle3],
+              [vw_JobCardReport].[JobDescriptionTitle4] AS [JobDescriptionTitle4],
+              [vw_JobCardReport].[JobDescriptionTitle5] AS [JobDescriptionTitle5],
+              [vw_JobCardReport].[JobDescriptionTitle6] AS [JobDescriptionTitle6],
+              [vw_JobCardReport].[JobDescriptionTitle7] AS [JobDescriptionTitle7],
+              [vw_JobCardReport].[ContactFullName] AS [ContactFullName],
+              [vw_JobCardReport].[MiddleName] AS [MiddleName],
+              [vw_JobCardReport].[LastName] AS [LastName],
+              [vw_JobCardReport].[Mobile] AS [Mobile],
+              [vw_JobCardReport].[CompanyName] AS [CompanyName],
+              [vw_JobCardReport].[Address1] AS [Address1],
+              [vw_JobCardReport].[AddressName] AS [AddressName],
+              [vw_JobCardReport].[Address2] AS [Address2],
+              [vw_JobCardReport].[Address3] AS [Address3],
+              [vw_JobCardReport].[City] AS [City],
+              [vw_JobCardReport].[StateId] AS [StateId],
+              [vw_JobCardReport].[CountryId] AS [CountryId],
+              [vw_JobCardReport].[PostCode] AS [PostCode],
+              [vw_JobCardReport].[Fax] AS [Fax],
+              [vw_JobCardReport].[Email] AS [Email],
+              [vw_JobCardReport].[URL] AS [URL],
+              [vw_JobCardReport].[Tel1] AS [Tel1],
+              [vw_JobCardReport].[Qty1] AS [Qty1],
+              [vw_JobCardReport].[ProductName] AS [ProductName],
+              [vw_JobCardReport].[WebDescription] AS [WebDescription],
+              [vw_JobCardReport].[JobDescription] AS [JobDescription],
+              [vw_JobCardReport].[SectionName] AS [SectionName],
+              [vw_JobCardReport].[SectionNo] AS [SectionNo],
+              [vw_JobCardReport].[BAddress1] AS [BAddress1],
+              [vw_JobCardReport].[BAddress2] AS [BAddress2],
+              [vw_JobCardReport].[BCity] AS [BCity],
+              [vw_JobCardReport].[BState] AS [BState],
+              [vw_JobCardReport].[BEmail] AS [BEmail],
+              [vw_JobCardReport].[FinishDeliveryDate] AS [FinishDeliveryDate],
+              [vw_JobCardReport].[CreationDate] AS [CreationDate],
+              [vw_JobCardReport].[StartDeliveryDate] AS [StartDeliveryDate],
+              [vw_JobCardReport].[CustomerPO] AS [CustomerPO],
+              [vw_JobCardReport].[BAddressName] AS [BAddressName],
+              [vw_JobCardReport].[FullName] AS [FullName],
+              [vw_JobCardReport].[Order_Date] AS [Order_Date],
+              [vw_JobCardReport].[Qty1WorkInstructions] AS [Qty1WorkInstructions],
+              [vw_JobCardReport].[CostCenterName] AS [CostCenterName],
+              [vw_JobCardReport].[ItemNotes] AS [ItemNotes],
+              [vw_JobCardReport].[Qty1NetTotal] AS [Qty1NetTotal],
+              [vw_JobCardReport].[Qty1Tax1Value] AS [Qty1Tax1Value],
+              [vw_JobCardReport].[GrossTotal] AS [GrossTotal],
+              [vw_JobCardReport].[FullProductName] AS [FullProductName],
+              [vw_JobCardReport].[BannerPath] AS [BannerPath],
+              [vw_JobCardReport].[EstimateDescription] AS [EstimateDescription],
+              [vw_JobCardReport].[ReportBanner] AS [ReportBanner],
+              [vw_JobCardReport].[OtherItems] AS [OtherItems],
+              [vw_JobCardReport].[BPostCode] AS [BPostCode],
+              [vw_JobCardReport].[BCountry] AS [BCountry],
+              [vw_JobCardReport].[AttachmentsList] AS [AttachmentsList],
+              [vw_JobCardReport].[PressName] AS [PressName],
+              [vw_JobCardReport].[StockName] AS [StockName],
+              [vw_JobCardReport].[DirectOrderLabel] AS [DirectOrderLabel],
+              [vw_JobCardReport].[JobCode] AS [JobCode],
+              [vw_JobCardReport].[PaymentType] AS [PaymentType],
+              [vw_JobCardReport].[PaymentRefNo] AS [PaymentRefNo],
+              [vw_JobCardReport].[DeliveryMethod] AS [DeliveryMethod],
+              [vw_JobCardReport].[CurrencySymbol] AS [CurrencySymbol],
+              [vw_JobCardReport].[StateTaxLabel] AS [StateTaxLabel]
+              FROM [dbo].[vw_JobCardReport] AS [vw_JobCardReport]
+            </DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_OrderReport" EntityType="Self.vw_OrderReport" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_OrderReport].[ItemID] AS [ItemID], 
-    [vw_OrderReport].[Title] AS [Title], 
-    [vw_OrderReport].[Qty1] AS [Qty1], 
-    [vw_OrderReport].[Qty2] AS [Qty2], 
-    [vw_OrderReport].[Qty3] AS [Qty3], 
-    [vw_OrderReport].[Qty1NetTotal] AS [Qty1NetTotal], 
-    [vw_OrderReport].[Qty2NetTotal] AS [Qty2NetTotal], 
-    [vw_OrderReport].[Qty3NetTotal] AS [Qty3NetTotal], 
-    [vw_OrderReport].[ProductCode] AS [ProductCode], 
-    [vw_OrderReport].[JobDescription1] AS [JobDescription1], 
-    [vw_OrderReport].[JobDescription2] AS [JobDescription2], 
-    [vw_OrderReport].[JobDescription3] AS [JobDescription3], 
-    [vw_OrderReport].[JobDescription4] AS [JobDescription4], 
-    [vw_OrderReport].[JobDescription5] AS [JobDescription5], 
-    [vw_OrderReport].[JobDescription6] AS [JobDescription6], 
-    [vw_OrderReport].[JobDescription7] AS [JobDescription7], 
-    [vw_OrderReport].[JobDescriptionTitle1] AS [JobDescriptionTitle1], 
-    [vw_OrderReport].[JobDescriptionTitle2] AS [JobDescriptionTitle2], 
-    [vw_OrderReport].[JobDescriptionTitle3] AS [JobDescriptionTitle3], 
-    [vw_OrderReport].[JobDescriptionTitle4] AS [JobDescriptionTitle4], 
-    [vw_OrderReport].[JobDescriptionTitle5] AS [JobDescriptionTitle5], 
-    [vw_OrderReport].[JobDescriptionTitle6] AS [JobDescriptionTitle6], 
-    [vw_OrderReport].[JobDescriptionTitle7] AS [JobDescriptionTitle7], 
-    [vw_OrderReport].[JobDescription] AS [JobDescription], 
-    [vw_OrderReport].[Estimate_Name] AS [Estimate_Name], 
-    [vw_OrderReport].[Order_Code] AS [Order_Code], 
-    [vw_OrderReport].[Estimate_Total] AS [Estimate_Total], 
-    [vw_OrderReport].[FootNotes] AS [FootNotes], 
-    [vw_OrderReport].[HeadNotes] AS [HeadNotes], 
-    [vw_OrderReport].[Order_Date] AS [Order_Date], 
-    [vw_OrderReport].[Greeting] AS [Greeting], 
-    [vw_OrderReport].[CustomerPO] AS [CustomerPO], 
-    [vw_OrderReport].[AddressName] AS [AddressName], 
-    [vw_OrderReport].[Address1] AS [Address1], 
-    [vw_OrderReport].[Address2] AS [Address2], 
-    [vw_OrderReport].[Address3] AS [Address3], 
-    [vw_OrderReport].[Email] AS [Email], 
-    [vw_OrderReport].[Fax] AS [Fax], 
-    [vw_OrderReport].[Stateid] AS [Stateid], 
-    [vw_OrderReport].[City] AS [City], 
-    [vw_OrderReport].[URL] AS [URL], 
-    [vw_OrderReport].[Tel1] AS [Tel1], 
-    [vw_OrderReport].[AccountNumber] AS [AccountNumber], 
-    [vw_OrderReport].[PostCode] AS [PostCode], 
-    [vw_OrderReport].[Countryid] AS [Countryid], 
-    [vw_OrderReport].[CustomerName] AS [CustomerName], 
-    [vw_OrderReport].[CustomerURL] AS [CustomerURL], 
-    [vw_OrderReport].[EstimateID] AS [EstimateID], 
-    [vw_OrderReport].[ProductName] AS [ProductName], 
-    [vw_OrderReport].[ContactName] AS [ContactName], 
-    [vw_OrderReport].[ReportTitle] AS [ReportTitle], 
-    [vw_OrderReport].[ReportBanner] AS [ReportBanner], 
-    [vw_OrderReport].[Greetings] AS [Greetings], 
-    [vw_OrderReport].[FullProductName] AS [FullProductName], 
-    [vw_OrderReport].[StockName] AS [StockName], 
-    [vw_OrderReport].[AttachmentsList] AS [AttachmentsList], 
-    [vw_OrderReport].[PaymentDate] AS [PaymentDate], 
-    [vw_OrderReport].[paymentType] AS [paymentType], 
-    [vw_OrderReport].[paymentRefNo] AS [paymentRefNo], 
-    [vw_OrderReport].[TaxLabel] AS [TaxLabel], 
-    [vw_OrderReport].[BAddressName] AS [BAddressName], 
-    [vw_OrderReport].[BPostCode] AS [BPostCode], 
-    [vw_OrderReport].[BCountry] AS [BCountry], 
-    [vw_OrderReport].[BAddress1] AS [BAddress1], 
-    [vw_OrderReport].[BAddress2] AS [BAddress2], 
-    [vw_OrderReport].[BCity] AS [BCity], 
-    [vw_OrderReport].[BState] AS [BState], 
-    [vw_OrderReport].[Qty1Tax1Value] AS [Qty1Tax1Value], 
-    [vw_OrderReport].[CurrencySymbol] AS [CurrencySymbol], 
-    [vw_OrderReport].[EstimateCodeLabel] AS [EstimateCodeLabel], 
-    [vw_OrderReport].[Estimate_Code] AS [Estimate_Code], 
-    [vw_OrderReport].[UserNotes] AS [UserNotes]
-    FROM [dbo].[vw_OrderReport] AS [vw_OrderReport]</DefiningQuery>
+            <DefiningQuery>
+              SELECT
+              [vw_OrderReport].[ItemID] AS [ItemID],
+              [vw_OrderReport].[Title] AS [Title],
+              [vw_OrderReport].[Qty1] AS [Qty1],
+              [vw_OrderReport].[Qty2] AS [Qty2],
+              [vw_OrderReport].[Qty3] AS [Qty3],
+              [vw_OrderReport].[Qty1NetTotal] AS [Qty1NetTotal],
+              [vw_OrderReport].[Qty2NetTotal] AS [Qty2NetTotal],
+              [vw_OrderReport].[Qty3NetTotal] AS [Qty3NetTotal],
+              [vw_OrderReport].[ProductCode] AS [ProductCode],
+              [vw_OrderReport].[JobDescription1] AS [JobDescription1],
+              [vw_OrderReport].[JobDescription2] AS [JobDescription2],
+              [vw_OrderReport].[JobDescription3] AS [JobDescription3],
+              [vw_OrderReport].[JobDescription4] AS [JobDescription4],
+              [vw_OrderReport].[JobDescription5] AS [JobDescription5],
+              [vw_OrderReport].[JobDescription6] AS [JobDescription6],
+              [vw_OrderReport].[JobDescription7] AS [JobDescription7],
+              [vw_OrderReport].[JobDescriptionTitle1] AS [JobDescriptionTitle1],
+              [vw_OrderReport].[JobDescriptionTitle2] AS [JobDescriptionTitle2],
+              [vw_OrderReport].[JobDescriptionTitle3] AS [JobDescriptionTitle3],
+              [vw_OrderReport].[JobDescriptionTitle4] AS [JobDescriptionTitle4],
+              [vw_OrderReport].[JobDescriptionTitle5] AS [JobDescriptionTitle5],
+              [vw_OrderReport].[JobDescriptionTitle6] AS [JobDescriptionTitle6],
+              [vw_OrderReport].[JobDescriptionTitle7] AS [JobDescriptionTitle7],
+              [vw_OrderReport].[JobDescription] AS [JobDescription],
+              [vw_OrderReport].[Estimate_Name] AS [Estimate_Name],
+              [vw_OrderReport].[Order_Code] AS [Order_Code],
+              [vw_OrderReport].[Estimate_Total] AS [Estimate_Total],
+              [vw_OrderReport].[FootNotes] AS [FootNotes],
+              [vw_OrderReport].[HeadNotes] AS [HeadNotes],
+              [vw_OrderReport].[Order_Date] AS [Order_Date],
+              [vw_OrderReport].[Greeting] AS [Greeting],
+              [vw_OrderReport].[CustomerPO] AS [CustomerPO],
+              [vw_OrderReport].[AddressName] AS [AddressName],
+              [vw_OrderReport].[Address1] AS [Address1],
+              [vw_OrderReport].[Address2] AS [Address2],
+              [vw_OrderReport].[Address3] AS [Address3],
+              [vw_OrderReport].[Email] AS [Email],
+              [vw_OrderReport].[Fax] AS [Fax],
+              [vw_OrderReport].[Stateid] AS [Stateid],
+              [vw_OrderReport].[City] AS [City],
+              [vw_OrderReport].[URL] AS [URL],
+              [vw_OrderReport].[Tel1] AS [Tel1],
+              [vw_OrderReport].[AccountNumber] AS [AccountNumber],
+              [vw_OrderReport].[PostCode] AS [PostCode],
+              [vw_OrderReport].[Countryid] AS [Countryid],
+              [vw_OrderReport].[CustomerName] AS [CustomerName],
+              [vw_OrderReport].[CustomerURL] AS [CustomerURL],
+              [vw_OrderReport].[EstimateID] AS [EstimateID],
+              [vw_OrderReport].[ProductName] AS [ProductName],
+              [vw_OrderReport].[ContactName] AS [ContactName],
+              [vw_OrderReport].[ReportTitle] AS [ReportTitle],
+              [vw_OrderReport].[ReportBanner] AS [ReportBanner],
+              [vw_OrderReport].[Greetings] AS [Greetings],
+              [vw_OrderReport].[FullProductName] AS [FullProductName],
+              [vw_OrderReport].[StockName] AS [StockName],
+              [vw_OrderReport].[AttachmentsList] AS [AttachmentsList],
+              [vw_OrderReport].[PaymentDate] AS [PaymentDate],
+              [vw_OrderReport].[paymentType] AS [paymentType],
+              [vw_OrderReport].[paymentRefNo] AS [paymentRefNo],
+              [vw_OrderReport].[TaxLabel] AS [TaxLabel],
+              [vw_OrderReport].[BAddressName] AS [BAddressName],
+              [vw_OrderReport].[BPostCode] AS [BPostCode],
+              [vw_OrderReport].[BCountry] AS [BCountry],
+              [vw_OrderReport].[BAddress1] AS [BAddress1],
+              [vw_OrderReport].[BAddress2] AS [BAddress2],
+              [vw_OrderReport].[BCity] AS [BCity],
+              [vw_OrderReport].[BState] AS [BState],
+              [vw_OrderReport].[Qty1Tax1Value] AS [Qty1Tax1Value],
+              [vw_OrderReport].[CurrencySymbol] AS [CurrencySymbol],
+              [vw_OrderReport].[EstimateCodeLabel] AS [EstimateCodeLabel],
+              [vw_OrderReport].[Estimate_Code] AS [Estimate_Code],
+              [vw_OrderReport].[UserNotes] AS [UserNotes]
+              FROM [dbo].[vw_OrderReport] AS [vw_OrderReport]
+            </DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_SaveDesign" EntityType="Self.vw_SaveDesign" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_SaveDesign].[ItemID] AS [ItemID], 
-    [vw_SaveDesign].[AttachmentItemId] AS [AttachmentItemId], 
-    [vw_SaveDesign].[AttachmentFileName] AS [AttachmentFileName], 
-    [vw_SaveDesign].[AttachmentFolderPath] AS [AttachmentFolderPath], 
-    [vw_SaveDesign].[EstimateID] AS [EstimateID], 
-    [vw_SaveDesign].[ProductName] AS [ProductName], 
-    [vw_SaveDesign].[MinPrice] AS [MinPrice], 
-    [vw_SaveDesign].[IsEnabled] AS [IsEnabled], 
-    [vw_SaveDesign].[IsPublished] AS [IsPublished], 
-    [vw_SaveDesign].[IsArchived] AS [IsArchived], 
-    [vw_SaveDesign].[InvoiceID] AS [InvoiceID], 
-    [vw_SaveDesign].[ContactID] AS [ContactID], 
-    [vw_SaveDesign].[CompanyId] AS [CompanyId], 
-    [vw_SaveDesign].[IsCustomer] AS [IsCustomer], 
-    [vw_SaveDesign].[RefItemID] AS [RefItemID], 
-    [vw_SaveDesign].[StatusID] AS [StatusID], 
-    [vw_SaveDesign].[StatusName] AS [StatusName], 
-    [vw_SaveDesign].[IsOrderedItem] AS [IsOrderedItem], 
-    [vw_SaveDesign].[ItemCreationDateTime] AS [ItemCreationDateTime], 
-    [vw_SaveDesign].[TemplateID] AS [TemplateID]
-    FROM [dbo].[vw_SaveDesign] AS [vw_SaveDesign]</DefiningQuery>
+            <DefiningQuery>
+              SELECT
+              [vw_SaveDesign].[ItemID] AS [ItemID],
+              [vw_SaveDesign].[AttachmentItemId] AS [AttachmentItemId],
+              [vw_SaveDesign].[AttachmentFileName] AS [AttachmentFileName],
+              [vw_SaveDesign].[AttachmentFolderPath] AS [AttachmentFolderPath],
+              [vw_SaveDesign].[EstimateID] AS [EstimateID],
+              [vw_SaveDesign].[ProductName] AS [ProductName],
+              [vw_SaveDesign].[MinPrice] AS [MinPrice],
+              [vw_SaveDesign].[IsEnabled] AS [IsEnabled],
+              [vw_SaveDesign].[IsPublished] AS [IsPublished],
+              [vw_SaveDesign].[IsArchived] AS [IsArchived],
+              [vw_SaveDesign].[InvoiceID] AS [InvoiceID],
+              [vw_SaveDesign].[ContactID] AS [ContactID],
+              [vw_SaveDesign].[CompanyId] AS [CompanyId],
+              [vw_SaveDesign].[IsCustomer] AS [IsCustomer],
+              [vw_SaveDesign].[RefItemID] AS [RefItemID],
+              [vw_SaveDesign].[StatusID] AS [StatusID],
+              [vw_SaveDesign].[StatusName] AS [StatusName],
+              [vw_SaveDesign].[IsOrderedItem] AS [IsOrderedItem],
+              [vw_SaveDesign].[ItemCreationDateTime] AS [ItemCreationDateTime],
+              [vw_SaveDesign].[TemplateID] AS [TemplateID]
+              FROM [dbo].[vw_SaveDesign] AS [vw_SaveDesign]
+            </DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__Activity__Compan__2D3FF3FE" Association="Self.FK__Activity__Compan__2D3FF3FE">
             <End Role="Company" EntitySet="Company" />
@@ -6689,6 +6705,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Status" EntitySet="Status" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
+          <AssociationSet Name="FK_ItemAddonCostCentre_ItemStockOption" Association="Self.FK_ItemAddonCostCentre_ItemStockOption">
+            <End Role="ItemStockOption" EntitySet="ItemStockOption" />
+            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentre" />
+          </AssociationSet>
           <AssociationSet Name="FK_ItemProductDetail_Items" Association="Self.FK_ItemProductDetail_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemProductDetail" EntitySet="ItemProductDetail" />
@@ -6720,10 +6740,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_ItemStateTax_State" Association="Self.FK_ItemStateTax_State">
             <End Role="State" EntitySet="State" />
             <End Role="ItemStateTax" EntitySet="ItemStateTax" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ItemStockOption_ItemAddonCostCentre" Association="Self.FK_ItemStockOption_ItemAddonCostCentre">
-            <End Role="ItemStockOption" EntitySet="ItemStockOption" />
-            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentre" />
           </AssociationSet>
           <AssociationSet Name="FK_ItemStockUpdateHistory_StockItem" Association="Self.FK_ItemStockUpdateHistory_StockItem">
             <End Role="StockItem" EntitySet="StockItem" />
@@ -7146,7 +7162,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="CostcentreInstruction" EntitySet="CostcentreInstruction" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DomainModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -7451,10 +7468,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </AssociationSet>
           <EntitySet Name="GlobalLanguages" EntityType="DomainModels.GlobalLanguage" />
           <EntitySet Name="CampaignEmailQueues" EntityType="DomainModels.CampaignEmailQueue" />
-          <AssociationSet Name="FK_ItemStockOption_ItemAddonCostCentre" Association="DomainModels.FK_ItemStockOption_ItemAddonCostCentre">
-            <End Role="ItemStockOption" EntitySet="ItemStockOptions" />
-            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentres" />
-          </AssociationSet>
           <AssociationSet Name="FK_StockItem_ItemStockOption" Association="DomainModels.FK_StockItem_ItemStockOption">
             <End Role="StockItem" EntitySet="StockItems" />
             <End Role="ItemStockOption" EntitySet="ItemStockOptions" />
@@ -7602,7 +7615,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Organisation" EntitySet="Organisations" />
           </AssociationSet>
           <FunctionImport Name="sp_GetMinimumProductValue" ReturnType="Collection(Double)">
-          <Parameter Name="itemId" Mode="In" Type="Int64" />
+            <Parameter Name="itemId" Mode="In" Type="Int64" />
           </FunctionImport>
           <EntitySet Name="CustomCopies" EntityType="DomainModels.CustomCopy" />
           <EntitySet Name="FavoriteDesigns" EntityType="DomainModels.FavoriteDesign" />
@@ -7624,7 +7637,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="FavoriteDesign" EntitySet="FavoriteDesigns" />
           </AssociationSet>
           <FunctionImport Name="usp_GetRealEstateProducts" ReturnType="Collection(DomainModels.usp_GetRealEstateProducts_Result)">
-          <Parameter Name="ContactCompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ContactCompanyID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Phrases" EntityType="DomainModels.Phrase" />
           <EntitySet Name="PhraseFields" EntityType="DomainModels.PhraseField" />
@@ -7848,23 +7861,23 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="CategoryTerritory" EntitySet="CategoryTerritories" />
           </AssociationSet>
           <FunctionImport Name="usp_DeleteProduct">
-          <Parameter Name="itemid" Mode="In" Type="Int64" />
+            <Parameter Name="itemid" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_DeleteContactCompanyByID">
-          <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="GoodsReceivedNotes" EntityType="DomainModels.GoodsReceivedNote" />
           <EntitySet Name="GoodsReceivedNoteDetails" EntityType="DomainModels.GoodsReceivedNoteDetail" />
           <EntitySet Name="Purchases" EntityType="DomainModels.Purchase" />
           <EntitySet Name="PurchaseDetails" EntityType="DomainModels.PurchaseDetail" />
           <FunctionImport Name="usp_DeleteOrganisation">
-          <Parameter Name="OrganisationID" Mode="In" Type="Int32" />
+            <Parameter Name="OrganisationID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_DeleteCarts">
-          <Parameter Name="CompanyID" Mode="In" Type="Int64" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_DeleteOrderByID">
-          <Parameter Name="OrderID" Mode="In" Type="Int64" />
+            <Parameter Name="OrderID" Mode="In" Type="Int64" />
           </FunctionImport>
           <EntitySet Name="JobPreferences" EntityType="DomainModels.JobPreference" />
           <EntitySet Name="InkPlateSides" EntityType="DomainModels.InkPlateSide" />
@@ -8019,7 +8032,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </AssociationSet>
           <EntitySet Name="StagingImportCompanyContactAddresses" EntityType="DomainModels.StagingImportCompanyContactAddress" />
           <FunctionImport Name="usp_DeletePurchaseOrders">
-          <Parameter Name="OrderID" Mode="In" Type="Int32" />
+            <Parameter Name="OrderID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_GeneratePurchaseOrders">
             <Parameter Name="OrderID" Mode="In" Type="Int32" />
@@ -8057,7 +8070,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="StockItem" EntitySet="StockItems" />
             <End Role="ItemStockUpdateHistory" EntitySet="ItemStockUpdateHistories" />
           </AssociationSet>
-          </EntityContainer>
+          <AssociationSet Name="FK_ItemAddonCostCentre_ItemStockOption" Association="DomainModels.FK_ItemAddonCostCentre_ItemStockOption">
+            <End Role="ItemStockOption" EntitySet="ItemStockOptions" />
+            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentres" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="CompanyId" />
@@ -8194,7 +8211,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_Inquiry_Company" FromRole="Company" ToRole="Inquiry" />
           <NavigationProperty Name="Purchases" Relationship="DomainModels.FK_Purchase_Company" FromRole="Company" ToRole="Purchase" />
           <NavigationProperty Name="GoodsReceivedNotes" Relationship="DomainModels.FK_GoodsReceivedNote_Company" FromRole="Company" ToRole="GoodsReceivedNote" />
-          </EntityType>
+        </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
             <PropertyRef Name="Id" />
@@ -8418,7 +8435,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
           <NavigationProperty Name="ProductCategoryItems" Relationship="DomainModels.FK_ProductCategoryItem_ProductCategory" FromRole="ProductCategory" ToRole="ProductCategoryItem" />
           <NavigationProperty Name="CategoryTerritories" Relationship="DomainModels.FK_CategoryTerritory_ProductCategory" FromRole="ProductCategory" ToRole="CategoryTerritory" />
-          </EntityType>
+        </EntityType>
         <EntityType Name="Widget">
           <Key>
             <PropertyRef Name="WidgetId" />
@@ -9737,8 +9754,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CompanyId" Type="Int64" />
           <Property Name="ImageURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Item" Relationship="DomainModels.itemmidfk" FromRole="ItemStockOption" ToRole="Item" />
-          <NavigationProperty Name="ItemAddonCostCentres" Relationship="DomainModels.FK_ItemStockOption_ItemAddonCostCentre" FromRole="ItemStockOption" ToRole="ItemAddonCostCentre" />
           <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_StockItem_ItemStockOption" FromRole="ItemStockOption" ToRole="StockItem" />
+          <NavigationProperty Name="ItemAddonCostCentres" Relationship="DomainModels.FK_ItemAddonCostCentre_ItemStockOption" FromRole="ItemStockOption" ToRole="ItemAddonCostCentre" />
         </EntityType>
         <EntityType Name="ItemVdpPrice">
           <Key>
@@ -10962,7 +10979,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="Sequence" Type="Int32" />
           <Property Name="IsMandatory" Type="Boolean" />
           <NavigationProperty Name="CostCentre" Relationship="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" FromRole="ItemAddonCostCentre" ToRole="CostCentre" />
-          <NavigationProperty Name="ItemStockOption" Relationship="DomainModels.FK_ItemStockOption_ItemAddonCostCentre" FromRole="ItemAddonCostCentre" ToRole="ItemStockOption" />
+          <NavigationProperty Name="ItemStockOption" Relationship="DomainModels.FK_ItemAddonCostCentre_ItemStockOption" FromRole="ItemAddonCostCentre" ToRole="ItemStockOption" />
         </EntityType>
         <EntityType Name="ItemVideo">
           <Key>
@@ -11229,18 +11246,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CampaignReportId" Type="Int32" />
           <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
-        <Association Name="FK_ItemStockOption_ItemAddonCostCentre">
-          <End Type="DomainModels.ItemStockOption" Role="ItemStockOption" Multiplicity="0..1" />
-          <End Type="DomainModels.ItemAddonCostCentre" Role="ItemAddonCostCentre" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ItemStockOption">
-              <PropertyRef Name="ItemStockOptionId" />
-            </Principal>
-            <Dependent Role="ItemAddonCostCentre">
-              <PropertyRef Name="ItemStockOptionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_StockItem_ItemStockOption">
           <End Type="DomainModels.StockItem" Role="StockItem" Multiplicity="0..1" />
           <End Type="DomainModels.ItemStockOption" Role="ItemStockOption" Multiplicity="*" />
@@ -14744,7 +14749,21 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        </Schema>
+        <Association Name="FK_ItemAddonCostCentre_ItemStockOption">
+          <End Type="DomainModels.ItemStockOption" Role="ItemStockOption" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.ItemAddonCostCentre" Role="ItemAddonCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemStockOption">
+              <PropertyRef Name="ItemStockOptionId" />
+            </Principal>
+            <Dependent Role="ItemAddonCostCentre">
+              <PropertyRef Name="ItemStockOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -15119,7 +15138,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-           <EntitySetMapping Name="StockSubCategories">
+          <EntitySetMapping Name="StockSubCategories">
             <EntityTypeMapping TypeName="DomainModels.StockSubCategory">
               <MappingFragment StoreEntitySet="StockSubCategory">
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
@@ -15166,7 +15185,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="PageTitle" ColumnName="PageTitle" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
-               </MappingFragment>
+              </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StockCostAndPrices">
@@ -19424,6 +19443,336 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams></Diagrams>
+    <Diagrams>
+      <Diagram DiagramId="5fdc2183b6b64ee688173e62e2591107" Name="Diagram1">
+        <EntityTypeShape EntityType="DomainModels.Company" Width="1.5" PointX="3" PointY="143.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="5.25" PointY="155.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidgetParam" Width="1.5" PointX="7.5" PointY="144.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyBanner" Width="1.5" PointX="7.5" PointY="128.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyBannerSet" Width="1.5" PointX="5.25" PointY="129.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyDomain" Width="1.5" PointX="5.25" PointY="133.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Markup" Width="1.5" PointX="5.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Organisation" Width="1.5" PointX="3" PointY="129.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PaperSize" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ProductCategory" Width="1.5" PointX="5.25" PointY="135.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Widget" Width="1.5" PointX="3" PointY="171.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CategoryTerritory" Width="1.5" PointX="7.5" PointY="140.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CmsPage" Width="1.5" PointX="8.25" PointY="153" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.StockCategory" Width="1.5" PointX="9" PointY="171.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.StockSubCategory" Width="1.5" PointX="9" PointY="177.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.StockCostAndPrice" Width="1.5" PointX="13.5" PointY="149.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.StockItem" Width="1.5" PointX="11.25" PointY="148.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PageCategory" Width="1.5" PointX="6" PointY="181" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Section" Width="1.5" PointX="17.5" PointY="141.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SectionFlag" Width="1.5" PointX="19.75" PointY="141.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.WeightUnit" Width="1.5" PointX="0.75" PointY="129" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyContact" Width="1.5" PointX="13.75" PointY="154.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyContactRole" Width="1.5" PointX="11.5" PointY="170.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyTerritory" Width="1.5" PointX="5.25" PointY="173.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyType" Width="1.5" PointX="0.75" PointY="155.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCentre" Width="1.5" PointX="38.5" PointY="111.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemAttachment" Width="1.5" PointX="29.5" PointY="141.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemImage" Width="1.5" PointX="29.5" PointY="147.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemPriceMatrix" Width="1.5" PointX="29.5" PointY="150.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemProductDetail" Width="1.5" PointX="29.5" PointY="161.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemRelatedItem" Width="1.5" PointX="29.5" PointY="165.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Item" Width="1.5" PointX="27.25" PointY="132.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemSection" Width="1.5" PointX="35.5" PointY="139.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemStockControl" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemStockOption" Width="1.5" PointX="32.5" PointY="155.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemVdpPrice" Width="1.5" PointX="29.5" PointY="169.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Country" Width="1.5" PointX="5.25" PointY="169.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SectionCostcentre" Width="1.5" PointX="40.75" PointY="146.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SectionCostCentreDetail" Width="1.5" PointX="46" PointY="155" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SectionCostCentreResource" Width="1.5" PointX="43" PointY="159.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.State" Width="1.5" PointX="5.25" PointY="177" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Status" Width="1.5" PointX="25" PointY="142.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SystemEmail" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Estimate" Width="1.5" PointX="22" PointY="149.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PaymentGateway" Width="1.5" PointX="5.25" PointY="149.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PaymentMethod" Width="1.5" PointX="3" PointY="140.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PrePayment" Width="1.5" PointX="30.25" PointY="156.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.RaveReview" Width="1.5" PointX="5.25" PointY="201.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.EmailEvent" Width="1.5" PointX="14" PointY="142.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Inquiry" Width="1.5" PointX="19" PointY="165.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.InquiryAttachment" Width="1.5" PointX="21.25" PointY="169.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.InquiryItem" Width="1.5" PointX="24.25" PointY="166.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Invoice" Width="1.5" PointX="25" PointY="153.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.InvoiceDetail" Width="1.5" PointX="32.5" PointY="159.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.LengthUnit" Width="1.5" PointX="0.75" PointY="131.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PaperBasisArea" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.RegistrationQuestion" Width="1.5" PointX="11.5" PointY="173.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Campaign" Width="1.5" PointX="16.25" PointY="146.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CampaignEmailVariable" Width="1.5" PointX="19.75" PointY="137" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CampaignImage" Width="1.5" PointX="18.5" PointY="161.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.DeliveryNote" Width="1.5" PointX="5.25" PointY="160" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.DeliveryNoteDetail" Width="1.5" PointX="32.5" PointY="151.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyCMYKColor" Width="1.5" PointX="5.25" PointY="213.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.DiscountVoucher" Width="1.5" PointX="2.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.GetItemsListView" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Currency" Width="1.5" PointX="0.75" PointY="134.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Prefix" Width="1.5" PointX="8" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemAddonCostCentre" Width="1.5" PointX="43.75" PointY="155.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemVideo" Width="1.5" PointX="29.5" PointY="214" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Address" Width="1.5" PointX="7.5" PointY="161.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ColorPallete" Width="1.5" PointX="5.25" PointY="238.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Template" Width="1.5" PointX="25" PointY="130.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.TemplatePage" Width="1.5" PointX="27.25" PointY="121.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.GlobalLanguage" Width="1.5" PointX="0.75" PointY="137.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CampaignEmailQueue" Width="1.5" PointX="4.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CmsPageTag" Width="1.5" PointX="18.5" PointY="149.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CmsTag" Width="1.5" PointX="16.25" PointY="138.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCentreType" Width="1.5" PointX="36.25" PointY="123.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.FieldVariable" Width="1.5" PointX="5.25" PointY="245.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.TemplateVariable" Width="1.5" PointX="7.5" PointY="242.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.VariableSection" Width="1.5" PointX="6.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.TemplateBackgroundImage" Width="1.5" PointX="27.25" PointY="115.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.TemplateObject" Width="1.5" PointX="27.25" PointY="101.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.GetCategoryProduct" Width="1.5" PointX="12.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemStateTax" Width="1.5" PointX="32.5" PointY="147.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ProductMarketBriefAnswer" Width="1.5" PointX="31.75" PointY="220.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ProductMarketBriefQuestion" Width="1.5" PointX="29.5" PointY="220" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Role" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ProductCategoryItem" Width="1.5" PointX="7.5" PointY="137.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.TemplateColorStyle" Width="1.5" PointX="8.25" PointY="147.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.TemplateFont" Width="1.5" PointX="27.25" PointY="128.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ProductCategoriesView" Width="1.5" PointX="14.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ImagePermission" Width="1.5" PointX="29.5" PointY="117.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CustomCopy" Width="1.5" PointX="14.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.FavoriteDesign" Width="1.5" PointX="38.5" PointY="157.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Listing" Width="1.5" PointX="14.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ListingAgent" Width="1.5" PointX="6.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ListingConjunctionAgent" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ListingFloorPlan" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ListingImage" Width="1.5" PointX="16.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ListingLink" Width="1.5" PointX="16.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ListingOFI" Width="1.5" PointX="16.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ListingVendor" Width="1.5" PointX="16.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyVariableIcon" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Phrase" Width="1.5" PointX="22" PointY="146" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PhraseField" Width="1.5" PointX="19.75" PointY="145.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCentreAnswer" Width="1.5" PointX="2.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostcentreInstruction" Width="1.5" PointX="40.75" PointY="122.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCentreMatrix" Width="1.5" PointX="18.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCentreMatrixDetail" Width="1.5" PointX="18.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCentreQuestion" Width="1.5" PointX="18.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostcentreResource" Width="1.5" PointX="40.75" PointY="125.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostcentreSystemType" Width="1.5" PointX="18.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCentreTemplate" Width="1.5" PointX="18.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCentreVariable" Width="1.5" PointX="16.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCentreVariableType" Width="1.5" PointX="18.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostcentreWorkInstructionsChoice" Width="1.5" PointX="43" PointY="122.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CmsOffer" Width="1.5" PointX="5.25" PointY="258.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ItemStockUpdateHistory" Width="1.5" PointX="13.5" PointY="146.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MediaLibrary" Width="1.5" PointX="5.25" PointY="262.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.LookupMethod" Width="1.5" PointX="31" PointY="130.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Machine" Width="1.5" PointX="33.25" PointY="125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineInkCoverage" Width="1.5" PointX="35.5" PointY="129.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineResource" Width="1.5" PointX="35.5" PointY="131.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineCategory" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CompanyCostCentre" Width="1.5" PointX="10.25" PointY="166.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Group" Width="1.5" PointX="20.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.CostCenterChoice" Width="1.5" PointX="4.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.InkCoverageGroup" Width="1.5" PointX="6.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineSpoilage" Width="1.5" PointX="20.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Report" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ReportNote" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PipeLineProduct" Width="1.5" PointX="22" PointY="172.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PipeLineSource" Width="1.5" PointX="20.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Activity" Width="1.5" PointX="5.25" PointY="268.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ActivityType" Width="1.5" PointX="20.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.VariableOption" Width="1.5" PointX="7.5" PointY="245" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SmartForm" Width="1.5" PointX="5.25" PointY="278.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SmartFormDetail" Width="1.5" PointX="7.5" PointY="261.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.DeliveryCarrier" Width="1.5" PointX="20.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PaypalPaymentRequest" Width="1.5" PointX="20.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PayPalResponse" Width="1.5" PointX="28" PointY="181.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.NABTransaction" Width="1.5" PointX="0.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ScopeVariable" Width="1.5" PointX="7.5" PointY="247.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SaveDesignView" Width="1.5" PointX="22.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.NewsLetterSubscriber" Width="1.5" PointX="16" PointY="196.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineClickChargeLookup" Width="1.5" PointX="33.25" PointY="108.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineClickChargeZone" Width="1.5" PointX="33.25" PointY="82.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineGuillotineCalc" Width="1.5" PointX="33.25" PointY="111.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineGuilotinePtv" Width="1.5" PointX="22.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineMeterPerHourLookup" Width="1.5" PointX="33.25" PointY="100.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachinePerHourLookup" Width="1.5" PointX="33.25" PointY="115.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineSpeedWeightLookup" Width="1.5" PointX="33.25" PointY="170" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SystemUser" Width="1.5" PointX="8.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.GoodsReceivedNote" Width="1.5" PointX="11.25" PointY="139.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.GoodsReceivedNoteDetail" Width="1.5" PointX="38.5" PointY="149.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Purchase" Width="1.5" PointX="19.25" PointY="153" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.PurchaseDetail" Width="1.5" PointX="38.5" PointY="161.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.JobPreference" Width="1.5" PointX="22.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.InkPlateSide" Width="1.5" PointX="10.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.SectionInkCoverage" Width="1.5" PointX="37.75" PointY="176.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.JobCardReportView" Width="1.5" PointX="22.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.OrderReportView" Width="1.5" PointX="18.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ReportCategory" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.ShippingInformation" Width="1.5" PointX="32.5" PointY="165.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Reportparam" Width="1.5" PointX="2.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.MachineLookupMethod" Width="1.5" PointX="35.5" PointY="134.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.StagingImportCompanyContactAddress" Width="1.5" PointX="4.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.VariableExtension" Width="1.5" PointX="7.5" PointY="250.625" IsExpanded="true" />
+        <AssociationConnector Association="DomainModels.FK_Company_CmsSkinPageWidget" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsWidgets" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CompanyDomain_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CompanySet_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CompanyBanner_CompanySet" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_StockCategory_StockSubCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stockcategories" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_stock_cost_and_price_tbl_stockitems" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_section_flags_tbl_sections" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_contactcompanies_tbl_contactcompanytypes" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_contactcompanyuserroles" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_item_attachments_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.itemIDfk" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_items_PriceMatrix_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_items_RelatedItems_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemVDPPrice_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_item_sections_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.itemmidfk" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_items_tbl_Statuses" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_resources_tbl_section_costcentres" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_Statuses" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_items_tbl_estimates" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_PrePayments_tbl_estimates" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_PaymentGateways_tbl_PaymentMethods" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_PrePayments_tbl_PaymentMethods" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_RaveReview_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_Registration_Questions" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_Inquiry_tbl_contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_Inquiry_Attachments_tbl_Inquiry" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_Inquiry_Items_tbl_Inquiry" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_invoicedetails_tbl_invoices" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_items_tbl_invoices" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_invoicedetails_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_CampaignImages_tbl_campaigns" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CompanyCMYKColor_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_prefixes_tbl_markup" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemVideo_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_addresses_tbl_contactcompanies" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_addresses" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Templates_TemplatePages" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Template_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_StockItem_ItemStockOption" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_PageCategory_CmsPage" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_webcmsPageTags_webcmsPages" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_webcmsPageTags_webcmsTags" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_costcentres_tbl_costcentretypes" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Objects_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ProductBackgroundImages_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Company_Campaign" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_EventEmail_Campaign" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_PaymentGateway_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemStateTax_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemStateTax_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemStateTax_State" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ProductCategoryItem_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ProductCategoryItem_ProductCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK__Address__Country__1765C178" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK__Address__StateId__1859E5B1" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK__Organisat__Count__16719D3F" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK__Organisat__State__157D7906" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ColorStyles_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ProductFonts_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemProductDetail_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Items_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies1" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK__ImagePerm__Image__60D4A69D" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_GlobalLanguage" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_FavoriteDesign_tbl_items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.fk_sectionId" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Phrase_PhraseField" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ColorPallete_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_costcentre_resources_tbl_costcentres" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.tbl_costcentres_tbl_costcentre_instructions" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_StockItem_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CmsOffer_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_MediaLibrary_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_ink_coverage" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_resource" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CompanyCostCentre_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CompanyCostCentre_CostCentre" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CampaignEmailVariable_Section" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_Machine" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_StockItem" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CompanyContact_ShippingAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_LengthUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_WeightUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK__Activity__Compan__2D3FF3FE" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Invoice_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_SmartForm_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_SmartFormDetail_SmartForm" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_FieldVariable_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Invoice_CompanyContact" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Invoice_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_PrePayments_tbl_PayPalResponses" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CmsSkinPageWidget_CmsPage" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_cmsSkinPageWidgetParam_cmsSkinPageWidget" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_clickchargelookup" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_clickchargezone" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_guillotinecalc" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_meterperhourlookup" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_perhourlookup" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_CategoryTerritory_ProductCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Estimate_SectionFlag" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_TemplateColorStyle_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_reports_tbl_reportcategory" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_report_notes_tbl_reportcategory" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ShippingInformation_Estimate" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ShippingInformation_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ShippingInformation_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_SectionCostcentre_ItemSection" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_SectionInkCoverage_ItemSection" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_SectionCostCentreDetail_SectionCostcentre" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_DeliveryNote_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Inquiry_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_lookup_methods" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Machine_LookupMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ProductMarketBriefQuestion_Item" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_DeliveryNote_SectionFlag" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_DeliveryNoteDetail_DeliveryNote" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_InquiryItem_Pipelineproduct" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_Machine2" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ScopeVariable_FieldVariable" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_SmartFormDetail_FieldVariable" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_TemplateVariable_FieldVariable" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_VariableOption_FieldVariable" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_PurchaseDetail_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Purchase_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_Purchase_SectionFlag" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_PurchaseDetail_Purchase" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_GoodsReceivedNote_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_GoodsReceivedNote_SectionFlag" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_GoodsReceivedNoteDetail_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_GoodsReceivedNoteDetail_GoodsReceivedNote" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_VariableExtension_FieldVariable" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemStockUpdateHistory_StockItem" ManuallyRouted="false" />
+        <AssociationConnector Association="DomainModels.FK_ItemAddonCostCentre_ItemStockOption" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
   </Designer>
 </edmx:Edmx>

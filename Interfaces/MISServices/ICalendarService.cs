@@ -16,6 +16,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         CalendarBaseResponse GetBaseData();
 
+      
+
         /// <summary>
         /// Get Companies By Is Customer Type
         /// </summary>
