@@ -209,6 +209,35 @@ define("invoice/invoice.viewModel",
                         }
                         closeInvoiceEditor();
                     },
+
+                    // report preview
+                    openExternalReportsInvoice = function () {
+
+                       
+
+                        reportManager.outputTo("preview");
+
+                       
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                       
+
+
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
+                    },
+
+
+                    openExternalEmailInvoiceReport = function () {
+                        reportManager.outputTo("email");
+                       
+                        reportManager.SetOrderData(selectedInvoice().invoiceReportSignedBy(), selectedInvoice().contactId(), selectedInvoice().id(), 4, selectedInvoice().id(), "");
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                        
+
+                    }
+
                     // Close Editor
                     closeInvoiceEditor = function () {
                         selectedInvoice(model.Invoice.Create({}));
@@ -1144,7 +1173,9 @@ define("invoice/invoice.viewModel",
                     pageCode: pageCode,
                     selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
                     selectEstimatePhraseContainer: selectEstimatePhraseContainer,
-                    openPhraseLibrary: openPhraseLibrary
+                    openPhraseLibrary: openPhraseLibrary,
+                    openExternalReportsInvoice: openExternalReportsInvoice,
+                    openExternalEmailInvoiceReport: openExternalEmailInvoiceReport
                     //#endregion
                 };
             })()
