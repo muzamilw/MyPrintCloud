@@ -469,6 +469,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemPriceMatrices = ko.observableArray([]),
             // Product Category Items
             productCategoryItems = ko.observableArray([]),
+            // Product Category Element
+            productCategoryElement = ko.observable(),
             // Item Images
             itemImages = ko.observableArray([]),
             // Product Market Brief Questions
@@ -1403,6 +1405,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         validationSummaryList.push({ name: errorName, element: nameElement });
                     }
                 }
+                // Check if a category is selected
+                if (!availableProductCategoryItems()) {
+                    validationSummaryList.push({ name: "Product should have atleast one category", element: productCategoryElement.domElement });
+                }
             },
             // True if the product has been changed
             // ReSharper disable InconsistentNaming
@@ -1766,7 +1772,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription9: jobDescription9,
             jobDescription10: jobDescription10,
             isTemplateTabsVisible: isTemplateTabsVisible,
-           
             flagId: flagId,
             internalFlagId: internalFlagId,
             isQtyRangedUi: isQtyRangedUi,
@@ -1832,6 +1837,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemPriceMatrices: itemPriceMatrices,
             productCategoryItems: productCategoryItems,
             availableProductCategoryItems: availableProductCategoryItems,
+            productCategoryElement: productCategoryElement,
             itemSections: itemSections,
             itemPriceMatricesForCurrentFlag: itemPriceMatricesForCurrentFlag,
             itemPriceMatricesForSupplierId1: itemPriceMatricesForSupplierId1,
@@ -3511,7 +3517,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Product Category Entity
-    ProductCategory = function (specifiedId, specifiedName, specifiedIsSelected, specifiedParentCategoryId) {
+    ProductCategory = function (specifiedId, specifiedName, specifiedIsSelected, specifiedParentCategoryId, specifiedIsArchived) {
         // True If Selected
         var isSelected = ko.observable(specifiedIsSelected || undefined);
 
@@ -3519,7 +3525,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: specifiedId,
             name: specifiedName,
             isSelected: isSelected,
-            parentCategoryId: specifiedParentCategoryId
+            parentCategoryId: specifiedParentCategoryId,
+            isArchived: specifiedIsArchived
         };
     },
 
@@ -4209,7 +4216,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Product Category Factory
     ProductCategory.Create = function (source) {
-        var productCategory = new ProductCategory(source.ProductCategoryId, source.CategoryName, source.IsSelected, source.ParentCategoryId);
+        var productCategory = new ProductCategory(source.ProductCategoryId, source.CategoryName, source.IsSelected, source.ParentCategoryId, source.IsArchived);
 
         return productCategory;
     };

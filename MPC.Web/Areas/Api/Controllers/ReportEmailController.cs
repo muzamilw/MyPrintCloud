@@ -47,6 +47,7 @@ namespace MPC.MIS.Areas.Api.Controllers
              }
              else
              {
+
                  var result = _IReportService.GetReportEmailBaseData(request);
                  return new ReportEmailResponse
                  {

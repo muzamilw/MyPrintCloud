@@ -10,6 +10,7 @@ namespace MPC.Interfaces.MISServices
     public interface ICategoryService
     {
         List<ProductCategory> GetChildCategories(int categoryId);
+        List<ProductCategory> GetChildCategoriesIncludingArchive(int categoryId);
         ProductCategory GetProductCategoryById(int categoryId);
         ProductCategory Save(ProductCategory productCategory);
 

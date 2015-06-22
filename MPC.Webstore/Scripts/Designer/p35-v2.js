@@ -1621,18 +1621,18 @@ $("#BtnTxtCanvasAlignLeft").click(function (ev) {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type == "text" || D1AO.type === 'i-text')) {
         if (!IsBC) {
-            D1AO.left = Template.CuttingMargin + D1AO.width / 2 + 8.49;
+            D1AO.left = (Template.CuttingMargin * dfZ1l )+ (D1AO.maxWidth * dfZ1l) / 2 + 8.49;
         } else {
-            D1AO.left = Template.CuttingMargin + D1AO.width / 2 + 8.49 + 5;
+            D1AO.left = (Template.CuttingMargin * dfZ1l) + (D1AO.maxWidth * dfZ1l) / 2 + 8.49 + 5;
         }
         D1AO.setCoords();
         canvas.renderAll();
     } else {
         if (D1AO) {
             if (!IsBC) {
-                D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
+                D1AO.left = (Template.CuttingMargin * dfZ1l )+ (D1AO.currentWidth * dfZ1l) / 2 + 8.49;
             } else {
-                D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
+                D1AO.left = (Template.CuttingMargin * dfZ1l) + (D1AO.currentWidth * dfZ1l) / 2 + 8.49;
             }
             D1AO.setCoords();
             canvas.renderAll();
@@ -1724,9 +1724,9 @@ $("#BtnTxtCanvasAlignRight").click(function (ev) {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type == "text" || D1AO.type === 'i-text')) {
         if (!IsBC) {
-            D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.width / 2 - 8.49;
+            D1AO.left = canvas.getWidth() - (Template.CuttingMargin * dfZ1l ) - (D1AO.width* dfZ1l ) / 2 - 8.49;
         } else {
-            D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.width / 2 - 8.49 - 5;
+            D1AO.left = canvas.getWidth() - (Template.CuttingMargin * dfZ1l) - (D1AO.width * dfZ1l) / 2 - 8.49 - 5;
         }
         D1AO.setCoords();
         canvas.renderAll();
@@ -1804,7 +1804,7 @@ $('#BtnImgCanvasAlignCenter').click(function (event) {
 $('#btnImgCanvasAlignLeft').click(function (event) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
-        D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
+        D1AO.left = (Template.CuttingMargin * dfZ1l) + (D1AO.getWidth()) / 2 + 8.49;
         D1AO.setCoords();
         canvas.renderAll();
     }
@@ -1812,7 +1812,7 @@ $('#btnImgCanvasAlignLeft').click(function (event) {
 $('#BtnImgCanvasAlignRight').click(function (event) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
-        D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.currentWidth / 2 - 8.49;
+        D1AO.left = canvas.getWidth() - (Template.CuttingMargin * dfZ1l) - (D1AO.getWidth()) / 2 - 8.49;
         D1AO.setCoords();
         canvas.renderAll();
     }

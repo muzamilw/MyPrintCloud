@@ -11,16 +11,25 @@ define("common/companySelector.viewModel",
                     view,
                     // Stock Items
                     companies = ko.observableArray([]),
+                    // Company Contacts
+                    companyContacts = ko.observableArray([]),
                     // company Dialog Filter
                     companyDialogFilter = ko.observable(),
                     // company Dialog is Customer Filter
                     companyDialogStoreTypeFilter = ko.observableArray([]),
                     // Is Opened from Order
                     isOpenedFromOrder = ko.observable(),
-                    // Pagination For Press Dialog
+                    // Pagination For Company Dialog
                     companyDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, companies)),
+                    // Pagination For Contact Dialog
+                    companyContactDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, companyContacts)),
                     // Search Stock Items
                     searchCompanies = function () {
+                        if (isOpenedFromOrder()) {
+                            companyContactDialogPager().reset();
+                            getCompanyContacts();
+                            return;
+                        }
                         companyDialogPager().reset();
                         getCompanies();
                     },
@@ -32,8 +41,11 @@ define("common/companySelector.viewModel",
                         afterSelect = null;
                         // Reset List
                         companies.removeAll();
+                        companyContacts.removeAll();
                         // Reset Pager
                         companyDialogPager().reset();
+                        // Reset Pager
+                        companyContactDialogPager().reset();
                     },
                     // after selection
                     afterSelect = null,
@@ -53,16 +65,22 @@ define("common/companySelector.viewModel",
                         if (storeType) {
                             companyDialogStoreTypeFilter(storeType);
                         }
-
                         isOpenedFromOrder(isForOrder || undefined);
-
                         afterSelect = afterSelectCallback;
+                        if (isForOrder) {
+                            getCompanyContacts();
+                            return;
+                        }
                         getCompanies();
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
                         if (afterSelect && typeof afterSelect === "function") {
-                            afterSelect(company);
+                            afterSelect(isOpenedFromOrder() ?
+                                {
+                                    id: company.companyId, name: company.companyName, isCustomer: company.isCustomer, storeId: company.storeId,
+                                    contactId: company.id, addressId: company.addressId
+                        } : company);
                         }
                         view.hideDialog();
                     },
@@ -71,6 +89,7 @@ define("common/companySelector.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         companyDialogPager(new pagination.Pagination({ PageSize: 5 }, companies, getCompanies));
+                        companyContactDialogPager(new pagination.Pagination({ PageSize: 5 }, companyContacts, getCompanyContacts));
                     },
                     // Map Stock Items 
                     mapCompanies = function (data) {
@@ -82,6 +101,38 @@ define("common/companySelector.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(companies(), itemsList);
                         companies.valueHasMutated();
+                    },
+                    // Map Company Contacts 
+                    mapCompanyContacts = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.CompanyContact.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(companyContacts(), itemsList);
+                        companyContacts.valueHasMutated();
+                    },
+                    // Get Contact Companies
+                    getCompanyContacts = function () {
+                        dataservice.getCompanyContactsForOrderByType({
+                            SearchString: companyDialogFilter(),
+                            PageSize: companyContactDialogPager().pageSize(),
+                            PageNo: companyContactDialogPager().currentPage(),
+                            CustomerTypes: companyDialogStoreTypeFilter(),
+                            ForOrder: isOpenedFromOrder()
+                        }, {
+                            success: function (data) {
+                                companyContacts.removeAll();
+                                if (data && data.RowCount > 0) {
+                                    mapCompanyContacts(data.CompanyContacts);
+                                    companyContactDialogPager().totalCount(data.RowCount);
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load company items" + response);
+                            }
+                        });
                     },
                     // Get Stock Items
                     getCompanies = function () {
@@ -109,9 +160,12 @@ define("common/companySelector.viewModel",
                     //Arrays
                     companyDialogFilter: companyDialogFilter,
                     companies: companies,
+                    companyContacts: companyContacts,
                     searchCompanies: searchCompanies,
                     resetCompanies: resetCompanies,
                     companyDialogPager: companyDialogPager,
+                    companyContactDialogPager: companyContactDialogPager,
+                    isOpenedFromOrder: isOpenedFromOrder,
                     //Utilities
                     onSelectCompany: onSelectCompany,
                     initialize: initialize,

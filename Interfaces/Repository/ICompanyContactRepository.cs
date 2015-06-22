@@ -21,6 +21,7 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetContactById(int contactId);
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
+        ContactsResponseForOrder GetContactsForOrder(CompanyRequestModelForCalendar request);
         CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId, bool isAutoRegister);
         CompanyContact GetContactByID(Int64 ContactID);
 
