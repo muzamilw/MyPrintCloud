@@ -143,6 +143,12 @@ define("purchaseOrders/purchaseOrders.viewModel",
                             }
                         });
                     },
+                      formatSelection = function (state) {
+                          return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                      },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                     // Get Purchase Order By Id
                     getPurchaseOrderById = function (id) {
                         isCompanyBaseDataLoaded(false);
@@ -414,6 +420,31 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         confirmation.show();
                         return;
                     },
+
+                    //  report preview
+                      // report preview
+                    openExternalReportsPurchase = function () {
+
+                        reportManager.outputTo("preview");
+
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+
+
+
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
+                    },
+
+                    openExternalEmailPurchaseReport = function () {
+                        reportManager.outputTo("email");
+
+                        reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), selectedPurchaseOrder().id(), 6, selectedPurchaseOrder().id(), "");
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+
+
+                    }
 
                     // Cancel purchase Order
                     onCancelPurchaseOrder = function (purchase) {
@@ -914,7 +945,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     editGRNDetail: editGRNDetail,
                     deliveryCarriers: deliveryCarriers,
                     saveGRNDetail: saveGRNDetail,
-                    onDeleteGRNDetail: onDeleteGRNDetail
+                    onDeleteGRNDetail: onDeleteGRNDetail,
+                    openExternalReportsPurchase: openExternalReportsPurchase,
+                    openExternalEmailPurchaseReport: openExternalEmailPurchaseReport,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult
                 };
             })()
         };

@@ -5787,6 +5787,7 @@ foreign key (ItemStockOptionId)
 references ItemStockOption (ItemStockOptionId)
 on delete cascade
 
+-----Executed on All servers on 20150618------------
 /* Execution Date: 19/06/2015 */
 
 alter table ItemStockUpdateHistory

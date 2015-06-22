@@ -118,7 +118,12 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         }
                     });
                 },
-
+                  formatSelection = function (state) {
+                      return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                  },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                 // Get Delivery Note By ID
                 getDetaildeliveryNote = function (id) {
                     isCompanyBaseDataLoaded(false);
@@ -185,6 +190,32 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         }
                         isEditorVisible(false);
                     },
+
+                     // report preview
+                    openExternalReportsDelivery = function () {
+
+                        reportManager.outputTo("preview");
+
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+
+
+
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
+                    },
+
+                    openExternalEmailDeliveryReport = function () {
+                        reportManager.outputTo("email");
+
+                        reportManager.SetOrderData(selectedDeliveryNote().raisedBy(), selectedDeliveryNote().contactId(), selectedDeliveryNote().deliveryNoteId(), 5, selectedDeliveryNote().deliveryNoteId(), "");
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+
+
+                    }
+
+
                      // Open Company Dialog
                     openCompanyDialog = function () {
                         companySelector.show(onSelectCompany, [0, 1, 3]);
@@ -468,7 +499,12 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     onPostDeliveryNote: onPostDeliveryNote,
                     currentTab: currentTab,
                     getDeliveryNotesOnTabChange: getDeliveryNotesOnTabChange,
-                    openReport: openReport
+                    openReport: openReport,
+                    openExternalReportsDelivery: openExternalReportsDelivery,
+                    openExternalEmailDeliveryReport: openExternalEmailDeliveryReport,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult
+
                 };
             })()
         };

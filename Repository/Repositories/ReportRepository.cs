@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Data;
 using MPC.Models.ResponseModels;
 using MPC.Models.RequestModels;
+using MPC.Models.Common;
 
 namespace MPC.Repository.Repositories
 {
@@ -406,6 +407,19 @@ namespace MPC.Repository.Repositories
             }
         }
 
+
+
+        public List<usp_DeliveryReport_Result> GetDeliveryNoteReport(long deliveryId)
+        {
+            try
+            {
+                return db.usp_DeliveryReport(OrganisationId, deliveryId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request, string Path)
         {
             try
@@ -417,8 +431,8 @@ namespace MPC.Repository.Repositories
                 string subject = string.Empty;
                 string signature = string.Empty;
 
-
-                int isExternalReport = db.Reports.Where(c => c.ReportId == request.Reportid).Select(c => c.IsExternal).FirstOrDefault();
+                
+                int reportCategory = db.Reports.Where(c => c.ReportId == request.Reportid).Select(c => c.CategoryId).FirstOrDefault();
 
 
                 SystemUser systemUser = db.SystemUsers.Where(c => c.SystemUserId == request.SignedBy).FirstOrDefault();
@@ -426,10 +440,32 @@ namespace MPC.Repository.Repositories
 
                 string Email = db.CompanyContacts.Where(x => x.ContactId == request.ContactId).Select(c => c.Email).FirstOrDefault();
 
+                if (reportCategory == (int)ReportCategoryEnum.Invoice)
+                {
+                    Invoice inv = db.Invoices.Where(c => c.InvoiceId == request.RecordId).FirstOrDefault();
+                    
+                    subject = inv.InvoiceName + " " + inv.Company.Name + " " + inv.InvoiceCode;
+                }
+                else if (reportCategory == (int)ReportCategoryEnum.Delivery)
+                {
+                    DeliveryNote delivery = db.DeliveryNotes.Where(c => c.DeliveryNoteId == request.RecordId).FirstOrDefault();
 
-                Estimate order = db.Estimates.Where(c => c.EstimateId == request.RecordId).FirstOrDefault();
+                    subject =  delivery.Company.Name + " " + delivery.Code;
+                }
+                else if (reportCategory == (int)ReportCategoryEnum.PurchaseOrders)
+                {
+                    Purchase purchase = db.Purchases.Where(c => c.PurchaseId == request.RecordId).FirstOrDefault();
+
+                    subject =  purchase.Company.Name + " " + purchase.Code;
+                }
+                else
+                {
+                    Estimate order = db.Estimates.Where(c => c.EstimateId == request.RecordId).FirstOrDefault();
+                   
+                    subject = order.Estimate_Name + " " + order.Company.Name + " " + order.Order_Code;
+                }
+
                 To = Email;
-                subject = order.Estimate_Name + " " + order.Company.Name + " " + order.Order_Code;
 
 
             

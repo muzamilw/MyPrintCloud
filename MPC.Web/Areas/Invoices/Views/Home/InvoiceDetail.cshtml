@@ -10,16 +10,16 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Print</a></li>
-                            <li><a href="#">Cancel</a></li>
-                            <li><a href="#">Archive</a></li>
+                            <li><a href="#" data-bind="click:$root.openExternalReportsInvoice">Print Invoice</a></li>
+                            <li><a href="#" data-bind="click:$root.openExternalEmailInvoiceReport">Email Invoice</a></li>
+                            <li><a href="#">Archive Invoice</a></li>
                         </ul>
                     </div>
                 </div>
                 <div data-bind="with: selectedInvoice" style="text-align: right; padding-right: 16px">
-                    <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
+                    @*<button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
                         Print
-                    </button>
+                    </button>*@
                     <button class="btn btn-primary" id="saveBtn" data-bind="visible:invoiceStatus()===19,click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
                 </div>
@@ -170,8 +170,11 @@
                                                 <label class="control-label text-right tooltip-float">&nbsp;</label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
-                                                <span class="help-block text-right"></span>
+                                                @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
+                                                <span class="help-block text-right"></span>*@
+                                                <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
+                                                    <option style="width: 258px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
+                                                </select>
                                             </div>
                                         </div>
                                        <div>

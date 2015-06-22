@@ -134,6 +134,12 @@ define("invoice/invoice.viewModel",
                     selectEstimatePhraseContainer = function (data, e) {
                         selectedEstimatePhraseContainer(e.currentTarget.id);
                     },
+                       formatSelection = function (state) {
+                           return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                       },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
@@ -209,6 +215,35 @@ define("invoice/invoice.viewModel",
                         }
                         closeInvoiceEditor();
                     },
+
+                    // report preview
+                    openExternalReportsInvoice = function () {
+
+                       
+
+                        reportManager.outputTo("preview");
+
+                       
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                       
+
+
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
+                    },
+
+
+                    openExternalEmailInvoiceReport = function () {
+                        reportManager.outputTo("email");
+                       
+                        reportManager.SetOrderData(selectedInvoice().invoiceReportSignedBy(), selectedInvoice().contactId(), selectedInvoice().id(), 4, selectedInvoice().id(), "");
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                        
+
+                    }
+
                     // Close Editor
                     closeInvoiceEditor = function () {
                         selectedInvoice(model.Invoice.Create({}));
@@ -1115,7 +1150,9 @@ define("invoice/invoice.viewModel",
                     onCreateNewBlankPrintProduct: onCreateNewBlankPrintProduct,
                     getInvoicesOfCurrentScreen: getInvoicesOfCurrentScreen,
                     filterText: filterText,
-                    openReport:openReport,
+                    openReport: openReport,
+                    formatSelection: formatSelection,
+                    formatResult:formatResult,
                     orderType: orderType,
                     getBaseData: getBaseData,
                     editInvoice: editInvoice,
@@ -1144,7 +1181,9 @@ define("invoice/invoice.viewModel",
                     pageCode: pageCode,
                     selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
                     selectEstimatePhraseContainer: selectEstimatePhraseContainer,
-                    openPhraseLibrary: openPhraseLibrary
+                    openPhraseLibrary: openPhraseLibrary,
+                    openExternalReportsInvoice: openExternalReportsInvoice,
+                    openExternalEmailInvoiceReport: openExternalEmailInvoiceReport
                     //#endregion
                 };
             })()
