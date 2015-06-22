@@ -1016,7 +1016,7 @@ namespace MPC.Implementation.MISServices
 
             //UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
 
-            //UpdateScopeVariables(companySavingModel);
+            UpdateScopeVariables(companySavingModel);
             if (companySavingModel.Company.ActiveBannerSetId < 0)
             {
                 CompanyBannerSet companyBannerSet =
@@ -1054,85 +1054,10 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void UpdateScopeVariables(CompanySavingModel companySavingModel)
         {
-            if (companySavingModel.Company.CompanyContacts != null)
-            {
-                foreach (CompanyContact companyContact in companySavingModel.Company.CompanyContacts)
-                {
-                    if (companyContact.ScopeVariables != null)
-                    {
-                        foreach (ScopeVariable scopeVariable in companyContact.ScopeVariables)
-                        {
-                            if (scopeVariable.ScopeVariableId == 0)
-                            {
-                                FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                               f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
-                                if (fieldVariable != null)
-                                {
-                                    scopeVariable.VariableId = fieldVariable.VariableId;
-                                }
+            
 
-                                scopeVariable.Id = companyContact.ContactId;
-                                scopeVariableRepository.Add(scopeVariable);
-                            }
-                        }
-                    }
-                }
+          
 
-            }
-
-            if (companySavingModel.Company.CompanyTerritories != null)
-            {
-                foreach (CompanyTerritory companyTerritory in companySavingModel.Company.CompanyTerritories)
-                {
-                    if (companyTerritory.ScopeVariables != null)
-                    {
-                        foreach (ScopeVariable scopeVariable in companyTerritory.ScopeVariables)
-                        {
-                            if (scopeVariable.ScopeVariableId == 0)
-                            {
-                                FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                               f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
-                                if (fieldVariable != null)
-                                {
-                                    scopeVariable.VariableId = fieldVariable.VariableId;
-                                }
-
-                                scopeVariable.Id = companyTerritory.TerritoryId;
-                                scopeVariable.Scope = (int)FieldVariableScopeType.Territory;
-                                scopeVariableRepository.Add(scopeVariable);
-                            }
-                        }
-                    }
-                }
-
-            }
-
-            //Address Scope variables
-            if (companySavingModel.Company.Addresses != null)
-            {
-                foreach (Address address in companySavingModel.Company.Addresses)
-                {
-                    if (address.ScopeVariables != null)
-                    {
-                        foreach (ScopeVariable scopeVariable in address.ScopeVariables)
-                        {
-                            if (scopeVariable.ScopeVariableId == 0)
-                            {
-                                FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                               f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
-                                if (fieldVariable != null)
-                                {
-                                    scopeVariable.VariableId = fieldVariable.VariableId;
-                                }
-
-                                scopeVariable.Id = address.AddressId;
-                                scopeVariable.Scope = (int)FieldVariableScopeType.Address;
-                                scopeVariableRepository.Add(scopeVariable);
-                            }
-                        }
-                    }
-                }
-            }
 
             //Store Scope Variables
             if (companySavingModel.Company.ScopeVariables != null)
