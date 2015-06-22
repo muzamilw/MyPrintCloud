@@ -558,8 +558,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="tab-products">
+
+                            <div>
                                 <p class="group-header-description">add categories and products to your store, retail stores come populated with a default database while private stores are blank in order to allow for you to add your customers products and categories</p>
+                            </div>
+                            <div class="tab-pane fade" id="tab-products">
+                                
                                 <div class="col-lg-4" data-bind="with: $root.selectedStore">
                                    
                                     <div class="clearfix">
@@ -590,11 +594,11 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="clearfix">
-                                        <header>
+                                        @*<header>
                                             <div class="text-left">
                                                 <h2 data-bind="text: $root.selectedCategoryName">Products</h2>
                                             </div>
-                                        </header>
+                                        </header>*@
                                         <!-- ko stopBinding: true -->
                                         <div id="productBindingSection" style="padding-right:0px;padding-left:0px;" class="main-box-body clearfix">
                                             @{

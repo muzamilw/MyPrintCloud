@@ -19,6 +19,7 @@ define("sectionflags/sectionflags.viewModel",
                     isLoadingsectionflags = ko.observable(false),
                     
                     idCounter = ko.observable(-1),
+                    selectedFlag = ko.observable(),
                     // #endregion Busy Indicators
                     // #region Observables
                     // Initialize the view model
@@ -93,11 +94,24 @@ define("sectionflags/sectionflags.viewModel",
                         });
                     },
                     // Delete Section Flag
-                    deleteSectionFlag = function (flag) {
-                        var selectedFlag = selectedsection().sectionflags.find(function (item) {
-                            return item.id() == flag.id();
+                    oNdeleteSectionFlag = function (flag) {
+                        selectedFlag(flag);
+                            confirmation.messageText("Do you want to delete section flag?");
+                            confirmation.afterProceed(deleteSectionFlaf);
+                            confirmation.afterCancel(function () {
+
+                            });
+                            confirmation.show();
+                    },
+                    deleteSectionFlaf= function() {
+                        var obj = selectedsection().sectionflags.find(function (item) {
+                            return item.id() == selectedFlag().id();
                         });
-                        selectedsection().sectionflags.remove(selectedFlag);
+                        if ((obj !== undefined && obj !== null) && (obj.isDefault()===undefined || obj.isDefault()===null || !obj.isDefault())) {
+                            selectedsection().sectionflags.remove(obj);
+                        } else {
+                            toastr.error('Default flag can not be deleted!');
+                        }
                     },
                      // Do Before Logic
                     doBeforeSave = function () {
@@ -180,7 +194,7 @@ define("sectionflags/sectionflags.viewModel",
                     // Utility Methods
                     initialize: initialize,
                     getSectionFlags: getSectionFlags,
-                    deleteSectionFlag: deleteSectionFlag,
+                    oNdeleteSectionFlag: oNdeleteSectionFlag,
                     addSectionFlag: addSectionFlag,
                     saveFlag:saveFlag,
                     selectedsection: selectedsection,
@@ -188,7 +202,8 @@ define("sectionflags/sectionflags.viewModel",
                     gotoElement:gotoElement,
                     errorList: errorList,
                     closeSectionScreen: closeSectionScreen,
-                    clearErrorSummary: clearErrorSummary
+                    clearErrorSummary: clearErrorSummary,
+                    selectedFlag: selectedFlag
 
                 };
             })()
