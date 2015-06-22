@@ -4176,24 +4176,25 @@ define("stores/stores.viewModel",
                         storeToSave.ScopeVariables.push(scopeVariable.convertToServerData(scopeVariable));
                     });
 
-                    _.each(fieldVariables(), function (fieldVariable) {
-                        var field = fieldVariable.convertToServerData(fieldVariable);
-                        _.each(fieldVariable.variableOptions(), function (optionItem, index) {
-                            optionItem.sortOrder(index + 1);
-                            field.VariableOptions.push(optionItem.convertToServerData(optionItem));
-                        });
-                        storeToSave.FieldVariables.push(field);
-                    });
-                    //Smart Forms
-                    if (selectedStore().companyId() === 0 || selectedStore().companyId() === undefined) {
-                        _.each(smartForms(), function (item) {
-                            var smartFormServer = item.convertToServerData(item);
-                            _.each(item.smartFormDetails(), function (smartFormDetail) {
-                                smartFormServer.SmartFormDetails.push(smartFormDetail.convertToServerData(smartFormDetail));
-                            });
-                            storeToSave.SmartForms.push(smartFormServer);
-                        });
-                    }
+                    //_.each(fieldVariables(), function (fieldVariable) {
+                    //    var field = fieldVariable.convertToServerData(fieldVariable);
+                    //    _.each(fieldVariable.variableOptions(), function (optionItem, index) {
+                    //        optionItem.sortOrder(index + 1);
+                    //        field.VariableOptions.push(optionItem.convertToServerData(optionItem));
+                    //    });
+                    //    storeToSave.FieldVariables.push(field);
+                    //});
+
+                    ////Smart Forms
+                    //if (selectedStore().companyId() === 0 || selectedStore().companyId() === undefined) {
+                    //    _.each(smartForms(), function (item) {
+                    //        var smartFormServer = item.convertToServerData(item);
+                    //        _.each(item.smartFormDetails(), function (smartFormDetail) {
+                    //            smartFormServer.SmartFormDetails.push(smartFormDetail.convertToServerData(smartFormDetail));
+                    //        });
+                    //        storeToSave.SmartForms.push(smartFormServer);
+                    //    });
+                    //}
 
 
                     //endregion
@@ -4922,7 +4923,7 @@ define("stores/stores.viewModel",
                 fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                 smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
                 companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
-                secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getSecondoryPages));
+                secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, selectedStore().secondaryPages, getSecondoryPages));
                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
                 contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
                 selectedCompanyDomainItem(undefined);
@@ -5538,7 +5539,7 @@ define("stores/stores.viewModel",
             onSaveFieldVariable = function (fieldVariable) {
                 if (doBeforeSaveFieldVariable()) {
                     selectedFieldOption(undefined);
-
+                    fieldVariable.variableExtension().companyId(selectedStore().companyId());
                     if (!fieldVariable.isSystem() === true) {
                         var selectedScope = _.find(contextTypes(), function (scope) {
                             return scope.id == fieldVariable.scope();
@@ -5559,7 +5560,7 @@ define("stores/stores.viewModel",
                             optionItem.sortOrder(index + 1);
                             field.VariableOptions.push(optionItem.convertToServerData(optionItem));
                         });
-
+                        
                         field.VariableExtensions.push(fieldVariable.variableExtension().convertToServerData(fieldVariable.variableExtension()));
                         isStoreVariableTabOpened(false);
                         saveField(field);

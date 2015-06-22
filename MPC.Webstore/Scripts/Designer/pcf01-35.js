@@ -192,19 +192,18 @@ function d1CompanyLogoToCanvas(x, y) {
     D1NIO.ProductPageID = SP;
     D1NIO.MaxWidth = 100;
     D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-    D1NIO.PositionX = center.left;
-    D1NIO.PositionY = center.top;
+    D1NIO.PositionX = canvas.getWidth()/2 - 300 ;
+    D1NIO.PositionY = canvas.getHeight() / 2 - 300;
     D1NIO.ObjectType = 8;
 
-    D1NIO.MaxHeight = 300;
-    D1NIO.Height = 300;
-    D1NIO.MaxWidth = 300;
-    D1NIO.Width = 300;
+    D1NIO.MaxHeight = 300 ;
+    D1NIO.Height = 300 ;
+    D1NIO.MaxWidth = 300 ;
+    D1NIO.Width = 300 ;
 
     D1NIO.IsQuickText = true;
     D1NIO.ContentString = "/Content/Designer/assets-v2/Imageplaceholder_sim.png";
     D1NIO.DisplayOrder = TO.length + 1;
-    D1NIO.left = center.left;
    
     k31(canvas, D1NIO);
     var OBS = canvas.getObjects();
@@ -228,8 +227,8 @@ function d1ContactLogoToCanvas(x, y) {
     D1NIO.ProductPageId = SP;
     D1NIO.MaxWidth = 100;
     D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-    D1NIO.PositionX = center.left;
-    D1NIO.PositionY = center.top;
+    D1NIO.PositionX = canvas.getWidth() / 2 - 300;
+    D1NIO.PositionY = canvas.getHeight() / 2 - 300;
     D1NIO.ObjectType = 12;
 
     D1NIO.MaxHeight = 300;
