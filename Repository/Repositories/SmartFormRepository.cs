@@ -240,6 +240,7 @@ namespace MPC.Repository.Repositories
 
         public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables,long contactId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
             hasContactVariables = false;
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
@@ -563,6 +564,7 @@ namespace MPC.Repository.Repositories
         }
         public List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = new List<Models.DomainModels.TemplateVariable>();
@@ -1325,6 +1327,7 @@ namespace MPC.Repository.Repositories
         }
         public List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             List<VariableExtension> listExtensions = new List<VariableExtension>();
             var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).SingleOrDefault();
             if(contact != null)
