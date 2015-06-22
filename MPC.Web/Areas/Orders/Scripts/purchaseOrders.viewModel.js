@@ -245,7 +245,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, [2], true);
+                        companySelector.show(onSelectCompany, [2]);
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
@@ -414,6 +414,31 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         confirmation.show();
                         return;
                     },
+
+                    //  report preview
+                      // report preview
+                    openExternalReportsPurchase = function () {
+
+                        reportManager.outputTo("preview");
+
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+
+
+
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
+                    },
+
+                    openExternalEmailPurchaseReport = function () {
+                        reportManager.outputTo("email");
+
+                        reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), selectedPurchaseOrder().id(), 6, selectedPurchaseOrder().id(), "");
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+
+
+                    }
 
                     // Cancel purchase Order
                     onCancelPurchaseOrder = function (purchase) {
@@ -914,7 +939,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     editGRNDetail: editGRNDetail,
                     deliveryCarriers: deliveryCarriers,
                     saveGRNDetail: saveGRNDetail,
-                    onDeleteGRNDetail: onDeleteGRNDetail
+                    onDeleteGRNDetail: onDeleteGRNDetail,
+                    openExternalReportsPurchase: openExternalReportsPurchase,
+                    openExternalEmailPurchaseReport: openExternalEmailPurchaseReport
                 };
             })()
         };

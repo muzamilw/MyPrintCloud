@@ -93,6 +93,14 @@ namespace MPC.Implementation.MISServices
                         {
                             currReport.DataSource = ReportRepository.getEstimateReportResult(OrganisationID, itemid);
                         }
+                        else if (currentReport.CategoryId == (int)ReportCategoryEnum.Delivery)
+                        {
+                            currReport.DataSource = ReportRepository.GetDeliveryNoteReport(itemid);
+                        }
+                        else if (currentReport.CategoryId == (int)ReportCategoryEnum.PurchaseOrders)
+                        {
+                            currReport.DataSource = ReportRepository.GetPOReport(itemid);
+                        }
                         else
                         {
                             currReport.DataSource = ReportRepository.getOrderReportResult(OrganisationID, itemid);

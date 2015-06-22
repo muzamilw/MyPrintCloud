@@ -341,6 +341,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionFlagsController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCrmCompanyController.cs" />
@@ -467,6 +468,7 @@
     <Compile Include="Areas\Api\ModelMappers\InvoiceDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemStockUpdateHistoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefAnswerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\LiveJobItemMapper.cs" />
@@ -553,6 +555,7 @@
     <Compile Include="Areas\Api\Models\CmsOffer.cs" />
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
     <Compile Include="Areas\Api\Models\CompanyAddressDeleteModel.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
@@ -3459,6 +3462,7 @@
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
+    <Folder Include="Areas\Api\Views\ProductChildCategory\" />
     <Folder Include="Areas\Api\Views\ProductCostCenter\" />
     <Folder Include="Areas\Api\Views\ProgressEstimate\" />
     <Folder Include="Areas\Api\Views\PTVCalculation\" />

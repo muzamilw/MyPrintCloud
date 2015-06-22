@@ -47,6 +47,10 @@ define("inventory/inventory.viewModel",
                     subCategoryFilter = ko.observable(),
                     // bind Label
                     weightLabel = ko.observable(),
+                    // Logged In User Id
+                    loggedInUserId = ko.observable(),
+                    // Logged In User Identity
+                    loggedInUserIdentity = ko.observable(),
                     // #region Arrays
                     //Paper Sheets
                     inventories = ko.observableArray([]),
@@ -252,6 +256,8 @@ define("inventory/inventory.viewModel",
 
                                 currencySymbol(data.CurrencySymbol);
                                 weightUnit(data.WeightUnit);
+                                loggedInUserId(data.LoggedInUserId);
+                                loggedInUserIdentity(data.LoggedInUserIdentity);
 
                                 if (data.IsImperical == true) {
                                     weightLabel("lbs");
@@ -307,7 +313,7 @@ define("inventory/inventory.viewModel",
                             return [];
                         }
                         return subCategories.filter(function (subCategory) {
-                            return subCategory.CategoryId === selectedInventory().categoryId();
+                            return subCategory.CategoryId === (selectedInventory() !== undefined ? selectedInventory().categoryId() : 0);
                         });
                     }),
                 //On select Supplier
@@ -404,9 +410,9 @@ define("inventory/inventory.viewModel",
                     return flag;
                 },
                 // Go To Element
-              gotoElement = function (validation) {
-                  view.gotoElement(validation.element);
-              },
+               gotoElement = function (validation) {
+                   view.gotoElement(validation.element);
+               },
                 // Do Before Logic
                 doBeforeCostAndPrice = function () {
                     var flag = true;
@@ -451,8 +457,12 @@ define("inventory/inventory.viewModel",
                         });
                         supplierVm.selectedSupplier(undefined);
 
+                        var inventoryToServer = selectedInventory().convertToServerData(orgRegion());
+                        _.each(selectedInventory().itemStockUpdateHistories(), function (item) {
+                            inventoryToServer.ItemStockUpdateHistories.push(item.convertToServerData());
+                        });
 
-                        dataservice.saveInventory(selectedInventory().convertToServerData(orgRegion()), {
+                        dataservice.saveInventory(inventoryToServer, {
                             success: function (data) {
                                 //For Add New
                                 if (selectedInventory().itemId() === 0) {
@@ -690,6 +700,9 @@ define("inventory/inventory.viewModel",
                         selectedItemStockUpdateHistory().lastModifiedQty(parseInt(selectedItemStockUpdateHistory().lastModifiedQty()) + parseInt(selectedInventory().inStock()));
                         selectedItemStockUpdateHistory().lastModifiedDate(Date());
                         selectedItemStockUpdateHistory().actionName(itemStockUpdateHistoryActions()[0].name);
+                        selectedItemStockUpdateHistory().modifyEvent(itemStockUpdateHistoryActions()[0].id);
+                        selectedItemStockUpdateHistory().lastModifiedByName(loggedInUserIdentity());
+                        selectedItemStockUpdateHistory().lastModifiedBy(loggedInUserId());
                         selectedInventory().inStock(selectedItemStockUpdateHistory().lastModifiedQty());
                         selectedInventory().itemStockUpdateHistories.push(selectedItemStockUpdateHistory());
                         view.hideAddStockQtyDialog();

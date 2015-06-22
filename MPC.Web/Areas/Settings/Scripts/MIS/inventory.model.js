@@ -414,7 +414,8 @@
     };
 
     // Item Stock Update History
-    var ItemStockUpdateHistory = function (specifiedStockHistoryId, specifiedLastModifiedQty, specifiedModifyEvent, specifiedLastModifiedBy, specifiedLastModifiedDate) {
+    var ItemStockUpdateHistory = function (specifiedStockHistoryId, specifiedLastModifiedQty, specifiedModifyEvent, specifiedLastModifiedBy, specifiedLastModifiedDate,
+        specifiedLastModifiedByName, specifiedAction) {
         var
             self,
             //cost Price Id
@@ -423,8 +424,8 @@
             modifyEvent = ko.observable(specifiedModifyEvent),
             lastModifiedBy = ko.observable(specifiedLastModifiedBy),
             lastModifiedDate = ko.observable(specifiedLastModifiedDate),
-            actionName = ko.observable(),
-            lastModifiedByName = ko.observable(),
+            actionName = ko.observable(specifiedAction),
+            lastModifiedByName = ko.observable(specifiedLastModifiedByName),
              // Errors
             errors = ko.validation.group({
 
@@ -474,12 +475,18 @@
 
     //Stock Item For Client Factory
     StockItem.CreateForClient = function (source) {
-        return new StockItem(source.StockItemId, source.ItemName, source.ItemCode, source.SupplierId, source.CategoryId, source.SubCategoryId, source.BarCode,
+        var stockItem = new StockItem(source.StockItemId, source.ItemName, source.ItemCode, source.SupplierId, source.CategoryId, source.SubCategoryId, source.BarCode,
          source.inStock, source.ItemDescription, source.StockCreated, source.FlagID, source.Status, source.isDisabled, source.PaperType, source.ItemSizeSelectedUnit,
             source.PerQtyQty, source.ItemSizeCustom, source.StockLocation, source.ItemSizeId, source.ItemSizeHeight, source.ItemSizeWidth, source.PerQtyType, source.PackageQty,
             source.RollWidth, source.RollLength, source.ReOrderLevel, source.ReorderQty, source.ItemWeight, source.ItemColour, source.InkAbsorption, source.PaperBasicAreaId,
             source.ItemCoated, source.ItemCoatedType, source.ItemWeightSelectedUnit, source.Allocated, source.onOrder, source.LastOrderQty, source.LastOrderDate,
             source.SupplierName, source.IsImperical, source.isAllowBackOrder, source.ThresholdLevel);
+
+        _.each(source.ItemStockUpdateHistories, function (item) {
+            stockItem.itemStockUpdateHistories.push(ItemStockUpdateHistory.Create(item));
+        });
+
+        return stockItem;
     };
     //Stock Cost And Price Item For Client Factory
     StockCostAndPrice.CreateForClient = function (source) {
@@ -503,8 +510,9 @@
         return obj;
     };
     // Item Stock Update History Factory
-    ItemStockUpdateHistory.CreateForClient = function (source) {
-        return new ItemStockUpdateHistory(source.StockHistoryId, source.LastModifiedQty, source.ModifyEvent, source.LastModifiedBy, source.LastModifiedDate);
+    ItemStockUpdateHistory.Create = function (source) {
+        return new ItemStockUpdateHistory(source.StockHistoryId, source.LastModifiedQty, source.ModifyEvent, source.LastModifiedBy, source.LastModifiedDate,
+            source.LastModifiedByName, source.Action);
     };
     return {
         InventoryListView: InventoryListView,
