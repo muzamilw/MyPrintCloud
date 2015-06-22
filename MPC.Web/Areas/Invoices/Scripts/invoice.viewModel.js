@@ -134,6 +134,12 @@ define("invoice/invoice.viewModel",
                     selectEstimatePhraseContainer = function (data, e) {
                         selectedEstimatePhraseContainer(e.currentTarget.id);
                     },
+                       formatSelection = function (state) {
+                           return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                       },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
@@ -616,7 +622,7 @@ define("invoice/invoice.viewModel",
                     var removeItems = [];
                     _.each(selectedInvoice().items(), function (item) {
                         if (item.detailType !== undefined) {
-                            selectedInvoice().invoiceDetailItems.push(item);
+                            // selectedInvoice().invoiceDetailItems.push(item);
                             removeItems.push(item);
                         }
                     });
@@ -630,13 +636,15 @@ define("invoice/invoice.viewModel",
 
                 // Save Invoice
                 saveInvoice = function (callback, navigateCallback) {
-                    setInvoiceDetailItems();
-                    var invoice = selectedInvoice().convertToServerData();
-                    _.each(selectedInvoice().invoiceDetailItems(), function (inv) {
-                        invoice.InvoiceDetails.push(inv.convertToServerData(inv));
 
+                    var invoice = selectedInvoice().convertToServerData();
+                    _.each(selectedInvoice().items(), function (inv) {
+                        if (inv.detailType !== undefined) {
+                            invoice.InvoiceDetails.push(inv.convertToServerData(inv));
+                        }
                     });
 
+                    setInvoiceDetailItems();
                     var itemsArray = [];
                     _.each(selectedInvoice().items(), function (obj) {
                         var itemObj = obj.convertToServerData(); // item converted 
@@ -1185,6 +1193,8 @@ define("invoice/invoice.viewModel",
                     getInvoicesOfCurrentScreen: getInvoicesOfCurrentScreen,
                     filterText: filterText,
                     openReport: openReport,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult,
                     orderType: orderType,
                     getBaseData: getBaseData,
                     editInvoice: editInvoice,

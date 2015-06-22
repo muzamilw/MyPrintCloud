@@ -27,6 +27,10 @@ namespace MPC.Implementation.MISServices
             return _SectionRepository.GetSectionsForPhraseLibrary();
         }
 
+        public IEnumerable<Section> GetSectionsForSectionFlags()
+        {
+            return _SectionRepository.GetSectionsByParentId(0);
+        }
         /// <summary>
         /// Get Section Flag By Section Id
         /// </summary>
