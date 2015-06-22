@@ -277,7 +277,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px;width:220px;padding-left:20px;">
-                                                    Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which reasonably high resolution yet loads quicker.
+                                                    Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which is reasonably high resolution yet loads quicker.
                                                 </div>
                                                 <div class="profile-stars">
                                                     <span data-bind="value: type"></span>
@@ -378,7 +378,7 @@
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
-                                                <label class="control-label text-right tooltip-float">Internal Account Manager</label>
+                                                <label class="control-label text-right tooltip-float">Account Manager</label>
                                             </div>
                                             <div class="col-lg-6">
 
@@ -558,8 +558,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="tab-products">
+
+                            <div>
                                 <p class="group-header-description">add categories and products to your store, retail stores come populated with a default database while private stores are blank in order to allow for you to add your customers products and categories</p>
+                            </div>
+                            <div class="tab-pane fade" id="tab-products">
+                                
                                 <div class="col-lg-4" data-bind="with: $root.selectedStore">
                                    
                                     <div class="clearfix">
@@ -590,11 +594,11 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="clearfix">
-                                        <header>
+                                        @*<header>
                                             <div class="text-left">
                                                 <h2 data-bind="text: $root.selectedCategoryName">Products</h2>
                                             </div>
-                                        </header>
+                                        </header>*@
                                         <!-- ko stopBinding: true -->
                                         <div id="productBindingSection" style="padding-right:0px;padding-left:0px;" class="main-box-body clearfix">
                                             @{
@@ -1211,7 +1215,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 form-horizontal">
-                                    <h3 class="group-header">Media Library images used throughout the store</h3>
+                                    <h3 class="group-header">Banners & Images used throughout this store</h3>
                                     @*<p class="group-header-description">Media Library images used throughout the store.</p>*@
                                     <div class="col-md-9">
                                         <div class="form-group">
@@ -1261,7 +1265,7 @@
                                     &nbsp;
                                 </div>
                                 <div class="col-md-12 form-horizontal">
-                                    <h3 class="group-header">Banner Images</h3>
+                                    <h3 class="group-header">Slider Images</h3>
                                     @*<p class="group-header-description">Banner Images.</p>*@
                                     <div class="col-md-9">
                                         <div class="form-group">

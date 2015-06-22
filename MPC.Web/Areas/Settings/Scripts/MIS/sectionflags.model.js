@@ -75,7 +75,7 @@
         return self;
     },
 // ReSharper disable InconsistentNaming
-        SectionFlag = function (spcId, spcName, spcDescription, desColor, spcSectionId) {
+        SectionFlag = function (spcId, spcName, spcDescription, desColor, spcSectionId, spcIsDefault) {
             // ReSharper restore InconsistentNaming
             // ReSharper restore InconsistentNaming
 
@@ -86,7 +86,7 @@
                description = ko.observable(spcDescription || undefined),
                color = ko.observable(desColor || '#E0E0E0'),
                sectionId = ko.observable(spcSectionId || undefined),
-                
+               isDefault = ko.observable(spcIsDefault || undefined),
                errors = ko.validation.group({
                    name: name
 
@@ -122,7 +122,8 @@
                 name: name,
                 description: description,
                 color: color,
-                sectionId:sectionId,
+                sectionId: sectionId,
+                isDefault:isDefault,
                 convertToServerData: convertToServerData,
                 dirtyFlag: dirtyFlag,
                 errors: errors,
@@ -135,7 +136,7 @@
 
     SectionFlag.Create = function (source) {
 
-        var sectionFlag = new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagDescription, source.FlagColor, source.SectionId);
+        var sectionFlag = new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagDescription, source.FlagColor, source.SectionId, source.IsDefault);
         return sectionFlag;
     };
 

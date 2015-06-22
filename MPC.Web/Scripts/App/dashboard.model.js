@@ -293,7 +293,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
     },
           // #region ______________  CUSTOMER LIST VIEW MODEL   _________________
-     customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary) {
+     customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary,cusStoreName) {
          var
              self,
              id = ko.observable(companytId),
@@ -306,6 +306,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              email = ko.observable(custEmail),
              defaultContact = ko.observable(undefined),
              defaultContactEmail = ko.observable(undefined),
+             storeName = ko.observable(cusStoreName),
              // Errors
              errors = ko.validation.group({
              }),
@@ -338,6 +339,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              defaultContact: defaultContact,
              defaultContactEmail: defaultContactEmail,
              storeImageFileBinary: storeImageFileBinary,
+             storeName: storeName,
              isValid: isValid,
              errors: errors,
              dirtyFlag: dirtyFlag,
@@ -370,6 +372,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         customer.defaultContact(source.DefaultContactName);
         customer.defaultContactEmail(source.DefaultContactEmail);
         customer.customerTYpe(source.CustomerType);
+        customer.storeName(source.StoreName);
         return customer;
     };
 

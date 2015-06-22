@@ -21,6 +21,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionFlagId = source.SectionFlagId,
                 FlagName = source.FlagName,
                 FlagColor = source.FlagColor,
+               
             };
         }
 
@@ -35,7 +36,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionFlagId = source.SectionFlagId,
                 FlagName = source.FlagName,
                 FlagColor = source.FlagColor,
-                FlagDescription = source.flagDescription
+                FlagDescription = source.flagDescription,
+                IsDefault = source.isDefault
             };
         }
 
@@ -58,7 +60,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionFlagId = source.SectionFlagId,
                 FlagName = source.FlagName,
                 FlagColor = source.FlagColor,
-                flagDescription = source.FlagDescription
+                flagDescription = source.FlagDescription,
+                isDefault = source.IsDefault
             };
         }
         #endregion

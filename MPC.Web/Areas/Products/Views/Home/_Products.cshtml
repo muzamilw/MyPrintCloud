@@ -1,22 +1,16 @@
 ﻿<div class="row" data-bind="visible: !isProductDetailsVisible()">
-    <div class="col-lg-12 pull-right" >  @*style="margin-top: -29px;"*@
-        @* <div id="changeViewSection" class="pull-left col-lg-5">
-        <a id="listViewIcon" class="productListGrayIcon pull-left" data-bind="click: toggleView, css: { inactiveView: isGridViewVisible, activeView: isListViewVisible }">
-            <i class="fa fa-list"></i>
-        </a>
-        <a id="gridViewIcon" class="productListOrangeIcon pull-left activeView" data-bind="click: toggleView, css: { inactiveView: isListViewVisible, activeView: isGridViewVisible }">
-            <i class="fa fa-th-large"></i>
-        </a>
-        <div class="pull-left width105 padTop13">
-            <div class="slider-minmax"></div>
+    <div class="col-lg-12 pull-right" > 
+        <div class="col-lg-6">
+        
+            <h2>Products</h2> 
+        
         </div>
+            <div class="col-lg-6">
+                <button id="open-wizard" data-bind="click: createProduct, enable: !pageHasErrors()" class="btn btn-primary pull-right">
+                    Add New Product
+                </button>
             </div>
-    <div class="pull-right">*@
-            <button id="open-wizard" data-bind="click: createProduct, enable: !pageHasErrors()" class="btn btn-primary pull-right">
-                Add New Product
-            </button>
-        @*</div>*@
-    </div>
+        </div>
     <div>
         &nbsp;
     </div>
