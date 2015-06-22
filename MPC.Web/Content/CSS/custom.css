@@ -317,3 +317,13 @@ a.reportAnchor a:hover {
 .bluecolor{
     color:blue;
 }
+.sectionmultiplier {
+    bottom: 63px;
+    margin-left: 10%;
+    position: absolute;
+}
+.sectionmultiplierindex {
+    bottom: 43px;
+    margin-left: 10%;
+    position: absolute;
+}
