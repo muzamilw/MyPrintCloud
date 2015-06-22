@@ -246,15 +246,17 @@ define("toDoList/toDoList.viewModel",
                         PageNo: pager().currentPage(),
                     }, {
                         success: function (data) {
-                            if (data != null) {
+                            if (data != null && data.CompanyContacts.length > 0) {
                                 //Company Contacts
                                 companyContacts.removeAll();
-                                _.each(data.CompanyContacts, function (item) {
+                                _.each(data.CompanyContacts, function(item) {
                                     companyContacts.push(model.CompanyContact.Create(item));
                                 });
                                 pager().totalCount(data.RowCount);
                                 view.showContactSelectorDialog();
 
+                            } else {
+                                toastr.error("No User Found! ");
                             }
                         },
                         error: function (response) {

@@ -52,6 +52,8 @@ namespace MPC.Repository.Repositories
             return DbSet.OrderBy(s => s.SecOrder).ToList();
         }
 
+        
+
         /// <summary>
         /// Get Sections By Parent Id
         /// </summary>

@@ -13,5 +13,6 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<SectionFlag> GetSectionFlagBySectionId(long sectionId);
 
         bool SaveSectionFlags(IEnumerable<SectionFlag> flags);
+        IEnumerable<Section> GetSectionsForSectionFlags();
     }
 }

@@ -108,6 +108,12 @@ define("inventory/inventory.viewModel",
                         costPriceList: costPriceList,
 
                     }),
+                       formatSelection = function (state) {
+                           return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                       },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                      openReport = function (isFromEditor) {
                          reportManager.show(ist.reportCategoryEnums.Inventory, isFromEditor == true ? true : false, 0);
                      },
@@ -787,7 +793,9 @@ define("inventory/inventory.viewModel",
                     onArchiveStock: onArchiveStock,
                     addStockQuantity: addStockQuantity,
                     selectedItemStockUpdateHistory: selectedItemStockUpdateHistory,
-                    saveAddStockQuantity: saveAddStockQuantity
+                    saveAddStockQuantity: saveAddStockQuantity,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult
                 };
             })()
         };

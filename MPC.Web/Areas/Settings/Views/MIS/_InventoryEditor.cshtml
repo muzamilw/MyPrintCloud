@@ -117,7 +117,10 @@
                                                 <label for="flag" class="control-label text-right tooltip-float">Flag</label>
                                             </div>
                                             <div class="col-lg-7">
-                                                <select id="flag" class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId, validationTooltip: flagId"></select>
+                                                <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
+                                                    <option style="width: 258px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
+                                                </select>
+                                                @*<select id="flag" class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId, validationTooltip: flagId"></select>*@
                                             </div>
                                         </div>
                                     </div>
