@@ -11,7 +11,7 @@
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Title" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -26,7 +26,7 @@
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
 
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Payment Method" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Flag" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -34,13 +34,16 @@
                         <label class="control-label text-right tooltip-float">Change Flag</label>
                     </div>
                     <div class="col-lg-5">
-                        <select class="form-control" id="ddPageCat" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId, validationTooltip: flagId"> </select>
+                        <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
+                            <option style="width: 258px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
+                        </select>
+                        @*<select class="form-control" id="ddPageCat" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId, validationTooltip: flagId"> </select>*@
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Amount" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Quantity" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -57,7 +60,7 @@
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Amount" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Price" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -67,7 +70,7 @@
                     <div class="col-lg-5">
                         <div class="input-group">
                             <span class="input-group-addon" data-bind="text:$root.currencySymbol"></span>
-                            <input type="text" class="form-control  text-right" id="amount" data-bind="numberValue:itemCharge,validationTooltip:itemCharge">
+                            <input type="text" class="form-control  text-right" id="amount" data-bind="numberValue:$root.calculateGrossTotal">
                         </div>
 
                     </div>
@@ -75,7 +78,7 @@
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Amount" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Tax" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -85,7 +88,7 @@
                     <div class="col-lg-5">
                         <div class="input-group">
                             <span class="input-group-addon">%</span>
-                            <input type="text" class="form-control  text-right" id="amount" data-bind="value:tax,validationTooltip:tax">
+                            <input type="text" class="form-control  text-right" id="amount" data-bind="value:$root.calculateTaxValue,validationTooltip:tax">
                         </div>
 
                     </div>
@@ -93,7 +96,7 @@
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Amount" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Tax Value" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -104,6 +107,24 @@
                         <div class="input-group">
                             <span class="input-group-addon" data-bind="text:$root.currencySymbol"></span>
                             <span class="form-control  text-right" id="amount" data-bind="numberInput:itemTaxValue"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Gross Total" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="amount" class="control-label text-right tooltip-float">Gross Total</label>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="input-group">
+                            <span class="input-group-addon" data-bind="text:$root.currencySymbol"></span>
+                            <input type="text" class="form-control  text-right" id="amount" data-bind="numberValue:qty1GrossTotal" />
                         </div>
 
                     </div>

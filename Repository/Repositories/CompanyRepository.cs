@@ -763,6 +763,7 @@ namespace MPC.Repository.Repositories
                     bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
                     bool isTypeSpecified = request.CustomerType != null;
                     long type = request.CustomerType ?? 0;
+                    string userName = string.Empty;
                     int companyType = request.IsCustomer;
                     Expression<Func<Company, bool>> query =
                         s =>
@@ -784,7 +785,11 @@ namespace MPC.Repository.Repositories
                       
                         DbSet.Where(query)
                             .OrderByDescending(customer => customer.CompanyId).Take(5).ToList();
-                           
+
+                    foreach (var comp in companies)
+                    {
+                        comp.StoreName = GetStoreNameByStoreId(comp.StoreId ?? 0);
+                    }
                     return new CompanyResponse
                     {
                         RowCount = rowCount,

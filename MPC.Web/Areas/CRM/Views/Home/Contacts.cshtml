@@ -34,7 +34,7 @@
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                                @Html.ActionLink("Calender Events", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
@@ -62,7 +62,6 @@
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Name</span></th>
                                                                 <th class="col-lg-3"><span>Email</span></th>
-                                                                <th class="col-lg-3"><span>Company</span></th>
                                                                 <th class="col-lg-3"><span>Store</span></th>
                                                             </tr>
                                                         </thead>
@@ -85,9 +84,7 @@
                                                                 <td>
                                                                     <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
                                                                 </td>
-                                                                <td>
-                                                                    <span data-bind="text:companyName"></span>
-                                                                </td>
+                                                               
                                                                 <td>
                                                                     <span data-bind="text:StoreName"></span>
                                                                 </td>

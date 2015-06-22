@@ -624,7 +624,7 @@
     <li class="col-lg-2 col-sm-3">
         <div>
             <div style="float: left">
-                <span data-bind="text:sectionsMultiplier" class="font20px" style="bottom: 63px;margin-left: 10%;position: absolute;"></span>
+                <span data-bind="text:sectionsMultiplier, css: { 'sectionmultiplierindex':  $index() === 0,  'sectionmultiplier':  $index() !== 0 }" class="font20px"></span>
                 <img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" />
                 <i class="fa fa-pencil font20px" style="cursor: pointer; bottom: 40px;margin-left: 75%;position: relative;" data-bind="click:$root.showSectionDetailEditor"></i>
                 

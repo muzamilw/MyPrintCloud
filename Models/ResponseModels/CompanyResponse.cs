@@ -45,5 +45,7 @@ namespace MPC.Models.ResponseModels
         /// Secondary Page Response
         /// </summary>
         public SecondaryPageResponse SecondaryPageResponse { get; set; }
+
+        public string UserName { get; set; }
     }
 }

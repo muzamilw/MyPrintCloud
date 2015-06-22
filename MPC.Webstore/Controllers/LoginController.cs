@@ -92,7 +92,7 @@ namespace MPC.Webstore.Controllers
 
 
             if (string.IsNullOrEmpty(ReturnURL))
-                ViewBag.ReturnURL = "Social";
+                ViewBag.ReturnURL = "";
             else
                 ViewBag.ReturnURL = ReturnURL;
             

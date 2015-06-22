@@ -33,7 +33,7 @@
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
                                 @*@Html.ActionLink("To Do Lists", "ToDoList", "Home")*@
-                                <a href="#tab-ToDoList" data-toggle="tab">To Do Lists</a>
+                                <a href="#tab-ToDoList" data-toggle="tab">Calender Events</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
@@ -56,10 +56,10 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <div class="col-lg-4 text-right">
-                                                                <label for="owner" class="control-label text-right tooltip-float">Show to do list for</label>
+                                                                <label for="owner" class="control-label text-right tooltip-float">Show Calendar Events for</label>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsCaption: 'All', optionsText: 'FullName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>
+                                                                <select style="width: 65%;"class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsCaption: 'All', optionsText: 'FullName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -78,7 +78,7 @@
                                                     <div class="col-lg-2" style="padding-right:0px;">
                                                         <div class="btn-group pull-right" data-bind="click:$root.addActivity">
                                                             <button class="btn btn-primary">
-                                                                <i class="fa  fa-lg"></i>&nbsp;Add Activity
+                                                                <i class="fa  fa-lg"></i>&nbsp;Add New Event
                                                             </button>
                                                         </div>
                                                     </div>
@@ -93,7 +93,7 @@
                                                         <table class="table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th><span>Action by</span></th>
+                                                                    <th><span>Activity Type</span></th>
                                                                     <th><span>Description</span></th>
                                                                     <th><span>Start Date</span></th>
                                                                     <th><span>End Date</span></th>

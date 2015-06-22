@@ -127,7 +127,7 @@ namespace MPC.Models.ModelMappers
             }
             else
             {
-                targetLine = target.InvoiceDetails.FirstOrDefault(item => item.ItemId == sourceItem.ItemId);
+                targetLine = target.InvoiceDetails.FirstOrDefault(item => item.InvoiceDetailId == sourceItem.InvoiceDetailId);
             }
 
             sourceItem.UpdateTo(targetLine, actions);
