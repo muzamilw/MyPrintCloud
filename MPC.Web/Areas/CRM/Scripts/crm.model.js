@@ -503,7 +503,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail).extend({ required: { params: true, message: 'This field is required with valid email!' }, email: true }),
+            email = ko.observable(specifiedEmail).extend({ required: { params: true, message: 'Please enter Valid Email Address!' }, email: true }),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),

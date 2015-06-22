@@ -143,6 +143,12 @@ define("purchaseOrders/purchaseOrders.viewModel",
                             }
                         });
                     },
+                      formatSelection = function (state) {
+                          return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                      },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                     // Get Purchase Order By Id
                     getPurchaseOrderById = function (id) {
                         isCompanyBaseDataLoaded(false);
@@ -941,7 +947,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     saveGRNDetail: saveGRNDetail,
                     onDeleteGRNDetail: onDeleteGRNDetail,
                     openExternalReportsPurchase: openExternalReportsPurchase,
-                    openExternalEmailPurchaseReport: openExternalEmailPurchaseReport
+                    openExternalEmailPurchaseReport: openExternalEmailPurchaseReport,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult
                 };
             })()
         };
