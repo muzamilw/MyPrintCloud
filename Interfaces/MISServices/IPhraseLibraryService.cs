@@ -27,5 +27,7 @@ namespace MPC.Interfaces.MISServices
         /// Get Phrase Fields By Section Id
         /// </summary>
         IEnumerable<PhraseField> GetPhraseFiledsBySectionId(long sectionId);
+
+        
     }
 }
