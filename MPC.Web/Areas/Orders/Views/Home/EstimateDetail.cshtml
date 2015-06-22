@@ -198,8 +198,10 @@
                                                 &nbsp;
                                             </div>
                                             <div class="col-sm-6">
-                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
-                                                <span class="help-block text-right"></span>
+                                                <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
+                                                    <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                                                </select>
+                                                
                                             </div>
                                         </div>
                                         <div class="form-group">
