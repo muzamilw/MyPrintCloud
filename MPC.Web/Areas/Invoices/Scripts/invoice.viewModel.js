@@ -1123,7 +1123,7 @@ define("invoice/invoice.viewModel",
                             return 0;
                         }
                     }
-                }),
+                }).extend({ required: true, numberInput: ist.numberFormat }),
 
                 taxCalculateForInvoiceDetail = function () {
                     var itemCharge = (selectedInvoiceDetail().itemCharge() !== undefined && selectedInvoiceDetail().itemCharge() !== null) ? selectedInvoiceDetail().itemCharge() : 0;
