@@ -52,7 +52,7 @@
                                 <a href="#tab-Supplier" data-toggle="tab">Supplier</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                                @Html.ActionLink("Calender Events", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
@@ -83,7 +83,7 @@
                     <th>&nbsp;</th>*@
 
                                                                 <th class="col-lg-1"></th>
-                                                                <th class="col-lg-3"><span>Company</span></th>
+                                                                <th class="col-lg-3"><span>Supplier</span></th>
                                                                 <th class="col-lg-2"><span>Created</span></th>
                                                                 @*<th class="col-lg-2"><span>Status</span></th>*@
                                                                 <th class="col-lg-2"><span>Email</span></th>
