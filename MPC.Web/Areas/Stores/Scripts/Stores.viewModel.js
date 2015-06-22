@@ -5539,7 +5539,7 @@ define("stores/stores.viewModel",
             onSaveFieldVariable = function (fieldVariable) {
                 if (doBeforeSaveFieldVariable()) {
                     selectedFieldOption(undefined);
-
+                    fieldVariable.variableExtension().companyId(selectedStore().companyId());
                     if (!fieldVariable.isSystem() === true) {
                         var selectedScope = _.find(contextTypes(), function (scope) {
                             return scope.id == fieldVariable.scope();
@@ -5560,7 +5560,7 @@ define("stores/stores.viewModel",
                             optionItem.sortOrder(index + 1);
                             field.VariableOptions.push(optionItem.convertToServerData(optionItem));
                         });
-
+                        
                         field.VariableExtensions.push(fieldVariable.variableExtension().convertToServerData(fieldVariable.variableExtension()));
                         isStoreVariableTabOpened(false);
                         saveField(field);

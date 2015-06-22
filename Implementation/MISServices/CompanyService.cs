@@ -2642,6 +2642,7 @@ namespace MPC.Implementation.MISServices
                         }
                         else
                         {
+                            item.OrganisationId = (int)fieldVariableRepository.OrganisationId;
                             fieldVariableDbVersion.VariableExtensions.Add(item);
                         }
                     }
@@ -3684,7 +3685,7 @@ namespace MPC.Implementation.MISServices
             return true;
         }
 
-        
+
         #endregion
 
         #region ExportOrganisation
