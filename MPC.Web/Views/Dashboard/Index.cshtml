@@ -287,53 +287,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="main-box clearfix">
-                                    <header class="main-box-header clearfix">
-                                        <h2 class="pull-left">Last 5 orders</h2>
-                                        <div class="filter-block pull-right">
-                                            <form data-bind="submit:$root.getDashboardData">
-                                                <div class="form-group pull-left">
-                                                    <input type="text" class="form-control" data-bind="value: $root.orderSearchString" placeholder="Search...">
-                                                    <i data-bind="click: $root.getDashboardData" class="fa fa-search search-icon"></i>
-                                                </div>
-                                                <a href="/mis/orders/home/" class="btn btn-primary pull-right" >
-                                                    <i class="fa fa-eye fa-lg"></i>View all orders
-                                                </a>
-                                            </form>
-
-                                        </div>
-                                    </header>
-                                    <div class="main-box-body clearfix">
-                                        <div class="table-responsive clearfix">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th><span>Customer</span></th>
-                                                        <th><span>Order Code</span></th>
-                                                        <th><span>Order Date</span></th>
-                                                        <th><span>Order Status</span></th>
-                                                        <th style="text-align: right"><span>Order Total</span></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- ko if: $root.orders().length === 0 -->
-                                                    <tr>
-                                                        <td colspan="8">
-                                                            <span style="font-size: 14px;">No Items found!</span>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- /ko -->
-                                                    <!-- ko template: { name: 'itemOrderTemplate' , foreach: $root.orders } -->
-                                                    <!-- /ko -->
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      @* order list*@
                     </div>
 
                     <div class="col-md-4 col-lg-4">
@@ -374,18 +328,18 @@
                             </div>
                         </div>
 
-
+                        
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="main-box clearfix">
                                     <header class="main-box-header clearfix">
-                                        <h2 style="margin-top: 3%;" class="pull-left">Last 5 customers</h2>
+                                        <h2 style="margin-top: 3%;" class="pull-left">Last 5 registered user</h2>
                                         <div class="filter-block pull-right">
                                             <form data-bind="submit:$root.getDashboardData">
                                               
                                                 <a href="/mis/CRM/Home/" class="btn btn-primary pull-right" >
                                                     <i class=" fa fa-eye fa-lg">
-                                                    </i>View all customers
+                                                    </i>&nbsp; View All
                                                 </a>
                                             </form>
 
@@ -396,7 +350,7 @@
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th class="col-lg-11"><span>Companies</span></th>
+                                                        <th class="col-lg-11"><span></span></th>
 
                                                     </tr>
                                                 </thead>
@@ -417,7 +371,53 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 class="pull-left" style="padding-top: 10px;">Last 5 orders</h2>
+                                        <div class="filter-block pull-right">
+                                            <form data-bind="submit:$root.getDashboardData">
+                                                @*<div class="form-group pull-left">
+                                    <input type="text" class="form-control" data-bind="value: $root.orderSearchString" placeholder="Search...">
+                                    <i data-bind="click: $root.getDashboardData" class="fa fa-search search-icon"></i>
+                                </div>*@
+                                                <a href="/mis/orders/home/" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-eye fa-lg"></i>&nbsp; View All
+                                                </a>
+                                            </form>
 
+                                        </div>
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span>Customer</span></th>
+                                                        @*<th><span>Order Code</span></th>
+                                        <th><span>Order Date</span></th>
+                                        <th><span>Order Status</span></th>*@
+                                                        <th style="text-align: right"><span>Order Total</span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- ko if: $root.orders().length === 0 -->
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <span style="font-size: 14px;">No Items found!</span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /ko -->
+                                                    <!-- ko template: { name: 'itemOrderTemplate' , foreach: $root.orders } -->
+                                                    <!-- /ko -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="main-box clearfix" style="background-color:transparent !important">
@@ -497,9 +497,9 @@
                 <td>
                     <a class="store-user-link" data-bind="text: companyName" href="#"></a>
                 </td>
-                <td data-bind="text: orderCode"></td>
+                @*<td data-bind="text: orderCode"></td>
                 <td> <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
-                <td> <span data-bind="text: status"></span></td>
+                <td> <span data-bind="text: status"></span></td>*@
                 <td style="text-align: right">
                     <span data-bind="text: '$'"></span>
                     <span data-bind="numberInput: estimateTotal() == undefined ? '' :  estimateTotal()"></span>
@@ -513,12 +513,14 @@
                     @*<span data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></span>*@
                     <div>
                         <div class="col-lg-7">
-                            <a class="store-user-link" data-bind="text: name" href="#"></a>
+                            <a class="store-user-link" data-bind="text: defaultContact" href="#"></a>
+                            @*<a class="store-user-link" data-bind="text: name" href="#"></a>*@
                             <span data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'" style="font-size:12px"></span>
 
                         </div>
-                        <div class="col-lg-4" style="margin-top: 2%;">
-                            <span data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></span>
+                        <div class="col-lg-5" style="margin-top: 2%;">
+                            <span data-bind="text: storeName"></span>
+                            @*<span data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></span>*@
                             <span data-bind="text: defaultContactEmail" style=" font-size: 12px;"></span>
 
                         </div>

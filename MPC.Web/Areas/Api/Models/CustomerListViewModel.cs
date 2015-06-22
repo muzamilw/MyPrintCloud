@@ -51,6 +51,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string StoreImagePath { get; set; }
 
         public string StoreName { get; set; }
+
+        
         /// <summary>
         /// Image Source
         /// </summary>

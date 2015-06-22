@@ -482,7 +482,11 @@ define("common/itemDetail.viewModel",
                         setWorkInstructionsForStockCostCenter(sectionCostCenter);
                         sectionCostCenter.qty1Charge(stockItemToCreate().price);
                         sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
-                        sectionCostCenter.qty2Charge(0);
+                        //if (isEstimateScreen()) {
+                        //    selectedQty(2);
+                        //}
+                        sectionCostCenter.qty2Charge(stockItemToCreate().price);
+                        sectionCostCenter.qty2NetTotal(stockItemToCreate().price);
                         sectionCostCenter.qty3Charge(0);
                         view.hideCostCentersQuantityDialog();
 
@@ -491,14 +495,17 @@ define("common/itemDetail.viewModel",
                         sectionCostCenterDetail.stockId(stockItemToCreate().id);
                         sectionCostCenterDetail.costPrice(stockItemToCreate().price);
                         sectionCostCenterDetail.qty1(selectedCostCentre().quantity1());
+                        sectionCostCenterDetail.qty2(selectedCostCentre().quantity2());
+
                         sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         if (!containsStockItem) {
+                            updateSectionCostCenter(sectionCostCenterDetail);
                             selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
 
                         } else {
-                            var newCost = selectedSectionCostCenter().qty1Charge() + (sectionCostCenterDetail.costPrice() * sectionCostCenterDetail.qty1());
-                            selectedSectionCostCenter().qty1Charge(newCost);
-                            selectedSectionCostCenter().qty1NetTotal(newCost);
+
+                            updateSectionCostCenter(sectionCostCenterDetail);
+                            
                             setWorkInstructionsForStockCostCenter(selectedSectionCostCenter());
                             selectedSectionCostCenter().sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         }
@@ -506,6 +513,18 @@ define("common/itemDetail.viewModel",
                         calculateSectionBaseCharge1();
                         calculateSectionBaseCharge2();
                         calculateSectionBaseCharge3();
+                    },
+                    //Update Section Cost Center
+                    updateSectionCostCenter = function (sectionCostCenterDetail) {
+                        var newCost = (sectionCostCenterDetail.costPrice() * sectionCostCenterDetail.qty1());//selectedSectionCostCenter().qty1Charge() + 
+                        selectedSectionCostCenter().qty1Charge(newCost);
+                        selectedSectionCostCenter().qty1NetTotal(newCost);
+                        if (isEstimateScreen()) {
+                            selectedQty(2);
+                            var newCost2 = (sectionCostCenterDetail.costPrice() * sectionCostCenterDetail.qty2());// selectedSectionCostCenter().qty2Charge() + 
+                            selectedSectionCostCenter().qty2Charge(newCost2);
+                            selectedSectionCostCenter().qty2NetTotal(newCost2);
+                        }
                     },
                     // Set Work Instructions in case of Stock Cost Center
                     setWorkInstructionsForStockCostCenter = function (sectionCostCenter) {
@@ -1477,7 +1496,9 @@ define("common/itemDetail.viewModel",
                         selectedCostCentre(costCenter);
 
                         stockItemToCreate(stockItem);
-
+                        //req.selecting stock quantity default values should be from section base quantity
+                        selectedCostCentre().quantity1(selectedSection().qty1());
+                        selectedCostCentre().quantity2(selectedSection().qty2());
                         view.showCostCentersQuantityDialog();
                         isAddProductFromInventory(false);
                         isAddProductForSectionCostCenter(true);
