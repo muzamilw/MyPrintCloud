@@ -33,6 +33,6 @@ namespace MPC.Interfaces.Repository
         List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID);
         List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId);
         bool AutoResolveTemplateVariables(long itemID, long contactId);
-        List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
+        List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
     }
 }
