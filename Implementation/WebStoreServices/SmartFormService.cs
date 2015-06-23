@@ -90,7 +90,8 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.AutoResolveTemplateVariables(itemID, contactId);
         }
-        public List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope,long contactId){
+        public List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
+        {
             return _smartFormRepository.getVariableExtensions(listScope, contactId);
         }
         #endregion

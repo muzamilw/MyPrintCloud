@@ -4324,14 +4324,15 @@ function pcl40_showUserList(userList)
 }
 function pcl40_addDropDown(title, varId,options,def,tabindex) {
     var html = "";
-
     html += '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>'
     + '<select id="txtSmart' + varId + '"  class="qTextInput" style=""  tabindex= "' + tabindex + '" >';
-    $.each(options, function (i, IT) {
-        var selected = "";
-        html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" '+selected+' >' + IT.Value + '</option>';;
-    });
+    if (options != null) {
 
+        $.each(options, function (i, IT) {
+            var selected = "";
+            html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" ' + selected + ' >' + IT.Value + '</option>';;
+        });
+    }
     html+=    '</select></div>';
     return html;
 }
