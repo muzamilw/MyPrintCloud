@@ -162,11 +162,6 @@
                         <!--here it ends-->
                         <div class="form-group">
                             <div class="col-sm-4 text-right">
-                                <div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="My PO ref" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>
                                 <label class="control-label text-right tooltip-float">My PO ref</label>
                             </div>
 
@@ -180,11 +175,11 @@
                         <div class="form-group">
                             <div class="col-sm-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Created By" data-original-title="" title="">
+                                    @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Created By" data-original-title="" title="">
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
+                                    </a>*@
                                 </div>
-                                <label class="control-label text-right tooltip-float">Created By</label>
+                                @*<label class="control-label text-right tooltip-float">Created By</label>*@
                             </div>
                             <div class="col-sm-6" style="padding-right: 5px;">
                                 <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id', optionsCaption: 'Select a system user',value:createdBy"></select>
@@ -229,11 +224,11 @@
 
                         <div class="form-group">
                             <div class="col-sm-4 text-right">
-                                <div class="bs-example-tooltips tooltip-float-width">
+                                @*<div class="bs-example-tooltips tooltip-float-width">
                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Type" data-original-title="" title="">
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                     </a>
-                                </div>
+                                </div>*@
                                 <label class="control-label text-right tooltip-float">Type</label>
                             </div>
                             <div class="col-sm-6">
@@ -244,11 +239,11 @@
 
                         <div class="form-group">
                             <div class="col-sm-4 text-right">
-                                <div class="bs-example-tooltips tooltip-float-width">
+                                @*<div class="bs-example-tooltips tooltip-float-width">
                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Purchase Date" data-original-title="" title="">
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                     </a>
-                                </div>
+                                </div>*@
                                 <label class="control-label text-right tooltip-float">Purchase Date</label>
                             </div>
                             <div class="col-sm-6">
@@ -330,16 +325,16 @@
                 <div class="col-sm-12 form-horizontal main-box-body clearfix">
                     <div class="form-group">
                         <div class="col-sm-2 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Comments" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
-                            <label class="control-label text-right tooltip-float">Comments</label>
+                            <label class="control-label text-right tooltip-float">Comments</label>*@
                         </div>
                         <div class="col-sm-6" style="padding-left: 0px;">
                             <div class="col-sm-11" style="padding-right: 5px;padding-left: 5px;">
-                                <textarea class="form-control" rows="3" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value: comments"></textarea>
+                                <textarea class="form-control" rows="3" placeholder="Enter Comments" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value: comments"></textarea>
                             </div>
                         </div>
 

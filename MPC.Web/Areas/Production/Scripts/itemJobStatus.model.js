@@ -8,12 +8,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // ReSharper disable once InconsistentNaming
      Item = function (specifiedItemId, specifiedEstimateId, specifiedCode, specifiedCompanyName, specifiedProductName, specifiedQty1, specifiedStatusId,
-         specifiedJobEstimatedCompletionDateTime, specifiedQty1NetTotal, specifiedJobEstimatedStartDateTime) {
+         specifiedJobEstimatedCompletionDateTime, specifiedQty1NetTotal, specifiedJobEstimatedStartDateTime, specifiedCodeOrder) {
 
          var self,
              id = ko.observable(specifiedItemId),
              estimateId = ko.observable(specifiedEstimateId),
              code = ko.observable(specifiedCode),
+             orderCode = ko.observable(specifiedCodeOrder),
              companyName = ko.observable(specifiedCompanyName),
              productName = ko.observable(specifiedProductName),
              qty1 = ko.observable(specifiedQty1),
@@ -41,6 +42,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              companyName: companyName,
              productName: productName,
              qty1: qty1,
+             orderCode:orderCode,
              statusId: statusId,
              jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
              qty1NetTotal: qty1NetTotal,
@@ -50,8 +52,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
      };
 
     Item.Create = function (source) {
-        return new Item(source.ItemId, source.EstimateId, source.Code, source.CompanyName, source.ProductName, source.Qty1, source.StatusId, source.JobEstimatedCompletionDateTime,
-            source.Qty1NetTotal, source.JobEstimatedStartDateTime);
+        return new Item(source.ItemId, source.EstimateId, source.ItemCode, source.CompanyName, source.ProductName, source.Qty1, source.StatusId, source.JobEstimatedCompletionDateTime,
+            source.Qty1NetTotal, source.JobEstimatedStartDateTime, source.OrderCode);
 
     };
     // #endregion __________________  Item   ______________________

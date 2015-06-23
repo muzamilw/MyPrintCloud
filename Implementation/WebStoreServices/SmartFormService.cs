@@ -2,6 +2,7 @@
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +41,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.GetUsersList(contactId);
         }
-        public SmartForm GetSmartForm(long smartFormId)
+        public SmartFormWebstoreResponse GetSmartForm(long smartFormId)
         {
             return _smartFormRepository.GetSmartForm(smartFormId);
         }
@@ -89,7 +90,8 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.AutoResolveTemplateVariables(itemID, contactId);
         }
-        public List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope,long contactId){
+        public List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
+        {
             return _smartFormRepository.getVariableExtensions(listScope, contactId);
         }
         #endregion

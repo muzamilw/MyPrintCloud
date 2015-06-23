@@ -90,8 +90,12 @@
                                                             <!-- ko foreach: $root.customersForListView -->
                                                             <tr data-bind=" click: $root.onEditItem" style="cursor: pointer">
                                                                 <td>
-                                                                    <img style="width: 70%; max-width: 70%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
-
+                                                                    <!-- ko if: storeImageFileBinary()==='' -->
+                                                                    <img style="margin-bottom: -12px; margin-top: -12px; margin-left: -18%; -o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: storeImageFileBinary()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">
+                                                                    <!--/ko-->
+                                                                    <!-- ko if: storeImageFileBinary()!=='' -->
+                                                                    <img style="width: 43%; max-width: 43%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+                                                                    <!--/ko-->
                                                                 </td>
                                                                 <td>
                                                                     <a href="#" class="store-user-link" data-bind="text:name"></a>

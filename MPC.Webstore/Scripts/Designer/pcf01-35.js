@@ -3108,7 +3108,7 @@ function pcl42() {
 function pcl42_updateVariables(data) {
     
     $.each(data, function (i, IT) {
-        if ($("#txtSmart" + IT.VariableId).val() != null && $("#txtSmart" + IT.VariableId).val() != "") {
+        if ($("#txtSmart" + IT.VariableId).val() != null ) {
             IT.Value = $("#txtSmart" + IT.VariableId).val();
         }
     });

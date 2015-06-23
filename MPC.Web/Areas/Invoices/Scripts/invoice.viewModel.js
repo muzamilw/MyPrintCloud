@@ -1140,6 +1140,19 @@ define("invoice/invoice.viewModel",
                     selectedInvoiceDetail().qty1GrossTotal(itemCharge + taxCalculate1);
                 },
                 //#endregion
+
+                // On Create New Cost Center Product
+                    onCreateNewCostCenterProduct = function () {
+                        view.hideCostCentersQuantityDialog();
+                        if (isCostCenterDialogForShipping()) {
+                            createNewCostCenterProduct();
+                            return;
+                        }
+                        addCostCenterVM.executeCostCenter(function (costCenter) {
+                            selectedCostCentre(costCenter);
+                            createNewCostCenterProduct();
+                        });
+                    },
                 //Initialize method to call in every screen
             initializeScreen = function (specifiedView) {
                 view = specifiedView;
@@ -1228,6 +1241,7 @@ define("invoice/invoice.viewModel",
                     openExternalEmailInvoiceReport: openExternalEmailInvoiceReport,
                     calculateGrossTotal: calculateGrossTotal,
                     calculateTaxValue: calculateTaxValue,
+                    onCreateNewCostCenterProduct: onCreateNewCostCenterProduct
                     //#endregion
                 };
             })()
