@@ -216,7 +216,7 @@ namespace MPC.Repository.Repositories
             }
             return objUsers;
         }
-         public SmartForm GetSmartForm(long smartFormId)
+        public SmartFormWebstoreResponse GetSmartForm(long smartFormId)
         {
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
@@ -224,7 +224,18 @@ namespace MPC.Repository.Repositories
             SmartForm smartFormObj =  db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
             if(smartFormObj != null)
              smartFormObj.SmartFormDetails = null;
-            return smartFormObj;
+            if (smartFormObj != null)
+                smartFormObj.Company = null;
+
+
+            SmartFormWebstoreResponse res = new SmartFormWebstoreResponse();
+            res.CompanyId = smartFormObj.CompanyId;
+            res.Heading = smartFormObj.Heading;
+            res.Name = smartFormObj.Name;
+            res.OrganisationId = smartFormObj.OrganisationId;
+            res.SmartFormId = smartFormObj.SmartFormId;
+
+            return res;
         }
 
         public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
@@ -255,7 +266,11 @@ namespace MPC.Repository.Repositories
                         if (contact != null)
                         {
 
-
+                            obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
                             switch (obj.FieldVariable.RefTableName)
                             {
                                 case "tbl_Listing":
@@ -451,6 +466,11 @@ namespace MPC.Repository.Repositories
                             objScopeVariable.Scope = 0;
                             objScopeVariable.VariableId = obj.FieldVariable.VariableId;
                             objScopeVariable.Value = fieldValue;
+                            obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
                             objScopeVariable.FieldVariable = obj.FieldVariable;
                             if(obj != null)
                                 result.Add(objScopeVariable);
@@ -460,6 +480,12 @@ namespace MPC.Repository.Repositories
                     {
                         if (obj.FieldVariable != null && obj.FieldVariable.Scope.HasValue)
                         {
+                             obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
+
                             int scope = obj.FieldVariable.Scope.Value;
                             if (scope == (int)FieldVariableScopeType.Address)
                             {
@@ -477,6 +503,7 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Value = obj.FieldVariable.DefaultValue;
                                     objScopeVariable.Id = contact.AddressId;
                                     objScopeVariable.Scope = scope;
+
                                     objScopeVariable.FieldVariable = obj.FieldVariable;
                                     if (objScopeVariable != null)
                                         result.Add(objScopeVariable);
