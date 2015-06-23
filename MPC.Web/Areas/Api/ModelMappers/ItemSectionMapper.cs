@@ -46,6 +46,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImpressionCoverageSide2 = source.ImpressionCoverageSide2,
                 PrintingType = source.PrintingType,
                 WebSpoilageType = source.WebSpoilageType,
+                ItemGutterHorizontal = source.ItemGutterHorizontal,
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
             };
 
@@ -103,6 +104,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImpressionCoverageSide1 = source.ImpressionCoverageSide1,
                 ImpressionCoverageSide2 = source.ImpressionCoverageSide2,
                 PrintingType = source.PrintingType,
+                ItemGutterHorizontal = source.ItemGutterHorizontal,
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
             };
         }
@@ -159,6 +161,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImpressionCoverageSide1 = source.ImpressionCoverageSide1,
                 ImpressionCoverageSide2 = source.ImpressionCoverageSide2,
                 PrintingType = source.PrintingType,
+                ItemGutterHorizontal = source.ItemGutterHorizontal,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :  new List<SectionCostcentre>(),
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()) : new List<SectionInkCoverage>()
             };
@@ -235,6 +238,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImpressionCoverageSide1 = source.ImpressionCoverageSide1,
                 ImpressionCoverageSide2 = source.ImpressionCoverageSide2,
                 PrintingType = source.PrintingType,
+                ItemGutterHorizontal = source.ItemGutterHorizontal,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null,
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
             };

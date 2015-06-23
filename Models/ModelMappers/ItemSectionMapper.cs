@@ -47,6 +47,8 @@ namespace MPC.Models.ModelMappers
             target.PrintingType = source.PrintingType;
             target.isWorknTurn = source.isWorknTurn;
             target.IsPortrait = source.IsPortrait;
+            target.ItemGutterHorizontal = source.ItemGutterHorizontal;
+            target.ItemGutterVertical = source.ItemGutterHorizontal;
         }
 
         /// <summary>
@@ -101,6 +103,8 @@ namespace MPC.Models.ModelMappers
             target.ImpressionCoverageSide2 = source.ImpressionCoverageSide2;
             target.PrintingType = source.PrintingType;
             target.isWorknTurn = source.isWorknTurn;
+            target.ItemGutterHorizontal = source.ItemGutterHorizontal;
+            target.ItemGutterVertical = source.ItemGutterHorizontal;
         }
 
         #endregion
