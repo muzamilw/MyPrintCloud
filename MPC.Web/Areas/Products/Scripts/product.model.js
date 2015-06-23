@@ -894,8 +894,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             removeItemRelatedItem = function (item) {
                 itemRelatedItems.remove(item);
             },
-            // Last Active Stock Option tab
-            lastActiveStockOptionTab = ko.observable(),
+            // Validate Category Only while Save
+            shouldValidateCategory = ko.observable(false),
             // Set New Stock Option Tab Active
             setNewStockOptionTabActive = function (element) {
                 var active = $('#stockLabelTabListItem').find('> .active');
@@ -1457,6 +1457,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Check if a category is selected
                 if (!availableProductCategoryItems()) {
                     validationSummaryList.push({ name: "Product should have atleast one category", element: productCategoryElement.domElement });
+                    shouldValidateCategory(true);
+                }
+                else {
+                    shouldValidateCategory(false);
                 }
             },
             // True if the product has been changed
@@ -1953,6 +1957,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             selectStockItemForSection: selectStockItemForSection,
             selectStockItemForStockOptionForNewProduct: selectStockItemForStockOptionForNewProduct,
             selectStockItemForSectionForNewProduct: selectStockItemForSectionForNewProduct,
+            shouldValidateCategory: shouldValidateCategory,
             reset: reset,
             convertToServerData: convertToServerData
         };
