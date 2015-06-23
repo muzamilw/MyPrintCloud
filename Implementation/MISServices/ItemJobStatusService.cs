@@ -60,7 +60,8 @@ namespace MPC.Implementation.MISServices
                         {
                             EstimateId = item.EstimateId,
                             ItemId = item.ItemId,
-                            Code = estimate.Estimate_Code + item.ItemCode,
+                            ItemCode = item.ItemCode,
+                            OrderCode = estimate.Order_Code,
                             CompanyName = item.Company != null ? item.Company.Name : string.Empty,
                             ProductName = item.ProductName,
                             Qty1 = item.Qty1,
@@ -96,7 +97,8 @@ namespace MPC.Implementation.MISServices
                             {
                                 EstimateId = item.EstimateId,
                                 ItemId = item.ItemId,
-                                Code = estimate.Order_Code + "   "+item.ItemCode,
+                                ItemCode = item.ItemCode,
+                                OrderCode = estimate.Order_Code ,
                                 CompanyName = item.Company != null ? item.Company.Name : string.Empty,
                                 ProductName = item.ProductName,
                                 Qty1 = item.Qty1,
