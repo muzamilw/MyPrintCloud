@@ -18,7 +18,7 @@ namespace MPC.Interfaces.Repository
         List<TemplateVariablesObj> GetTemplateVariables(long templateId);
         bool SaveTemplateVariables(List<TemplateVariablesObj> obj);
         List<SmartFormUserList> GetUsersList(long contactId);
-        SmartForm GetSmartForm(long smartFormId);
+        SmartFormWebstoreResponse GetSmartForm(long smartFormId);
         List<SmartFormDetail> GetSmartFormObjects(long smartFormId);
 
         /// <summary>
@@ -33,6 +33,6 @@ namespace MPC.Interfaces.Repository
         List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID);
         List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId);
         bool AutoResolveTemplateVariables(long itemID, long contactId);
-        List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
+        List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
     }
 }
