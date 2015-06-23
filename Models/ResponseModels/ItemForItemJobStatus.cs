@@ -20,7 +20,12 @@ namespace MPC.Models.ResponseModels
         /// <summary>
         /// Code
         /// </summary>
-        public string Code { get; set; }
+        public string ItemCode { get; set; }
+
+        /// <summary>
+        /// Order Code
+        /// </summary>
+        public string OrderCode { get; set; }
 
         /// <summary>
         /// Company Name

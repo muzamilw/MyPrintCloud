@@ -148,7 +148,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtSortOrder" style="width:21%" placeholder="Enter Sort Order" data-bind="value: sortOrder">
+                                                <input type="text" class="form-control" id="txtSortOrder" style="width:33%" placeholder="Enter Sort Order" data-bind="value: sortOrder">
 
                                             </div>
                                         </div>
@@ -165,7 +165,7 @@
 
                                             </div>
                                             <div id="estProductionTimeContainer" class="col-lg-6">
-                                                <input type="text" style="width:21%" class="form-control pull-left marginR5" data-bind="value: estimateProductionTime" id="txtEstProductionTime">
+                                                <input type="text" style="width:33%" class="form-control pull-left marginR5" data-bind="value: estimateProductionTime" id="txtEstProductionTime">
                                                 <span class="help-block marginT7">day(s)</span>
                                             </div>
                                         </div>
@@ -2485,7 +2485,7 @@
                                                 <!-- /ko -->
                                                 <!-- ko if: productDisplayOptionsUi() === '2' -->
                                                 <div class="col-lg-10" style="padding-left:75px;">
-                                                    <div class="col-lg-1">
+                                                    <div>
                                                         <div class="fileUpload btn btn-primary marginT5">
                                                             <span>Upload</span>
                                                             <input type="file" class="upload" id="itemImageFiles" multiple data-bind="files: { onLoaded: onSelectItemImage, fileFilter: 'image.*'}" />
@@ -2583,15 +2583,19 @@
                                                 <label class="control-label text-right tooltip-float">&nbsp;</label>
 
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div>
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>Upload</span>
-                                                        <input type="file" class="upload" id="Itemfiles_file" multiple data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 4); } }" />
+                                            <div class="col-lg-6 text-center">
+                                                <div class="col-lg-10" style="padding-left:75px;">
+                                                    <div>
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>Upload</span>
+                                                            <input type="file" class="upload" id="Itemfiles_file" multiple data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 4); } }" />
+
+
+                                                        </div>
+                                                        <input type="button" class="btn btn-primary" value="Reset" data-bind="click: resetFiles" />
                                                     </div>
-                                                    <input type="button" class="btn btn-primary" value="Reset" data-bind="click: resetFiles" />
+                                                    <div class="help-block">Product Design Guide files (AI,PSD,PDF) are available for download using icons on Product detail page which serve as a blank stencils for custom artwork design in Photoshop, Illustrator etc.</div>
                                                 </div>
-                                                <div class="help-block">Product Design Guide files (AI,PSD,PDF) are available for download using icons on Product detail page which serve as a blank stencils for custom artwork design in Photoshop, Illustrator etc.</div>
                                             </div>
                                         </div>
                                     </div>
