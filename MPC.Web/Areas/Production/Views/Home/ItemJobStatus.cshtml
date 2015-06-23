@@ -164,7 +164,7 @@
     <script>
         require(["itemJobStatus/itemJobStatus.view"]);
         $(function () {
-            $('#listores').addClass('active');
+            $('#liproduction').addClass('active');
         });
     </script>
 }
@@ -172,15 +172,14 @@
 
 
 <script id="needAssigningItemTemplate" type="text/html">
-    <a style="cursor: pointer;" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">
-        <li data-bind="if: (statusId()=== 11), drag: $root.dragged">
-            <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-bottom: 2%;" >
+        <li data-bind="if: (statusId()=== 11), drag: $root.dragged" style="">
+            <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
                 <div class="form-group formGroupSmall" style="margin-left: 0%;">
                     <div style="color: #1cc7ed;" data-bind="text:companyName">
                     </div>
                 </div>
                 <div class="form-group code" style="margin-left: 0%;">
-                    <div data-bind="text:code">
+                    <div style=" color: lightslategray;" data-bind="text:code">
                     </div>
                 </div>
                 <div class="form-group formGroupSmall" style="margin-left: 0%;">
@@ -188,50 +187,46 @@
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div class="col-lg-6" style="padding-left: 0px; width: 19%;">
-                        <label class="control-label">Qty :</label>
+                    <div class="col-lg-5" style="padding-left: 0px; ">
+                        <label style=" color: lightslategray;" class="control-label">Qty :</label>
                     </div>
                     <div class="col-lg-6">
-                        <label class="control-label text-right" data-bind="text:qty1"></label>
+                        <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                     <div style="float: left;">
-                        <label class="control-label labelToPadding">Selling Price :</label>
+                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
                     </div>
                     <div>
-                        <label class="labelToPadding" data-bind=" text:$root.currencySymbol"></label><label class="control-label text-right labelToPadding" data-bind="text:qty1NetTotal"></label>
+                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                     <div>
-                        <label>Expected Shipping Date(end)</label>
+                        <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
                     </div>
                 </div>
                 <div class="form-group" style="margin-bottom: 3px; margin-left: 0%;">
-                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
                     </div>
-                    @*<div>
-                            <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
-                        </div>*@
+                    <div>
+                        <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                    </div>
                 </div>
-
-
             </div>
         </li>
-    </a>
 </script>
 
 <script id="inStudioItemTemplate" type="text/html">
-    <a style="cursor: pointer" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">
         <li data-bind="if: (statusId()=== 12), drag: $root.dragged">
-            <div class="col-lg-12" style="cursor: pointer; background-color: white; border-radius: 7px; margin-bottom: 2%;">
+            <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
                 <div class="form-group formGroupSmall" style="margin-left: 0%;">
                     <div style="color: #1cc7ed;" data-bind="text:companyName">
                     </div>
                 </div>
                 <div class="form-group code" style="margin-left: 0%;">
-                    <div data-bind="text:code">
+                    <div style=" color: lightslategray;" data-bind="text:code">
                     </div>
                 </div>
                 <div class="form-group formGroupSmall" style="margin-left: 0%;">
@@ -239,52 +234,47 @@
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div class="col-lg-6" style="padding-left: 0px; width: 19%;">
-                        <label class="control-label">Qty :</label>
+                    <div class="col-lg-5" style="padding-left: 0px; ">
+                        <label style=" color: lightslategray;" class="control-label">Qty :</label>
                     </div>
                     <div class="col-lg-6">
-                        <label class="control-label text-right" data-bind="text:qty1"></label>
+                        <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                     <div style="float: left;">
-                        <label class="control-label labelToPadding">Selling Price :</label>
+                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
                     </div>
                     <div>
-                        <label class="labelToPadding" data-bind=" text:$root.currencySymbol"></label><label class="control-label text-right labelToPadding" data-bind="text:qty1NetTotal"></label>
+                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                     <div>
-                        <label>Expected Shipping Date(end)</label>
+                        <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
                     </div>
                 </div>
-                <div class="form-group" style="margin-bottom: 3px;margin-left: 0%;">
-                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                <div class="form-group" style="margin-bottom: 3px; margin-left: 0%;">
+                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
                     </div>
-                    @*<div>
-                            <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
-                        </div>*@
+                    <div>
+                        <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                    </div>
                 </div>
-
-
             </div>
         </li>
-    </a>
-
 </script>
 
 <script id="inPrintOrPressItemTemplate" type="text/html">
-    <a style="cursor: pointer" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">
 
         <li data-bind="if: (statusId()=== 13), drag: $root.dragged">
-            <div class="col-lg-12" style="cursor: pointer; background-color: white; border-radius: 7px; margin-bottom: 2%;">
+            <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
                 <div class="form-group formGroupSmall" style="margin-left: 0%;">
                     <div style="color: #1cc7ed;" data-bind="text:companyName">
                     </div>
                 </div>
                 <div class="form-group code" style="margin-left: 0%;">
-                    <div data-bind="text:code">
+                    <div style=" color: lightslategray;" data-bind="text:code">
                     </div>
                 </div>
                 <div class="form-group formGroupSmall" style="margin-left: 0%;">
@@ -292,152 +282,140 @@
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div class="col-lg-6" style="padding-left: 0px; width: 19%;">
-                        <label class="control-label">Qty :</label>
+                    <div class="col-lg-5" style="padding-left: 0px; ">
+                        <label style=" color: lightslategray;" class="control-label">Qty :</label>
                     </div>
                     <div class="col-lg-6">
-                        <label class="control-label text-right" data-bind="text:qty1"></label>
+                        <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                     <div style="float: left;">
-                        <label class="control-label labelToPadding">Selling Price :</label>
+                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
                     </div>
                     <div>
-                        <label class="labelToPadding" data-bind=" text:$root.currencySymbol"></label><label class="control-label text-right labelToPadding" data-bind="text:qty1NetTotal"></label>
+                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                     <div>
-                        <label>Expected Shipping Date(end)</label>
+                        <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
                     </div>
                 </div>
-                <div class="form-group" style="margin-bottom: 3px;margin-left: 0%;">
-                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                <div class="form-group" style="margin-bottom: 3px; margin-left: 0%;">
+                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
                     </div>
-                    @*<div>
-                            <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
-                        </div>*@
+                    <div>
+                        <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                    </div>
                 </div>
-                <div class="itemFooterHighlight">
-                </div>
-
             </div>
         </li>
-    </a>
 </script>
 
 <script id="inPostPressItemTemplate" type="text/html">
-    <a  data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank" style="cursor: pointer">
-        <li data-bind="if: (statusId()=== 14), drag: $root.dragged">
-            <div class="col-lg-12" style="cursor: pointer; background-color: white; border-radius: 7px; margin-bottom: 2%;">
-                <div class="form-group formGroupSmall" style="margin-left: 0%;">
-                    <div style="color: #1cc7ed;" data-bind="text:companyName">
-                    </div>
+    <li data-bind="if: (statusId()=== 14), drag: $root.dragged">
+        <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
+            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+                <div style="color: #1cc7ed;" data-bind="text:companyName">
                 </div>
-                <div class="form-group code" style="margin-left: 0%;">
-                    <div data-bind="text:code">
-                    </div>
-                </div>
-                <div class="form-group formGroupSmall" style="margin-left: 0%;">
-                    <div data-bind="text:productName">
-                    </div>
-                </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div class="col-lg-6" style="padding-left: 0px; width: 19%;">
-                        <label class="control-label">Qty :</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <label class="control-label text-right" data-bind="text:qty1"></label>
-                    </div>
-                </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label class="control-label labelToPadding">Selling Price :</label>
-                    </div>
-                    <div>
-                        <label class="labelToPadding" data-bind=" text:$root.currencySymbol"></label><label class="control-label text-right labelToPadding" data-bind="text:qty1NetTotal"></label>
-                    </div>
-                </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div>
-                        <label>Expected Shipping Date(end)</label>
-                    </div>
-                </div>
-                <div class="form-group" style="margin-bottom: 3px;margin-left: 0%;">
-                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
-                    </div>
-                    @*<div>
-                            <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
-                        </div>*@
-                </div>
-
             </div>
-        </li>
-    </a>
+            <div class="form-group code" style="margin-left: 0%;">
+                <div style=" color: lightslategray;" data-bind="text:code">
+                </div>
+            </div>
+            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+                <div data-bind="text:productName">
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div class="col-lg-5" style="padding-left: 0px; ">
+                    <label style=" color: lightslategray;" class="control-label">Qty :</label>
+                </div>
+                <div class="col-lg-6">
+                    <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div style="float: left;">
+                    <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
+                </div>
+                <div>
+                    <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div>
+                    <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 3px; margin-left: 0%;">
+                <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
+                </div>
+                <div>
+                    <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                </div>
+            </div>
+        </div>
+    </li>
 </script>
 
 <script id="readyForShippingItemTemplate" type="text/html">
-    <a  data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank" style="cursor: pointer">
-        <li data-bind="if: (statusId()=== 15), drag: $root.dragged">
-            <div class="col-lg-12" style="cursor: pointer; background-color: white; border-radius: 7px; margin-bottom: 2%;">
-                <div class="form-group formGroupSmall" style="margin-left: 0%;">
-                    <div style="color: #1cc7ed;" data-bind="text:companyName">
-                    </div>
+    <li data-bind="if: (statusId()=== 15), drag: $root.dragged">
+        <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
+            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+                <div style="color: #1cc7ed;" data-bind="text:companyName">
                 </div>
-                <div class="form-group code" style="margin-left: 0%;">
-                    <div data-bind="text:code">
-                    </div>
-                </div>
-                <div class="form-group formGroupSmall" style="margin-left: 0%;">
-                    <div data-bind="text:productName">
-                    </div>
-                </div>
-                <div class="form-group formGroupSmaller">
-                    <div class="col-lg-6" style="margin-left: 4%; width: 22%;">
-                        <label class="control-label">Qty :</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <label class="control-label text-right" data-bind="text:qty1"></label>
-                    </div>
-                </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label class="control-label labelToPadding">Selling Price :</label>
-                    </div>
-                    <div>
-                        <label class="labelToPadding" data-bind=" text:$root.currencySymbol"></label><label class="control-label text-right labelToPadding" data-bind="text:qty1NetTotal"></label>
-                    </div>
-                </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div>
-                        <label>Expected Shipping Date(end)</label>
-                    </div>
-                </div>
-                <div class="form-group" style="margin-bottom: 3px;margin-left: 0%;">
-                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
-                    </div>
-                    @*<div>
-                            <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
-                        </div>*@
-                </div>
-
-
             </div>
-        </li>
-    </a>
+            <div class="form-group code" style="margin-left: 0%;">
+                <div style=" color: lightslategray;" data-bind="text:code">
+                </div>
+            </div>
+            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+                <div data-bind="text:productName">
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div class="col-lg-5" style="padding-left: 0px; ">
+                    <label style=" color: lightslategray;" class="control-label">Qty :</label>
+                </div>
+                <div class="col-lg-6">
+                    <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div style="float: left;">
+                    <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
+                </div>
+                <div>
+                    <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div>
+                    <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 3px; margin-left: 0%;">
+                <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
+                </div>
+                <div>
+                    <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                </div>
+            </div>
+        </div>
+    </li>
 </script>
 
 <script id="invoiceAndShippedItemTemplate" type="text/html">
-    <a data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank" style="cursor: pointer">
         <li data-bind="if: (statusId()=== 16), drag: $root.dragged">
-            <div class="col-lg-12" style="cursor: pointer; background-color: white; border-radius: 7px; margin-bottom: 2%;">
+            <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-top: 5%; margin-bottom: 2%;">
                 <div class="form-group formGroupSmall" style="margin-left: 0%;">
                     <div style="color: #1cc7ed;" data-bind="text:companyName">
                     </div>
                 </div>
                 <div class="form-group code" style="margin-left: 0%;">
-                    <div data-bind="text:code">
+                    <div style=" color: lightslategray;" data-bind="text:code">
                     </div>
                 </div>
                 <div class="form-group formGroupSmall" style="margin-left: 0%;">
@@ -445,36 +423,34 @@
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div class="col-lg-6" style="padding-left: 0px; width: 19%;">
-                        <label class="control-label">Qty :</label>
+                    <div class="col-lg-5" style="padding-left: 0px; ">
+                        <label style=" color: lightslategray;" class="control-label">Qty :</label>
                     </div>
                     <div class="col-lg-6">
-                        <label class="control-label text-right" data-bind="text:qty1"></label>
+                        <label style=" color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                     <div style="float: left;">
-                        <label class="control-label labelToPadding">Selling Price :</label>
+                        <label style=" color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
                     </div>
                     <div>
-                        <label class="labelToPadding" data-bind=" text:$root.currencySymbol"></label><label class="control-label text-right labelToPadding" data-bind="text:qty1NetTotal"></label>
+                        <label style="color: lightslategray; margin-left: 8px;" class="labelToPadding" data-bind=" text:$root.currencySymbol()+qty1NetTotal()"></label>
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                     <div>
-                        <label>Expected Shipping Date(end)s</label>
+                        <label style=" color: lightslategray;">Expected Shipping Date(end)</label>
                     </div>
                 </div>
-                <div class="form-group" style="margin-bottom: 3px;margin-left: 0%;">
-                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                <div class="form-group" style="margin-bottom: 3px; margin-left: 0%;">
+                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
                     </div>
-                    @*<div>
-                            <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
-                        </div>*@
+                    <div>
+                        <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
+                    </div>
                 </div>
-
             </div>
         </li>
-    </a>
 </script>
 
