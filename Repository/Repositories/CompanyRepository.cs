@@ -5191,6 +5191,15 @@ namespace MPC.Repository.Repositories
             Company company = DbSet.FirstOrDefault(x => x.CompanyId == storeId);
             return company != null ? company.TaxRate : null;
         }
+        public Guid? GetStoreJobManagerId(long storeId)
+        {
+            if (storeId == 0)
+            {
+                return null;
+            }
+            Company company = DbSet.FirstOrDefault(x => x.CompanyId == storeId);
+            return company != null ? company.AccountManagerId : null;
+        }
 
         public List<Company> GetSupplierByOrganisationid(long OID)
         {
@@ -5389,5 +5398,6 @@ namespace MPC.Repository.Repositories
 
            
         }
+
     }
 }

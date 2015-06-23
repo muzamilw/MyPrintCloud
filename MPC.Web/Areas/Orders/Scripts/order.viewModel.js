@@ -53,6 +53,7 @@ define("order/order.viewModel",
                     counterForSection = -1000,
                     //
                     selectedCompanyTaxRate = ko.observable(),
+                    selectedCompanyJobManagerUser = ko.observable(),
                     // selected Company
                     selectedCompany = ko.observable(),
                     //inquiries
@@ -780,6 +781,9 @@ define("order/order.viewModel",
                         if (selectedOrder().nonDeliveryItems().length > 0) {
                             selectedItemForProgressToJobWizard(selectedOrder().nonDeliveryItems()[progressToJobItemCounter]);
                             selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
+                            selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
+                            selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
+                            selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
                             if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
                                 selectedItemForProgressToJobWizard().systemUsers(systemUsers());
                             }
@@ -1461,6 +1465,7 @@ define("order/order.viewModel",
                                         setDefaultContactForCompany();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
+                                    selectedCompanyJobManagerUser(data.JobManagerId);
                                 }
                                 isCompanyBaseDataLoaded(true);
                             },
