@@ -336,12 +336,14 @@ define("common/phraseLibrary.viewModel",
                      }
                      selectedSection(new model.Section());
                      view.showPhraseLibraryDialog();
-                     if (sections().length === 0) {
-                         getAllSections();
-                     }
-                     else {
-                         selectDefaultSectionForProduct();
-                     }
+                     //if (sections().length === 0) {
+                     //    getAllSections();
+                     //}
+                     //else {
+                     //    selectDefaultSectionForProduct();
+                     //}
+
+                     getAllSections();
                      afterSelectPhrase = afterSelectPhraseCallback;
                  },
                 // Initialize the view model
